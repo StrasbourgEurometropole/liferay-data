@@ -258,15 +258,15 @@ public class EntityPickerTag extends IncludeTag {
 							RequestBackedPortletURLFactoryUtil.create(request),
 							"itemSelected" + _name, associationItemSelectorCriterion);
 			break;
-		case "eu.strasbourg.service.activity.model.AssociationActivity":
-			AssociationActivityItemSelectorCriterion associationActivityItemSelectorCriterion = new AssociationActivityItemSelectorCriterion();
-			associationActivityItemSelectorCriterion
+		case "eu.strasbourg.service.activity.model.Practice":
+			PracticeItemSelectorCriterion practiceItemSelectorCriterion = new PracticeItemSelectorCriterion();
+			practiceItemSelectorCriterion
 					.setDesiredItemSelectorReturnTypes(
 							desiredItemSelectorReturnTypes);
 			itemSelectorURL = ServletContextUtil.getItemSelector()
 					.getItemSelectorURL(
 							RequestBackedPortletURLFactoryUtil.create(request),
-							"itemSelected" + _name, associationActivityItemSelectorCriterion);
+							"itemSelected" + _name, practiceItemSelectorCriterion);
 			break;
 		case "eu.strasbourg.service.official.model.Official":
 			OfficialItemSelectorCriterion officialItemSelectorCriterion = new OfficialItemSelectorCriterion();

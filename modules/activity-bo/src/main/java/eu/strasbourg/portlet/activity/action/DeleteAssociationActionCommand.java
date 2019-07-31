@@ -45,6 +45,7 @@ public class DeleteAssociationActionCommand
 
 		try {
 			long associationId = ParamUtil.getLong(request, "associationId");
+
 			_associationLocalService.removeAssociation(associationId);
 		} catch (PortalException e) {
 			_log.error(e);

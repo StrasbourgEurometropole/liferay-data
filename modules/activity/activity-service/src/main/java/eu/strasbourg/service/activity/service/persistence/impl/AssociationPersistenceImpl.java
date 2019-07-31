@@ -2408,6 +2408,7 @@ public class AssociationPersistenceImpl extends BasePersistenceImpl<Association>
 		associationImpl.setSiteURL(association.getSiteURL());
 		associationImpl.setMail(association.getMail());
 		associationImpl.setFacebookURL(association.getFacebookURL());
+		associationImpl.setOthersInformations(association.getOthersInformations());
 		associationImpl.setStatus(association.getStatus());
 		associationImpl.setStatusByUserId(association.getStatusByUserId());
 		associationImpl.setStatusByUserName(association.getStatusByUserName());

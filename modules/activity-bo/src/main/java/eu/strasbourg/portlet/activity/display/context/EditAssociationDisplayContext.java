@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.activity.model.Association;
-import eu.strasbourg.service.activity.model.AssociationActivity;
+import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -77,11 +77,11 @@ public class EditAssociationDisplayContext {
 	}
 
 	/**
-	 * Renvoie les catégories Id de l'activité
+	 * Renvoie les catégories Id de la pratique
 	 */
-	public String getAssociationActivityCategoriesIds(int associationActivityId){
+	public String getPracticeCategoriesIds(int practiceId){
 		String categoriesIdsString = "";
-		List<Long> categoriesIds =  AssetCategoryLocalServiceUtil.getCategories(AssociationActivity.class.getName(),associationActivityId).stream()
+		List<Long> categoriesIds =  AssetCategoryLocalServiceUtil.getCategories(Practice.class.getName(),practiceId).stream()
 				.map(c -> c.getCategoryId()).collect(Collectors.toList());
 		categoriesIdsString =  categoriesIds.stream().map(Object::toString).collect(Collectors.joining(","));
 

@@ -158,9 +158,25 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
-	public AssetVocabulary getAssociationActivity(long groupID) {
+	public AssetVocabulary getPractice(long groupID) {
 		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.ACTIVITY, groupID);
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PRACTICE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary gePracticePublic(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PRACTICE_PUBLIC, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getAccessibility(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.ACCESSIBILITY, groupID);
 		} catch (Exception e) {
 			return null;
 		}

@@ -66,7 +66,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,6 +96,8 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		sb.append(mail);
 		sb.append(", facebookURL=");
 		sb.append(facebookURL);
+		sb.append(", othersInformations=");
+		sb.append(othersInformations);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", statusByUserId=");
@@ -188,6 +190,13 @@ public class AssociationCacheModel implements CacheModel<Association>,
 			associationImpl.setFacebookURL(facebookURL);
 		}
 
+		if (othersInformations == null) {
+			associationImpl.setOthersInformations(StringPool.BLANK);
+		}
+		else {
+			associationImpl.setOthersInformations(othersInformations);
+		}
+
 		associationImpl.setStatus(status);
 		associationImpl.setStatusByUserId(statusByUserId);
 
@@ -230,6 +239,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		siteURL = objectInput.readUTF();
 		mail = objectInput.readUTF();
 		facebookURL = objectInput.readUTF();
+		othersInformations = objectInput.readUTF();
 
 		status = objectInput.readInt();
 
@@ -308,6 +318,13 @@ public class AssociationCacheModel implements CacheModel<Association>,
 			objectOutput.writeUTF(facebookURL);
 		}
 
+		if (othersInformations == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(othersInformations);
+		}
+
 		objectOutput.writeInt(status);
 
 		objectOutput.writeLong(statusByUserId);
@@ -336,6 +353,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 	public String siteURL;
 	public String mail;
 	public String facebookURL;
+	public String othersInformations;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;

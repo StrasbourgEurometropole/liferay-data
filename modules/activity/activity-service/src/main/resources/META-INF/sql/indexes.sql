@@ -26,7 +26,7 @@ create index IX_873ADFD3 on activity_Association (groupId);
 create index IX_697094EB on activity_Association (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_7D5F5A2D on activity_Association (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_B819E946 on activity_AssociationActivity (associationId);
-create index IX_7E25E644 on activity_AssociationActivity (groupId);
-create index IX_97F73D9A on activity_AssociationActivity (uuid_[$COLUMN_LENGTH:75$], companyId);
-create unique index IX_1986629C on activity_AssociationActivity (uuid_[$COLUMN_LENGTH:75$], groupId);
+create index IX_8983ED7B on activity_Practice (associationId);
+create index IX_97A07639 on activity_Practice (groupId);
+create index IX_5836D145 on activity_Practice (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_755CE507 on activity_Practice (uuid_[$COLUMN_LENGTH:75$], groupId);

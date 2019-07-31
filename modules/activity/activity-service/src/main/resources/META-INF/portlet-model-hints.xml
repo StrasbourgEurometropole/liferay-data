@@ -146,14 +146,17 @@
 		<field localized="true" name="siteURL" type="String" />
 		<field name="mail" type="String" />
 		<field localized="true" name="facebookURL" type="String" />
+		<field localized="true" name="othersInformations" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="status" type="int" />
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 	</model>
-	<model name="eu.strasbourg.service.activity.model.AssociationActivity">
+	<model name="eu.strasbourg.service.activity.model.Practice">
 		<field name="uuid" type="String" />
-		<field name="associationActivityId" type="long" />
+		<field name="practiceId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />

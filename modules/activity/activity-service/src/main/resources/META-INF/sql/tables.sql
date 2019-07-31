@@ -122,15 +122,16 @@ create table activity_Association (
 	siteURL STRING null,
 	mail VARCHAR(75) null,
 	facebookURL STRING null,
+	othersInformations TEXT null,
 	status INTEGER,
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null
 );
 
-create table activity_AssociationActivity (
+create table activity_Practice (
 	uuid_ VARCHAR(75) null,
-	associationActivityId LONG not null primary key,
+	practiceId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,

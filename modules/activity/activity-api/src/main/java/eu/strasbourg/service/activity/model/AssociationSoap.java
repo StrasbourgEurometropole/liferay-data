@@ -48,6 +48,7 @@ public class AssociationSoap implements Serializable {
 		soapModel.setSiteURL(model.getSiteURL());
 		soapModel.setMail(model.getMail());
 		soapModel.setFacebookURL(model.getFacebookURL());
+		soapModel.setOthersInformations(model.getOthersInformations());
 		soapModel.setStatus(model.getStatus());
 		soapModel.setStatusByUserId(model.getStatusByUserId());
 		soapModel.setStatusByUserName(model.getStatusByUserName());
@@ -216,6 +217,14 @@ public class AssociationSoap implements Serializable {
 		_facebookURL = facebookURL;
 	}
 
+	public String getOthersInformations() {
+		return _othersInformations;
+	}
+
+	public void setOthersInformations(String othersInformations) {
+		_othersInformations = othersInformations;
+	}
+
 	public int getStatus() {
 		return _status;
 	}
@@ -262,6 +271,7 @@ public class AssociationSoap implements Serializable {
 	private String _siteURL;
 	private String _mail;
 	private String _facebookURL;
+	private String _othersInformations;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;

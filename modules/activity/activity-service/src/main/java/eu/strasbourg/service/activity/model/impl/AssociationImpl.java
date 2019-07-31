@@ -20,14 +20,10 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import eu.strasbourg.service.activity.model.ActivityCoursePlace;
-import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.model.Association;
-import eu.strasbourg.service.activity.model.AssociationActivity;
-import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil;
-import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
-import eu.strasbourg.service.activity.service.AssociationActivityLocalServiceUtil;
+import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
+import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
@@ -91,7 +87,7 @@ public class AssociationImpl extends AssociationBaseImpl {
 	 * Retourne les activités de l'association
 	 */
 	@Override
-	public List<AssociationActivity> getAssociationActivities() {
-		return AssociationActivityLocalServiceUtil.getByAssociation(this.getAssociationId());
+	public List<Practice> getPractices() {
+		return PracticeLocalServiceUtil.getByAssociation(this.getAssociationId());
 	}
 }

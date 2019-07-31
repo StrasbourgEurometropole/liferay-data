@@ -19,7 +19,7 @@
 	<bean class="eu.strasbourg.service.activity.service.impl.AssociationLocalServiceImpl" id="eu.strasbourg.service.activity.service.AssociationLocalService" />
 	<bean class="eu.strasbourg.service.activity.service.impl.AssociationServiceImpl" id="eu.strasbourg.service.activity.service.AssociationService" />
 	<bean class="eu.strasbourg.service.activity.service.persistence.impl.AssociationPersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.AssociationPersistence" parent="basePersistence" />
-	<bean class="eu.strasbourg.service.activity.service.impl.AssociationActivityLocalServiceImpl" id="eu.strasbourg.service.activity.service.AssociationActivityLocalService" />
-	<bean class="eu.strasbourg.service.activity.service.impl.AssociationActivityServiceImpl" id="eu.strasbourg.service.activity.service.AssociationActivityService" />
-	<bean class="eu.strasbourg.service.activity.service.persistence.impl.AssociationActivityPersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.AssociationActivityPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.activity.service.impl.PracticeLocalServiceImpl" id="eu.strasbourg.service.activity.service.PracticeLocalService" />
+	<bean class="eu.strasbourg.service.activity.service.impl.PracticeServiceImpl" id="eu.strasbourg.service.activity.service.PracticeService" />
+	<bean class="eu.strasbourg.service.activity.service.persistence.impl.PracticePersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.PracticePersistence" parent="basePersistence" />
 </beans>

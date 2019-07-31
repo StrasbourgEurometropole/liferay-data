@@ -228,6 +228,7 @@
         <column name="siteURL" type="String" localized="true" />
         <column name="mail" type="String" />
         <column name="facebookURL" type="String" localized="true" />
+        <column name="othersInformations" type="String" localized="true" />
 
         <!-- Workflow fields -->
         <column name="status" type="int" />
@@ -246,10 +247,10 @@
         <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
     </entity>
 
-    <entity local-service="true" name="AssociationActivity" remote-service="true" uuid="true">
+    <entity local-service="true" name="Practice" remote-service="true" uuid="true">
 
         <!-- PK fields -->
-        <column name="associationActivityId" primary="true" type="long" />
+        <column name="practiceId" primary="true" type="long" />
 
         <!-- Audit fields -->
         <column name="groupId" type="long" />

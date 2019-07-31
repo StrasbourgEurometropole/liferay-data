@@ -73,5 +73,5 @@ public interface Association extends AssociationModel, PersistedModel {
 	/**
 	* Retourne les activités de l'association
 	*/
-	public java.util.List<eu.strasbourg.service.activity.model.AssociationActivity> getAssociationActivities();
+	public java.util.List<eu.strasbourg.service.activity.model.Practice> getPractices();
 }

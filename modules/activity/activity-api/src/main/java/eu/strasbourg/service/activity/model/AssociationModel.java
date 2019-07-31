@@ -647,6 +647,108 @@ public interface AssociationModel extends BaseModel<Association>, GroupedModel,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the others informations of this association.
+	 *
+	 * @return the others informations of this association
+	 */
+	public String getOthersInformations();
+
+	/**
+	 * Returns the localized others informations of this association in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized others informations of this association
+	 */
+	@AutoEscape
+	public String getOthersInformations(Locale locale);
+
+	/**
+	 * Returns the localized others informations of this association in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized others informations of this association. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getOthersInformations(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized others informations of this association in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized others informations of this association
+	 */
+	@AutoEscape
+	public String getOthersInformations(String languageId);
+
+	/**
+	 * Returns the localized others informations of this association in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized others informations of this association
+	 */
+	@AutoEscape
+	public String getOthersInformations(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getOthersInformationsCurrentLanguageId();
+
+	@AutoEscape
+	public String getOthersInformationsCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized others informationses of this association.
+	 *
+	 * @return the locales and localized others informationses of this association
+	 */
+	public Map<Locale, String> getOthersInformationsMap();
+
+	/**
+	 * Sets the others informations of this association.
+	 *
+	 * @param othersInformations the others informations of this association
+	 */
+	public void setOthersInformations(String othersInformations);
+
+	/**
+	 * Sets the localized others informations of this association in the language.
+	 *
+	 * @param othersInformations the localized others informations of this association
+	 * @param locale the locale of the language
+	 */
+	public void setOthersInformations(String othersInformations, Locale locale);
+
+	/**
+	 * Sets the localized others informations of this association in the language, and sets the default locale.
+	 *
+	 * @param othersInformations the localized others informations of this association
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setOthersInformations(String othersInformations, Locale locale,
+		Locale defaultLocale);
+
+	public void setOthersInformationsCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized others informationses of this association from the map of locales and localized others informationses.
+	 *
+	 * @param othersInformationsMap the locales and localized others informationses of this association
+	 */
+	public void setOthersInformationsMap(
+		Map<Locale, String> othersInformationsMap);
+
+	/**
+	 * Sets the localized others informationses of this association from the map of locales and localized others informationses, and sets the default locale.
+	 *
+	 * @param othersInformationsMap the locales and localized others informationses of this association
+	 * @param defaultLocale the default locale
+	 */
+	public void setOthersInformationsMap(
+		Map<Locale, String> othersInformationsMap, Locale defaultLocale);
+
+	/**
 	 * Returns the status of this association.
 	 *
 	 * @return the status of this association

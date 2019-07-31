@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.activity.model.Association;
+import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.base.AssociationLocalServiceBaseImpl;
 
 import java.util.ArrayList;
@@ -217,6 +218,12 @@ public class AssociationLocalServiceImpl extends AssociationLocalServiceBaseImpl
 			// Supprime l'assetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(
 					Association.class.getName(), associationId);
+
+			// Supprime les cours
+			List<Practice> practices = this.practiceLocalService.getByAssociation(associationId);
+			for (Practice practice : practices) {
+				this.practiceLocalService.removePractice(practice.getPracticeId());
+			}
 
 		}
 

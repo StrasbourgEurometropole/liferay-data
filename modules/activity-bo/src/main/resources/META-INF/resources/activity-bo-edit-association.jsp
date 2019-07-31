@@ -56,21 +56,25 @@
 				<aui:input name="facebookURL" >
                     <aui:validator name="url"/>
                 </aui:input>
+
+				<aui:input name="othersInformations" />
 				
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="activities">
+				label="eu.association.practices">
                 <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
                 <div class="has-error">
                     <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
                         <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                             function (val, fieldNode, ruleValue) {
                                 var validated = true;
-                                var fields = document.querySelectorAll('div[id^=activity-] > .field-content');
+                                var fields = document.querySelectorAll('.detail-practice > .field-content');
                                 for (var i = 0; i < fields.length; i++) {
                                     fieldContent = fields[i];
-                                    if ($(fieldContent).find('.icon-asterisk').length > 0
+                                    // on vérifie que la pratique n'est pas supprimée
+                                    var parent = $(fieldContent).closest(".lfr-form-row.lfr-form-row-inline");
+                                    if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.icon-asterisk').length > 0
                                         && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
                                         validated = false;
                                         break;
@@ -82,33 +86,35 @@
                     </aui:input>
                 </div>
 
-					<div id="activity-fields">
-						<c:if test="${empty dc.association.associationActivities}">
-							<div class="lfr-form-row lfr-form-row-inline">
+					<div id="practice-fields">
+						<c:if test="${empty dc.association.practices}">
+							<div class="lfr-form-row lfr-form-row-inline main-content-card">
+                                <h3><liferay-ui:message key="practice" /></h3>
 								<div class="row-fields">
-									<liferay-util:include page="/includes/association-activity-row.jsp" servletContext="<%=application %>">
+									<liferay-util:include page="/includes/practice-row.jsp" servletContext="<%=application %>">
 										<liferay-util:param name="index" value="1" />
 									</liferay-util:include>
 								</div>
 							</div>
 						</c:if>
 
-						<c:forEach items="${dc.association.associationActivities}" var="activity" varStatus="status">
-							<div class="lfr-form-row lfr-form-row-inline">
+						<c:forEach items="${dc.association.practices}" var="practice" varStatus="status">
+							<div class="lfr-form-row lfr-form-row-inline main-content-card">
+                                <h3><liferay-ui:message key="practice" /></h3>
 								<div class="row-fields">
-									<liferay-util:include page="/includes/association-activity-row.jsp" servletContext="<%=application %>">
+									<liferay-util:include page="/includes/practice-row.jsp" servletContext="<%=application %>">
 										<liferay-util:param name="index" value="${status.count}" />
-										<liferay-util:param name="associationActivityId" value="${activity.associationActivityId}" />
-										<liferay-util:param name="categoriesIds" value="${dc.getAssociationActivityCategoriesIds(activity.associationActivityId)}" />
+										<liferay-util:param name="practiceId" value="${practice.practiceId}" />
+										<liferay-util:param name="categoriesIds" value="${dc.getPracticeCategoriesIds(practice.practiceId)}" />
 									</liferay-util:include>
 								</div>
 							</div>
 						</c:forEach>
-						<c:if test="${empty dc.association.associationActivities}">
-							<aui:input type="hidden" name="activityIndexes" value="1" />
+						<c:if test="${empty dc.association.practices}">
+							<aui:input type="hidden" name="practiceIndexes" value="1" />
 						</c:if>
-						<c:if test="${not empty dc.association.associationActivities}">
-							<aui:input type="hidden" name="activityIndexes" value="${dc.getDefaultIndexes(fn:length(dc.association.associationActivities))}" />
+						<c:if test="${not empty dc.association.practices}">
+							<aui:input type="hidden" name="practiceIndexes" value="${dc.getDefaultIndexes(fn:length(dc.association.practices))}" />
 						</c:if>
 					</div>
 
@@ -134,12 +140,12 @@
 	</aui:form>
 </div>
 
-<liferay-portlet:renderURL varImpl="activityRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<liferay-portlet:param name="mvcPath" value="/includes/association-activity-row.jsp" />
+<liferay-portlet:renderURL varImpl="practiceRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/practice-row.jsp" />
 </liferay-portlet:renderURL>
 <liferay-util:html-top>
 	<script>
-		var getActivityRowURL = '${activityRowURL}';
+		var getPracticeRowURL = '${practiceRowURL}';
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>

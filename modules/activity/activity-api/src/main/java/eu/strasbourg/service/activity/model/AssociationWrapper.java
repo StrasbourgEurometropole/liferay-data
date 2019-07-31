@@ -74,6 +74,7 @@ public class AssociationWrapper implements Association,
 		attributes.put("siteURL", getSiteURL());
 		attributes.put("mail", getMail());
 		attributes.put("facebookURL", getFacebookURL());
+		attributes.put("othersInformations", getOthersInformations());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -166,6 +167,12 @@ public class AssociationWrapper implements Association,
 
 		if (facebookURL != null) {
 			setFacebookURL(facebookURL);
+		}
+
+		String othersInformations = (String)attributes.get("othersInformations");
+
+		if (othersInformations != null) {
+			setOthersInformations(othersInformations);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -506,6 +513,74 @@ public class AssociationWrapper implements Association,
 	}
 
 	/**
+	* Returns the others informations of this association.
+	*
+	* @return the others informations of this association
+	*/
+	@Override
+	public java.lang.String getOthersInformations() {
+		return _association.getOthersInformations();
+	}
+
+	/**
+	* Returns the localized others informations of this association in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized others informations of this association
+	*/
+	@Override
+	public java.lang.String getOthersInformations(java.lang.String languageId) {
+		return _association.getOthersInformations(languageId);
+	}
+
+	/**
+	* Returns the localized others informations of this association in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized others informations of this association
+	*/
+	@Override
+	public java.lang.String getOthersInformations(java.lang.String languageId,
+		boolean useDefault) {
+		return _association.getOthersInformations(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized others informations of this association in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized others informations of this association
+	*/
+	@Override
+	public java.lang.String getOthersInformations(java.util.Locale locale) {
+		return _association.getOthersInformations(locale);
+	}
+
+	/**
+	* Returns the localized others informations of this association in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized others informations of this association. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getOthersInformations(java.util.Locale locale,
+		boolean useDefault) {
+		return _association.getOthersInformations(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getOthersInformationsCurrentLanguageId() {
+		return _association.getOthersInformationsCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getOthersInformationsCurrentValue() {
+		return _association.getOthersInformationsCurrentValue();
+	}
+
+	/**
 	* Returns the phone of this association.
 	*
 	* @return the phone of this association
@@ -747,20 +822,20 @@ public class AssociationWrapper implements Association,
 	}
 
 	/**
-	* Retourne les activités de l'association
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.activity.model.AssociationActivity> getAssociationActivities() {
-		return _association.getAssociationActivities();
-	}
-
-	/**
 	* Renvoie la liste des AssetCategory rattachées à cette entité (via
 	* l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _association.getCategories();
+	}
+
+	/**
+	* Retourne les activités de l'association
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.Practice> getPractices() {
+		return _association.getPractices();
 	}
 
 	/**
@@ -781,6 +856,16 @@ public class AssociationWrapper implements Association,
 	@Override
 	public Map<java.util.Locale, java.lang.String> getNameMap() {
 		return _association.getNameMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized others informationses of this association.
+	*
+	* @return the locales and localized others informationses of this association
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getOthersInformationsMap() {
+		return _association.getOthersInformationsMap();
 	}
 
 	/**
@@ -1090,6 +1175,73 @@ public class AssociationWrapper implements Association,
 	@Override
 	public void setNew(boolean n) {
 		_association.setNew(n);
+	}
+
+	/**
+	* Sets the others informations of this association.
+	*
+	* @param othersInformations the others informations of this association
+	*/
+	@Override
+	public void setOthersInformations(java.lang.String othersInformations) {
+		_association.setOthersInformations(othersInformations);
+	}
+
+	/**
+	* Sets the localized others informations of this association in the language.
+	*
+	* @param othersInformations the localized others informations of this association
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setOthersInformations(java.lang.String othersInformations,
+		java.util.Locale locale) {
+		_association.setOthersInformations(othersInformations, locale);
+	}
+
+	/**
+	* Sets the localized others informations of this association in the language, and sets the default locale.
+	*
+	* @param othersInformations the localized others informations of this association
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setOthersInformations(java.lang.String othersInformations,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_association.setOthersInformations(othersInformations, locale,
+			defaultLocale);
+	}
+
+	@Override
+	public void setOthersInformationsCurrentLanguageId(
+		java.lang.String languageId) {
+		_association.setOthersInformationsCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized others informationses of this association from the map of locales and localized others informationses.
+	*
+	* @param othersInformationsMap the locales and localized others informationses of this association
+	*/
+	@Override
+	public void setOthersInformationsMap(
+		Map<java.util.Locale, java.lang.String> othersInformationsMap) {
+		_association.setOthersInformationsMap(othersInformationsMap);
+	}
+
+	/**
+	* Sets the localized others informationses of this association from the map of locales and localized others informationses, and sets the default locale.
+	*
+	* @param othersInformationsMap the locales and localized others informationses of this association
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setOthersInformationsMap(
+		Map<java.util.Locale, java.lang.String> othersInformationsMap,
+		java.util.Locale defaultLocale) {
+		_association.setOthersInformationsMap(othersInformationsMap,
+			defaultLocale);
 	}
 
 	/**

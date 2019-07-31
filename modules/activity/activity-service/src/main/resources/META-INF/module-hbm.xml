@@ -8,7 +8,7 @@
 	<import class="eu.strasbourg.service.activity.model.ActivityCourseSchedule" />
 	<import class="eu.strasbourg.service.activity.model.ActivityOrganizer" />
 	<import class="eu.strasbourg.service.activity.model.Association" />
-	<import class="eu.strasbourg.service.activity.model.AssociationActivity" />
+	<import class="eu.strasbourg.service.activity.model.Practice" />
 	<class name="eu.strasbourg.service.activity.model.impl.ActivityImpl" table="activity_Activity">
 		<id name="activityId" type="long">
 			<generator class="assigned" />
@@ -140,13 +140,14 @@
 		<property name="siteURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="mail" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="facebookURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="othersInformations" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 	</class>
-	<class name="eu.strasbourg.service.activity.model.impl.AssociationActivityImpl" table="activity_AssociationActivity">
-		<id name="associationActivityId" type="long">
+	<class name="eu.strasbourg.service.activity.model.impl.PracticeImpl" table="activity_Practice">
+		<id name="practiceId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />

@@ -95,6 +95,7 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 			{ "siteURL", Types.VARCHAR },
 			{ "mail", Types.VARCHAR },
 			{ "facebookURL", Types.VARCHAR },
+			{ "othersInformations", Types.CLOB },
 			{ "status", Types.INTEGER },
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
@@ -117,13 +118,14 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 		TABLE_COLUMNS_MAP.put("siteURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("othersInformations", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table activity_Association (uuid_ VARCHAR(75) null,associationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name STRING null,presentation TEXT null,phone VARCHAR(75) null,siteURL STRING null,mail VARCHAR(75) null,facebookURL STRING null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table activity_Association (uuid_ VARCHAR(75) null,associationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name STRING null,presentation TEXT null,phone VARCHAR(75) null,siteURL STRING null,mail VARCHAR(75) null,facebookURL STRING null,othersInformations TEXT null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table activity_Association";
 	public static final String ORDER_BY_JPQL = " ORDER BY association.associationId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY activity_Association.associationId ASC";
@@ -171,6 +173,7 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 		model.setSiteURL(soapModel.getSiteURL());
 		model.setMail(soapModel.getMail());
 		model.setFacebookURL(soapModel.getFacebookURL());
+		model.setOthersInformations(soapModel.getOthersInformations());
 		model.setStatus(soapModel.getStatus());
 		model.setStatusByUserId(soapModel.getStatusByUserId());
 		model.setStatusByUserName(soapModel.getStatusByUserName());
@@ -253,6 +256,7 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 		attributes.put("siteURL", getSiteURL());
 		attributes.put("mail", getMail());
 		attributes.put("facebookURL", getFacebookURL());
+		attributes.put("othersInformations", getOthersInformations());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -348,6 +352,12 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 
 		if (facebookURL != null) {
 			setFacebookURL(facebookURL);
+		}
+
+		String othersInformations = (String)attributes.get("othersInformations");
+
+		if (othersInformations != null) {
+			setOthersInformations(othersInformations);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -966,6 +976,113 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 
 	@JSON
 	@Override
+	public String getOthersInformations() {
+		if (_othersInformations == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _othersInformations;
+		}
+	}
+
+	@Override
+	public String getOthersInformations(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOthersInformations(languageId);
+	}
+
+	@Override
+	public String getOthersInformations(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOthersInformations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOthersInformations(String languageId) {
+		return LocalizationUtil.getLocalization(getOthersInformations(),
+			languageId);
+	}
+
+	@Override
+	public String getOthersInformations(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getOthersInformations(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getOthersInformationsCurrentLanguageId() {
+		return _othersInformationsCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getOthersInformationsCurrentValue() {
+		Locale locale = getLocale(_othersInformationsCurrentLanguageId);
+
+		return getOthersInformations(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getOthersInformationsMap() {
+		return LocalizationUtil.getLocalizationMap(getOthersInformations());
+	}
+
+	@Override
+	public void setOthersInformations(String othersInformations) {
+		_othersInformations = othersInformations;
+	}
+
+	@Override
+	public void setOthersInformations(String othersInformations, Locale locale) {
+		setOthersInformations(othersInformations, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOthersInformations(String othersInformations, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(othersInformations)) {
+			setOthersInformations(LocalizationUtil.updateLocalization(
+					getOthersInformations(), "OthersInformations",
+					othersInformations, languageId, defaultLanguageId));
+		}
+		else {
+			setOthersInformations(LocalizationUtil.removeLocalization(
+					getOthersInformations(), "OthersInformations", languageId));
+		}
+	}
+
+	@Override
+	public void setOthersInformationsCurrentLanguageId(String languageId) {
+		_othersInformationsCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setOthersInformationsMap(
+		Map<Locale, String> othersInformationsMap) {
+		setOthersInformationsMap(othersInformationsMap,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOthersInformationsMap(
+		Map<Locale, String> othersInformationsMap, Locale defaultLocale) {
+		if (othersInformationsMap == null) {
+			return;
+		}
+
+		setOthersInformations(LocalizationUtil.updateLocalization(
+				othersInformationsMap, getOthersInformations(),
+				"OthersInformations", LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public int getStatus() {
 		return _status;
 	}
@@ -1180,6 +1297,17 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 			}
 		}
 
+		Map<Locale, String> othersInformationsMap = getOthersInformationsMap();
+
+		for (Map.Entry<Locale, String> entry : othersInformationsMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -1254,6 +1382,17 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 			setFacebookURL(getFacebookURL(defaultLocale), defaultLocale,
 				defaultLocale);
 		}
+
+		String othersInformations = getOthersInformations(defaultLocale);
+
+		if (Validator.isNull(othersInformations)) {
+			setOthersInformations(getOthersInformations(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setOthersInformations(getOthersInformations(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1284,6 +1423,7 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 		associationImpl.setSiteURL(getSiteURL());
 		associationImpl.setMail(getMail());
 		associationImpl.setFacebookURL(getFacebookURL());
+		associationImpl.setOthersInformations(getOthersInformations());
 		associationImpl.setStatus(getStatus());
 		associationImpl.setStatusByUserId(getStatusByUserId());
 		associationImpl.setStatusByUserName(getStatusByUserName());
@@ -1459,6 +1599,14 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 			associationCacheModel.facebookURL = null;
 		}
 
+		associationCacheModel.othersInformations = getOthersInformations();
+
+		String othersInformations = associationCacheModel.othersInformations;
+
+		if ((othersInformations != null) && (othersInformations.length() == 0)) {
+			associationCacheModel.othersInformations = null;
+		}
+
 		associationCacheModel.status = getStatus();
 
 		associationCacheModel.statusByUserId = getStatusByUserId();
@@ -1485,7 +1633,7 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1515,6 +1663,8 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 		sb.append(getMail());
 		sb.append(", facebookURL=");
 		sb.append(getFacebookURL());
+		sb.append(", othersInformations=");
+		sb.append(getOthersInformations());
 		sb.append(", status=");
 		sb.append(getStatus());
 		sb.append(", statusByUserId=");
@@ -1530,7 +1680,7 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.activity.model.Association");
@@ -1593,6 +1743,10 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 		sb.append(getFacebookURL());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>othersInformations</column-name><column-value><![CDATA[");
+		sb.append(getOthersInformations());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
@@ -1642,6 +1796,8 @@ public class AssociationModelImpl extends BaseModelImpl<Association>
 	private String _mail;
 	private String _facebookURL;
 	private String _facebookURLCurrentLanguageId;
+	private String _othersInformations;
+	private String _othersInformationsCurrentLanguageId;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;

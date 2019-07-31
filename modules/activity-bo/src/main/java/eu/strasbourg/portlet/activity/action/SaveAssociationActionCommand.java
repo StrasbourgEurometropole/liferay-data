@@ -16,8 +16,6 @@
 package eu.strasbourg.portlet.activity.action;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -26,12 +24,10 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.model.Association;
-import eu.strasbourg.service.activity.model.AssociationActivity;
-import eu.strasbourg.service.activity.service.ActivityOrganizerLocalService;
-import eu.strasbourg.service.activity.service.AssociationActivityLocalService;
+import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.AssociationLocalService;
+import eu.strasbourg.service.activity.service.PracticeLocalService;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -43,10 +39,10 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -122,44 +118,57 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 		String facebookURL = ParamUtil.getString(request, "facebookURL");
 		association.setFacebookURL(facebookURL);
 
-		// Activités
+		// Présentation
+		Map<Locale, String> othersInformations = LocalizationUtil
+				.getLocalizationMap(request, "othersInformations");
+		association.setOthersInformationsMap(othersInformations);
 
-		// On récupère les activités de l'association pour suppression
-		List<Long> activitiesToKeep = new ArrayList<Long>();
+		// Update de l'entité
+		associationLocalService.updateAssociation(association,
+				sc);
 
-		String activityIndexes = ParamUtil.getString(request, "activityIndexes");
-		if (Validator.isNotNull(activityIndexes)) {
-			for (String activityIndex : activityIndexes.split(",")) {
-				if (Validator.isNotNull(activityIndex)) {
-					long associationActivityId = ParamUtil.getLong(request, "associationActivityId" + activityIndex);
+		// Pratiques
+		// On récupère les pratiques de l'association pour suppression
+		List<Long> practicesToKeep = new ArrayList<Long>();
 
-					AssociationActivity activity;
-					if(associationActivityId != 0){
-						activity = _associationActivityLocalService.fetchAssociationActivity(associationActivityId);
+		String practiceIndexes = ParamUtil.getString(request, "practiceIndexes");
+		if (Validator.isNotNull(practiceIndexes)) {
+			for (String practiceIndex : practiceIndexes.split(",")) {
+				if (Validator.isNotNull(practiceIndex)) {
+					long practiceId = ParamUtil.getLong(request, "practiceId" + practiceIndex);
+
+					Practice practice;
+					if(practiceId != 0){
+						practice = _practiceLocalService.fetchPractice(practiceId);
 					}else{
-						activity = _associationActivityLocalService.createAssociationActivity(sc);
+						practice = _practiceLocalService.createPractice(sc);
 					}
 
-					// on ajoute cette activité à la liste des activités à garder
-					activitiesToKeep.add(activity.getAssociationActivityId());
+					// on ajoute cette pratique à la liste des pratiques à garder
+					practicesToKeep.add(practice.getPracticeId());
 					AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
 					long groupId = themeDisplay.getLayout().getGroupId();
 
 					String categoriesIdsString = "";
-					AssetVocabulary activitiesVocabulary = assetVocabularyAccessor.getAssociationActivity(groupId);
-					if (activitiesVocabulary != null) {
-						categoriesIdsString += ParamUtil.getString(request, "activityId-" + activityIndex + "_" + activitiesVocabulary.getVocabularyId());
+					AssetVocabulary practicesVocabulary = assetVocabularyAccessor.getPractice(groupId);
+					if (practicesVocabulary != null) {
+						categoriesIdsString += ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + practicesVocabulary.getVocabularyId());
 					}
 
-					AssetVocabulary publicsVocabulary = assetVocabularyAccessor.getActivityCoursePublic(groupId);
+					AssetVocabulary publicsVocabulary = assetVocabularyAccessor.gePracticePublic(groupId);
 					if (publicsVocabulary != null) {
-						categoriesIdsString += "," + ParamUtil.getString(request, "activityId-" + activityIndex + "_" + publicsVocabulary.getVocabularyId());
+						categoriesIdsString += "," + ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + publicsVocabulary.getVocabularyId());
 					}
 
 					AssetVocabulary territoriesVocabulary = AssetVocabularyHelper
 							.getGlobalVocabulary(VocabularyNames.TERRITORY);
 					if (territoriesVocabulary != null) {
-						categoriesIdsString += "," + ParamUtil.getString(request, "activityId-" + activityIndex + "_" + territoriesVocabulary.getVocabularyId());
+						categoriesIdsString += "," + ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + territoriesVocabulary.getVocabularyId());
+					}
+
+					AssetVocabulary accessibiliestyVocabulary = assetVocabularyAccessor.getAccessibility(groupId);
+					if (publicsVocabulary != null) {
+						categoriesIdsString += "," + ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + accessibiliestyVocabulary.getVocabularyId());
 					}
 
 					List<Long> categoriesList = new ArrayList<Long>();
@@ -169,26 +178,22 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 					}
 					long[] categoriesIds = categoriesList.stream().mapToLong(l -> l).toArray();
 
-					ServiceContext scActivity = ServiceContextFactory.getInstance(request);
-					scActivity.setAssetCategoryIds(categoriesIds);
+					ServiceContext scPractice = ServiceContextFactory.getInstance(request);
+					scPractice.setAssetCategoryIds(categoriesIds);
 
-					activity.setAssociationId(association.getAssociationId());
-					this._associationActivityLocalService.updateAssociationActivity(activity, scActivity);
+					practice.setAssociationId(association.getAssociationId());
+					this._practiceLocalService.updatePractice(practice, scPractice);
 				}
 
 			}
 		}
 
 		// On supprime les anciennes activités qui n'existent plus
-		for (AssociationActivity associationActivity : association.getAssociationActivities()) {
-			if(!activitiesToKeep.contains(associationActivity.getAssociationActivityId())){
-				_associationActivityLocalService.removeAssociationActivity(associationActivity.getAssociationActivityId());
+		for (Practice practice : association.getPractices()) {
+			if(!practicesToKeep.contains(practice.getPracticeId())){
+				_practiceLocalService.removePractice(practice.getPracticeId());
 			}
 		}
-
-		// Update de l'entité
-		associationLocalService.updateAssociation(association,
-			sc);
 
 		// Post / Redirect / Get si tout est bon
 		PortletURL renderURL = PortletURLFactoryUtil.create(request,
@@ -213,11 +218,11 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 		return isValid;
 	}
 
-	private AssociationActivityLocalService _associationActivityLocalService;
+	private PracticeLocalService _practiceLocalService;
 
 	@Reference(unbind = "-")
-	protected void setAssociationActivityLocalService(AssociationActivityLocalService associationActivityLocalService) {
+	protected void setPracticeLocalService(PracticeLocalService practiceLocalService) {
 
-		_associationActivityLocalService = associationActivityLocalService;
+		_practiceLocalService = practiceLocalService;
 	}
 }

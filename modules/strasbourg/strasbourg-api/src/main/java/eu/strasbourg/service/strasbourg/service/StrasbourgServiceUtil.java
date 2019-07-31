@@ -46,6 +46,11 @@ public class StrasbourgServiceUtil {
 		return getService().getCoordinateForAddress(address);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
+		long parentCategoryId, java.lang.String localeId) {
+		return getService().getPracticeCategories(parentCategoryId, localeId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getAlerts() {
 		return getService().getAlerts();
 	}

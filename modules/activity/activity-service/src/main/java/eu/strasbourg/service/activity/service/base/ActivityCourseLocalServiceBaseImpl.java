@@ -67,8 +67,8 @@ import eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePer
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityOrganizerPersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
-import eu.strasbourg.service.activity.service.persistence.AssociationActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
+import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
 import java.io.Serializable;
 
@@ -703,41 +703,40 @@ public abstract class ActivityCourseLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the association activity local service.
+	 * Returns the practice local service.
 	 *
-	 * @return the association activity local service
+	 * @return the practice local service
 	 */
-	public eu.strasbourg.service.activity.service.AssociationActivityLocalService getAssociationActivityLocalService() {
-		return associationActivityLocalService;
+	public eu.strasbourg.service.activity.service.PracticeLocalService getPracticeLocalService() {
+		return practiceLocalService;
 	}
 
 	/**
-	 * Sets the association activity local service.
+	 * Sets the practice local service.
 	 *
-	 * @param associationActivityLocalService the association activity local service
+	 * @param practiceLocalService the practice local service
 	 */
-	public void setAssociationActivityLocalService(
-		eu.strasbourg.service.activity.service.AssociationActivityLocalService associationActivityLocalService) {
-		this.associationActivityLocalService = associationActivityLocalService;
+	public void setPracticeLocalService(
+		eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService) {
+		this.practiceLocalService = practiceLocalService;
 	}
 
 	/**
-	 * Returns the association activity persistence.
+	 * Returns the practice persistence.
 	 *
-	 * @return the association activity persistence
+	 * @return the practice persistence
 	 */
-	public AssociationActivityPersistence getAssociationActivityPersistence() {
-		return associationActivityPersistence;
+	public PracticePersistence getPracticePersistence() {
+		return practicePersistence;
 	}
 
 	/**
-	 * Sets the association activity persistence.
+	 * Sets the practice persistence.
 	 *
-	 * @param associationActivityPersistence the association activity persistence
+	 * @param practicePersistence the practice persistence
 	 */
-	public void setAssociationActivityPersistence(
-		AssociationActivityPersistence associationActivityPersistence) {
-		this.associationActivityPersistence = associationActivityPersistence;
+	public void setPracticePersistence(PracticePersistence practicePersistence) {
+		this.practicePersistence = practicePersistence;
 	}
 
 	/**
@@ -1042,10 +1041,10 @@ public abstract class ActivityCourseLocalServiceBaseImpl
 	protected eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService;
 	@BeanReference(type = AssociationPersistence.class)
 	protected AssociationPersistence associationPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationActivityLocalService.class)
-	protected eu.strasbourg.service.activity.service.AssociationActivityLocalService associationActivityLocalService;
-	@BeanReference(type = AssociationActivityPersistence.class)
-	protected AssociationActivityPersistence associationActivityPersistence;
+	@BeanReference(type = eu.strasbourg.service.activity.service.PracticeLocalService.class)
+	protected eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService;
+	@BeanReference(type = PracticePersistence.class)
+	protected PracticePersistence practicePersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

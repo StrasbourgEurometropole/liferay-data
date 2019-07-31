@@ -32,13 +32,13 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 
 	// Configuration de l'autofield
 	AUI().use('liferay-auto-fields', function(Y) {
-		if (!!document.getElementById('activity-fields')) {
+		if (!!document.getElementById('practice-fields')) {
 			// Création de l'autofield
 			autoFields = new Liferay.AutoFields({
-				contentBox : '#activity-fields',
-				fieldIndexes : namespace + 'activityIndexes',
+				contentBox : '#practice-fields',
+				fieldIndexes : namespace + 'practiceIndexes',
 				namespace : namespace,
-				url : getActivityRowURL
+				url : getPracticeRowURL
 			}).render();
 		}
 	});

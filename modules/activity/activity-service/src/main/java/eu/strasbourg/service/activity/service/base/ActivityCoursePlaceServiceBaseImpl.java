@@ -38,8 +38,8 @@ import eu.strasbourg.service.activity.service.persistence.ActivityCoursePlacePer
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityOrganizerPersistence;
 import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
-import eu.strasbourg.service.activity.service.persistence.AssociationActivityPersistence;
 import eu.strasbourg.service.activity.service.persistence.AssociationPersistence;
+import eu.strasbourg.service.activity.service.persistence.PracticePersistence;
 
 import javax.sql.DataSource;
 
@@ -405,60 +405,59 @@ public abstract class ActivityCoursePlaceServiceBaseImpl extends BaseServiceImpl
 	}
 
 	/**
-	 * Returns the association activity local service.
+	 * Returns the practice local service.
 	 *
-	 * @return the association activity local service
+	 * @return the practice local service
 	 */
-	public eu.strasbourg.service.activity.service.AssociationActivityLocalService getAssociationActivityLocalService() {
-		return associationActivityLocalService;
+	public eu.strasbourg.service.activity.service.PracticeLocalService getPracticeLocalService() {
+		return practiceLocalService;
 	}
 
 	/**
-	 * Sets the association activity local service.
+	 * Sets the practice local service.
 	 *
-	 * @param associationActivityLocalService the association activity local service
+	 * @param practiceLocalService the practice local service
 	 */
-	public void setAssociationActivityLocalService(
-		eu.strasbourg.service.activity.service.AssociationActivityLocalService associationActivityLocalService) {
-		this.associationActivityLocalService = associationActivityLocalService;
+	public void setPracticeLocalService(
+		eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService) {
+		this.practiceLocalService = practiceLocalService;
 	}
 
 	/**
-	 * Returns the association activity remote service.
+	 * Returns the practice remote service.
 	 *
-	 * @return the association activity remote service
+	 * @return the practice remote service
 	 */
-	public eu.strasbourg.service.activity.service.AssociationActivityService getAssociationActivityService() {
-		return associationActivityService;
+	public eu.strasbourg.service.activity.service.PracticeService getPracticeService() {
+		return practiceService;
 	}
 
 	/**
-	 * Sets the association activity remote service.
+	 * Sets the practice remote service.
 	 *
-	 * @param associationActivityService the association activity remote service
+	 * @param practiceService the practice remote service
 	 */
-	public void setAssociationActivityService(
-		eu.strasbourg.service.activity.service.AssociationActivityService associationActivityService) {
-		this.associationActivityService = associationActivityService;
+	public void setPracticeService(
+		eu.strasbourg.service.activity.service.PracticeService practiceService) {
+		this.practiceService = practiceService;
 	}
 
 	/**
-	 * Returns the association activity persistence.
+	 * Returns the practice persistence.
 	 *
-	 * @return the association activity persistence
+	 * @return the practice persistence
 	 */
-	public AssociationActivityPersistence getAssociationActivityPersistence() {
-		return associationActivityPersistence;
+	public PracticePersistence getPracticePersistence() {
+		return practicePersistence;
 	}
 
 	/**
-	 * Sets the association activity persistence.
+	 * Sets the practice persistence.
 	 *
-	 * @param associationActivityPersistence the association activity persistence
+	 * @param practicePersistence the practice persistence
 	 */
-	public void setAssociationActivityPersistence(
-		AssociationActivityPersistence associationActivityPersistence) {
-		this.associationActivityPersistence = associationActivityPersistence;
+	public void setPracticePersistence(PracticePersistence practicePersistence) {
+		this.practicePersistence = practicePersistence;
 	}
 
 	/**
@@ -847,12 +846,12 @@ public abstract class ActivityCoursePlaceServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.activity.service.AssociationService associationService;
 	@BeanReference(type = AssociationPersistence.class)
 	protected AssociationPersistence associationPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationActivityLocalService.class)
-	protected eu.strasbourg.service.activity.service.AssociationActivityLocalService associationActivityLocalService;
-	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationActivityService.class)
-	protected eu.strasbourg.service.activity.service.AssociationActivityService associationActivityService;
-	@BeanReference(type = AssociationActivityPersistence.class)
-	protected AssociationActivityPersistence associationActivityPersistence;
+	@BeanReference(type = eu.strasbourg.service.activity.service.PracticeLocalService.class)
+	protected eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService;
+	@BeanReference(type = eu.strasbourg.service.activity.service.PracticeService.class)
+	protected eu.strasbourg.service.activity.service.PracticeService practiceService;
+	@BeanReference(type = PracticePersistence.class)
+	protected PracticePersistence practicePersistence;
 	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
