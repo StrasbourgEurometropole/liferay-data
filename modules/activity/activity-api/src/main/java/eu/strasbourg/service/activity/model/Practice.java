@@ -76,7 +76,22 @@ public interface Practice extends PracticeModel, PersistedModel {
 	public eu.strasbourg.service.activity.model.Association getAssociation();
 
 	/**
-	* Retourne le label de la pratique de l'association
+	* Retourne la pratique de l'association
 	*/
-	public java.lang.String getPracticeLabel(java.util.Locale locale);
+	public com.liferay.asset.kernel.model.AssetCategory getPractice();
+
+	/**
+	* Retourne les publics de l'association
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+
+	/**
+	* Retourne les quartiers de l'association
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistricts();
+
+	/**
+	* Retourne l'accessibilité de l'association
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getAccessibilities();
 }

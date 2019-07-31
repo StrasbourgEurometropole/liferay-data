@@ -27,6 +27,7 @@ import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -94,15 +95,45 @@ public class PracticeImpl extends PracticeBaseImpl {
 	}
 
 	/**
-	 * Retourne le label de la pratique de l'association
+	 * Retourne la pratique de l'association
 	 */
 	@Override
-	public String getPracticeLabel(Locale locale) {
-		String practice = "";
+	public AssetCategory getPractice() {
+		AssetCategory practice = null;
 		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.PRACTICE);
 		if(!categories.isEmpty())
-			practice = categories.get(0).getTitle(locale);
+			practice = categories.get(0);
 		return practice;
+	}
+
+	/**
+	 * Retourne les publics de l'association
+	 */
+	@Override
+	public List<AssetCategory> getPublics() {
+		List<AssetCategory> publicList = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PRACTICE_PUBLIC);
+		return publicList;
+	}
+
+	/**
+	 * Retourne les quartiers de l'association
+	 */
+	@Override
+	public List<AssetCategory> getDistricts() {
+		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.TERRITORY);
+		return categories;
+	}
+
+	/**
+	 * Retourne l'accessibilité de l'association
+	 */
+	@Override
+	public List<AssetCategory> getAccessibilities() {
+		List<AssetCategory> categories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.ACCESSIBILITY);
+		return categories;
 	}
 }

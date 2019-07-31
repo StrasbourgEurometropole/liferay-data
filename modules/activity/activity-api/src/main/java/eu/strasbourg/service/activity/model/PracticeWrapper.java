@@ -253,6 +253,14 @@ public class PracticeWrapper implements Practice, ModelWrapper<Practice> {
 	}
 
 	/**
+	* Retourne la pratique de l'association
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPractice() {
+		return _practice.getPractice();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché à cette entité
 	*/
 	@Override
@@ -324,14 +332,6 @@ public class PracticeWrapper implements Practice, ModelWrapper<Practice> {
 	@Override
 	public java.lang.Object clone() {
 		return new PracticeWrapper((Practice)_practice.clone());
-	}
-
-	/**
-	* Retourne le label de la pratique de l'association
-	*/
-	@Override
-	public java.lang.String getPracticeLabel(java.util.Locale locale) {
-		return _practice.getPracticeLabel(locale);
 	}
 
 	/**
@@ -425,12 +425,36 @@ public class PracticeWrapper implements Practice, ModelWrapper<Practice> {
 	}
 
 	/**
+	* Retourne l'accessibilité de l'association
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getAccessibilities() {
+		return _practice.getAccessibilities();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cette entité (via
 	* l'assetEntry)
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _practice.getCategories();
+	}
+
+	/**
+	* Retourne les quartiers de l'association
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getDistricts() {
+		return _practice.getDistricts();
+	}
+
+	/**
+	* Retourne les publics de l'association
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics() {
+		return _practice.getPublics();
 	}
 
 	/**
