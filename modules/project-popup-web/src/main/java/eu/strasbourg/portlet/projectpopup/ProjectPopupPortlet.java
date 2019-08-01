@@ -67,43 +67,52 @@ public class ProjectPopupPortlet extends MVCPortlet {
             ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
 
-            long groupId = themeDisplay.getLayout().getGroupId();
             // Récupération du paramètre de tri des commentaires
             String popupTemplateId = configuration.popupTemplateId();
-            if (Validator.isNull(popupTemplateId)) {
-                popupTemplateId = "filePetition";
+
+            if(configuration.disable()){
+                popupTemplateId = "filePetitionDisable";
+            }else {
+
+                if (Validator.isNull(popupTemplateId)) {
+                    popupTemplateId = "filePetition";
+                }
+
+                // Récupération de l'asset entry Id qui est partagé par le portlet détail
+                // entité sur la même page.
+                // les popups n'ont pas forcement besion de l'entryId (déposer une petition par exemple)
+                // //donc il faut etre en mesure de pouvoir gerer ca.
+                long entryID = this.getPortletAssetEntryId(request);
+
+                JSONObject user = null;
+                if (publikID != null && !publikID.isEmpty())
+                    user = PublikApiClient.getUserDetails(publikID);
+
+                long groupId = themeDisplay.getLayout().getGroupId();
+
+                // Récupération des quartiers
+                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+
+                // Récupération des thematics
+                List<AssetCategory> thematics = assetVocabularyAccessor.getThematics(groupId).getCategories();
+
+                // Récupération des thematics
+                List<AssetCategory> projects = assetVocabularyAccessor.getProjects(groupId).getCategories();
+
+                request.setAttribute("quartiers", districts);
+                request.setAttribute("thematics", thematics);
+                request.setAttribute("projects", projects);
+
+                if (entryID != -1)
+                    request.setAttribute("entryId", entryID);
+                request.setAttribute("userConnected", user);
             }
 
-            // Récupération de l'asset entry Id qui est partagé par le portlet détail
-            // entité sur la même page.
-            // les popups n'ont pas forcement besion de l'entryId (déposer une petition par exemple)
-            // //donc il faut etre en mesure de pouvoir gerer ca.
-            long entryID = this.getPortletAssetEntryId(request);
-
-            JSONObject user = null;
-            if (publikID != null && !publikID.isEmpty())
-                user = PublikApiClient.getUserDetails(publikID);
-
-            // Récupération des quartiers
-            List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-
-            // Récupération des thematics
-            List<AssetCategory> thematics = assetVocabularyAccessor.getThematics(groupId).getCategories();
-
-            // Récupération des thematics
-            List<AssetCategory> projects = assetVocabularyAccessor.getProjects(groupId).getCategories();
-
             // URL de redirection pour le POST evitant les soumissions multiples
-            String redirectURL =  themeDisplay.getURLPortal() + themeDisplay.getURLCurrent();
+            String redirectURL = themeDisplay.getURLPortal() + themeDisplay.getURLCurrent();
 
             request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
             request.setAttribute("popupTemplateId", popupTemplateId);
-            request.setAttribute("quartiers", districts);
-            request.setAttribute("thematics", thematics);
-            request.setAttribute("projects", projects);
-            if (entryID!=-1)
-                request.setAttribute("entryId", entryID);
-            request.setAttribute("userConnected",user);
 
         } catch (Exception e) {
             _log.error("erreur : ", e);

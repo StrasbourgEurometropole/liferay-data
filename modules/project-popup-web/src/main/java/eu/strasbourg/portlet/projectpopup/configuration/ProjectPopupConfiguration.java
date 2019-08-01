@@ -15,4 +15,7 @@ public interface ProjectPopupConfiguration {
 
     @Meta.AD(name = "popupTemplateId", required = false)
     String popupTemplateId();
+
+    @Meta.AD(name = "disable", required = false)
+    boolean disable();
 }

@@ -643,3 +643,9 @@ aside .leaflet-map {
 .social-share {
 	opacity: 1;
 }
+
+//Force l'opacite à 1 pour le portlet projectPopup
+.portlet-boundary_eu_strasbourg_portlet_project_ProjectPopupPortlet_  header {
+	opacity: 1 !important;
+    transform: translateY(-97%);
+}
