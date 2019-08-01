@@ -48,6 +48,7 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
     private static final String FIRSTNAME = "firstname";
     private static final String PATTERN = "dd/MM/yyyy";
     private static final String ENTROUVERT_PATTERN = "yyyy-MM-dd";
+    private static final String IS_DISPLAY_LISTING = "displayListing";
 
     private PublikUser user;
     private Date birthday;
@@ -60,6 +61,7 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
     private String firstname;
     private String email;
     private DateFormat dateFormat;
+    private Boolean isDisplayListing;
 
     /**
      * le log
@@ -87,6 +89,14 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
             lastname = ParamUtil.getString(request, USERNAME);
             firstname = ParamUtil.getString(request, FIRSTNAME);
             email = ParamUtil.getString(request, EMAIL);
+            isDisplayListing = ParamUtil.getBoolean(request, IS_DISPLAY_LISTING);
+
+            // Enregistrement du displayListing en base
+            PublikUser publikUser = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+            if (publikUser != null) {
+                publikUser.setPactDisplay(isDisplayListing);
+                PublikUserLocalServiceUtil.updatePublikUser(publikUser);
+            }
 
             boolean isValid = validate(request);
             if (!isValid)
@@ -101,6 +111,7 @@ public class SaveDashBoardActionCommand implements MVCActionCommand {
                 _log.error("erreur de redirection dans save profil : ", e);
                 throw new PortletException(e);
             }
+
         }
         return result;
     }
