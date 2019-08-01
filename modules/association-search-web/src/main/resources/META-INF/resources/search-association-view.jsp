@@ -38,12 +38,13 @@
                         </aui:select>
                     </div>
                 </div>
-                <div class="widget subSpeciality" <c:if test="${empty param.speciality}">style="display: none;" </c:if>>
+                <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var = "subSpecialities" />
+                <div class="widget subSpeciality" <c:if test="${empty param.speciality || empty subSpecialities}">style="display: none;" </c:if>>
                     <div class="title content">
                         <aui:select cssClass="toCustomSelect subSpecialities" id="subSpeciality" name="subSpeciality" label="sub-speciality">
                             <aui:option value="" disabled="disabled" />
                             <c:if test="${param.speciality != null}">
-                                <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary, param.speciality)}" var="category">
+                                <c:forEach items="${subSpecialities}" var="category">
                                     <c:set var="category" value="${category}" scope="request" />
                                     <c:set var="level" value="0" scope="request" />
                                     <jsp:include page="/includes/category-option.jsp" />
@@ -52,12 +53,13 @@
                         </aui:select>
                     </div>
                 </div>
-                <div class="widget subSubSpeciality" <c:if test="${empty param.subSpeciality}">style="display: none;" </c:if>>
+                <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}" var = "subSubSpecialities" />
+                <div class="widget subSubSpeciality" <c:if test="${empty param.subSpeciality || empty subSubSpecialities}">style="display: none;" </c:if>>
                     <div class="title content">
                         <aui:select cssClass="toCustomSelect subSubSpecialities" id="subSubSpeciality" name="subSubSpeciality" label="sub-speciality">
-                            <aui:option value="" disabled="disabled" />
+                            <aui:option value="${subSubSpecialities}" disabled="disabled" />
                             <c:if test="${param.subSpeciality != null}">
-                                <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}" var="category">
+                                <c:forEach items="" var="category">
                                     <c:set var="category" value="${category}" scope="request" />
                                     <c:set var="level" value="0" scope="request" />
                                     <jsp:include page="/includes/category-option.jsp" />

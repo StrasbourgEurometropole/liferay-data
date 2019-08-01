@@ -29,7 +29,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="associationId" type="hidden" />
 
-			<aui:fieldset collapsed="true" collapsible="true"
+			<aui:fieldset collapsed="false" collapsible="true"
 				label="general">
 
 				<aui:input name="name">
@@ -61,7 +61,7 @@
 				
 			</aui:fieldset>
 
-			<aui:fieldset collapsed="true" collapsible="true"
+			<aui:fieldset collapsed="false" collapsible="true"
 				label="eu.association.practices">
                 <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
                 <div class="has-error">
