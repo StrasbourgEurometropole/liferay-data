@@ -114,6 +114,10 @@ public class ProjectPopupPortlet extends MVCPortlet {
             request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
             request.setAttribute("popupTemplateId", popupTemplateId);
 
+            // Vérifie si l'utilisateur est connecté liferay
+            boolean isSignedIn = themeDisplay.isSignedIn();
+            request.setAttribute("isSignedIn", isSignedIn);
+
         } catch (Exception e) {
             _log.error("erreur : ", e);
         }
