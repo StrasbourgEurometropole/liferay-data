@@ -26,6 +26,7 @@
 		border: 1px solid #a6a6a6;
 		border-radius: 0;
 		height: 275px;
+		@include ft($f_ms, 14px, 600, $c_txt, 22px);
 		&:focus{
 			border-color: $c_main;
 			box-shadow: none;

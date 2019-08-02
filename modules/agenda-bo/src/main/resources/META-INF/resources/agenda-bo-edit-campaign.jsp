@@ -64,6 +64,19 @@
 						</option>
 					</c:forEach>
 				</select>
+
+				<label><liferay-ui:message key="types" /></label>
+				<select id="typesIds" name="<portlet:namespace />typesIds" placeholder="<liferay-ui:message key="select-types" />" multiple >
+					<c:forEach var="type" items="${dc.types}">
+						<option value="${type.categoryId}"
+							<c:if test="${fn:contains(dc.typesIds, type.categoryId)}">
+								selected
+							</c:if>
+						>
+							${type.getTitle(locale)}
+						</option>
+					</c:forEach>
+				</select>
 				
 				<label><liferay-ui:message key="managers" /><span class="icon-asterisk text-warning"></span></label>
 				<select class="form-control" name="<portlet:namespace />managersIds"

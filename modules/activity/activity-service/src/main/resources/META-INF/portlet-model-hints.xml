@@ -127,4 +127,46 @@
 		<field localized="true" name="siteURL" type="String" />
 		<field name="imageId" type="long" />
 	</model>
+	<model name="eu.strasbourg.service.activity.model.Association">
+		<field name="uuid" type="String" />
+		<field name="associationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="presentation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="phone" type="String" />
+		<field localized="true" name="siteURL" type="String" />
+		<field name="mail" type="String" />
+		<field localized="true" name="facebookURL" type="String" />
+		<field localized="true" name="othersInformations" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.activity.model.Practice">
+		<field name="uuid" type="String" />
+		<field name="practiceId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="associationId" type="long" />
+	</model>
 </model-hints>

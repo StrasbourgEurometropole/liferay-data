@@ -8,8 +8,14 @@
         <c:if test="${event != null}">
             <li>
                 ${not empty event.titleMap ? event.getTitle(locale) : event.title}<br>
-                <fmt:formatDate value="${event.publicationDate}" var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
-                Publi&eacute; le : ${formattedPublicationDate}<br>
+                <c:if test="${article.status == 0}">
+                    <fmt:formatDate value="${event.publicationDate}" var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
+                    Publi&eacute; le : ${formattedPublicationDate}<br>
+                </c:if>
+                <c:if test="${article.status != 0}">
+                    <fmt:formatDate value="${event.publicationDate}" var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+                    <span style="color:red">Date de publication : ${formattedPublicationDate}</span><br>
+                </c:if>
                 <fmt:formatDate value="${event.lastEndDate}" var="formattedLastEndDate" type="date" pattern="dd/MM/yyyy" />
                 Fin de l'&eacute;v&egrave;nement le : ${formattedLastEndDate}
             </li>
@@ -17,8 +23,14 @@
         <c:if test="${article != null}">
             <li>
                 ${not empty article.titleMap ? article.getTitle(locale) : article.title}<br>
-                <fmt:formatDate value="${article.createDate}" var="formattedCreateDate" type="date" pattern="dd/MM/yyyy" />
-                Publi&eacute; le : ${formattedCreateDate}<br>
+                <c:if test="${article.status == 0}">
+                    <fmt:formatDate value="${article.createDate}" var="formattedCreateDate" type="date" pattern="dd/MM/yyyy" />
+                    Publi&eacute; le : ${formattedCreateDate}<br>
+                </c:if>
+                <c:if test="${article.status == 7}">
+                    <fmt:formatDate value="${article.displayDate}" var="formattedPublishDate" type="date" pattern="dd/MM/yyyy HH:mm" />
+                    <span style="color:red">Date de publication : ${formattedPublishDate}</span><br>
+                </c:if>
                 <c:if test="${article.expirationDate != null}">
                     <fmt:formatDate value="${article.expirationDate}" var="formattedExpirationDate" type="date" pattern="dd/MM/yyyy" />
                     D&eacute;publi&eacute; le : ${formattedExpirationDate}

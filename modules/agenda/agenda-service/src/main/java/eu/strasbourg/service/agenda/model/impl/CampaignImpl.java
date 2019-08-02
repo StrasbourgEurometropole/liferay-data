@@ -99,7 +99,16 @@ public class CampaignImpl extends CampaignBaseImpl {
 	@Override
 	public List<AssetCategory> getThemes() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
-			this.getAssetEntry(), VocabularyNames.EVENT_THEME);
+				this.getAssetEntry(), VocabularyNames.EVENT_THEME);
+	}
+
+	/**
+	 * Retourne les types de la campagne
+	 */
+	@Override
+	public List<AssetCategory> getTypes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
+				this.getAssetEntry(), VocabularyNames.EVENT_TYPE);
 	}
 
 	/**

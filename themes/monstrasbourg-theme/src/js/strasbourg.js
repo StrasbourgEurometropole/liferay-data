@@ -15197,14 +15197,14 @@ function megaSlider(slider, category){
         }
     });
 }(jQuery));
-jQuery(function() {
+/* jQuery(function() {
     jQuery('#formSuivi').submit( function() {
     	var codeSuivi = jQuery('#codeSuivi').val();
-    	var urlSuivi = jQuery('#serial [type=submit]').data('url-suivi').replace("[CODE_SUIVI]", codeSuivi);
+    	var urlSuivi = jQuery('#formSuivi [type=submit]').data('url-suivi').replace("[CODE_SUIVI]", codeSuivi);
       	window.location.replace(urlSuivi);
       	return false;
     });
-});
+}); */
 (function($){
     $(document).ready(function(){
 
@@ -15339,9 +15339,11 @@ function destroyPopin(){
 function createPopin(message, agree, deny){
     var template = '<div id="favConfirm"> \
         <div class="favMessage">##favMessage##</div> \
-        <div class="favActions"> \
-            <button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button> \
-            <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">Valider</span><span class="btn-arrow"></span></span></button> \
+        <div class="favActions"> ';
+    if(deny !== undefined || agree == undefined){
+        template = template + '<button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button>';
+    }
+    template = template + '<button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text"> ' + (deny !== undefined || agree == undefined ? 'Valider' : 'OK') + '</span><span class="btn-arrow"></span></span></button> \
         </div> \
     </div>';
 
@@ -15535,14 +15537,12 @@ function calculatePrice() {
   while (integerPrice.length < 2) {
     integerPrice = '0' + integerPrice;
   }
-  if(decimalPrice.length > 2){
+  if(decimalPrice.length > 1){
   	decimalPrice = decimalPrice.substr(0,2);
   }
   else{
-	  while (decimalPrice.length < 2) {
-	    decimalPrice = '0' + decimalPrice;
-	  }
-	}
+	decimalPrice = decimalPrice + '0';
+  }
 
   return integerPrice + decimalPrice;
 }
@@ -16187,13 +16187,16 @@ function dot(){
 (function ($) {
     $(document).ready(function(){
         if($('.mseu body.front').length){
-            $('.portlet-column-content').on('click','.delete-wi', function(){
+            // Enlever le widget
+            $('.portlet-column-content').on('click','.delete-wi', function(e){
                 var portletId = $(this).data('portletId');
                 var $section = $(this).closest('section');
                 var message = "Êtes vous sur de vouloir masquer le widget ?";
                 var agree = function(){
+                    // enleve le widget
                     $section.addClass('deleted');
 
+                    // stock en base le fait d'enlever le widget
                     Liferay.Service(
                         '/strasbourg.strasbourg/hide-portlet',
                         {
@@ -16204,7 +16207,50 @@ function dot(){
                         $section.slideUp();
                     }, 100);
                 };
-                createPopin(message, agree);
+		        var deny = function() {
+		        };
+                // demande confirmation pour enlever le widget
+                createPopin(message, agree, deny);
+                e.stopPropagation();
+            });
+            // Déplier le widget
+            $('.portlet-column-content').on('click','.retractable-folded-wi', function(e){
+                var portletId = $(this).data('portletId');
+                var $section = $(this).closest('section');
+                var $detail = $section.find('.detail');
+                // déplie le widget
+                $detail.show();
+                // Si c'est le portlet autour de moi, on recharge la carte
+                if($section.attr('id') == "wi-aroundme")
+                    mymap.invalidateSize();
+                // change le bouton
+                $(this).removeClass("retractable-folded-wi").addClass("retractable-unfolded-wi");
+                // stock en base le fait de déplier ce widget
+                Liferay.Service(
+                    '/strasbourg.strasbourg/unfold-portlet',
+                    {
+                        portletId: portletId
+                    }
+                );
+                e.stopPropagation();
+            });
+            // Plier le widget
+            $('.portlet-column-content').on('click','.retractable-unfolded-wi', function(e){
+                var portletId = $(this).data('portletId');
+                var $section = $(this).closest('section');
+                var $detail = $section.find('.detail');
+                // plie le widget
+                $detail.hide();
+                // change le bouton
+                $(this).removeClass("retractable-unfolded-wi").addClass("retractable-folded-wi");
+                // stock en base le fait de déplier ce widget
+                Liferay.Service(
+                    '/strasbourg.strasbourg/fold-portlet',
+                    {
+                        portletId: portletId
+                    }
+                );
+                e.stopPropagation();
             });
         }
     });

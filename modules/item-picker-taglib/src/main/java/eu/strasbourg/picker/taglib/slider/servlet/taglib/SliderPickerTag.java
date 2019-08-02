@@ -76,7 +76,7 @@ public class SliderPickerTag extends IncludeTag {
 			if (Validator.isNumber(_value) && Long.parseLong(_value) > 0) {
 				event = EventLocalServiceUtil.fetchEvent(Long.parseLong(_value));
 			}
-			article = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(_value), 0);
+			article = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(_value));
 		}
 		request.setAttribute("event", event);
 		request.setAttribute("article", article);

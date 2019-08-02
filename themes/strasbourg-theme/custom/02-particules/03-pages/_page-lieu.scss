@@ -88,6 +88,7 @@
             flex-shrink: 0;
             margin-left: 10px;
             border: solid 2px #FFFFFF;
+            white-space: nowrap;
             &.green{background-color: #40A040}
             &.orange{background-color: #FF470F}
             &.red{background-color: #FF0F0F}

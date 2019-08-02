@@ -33,6 +33,11 @@
         position: relative;
         background-color: #f6f6f6;
     }
+
+    main{
+        overflow: hidden;
+    }
+
     #main-content > *:not(.bg-banner) {
         z-index: 2;
         position: relative;

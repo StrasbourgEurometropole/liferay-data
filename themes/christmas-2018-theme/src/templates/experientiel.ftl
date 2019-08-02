@@ -15,7 +15,7 @@
 
 <div class="mns-page-experientielle mns-vheight">
     <!-- Launcher -->
-    <div class="mns-moteur-launch" style="display: block;">
+    <div class="mns-moteur-launch hide-launcher" style="display: block;">
         <figure>
             <img src="/o/christmas-2018-theme//images/bg-content-std1.jpg" width="800" height="800" alt="Image Marché de Noël"/>
         </figure>
@@ -27,7 +27,7 @@
 
 
     <!-- Wrapper questions -->
-    <div class="mns-moteur-wrapper" style="display: block;">
+    <div class="mns-moteur-wrapper show-moteur" style="display: block;">
         <div class="mns-small-grid mns-back-homepage"><a href="/accueil" class="link"><@liferay_ui.message key='back-to-home' /></a></div>
         <h2 data-type="question-label-wrapper"><@liferay_ui.message key='your-journey-more-like' /></h2>
 

@@ -618,6 +618,35 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
+		HttpPrincipal httpPrincipal, long parentCategoryId,
+		java.lang.String localeId) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"getPracticeCategories",
+					_getPracticeCategoriesParameterTypes23);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					parentCategoryId, localeId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceHttp.class);
 	private static final Class<?>[] _getCopyrightParameterTypes2 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
@@ -681,5 +710,8 @@ public class StrasbourgServiceHttp {
 		};
 	private static final Class<?>[] _foldPortletParameterTypes22 = new Class[] {
 			java.lang.String.class
+		};
+	private static final Class<?>[] _getPracticeCategoriesParameterTypes23 = new Class[] {
+			long.class, java.lang.String.class
 		};
 }

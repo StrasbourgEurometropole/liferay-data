@@ -1,0 +1,32 @@
+// Config, ne pas toucher
+.silencedSelect {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+}
+
+//Container
+.customSelectContain { 
+    position: relative;
+    &.focused{
+        .customSelect{            
+            outline: dotted 1px #D4D4D4;
+        }
+    }
+}
+
+// Select Field
+.customSelect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    outline:none;
+}
+
+

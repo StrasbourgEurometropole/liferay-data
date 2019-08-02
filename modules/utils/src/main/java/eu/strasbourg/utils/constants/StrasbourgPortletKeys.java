@@ -4,6 +4,7 @@ public class StrasbourgPortletKeys {
 	public static final String ACTIVITY_BO = "eu_strasbourg_portlet_activity_ActivityBOPortlet";
 	public static final String ACTIVITY_WEB = "eu_strasbourg_portlet_activity_ActivityPortlet";
 	public static final String ACTIVITY_SEARCH_WEB = "eu_strasbourg_portlet_activity_SearchActivityPortlet";
+	public static final String ASSOCIATION_SEARCH_WEB = "eu_strasbourg_portlet_association_SearchAssociationPortlet";
 
 	public static final String AGENDA_BO = "eu_strasbourg_portlet_agenda_AgendaBOPortlet";
 	public static final String AGENDA_WEB = "eu_strasbourg_portlet_agenda_AgendaPortlet";

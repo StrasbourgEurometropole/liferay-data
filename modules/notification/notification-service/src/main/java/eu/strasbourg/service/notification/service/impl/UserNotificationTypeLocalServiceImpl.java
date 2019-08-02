@@ -14,11 +14,12 @@
 
 package eu.strasbourg.service.notification.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.kernel.util.Validator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.base.UserNotificationTypeLocalServiceBaseImpl;
@@ -63,16 +64,20 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 		List<PublikUser> allUsers = PublikUserLocalServiceUtil.getPublikUsers(-1, -1);
 		List<PublikUser> usersSubscribedToType = new ArrayList<PublikUser>();
 		for (PublikUser user : allUsers) {
-			List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence.findByPublikUserId(user.getPublikId());
-			boolean userWantsNotification = true;
-			for (UserNotificationType userNotificationType : userNotificationTypes) {
-				if (userNotificationType.getTypeId() == typeId) {
-					userWantsNotification  = false;
-					break;
+			// On vérifie que le user a un publikId (car restriction en base)
+			// Cela permet d'excluer le User Anonyme qui n'a pas de PublikId
+			if(Validator.isNotNull(user.getPublikId())) {
+				List<UserNotificationType> userNotificationTypes = this.userNotificationTypePersistence.findByPublikUserId(user.getPublikId());
+				boolean userWantsNotification = true;
+				for (UserNotificationType userNotificationType : userNotificationTypes) {
+					if (userNotificationType.getTypeId() == typeId) {
+						userWantsNotification  = false;
+						break;
+					}
 				}
-			}
-			if (userWantsNotification) {
-				usersSubscribedToType.add(user);
+				if (userWantsNotification) {
+					usersSubscribedToType.add(user);
+				}
 			}
 		}
 		

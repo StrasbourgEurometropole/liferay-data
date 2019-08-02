@@ -192,3 +192,25 @@ img {
     resize: vertical;
     height: 20em;
 }
+
+.selected-place .choices__item span{
+    font-size: 16px;
+    font-weight: 400;
+    vertical-align: middle;
+}
+
+.selected-place .remove_place{
+    height: 32px;
+    background-size: 12px !important;
+}
+
+a.show-manual-place, a.show-autocomplete-place{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #65B6F0;
+}
+
+.importante{
+    color: red;
+    padding: 0 15px 15px 15px;
+}
