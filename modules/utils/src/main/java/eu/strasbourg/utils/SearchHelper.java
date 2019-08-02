@@ -24,7 +24,7 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
 	 */
 	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
-			String categoriesIds, String keywords, String sortField, boolean isSortDesc) {
+									   String categoriesIds, String keywords, String sortField, boolean isSortDesc) {
 		return SearchHelper.getBOSearchHits(searchContext, start, end, className, groupId, categoriesIds, keywords,
 				sortField, isSortDesc, BooleanClauseOccur.MUST);
 	}
@@ -33,8 +33,8 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour les portlets du BO
 	 */
 	public static Hits getBOSearchHits(SearchContext searchContext, int start, int end, String className, long groupId,
-			String categoriesIds, String keywords, String sortField, boolean isSortDesc,
-			BooleanClauseOccur categoriesBooleanClause) {
+									   String categoriesIds, String keywords, String sortField, boolean isSortDesc,
+									   BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
@@ -68,7 +68,7 @@ public class SearchHelper {
 	 * portlets du BO
 	 */
 	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
-			String categoriesIds, String keywords) {
+										String categoriesIds, String keywords) {
 		return SearchHelper.getBOSearchCount(searchContext, className, groupId, categoriesIds, keywords,
 				BooleanClauseOccur.MUST);
 	}
@@ -78,7 +78,7 @@ public class SearchHelper {
 	 * portlets du BO
 	 */
 	public static long getBOSearchCount(SearchContext searchContext, String className, long groupId,
-			String categoriesIds, String keywords, BooleanClauseOccur categoriesBooleanClause) {
+										String categoriesIds, String keywords, BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			Query query = SearchHelper.getBOSearchQuery(className, groupId, categoriesIds, keywords,
 					categoriesBooleanClause);
@@ -95,7 +95,7 @@ public class SearchHelper {
 	 * portlets du BO
 	 */
 	private static Query getBOSearchQuery(String className, long groupId, String categoriesIds, String keywords,
-			BooleanClauseOccur categoriesBooleanClause) {
+										  BooleanClauseOccur categoriesBooleanClause) {
 		try {
 			// Construction de la requète
 			BooleanQuery query = new BooleanQueryImpl();
@@ -199,9 +199,9 @@ public class SearchHelper {
 	 * @return Les hits renvoyés par le moteur de recherche
 	 */
 	public static Hits getGlobalSearchHits(SearchContext searchContext, String[] classNames, long groupId,
-			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
+										   long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+										   LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+										   String[] prefilterTagsNames, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
@@ -275,9 +275,9 @@ public class SearchHelper {
 	 * @return Les hits renvoyés par le moteur de recherche
 	 */
 	public static Hits getGlobalSearchHits(SearchContext searchContext, String[] classNames, long groupId,
-			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, boolean andOnTags, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
+										   long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+										   LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+										   String[] prefilterTagsNames, boolean andOnTags, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
@@ -357,9 +357,9 @@ public class SearchHelper {
 	 * @return Les hits renvoyés par le moteur de recherche
 	 */
 	public static Hits getGlobalSearchHits(SearchContext searchContext, String[] classNames, long groupId,
-			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, String idSIGPlace, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
+										   long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+										   LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+										   String[] prefilterTagsNames, String idSIGPlace, Locale locale, int start, int end, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
@@ -443,7 +443,7 @@ public class SearchHelper {
 										   long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
 										   LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
 										   String[] prefilterTagsNames, String idSIGPlace, boolean searchProcedure, Locale locale, int start,
-                                           int end, String sortField, boolean isSortDesc) {
+										   int end, String sortField, boolean isSortDesc) {
 		try {
 			// Pagination
 			searchContext.setStart(start);
@@ -462,11 +462,11 @@ public class SearchHelper {
 			} else {
 				searchContext.setSorts(sort);
 			}
-			
+
 			//DEBUG ONLY. Pour voir la requete envoyee a elastic search
 			//String queryS = IndexSearcherHelperUtil.getQueryString(searchContext, query);
 			//_log.error(queryS);
-			
+
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
 			_log.info("Recherche front-end : " + hits.getSearchTime() * 1000 + "ms");
@@ -483,9 +483,9 @@ public class SearchHelper {
 	 * moteurs de recherche globaux
 	 */
 	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
-			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, Locale locale) {
+											long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+											LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+											String[] prefilterTagsNames, Locale locale) {
 		try {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
@@ -504,9 +504,9 @@ public class SearchHelper {
 	 * moteurs de recherche globaux
 	 */
 	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
-			long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-			LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, boolean andOnTags, Locale locale) {
+											long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+											LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+											String[] prefilterTagsNames, boolean andOnTags, Locale locale) {
 		try {
 			// Query
 			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
@@ -519,54 +519,54 @@ public class SearchHelper {
 		}
 	}
 
-    /**
-     * Retourne le nombre de résultats correspondant aux paramètres pour les
-     * moteurs de recherche globaux contenant un filtre "Lieu" (Agenda)
-     */
-    public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
-                                            long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-                                            LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-                                            String[] prefilterTagsNames,String idSIGPlace, Locale locale) {
-        try {
-            // Query
-            Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
-                    dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-                    prefilterTagsNames,idSIGPlace, false, false, locale);
-            return IndexSearcherHelperUtil.searchCount(searchContext, query);
-        } catch (SearchException e) {
-            _log.error(e);
-            return 0;
-        }
-    }
+	/**
+	 * Retourne le nombre de résultats correspondant aux paramètres pour les
+	 * moteurs de recherche globaux contenant un filtre "Lieu" (Agenda)
+	 */
+	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
+											long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+											LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+											String[] prefilterTagsNames,String idSIGPlace, Locale locale) {
+		try {
+			// Query
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames,idSIGPlace, false, false, locale);
+			return IndexSearcherHelperUtil.searchCount(searchContext, query);
+		} catch (SearchException e) {
+			_log.error(e);
+			return 0;
+		}
+	}
 
-    /**
-     * Retourne le nombre de résultats correspondant aux paramètres pour les
-     * moteurs de recherche globaux contenant un filtre "Lieu" (Agenda) et les procédures
-     */
-    public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
-                                            long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
-                                            LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-                                            String[] prefilterTagsNames,String idSIGPlace, boolean searchProcedure, Locale locale) {
-        try {
-            // Query
-            Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
-                    dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
-                    prefilterTagsNames,idSIGPlace, searchProcedure, false, locale);
-            return IndexSearcherHelperUtil.searchCount(searchContext, query);
-        } catch (SearchException e) {
-            _log.error(e);
-            return 0;
-        }
-    }
+	/**
+	 * Retourne le nombre de résultats correspondant aux paramètres pour les
+	 * moteurs de recherche globaux contenant un filtre "Lieu" (Agenda) et les procédures
+	 */
+	public static long getGlobalSearchCount(SearchContext searchContext, String[] classNames, long groupId,
+											long globalGroupId, boolean globalScope, String keywords, boolean dateField, String dateFieldName,
+											LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+											String[] prefilterTagsNames,String idSIGPlace, boolean searchProcedure, Locale locale) {
+		try {
+			// Query
+			Query query = SearchHelper.getGlobalSearchQuery(classNames, groupId, globalGroupId, globalScope, keywords,
+					dateField, dateFieldName, fromDate, toDate, categoriesIds, prefilterCategoriesIds,
+					prefilterTagsNames,idSIGPlace, searchProcedure, false, locale);
+			return IndexSearcherHelperUtil.searchCount(searchContext, query);
+		} catch (SearchException e) {
+			_log.error(e);
+			return 0;
+		}
+	}
 
 	/**
 	 * Retourne la requête à exécuter correspondant aux paramètres pour les
 	 * moteurs de recherche globaux
 	 */
 	private static Query getGlobalSearchQuery(String[] classNames, long groupId, long globalGroupId,
-			boolean globalScope, String keywords, boolean dateField, String dateFieldName, LocalDate fromDate,
-			LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
-			String[] prefilterTagsNames, String placeSigId, boolean searchProcedure, boolean andOnTags, Locale locale) {
+											  boolean globalScope, String keywords, boolean dateField, String dateFieldName, LocalDate fromDate,
+											  LocalDate toDate, List<Long[]> categoriesIds, List<Long[]> prefilterCategoriesIds,
+											  String[] prefilterTagsNames, String placeSigId, boolean searchProcedure, boolean andOnTags, Locale locale) {
 		try {
 			// Construction de la requète
 			BooleanQuery superQuery = new BooleanQueryImpl();
@@ -772,7 +772,7 @@ public class SearchHelper {
 				query.add(query, BooleanClauseOccur.MUST);
 			}
 
-            // Si on veut les procédures/démarches, on rajoute la condition à la requête
+			// Si on veut les procédures/démarches, on rajoute la condition à la requête
 			if (searchProcedure) {
 				BooleanQuery procedureQuery = new BooleanQueryImpl();
 				procedureQuery.addRequiredTerm("type", "procedure");
@@ -854,7 +854,7 @@ public class SearchHelper {
 	 * lieux
 	 */
 	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
-			Locale locale) {
+													Locale locale) {
 		return getPlaceWebServiceSearchHits(className, categoriesIds, keywords,locale, true);
 	}
 
@@ -863,7 +863,7 @@ public class SearchHelper {
 	 * lieux
 	 */
 	public static Hits getPlaceWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
-			Locale locale, boolean isAndQuery) {
+													Locale locale, boolean isAndQuery) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
@@ -885,7 +885,7 @@ public class SearchHelper {
 	 * Retourne la requête pour le webservice des lieux
 	 */
 	private static Query getPlaceWebServiceQuery(String className, long[] categoriesIds, String keywords,
-			Locale locale, boolean isAndQuery) {
+												 Locale locale, boolean isAndQuery) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
@@ -935,7 +935,7 @@ public class SearchHelper {
 			return query;
 		} catch (
 
-		ParseException e) {
+				ParseException e) {
 			_log.error(e);
 			return null;
 		}

@@ -12,12 +12,15 @@
 				<action-key>ADD_ACTIVITY</action-key>
 				<action-key>ADD_ACTIVITY_COURSE</action-key>
 				<action-key>ADD_ACTIVITY_ORGANIZER</action-key>
+				<action-key>ADD_ASSOCIATION</action-key>
 				<action-key>DELETE_ACTIVITY</action-key>
 				<action-key>DELETE_ACTIVITY_COURSE</action-key>
 				<action-key>DELETE_ACTIVITY_ORGANIZER</action-key>
+				<action-key>DELETE_ASSOCIATION</action-key>
 				<action-key>EDIT_ACTIVITY</action-key>
 				<action-key>EDIT_ACTIVITY_COURSE</action-key>
 				<action-key>EDIT_ACTIVITY_ORGANIZER</action-key>
+				<action-key>EDIT_ASSOCIATION</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -30,12 +33,15 @@
 				<action-key>ADD_ACTIVITY</action-key>
 				<action-key>ADD_ACTIVITY_COURSE</action-key>
 				<action-key>ADD_ACTIVITY_ORGANIZER</action-key>
+				<action-key>ADD_ASSOCIATION</action-key>
 				<action-key>DELETE_ACTIVITY</action-key>
 				<action-key>DELETE_ACTIVITY_COURSE</action-key>
 				<action-key>DELETE_ACTIVITY_ORGANIZER</action-key>
+				<action-key>DELETE_ASSOCIATION</action-key>
 				<action-key>EDIT_ACTIVITY</action-key>
 				<action-key>EDIT_ACTIVITY_COURSE</action-key>
 				<action-key>EDIT_ACTIVITY_ORGANIZER</action-key>
+				<action-key>EDIT_ASSOCIATION</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
@@ -79,6 +85,25 @@
 	</model-resource>
 	<model-resource>
 		<model-name>eu.strasbourg.service.activity.model.ActivityOrganizer</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_activity_ActivityBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.activity.model.Association</model-name>
 		<portlet-ref>
 			<portlet-name>eu_strasbourg_portlet_activity_ActivityBOPortlet</portlet-name>
 		</portlet-ref>

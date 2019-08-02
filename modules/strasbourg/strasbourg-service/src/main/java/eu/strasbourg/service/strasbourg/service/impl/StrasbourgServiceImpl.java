@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticleDisplay;
@@ -28,6 +29,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.TextFormatter;
 
@@ -38,6 +40,7 @@ import eu.strasbourg.service.adict.Street;
 import eu.strasbourg.service.poi.PoiService;
 import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.PortletHelper;
 
@@ -263,5 +266,21 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	@Override
 	public void foldPortlet(String portletId) {
 		PortletHelper.foldPortlet(portletId);
+	}
+
+	@Override
+	public JSONArray getPracticeCategories(long parentCategoryId, String localeId) {
+		Locale locale = LocaleUtil.fromLanguageId(localeId);
+
+		// récupère les catégoies ayant pour parent parentCategoryId
+		List<AssetCategory> categories = AssetVocabularyHelper.getChild(parentCategoryId);
+		JSONArray result = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : categories) {
+			JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+			jsonCategory.put("title",category.getTitle(locale));
+			jsonCategory.put("id",category.getCategoryId());
+			result.put(jsonCategory);
+		}
+		return result;
 	}
 }
