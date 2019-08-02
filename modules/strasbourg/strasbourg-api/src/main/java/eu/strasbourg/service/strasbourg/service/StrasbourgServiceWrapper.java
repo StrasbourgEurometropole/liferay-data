@@ -39,6 +39,13 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
+		long parentCategoryId, java.lang.String localeId) {
+		return _strasbourgService.getPracticeCategories(parentCategoryId,
+			localeId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getAlerts() {
 		return _strasbourgService.getAlerts();
 	}

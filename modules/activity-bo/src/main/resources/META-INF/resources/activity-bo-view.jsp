@@ -15,6 +15,10 @@
 	<portlet:param name="tab" value="activityOrganizers" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL var="associationsURL">
+	<portlet:param name="tab" value="associations" />
+</liferay-portlet:renderURL>
+
 <liferay-portlet:renderURL varImpl="searchURL">
 	<portlet:param name="cmd" value="search" />
 	<portlet:param name="tab" value="${param.tab}" />
@@ -33,6 +37,9 @@
 
 		<aui:nav-item href="${activityOrganizersURL}" label="activity-organizers"
 			selected="${tab eq 'activityOrganizers'}" />
+
+		<aui:nav-item href="${associationsURL}" label="associations"
+			selected="${tab eq 'associations'}" />
 	</aui:nav>
 
 	<aui:nav-bar-search>
@@ -53,6 +60,10 @@
     </c:when>
     <c:when test="${tab eq 'activityOrganizers'}">
 		<liferay-util:include page="/activity-bo-view-organizers.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'associations'}">
+		<liferay-util:include page="/activity-bo-view-associations.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

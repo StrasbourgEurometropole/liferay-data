@@ -56,6 +56,14 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	}
 
 	/**
+	 * Retourne la catégorie passée en paramètre avec ses parents
+	 */
+	@Override
+	public List<AssetCategory> getCategoryWithAncestors(AssetCategory category) {
+		return AssetVocabularyHelper.getCategoryWithAncestors(category);
+	}
+
+	/**
 	 * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
 	 * donné
 	 */

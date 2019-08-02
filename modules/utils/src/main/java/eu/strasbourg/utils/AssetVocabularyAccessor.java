@@ -141,12 +141,44 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
-	
+
 	public AssetVocabulary getEventTypologies(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.OPS_TYPOLOGIE, groupID);
 		} catch (Exception e) {
 			return null;
-		}		
+		}
+	}
+
+	public AssetVocabulary getActivityCoursePublic(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.ACTIVITY_COURSE_PUBLIC, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getPractice(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PRACTICE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary gePracticePublic(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.PRACTICE_PUBLIC, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getAccessibility(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.ACCESSIBILITY, groupID);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
