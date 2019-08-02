@@ -5,6 +5,6 @@
 <c:if test="${isSignedIn}">
     <div style="border: solid red 5px; padding: 20px">
         <h1>Popups participer</h1>
-        <p>Formulaire : ${(popupTemplateId == 'filePetitionDisable') ? 'filePetition' : popupTemplateId}</p>
+        <p>Formulaire : <liferay-ui:message key="${popupTemplateId}" /></p>
     </div>
 </c:if>
