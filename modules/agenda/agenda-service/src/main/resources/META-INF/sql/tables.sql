@@ -129,7 +129,7 @@ create table agenda_Event (
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
 	publicationDate DATE null,
-	distribution VARCHAR(400) null,
+	distribution STRING null,
 	composer VARCHAR(400) null,
 	concertId VARCHAR(75) null,
 	program TEXT null,

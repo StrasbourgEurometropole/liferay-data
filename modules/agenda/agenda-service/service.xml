@@ -76,10 +76,10 @@
 		<column name="publicationDate" type="Date" />
 		
 		<!-- Infos du concert -->
-		<column name="distribution" type="String" />
+		<column name="distribution" type="String" localized="true"/>
 		<column name="composer" type="String" />
 		<column name="concertId" type="String" />
-		<column name="program" type="String" />
+		<column name="program" type="String" localized="true"/>
 		
 		<!-- Dates -->
 		<column name="firstStartDate" type="Date" />

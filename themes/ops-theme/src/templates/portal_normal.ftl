@@ -7,11 +7,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="twitter:card" content="summary" />
 	<meta property="og:type"               content="website" />
 	<meta property="og:locale"             content="fr_FR" />
-	<meta property="og:title"              content="Orchestre philharmonique de Strasbourg" />
-	<meta property="og:description"        content="Philharmonique de Strasbourg, Actualité : concert, billetterie, orchestre, choeur, actions éducatives, Euterpe, Les Clés de l'OPS." />
-	<meta property="og:image"              content="https://www.strasbourg.eu/documents/976405/1013671/Home-visuel-haut-de-page_europe.jpg/73d6f660-4800-c32d-741a-1a3834d0b468" />
+	<meta property="og:title"              content="${the_title_OG}" />
+	<meta property="og:description"        content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_description')}" />
+	<meta property="og:image"              content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}" />
 	
 	<@liferay_util["include"] page=top_head_include />
 
@@ -37,7 +38,6 @@
 
 
 <div id="ops-wrapper">
-
 	<#include "${full_templates_path}/nav_top.ftl" />
 
 	<main>

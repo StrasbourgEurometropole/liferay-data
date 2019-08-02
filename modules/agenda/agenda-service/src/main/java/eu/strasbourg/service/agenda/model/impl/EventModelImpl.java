@@ -195,7 +195,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution VARCHAR(400) null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,imageId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 	public static final String ORDER_BY_JPQL = " ORDER BY event.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_Event.modifiedDate DESC";
@@ -2434,8 +2434,95 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	@Override
+	public String getDistribution(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDistribution(languageId);
+	}
+
+	@Override
+	public String getDistribution(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDistribution(languageId, useDefault);
+	}
+
+	@Override
+	public String getDistribution(String languageId) {
+		return LocalizationUtil.getLocalization(getDistribution(), languageId);
+	}
+
+	@Override
+	public String getDistribution(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getDistribution(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getDistributionCurrentLanguageId() {
+		return _distributionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDistributionCurrentValue() {
+		Locale locale = getLocale(_distributionCurrentLanguageId);
+
+		return getDistribution(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDistributionMap() {
+		return LocalizationUtil.getLocalizationMap(getDistribution());
+	}
+
+	@Override
 	public void setDistribution(String distribution) {
 		_distribution = distribution;
+	}
+
+	@Override
+	public void setDistribution(String distribution, Locale locale) {
+		setDistribution(distribution, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDistribution(String distribution, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(distribution)) {
+			setDistribution(LocalizationUtil.updateLocalization(
+					getDistribution(), "Distribution", distribution,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setDistribution(LocalizationUtil.removeLocalization(
+					getDistribution(), "Distribution", languageId));
+		}
+	}
+
+	@Override
+	public void setDistributionCurrentLanguageId(String languageId) {
+		_distributionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDistributionMap(Map<Locale, String> distributionMap) {
+		setDistributionMap(distributionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDistributionMap(Map<Locale, String> distributionMap,
+		Locale defaultLocale) {
+		if (distributionMap == null) {
+			return;
+		}
+
+		setDistribution(LocalizationUtil.updateLocalization(distributionMap,
+				getDistribution(), "Distribution",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -2482,8 +2569,92 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	@Override
+	public String getProgram(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getProgram(languageId);
+	}
+
+	@Override
+	public String getProgram(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getProgram(languageId, useDefault);
+	}
+
+	@Override
+	public String getProgram(String languageId) {
+		return LocalizationUtil.getLocalization(getProgram(), languageId);
+	}
+
+	@Override
+	public String getProgram(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getProgram(), languageId,
+			useDefault);
+	}
+
+	@Override
+	public String getProgramCurrentLanguageId() {
+		return _programCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getProgramCurrentValue() {
+		Locale locale = getLocale(_programCurrentLanguageId);
+
+		return getProgram(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getProgramMap() {
+		return LocalizationUtil.getLocalizationMap(getProgram());
+	}
+
+	@Override
 	public void setProgram(String program) {
 		_program = program;
+	}
+
+	@Override
+	public void setProgram(String program, Locale locale) {
+		setProgram(program, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setProgram(String program, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(program)) {
+			setProgram(LocalizationUtil.updateLocalization(getProgram(),
+					"Program", program, languageId, defaultLanguageId));
+		}
+		else {
+			setProgram(LocalizationUtil.removeLocalization(getProgram(),
+					"Program", languageId));
+		}
+	}
+
+	@Override
+	public void setProgramCurrentLanguageId(String languageId) {
+		_programCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setProgramMap(Map<Locale, String> programMap) {
+		setProgramMap(programMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setProgramMap(Map<Locale, String> programMap,
+		Locale defaultLocale) {
+		if (programMap == null) {
+			return;
+		}
+
+		setProgram(LocalizationUtil.updateLocalization(programMap,
+				getProgram(), "Program", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -2746,6 +2917,28 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			}
 		}
 
+		Map<Locale, String> distributionMap = getDistributionMap();
+
+		for (Map.Entry<Locale, String> entry : distributionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> programMap = getProgramMap();
+
+		for (Map.Entry<Locale, String> entry : programMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -2878,6 +3071,26 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		else {
 			setBookingDescription(getBookingDescription(defaultLocale),
 				defaultLocale, defaultLocale);
+		}
+
+		String distribution = getDistribution(defaultLocale);
+
+		if (Validator.isNull(distribution)) {
+			setDistribution(getDistribution(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setDistribution(getDistribution(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String program = getProgram(defaultLocale);
+
+		if (Validator.isNull(program)) {
+			setProgram(getProgram(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setProgram(getProgram(defaultLocale), defaultLocale, defaultLocale);
 		}
 	}
 
@@ -3824,9 +4037,11 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private Date _publicationDate;
 	private Date _originalPublicationDate;
 	private String _distribution;
+	private String _distributionCurrentLanguageId;
 	private String _composer;
 	private String _concertId;
 	private String _program;
+	private String _programCurrentLanguageId;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
 	private Date _originalLastEndDate;
