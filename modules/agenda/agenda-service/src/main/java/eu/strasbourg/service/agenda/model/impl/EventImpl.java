@@ -1163,7 +1163,7 @@ public class EventImpl extends EventBaseImpl {
 			// Mise a jour du format de date pour simplifier la passation en javascript
 			String date = "";
 			if (session.getSessionDate() != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+				SimpleDateFormat sdf = new SimpleDateFormat("EE MMM d y H:m:s ZZZ", Locale.US);
 				date = sdf.format(session.getSessionDate());
 			}
 			
