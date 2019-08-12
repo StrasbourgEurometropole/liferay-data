@@ -57,9 +57,9 @@
                 <div class="widget subSubSpeciality" <c:if test="${empty param.subSpeciality || empty subSubSpecialities}">style="display: none;" </c:if>>
                     <div class="title content">
                         <aui:select cssClass="toCustomSelect subSubSpecialities" id="subSubSpeciality" name="subSubSpeciality" label="sub-speciality">
-                            <aui:option value="${subSubSpecialities}" disabled="disabled" />
+                            <aui:option value="" disabled="disabled" />
                             <c:if test="${param.subSpeciality != null}">
-                                <c:forEach items="" var="category">
+                                 <c:forEach items="${subSubSpecialities}" var="category">
                                     <c:set var="category" value="${category}" scope="request" />
                                     <c:set var="level" value="0" scope="request" />
                                     <jsp:include page="/includes/category-option.jsp" />
@@ -109,7 +109,7 @@
             </div>
 		</aui:form>
 
-		<!-- Nombre de résultats et items par page -->
+		<!-- Nombre de rÃ©sultats et items par page -->
         <div class="seu-view-results">
             <div class="seu-result-count">${dc.searchContainer.total}
             	<c:choose>
@@ -134,7 +134,7 @@
         </div>
 
 		<aui:form method="post" name="fm">
-			<!-- Résultats -->
+			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
 				<ul id="seu-grid--list01">
@@ -164,7 +164,7 @@
 				<!-- Pagination -->
 				<c:if test="${dc.pager.lastPage > 1}">
 		            <ul class="seu-pagination unstyled">
-		            	<!-- Page précédente -->
+		            	<!-- Page prÃ©cÃ©dente -->
 		                <li class="seu-pagin-prev disabled seu-pagin-item">
 							<c:if test="${not dc.pager.onFirstPage}">
 			                    <a class="seu-btn-square seu-bordered seu-core" data-action="prev" title="<liferay-ui:message key="previous" />"
