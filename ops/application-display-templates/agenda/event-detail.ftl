@@ -173,7 +173,7 @@
                     var session = json[i];
 
                     // Date de concert
-                    var concertDate = new Date(session.sessionDate);
+                    var concertDate = new Date(Date.parse(session.sessionDate));
 
                     // Elements
                     var cssClass = "ops-item-concert-complet";
