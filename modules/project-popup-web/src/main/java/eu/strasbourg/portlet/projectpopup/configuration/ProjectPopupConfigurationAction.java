@@ -46,6 +46,11 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
             String popupTemplateId = ParamUtil.getString(request,"popupTemplateId");
             request.setAttribute("popupTemplateId",popupTemplateId);
             setPreference(request,"popupTemplateId",popupTemplateId);
+
+            // Popup désactivée
+            Boolean disable = ParamUtil.getBoolean(request,"disable");
+            request.setAttribute("disable",disable);
+            setPreference(request,"disable",String.valueOf(disable));
         }
         super.processAction(portletConfig, request, response);
     }
@@ -63,6 +68,10 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
             // Popup à afficher
             String popupTemplateId = configuration.popupTemplateId();
             request.setAttribute("popupTemplateId",popupTemplateId);
+
+            // Popup désactivée
+            boolean disable = configuration.disable();
+            request.setAttribute("disable",disable);
         }catch(Exception e){
             _log.error(e);
         }

@@ -84,8 +84,9 @@ public class DashboardPortlet extends MVCPortlet {
             LayoutHelperImpl lh = new LayoutHelperImpl();
             if(userConnected.isNull("photo"))
             	userConnected.put("photo", GlobalConstants.DEFAULT_PLACIT_USER_IMAGE_URL);
-            
+
             request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
+            request.setAttribute("isDisplayListing", user.getPactDisplay());
             request.setAttribute("isUserloggedIn", true);
             request.setAttribute("userConnected",userConnected);
             request.setAttribute("profilePictureURL",lh.getPublikIssuerURL() + "/accounts/edit/photo/");

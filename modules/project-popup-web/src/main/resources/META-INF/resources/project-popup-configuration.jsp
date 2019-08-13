@@ -49,6 +49,13 @@
 				</aui:select>
 			</aui:fieldset>
 
+			<!-- Désactivation de la popup -->
+			<aui:fieldset collapsed="true" collapsible="true"
+				label="disabling">
+
+                <aui:input type="checkbox" name="disable" value="${disable}" label="disable" />
+			</aui:fieldset>
+
 		</aui:fieldset-group>
 
 		<aui:button-row>
