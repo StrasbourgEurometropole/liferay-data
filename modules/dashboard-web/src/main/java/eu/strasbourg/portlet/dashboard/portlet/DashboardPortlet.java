@@ -73,7 +73,7 @@ public class DashboardPortlet extends MVCPortlet {
 
     	// Récupération du group du site Participer
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        Group group = GroupLocalServiceUtil.fetchGroup(themeDisplay.getCompanyId(), StrasbourgPropsUtil.getParticperName());
+        Group group = GroupLocalServiceUtil.fetchGroup(themeDisplay.getCompanyId(), StrasbourgPropsUtil.getParticiperName());
         long participerGroupId = group.getGroupId();
     	
         String publikId = DashBoardUtils.getPublikID(request);
