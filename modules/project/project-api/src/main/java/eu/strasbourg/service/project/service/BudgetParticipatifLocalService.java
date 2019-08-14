@@ -270,6 +270,11 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	public List<BudgetParticipatif> findActiveBPByGroupId(long groupId);
+
+	/**
 	* Recherche par mot clés
 	*/
 	public List<BudgetParticipatif> findByKeyword(java.lang.String keyword,

@@ -299,6 +299,14 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findActiveBPByGroupId(
+		long groupId) {
+		return getService().findActiveBPByGroupId(groupId);
+	}
+
+	/**
 	* Recherche par mot clés
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findByKeyword(

@@ -317,6 +317,15 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findActiveBPByGroupId(
+		long groupId) {
+		return _budgetParticipatifLocalService.findActiveBPByGroupId(groupId);
+	}
+
+	/**
 	* Recherche par mot clés
 	*/
 	@Override

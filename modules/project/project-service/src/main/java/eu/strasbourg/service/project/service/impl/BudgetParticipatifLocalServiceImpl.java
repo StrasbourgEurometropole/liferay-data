@@ -271,6 +271,14 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 		return this.budgetParticipatifPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
 	
+	
+	 /**
+	 * Retourne tous les budgets participatifs publies d'un groupe
+	 */
+	public List<BudgetParticipatif> findActiveBPByGroupId(long groupId) {
+		    return budgetParticipatifFinder.findByStatusAndActivePhaseAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+		}
+	
 	 /**
      * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
      *
