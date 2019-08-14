@@ -24,6 +24,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the BudgetPhase service. Represents a row in the &quot;project_BudgetPhase&quot; database table, with each column mapped to a property of this class.
@@ -67,6 +68,20 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 	}
 	
 	/**
+	 * Retourne la categorie "Phase du budget participatif" de la phase
+	 */
+	@Override
+	public AssetCategory getPhaseCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+	
+	/**
 	 * Renvoie si la phase est en période de dépot
 	 */
 	@Override
@@ -80,6 +95,8 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 			return false;
 		}
 	}
+	
+	
 	
 	/**
 	 * Renvoie si la phase est en période de vote

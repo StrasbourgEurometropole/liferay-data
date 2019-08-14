@@ -183,9 +183,14 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 
         // Si la phase n'est pas definie, definir celle qui est active (si elle existe)
         if (budget.getBudgetPhaseId() < 1) {
-            List<BudgetPhase> budgetPhaseActive = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, groupId);
-            if (budgetPhaseActive.size() > 0) {
-                budget.setBudgetPhaseId(budgetPhaseActive.get(0).getBudgetPhaseId());
+        	
+            BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+            if (budgetPhaseActive != null) {
+                budget.setBudgetPhaseId(budgetPhaseActive.getBudgetPhaseId());
+                AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+                //Affecte la categorie "Phase du budget participatif" de la phase active au BP
+                //La categorie est ajoutee dans le service context car le BP n'est pas encore cree
+            	sc.setAssetCategoryIds(new long[] {phaseCat.getCategoryId()});
             }
         }
 

@@ -66,6 +66,11 @@ public interface BudgetPhase extends BudgetPhaseModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	/**
+	* Retourne la categorie "Phase du budget participatif" de la phase
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory();
+
+	/**
 	* Renvoie si la phase est en période de dépot
 	*/
 	public boolean isInDepositPeriod();

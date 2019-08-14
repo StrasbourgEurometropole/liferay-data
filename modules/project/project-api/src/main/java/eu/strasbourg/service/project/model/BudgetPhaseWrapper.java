@@ -339,6 +339,14 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Retourne la categorie "Phase du budget participatif" de la phase
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory() {
+		return _budgetPhase.getPhaseCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
