@@ -475,11 +475,19 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne les catégories 'Statut BP' du budget participatif
+	* Retourne la catégorie 'Statut BP' du budget participatif
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory() {
 		return _budgetParticipatif.getBudgetParticipatifStatusCategory();
+	}
+
+	/**
+	* Retourne la catégorie 'Phase du budget participatif' du budget participatif
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory() {
+		return _budgetParticipatif.getPhaseCategory();
 	}
 
 	/**

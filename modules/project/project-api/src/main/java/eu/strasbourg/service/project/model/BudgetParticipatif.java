@@ -77,12 +77,17 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne les catégories 'Statut BP' du budget participatif
+	* Retourne la catégorie 'Statut BP' du budget participatif
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory();
 
 	public java.lang.String getBudgetParticipatifStatusTitle(
 		java.util.Locale locale);
+
+	/**
+	* Retourne la catégorie 'Phase du budget participatif' du budget participatif
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory();
 
 	/**
 	* Retourne la liste des lieux placit liés

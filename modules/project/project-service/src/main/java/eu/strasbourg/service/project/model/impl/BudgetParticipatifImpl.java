@@ -138,7 +138,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
     
     /**
-     * Retourne les catégories 'Statut BP' du budget participatif
+     * Retourne la catégorie 'Statut BP' du budget participatif
      */
     @Override
     public AssetCategory getBudgetParticipatifStatusCategory() {
@@ -151,6 +151,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
     }
     
+    
+    
     @Override
     public String getBudgetParticipatifStatusTitle(Locale locale) {
         AssetCategory budgetParticipatifStatusCategory = this.getBudgetParticipatifStatusCategory();
@@ -158,6 +160,20 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         	return budgetParticipatifStatusCategory.getTitle(locale);
         } else {
         	return "";
+        }
+    }
+    
+    /**
+     * Retourne la catégorie 'Phase du budget participatif' du budget participatif
+     */
+    @Override
+    public AssetCategory getPhaseCategory() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
         }
     }
 
@@ -540,6 +556,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 				thematiqueQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
 			}
 			mainQuery.add(thematiqueQuery, BooleanClauseOccur.MUST);
+			
+			//La même phase
+			mainQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getPhaseCategory().getCategoryId()));
 			
 			//Le même projet
 			if(this.getProjectCategory() != null) {
