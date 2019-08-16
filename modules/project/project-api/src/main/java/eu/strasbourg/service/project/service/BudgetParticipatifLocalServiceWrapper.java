@@ -424,8 +424,10 @@ public class BudgetParticipatifLocalServiceWrapper
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostCommented(
-		long groupId, int delta) {
-		return _budgetParticipatifLocalService.getMostCommented(groupId, delta);
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
+		return _budgetParticipatifLocalService.getMostCommented(groupId, delta,
+			phase);
 	}
 
 	/**
@@ -437,8 +439,10 @@ public class BudgetParticipatifLocalServiceWrapper
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostSupported(
-		long groupId, int delta) {
-		return _budgetParticipatifLocalService.getMostSupported(groupId, delta);
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
+		return _budgetParticipatifLocalService.getMostSupported(groupId, delta,
+			phase);
 	}
 
 	/**
@@ -473,8 +477,10 @@ public class BudgetParticipatifLocalServiceWrapper
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getRecentIsCrushed(
-		long groupId, int delta) {
-		return _budgetParticipatifLocalService.getRecentIsCrushed(groupId, delta);
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
+		return _budgetParticipatifLocalService.getRecentIsCrushed(groupId,
+			delta, phase);
 	}
 
 	/**
@@ -485,8 +491,9 @@ public class BudgetParticipatifLocalServiceWrapper
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbComments(
-		long groupId) {
-		return _budgetParticipatifLocalService.getSortedByNbComments(groupId);
+		long groupId, com.liferay.asset.kernel.model.AssetCategory phase) {
+		return _budgetParticipatifLocalService.getSortedByNbComments(groupId,
+			phase);
 	}
 
 	/**
@@ -497,8 +504,9 @@ public class BudgetParticipatifLocalServiceWrapper
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbSupports(
-		long groupId) {
-		return _budgetParticipatifLocalService.getSortedByNbSupports(groupId);
+		long groupId, com.liferay.asset.kernel.model.AssetCategory phase) {
+		return _budgetParticipatifLocalService.getSortedByNbSupports(groupId,
+			phase);
 	}
 
 	/**
