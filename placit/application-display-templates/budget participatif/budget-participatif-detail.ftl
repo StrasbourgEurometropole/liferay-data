@@ -181,19 +181,16 @@
                                 <p><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</p>
                             </#if>
 
-                            <#if entry.isNotDoable()>
-                                Ce projet a été étudié et déclaré "${statusBP}"
-                            <#else>
-                                <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> vote(s) pour ce projet</p>
-                            </#if>
+                            ${entry.getBPMessageState(request)}
 
                             <#if isVotable> <#-- Est votable -->
+                                <#assign nbSupportForActivePhase = entry.getPhase().getNumberOfVote()>
                                 <#if isUserloggedIn && hasUserPactSign && !isUserBanned> <#-- Utilisateur connecté et ayant signé le pacte -->
                                     <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
                                     <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
                                     
-                                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
+                                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${nbSupportForActivePhase - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
                                     <a href="#RemoveSupport" class="pro-btn-yellow">
                                         Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                                     </a>
@@ -201,7 +198,7 @@
                                     <script>
                                         $(document).ready(function() {
                                             // Cacher le bouton de vote si l'utilisateur a déjà utilisé les siens
-                                            if (${nbSupportOfUserForActivePhase} >= 5) {
+                                            if (${nbSupportOfUserForActivePhase} >= ${nbSupportForActivePhase}) {
                                                 $("[href='#Support']").hide();
                                             }
                                             // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
@@ -212,18 +209,13 @@
                                     </script>
 
                                 <#elseif isUserBanned> <#--  -->
-                                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                                 <#else> <#--  -->
-                                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                                    <p class="pro-txt-vote">Il vous reste <strong>5</strong> possibilités de voter pour un projet</p>
+                                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong>${nbSupportForActivePhase}</strong> possibilités de voter pour un projet</p>
                                 </#if>
-
-							<#elseif !entry.isVotable() && !entry.isNotDoable()>
-                                <a href="#" class="pro-btn-yellow">Vote terminé</a>
-                            <#elseif entry.hasBeenVoted() && !entry.isNotDoable()>
-                                <a href="#" class="pro-btn-yellow">Projet déjà évalué</a>
-                            <#elseif !entry.isNotDoable()>
-                                <a href="#" class="pro-btn-yellow">Vote bientôt disponible</a>
+							<#else>
+                                <a href="#" class="pro-btn-yellow" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
                             </#if>
                             
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
@@ -346,6 +338,8 @@
         if (markersCluster.getBounds().isValid()) {
             leafletMap.fitBounds(markersCluster.getBounds());
         }
+
+        $("#voteButton:empty").hide(); 
 
     });
 </script>
