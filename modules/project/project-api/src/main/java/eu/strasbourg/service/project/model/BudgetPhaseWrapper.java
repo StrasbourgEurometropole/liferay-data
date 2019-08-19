@@ -364,6 +364,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 		return _budgetPhase.toCacheModel();
 	}
 
+	/**
+	* La l'etat de la phase
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.project.constants.PhaseState getPhaseState() {
+		return _budgetPhase.getPhaseState();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.BudgetPhase toEscapedModel() {
 		return new BudgetPhaseWrapper(_budgetPhase.toEscapedModel());

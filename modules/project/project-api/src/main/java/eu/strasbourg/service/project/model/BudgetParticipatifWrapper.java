@@ -535,6 +535,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getAuthorPublikUser();
 	}
 
+	/**
+	* Retourne le statut (Enumeration) du budget participatif
+	*/
+	@Override
+	public eu.strasbourg.service.project.constants.ParticiperCategories getBudgetParticipatifStatus() {
+		return _budgetParticipatif.getBudgetParticipatifStatus();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif toEscapedModel() {
 		return new BudgetParticipatifWrapper(_budgetParticipatif.toEscapedModel());
@@ -554,6 +562,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	public int compareTo(
 		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif) {
 		return _budgetParticipatif.compareTo(budgetParticipatif);
+	}
+
+	@Override
+	public int getBPState() {
+		return _budgetParticipatif.getBPState();
 	}
 
 	/**
@@ -624,6 +637,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getAuthorImageURL() {
 		return _budgetParticipatif.getAuthorImageURL();
+	}
+
+	@Override
+	public java.lang.String getBPMessageState(
+		javax.servlet.http.HttpServletRequest request) {
+		return _budgetParticipatif.getBPMessageState(request);
 	}
 
 	/**

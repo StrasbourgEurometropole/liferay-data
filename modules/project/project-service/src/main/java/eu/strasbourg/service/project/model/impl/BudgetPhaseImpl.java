@@ -22,6 +22,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.project.constants.PhaseState;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -148,6 +149,36 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 		}	
 	}
 	
-	
+	/**
+	 * La l'etat de la phase
+	 * @return
+	 */
+	@Override
+	public PhaseState getPhaseState() {
+		
+		if (this.getIsActive()) {
+			// Date du jour
+			Date dateNow = new Date();
+			
+			// Avant la periode de depot
+			if (dateNow.compareTo(this.getBeginDate()) <= 0) 
+				return PhaseState.BEFORE_BEGIN_DEPOSIT;
+			// Avant la date de fin de depot
+			else if (dateNow.compareTo(this.getEndDate()) <= 0) 
+				return PhaseState.BEFORE_END_DEPOSIT;
+			// Avant la periode de vote
+			else if (dateNow.compareTo(this.getBeginVoteDate()) <= 0) 
+				return PhaseState.BEFORE_BEGIN_VOTE;
+			// Avant la date de fin de vote
+			else if (dateNow.compareTo(this.getEndVoteDate()) <= 0) 
+				return PhaseState.BEFORE_END_VOTE;
+			// Apres l'ensemble des periodes
+			else 
+				return PhaseState.AFTER_VOTE;
+			
+		} else 
+			return PhaseState.NOT_ACTIVE;
+		
+	}
 	
 }

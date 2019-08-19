@@ -81,6 +81,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory();
 
+	/**
+	* Retourne le statut (Enumeration) du budget participatif
+	*/
+	public eu.strasbourg.service.project.constants.ParticiperCategories getBudgetParticipatifStatus();
+
 	public java.lang.String getBudgetParticipatifStatusTitle(
 		java.util.Locale locale);
 
@@ -246,4 +251,9 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserId);
+
+	public java.lang.String getBPMessageState(
+		javax.servlet.http.HttpServletRequest request);
+
+	public int getBPState();
 }

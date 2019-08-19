@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
@@ -23,6 +24,7 @@ import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NO
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -65,6 +68,7 @@ import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
+import eu.strasbourg.service.project.constants.PhaseState;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
@@ -151,7 +155,42 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
     }
     
-    
+    /**
+     * Retourne le statut (Enumeration) du budget participatif
+     */
+    @Override
+    public ParticiperCategories getBudgetParticipatifStatus() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+    	
+        if (assetCategories.size() > 0) {
+        	
+        	AssetCategory category = assetCategories.get(0);
+        	
+        	if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_LAUREAT.getName()))
+    			return BP_LAUREAT;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_REALIZED.getName()))
+        		return BP_REALIZED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()))
+        		return BP_NON_ACCEPTABLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()))
+        		return BP_NON_SELECTED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()))
+        		return BP_NON_FEASIBLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_SUBMITTED.getName()))
+        		return BP_SUBMITTED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_SUSPENDED.getName()))
+        		return BP_SUSPENDED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_CANCELLED.getName()))
+        		return BP_CANCELLED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
+        		return BP_FEASIBLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_ACCEPTABLE.getName()))
+        		return BP_ACCEPTABLE;
+        	
+        } 
+        	
+        return null;
+    }
     
     @Override
     public String getBudgetParticipatifStatusTitle(Locale locale) {
@@ -303,17 +342,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public boolean hasBeenVoted() {
-		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
 		
-		if (BPStatus != null) {
-			if (StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_IN_PROGRESS.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_SUSPENDED.getName())
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_CANCELLED.getName())) 
+		ParticiperCategories status = getBudgetParticipatifStatus();
+		
+		if (status != null) {
+			if (status == BP_LAUREAT || status == BP_REALIZED || status == BP_NON_ACCEPTABLE || status == BP_NON_SELECTED || status == BP_NON_FEASIBLE
+					|| status == BP_IN_PROGRESS || status == BP_SUSPENDED || status == BP_CANCELLED)
 				return true;
 		}
 		return false;
@@ -638,6 +672,225 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
 
         return jsonBudget;
+    }
+    
+    @Override
+    public String getBPMessageState(HttpServletRequest request) {
+    	switch (getBPState()) {
+		case 3:
+		case 4:
+		case 9:
+		case 10:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.analyse.in.progress");
+		case 7:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended");
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.acceptable");
+		case 19:
+		case 23:
+		case 24:
+			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes");
+		case 25:
+		case 28:
+		case 29:
+		case 30:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible");
+		case 31:
+		case 36:
+			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat");
+		case 37:
+		case 42:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected");
+		case 43:
+		case 48:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled");
+		case 49:
+		case 54:
+			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized");
+		case 55:
+		case 60:
+			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended");
+		default:
+			return "";
+		}
+    }
+    
+    @Override
+    public int getBPState() {
+    	int result = 0;
+    	
+    	//Récupération du Statut du bp en cours
+    	ParticiperCategories status = getBudgetParticipatifStatus();
+    	//Récupération de la période du bp en cours
+    	PhaseState phaseState = this.getPhase().getPhaseState();
+    	
+    	
+    	//Statut déposé
+    	if(status == ParticiperCategories.BP_SUBMITTED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 1;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 2;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 3;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 4;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 5;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 6;
+    	}
+    	
+    	//Statut recevable
+    	else if(status == ParticiperCategories.BP_ACCEPTABLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 7;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 8;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 9;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 10;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 11;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 12;
+    	}
+    	
+    	//Statut non recevable
+    	else if(status == ParticiperCategories.BP_NON_ACCEPTABLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 13;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 14;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 15;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 16;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 17;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 18;
+    	}
+    	
+    	//Statut faisable
+    	else if(status == ParticiperCategories.BP_FEASIBLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 19;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 20;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 21;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 22;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 23;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 24;
+    	}
+    	
+    	//Statut non faisable
+    	else if(status == ParticiperCategories.BP_NON_FEASIBLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 25;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 26;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 27;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 28;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 29;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 30;
+    	}
+    	
+    	//Statut lauréat
+    	else if(status == ParticiperCategories.BP_LAUREAT) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 31;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 32;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 33;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 34;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 35;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 36;
+    	}
+    	
+    	//Statut non retenu
+    	else if(status == ParticiperCategories.BP_NON_SELECTED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 37;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 38;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 39;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 40;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 41;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 42;
+    	}
+    	
+    	//Statut annulé
+    	else if(status == ParticiperCategories.BP_CANCELLED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 43;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 44;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 45;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 46;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 47;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 48;
+    	}
+    	
+    	//Statut réalisé
+    	else if(status == ParticiperCategories.BP_REALIZED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 49;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 50;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 51;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 52;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 53;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 54;
+    	}
+    	
+    	//Statut suspendu
+    	else if(status == ParticiperCategories.BP_SUSPENDED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 55;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 56;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 57;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 58;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 59;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 60;
+    	}
+    	
+    	return result;
     }
 
 }

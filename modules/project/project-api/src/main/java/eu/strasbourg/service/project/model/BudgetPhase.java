@@ -85,4 +85,11 @@ public interface BudgetPhase extends BudgetPhaseModel, PersistedModel {
 	* peridode de la phase en cours
 	*/
 	public java.lang.String getLivePeriodLabel();
+
+	/**
+	* La l'etat de la phase
+	*
+	* @return
+	*/
+	public eu.strasbourg.service.project.constants.PhaseState getPhaseState();
 }
