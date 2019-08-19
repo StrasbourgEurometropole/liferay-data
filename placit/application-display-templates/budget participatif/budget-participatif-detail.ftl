@@ -6,6 +6,7 @@
 <#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
@@ -43,6 +44,20 @@
 <#assign imageURL = entry.getImageURL() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+
+<#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
+<#assign assets = AssetEntryService.getAssetCategoryAssetEntries(entry.getPhaseCategory().getCategoryId())  />
+
+<#-- Récupération de la page de listing de BP qui correspond au BP affiché. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
+<#list assets as ass>
+    <#if ass.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(ass.getClassPK())/>
+        <#assign pageListing = abc.getFriendlyURL()/>
+        <#break>
+    </#if>
+
+</#list>
 
 <@liferay_util["html-top"]>
     <meta property="og:url" content="${currentUrl}" />
@@ -99,7 +114,9 @@
                     <span>
                         <span>
                             <a href="${homeURL}">Accueil</a>
-                            <a href="${homeURL}projets-budget-participatif">Listings des projets</a>
+                            <#if pageListing??>
+                                <a href="${homeURL2}${pageListing}">Listings des projets</a>
+                            </#if>
                             <span class="breadcrumb_last">${entry.title}</span>
                         </span>
                     </span>
