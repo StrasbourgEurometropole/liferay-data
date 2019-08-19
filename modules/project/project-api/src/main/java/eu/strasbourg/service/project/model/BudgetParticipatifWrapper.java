@@ -645,6 +645,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getBPMessageState(request);
 	}
 
+	@Override
+	public java.lang.String getBPbuttonMessageState(
+		javax.servlet.http.HttpServletRequest request) {
+		return _budgetParticipatif.getBPbuttonMessageState(request);
+	}
+
 	/**
 	* Returns the budget of this budget participatif.
 	*

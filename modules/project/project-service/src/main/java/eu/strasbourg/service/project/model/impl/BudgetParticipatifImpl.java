@@ -342,15 +342,16 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public boolean hasBeenVoted() {
-		
-		ParticiperCategories status = getBudgetParticipatifStatus();
-		
-		if (status != null) {
-			if (status == BP_LAUREAT || status == BP_REALIZED || status == BP_NON_ACCEPTABLE || status == BP_NON_SELECTED || status == BP_NON_FEASIBLE
-					|| status == BP_IN_PROGRESS || status == BP_SUSPENDED || status == BP_CANCELLED)
-				return true;
-		}
-		return false;
+		return Stream.of(
+				BP_LAUREAT,
+				BP_REALIZED,
+				BP_NON_ACCEPTABLE,	               		
+				BP_NON_SELECTED,
+				BP_NON_FEASIBLE,
+				BP_IN_PROGRESS,
+				BP_SUSPENDED,
+				BP_CANCELLED
+	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
 	}
 	
 	/**
@@ -358,15 +359,13 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public boolean isVotable() {
-		BudgetPhase budgetPhase = this.getPhase();
-		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
-		
-		if (budgetPhase != null && BPStatus != null) {
-			if (budgetPhase.isInVotingPeriod() 
-					&& StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
-				return true;
+		switch (getBPState()) {
+		case 23:
+			return true;
+		default:
+			return false;
 		}
-		return false;
+		
 	}
 	
 	/**
@@ -375,13 +374,25 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	@Override
 	public boolean isNotDoable() {
 		return Stream.of(
-	    		ParticiperCategories.BP_NON_ACCEPTABLE.getName(),
-	    		ParticiperCategories.BP_NON_FEASIBLE.getName(),
-	    		ParticiperCategories.BP_NON_SELECTED.getName(),	               		
-	    		ParticiperCategories.BP_CANCELLED.getName(),
-	    		ParticiperCategories.BP_SUSPENDED.getName()
-	    		).anyMatch(x -> StringHelper.compareIgnoringAccentuation(x, this.getBudgetParticipatifStatusCategory().getName()));
+	    		BP_NON_ACCEPTABLE,
+	    		BP_NON_FEASIBLE,
+	    		BP_NON_SELECTED,	               		
+	    		BP_CANCELLED,
+	    		BP_SUSPENDED
+	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
 	}
+	
+	/**
+     * Le budget a-t-il ete evalue par l'administration ?
+     * @note : doit alors posseder l'un des statuts adequat
+     */
+    @Override
+    public boolean hasBeenEvaluated() {
+        return Stream.of(
+        		BP_NON_FEASIBLE,
+        		BP_FEASIBLE
+	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
+    }
     
 	@Override
 	public int getPriorityOrder() {
@@ -437,19 +448,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
     }
     
-    /**
-     * Le budget a-t-il ete evalue par l'administration ?
-     * @note : doit alors posseder l'un des statuts adequat
-     */
-    @Override
-    public boolean hasBeenEvaluated() {
-        AssetCategory bpStatus = this.getBudgetParticipatifStatusCategory();
-        if (StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_NON_FEASIBLE.getName()) 
-        		|| StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_FEASIBLE.getName())) {
-        	return true;
-        }
-        return false;
-    }
     
     /**
 	 * Retourne les commentaires de l'entité
@@ -501,12 +499,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public int getNbSupportOfUserInActivePhase(String publikUserId) {
-		List<BudgetPhase> activePhases = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, this.getGroupId());
+		BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(this.getGroupId());
 		
-		if (activePhases.size() > 0) {
+		if (activePhase != null) {
 			return BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
 						publikUserId,
-						activePhases.get(0).getBudgetPhaseId()
+						activePhase.getBudgetPhaseId()
 					);
 		}
 		
@@ -681,45 +679,76 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 4:
 		case 9:
 		case 10:
-			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.analyse.in.progress");
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.analyse.in.progress") + "</p>";
 		case 7:
-			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended");
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended") + "</p>";
 		case 13:
 		case 14:
 		case 15:
 		case 16:
 		case 17:
 		case 18:
-			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.acceptable");
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.acceptable") + "</p>";
 		case 19:
 		case 23:
 		case 24:
-			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes");
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>";
 		case 25:
 		case 28:
 		case 29:
 		case 30:
-			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible");
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible") + "</p>";
 		case 31:
 		case 36:
-			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat");
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</p>";
 		case 37:
 		case 42:
-			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected");
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected") + "</p>";
 		case 43:
 		case 48:
-			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled");
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled") + "</p>";
 		case 49:
 		case 54:
-			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized");
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</p>";
 		case 55:
 		case 60:
-			return this.getNbSupports() + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended");
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</p>";
 		default:
 			return "";
 		}
     }
     
+    @Override
+    public String getBPbuttonMessageState(HttpServletRequest request) {
+    	switch (getBPState()) {
+		case 7:
+		case 19:
+		case 24:
+		case 31:
+		case 36:
+		case 37:
+		case 42:
+		case 49:
+		case 54:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended");
+		case 23:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote");
+		case 22:
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.from") + " " + sdf.format(this.getPhase().getBeginVoteDate());
+		default:
+			//Le bouton est caché (regle js) si la methode retourne une chaine vide
+			return "";
+		}
+    }
+    
+    //Retourne l'etat du BP
+    //Cette methode retourne chaque cas present dans la matrice de cas Matrice_casBP.xlsx
+    //Si changement dans cette méthode, vérifier les methodes qui referencent cette methode 
     @Override
     public int getBPState() {
     	int result = 0;
@@ -728,7 +757,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	ParticiperCategories status = getBudgetParticipatifStatus();
     	//Récupération de la période du bp en cours
     	PhaseState phaseState = this.getPhase().getPhaseState();
-    	
     	
     	//Statut déposé
     	if(status == ParticiperCategories.BP_SUBMITTED) { 

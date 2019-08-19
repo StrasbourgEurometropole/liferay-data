@@ -255,5 +255,8 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getBPMessageState(
 		javax.servlet.http.HttpServletRequest request);
 
+	public java.lang.String getBPbuttonMessageState(
+		javax.servlet.http.HttpServletRequest request);
+
 	public int getBPState();
 }
