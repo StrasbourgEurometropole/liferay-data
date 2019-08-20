@@ -1,6 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
 
-<portlet:resourceURL id="filePetition" var="filePetitionURL">
+<portlet:resourceURL id="submitPetition" var="submitPetitionURL">
 </portlet:resourceURL>
 
 <!-- DEPOSER UNE NOUVELLE PETITION -->
@@ -10,24 +10,24 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key="modal.filepetition.title"/></h3>
+                <h3><liferay-ui:message key="modal.submitpetition.title"/></h3>
                 <button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
-            <form id="form-file-petition">
+            <form id="form-submit-petition">
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filepetition.information"/></h4>
+                    <h4><liferay-ui:message key="modal.submitpetition.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="petitiontitle" name="title" label="modal.filepetition.information.title" required="true" maxlength="256" value=""/>
+                        <aui:input id="petitiontitle" name="title" label="modal.submitpetition.information.title" required="true" maxlength="256" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="petitiondescription" type="textarea" name="description" label="modal.filepetition.information.description" required="true" value=""/>
+                        <aui:input id="petitiondescription" type="textarea" name="description" label="modal.submitpetition.information.description" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="petitionInTheNameOf" name="inTheNameOf" label="modal.filepetition.information.inTheNameOf" required="false" maxlength="400" value=""/>
+                        <aui:input id="petitionInTheNameOf" name="inTheNameOf" label="modal.submitpetition.information.inTheNameOf" required="false" maxlength="400" value=""/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-triple">
-                            <label for="petition"><liferay-ui:message key="modal.filepetition.information.projet"/></label>
+                            <label for="petition"><liferay-ui:message key="modal.submitpetition.information.projet"/></label>
                             <select id="<portlet:namespace />project" name="<portlet:namespace />project">
                                 <option value="0" selected ></option>
                                 <c:forEach var="project" items="${projects}">
@@ -36,16 +36,16 @@
                             </select>
                         </div>
                         <div class="form-group form-triple">
-                            <label for="territoire"><liferay-ui:message key="modal.filepetition.information.territoire"/></label>
+                            <label for="territoire"><liferay-ui:message key="modal.submitpetition.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected ><liferay-ui:message key="modal.filepetition.information.territoire.town"/></option>
+                                <option value="0" selected ><liferay-ui:message key="modal.submitpetition.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
                         <div class="form-group form-triple">
-                            <label for="thematique"><liferay-ui:message key="modal.filepetition.information.thematique"/></label>
+                            <label for="thematique"><liferay-ui:message key="modal.submitpetition.information.thematique"/></label>
                             <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <option value="0" selected ></option>
                                 <c:forEach var="theme" items="${thematics}">
@@ -55,14 +55,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.filepetition.information.lieu" maxlength="256" value=""/>
+                        <aui:input id="petitionlieux" name="consultationPlacesText" label="modal.submitpetition.information.lieu" maxlength="256" value=""/>
                     </div>
                     <div class="pro-txt-form">
-                        <p><liferay-ui:message key="modal.filepetition.information.mayor"/></p>
+                        <p><liferay-ui:message key="modal.submitpetition.information.mayor"/></p>
                     </div>
                 </div>
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filepetition.user"/></h4>
+                    <h4><liferay-ui:message key="modal.submitpetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
@@ -111,30 +111,30 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="file-petition-legalage" value="legalage">
-                        <label for="file-petition-legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageFilePetition"/>
+                        <input type="checkbox" id="submit-petition-legalage" value="legalage">
+                        <label for="submit-petition-legalage" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitPetition"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="file-petition-cnil" value="cnil">
-                        <label for="file-petition-cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilFilePetition"/>
+                        <input type="checkbox" id="submit-petition-cnil" value="cnil">
+                        <label for="submit-petition-cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilSubmitPetition"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-info-supp">
-                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditionsFilePetition"/></i></p>
-                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contactFilePetition"/></p>
+                    <p><i><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_conditionsSubmitPetition"/></i></p>
+                    <p><liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_contactSubmitPetition"/></p>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
-                <div id="filealertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
-                <div id="filealertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
-                <div id="filealertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
+                <div id="submitalertLegalage" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
+                <div id="submitalertcity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
+                <div id="submitalertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
                 <div class="pro-form-submit">
-                    <button id="sendPetition" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filepetition.submit"/></button>
+                    <button id="sendPetition" type="submit" class="btn btn-default"><liferay-ui:message key="modal.submitpetition.submit"/></button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -152,7 +152,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='file-petition-ok'/></h4>
+                <h4><liferay-ui:message key='submit-petition-ok'/></h4>
                 <div class="centerButtonValidation">
                     <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
@@ -224,7 +224,7 @@
             var inTheNameOf = $("#"+namespace+"petitionInTheNameOf").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
-                A.io.request('${filePetitionURL}', {
+                A.io.request('${submitPetitionURL}', {
                     method : 'POST',
                     dataType: 'json',
                     data:{
@@ -296,8 +296,8 @@
         $("#"+namespace+"theme").selectric();
         $('#checkboxSaveInfo #save-info').prop('checked', false);
         $('#checkboxSaveInfo').hide();
-        $("#file-petition-legalage").prop("checked", false);
-        $("#file-petition-cnil").prop("checked", false);
+        $("#submit-petition-legalage").prop("checked", false);
+        $("#submit-petition-cnil").prop("checked", false);
         $("#"+namespace+"birthday").val(saved_dateNaiss);
         $("#"+namespace+"city").val(saved_city);
         $("#"+namespace+"address").val(saved_address);
@@ -338,8 +338,8 @@
         var city = $("#"+namespace+"city").val();
         var address = $("#"+namespace+"address").val();
         var postalcode = $("#"+namespace+"postalcode").val();
-        var legalage = $("#file-petition-legalage").is(":checked");
-        var cnil = $("#file-petition-cnil").is(":checked");
+        var legalage = $("#submit-petition-legalage").is(":checked");
+        var cnil = $("#submit-petition-cnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
@@ -363,10 +363,10 @@
         }else $("#"+namespace+"city").css({ "box-shadow" : "" });
 
         /* if (city.toLowerCase()!=="strasbourg"){
-            $("#filealertcity").removeClass("hidden");
+            $("#submitalertcity").removeClass("hidden");
             $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        } else $("#filealertcity").addClass("hidden"); */
+        } else $("#submitalertcity").addClass("hidden"); */
 
         if (address==null || address==""){
             $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });

@@ -59,11 +59,11 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
 		immediate = true,
         property = {
                 "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-                "mvc.command.name=filePetition"
+                "mvc.command.name=submitPetition"
         },
         service = MVCResourceCommand.class
 )
-public class FilePetitionResourceCommand implements MVCResourceCommand {
+public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
@@ -283,7 +283,7 @@ public class FilePetitionResourceCommand implements MVCResourceCommand {
 			StringWriter bodyWriter = new StringWriter();
 			bodyTemplate.process(context, bodyWriter);
 			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.filepetition.mail.information");
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitPetition.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
