@@ -194,7 +194,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         
         try {
             sc = ServiceContextFactory.getInstance(request);
-            sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
+            sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
             List<Long> identifiants = new ArrayList<>();
             if (this.quartierId == 0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);

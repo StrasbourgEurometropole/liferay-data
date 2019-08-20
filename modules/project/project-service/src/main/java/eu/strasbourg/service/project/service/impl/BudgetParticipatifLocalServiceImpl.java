@@ -16,6 +16,7 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -188,9 +189,17 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
             if (budgetPhaseActive != null) {
                 budget.setBudgetPhaseId(budgetPhaseActive.getBudgetPhaseId());
                 AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+                
+                //Recuperation des categories id déjà passés dans le service context
+                long[] ids = sc.getAssetCategoryIds();
+                
+                //On ajoute la catégorie "Phase du budget participatif" de la phase active au BP dans la liste existante
+                List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+                idsLong.add(phaseCat.getCategoryId());
+                
                 //Affecte la categorie "Phase du budget participatif" de la phase active au BP
                 //La categorie est ajoutee dans le service context car le BP n'est pas encore cree
-            	sc.setAssetCategoryIds(new long[] {phaseCat.getCategoryId()});
+                sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
             }
         }
 
