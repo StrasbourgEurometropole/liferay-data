@@ -157,8 +157,6 @@
     {
         $('#checkboxSignSaveInfo #signsave-info').prop('checked', false);
         $('#checkboxSignSaveInfo').hide();
-        $("#file-petition-legalage").prop("checked", false);
-        $("#file-petition-cnil").prop("checked", false);
         $("#"+namespaceSign+"signbirthday").val(saved_signdateNaiss);
         $("#"+namespaceSign+"signcity").val(saved_signcity);
         $("#"+namespaceSign+"signaddress").val(saved_signaddress);

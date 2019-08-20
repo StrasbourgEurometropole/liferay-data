@@ -70,11 +70,11 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
         immediate = true,
         property = {
                 "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-                "mvc.command.name=fileBudget"
+                "mvc.command.name=submitBudget"
         },
         service = MVCResourceCommand.class
 )
-public class FileBudgetResourceCommand implements MVCResourceCommand {
+public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
@@ -280,7 +280,7 @@ public class FileBudgetResourceCommand implements MVCResourceCommand {
 			StringWriter bodyWriter = new StringWriter();
 			bodyTemplate.process(context, bodyWriter);
 			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.filebudget.mail.information");
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitBudget.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));

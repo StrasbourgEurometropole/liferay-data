@@ -1,6 +1,6 @@
 <%@ include file="/project-popup-init.jsp" %>
 
-<portlet:resourceURL id="fileBudget" var="fileBudgetURL">
+<portlet:resourceURL id="submitBudget" var="submitBudgetURL">
 </portlet:resourceURL>
 
 <!-- DEPOSER UN NOUVEAU BUDGET -->
@@ -10,36 +10,36 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
-                <h3><liferay-ui:message key="modal.filebudget.title"/></h3>
+                <h3><liferay-ui:message key="modal.submitbudget.title"/></h3>
                 <button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
             <aui:form name="uploadForm" enctype="multipart/form-data">
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filebudget.information"/></h4>
+                    <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="budgettitle" name="title" label="modal.filebudget.information.title" maxlength="256" required="true" value=""/>
+                        <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.filebudget.information.description" value=""/>
+                        <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.submitbudget.information.description" value=""/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="quartiers"><liferay-ui:message key="modal.filebudget.information.territoire"/></label>
+                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected><liferay-ui:message key="modal.filebudget.information.territoire.town"/></option>
+                                <option value="0" selected><liferay-ui:message key="modal.submitbudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.filebudget.information.lieu" maxlength="256" value=""/>
+                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="thematiques"><liferay-ui:message key="modal.filebudget.information.thematique"/></label>
+                            <label for="thematiques"><liferay-ui:message key="modal.submitbudget.information.thematique"/></label>
                             <select id="<portlet:namespace />theme" name="<portlet:namespace />theme">
                                 <option value="0" selected></option>
                                 <c:forEach var="theme" items="${thematics}">
@@ -48,7 +48,7 @@
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <label for="projets"><liferay-ui:message key="modal.filebudget.information.projet"/></label>
+                            <label for="projets"><liferay-ui:message key="modal.submitbudget.information.projet"/></label>
                             <select id="<portlet:namespace />project" name="<portlet:namespace />project">
                                 <option value="0" selected ></option>
                                 <c:forEach var="project" items="${projects}">
@@ -60,7 +60,7 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label="modal.filebudget.information.picture"
+                                <aui:input name="budgetPhoto" type="file" label="modal.submitbudget.information.picture"
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
@@ -71,12 +71,12 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.filebudget.information.video" maxlength="256" value=""/>
+                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.submitbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
                 </div>
                 <div class="pro-wrapper">
-                    <h4><liferay-ui:message key="modal.filebudget.user"/></h4>
+                    <h4><liferay-ui:message key="modal.submitbudget.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
@@ -127,23 +127,23 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="file-budget-legalage" value="legalage">
-                        <label for="file-budget-legalage" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageFileBudget"/>
+                        <input type="checkbox" id="submit-budget-legalage" value="legalage">
+                        <label for="submit-budget-legalage" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageSubmitBudget"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="file-budget-cnil" value="cnil">
-                        <label for="file-budget-cnil" class="fontWhite">
-                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilFileBudget"/>
+                        <input type="checkbox" id="submit-budget-cnil" value="cnil">
+                        <label for="submit-budget-cnil" class="fontWhite">
+                            <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilSubmitBudget"/>
                         </label>
                     </div>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <div class="pro-form-submit">
-                    <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.filebudget.submit"/></button>
+                    <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.submitbudget.submit"/></button>
                 </div>
             </aui:form>
         </div><!-- /.modal-content -->
@@ -161,7 +161,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
             <div class="pro-wrapper">
-                <h4><liferay-ui:message key='file-budget-ok'/></h4>
+                <h4><liferay-ui:message key='submit-budget-ok'/></h4>
                 <div class="centerButtonValidation">
                     <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
                 </div>
@@ -236,7 +236,7 @@
             AUI().use('aui-io-request', function(A) {
                 var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 try {
-                    A.io.request('${fileBudgetURL}', {
+                    A.io.request('${submitBudgetURL}', {
                         method : 'POST',
                         form: {
                             id: uploadForm,
@@ -320,8 +320,8 @@
         $("#"+namespace+"theme").selectric();
         $('#checkboxSaveInfo #save-info').prop('checked', false);
         $('#checkboxSaveInfo').hide();
-        $("#file-budget-legalage").prop("checked", false);
-        $("#file-budget-cnil").prop("checked", false);
+        $("#submit-budget-legalage").prop("checked", false);
+        $("#submit-budget-cnil").prop("checked", false);
         $("#"+namespace+"city").val(saved_city);
         $("#"+namespace+"address").val(saved_address);
         $("#"+namespace+"budgetPhoto").val("");
@@ -352,8 +352,8 @@
         var city = $("#"+namespace+"city").val();
         var address = $("#"+namespace+"address").val();
         var postalcode = $("#"+namespace+"postalcode").val();
-        var legalage = $("#file-budget-legalage").is(":checked");
-        var cnil = $("#file-budget-cnil").is(":checked");
+        var legalage = $("#submit-budget-legalage").is(":checked");
+        var cnil = $("#submit-budget-cnil").is(":checked");
         var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
