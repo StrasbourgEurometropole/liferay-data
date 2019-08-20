@@ -43,13 +43,16 @@
 					<aui:option value="submitBudget" selected="${popupTemplateId eq 'submitBudget'}">
 						<liferay-ui:message key="submitBudget" />
 					</aui:option>
+					<aui:option value="editBudget" selected="${popupTemplateId eq 'editBudget'}">
+						<liferay-ui:message key="editBudget" />
+					</aui:option>
 					<aui:option value="giveBudgetSupport" selected="${popupTemplateId eq 'giveBudgetSupport'}">
 						<liferay-ui:message key="giveBudgetSupport" />
 					</aui:option>
 				</aui:select>
 			</aui:fieldset>
 
-			<!-- DÃ©sactivation de la popup -->
+			<!-- Desactivation de la popup -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="disabling">
 

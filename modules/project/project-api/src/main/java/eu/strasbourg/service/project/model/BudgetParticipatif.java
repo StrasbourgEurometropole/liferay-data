@@ -165,6 +165,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public boolean isVotable();
 
 	/**
+	* Peut être modifié
+	*/
+	public boolean isEditable();
+
+	/**
 	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
 	*/
 	public boolean isNotDoable();

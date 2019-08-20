@@ -385,6 +385,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.isDraft();
 	}
 
+	/**
+	* Peut être modifié
+	*/
+	@Override
+	public boolean isEditable() {
+		return _budgetParticipatif.isEditable();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _budgetParticipatif.isEscapedModel();

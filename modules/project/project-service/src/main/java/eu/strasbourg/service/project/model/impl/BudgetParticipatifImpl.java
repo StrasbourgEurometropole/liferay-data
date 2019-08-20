@@ -359,13 +359,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public boolean isVotable() {
-		switch (getBPState()) {
-		case 23:
-			return true;
-		default:
-			return false;
-		}
-		
+		return getBPState() == 23 ? true : false;
+	}
+	
+	/**
+	 * Peut être modifié
+	 */
+	@Override
+	public boolean isEditable() {
+		return getBPState() == 3 ? true : false;
 	}
 	
 	/**
