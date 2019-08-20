@@ -89,6 +89,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "description", Types.CLOB },
+			{ "summary", Types.VARCHAR },
 			{ "budget", Types.VARCHAR },
 			{ "motif", Types.CLOB },
 			{ "placeTextArea", Types.VARCHAR },
@@ -127,6 +128,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("summary", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("motif", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
@@ -149,7 +151,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.modifiedDate DESC";
@@ -201,6 +203,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
 		model.setDescription(soapModel.getDescription());
+		model.setSummary(soapModel.getSummary());
 		model.setBudget(soapModel.getBudget());
 		model.setMotif(soapModel.getMotif());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
@@ -300,6 +303,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("summary", getSummary());
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
 		attributes.put("placeTextArea", getPlaceTextArea());
@@ -411,6 +415,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String summary = (String)attributes.get("summary");
+
+		if (summary != null) {
+			setSummary(summary);
 		}
 
 		String budget = (String)attributes.get("budget");
@@ -795,6 +805,22 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	@Override
 	public void setDescription(String description) {
 		_description = description;
+	}
+
+	@JSON
+	@Override
+	public String getSummary() {
+		if (_summary == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _summary;
+		}
+	}
+
+	@Override
+	public void setSummary(String summary) {
+		_summary = summary;
 	}
 
 	@JSON
@@ -1264,6 +1290,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setStatusDate(getStatusDate());
 		budgetParticipatifImpl.setTitle(getTitle());
 		budgetParticipatifImpl.setDescription(getDescription());
+		budgetParticipatifImpl.setSummary(getSummary());
 		budgetParticipatifImpl.setBudget(getBudget());
 		budgetParticipatifImpl.setMotif(getMotif());
 		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
@@ -1459,6 +1486,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.description = null;
 		}
 
+		budgetParticipatifCacheModel.summary = getSummary();
+
+		String summary = budgetParticipatifCacheModel.summary;
+
+		if ((summary != null) && (summary.length() == 0)) {
+			budgetParticipatifCacheModel.summary = null;
+		}
+
 		budgetParticipatifCacheModel.budget = getBudget();
 
 		String budget = budgetParticipatifCacheModel.budget;
@@ -1595,7 +1630,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1625,6 +1660,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getTitle());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", summary=");
+		sb.append(getSummary());
 		sb.append(", budget=");
 		sb.append(getBudget());
 		sb.append(", motif=");
@@ -1672,7 +1709,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(106);
+		StringBundler sb = new StringBundler(109);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1733,6 +1770,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>summary</column-name><column-value><![CDATA[");
+		sb.append(getSummary());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>budget</column-name><column-value><![CDATA[");
@@ -1846,6 +1887,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private String _summary;
 	private String _budget;
 	private String _motif;
 	private String _placeTextArea;

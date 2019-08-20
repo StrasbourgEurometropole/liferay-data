@@ -4792,6 +4792,7 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setStatusDate(budgetParticipatif.getStatusDate());
 		budgetParticipatifImpl.setTitle(budgetParticipatif.getTitle());
 		budgetParticipatifImpl.setDescription(budgetParticipatif.getDescription());
+		budgetParticipatifImpl.setSummary(budgetParticipatif.getSummary());
 		budgetParticipatifImpl.setBudget(budgetParticipatif.getBudget());
 		budgetParticipatifImpl.setMotif(budgetParticipatif.getMotif());
 		budgetParticipatifImpl.setPlaceTextArea(budgetParticipatif.getPlaceTextArea());

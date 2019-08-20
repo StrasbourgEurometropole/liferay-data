@@ -20,6 +20,9 @@
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="summary" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="budget" type="String" />
 		<field name="motif" type="String">
 			<hint-collection name="EDITOR" />

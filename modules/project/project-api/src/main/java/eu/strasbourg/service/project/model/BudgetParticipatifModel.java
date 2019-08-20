@@ -323,6 +323,21 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setDescription(String description);
 
 	/**
+	 * Returns the summary of this budget participatif.
+	 *
+	 * @return the summary of this budget participatif
+	 */
+	@AutoEscape
+	public String getSummary();
+
+	/**
+	 * Sets the summary of this budget participatif.
+	 *
+	 * @param summary the summary of this budget participatif
+	 */
+	public void setSummary(String summary);
+
+	/**
 	 * Returns the budget of this budget participatif.
 	 *
 	 * @return the budget of this budget participatif

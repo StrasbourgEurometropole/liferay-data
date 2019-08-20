@@ -13,6 +13,7 @@ create table project_BudgetParticipatif (
 	statusDate DATE null,
 	title VARCHAR(400) null,
 	description TEXT null,
+	summary VARCHAR(400) null,
 	budget VARCHAR(75) null,
 	motif TEXT null,
 	placeTextArea VARCHAR(400) null,

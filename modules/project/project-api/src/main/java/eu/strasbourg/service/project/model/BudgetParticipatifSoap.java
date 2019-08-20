@@ -48,6 +48,7 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setSummary(model.getSummary());
 		soapModel.setBudget(model.getBudget());
 		soapModel.setMotif(model.getMotif());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
@@ -235,6 +236,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_description = description;
 	}
 
+	public String getSummary() {
+		return _summary;
+	}
+
+	public void setSummary(String summary) {
+		_summary = summary;
+	}
+
 	public String getBudget() {
 		return _budget;
 	}
@@ -417,6 +426,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private String _summary;
 	private String _budget;
 	private String _motif;
 	private String _placeTextArea;

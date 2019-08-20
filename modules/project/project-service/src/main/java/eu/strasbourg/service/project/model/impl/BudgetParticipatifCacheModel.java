@@ -66,7 +66,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(71);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,6 +96,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", summary=");
+		sb.append(summary);
 		sb.append(", budget=");
 		sb.append(budget);
 		sb.append(", motif=");
@@ -207,6 +209,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 		else {
 			budgetParticipatifImpl.setDescription(description);
+		}
+
+		if (summary == null) {
+			budgetParticipatifImpl.setSummary(StringPool.BLANK);
+		}
+		else {
+			budgetParticipatifImpl.setSummary(summary);
 		}
 
 		if (budget == null) {
@@ -351,6 +360,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
+		summary = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		motif = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
@@ -431,6 +441,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 		else {
 			objectOutput.writeUTF(description);
+		}
+
+		if (summary == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(summary);
 		}
 
 		if (budget == null) {
@@ -558,6 +575,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public long statusDate;
 	public String title;
 	public String description;
+	public String summary;
 	public String budget;
 	public String motif;
 	public String placeTextArea;

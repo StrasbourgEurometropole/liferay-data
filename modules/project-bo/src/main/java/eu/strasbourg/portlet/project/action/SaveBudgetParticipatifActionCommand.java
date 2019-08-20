@@ -83,6 +83,10 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             String description = ParamUtil.getString(request, "description");
             budgetParticipatif.setDescription(description);
             
+            // Resume
+            String summary = ParamUtil.getString(request, "summary");
+            budgetParticipatif.setSummary(summary);
+            
             // Budget
             String budget = ParamUtil.getString(request, "budget");
             budgetParticipatif.setBudget(budget);

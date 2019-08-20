@@ -48,6 +48,9 @@
 
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="true" />
+				
+				<%-- Champ : Resume --%>
+				<aui:input name="summary" label="bp-summary" required="false" />
 
 				<%-- Champ : Budget --%>
 				<aui:input name="budget" required="false" />

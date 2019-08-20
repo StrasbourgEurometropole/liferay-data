@@ -169,18 +169,18 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	*/
 	public boolean isNotDoable();
 
-	public int getPriorityOrder();
-
-	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
-
-	public java.lang.String getPhaseTitleLabel();
-
 	/**
 	* Le budget a-t-il ete evalue par l'administration ?
 	*
 	* @note : doit alors posseder l'un des statuts adequat
 	*/
 	public boolean hasBeenEvaluated();
+
+	public int getPriorityOrder();
+
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
+
+	public java.lang.String getPhaseTitleLabel();
 
 	/**
 	* Retourne les commentaires de l'entité

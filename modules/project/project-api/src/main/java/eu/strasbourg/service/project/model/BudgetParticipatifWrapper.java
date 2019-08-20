@@ -74,6 +74,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("summary", getSummary());
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
 		attributes.put("placeTextArea", getPlaceTextArea());
@@ -182,6 +183,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String summary = (String)attributes.get("summary");
+
+		if (summary != null) {
+			setSummary(summary);
 		}
 
 		String budget = (String)attributes.get("budget");
@@ -869,6 +876,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Returns the summary of this budget participatif.
+	*
+	* @return the summary of this budget participatif
+	*/
+	@Override
+	public java.lang.String getSummary() {
+		return _budgetParticipatif.getSummary();
+	}
+
+	/**
 	* Retourne une chaine des 'Thematics' sépararée d'un '-'
 	*/
 	@Override
@@ -1509,6 +1526,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_budgetParticipatif.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the summary of this budget participatif.
+	*
+	* @param summary the summary of this budget participatif
+	*/
+	@Override
+	public void setSummary(java.lang.String summary) {
+		_budgetParticipatif.setSummary(summary);
 	}
 
 	/**
