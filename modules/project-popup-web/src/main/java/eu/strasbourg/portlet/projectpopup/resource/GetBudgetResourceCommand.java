@@ -33,11 +33,11 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
         immediate = true,
         property = {
                 "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-                "mvc.command.name=editBudget"
+                "mvc.command.name=getBudget"
         },
         service = MVCResourceCommand.class
 )
-public class EditBudgetResourceCommand implements MVCResourceCommand {
+public class GetBudgetResourceCommand implements MVCResourceCommand {
 
 	private long entryID;
 	

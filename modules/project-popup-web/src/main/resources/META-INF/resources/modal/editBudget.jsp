@@ -1,7 +1,11 @@
 <%@ include file="/project-popup-init.jsp" %>
 
-<portlet:resourceURL id="editBudget" var="editBudgetURL">
+<portlet:resourceURL id="getBudget" var="getBudgetURL" >
 </portlet:resourceURL>
+
+<portlet:actionURL name="editBudget" var="editBudgetURL">
+	<portlet:param name="redirectURL" value="${redirectURL}"/>
+</portlet:actionURL>
 
 <!-- MODIFIER UN BUDGET -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalEditBudget" tabindex="-1" role="dialog" aria-labelledby="modalEditBudget"
@@ -13,7 +17,7 @@
                 <button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <aui:form name="uploadForm" enctype="multipart/form-data">
+            <form id="uploadForm"  method="post" action="${editBudgetURL}">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.editbudget.information"/></h4>
                     <div class="form-group">
@@ -76,34 +80,33 @@
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
-                        <input type="checkbox" id="submit-budget-legalage" value="legalage">
-                        <label for="submit-budget-legalage" class="fontWhite">
+                        <input type="checkbox" id="edit-budget-legalage" value="legalage">
+                        <label for="edit-budget-legalage" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_legalageEditBudget"/>
                         </label>
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox" >
                     <div>
-                        <input type="checkbox" id="submit-budget-cnil" value="cnil">
-                        <label for="submit-budget-cnil" class="fontWhite">
+                        <input type="checkbox" id="edit-budget-cnil" value="cnil">
+                        <label for="edit-budget-cnil" class="fontWhite">
                             <liferay-portlet:runtime portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_cnilEditBudget"/>
                         </label>
                     </div>
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <!-- Champ cache : ID -->
-                <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
+                <input type="hidden" id="<portlet:namespace />entryId" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div class="pro-form-submit">
                     <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.editbudget.submit"/></button>
                 </div>
-            </aui:form>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 
-<!-- CONFIRMATION NOUVEAU BUDGET -->
-<!-- HTML pour la modal de confirmation de soumission du projet -->
+<!-- CONFIRMATION MODIFICATION BUDGET -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -122,8 +125,7 @@
 </div>
 
 
-<!-- ERREUR NOUVELLE BUDGET -->
-<!-- HTML pour la modal d'erreur de nouvelle budget -->
+<!-- ERREUR MODIFICATION BUDGET -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorBudget" tabindex="-1" role="dialog" aria-labelledby="modalErrorBudget">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -144,35 +146,25 @@
 <script type="text/javascript">
 
 	var namespace = "<portlet:namespace />";
-	var saved_address = "${userConnected.get('address')}";
-	var saved_zipCode = "${userConnected.get('zipcode')}";
-	var saved_city = "${userConnected.get('city')}";
-	var saved_dateNaiss = "${formattedDate}";
-	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
-	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
     $(document).ready(function(){
     	resetValues();
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
-        $('#checkboxSaveInfo').hide();
     });
     
-    $('#buttonDeposer').click(function(event){
-        resetValues();
-    });
     
     /*
 	* Lors du click sur le bouton d'ouverture de la popup
 	*/
-	$(document).on("click", "[href='#modalEditBudget']", function(event) {
+	$(document).on("click", "[href='#showModalEditBudget']", function(event) {
 		event.preventDefault();
 		resetValues();
 		var entryId = $("#"+namespace+"entryId").val();
 		
 		AUI().use('aui-io-request', function(A) {
             try {
-                A.io.request('${editBudgetURL}', {
+                A.io.request('${getBudgetURL}', {
                     method : 'POST',
                     dataType: 'json',
                     data:{
@@ -190,7 +182,6 @@
 	                        	$("#"+namespace+"project").val(data.projectId).change().selectric('refresh');
 	                        	$("#"+namespace+"theme").val(data.themeId).change().selectric('refresh');
 	                        	$("#"+namespace+"budgetVideo").val(data.videoURL);
-	                        	
                         }
                      }
                 });
@@ -204,91 +195,14 @@
         });
 	});
 
+	/*
+	* Lors du click sur le bouton de validation du formulaire
+	*/
     $("#sendBudget").click(function(event){
         event.preventDefault();
         var response = validateForm();
         if (response){
-            var budgetTitleValue = $("#"+namespace+"budgettitle").val();
-            var budgetDescriptionValue = $("#"+namespace+"budgetdescription").val();
-            var addressValue = $("#"+namespace+"address").val();
-            var cityValue = $("#"+namespace+"city").val();
-            var postalcodeValue = $("#"+namespace+"postalcode").val();
-            var birthdayValue = $("#"+namespace+"birthday").val();
-            var phoneValue = $("#"+namespace+"phone").val();
-            var mobileValue = $("#"+namespace+"mobile").val();
-            var projectValue = $("#"+namespace+"project").val();
-            var quartierValue = $("#"+namespace+"quartier").val();
-            var themeValue = $("#"+namespace+"theme").val();
-            var budgetlieuxValue = $("#"+namespace+"budgetlieux").val();
-            var saveInfoValue = $("#save-info").is(":checked");
-            var lastNameValue = $("#"+namespace+"username").val();
-            var photoValue = $("#"+namespace+"budgetPhoto").val();
-            var videoValue = $("#"+namespace+"budgetVideo").val();
-            var firstNameValue = $("#"+namespace+"firstname").val();
-            var emailValue = $("#"+namespace+"mail").val();
-            AUI().use('aui-io-request', function(A) {
-                var uploadForm = A.one("#<portlet:namespace />uploadForm");
-                try {
-                    A.io.request('${editbudgetURL}', {
-                        method : 'POST',
-                        form: {
-                            id: uploadForm,
-                            upload: true
-                        },
-                        sync: true,
-                        dataType: 'json',
-                        data:{
-                            <portlet:namespace/>title:budgetTitleValue,
-                            <portlet:namespace/>description:budgetDescriptionValue,
-                            <portlet:namespace/>address:addressValue,
-                            <portlet:namespace/>city:cityValue,
-                            <portlet:namespace/>postalcode:postalcodeValue,
-                            <portlet:namespace/>phone:phoneValue,
-                            <portlet:namespace/>mobile:mobileValue,
-                            <portlet:namespace/>birthday:birthdayValue,
-                            <portlet:namespace />project:projectValue,
-                            <portlet:namespace />quartier:quartierValue,
-                            <portlet:namespace />theme:themeValue,
-                            <portlet:namespace />photo:photoValue,
-                            <portlet:namespace />video:videoValue,
-                            <portlet:namespace />budgetLieux:budgetlieuxValue,
-                            <portlet:namespace />saveinfo:saveInfoValue,
-                            <portlet:namespace />lastname:lastNameValue,
-                            <portlet:namespace />firstname:firstNameValue,
-                            <portlet:namespace />email:emailValue
-                        },
-                        on: {
-                            complete: function(e) {
-                                // var data = this.get('responseData');
-                                var data = JSON.parse(e.details[1].responseText);
-                                if(data.result){
-                                    $('#modalBudget').modal('hide');
-                                    if(data.savedInfo){
-                                        saved_dateNaiss = birthdayValue;
-                                        saved_city = $("#"+namespace+"city").val();
-                                        saved_address = $("#"+namespace+"address").val();
-                                        saved_zipCode = $("#"+namespace+"postalcode").val();
-                                        if($("#"+namespace+"phone").val() != "")
-                                            saved_phone = $("#"+namespace+"phone").val();
-                                        if($("#"+namespace+"mobile").val() != "")
-                                            saved_mobile = $("#"+namespace+"mobile").val();
-                                    }
-                                    $('#modalConfirmerBudget').modal('show');
-                                    resetValues();
-                                }else{
-                                    $("#modalErrorBudget h4").text(data.message);
-                                    $('#modalErrorBudget').modal('show');
-                                }
-                            }
-                        }
-                    });
-                }
-                catch(error) {
-                    if(!(error instanceof TypeError)){
-                        console.log(error);
-                    } else console.log("petite erreur sans importance")
-                }
-            });
+        	$("#uploadForm").submit();
         }
     });
 
@@ -311,30 +225,10 @@
         $("#"+namespace+"quartier").selectric();
         $("#"+namespace+"theme option[value='0']").prop('selected', true);
         $("#"+namespace+"theme").selectric();
-        $('#checkboxSaveInfo #save-info').prop('checked', false);
-        $('#checkboxSaveInfo').hide();
-        $("#submit-budget-legalage").prop("checked", false);
-        $("#submit-budget-cnil").prop("checked", false);
-        $("#"+namespace+"city").val(saved_city);
-        $("#"+namespace+"address").val(saved_address);
+        $("#edit-budget-legalage").prop("checked", false);
+        $("#edit-budget-cnil").prop("checked", false);
         $("#"+namespace+"budgetPhoto").val("");
         $("#"+namespace+"budgetVideo").val("");
-        $("#"+namespace+"postalcode").val(saved_zipCode);
-        $("#"+namespace+"phone").val(saved_phone);
-        $("#"+namespace+"mobile").val(saved_mobile);
-        $("#"+namespace+"birthday").val(saved_dateNaiss);
-    }
-
-    function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
-        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile) {
-            $('#checkboxSaveInfo #save-info').prop('checked', true);
-            $('#checkboxSaveInfo').show();
-        }else{
-            $('#checkboxSaveInfo #save-info').prop('checked', false);
-            $('#checkboxSaveInfo').hide();
-        }
     }
 
     function validateForm()
@@ -342,13 +236,10 @@
         var result = true;
         var budgettitle = $("#"+namespace+"budgettitle").val();
         var budgetdescription = $("#"+namespace+"budgetdescription").val();
-        var city = $("#"+namespace+"city").val();
-        var address = $("#"+namespace+"address").val();
-        var postalcode = $("#"+namespace+"postalcode").val();
-        var legalage = $("#submit-budget-legalage").is(":checked");
-        var cnil = $("#submit-budget-cnil").is(":checked");
         var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+        var legalage = $("#edit-budget-legalage").is(":checked");
+        var cnil = $("#edit-budget-cnil").is(":checked");
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
@@ -367,26 +258,6 @@
             $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"budgetdescription").css({ "box-shadow" : "" });
-
-        if (city===null || city===""){
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
-
-        if (address===null || address===""){
-            $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"address").css({ "box-shadow" : "" });
-
-        if (postalcode===null || postalcode===""){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else if(!regex.test(postalcode)){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            alert("Merci de respecter la syntaxe d'un code postal");
-            result = false;
-        }
-        else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
 
         if (!legalage)
             result = false;
