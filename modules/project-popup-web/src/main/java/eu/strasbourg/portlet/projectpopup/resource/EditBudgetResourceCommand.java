@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.projectpopup.resource;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -9,6 +10,7 @@ import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -21,6 +23,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
@@ -42,17 +45,34 @@ public class EditBudgetResourceCommand implements MVCResourceCommand {
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
 		boolean success = true;
 		
-		// Recuperation du budget participatif en question
+		// Recuperation de l'id de l'entité
         this.entryID = ParamUtil.getLong(request, "entryId");
         
         try {
+        	// Recuperation du budget participatif à modifier
         	AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
 			BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
         
 		    // Retour des informations de la requete en JSON
 		    JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
 		    jsonResponse.put("title", bp.getTitle());
+		    jsonResponse.put("description", bp.getDescription());
+		    jsonResponse.put("summary", bp.getSummary());
 		    
+		    //Récupération de la liste des quartiers
+		    List<AssetCategory> districts = bp.getDistrictCategories();
+		    //Si le bp est pour toute la ville (plus de 1 quartier), selectionne 'la ville entière'
+	        int idstrictId = districts.size() == 1 ? (int)districts.get(0).getCategoryId() : 0 ;
+		    
+	        jsonResponse.put("quartier", idstrictId);
+		    jsonResponse.put("placeText", bp.getPlaceTextArea());
+		    
+		    if(bp.getProjectCategory() != null)
+		    
+		    jsonResponse.put("projectId", bp.getProjectCategory() != null ? bp.getProjectCategory().getCategoryId() : 0);
+		    jsonResponse.put("themeId", bp.getThematicCategory() != null ? bp.getThematicCategory().getCategoryId() : 0);
+		    
+		    jsonResponse.put("videoURL", bp.getVideoUrl());
 		    
 			// Recuperation de l'élément d'écriture de la réponse
 		    PrintWriter writer = null;

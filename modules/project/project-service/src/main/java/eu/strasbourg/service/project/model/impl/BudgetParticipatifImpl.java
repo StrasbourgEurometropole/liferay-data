@@ -114,7 +114,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne les thematiques de la participation (
+     * Retourne les thematiques du budget participatif (
      */
     @Override
     public List<AssetCategory> getThematicCategories() {
@@ -131,6 +131,21 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
 		return thematicTitle;
 	}
+	
+	
+	/**
+     * Retourne la catégorie 'Thematic' du budget participatif. Si plusieurs, retourne la première de la liste
+     */
+    @Override
+    public AssetCategory getThematicCategory() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.THEMATIC);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+    }
 
     /**
      * Retourne les catégories 'Territoire' correspondant aux pays du budget

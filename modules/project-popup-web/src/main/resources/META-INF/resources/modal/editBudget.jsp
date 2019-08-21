@@ -183,6 +183,14 @@
 	                        	var data = this.get('responseData');
 	                        	
 	                        	$("#"+namespace+"budgettitle").val(data.title);
+	                        	$("#"+namespace+"budgetdescription").val(data.description);
+	                        	//$("#"+namespace+"budgetSummary").val(data.summary);
+	                        	$("#"+namespace+"quartier").val(data.quartier).change().selectric('refresh');
+	                        	$("#"+namespace+"budgetlieux").val(data.placeText);
+	                        	$("#"+namespace+"project").val(data.projectId).change().selectric('refresh');
+	                        	$("#"+namespace+"theme").val(data.themeId).change().selectric('refresh');
+	                        	$("#"+namespace+"budgetVideo").val(data.videoURL);
+	                        	
                         }
                      }
                 });

@@ -514,6 +514,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la catégorie 'Thematic' du budget participatif. Si plusieurs, retourne la première de la liste
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getThematicCategory() {
+		return _budgetParticipatif.getThematicCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -1071,7 +1079,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne les thematiques de la participation (
+	* Retourne les thematiques du budget participatif (
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
