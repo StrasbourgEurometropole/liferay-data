@@ -71,7 +71,7 @@ public class GetBudgetResourceCommand implements MVCResourceCommand {
 		    
 		    jsonResponse.put("projectId", bp.getProjectCategory() != null ? bp.getProjectCategory().getCategoryId() : 0);
 		    jsonResponse.put("themeId", bp.getThematicCategory() != null ? bp.getThematicCategory().getCategoryId() : 0);
-		    
+		    jsonResponse.put("hasImage", bp.getImageId() != 0 ? true : false);
 		    jsonResponse.put("videoURL", bp.getVideoUrl());
 		    
 			// Recuperation de l'élément d'écriture de la réponse

@@ -64,8 +64,6 @@
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
-                                <!-- Permet de recuperer l'id de l'image postee par l'utilisateur -->
-                                <aui:input type="hidden" name="webImageId" />
                             </span>
                         </div>
                     </div>

@@ -17,7 +17,7 @@
                 <button type="button" class="close closefirstmodal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
             </div>
 
-            <form id="uploadForm"  method="post" action="${editBudgetURL}">
+            <form id="uploadForm"  method="post" action="${editBudgetURL}" enctype="multipart/form-data">
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.editbudget.information"/></h4>
                     <div class="form-group">
@@ -62,14 +62,22 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
-                            <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label="modal.editbudget.information.picture"
-                                    cssClass="btn btn-default btn-choose">
-							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
-                                </aui:input>
-                                <!-- Permet de recuperer l'id de l'image postee par l'utilisateur -->
-                                <aui:input type="hidden" name="webImageId" />
-                            </span>
+                        	<div id="budgetPhotoID">
+	                            <span class="browsePicture input-group-btn">
+	                                <aui:input name="budgetPhoto" type="file" label="modal.editbudget.information.picture"
+	                                    cssClass="btn btn-default btn-choose">
+								        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
+	                                </aui:input>
+	                                <label style="color:#ff0000;font-weight:bold" id="budgetPhotoMessageID"><liferay-ui:message key="modal.editbudget.information.picture.edit.red.message.information"/></label>
+	                            </span>
+                            </div>
+                            <div id="editPhotoID">
+	                            <span class="input-group-btn">
+	                                <aui:input name="editPhoto" type="button" value="Modifier ou supprimer" 
+	                                label="modal.editbudget.information.picture.edit.message">
+	                                </aui:input>
+	                            </span>
+                            </div>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -96,6 +104,7 @@
                 </div>
                 <div id="sendalert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <!-- Champ cache : ID -->
+                <input type="hidden" id="<portlet:namespace />deletePhoto" name="<portlet:namespace />deletePhoto" value="false"/>
                 <input type="hidden" id="<portlet:namespace />entryId" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div class="pro-form-submit">
                     <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.editbudget.submit"/></button>
@@ -182,6 +191,13 @@
 	                        	$("#"+namespace+"project").val(data.projectId).change().selectric('refresh');
 	                        	$("#"+namespace+"theme").val(data.themeId).change().selectric('refresh');
 	                        	$("#"+namespace+"budgetVideo").val(data.videoURL);
+	                        	
+	                        	if(data.hasImage) {
+	                        		$("#budgetPhotoID").hide();
+	                        	}else {
+	                        		$("#editPhotoID").hide();
+	                        		$("#budgetPhotoMessageID").hide();
+	                        	}
                         }
                      }
                 });
@@ -205,6 +221,16 @@
         	$("#uploadForm").submit();
         }
     });
+	
+    /*
+	* Lors du click sur le bouton de pour modifier ou supprimer la photo
+	*/
+    $("#"+namespace+"editPhoto").click(function(event){
+    	$("#"+namespace+"deletePhoto").val("true");
+    	$("#editPhotoID").hide();
+    	$("#budgetPhotoID").show();
+    });
+    
 
     $('#modalConfirmerBudget #buttonConfirm').click(function(event){
         $('#modalConfirmerBudget').modal('hide');
