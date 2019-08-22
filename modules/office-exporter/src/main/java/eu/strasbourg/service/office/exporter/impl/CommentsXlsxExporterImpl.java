@@ -1,9 +1,10 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -25,9 +26,8 @@ import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalService;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
-
-import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 @Component(
         immediate = true,
         property = {},
@@ -44,16 +44,8 @@ public class CommentsXlsxExporterImpl implements CommentsXlsxExporter {
         this.commentLocalService = commentLocalService;
     }
 
-    public void exportComments(OutputStream stream, String commentIdsStr) {
-        List<Comment> comments = new ArrayList<Comment>();
-        for (String commentIdStr : commentIdsStr.split(",")) {
-            if (Validator.isNotNull(commentIdStr)) {
-                Comment comment = commentLocalService.fetchComment(Long.valueOf(commentIdStr));
-                if (comment != null) {
-                    comments.add(comment);
-                }
-            }
-        }
+    public void exportComments(OutputStream stream, long groupId) {
+        List<Comment> comments = CommentLocalServiceUtil.getByGroupId(groupId);
         exportComments(stream, comments);
     }
 
