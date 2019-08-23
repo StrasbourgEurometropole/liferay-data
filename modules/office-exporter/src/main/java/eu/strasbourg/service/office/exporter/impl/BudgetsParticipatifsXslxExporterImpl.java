@@ -7,10 +7,12 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -42,6 +44,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
         // Creation du document
         XSSFSheet sheet = workbook.createSheet("Export budget participatif");
 
+        
         // Initialisation des colonnes
         List<List<Object>> budgetParticipatifData = new ArrayList<List<Object>>();
         
@@ -71,11 +74,32 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "thematic"),
                 LanguageUtil.get(bundle, "districts"),
                 LanguageUtil.get(bundle, "project"),
-                LanguageUtil.get(bundle, "user-liferay")
+                LanguageUtil.get(bundle, "user-liferay"),
+                LanguageUtil.get(bundle, "budget-part-place-name"),
+                LanguageUtil.get(bundle, "budget-part-place-mercator-x"),
+                LanguageUtil.get(bundle, "budget-part-place-mercator-y")
 		));
         	
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
+        	
+        	
+        	String placesNames = String.join("\n", budgetParticipatif.getPlacitPlaces()
+        			.stream()
+        			.map(pl->pl.getPlaceAlias(Locale.FRANCE))
+        			.collect(Collectors.toList()));
+        	
+        	String placesX = String.join("\n", budgetParticipatif.getPlacitPlaces()
+        			.stream()
+        			.map(pl->pl.getMercatorX())
+        			.collect(Collectors.toList()));
+        	
+        	String placesY = String.join("\n", budgetParticipatif.getPlacitPlaces()
+        			.stream()
+        			.map(pl->pl.getMercatorY())
+        			.collect(Collectors.toList()));
+        			
+        			
         	budgetParticipatifData.add(
         	Arrays.asList(
                     getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
@@ -102,7 +126,10 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(budgetParticipatif.getThematicsLabel(Locale.FRANCE)),
                     getfield(budgetParticipatif.getDistrictLabel(Locale.FRANCE)),
                     getfield(budgetParticipatif.getProjectName()),
-                    getfield(budgetParticipatif.getUserName())
+                    getfield(budgetParticipatif.getUserName()),
+                    getfield(placesNames),
+                    getfield(placesX),
+                    getfield(placesY)
         			));
         }
 
