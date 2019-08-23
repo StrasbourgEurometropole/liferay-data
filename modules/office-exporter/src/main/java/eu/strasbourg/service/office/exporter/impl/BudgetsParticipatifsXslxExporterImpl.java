@@ -5,6 +5,8 @@ import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -42,7 +44,10 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
         XSSFSheet sheet = workbook.createSheet("Export budget participatif");
 
         // Initialisation des colonnes
-        Object[][] budgetParticipatifData = {{
+        List<List<Object>> budgetParticipatifData = new ArrayList<List<Object>>();
+        
+        budgetParticipatifData.add(
+        		Arrays.asList(
                 LanguageUtil.get(bundle, "budget-part-phase"),
                 LanguageUtil.get(bundle, "budget-part-statut"),
                 LanguageUtil.get(bundle, "budget-part-title"),
@@ -68,12 +73,12 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "districts"),
                 LanguageUtil.get(bundle, "project"),
                 LanguageUtil.get(bundle, "user-liferay")
-        }};
-
+		));
+        	
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
-        	
-            Object[] budgetParticipatifRow = {
+        	budgetParticipatifData.add(
+        	Arrays.asList(
                     getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
                     getfield(unescapeHtml4(budgetParticipatif.getBudgetParticipatifStatusTitle(Locale.FRANCE))),
                     getfield(unescapeHtml4(budgetParticipatif.getTitle())),
@@ -99,16 +104,14 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(budgetParticipatif.getDistrictLabel(Locale.FRANCE)),
                     getfield(budgetParticipatif.getProjectName()),
                     getfield(budgetParticipatif.getUserName())
-            };
-
-            budgetParticipatifData = ArrayUtil.append(budgetParticipatifData, budgetParticipatifRow);
+        			));
         }
 
         // Parcours et ajout des donnees dans les cellules
         int rowIndex = 0;
         int columnIndex = 0;
 
-        for (Object[] budgetParticipatifObject : budgetParticipatifData) {
+        for (List<Object> budgetParticipatifObject : budgetParticipatifData) {
             Row row = sheet.createRow(rowIndex);
             columnIndex = 0;
             for (Object field : budgetParticipatifObject) {
