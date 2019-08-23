@@ -105,15 +105,23 @@
 									<span><liferay-ui:message key="dashboard.front.budget.voted" /></span>
 								</a>
 							</div>
-							<div class="pro-info-vote">
-								<span>
-									<liferay-ui:message key="dashboard.front.budget.reliquat" />
-									<strong>
-										${voteLeft}
-										<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
-									</strong>
-								</span>
-							</div>
+							<c:choose>
+								<c:when test="${voteLeft != ''}">
+									<div class="pro-info-vote">
+										<span>
+											<liferay-ui:message key="dashboard.front.budget.reliquat" />
+											<strong>
+												${voteLeft}
+												<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
+											</strong>
+										</span>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div style="background: #E5E5E5;position: absolute;left: 0;right: 0;bottom: 0;height: 65px;">
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 			</div>

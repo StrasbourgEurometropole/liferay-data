@@ -136,15 +136,17 @@ public class DashboardPortlet extends MVCPortlet {
          */
         List<BudgetParticipatif> budgetFiled = new ArrayList<>();
         List<BudgetParticipatif> budgetVoted = new ArrayList<>();
-        int voteLeft = 0;
+        String voteLeft = "";
         
         BudgetPhase activePhase  = BudgetPhaseLocalServiceUtil.getActivePhase(participerGroupId);
         
         if (activePhase != null) {
         	budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publikId);
 	        budgetVoted = BudgetParticipatifLocalServiceUtil.getPublishedAndVotedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
-	        voteLeft = (int)activePhase.getNumberOfVote() - BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
         }
+        
+        if(activePhase != null && activePhase.isInVotingPeriod())
+        	voteLeft = Integer.toString((int)activePhase.getNumberOfVote() - BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId()));
         
         request.setAttribute("budgetFiled", budgetFiled);
         request.setAttribute("budgetVoted", budgetVoted);
