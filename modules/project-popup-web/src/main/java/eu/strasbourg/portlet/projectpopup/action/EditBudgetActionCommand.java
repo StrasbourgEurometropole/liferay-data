@@ -157,26 +157,25 @@ public class EditBudgetActionCommand implements MVCActionCommand {
             if (this.quartierId == 0) {
                 List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
                 
-                idCategories = districts.stream()
+                idCategories.addAll(districts.stream()
                         .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
-            } else {
+                        .collect(Collectors.toList()));
+            } else 
                 idCategories.add(quartierId);
-            }
-            if (this.projectId != 0) {
+            if (this.projectId != 0) 
                 idCategories.add(projectId);
-            }
-            if (this.themeId != 0) {
+            if (this.themeId != 0) 
                 idCategories.add(themeId);
-            }
-
+            
             sc.setAssetCategoryIds(idCategories.stream().mapToLong(w -> w).toArray());
             bp.setTitle(this.title);
             bp.setDescription(this.description);
             bp.setVideoUrl(this.video);
             bp.setPlaceTextArea(this.lieu);
             
-            if(this.deletePhoto)
+            UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+            String fileName = uploadRequest.getFileName("budgetPhoto");
+            if(this.deletePhoto && (fileName == null || fileName.isEmpty()))
             	bp.setImageId(0);
             else
             	uploadFile(bp, request);
