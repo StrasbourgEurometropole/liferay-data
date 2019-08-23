@@ -39,6 +39,9 @@
 <#-- L'entité est elle en période de vote -->
 <#assign isVotable = entry.isVotable() />
 
+<#-- L'entité peut être modifiée -->
+<#assign isEditable = entry.isEditable() />
+
 <#-- Récupération des liens médias de l'entité -->
 <#assign videoURL = entry.videoUrl />
 <#assign imageURL = entry.getImageURL() />
@@ -231,6 +234,8 @@
                                     <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                                     <p class="pro-txt-vote">Il vous reste <strong>${nbSupportForActivePhase}</strong> possibilités de voter pour un projet</p>
                                 </#if>
+                            <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned>
+                                <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-yellow">MODIFIER</a> 
 							<#else>
                                 <a href="#" class="pro-btn-yellow" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
                             </#if>
