@@ -6,6 +6,7 @@
 <#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
@@ -38,11 +39,28 @@
 <#-- L'entité est elle en période de vote -->
 <#assign isVotable = entry.isVotable() />
 
+<#-- L'entité peut être modifiée -->
+<#assign isEditable = entry.isEditable() />
+
 <#-- Récupération des liens médias de l'entité -->
 <#assign videoURL = entry.videoUrl />
 <#assign imageURL = entry.getImageURL() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+
+<#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
+<#assign assets = AssetEntryService.getAssetCategoryAssetEntries(entry.getPhaseCategory().getCategoryId())  />
+
+<#-- Récupération de la page de listing de BP qui correspond au BP affiché. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
+<#list assets as ass>
+    <#if ass.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(ass.getClassPK())/>
+        <#assign pageListing = abc.getFriendlyURL()/>
+        <#break>
+    </#if>
+
+</#list>
 
 <@liferay_util["html-top"]>
     <meta property="og:url" content="${currentUrl}" />
@@ -99,7 +117,9 @@
                     <span>
                         <span>
                             <a href="${homeURL}">Accueil</a>
-                            <a href="${homeURL}projets-budget-participatif">Listings des projets</a>
+                            <#if pageListing??>
+                                <a href="${homeURL2}${pageListing}">Listings des projets</a>
+                            </#if>
                             <span class="breadcrumb_last">${entry.title}</span>
                         </span>
                     </span>
@@ -181,19 +201,16 @@
                                 <p><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</p>
                             </#if>
 
-                            <#if entry.isNotDoable()>
-                                Ce projet a été étudié et déclaré "${statusBP}"
-                            <#else>
-                                <p><strong id="nbEntrySupports">${entry.getNbSupports()}</strong> vote(s) pour ce projet</p>
-                            </#if>
+                            ${entry.getBPMessageState(request)}
 
                             <#if isVotable> <#-- Est votable -->
+                                <#assign nbSupportForActivePhase = entry.getPhase().getNumberOfVote()>
                                 <#if isUserloggedIn && hasUserPactSign && !isUserBanned> <#-- Utilisateur connecté et ayant signé le pacte -->
                                     <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
                                     <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
                                     
-                                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${5 - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
+                                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${nbSupportForActivePhase - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
                                     <a href="#RemoveSupport" class="pro-btn-yellow">
                                         Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                                     </a>
@@ -201,7 +218,7 @@
                                     <script>
                                         $(document).ready(function() {
                                             // Cacher le bouton de vote si l'utilisateur a déjà utilisé les siens
-                                            if (${nbSupportOfUserForActivePhase} >= 5) {
+                                            if (${nbSupportOfUserForActivePhase} >= ${nbSupportForActivePhase}) {
                                                 $("[href='#Support']").hide();
                                             }
                                             // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
@@ -212,18 +229,15 @@
                                     </script>
 
                                 <#elseif isUserBanned> <#--  -->
-                                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
+                                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                                 <#else> <#--  -->
-                                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">Voter</a>
-                                    <p class="pro-txt-vote">Il vous reste <strong>5</strong> possibilités de voter pour un projet</p>
+                                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                                    <p class="pro-txt-vote">Il vous reste <strong>${nbSupportForActivePhase}</strong> possibilités de voter pour un projet</p>
                                 </#if>
-
-							<#elseif !entry.isVotable() && !entry.isNotDoable()>
-                                <a href="#" class="pro-btn-yellow">Vote terminé</a>
-                            <#elseif entry.hasBeenVoted() && !entry.isNotDoable()>
-                                <a href="#" class="pro-btn-yellow">Projet déjà évalué</a>
-                            <#elseif !entry.isNotDoable()>
-                                <a href="#" class="pro-btn-yellow">Vote bientôt disponible</a>
+                            <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned>
+                                <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-yellow">MODIFIER</a> 
+							<#else>
+                                <a href="#" class="pro-btn-yellow" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
                             </#if>
                             
                             <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
@@ -346,6 +360,8 @@
         if (markersCluster.getBounds().isValid()) {
             leafletMap.fitBounds(markersCluster.getBounds());
         }
+
+        $("#voteButton:empty").hide(); 
 
     });
 </script>
