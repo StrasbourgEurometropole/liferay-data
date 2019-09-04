@@ -65,7 +65,7 @@
                     },
                     "dataType": "link-to-page",
                     "fieldNamespace": "ddm",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "linkURL",
                     "readOnly": false,

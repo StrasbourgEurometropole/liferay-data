@@ -3,7 +3,8 @@
         "fr_FR"
     ],
     "defaultLanguageId": "fr_FR",
-    "fields": [{
+    "fields": [
+        {
             "label": {
                 "fr_FR": "Titre"
             },
@@ -64,7 +65,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "thumbnail",
             "readOnly": false,
@@ -88,7 +89,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "image",
             "readOnly": false,

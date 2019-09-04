@@ -88,7 +88,7 @@
                                 "fr_FR": ""
                             },
                             "dataType": "boolean",
-                            "indexType": "keyword",
+                            "indexType": "",
                             "localizable": true,
                             "name": "activeTab",
                             "readOnly": false,
@@ -140,7 +140,7 @@
             },
             "dataType": "link-to-page",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "LienLaPagehgg8",
             "readOnly": false,
