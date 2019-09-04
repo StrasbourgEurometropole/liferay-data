@@ -175,6 +175,9 @@
                                                     <span>
                                                         <#list schedules as schedule>
                                                             <div>${schedule.startTime} - ${schedule.endTime}</div>
+                                                            <#if schedule.getComments(locale)?has_content>
+                                                                <div style="margin-top: -10px;">(${schedule.getComments(locale)})</div>
+                                                            </#if>
                                                         </#list>
                                                     </span>
                                                 </li>
