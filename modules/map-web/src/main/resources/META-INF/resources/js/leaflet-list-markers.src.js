@@ -117,7 +117,7 @@ L.Control.ListMarkers = L.Control.extend({
 		else
 			console.log("propertyName '"+this.options.label+"' not found in marker");
 		
-		if(layer.feature.properties.type != null){
+		if(layer.feature.properties.type != null && $.isNumeric(layer.feature.properties.type)){
 			var addedFavorite = false;
 			if (window.userFavorites) {
 				var i;

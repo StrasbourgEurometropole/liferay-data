@@ -74,8 +74,8 @@
                             </a>
                             <br>
                             Une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e.
-                            <br>
-                            Attention : Pour pouvoir voter aux &eacute;lections europ&eacute;ennes du 26 mai 2019, vous devez vous inscrire avant le 31 mars 2019.
+                            <br><br>
+					        <a href="https://www.service-public.fr/particuliers/vosdroits/N47" target="_blank" title="Consultez votre situation &eacute;lectorale (nouvelle fen&ecirc;tre)">Consultez votre situation &eacute;lectorale sur le site www.service-public.fr</a>
                             <br><br>
                             En cas de probl&egrave;me, vous pouvez contacter le 03 68 98 68 94 du lundi au vendredi de 8h00 &agrave; 17h00 en continu ou
                             <a href="${homeURL}centre-administratif-mairies-quartier" target="_blank" title="centre administratif et mairies de quartier (nouvelle fen&ecirc;tre)">vous rendre au centre administratif ou en mairie de quartier</a>.
