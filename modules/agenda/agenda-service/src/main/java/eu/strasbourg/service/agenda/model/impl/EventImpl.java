@@ -80,8 +80,10 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.RodigueSOAPClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.models.RodrigueEventSession;
 
 /**
  * The extended model implementation for the Event service. Represents a row in
@@ -1021,7 +1023,7 @@ public class EventImpl extends EventBaseImpl {
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
 		}
-
+		
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
 		List<String> mercators = this.getMercators();
@@ -1124,6 +1126,67 @@ public class EventImpl extends EventBaseImpl {
 		}
 	    
 		return suggestions;
+	}
+	
+	/**
+	 * Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
+	 * @return
+	 */
+	@Override
+	public List<RodrigueEventSession> getSessionsFromRodrigue() {
+		if (this.getConcertId() != null && !this.getConcertId().isEmpty()) {
+			return RodigueSOAPClient.getSessionListOfEvent(this.getConcertId());
+		} else {
+			return new ArrayList<RodrigueEventSession>();
+		}
+	}
+	
+	/**
+	 * Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
+	 * @return
+	 */
+	@Override
+	public JSONArray getSessionsFromRodrigueInJSON() {
+		JSONArray sessionsJSON = JSONFactoryUtil.createJSONArray();
+		
+		// Recuperation des properties
+		String ticketingURL = StrasbourgPropsUtil.getOPSTicketingURL();
+		String structureID = StrasbourgPropsUtil.getRodrigueOPSStructureID();
+		
+		for(RodrigueEventSession session : this.getSessionsFromRodrigue()) {
+			JSONObject sessionJSON = JSONFactoryUtil.createJSONObject();
+			
+			// Creation du lien vers la billeterie
+			String link = ticketingURL.replaceAll("\\[structureID\\]", structureID);
+			link = link.replaceAll("\\[eventID\\]", Integer.toString(session.getEventID()));
+			
+			// Mise a jour du format de date pour simplifier la passation en javascript
+			String date = "";
+			if (session.getSessionDate() != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("EE MMM d y H:m:s ZZZ", Locale.US);
+				date = sdf.format(session.getSessionDate());
+			}
+			
+			sessionJSON.put("link", link);
+			sessionJSON.put("eventID", session.getEventID());
+			sessionJSON.put("eventName", session.getEventName());
+			sessionJSON.put("eventCode", session.getEventCode());
+			sessionJSON.put("eventDescription1", session.getEventDescription1());
+			sessionJSON.put("eventDescription2", session.getEventDescription2());
+			sessionJSON.put("eventDescription3", session.getEventDescription3());
+			sessionJSON.put("sessionID", session.getSessionID());
+			sessionJSON.put("sessionDate", date);
+			sessionJSON.put("placeID", session.getPlaceID());
+			sessionJSON.put("placeName", session.getPlaceName());
+			sessionJSON.put("placeCode", session.getPlaceCode());
+			sessionJSON.put("nbSeat", session.getNbSeat());
+			sessionJSON.put("nbSeatMin", session.getNbSeatMin());
+			sessionJSON.put("nbSeatMax", session.getNbSeatMax());
+			
+			sessionsJSON.put(sessionJSON);
+		}
+		
+		return sessionsJSON;
 	}
 
 }

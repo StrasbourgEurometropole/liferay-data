@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.activity.display.context.*;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -18,13 +19,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.portlet.activity.display.context.EditActivityCourseDisplayContext;
-import eu.strasbourg.portlet.activity.display.context.EditActivityDisplayContext;
-import eu.strasbourg.portlet.activity.display.context.EditActivityOrganizerDisplayContext;
-import eu.strasbourg.portlet.activity.display.context.ViewActivitiesDisplayContext;
-import eu.strasbourg.portlet.activity.display.context.ViewActivityCoursesDisplayContext;
-import eu.strasbourg.portlet.activity.display.context.ViewActivityOrganizersDisplayContext;
 
 @Component(
 	immediate = true,
@@ -72,9 +66,14 @@ public class ActivityBOPortlet extends MVCPortlet {
 			title = "activity-course";
 		} else if (mvcPath.equals("/activity-bo-edit-organizer.jsp")) {
 			EditActivityOrganizerDisplayContext dc = new EditActivityOrganizerDisplayContext(
-				renderRequest, renderResponse);
+					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "activity-organizer";
+		} else if (mvcPath.equals("/activity-bo-edit-association.jsp")) {
+			EditAssociationDisplayContext dc = new EditAssociationDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "association";
 		} else if (tab.equals("activityCourses")) {
 			ViewActivityCoursesDisplayContext dc = new ViewActivityCoursesDisplayContext(
 				renderRequest, renderResponse);
@@ -82,9 +81,14 @@ public class ActivityBOPortlet extends MVCPortlet {
 			title = "activity-courses";
 		} else if (tab.equals("activityOrganizers")) {
 			ViewActivityOrganizersDisplayContext dc = new ViewActivityOrganizersDisplayContext(
-				renderRequest, renderResponse);
+					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "activity-organizers";
+		} else if (tab.equals("associations")) {
+			ViewAssociationsDisplayContext dc = new ViewAssociationsDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "associations";
 		} else {
 			ViewActivitiesDisplayContext dc = new ViewActivitiesDisplayContext(
 				renderRequest, renderResponse);

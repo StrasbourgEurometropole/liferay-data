@@ -12,3 +12,6 @@ Supprimer js/src-1/map.js
 
 Le point d'entré sass ops.scss -> écraser le fichier mais recopier la dernière partie du fichier concernant custom.scss (@import "override/custom";)
 
+Dans "scss/pages/_page_articles.scc", regarder la classe .ops-listing-articles et modifier la ligne 
+	"&:nth-child(4n + 4){"
+	--> "&:nth-child(4n + 5){"

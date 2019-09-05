@@ -29,11 +29,7 @@ $.fn.customSelect = function(opts) {
         }
 
         // Ecouteur - Mise Ã  jour/Init de la valeur du select
-        if ($(el[i]).find('option[selected="true"]').length) {
-            container.find('.customSelectInner').html($(el[i]).find('option[selected="true"]').text());
-        }else{
-            container.find('.customSelectInner').html($(el[i]).find('option:eq(1)').text());
-        }
+        container.find('.customSelectInner').html($(el[i]).find('option:selected').text());
         
         $(el[i]).on('change ', function(e) {
             var text = getOptionTextFromValue($(this), $(this).val())

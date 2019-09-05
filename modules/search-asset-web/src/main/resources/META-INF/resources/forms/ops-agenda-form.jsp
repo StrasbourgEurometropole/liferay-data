@@ -6,7 +6,7 @@
 	<!-- Recherche par dates -->
 	<c:if test="${dc.dateField}">
 		<div class="ops-facette-checkbox ops-dropdown">
-			<a href="#" class="selected"></a> <a href="#">Mois</a>
+			<a href="#" class="selected"></a> <a href="#"><liferay-ui:message key="eu.search.asset.web.ops.agenda.month" /></a>
 			<ul>
 				<c:forEach begin="0" end="14" varStatus="loop">
 					<li>
@@ -27,7 +27,7 @@
 	</c:if>
 
 	<div class="ops-facette-checkbox ops-dropdown">
-		<a href="#" class="selected"></a> <a href="#">Abonnements</a>
+		<a href="#" class="selected"></a> <a href="#"><liferay-ui:message key="eu.search.asset.web.ops.agenda.subscriptions" /></a>
 		<ul>
 			<c:set var="subscriptionVocabulary" value="${vocabularyAccessor.getEventSubscriptionTypes(groupID)}" />
 			<c:forEach items="${dc.getDropdownRootCategories(subscriptionVocabulary)}" var="category">
@@ -45,7 +45,7 @@
 
 
 	<div class="ops-facette-checkbox ops-dropdown">
-		<a href="#" class="selected"></a> <a href="#">Typologie</a>
+		<a href="#" class="selected"></a> <a href="#"><liferay-ui:message key="eu.search.asset.web.ops.agenda.typology" /></a>
 		<ul>
 			<c:set var="typologieVocabulary" value="${vocabularyAccessor.getEventTypologies(groupID)}" />
 			<c:forEach items="${dc.getDropdownRootCategories(typologieVocabulary)}" var="category">
@@ -71,7 +71,7 @@
 
 	<!-- SOUMETTRE LE FORMULAIRE -->
 	<div class="ops-button-submit">
-		<input type="submit" class="ops-btn" value="Envoyer" />
+		<input type="submit" class="ops-btn" value="<liferay-ui:message key="eu.search.asset.web.ops.agenda.send" />" />
 	</div>
 <script>
 

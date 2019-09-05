@@ -90,7 +90,7 @@
 				<div>
 					<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
 					<br><br>
-					<strong>Attention</strong> : Pour pouvoir voter aux &eacute;lections europ&eacute;ennes du 26 mai 2019, vous devez vous inscrire avant le 31 mars 2019.
+					<a href="https://www.service-public.fr/particuliers/vosdroits/N47" target="_blank" title="Consultez votre situation &eacute;lectorale (nouvelle fen&ecirc;tre)">Consultez votre situation &eacute;lectorale sur le site www.service-public.fr</a>
 				</div>
 			</c:if>
 			<c:if test="${felecResponse.responseCode eq 2}">

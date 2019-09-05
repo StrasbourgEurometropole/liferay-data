@@ -2,7 +2,7 @@
 	position: relative;
 	padding: 45px 0 55px;
 	@include clearfix();
-	> * {
+	.ops-col-33 {
 		position: relative;
 		float: left;
 		margin: 15px 0;

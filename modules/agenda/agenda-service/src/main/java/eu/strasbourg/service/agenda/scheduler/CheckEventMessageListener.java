@@ -6,6 +6,8 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
@@ -15,6 +17,7 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.ManifestationLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 
 /**
  * Passe au statut "APPROVED" tous les événements et les manifestations dont la
@@ -68,4 +71,12 @@ public class CheckEventMessageListener
 	private EventLocalService _eventLocalService;
 	private ManifestationLocalService _manifestationLocalService;
 
+	private PlaceLocalService _placeLocalService;
+	@Reference(unbind = "-")
+	protected void setPlaceLocalService(
+			PlaceLocalService placeLocalService) {
+
+		_placeLocalService = placeLocalService;
+	}
+	
 }

@@ -51,7 +51,7 @@
                                 setTimeout(function(){
                                     snp.$pop.addClass('opened');
                                     snp.$pop_slider.trigger('refresh.owl.carousel'); // Force le resize d'une façon bizarre pour la maj des dimensions
-                                    $('html').addClass('no-scroll');
+                                    $('html').addClass('seu-no-scroll');
                                 }, 20);
                             });
                         },
