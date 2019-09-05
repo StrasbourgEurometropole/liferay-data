@@ -104,7 +104,8 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 (function($) {
 	var dateRangePickerLocaleSettings =  { // Configuration française du dateRangePicker
 		format: 'DD/MM/YYYY',
-		applyLabel: 'Ajouter',
+		applyLabel: 'Valider',
+		applyAndNewLabel: 'Valider et ajouter une nouvelle période',
 		cancelLabel: 'Fermer',
 		 daysOfWeek: [
             "Di",
@@ -183,10 +184,8 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		parentEl: '.portlet-boundary_eu_strasbourg_portlet_agenda_portlet_AgendaCampaignPortlet_ .portlet-body',
 		locale: dateRangePickerLocaleSettings
 	});
-	// Lors du clic sur le bouton "Appliquer
+	// Lors du clic sur le bouton "Appliquer"
 	$('#' + namespace + 'periodGenerator').on('apply.daterangepicker', function (ev, picker) {
-		// On laisse le calendrier ouvert
-		$('#' + namespace + 'periodGenerator').trigger('click');
 
 		// On simule le clic sur le bouton "+" de l'autoField
 		// On modifie également l'URL appelée pour récupérer la ligne répétable
@@ -201,6 +200,25 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		
 		// On reset l'URL à sa valeur initiale
 		autoFields.url = previousURL;		
+	});
+	// Lors du clic sur le bouton "Valider et ajouter une nouvelle période
+	$('#' + namespace + 'periodGenerator').on('applyAndNew.daterangepicker', function (ev, picker) {
+		// On laisse le calendrier ouvert
+		$('#' + namespace + 'periodGenerator').trigger('click');
+
+		// On simule le clic sur le bouton "+" de l'autoField
+		// On modifie également l'URL appelée pour récupérer la ligne répétable
+		// afin d'ajouter les paramètres de dates de début et de fin
+		var formattedStartDate = picker.startDate.format('DD/MM/YYYY');
+		var formattedEndDate = picker.endDate.format('DD/MM/YYYY');
+		var previousURL = autoFields.url;
+		autoFields.url = autoFields.url + '&' + namespace + 'startDate=' + formattedStartDate
+			+ '&' + namespace + 'endDate=' + formattedEndDate;
+
+		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
+
+		// On reset l'URL à sa valeur initiale
+		autoFields.url = previousURL;
 	});
 	
 	/**
