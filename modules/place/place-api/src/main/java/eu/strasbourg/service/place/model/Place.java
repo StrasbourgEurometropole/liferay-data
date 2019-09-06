@@ -112,7 +112,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
 
 	/**
-	* Retourne les périodes qui ne sont pas par défaut
+	* Retourne les périodes qui ne sont pas par défaut (uniquement les périodes en cours ou futures)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriods();
 

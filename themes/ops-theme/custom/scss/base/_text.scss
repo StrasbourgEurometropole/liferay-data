@@ -202,7 +202,7 @@
 	margin-bottom: 10px;
 	font-size: 0;
 	@include clearfix();
-	> * {
+	span {
 		@include ft($f_txt, 13px, 700, $c_dark, 26px);
 		position: relative;
 		text-transform: uppercase;

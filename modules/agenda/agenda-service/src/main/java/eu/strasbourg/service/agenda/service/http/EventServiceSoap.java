@@ -239,5 +239,19 @@ public class EventServiceSoap {
 		}
 	}
 
+	public static java.lang.String getSessions(long eventID)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = EventServiceUtil.getSessions(eventID);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(EventServiceSoap.class);
 }

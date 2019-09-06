@@ -314,4 +314,18 @@ public interface Event extends EventModel, PersistedModel {
 		java.lang.String tag, java.lang.String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException;
+
+	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
+	*
+	* @return
+	*/
+	public java.util.List<eu.strasbourg.utils.models.RodrigueEventSession> getSessionsFromRodrigue();
+
+	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
+	*
+	* @return
+	*/
+	public com.liferay.portal.kernel.json.JSONArray getSessionsFromRodrigueInJSON();
 }

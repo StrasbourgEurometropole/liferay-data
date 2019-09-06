@@ -240,8 +240,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 			
 			event.setComposer(ParamUtil.getString(request, "composer"));
-			event.setProgram(ParamUtil.getString(request, "program"));
-			event.setDistribution(ParamUtil.getString(request, "distribution"));
+			event.setProgramMap(LocalizationUtil.getLocalizationMap(request, "program"));
+			event.setDistributionMap(LocalizationUtil.getLocalizationMap(request, "distribution"));
 			event.setConcertId(ParamUtil.getString(request, "concertId"));
 			
 			// ---------------------------------------------------------------

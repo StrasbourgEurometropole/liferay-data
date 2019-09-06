@@ -715,7 +715,7 @@ public class SearchAssetDisplayContext {
 	public String getMonthYearTitle(int iterationLoop, Locale locale) {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MONTH, iterationLoop);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM - yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM - yyyy", locale);
 		
 		return  StringUtil.upperCaseFirstLetter(dateFormat.format(c.getTime()));
 	}

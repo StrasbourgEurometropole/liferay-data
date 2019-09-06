@@ -580,6 +580,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
+	*
+	* @return
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getSessionsFromRodrigueInJSON() {
+		return _event.getSessionsFromRodrigueInJSON();
+	}
+
+	/**
 	* Retourne la version JSON de l'événenement
 	*/
 	@Override
@@ -1105,6 +1115,64 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns the localized distribution of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized distribution of this event
+	*/
+	@Override
+	public java.lang.String getDistribution(java.lang.String languageId) {
+		return _event.getDistribution(languageId);
+	}
+
+	/**
+	* Returns the localized distribution of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized distribution of this event
+	*/
+	@Override
+	public java.lang.String getDistribution(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getDistribution(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized distribution of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized distribution of this event
+	*/
+	@Override
+	public java.lang.String getDistribution(java.util.Locale locale) {
+		return _event.getDistribution(locale);
+	}
+
+	/**
+	* Returns the localized distribution of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized distribution of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getDistribution(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getDistribution(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getDistributionCurrentLanguageId() {
+		return _event.getDistributionCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getDistributionCurrentValue() {
+		return _event.getDistributionCurrentValue();
+	}
+
+	/**
 	* Returns the email of this event.
 	*
 	* @return the email of this event
@@ -1469,6 +1537,64 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.lang.String getProgram() {
 		return _event.getProgram();
+	}
+
+	/**
+	* Returns the localized program of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized program of this event
+	*/
+	@Override
+	public java.lang.String getProgram(java.lang.String languageId) {
+		return _event.getProgram(languageId);
+	}
+
+	/**
+	* Returns the localized program of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized program of this event
+	*/
+	@Override
+	public java.lang.String getProgram(java.lang.String languageId,
+		boolean useDefault) {
+		return _event.getProgram(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized program of this event in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized program of this event
+	*/
+	@Override
+	public java.lang.String getProgram(java.util.Locale locale) {
+		return _event.getProgram(locale);
+	}
+
+	/**
+	* Returns the localized program of this event in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized program of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getProgram(java.util.Locale locale,
+		boolean useDefault) {
+		return _event.getProgram(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getProgramCurrentLanguageId() {
+		return _event.getProgramCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getProgramCurrentValue() {
+		return _event.getProgramCurrentValue();
 	}
 
 	/**
@@ -2038,6 +2164,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
+	*
+	* @return
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.utils.models.RodrigueEventSession> getSessionsFromRodrigue() {
+		return _event.getSessionsFromRodrigue();
+	}
+
+	/**
 	* Retourne X suggestions max pour un événement
 	*
 	* @param request  la requete
@@ -2128,6 +2264,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Returns a map of the locales and localized distributions of this event.
+	*
+	* @return the locales and localized distributions of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getDistributionMap() {
+		return _event.getDistributionMap();
+	}
+
+	/**
 	* Returns a map of the locales and localized place names of this event.
 	*
 	* @return the locales and localized place names of this event
@@ -2145,6 +2291,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getPriceMap() {
 		return _event.getPriceMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized programs of this event.
+	*
+	* @return the locales and localized programs of this event
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getProgramMap() {
+		return _event.getProgramMap();
 	}
 
 	/**
@@ -2645,6 +2801,60 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	* Sets the localized distribution of this event in the language.
+	*
+	* @param distribution the localized distribution of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setDistribution(java.lang.String distribution,
+		java.util.Locale locale) {
+		_event.setDistribution(distribution, locale);
+	}
+
+	/**
+	* Sets the localized distribution of this event in the language, and sets the default locale.
+	*
+	* @param distribution the localized distribution of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setDistribution(java.lang.String distribution,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_event.setDistribution(distribution, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDistributionCurrentLanguageId(java.lang.String languageId) {
+		_event.setDistributionCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized distributions of this event from the map of locales and localized distributions.
+	*
+	* @param distributionMap the locales and localized distributions of this event
+	*/
+	@Override
+	public void setDistributionMap(
+		Map<java.util.Locale, java.lang.String> distributionMap) {
+		_event.setDistributionMap(distributionMap);
+	}
+
+	/**
+	* Sets the localized distributions of this event from the map of locales and localized distributions, and sets the default locale.
+	*
+	* @param distributionMap the locales and localized distributions of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setDistributionMap(
+		Map<java.util.Locale, java.lang.String> distributionMap,
+		java.util.Locale defaultLocale) {
+		_event.setDistributionMap(distributionMap, defaultLocale);
+	}
+
+	/**
 	* Sets the email of this event.
 	*
 	* @param email the email of this event
@@ -3023,6 +3233,59 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public void setProgram(java.lang.String program) {
 		_event.setProgram(program);
+	}
+
+	/**
+	* Sets the localized program of this event in the language.
+	*
+	* @param program the localized program of this event
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setProgram(java.lang.String program, java.util.Locale locale) {
+		_event.setProgram(program, locale);
+	}
+
+	/**
+	* Sets the localized program of this event in the language, and sets the default locale.
+	*
+	* @param program the localized program of this event
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setProgram(java.lang.String program, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+		_event.setProgram(program, locale, defaultLocale);
+	}
+
+	@Override
+	public void setProgramCurrentLanguageId(java.lang.String languageId) {
+		_event.setProgramCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized programs of this event from the map of locales and localized programs.
+	*
+	* @param programMap the locales and localized programs of this event
+	*/
+	@Override
+	public void setProgramMap(
+		Map<java.util.Locale, java.lang.String> programMap) {
+		_event.setProgramMap(programMap);
+	}
+
+	/**
+	* Sets the localized programs of this event from the map of locales and localized programs, and sets the default locale.
+	*
+	* @param programMap the locales and localized programs of this event
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setProgramMap(
+		Map<java.util.Locale, java.lang.String> programMap,
+		java.util.Locale defaultLocale) {
+		_event.setProgramMap(programMap, defaultLocale);
 	}
 
 	/**

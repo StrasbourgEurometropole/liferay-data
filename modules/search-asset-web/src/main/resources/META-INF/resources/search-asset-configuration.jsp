@@ -268,6 +268,9 @@
                         <aui:option value="christmas-experience" selected="${searchForm eq 'christmas-experience'}">
                             <liferay-ui:message key="christmas-experience" />
                         </aui:option>
+                        <aui:option value="bib-sae-agenda" selected="${searchForm eq 'bib-sae-agenda'}">
+                            <liferay-ui:message key="bib-sae-agenda" />
+                        </aui:option>
                         <aui:option value="strasbourg-agenda" selected="${searchForm eq 'strasbourg-agenda'}">
                             <liferay-ui:message key="strasbourg-agenda" />
                         </aui:option>
@@ -300,6 +303,12 @@
                         </aui:option>
                         <aui:option value="ops-agenda" selected="${searchForm eq 'ops-agenda'}">
                             <liferay-ui:message key="ops-agenda" />
+                        </aui:option>
+                        <aui:option value="ops-general" selected="${searchForm eq 'ops-general'}">
+                            <liferay-ui:message key="ops-general" />
+                        </aui:option>
+                        <aui:option value="ops-news" selected="${searchForm eq 'ops-news'}">
+                            <liferay-ui:message key="ops-news" />
                         </aui:option>
                     </aui:select>
 
