@@ -255,7 +255,7 @@ public class SearchAssociationDisplayContext {
      * On récupère les préférences de catégories et on les envoie à la JSP C'est
      * une liste d'AssetVocabulary, qui correspond aux vocabulaires pour
      * lesquels on souhaite afficher une liste déroulante dans le moteur de
-     * recherche
+     * recherche (on enlève le vocabulire accessibilité de pratique
      */
     public List<AssetVocabulary> getVocabularies() throws PortalException {
         if (this._vocabularies == null) {
@@ -274,10 +274,10 @@ public class SearchAssociationDisplayContext {
                 _vocabularies.add(territoriesVocabulary);
             }
 
-            AssetVocabulary accessibiliestyVocabulary = assetVocabularyAccessor.getAccessibility(this._themeDisplay.getScopeGroupId());
-            if (publicsVocabulary != null) {
-                _vocabularies.add(accessibiliestyVocabulary);
-            }
+//            AssetVocabulary accessibiliestyVocabulary = assetVocabularyAccessor.getAccessibility(this._themeDisplay.getScopeGroupId());
+//            if (publicsVocabulary != null) {
+//                _vocabularies.add(accessibiliestyVocabulary);
+//            }
         }
         return this._vocabularies;
     }
