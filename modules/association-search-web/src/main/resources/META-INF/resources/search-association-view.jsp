@@ -4,7 +4,7 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <main class="seu-container">
-	<div class="seu-view-agenda">
+	<div class="seu-view-activity">
 		<!-- Formulaire -->
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
