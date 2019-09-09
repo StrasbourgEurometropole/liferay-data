@@ -204,6 +204,9 @@
 							</div>
 						</div>
 						<div class="pro-form-submit pro-row">
+							<div class="form-group form-half displayListing">
+					            <aui:input name="displayListing" type="checkbox" checked="${isDisplayListing}" />
+							</div>
 							<button type="submit" class="btn btn-default">
 								<liferay-ui:message key="dashboard.account.profile.button.save" />
 							</button>
@@ -692,3 +695,14 @@
 	<a href="#backtop" class="pro-btn-back-top"><span
 		class="icon-ico-chevron-down"></span></a>
 </c:if>
+
+<style>
+    .pro-bloc-dashboard .pro-wrapper-dashboard #pro-onglet-account form .pro-row .displayListing label{
+        display:flex;
+        align-items: center;
+    }
+
+    .displayListing label input{
+        margin-right: 10px;
+    }
+</style>
