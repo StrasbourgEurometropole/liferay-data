@@ -42,6 +42,7 @@
         this.showWeekNumbers = false;
         this.showISOWeekNumbers = false;
         this.showCustomRangeLabel = true;
+        this.showDates = false;
         this.timePicker = false;
         this.timePicker24Hour = false;
         this.timePickerIncrement = 1;
@@ -239,6 +240,9 @@
 
         if (typeof options.showCustomRangeLabel === 'boolean')
             this.showCustomRangeLabel = options.showCustomRangeLabel;
+
+        if (typeof options.showDates === 'boolean')
+            this.showDates = options.showDates;
 
         if (typeof options.singleDatePicker === 'boolean') {
             this.singleDatePicker = options.singleDatePicker;
@@ -538,7 +542,7 @@
             return false;
         },
 
-        updateView: function(withDate=true) {
+        updateView: function() {
             if (this.timePicker) {
                 this.renderTimePicker('left');
                 this.renderTimePicker('right');
@@ -557,7 +561,7 @@
             }
             this.updateMonthsInView();
             this.updateCalendars();
-            this.updateFormInputs(withDate);
+            this.updateFormInputs();
         },
 
         updateMonthsInView: function() {
@@ -1027,10 +1031,10 @@
 
         },
 
-        updateFormInputs: function(withDate=true) {
+        updateFormInputs: function() {
 
             //ignore mouse movements while an above-calendar text input has focus
-            if (!withDate || this.container.find('input[name=daterangepicker_start]').is(":focus") || this.container.find('input[name=daterangepicker_end]').is(":focus"))
+            if (this.container.find('input[name=daterangepicker_start]').is(":focus") || this.container.find('input[name=daterangepicker_end]').is(":focus"))
                 return;
 
             this.container.find('input[name=daterangepicker_start]').val(this.startDate.format(this.locale.format));
@@ -1131,11 +1135,16 @@
             this.oldEndDate = this.endDate.clone();
             this.previousRightTime = this.endDate.clone();
 
-            this.updateView(false);
+            this.updateView();
             this.container.show();
             this.move();
             this.element.trigger('show.daterangepicker', this);
             this.isShowing = true;
+
+            if(!this.showDates){
+                this.container.find('input[name=daterangepicker_start]').val('');
+                this.container.find('input[name=daterangepicker_end]').val('');
+            }
         },
 
         hide: function(e) {
@@ -1409,28 +1418,28 @@
         clickApply: function(e) {
             this.hide();
             this.element.trigger('apply.daterangepicker', this);
-            this.startDate = this.oldStartDate;
-            this.endDate = this.oldEndDate;
-            this.container.find('input[name=daterangepicker_start]').val('');
-            this.container.find('input[name=daterangepicker_end]').val('');
+            if(!this.showDates){
+                this.startDate = moment().startOf('day');
+                this.endDate = moment().startOf('day');
+            }
         },
 
         clickApplyAndNew: function(e) {
             this.hide();
             this.element.trigger('applyAndNew.daterangepicker', this);
-            this.startDate = this.oldStartDate;
-            this.endDate = this.oldEndDate;
-            this.container.find('input[name=daterangepicker_start]').val('');
-            this.container.find('input[name=daterangepicker_end]').val('');
+            if(!this.showDates){
+                this.startDate = moment().startOf('day');
+                this.endDate = moment().startOf('day');
+            }
         },
 
         clickCancel: function(e) {
             this.hide();
             this.element.trigger('cancel.daterangepicker', this);
-            this.startDate = this.oldStartDate;
-            this.endDate = this.oldEndDate;
-            this.container.find('input[name=daterangepicker_start]').val('');
-            this.container.find('input[name=daterangepicker_end]').val('');
+            if(!this.showDates){
+                this.startDate = moment().startOf('day');
+                this.endDate = moment().startOf('day');
+            }
         },
 
         monthOrYearChanged: function(e) {
