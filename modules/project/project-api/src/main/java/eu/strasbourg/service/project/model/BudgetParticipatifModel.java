@@ -383,6 +383,21 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setPlaceTextArea(String placeTextArea);
 
 	/**
+	 * Returns the in the name of of this budget participatif.
+	 *
+	 * @return the in the name of of this budget participatif
+	 */
+	@AutoEscape
+	public String getInTheNameOf();
+
+	/**
+	 * Sets the in the name of of this budget participatif.
+	 *
+	 * @param inTheNameOf the in the name of of this budget participatif
+	 */
+	public void setInTheNameOf(String inTheNameOf);
+
+	/**
 	 * Returns the citoyen lastname of this budget participatif.
 	 *
 	 * @return the citoyen lastname of this budget participatif

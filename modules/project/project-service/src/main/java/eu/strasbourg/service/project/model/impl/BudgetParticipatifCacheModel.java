@@ -66,7 +66,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(71);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -104,6 +104,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(motif);
 		sb.append(", placeTextArea=");
 		sb.append(placeTextArea);
+		sb.append(", inTheNameOf=");
+		sb.append(inTheNameOf);
 		sb.append(", citoyenLastname=");
 		sb.append(citoyenLastname);
 		sb.append(", citoyenFirstname=");
@@ -239,6 +241,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setPlaceTextArea(placeTextArea);
 		}
 
+		if (inTheNameOf == null) {
+			budgetParticipatifImpl.setInTheNameOf(StringPool.BLANK);
+		}
+		else {
+			budgetParticipatifImpl.setInTheNameOf(inTheNameOf);
+		}
+
 		if (citoyenLastname == null) {
 			budgetParticipatifImpl.setCitoyenLastname(StringPool.BLANK);
 		}
@@ -364,6 +373,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		budget = objectInput.readUTF();
 		motif = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
+		inTheNameOf = objectInput.readUTF();
 		citoyenLastname = objectInput.readUTF();
 		citoyenFirstname = objectInput.readUTF();
 		citoyenAdresse = objectInput.readUTF();
@@ -469,6 +479,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 		else {
 			objectOutput.writeUTF(placeTextArea);
+		}
+
+		if (inTheNameOf == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(inTheNameOf);
 		}
 
 		if (citoyenLastname == null) {
@@ -579,6 +596,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public String budget;
 	public String motif;
 	public String placeTextArea;
+	public String inTheNameOf;
 	public String citoyenLastname;
 	public String citoyenFirstname;
 	public String citoyenAdresse;

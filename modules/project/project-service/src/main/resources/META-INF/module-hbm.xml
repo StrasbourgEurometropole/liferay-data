@@ -35,6 +35,7 @@
 		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="motif" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="inTheNameOf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenAdresse" type="com.liferay.portal.dao.orm.hibernate.StringType" />

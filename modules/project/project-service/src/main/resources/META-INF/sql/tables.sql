@@ -17,6 +17,7 @@ create table project_BudgetParticipatif (
 	budget VARCHAR(75) null,
 	motif TEXT null,
 	placeTextArea VARCHAR(400) null,
+	inTheNameOf VARCHAR(75) null,
 	citoyenLastname VARCHAR(75) null,
 	citoyenFirstname VARCHAR(75) null,
 	citoyenAdresse VARCHAR(400) null,

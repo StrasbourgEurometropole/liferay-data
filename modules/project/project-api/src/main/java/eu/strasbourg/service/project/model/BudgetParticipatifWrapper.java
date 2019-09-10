@@ -78,6 +78,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
 		attributes.put("placeTextArea", getPlaceTextArea());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("citoyenLastname", getCitoyenLastname());
 		attributes.put("citoyenFirstname", getCitoyenFirstname());
 		attributes.put("citoyenAdresse", getCitoyenAdresse());
@@ -207,6 +208,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String citoyenLastname = (String)attributes.get("citoyenLastname");
@@ -811,6 +818,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getImageURL() {
 		return _budgetParticipatif.getImageURL();
+	}
+
+	/**
+	* Returns the in the name of of this budget participatif.
+	*
+	* @return the in the name of of this budget participatif
+	*/
+	@Override
+	public java.lang.String getInTheNameOf() {
+		return _budgetParticipatif.getInTheNameOf();
 	}
 
 	/**
@@ -1422,6 +1439,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setImageId(long imageId) {
 		_budgetParticipatif.setImageId(imageId);
+	}
+
+	/**
+	* Sets the in the name of of this budget participatif.
+	*
+	* @param inTheNameOf the in the name of of this budget participatif
+	*/
+	@Override
+	public void setInTheNameOf(java.lang.String inTheNameOf) {
+		_budgetParticipatif.setInTheNameOf(inTheNameOf);
 	}
 
 	/**

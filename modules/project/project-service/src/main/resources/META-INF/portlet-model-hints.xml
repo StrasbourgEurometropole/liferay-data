@@ -30,6 +30,9 @@
 		<field name="placeTextArea" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="inTheNameOf" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="citoyenLastname" type="String" />
 		<field name="citoyenFirstname" type="String" />
 		<field name="citoyenAdresse" type="String">

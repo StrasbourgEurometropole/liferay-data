@@ -88,6 +88,11 @@
 				<aui:input name="citoyenMobile" label="mobile" />
 
 			</aui:fieldset>
+			
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
+				<%-- Champ : Nom --%>
+				<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
+			</aui:fieldset>
 
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
@@ -153,18 +158,26 @@
 				<p><liferay-ui:message key='phase-explanation' /></p>
 			
 				<strasbourg-picker:entity label="eu.budgetPhase" name="budgetPhaseId"
-					value="${dc.budgetParticipatif.budgetPhaseId}"
+					value="${not empty budgetPhaseId ? budgetPhaseId : dc.budgetParticipatif.budgetPhaseId}"
 					type="eu.strasbourg.service.project.model.BudgetPhase"
 					multiple="false" />	
-				
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : vocabulaire --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">
 
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-
+				<c:choose>
+				    <c:when test="${empty defaultAssetCategoryIds}">
+						<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				    </c:when>
+					<c:otherwise>
+						<liferay-ui:asset-categories-selector
+								className="<%= BudgetParticipatif.class.getName() %>"
+								curCategoryIds="${defaultAssetCategoryIds}"
+						/>
+					</c:otherwise>
+				</c:choose>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">

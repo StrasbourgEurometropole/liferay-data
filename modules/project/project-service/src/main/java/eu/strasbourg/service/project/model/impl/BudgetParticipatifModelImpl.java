@@ -93,6 +93,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "budget", Types.VARCHAR },
 			{ "motif", Types.CLOB },
 			{ "placeTextArea", Types.VARCHAR },
+			{ "inTheNameOf", Types.VARCHAR },
 			{ "citoyenLastname", Types.VARCHAR },
 			{ "citoyenFirstname", Types.VARCHAR },
 			{ "citoyenAdresse", Types.VARCHAR },
@@ -132,6 +133,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("budget", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("motif", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("inTheNameOf", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenLastname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenFirstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenAdresse", Types.VARCHAR);
@@ -151,7 +153,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.modifiedDate DESC";
@@ -207,6 +209,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setBudget(soapModel.getBudget());
 		model.setMotif(soapModel.getMotif());
 		model.setPlaceTextArea(soapModel.getPlaceTextArea());
+		model.setInTheNameOf(soapModel.getInTheNameOf());
 		model.setCitoyenLastname(soapModel.getCitoyenLastname());
 		model.setCitoyenFirstname(soapModel.getCitoyenFirstname());
 		model.setCitoyenAdresse(soapModel.getCitoyenAdresse());
@@ -307,6 +310,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
 		attributes.put("placeTextArea", getPlaceTextArea());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("citoyenLastname", getCitoyenLastname());
 		attributes.put("citoyenFirstname", getCitoyenFirstname());
 		attributes.put("citoyenAdresse", getCitoyenAdresse());
@@ -439,6 +443,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String citoyenLastname = (String)attributes.get("citoyenLastname");
@@ -873,6 +883,22 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@JSON
 	@Override
+	public String getInTheNameOf() {
+		if (_inTheNameOf == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _inTheNameOf;
+		}
+	}
+
+	@Override
+	public void setInTheNameOf(String inTheNameOf) {
+		_inTheNameOf = inTheNameOf;
+	}
+
+	@JSON
+	@Override
 	public String getCitoyenLastname() {
 		if (_citoyenLastname == null) {
 			return StringPool.BLANK;
@@ -1294,6 +1320,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setBudget(getBudget());
 		budgetParticipatifImpl.setMotif(getMotif());
 		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
+		budgetParticipatifImpl.setInTheNameOf(getInTheNameOf());
 		budgetParticipatifImpl.setCitoyenLastname(getCitoyenLastname());
 		budgetParticipatifImpl.setCitoyenFirstname(getCitoyenFirstname());
 		budgetParticipatifImpl.setCitoyenAdresse(getCitoyenAdresse());
@@ -1518,6 +1545,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.placeTextArea = null;
 		}
 
+		budgetParticipatifCacheModel.inTheNameOf = getInTheNameOf();
+
+		String inTheNameOf = budgetParticipatifCacheModel.inTheNameOf;
+
+		if ((inTheNameOf != null) && (inTheNameOf.length() == 0)) {
+			budgetParticipatifCacheModel.inTheNameOf = null;
+		}
+
 		budgetParticipatifCacheModel.citoyenLastname = getCitoyenLastname();
 
 		String citoyenLastname = budgetParticipatifCacheModel.citoyenLastname;
@@ -1630,7 +1665,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(71);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1668,6 +1703,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getMotif());
 		sb.append(", placeTextArea=");
 		sb.append(getPlaceTextArea());
+		sb.append(", inTheNameOf=");
+		sb.append(getInTheNameOf());
 		sb.append(", citoyenLastname=");
 		sb.append(getCitoyenLastname());
 		sb.append(", citoyenFirstname=");
@@ -1709,7 +1746,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(109);
+		StringBundler sb = new StringBundler(112);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1786,6 +1823,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(
 			"<column><column-name>placeTextArea</column-name><column-value><![CDATA[");
 		sb.append(getPlaceTextArea());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>inTheNameOf</column-name><column-value><![CDATA[");
+		sb.append(getInTheNameOf());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>citoyenLastname</column-name><column-value><![CDATA[");
@@ -1891,6 +1932,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private String _budget;
 	private String _motif;
 	private String _placeTextArea;
+	private String _inTheNameOf;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;
 	private String _citoyenAdresse;

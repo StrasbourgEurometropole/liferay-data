@@ -531,6 +531,7 @@
 		<column name="budget" type="String" />
 		<column name="motif" type="String" />
 		<column name="placeTextArea" type="String" />
+		<column name="inTheNameOf" type="String" />
 
 		<!-- citoyen fields -->
 		<column name="citoyenLastname" type="String" />

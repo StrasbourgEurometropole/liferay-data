@@ -52,6 +52,7 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setBudget(model.getBudget());
 		soapModel.setMotif(model.getMotif());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
+		soapModel.setInTheNameOf(model.getInTheNameOf());
 		soapModel.setCitoyenLastname(model.getCitoyenLastname());
 		soapModel.setCitoyenFirstname(model.getCitoyenFirstname());
 		soapModel.setCitoyenAdresse(model.getCitoyenAdresse());
@@ -268,6 +269,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_placeTextArea = placeTextArea;
 	}
 
+	public String getInTheNameOf() {
+		return _inTheNameOf;
+	}
+
+	public void setInTheNameOf(String inTheNameOf) {
+		_inTheNameOf = inTheNameOf;
+	}
+
 	public String getCitoyenLastname() {
 		return _citoyenLastname;
 	}
@@ -430,6 +439,7 @@ public class BudgetParticipatifSoap implements Serializable {
 	private String _budget;
 	private String _motif;
 	private String _placeTextArea;
+	private String _inTheNameOf;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;
 	private String _citoyenAdresse;

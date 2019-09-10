@@ -12,7 +12,7 @@
 
 <%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
 <liferay-portlet:renderURL varImpl="addBudgetParticipatifURL">
-	<portlet:param name="cmd" value="editBudgetParticipatif" />
+	<portlet:param name="cmd" value="addBudgetParticipatif" />
 	<portlet:param name="mvcPath" value="/project-bo-edit-budget-participatif.jsp" />
 	<portlet:param name="returnURL" value="${budgetParticipatifURL}" />
 </liferay-portlet:renderURL>
@@ -162,6 +162,8 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+	
+
 
 	<liferay-portlet:resourceURL var="exportBudgetsXlsxURL" id="exportBudgetsXlsx">
     </liferay-portlet:resourceURL>
@@ -175,14 +177,14 @@
 
 </div>
 
+
 <%-- Composant : bouton d'ajout d'entite --%>
-<!--
 <liferay-frontend:add-menu>
 	<c:if test="${dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 		<liferay-frontend:add-menu-item title="Ajouter un budget participatif" url="${addBudgetParticipatifURL}" />
 	</c:if>
 </liferay-frontend:add-menu>
--->
+
 <%-- URL : defini le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />

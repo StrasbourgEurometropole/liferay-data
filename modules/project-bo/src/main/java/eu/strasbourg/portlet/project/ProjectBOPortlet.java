@@ -1,7 +1,11 @@
 package eu.strasbourg.portlet.project;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -21,6 +25,11 @@ import eu.strasbourg.portlet.project.display.context.ViewInitiativesDisplayConte
 import eu.strasbourg.portlet.project.display.context.ViewParticipationsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewPetitionsDisplayContext;
 import eu.strasbourg.portlet.project.display.context.ViewProjectsDisplayContext;
+import eu.strasbourg.service.project.constants.ParticiperCategories;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -28,6 +37,9 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author cedric.henry
@@ -91,8 +103,23 @@ public class ProjectBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("signatureNumber", signatureNumber);
 			renderRequest.setAttribute("dc", dc);
 			title = "Petitions";
-		} else if (cmd.equals("editBudgetParticipatif") || mvcPath.equals("/project-bo-edit-budget-participatif.jsp") || fromAjaxBudgetParticipatif) {
+		} else if (cmd.equals("editBudgetParticipatif") || cmd.equals("addBudgetParticipatif") || mvcPath.equals("/project-bo-edit-budget-participatif.jsp") || fromAjaxBudgetParticipatif) {
 			EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
+			
+			//On initialise le BP avec la catégorie de la phase en cours, la catégorie et la phase en cours et la catégorie statut depose
+			if(cmd.equals("addBudgetParticipatif")) {
+				AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), themeDisplay.getScopeGroupId());
+				String assetCategoryIds = Long.toString(category.getCategoryId());
+				
+				BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getSiteGroupId());
+	            if (budgetPhaseActive != null) {
+	            	renderRequest.setAttribute("budgetPhaseId", budgetPhaseActive.getBudgetPhaseId());
+	                AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+	                assetCategoryIds = assetCategoryIds + "," + phaseCat.getCategoryId();
+	            }
+	            renderRequest.setAttribute("defaultAssetCategoryIds", assetCategoryIds);
+			}
+			
 			renderRequest.setAttribute("dc", dc);
 			title = "budgets-participatifs";
 		} else if (cmd.equals("editBudgetPhase") || mvcPath.equals("/project-bo-edit-budget-phase.jsp")) {
