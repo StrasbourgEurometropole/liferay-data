@@ -39,6 +39,9 @@
 <#-- L'entité est elle en période de vote -->
 <#assign isVotable = entry.isVotable() />
 
+<#-- Est-ce l'autheur de l'entité ? -->
+<#assign isAuthor = entry.publikId == userID />
+
 <#-- L'entité peut être modifiée -->
 <#assign isEditable = entry.isEditable() />
 
@@ -74,7 +77,7 @@
 </@> 
 
 <div class="pro-page-detail pro-page-detail-initiative">
-
+----> ${entry.publikId} || ${userID} || ${isAuthor?c}
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->
 
     <div class="container">
@@ -234,7 +237,7 @@
                                     <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                                     <p class="pro-txt-vote">Il vous reste <strong>${nbSupportForActivePhase}</strong> possibilités de voter pour un projet</p>
                                 </#if>
-                            <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned>
+                            <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned && isAuthor>
                                 <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-yellow">MODIFIER</a> 
 							<#else>
                                 <a href="#" class="pro-btn-yellow" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
