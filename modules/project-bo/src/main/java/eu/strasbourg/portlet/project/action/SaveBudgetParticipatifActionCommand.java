@@ -124,6 +124,12 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setCitoyenMobile(mobile);
             
             // ---------------------------------------------------------------
+ 			// -------------------------- FUSION -----------------------------
+ 			// ---------------------------------------------------------------
+            
+            budgetParticipatif.setInTheNameOf(ParamUtil.getString(request, "inTheNameOf"));
+            
+            // ---------------------------------------------------------------
  			// -------------------------- IMAGE / VIDEO ----------------------
  			// ---------------------------------------------------------------
             

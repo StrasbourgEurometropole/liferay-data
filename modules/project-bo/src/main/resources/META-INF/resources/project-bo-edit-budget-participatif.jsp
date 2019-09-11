@@ -59,41 +59,46 @@
 				<aui:input name="motif" required="false" />
 
 			</aui:fieldset>
-
-			<%-- Groupe de champs : Citoyen --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
-
-				<%-- Champ : Nom --%>
-				<aui:input name="citoyenLastname" label="last-name" disabled="true" />
-				
-				<%-- Champ : Prenom --%>
-				<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
-
-				<%-- Champ : Adresse --%>
-				<aui:input name="citoyenAdresse" label="address" />
-
-				<%-- Champ : Code postal --%>
-				<aui:input name="citoyenPostalCode" label="postal-code" />
-
-				<%-- Champ : Ville --%>
-				<aui:input name="citoyenCity" label="city" />
-
-				<%-- Champ : Adresse mail --%>
-				<aui:input name="citoyenEmail" label="email" />
-
-				<%-- Champ : telephone --%>
-				<aui:input name="citoyenPhone" label="phone" />
-
-				<%-- Champ : mobile --%>
-				<aui:input name="citoyenMobile" label="mobile" />
-
-			</aui:fieldset>
 			
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
-				<%-- Champ : Nom --%>
-				<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
-			</aui:fieldset>
-
+			<c:choose>
+			    <c:when test="${not empty citoyenLastname}">
+					<%-- Groupe de champs : Citoyen --%>
+					<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
+			
+						<%-- Champ : Nom --%>
+						<aui:input name="citoyenLastname" label="last-name" disabled="true" />
+						
+						<%-- Champ : Prenom --%>
+						<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
+			
+						<%-- Champ : Adresse --%>
+						<aui:input name="citoyenAdresse" label="address" />
+			
+						<%-- Champ : Code postal --%>
+						<aui:input name="citoyenPostalCode" label="postal-code" />
+			
+						<%-- Champ : Ville --%>
+						<aui:input name="citoyenCity" label="city" />
+			
+						<%-- Champ : Adresse mail --%>
+						<aui:input name="citoyenEmail" label="email" />
+			
+						<%-- Champ : telephone --%>
+						<aui:input name="citoyenPhone" label="phone" />
+			
+						<%-- Champ : mobile --%>
+						<aui:input name="citoyenMobile" label="mobile" />
+			
+					</aui:fieldset>
+			    </c:when>
+				<c:otherwise>
+					<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
+						<%-- Champ : Au nom de --%>
+						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
+					</aui:fieldset>
+				</c:otherwise>
+			</c:choose>
+			
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
 

@@ -346,10 +346,13 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     @Override
     public String getAuthor(){
+    	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+			return this.getInTheNameOf();
+		} else {
     		return StringUtil.upperCaseFirstLetter(this.getCitoyenFirstname())
     				+ " "
     				+  StringUtil.toUpperCase(StringUtil.shorten(this.getCitoyenLastname(), 2, "."));
-    	
+		}
     }
 	
 	/**
