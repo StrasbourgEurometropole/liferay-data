@@ -176,6 +176,46 @@
                     var concertDate = new Date(Date.parse(session.sessionDate));
 
                     // Elements
+
+                        cssClass = "";
+                        ticketingElement = '<a href="' + session.link + '" target="_blank"><@liferay_ui.message key="eu.ops.buy.my.ticket" /></a>';
+ 
+                    $('#ops-representations .slick-cards-slider').slick('slickAdd',
+                        '<div class="ops-item ' + session.cssClass + '">' +
+                            '<time datetime="' + concertDate.getFullYear() + '-' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '-' + concertDate.getDate() + '">' + 
+                                '<span>' + ('0' + concertDate.getDate()).slice(-2) + '/' + ('0' + (concertDate.getMonth() + 1)).slice(-2) + '/' + concertDate.getFullYear() + '</span> ' + 
+                            '</time>' +
+                            '<div class="ops-horaires">' + ('0' + concertDate.getHours()).slice(-2) + 'h' +  ('0' + concertDate.getMinutes()).slice(-2) + '</div>' +
+                            '<h3>' + session.eventName + '</h3>' +
+                            '<div class="ops-bottom-card">' + 
+                                ticketingElement +
+                            '</div>' +
+                        '</div>'
+                    );
+                    
+                }
+            }
+        );
+    });
+</script>
+<#-- Script avant désactivation du nombre de place restante
+var eventID = ${entry.eventId};
+
+        // Recherche des sessions futures
+        Liferay.Service(
+            '/agenda.event/get-sessions',
+            {
+                eventID: eventID
+            },
+            function(json) {
+
+                for(var i = 0; i < json.length; i++) {
+                    var session = json[i];
+
+                    // Date de concert
+                    var concertDate = new Date(Date.parse(session.sessionDate));
+
+                    // Elements
                     var cssClass = "ops-item-concert-complet";
                     var nbSeatElement = "<@liferay_ui.message key='eu.ops.complete' />";
                     var ticketingElement = "<span><@liferay_ui.message key='eu.ops.buy.my.ticket' /></span>";
@@ -203,5 +243,4 @@
                 }
             }
         );
-    });
-</script>
+        -->
