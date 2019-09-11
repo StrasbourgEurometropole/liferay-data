@@ -28,7 +28,7 @@
                             <#else>
                                 <div class="seu-wi-item seu-actu seu-has-picture">
                             </#if>
-                                <a href="${viewURL}" class="seu-link" title="${title}">
+                                <a href="${viewURL}" class="seu-link" title="${title}" style="background-color:white">
                                     <#if curEntry.tagNames?seq_contains("euromag") || curEntry.tagNames?seq_contains("villemag") || curEntry.tagNames?seq_contains("webmag")>
                                         <div class="seu-picture" style="background-image: url(${thumbnail})">
                                         </div>
