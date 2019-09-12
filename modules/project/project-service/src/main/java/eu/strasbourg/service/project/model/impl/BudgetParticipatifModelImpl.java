@@ -110,7 +110,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "publikId", Types.VARCHAR },
 			{ "imageId", Types.BIGINT },
 			{ "filesIds", Types.VARCHAR },
-			{ "budgetPhaseId", Types.BIGINT }
+			{ "budgetPhaseId", Types.BIGINT },
+			{ "parentId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -151,9 +152,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budgetPhaseId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("parentId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG,parentId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.modifiedDate DESC";
@@ -173,10 +175,11 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long ISCRUSH_COLUMN_BITMASK = 8L;
-	public static final long PUBLIKID_COLUMN_BITMASK = 16L;
-	public static final long STATUS_COLUMN_BITMASK = 32L;
-	public static final long UUID_COLUMN_BITMASK = 64L;
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 128L;
+	public static final long PARENTID_COLUMN_BITMASK = 16L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 64L;
+	public static final long UUID_COLUMN_BITMASK = 128L;
+	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -227,6 +230,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setImageId(soapModel.getImageId());
 		model.setFilesIds(soapModel.getFilesIds());
 		model.setBudgetPhaseId(soapModel.getBudgetPhaseId());
+		model.setParentId(soapModel.getParentId());
 
 		return model;
 	}
@@ -328,6 +332,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("budgetPhaseId", getBudgetPhaseId());
+		attributes.put("parentId", getParentId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -551,6 +556,12 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (budgetPhaseId != null) {
 			setBudgetPhaseId(budgetPhaseId);
+		}
+
+		Long parentId = (Long)attributes.get("parentId");
+
+		if (parentId != null) {
+			setParentId(parentId);
 		}
 	}
 
@@ -1185,6 +1196,29 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		return _originalBudgetPhaseId;
 	}
 
+	@JSON
+	@Override
+	public long getParentId() {
+		return _parentId;
+	}
+
+	@Override
+	public void setParentId(long parentId) {
+		_columnBitmask |= PARENTID_COLUMN_BITMASK;
+
+		if (!_setOriginalParentId) {
+			_setOriginalParentId = true;
+
+			_originalParentId = _parentId;
+		}
+
+		_parentId = parentId;
+	}
+
+	public long getOriginalParentId() {
+		return _originalParentId;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -1338,6 +1372,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setImageId(getImageId());
 		budgetParticipatifImpl.setFilesIds(getFilesIds());
 		budgetParticipatifImpl.setBudgetPhaseId(getBudgetPhaseId());
+		budgetParticipatifImpl.setParentId(getParentId());
 
 		budgetParticipatifImpl.resetOriginalValues();
 
@@ -1426,6 +1461,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifModelImpl._originalBudgetPhaseId = budgetParticipatifModelImpl._budgetPhaseId;
 
 		budgetParticipatifModelImpl._setOriginalBudgetPhaseId = false;
+
+		budgetParticipatifModelImpl._originalParentId = budgetParticipatifModelImpl._parentId;
+
+		budgetParticipatifModelImpl._setOriginalParentId = false;
 
 		budgetParticipatifModelImpl._columnBitmask = 0;
 	}
@@ -1660,12 +1699,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		budgetParticipatifCacheModel.budgetPhaseId = getBudgetPhaseId();
 
+		budgetParticipatifCacheModel.parentId = getParentId();
+
 		return budgetParticipatifCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(75);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1739,6 +1780,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getFilesIds());
 		sb.append(", budgetPhaseId=");
 		sb.append(getBudgetPhaseId());
+		sb.append(", parentId=");
+		sb.append(getParentId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1746,7 +1789,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(112);
+		StringBundler sb = new StringBundler(115);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1896,6 +1939,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			"<column><column-name>budgetPhaseId</column-name><column-value><![CDATA[");
 		sb.append(getBudgetPhaseId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>parentId</column-name><column-value><![CDATA[");
+		sb.append(getParentId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1955,6 +2002,9 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private long _budgetPhaseId;
 	private long _originalBudgetPhaseId;
 	private boolean _setOriginalBudgetPhaseId;
+	private long _parentId;
+	private long _originalParentId;
+	private boolean _setOriginalParentId;
 	private long _columnBitmask;
 	private BudgetParticipatif _escapedModel;
 }

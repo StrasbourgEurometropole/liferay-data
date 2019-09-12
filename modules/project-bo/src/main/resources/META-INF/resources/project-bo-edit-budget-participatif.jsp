@@ -95,6 +95,13 @@
 					<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
 						<%-- Champ : Au nom de --%>
 						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
+						
+						<p><liferay-ui:message key='project-parent-explanation' /></p>
+			
+						<strasbourg-picker:entity label="eu.budgetParent" name="budgetParentId"
+							value="${dc.budgetParticipatif.parentId}"
+							type="eu.strasbourg.service.project.model.BudgetParticipatif"
+							multiple="false" />
 					</aui:fieldset>
 				</c:otherwise>
 			</c:choose>

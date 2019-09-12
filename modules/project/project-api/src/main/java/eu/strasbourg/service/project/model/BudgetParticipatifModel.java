@@ -661,6 +661,20 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setBudgetPhaseId(long budgetPhaseId);
 
 	/**
+	 * Returns the parent ID of this budget participatif.
+	 *
+	 * @return the parent ID of this budget participatif
+	 */
+	public long getParentId();
+
+	/**
+	 * Sets the parent ID of this budget participatif.
+	 *
+	 * @param parentId the parent ID of this budget participatif
+	 */
+	public void setParentId(long parentId);
+
+	/**
 	 * Returns <code>true</code> if this budget participatif is approved.
 	 *
 	 * @return <code>true</code> if this budget participatif is approved; <code>false</code> otherwise

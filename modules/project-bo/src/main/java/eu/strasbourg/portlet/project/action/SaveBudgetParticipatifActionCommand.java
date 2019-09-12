@@ -129,6 +129,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             
             budgetParticipatif.setInTheNameOf(ParamUtil.getString(request, "inTheNameOf"));
             
+            // Sélection du projet partent
+            budgetParticipatif.setParentId(ParamUtil.getLong(request, "budgetParentId"));
+            
             // ---------------------------------------------------------------
  			// -------------------------- IMAGE / VIDEO ----------------------
  			// ---------------------------------------------------------------

@@ -17,7 +17,7 @@ create table project_BudgetParticipatif (
 	budget VARCHAR(75) null,
 	motif TEXT null,
 	placeTextArea VARCHAR(400) null,
-	inTheNameOf VARCHAR(75) null,
+	inTheNameOf VARCHAR(400) null,
 	citoyenLastname VARCHAR(75) null,
 	citoyenFirstname VARCHAR(75) null,
 	citoyenAdresse VARCHAR(400) null,
@@ -34,7 +34,8 @@ create table project_BudgetParticipatif (
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(75) null,
-	budgetPhaseId LONG
+	budgetPhaseId LONG,
+	parentId LONG
 );
 
 create table project_BudgetPhase (

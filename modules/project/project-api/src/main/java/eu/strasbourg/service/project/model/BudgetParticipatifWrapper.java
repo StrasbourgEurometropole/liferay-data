@@ -96,6 +96,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("budgetPhaseId", getBudgetPhaseId());
+		attributes.put("parentId", getParentId());
 
 		return attributes;
 	}
@@ -316,6 +317,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (budgetPhaseId != null) {
 			setBudgetPhaseId(budgetPhaseId);
+		}
+
+		Long parentId = (Long)attributes.get("parentId");
+
+		if (parentId != null) {
+			setParentId(parentId);
 		}
 	}
 
@@ -1172,6 +1179,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Returns the parent ID of this budget participatif.
+	*
+	* @return the parent ID of this budget participatif
+	*/
+	@Override
+	public long getParentId() {
+		return _budgetParticipatif.getParentId();
+	}
+
+	/**
 	* Returns the primary key of this budget participatif.
 	*
 	* @return the primary key of this budget participatif
@@ -1484,6 +1501,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setNew(boolean n) {
 		_budgetParticipatif.setNew(n);
+	}
+
+	/**
+	* Sets the parent ID of this budget participatif.
+	*
+	* @param parentId the parent ID of this budget participatif
+	*/
+	@Override
+	public void setParentId(long parentId) {
+		_budgetParticipatif.setParentId(parentId);
 	}
 
 	/**
