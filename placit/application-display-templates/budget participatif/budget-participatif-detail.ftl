@@ -77,7 +77,6 @@
 </@> 
 
 <div class="pro-page-detail pro-page-detail-initiative">
-----> ${entry.publikId} || ${userID} || ${isAuthor?c}
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->
 
     <div class="container">
