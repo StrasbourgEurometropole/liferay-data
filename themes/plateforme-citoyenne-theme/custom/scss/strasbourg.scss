@@ -21,6 +21,19 @@
 @import "libs/icomoon";
 @import "libs/pikaday";
 @import "libs/leaflet-custom";
+@import "libs/simplebar";
+@import "libs/squireUI";
+
+
+// Éléments communs du site
+// ==========================================================================
+@import "layouts/cards";
+@import "layouts/pagination";
+@import "layouts/social-share";
+@import "layouts/commentaires";
+@import "layouts/aside";
+@import "layouts/modal";
+@import "layouts/facette";
 
 
 // Style Header + Footer + Éléments communs du site
@@ -28,6 +41,23 @@
 @import "style/layout";
 @import "style/layout_header";
 @import "style/layout_footer";
+
+
+// Style Pages du site
+// ==========================================================================
+@import "pages/page-search";
+@import "pages/page-detail-participation";
+@import "pages/page-detail-projet";
+@import "pages/page-detail-initiative";
+@import "pages/page-carte";
+@import "pages/page-pacte";
+@import "pages/page-budget-participatif";
+@import "pages/page-404";
+@import "pages/page-registre";
+@import "pages/page-detail";
+@import "pages/page-listing";
+@import "pages/page-signataire";
+
 
 
 // Style des blocs modulables
@@ -41,39 +71,20 @@
 @import "blocs/bloc-actu";
 @import "blocs/bloc-video";
 @import "blocs/bloc-text-img";
-
 @import "blocs/bloc-slider";
-@import "blocs/bloc-vignettes";
 @import "blocs/bloc-large";
 @import "blocs/bloc-select";
 @import "blocs/bloc-listing";
-@import "blocs/bloc-pagination";
-@import "blocs/bloc-social-share";
-@import "blocs/bloc-commentaires";
 @import "blocs/bloc-parallax";
 @import "blocs/bloc-telechargements";
 @import "blocs/bloc-prefooter";
-@import "blocs/bloc-facette";
 @import "blocs/bloc-detail-video";
-@import "blocs/bloc-page-detail";
-@import "blocs/bloc-signataire";
 @import "blocs/bloc-listing-participation";
 @import "blocs/bloc-widget";
 @import "blocs/bloc-pub";
-@import "blocs/bloc-aside";
-@import "blocs/bloc-modal";
 @import "blocs/bloc-accordion";
 @import "blocs/bloc-dashboard";
 @import "blocs/bloc-photo-profil";
-
-@import "blocs/page-search";
-@import "blocs/page-detail-participation";
-@import "blocs/page-detail-projet";
-@import "blocs/page-detail-initiative";
-@import "blocs/page-carte";
-@import "blocs/page-pacte";
-@import "blocs/page-budget-participatif";
-@import "blocs/page-404";
 
 // Style override
 // ==========================================================================

@@ -1,6 +1,6 @@
-$('[data-frmval]').each(function(){
-    this.setAttribute('placeholder',this.getAttribute('data-frmval'));
-    if(this.value === this.getAttribute('data-frmval')){
+$('[data-frmval]').each(function () {
+    this.setAttribute('placeholder', this.getAttribute('data-frmval'));
+    if (this.value === this.getAttribute('data-frmval')) {
         this.value = '';
     }
 });
@@ -22,55 +22,52 @@ $('.frm_radio > label').append('<span></span>');
 $('.frm_checkbox > label').append('<span></span>');
 
 
-
 // Add a hidden label around the selectric input for accessibility.
 var countSelectricInput = 0;
-$(".selectric-input").each(function(){
+$(".selectric-input").each(function () {
     countSelectricInput++;
     $(this)
-        .attr('id','selectric-input-id-'+countSelectricInput).attr('tabindex','1')
+        .attr('id', 'selectric-input-id-' + countSelectricInput).attr('tabindex', '1')
         .parent()
-        .append('<label for="selectric-input-id-'+countSelectricInput+'" class="hide" aria-hidden="true">Hidden Label</label>');
+        .append('<label for="selectric-input-id-' + countSelectricInput + '" class="hide" aria-hidden="true">Hidden Label</label>');
 });
 
 
-
-$('.pro-wrapper-search-top .icon-ico-close').on('click',function(){
+$('.pro-wrapper-search-top .icon-ico-close').on('click', function () {
     $('#pro-header').removeClass('pro-wrapper-search-open');
-    $('body').css('overflow','auto');
+    $('body').css('overflow', 'auto');
     $('#pro-shadow-bg').removeClass('pro-display-block');
 });
 
 
 // Quand on click sur l'îcone de recherche dans le menu, on ouvre la search bar
-$('a[href$="rechercher"]').on('click',function(e){
+$('a[href$="rechercher"]').on('click', function (e) {
     e.preventDefault();
     $('#pro-header').toggleClass('pro-wrapper-search-open');
-    $('body').css('overflow','hidden');
+    $('body').css('overflow', 'hidden');
     $('#pro-search').focus();
     $('#pro-shadow-bg').addClass('pro-display-block');
 });
 
 
-
 function bs_input_file() {
     $(".input-file").before(
-        function() {
-            if ( ! $(this).prev().hasClass('input-ghost') ) {
+        function () {
+            if (!$(this).prev().hasClass('input-ghost')) {
                 var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
-                element.attr("name",$(this).attr("name"));
-                element.change(function(){
+                element.attr("name", $(this).attr("name"));
+                element.change(function () {
                     element.next(element).find('input').val((element.val()).split('\\').pop());
                 });
-                $(this).find("button.btn-choose").click(function(){
+                $(this).find("button.btn-choose").click(function () {
                     element.click();
                 });
-                $(this).find("button.btn-reset").click(function(){
+                $(this).find("button.btn-reset").click(function () {
                     element.val(null);
                     $(this).parents(".input-file").find('input').val('');
                 });
-                $(this).find('input').css("cursor","pointer");
-                $(this).find('input').mousedown(function() {
+                $(this).find('input').css("cursor", "pointer");
+                $(this).find('input').mousedown(function () {
                     $(this).parents('.input-file').prev().click();
                     return false;
                 });
@@ -79,6 +76,13 @@ function bs_input_file() {
         }
     );
 }
-$(function() {
+$(function () {
     bs_input_file();
+});
+
+
+
+// SQUIRE.JS
+new SquireUI({
+    replace: '.form-squire-target'
 });

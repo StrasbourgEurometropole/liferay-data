@@ -16,6 +16,14 @@ body {
 		box-sizing: border-box;
 	}
 
+	&.no-hover{
+		main{
+			&.pro-overflow-visible{
+				overflow: hidden;
+			}
+		}
+	}
+
 	main {
 		position: relative;
 		overflow: hidden;
@@ -217,4 +225,29 @@ body {
 	overflow: hidden;
 }
 
+
+// @extend
+// ==========================================================================
+%center {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+%aligncenter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+%appearance {
+	-webkit-appearance: none;
+	resize: none;
+	box-shadow: none;
+	border-radius: 0;
+	border: none;
+	outline: none;
+}
 

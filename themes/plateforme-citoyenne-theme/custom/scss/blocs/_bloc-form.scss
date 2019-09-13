@@ -33,15 +33,11 @@
 			}
 		}
 		input {
-			-webkit-appearance: none;
+			@include ft($f_hx, 1.750em, 400, $c_txt, 36px);
+			@extend %appearance;
 			width: calc(100% - 66px);
-			height: 70px;
 			background: $c_white;
-			border: none;
-			border-radius: 0;
-			box-shadow: none;
-			padding: 0 35px;
-			@include ft($f_hx, 1.750em, 400, $c_txt, normal);
+			padding: 17px 35px;
 			text-transform: uppercase;
 			&::placeholder {
 				color: rgba($c_txt, 0.7);
@@ -51,19 +47,18 @@
 			}
 			@include mobile {
 				font-size: 1em;
-				padding: 0 15px;
+				line-height: 25px;
+				padding: 20px 15px;
 			}
 		}
 
 		button {
+			@extend %appearance;
 			position: absolute;
 			right: 0;
 			top: 0;
 			bottom: 0;
 			background: $c_main;
-			-webkit-appearance: none;
-			box-shadow: none;
-			border: none;
 			padding: 0 20px;
 			font-size: 25px;
 			@include addTransitionCurve();
@@ -96,15 +91,17 @@
 			@include font();
 			float: right;
 			font-size: 16px;
-			line-height: 60px;
 			position: absolute;
 			right: -35px;
 			top: 50%;
-			transform: translateY(-50%);
+			margin-top: -8px;
 			@include tablet_portrait {
 				right: -35px;
-				line-height: 40px;
 				top: calc(50% - 5px);
+			}
+			@include mobile{
+				font-size: 12px;
+				margin-top: -6px;
 			}
 		}
 		.selectric {
@@ -179,16 +176,16 @@
 form{
 	input[type="submit"]{
 		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
+		@extend %appearance;
 		text-transform: uppercase;
 		font-weight: 700;
-		height: 46px;
 		border: 2px solid $c_main;
-		line-height: 46px;
+		line-height: 22px;
 		width: 100%;
 		display: block;
 		text-align: center;
 		position: relative;
-		padding: 0;
+		padding: 12px 0;
 		margin-bottom: 30px;
 		@include addTransition();
 		&:hover, &:focus {
@@ -220,13 +217,14 @@ form{
 		}
 	}
 	input, textarea {
-		@include ft($f_txt, 0.875em, 400, $c_txt, 38px);
-		padding: 0 15px;
-		border-color: #b2b2b2;
+		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+		@extend %appearance;
+		height: 100%;
+		padding: 10px 15px;
+		border: 1px solid #b2b2b2;
+		border-radius: 4px;
 		background: $c_white;
-		&.form-control{
-			height: 40px;
-		}
+		@include addTransition();
 		&:hover, &:focus {
 			border-color: $c_dark;
 			outline: none;
@@ -234,19 +232,34 @@ form{
 		}
 	}
 	textarea.form-control{
-		height: 180px;
+		height: 280px;
 		resize: none;
-		padding: 5px 15px;
+		padding: 10px 15px;
 		margin-bottom: 0;
+		&.pro-textarea-small{
+			height: 130px;
+		}
 	}
+
+	iframe{
+		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+		//padding: 10px 15px;
+		width: 100%;
+		height: 280px;
+		border: 1px solid #b2b2b2;
+		border-radius: 4px;
+		background: $c_white;
+		&:hover, &:focus {
+			border-color: $c_dark;
+			outline: none;
+			box-shadow: none;
+		}
+	}
+
 	.form-group {
 		clear: both;
 		margin-bottom: 10px;
-		&:after{
-			content: '';
-			display: block;
-			clear: both;
-		}
+		@include clearfix();
 		&.pro-form-error{
 			input{
 				border-color: #ff0000;
@@ -269,6 +282,12 @@ form{
 				display: inline-block;
 				vertical-align: middle;
 				margin-right: 40px;
+			}
+			&.form-inline{
+				margin-top: 15px;
+				> div{
+					margin-right: 20px;
+				}
 			}
 		}
 
@@ -313,18 +332,17 @@ form{
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
 		button{
-			@include ft($f_hx, 0.938em, 700, $c_dark, 42px);
+			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
+			@extend %appearance;
 			background: $c_main;
-			height: 46px;
 			border-radius: 4px;
 			display: inline-block;
-			padding: 0 90px;
+			padding: 12px 90px;
 			border: 2px solid $c_main;
 			text-transform: uppercase;
 			@include addTransition();
 			@include mobile{
 				width: 100%;
-				padding: 0;
 			}
 			&:hover, &:focus{
 				background: $c_dark;
@@ -345,6 +363,7 @@ form{
 		@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
 		text-align: left;
 		clear: both;
+		user-select: none;
 		span {
 			color: #ff0000;
 		}
@@ -370,15 +389,34 @@ form{
 				&:hover{
 					color: $c_main;
 				}
+				a{
+					color: $c_white;
+					text-decoration: underline;
+					&:hover{
+						color: $c_main;
+					}
+				}
 			}
 		}
 
 		& + .pro-optin{
 			padding-top: 0;
 		}
+
+		&.form-inline{
+			margin-top: 20px;
+			@include clearfix();
+			div{
+				float: left;
+				margin-right: 20px;
+
+			}
+		}
+
 		> div{
 			position: relative;
 			padding: 0;
+			margin-bottom: 10px;
 			@include mobile{
 				display: block;
 			}
@@ -388,11 +426,7 @@ form{
 			margin-bottom: 5px;
 			padding: 0;
 		}
-		&:after {
-			content: '';
-			display: block;
-			clear: both
-		}
+		@include clearfix();
 		input[type="checkbox"]:checked + label:after, input[type="radio"]:checked + label:after {
 			opacity: 1;
 			transform: scale(1);
@@ -416,6 +450,7 @@ form{
 			padding: 0 0 0 30px;
 			&:hover{
 				color: $c_dark;
+				cursor: pointer;
 			}
 			&:before {
 				content: '';
@@ -521,6 +556,13 @@ form{
 
 
 	.selectric-wrapper{
+		&:hover{
+			.selectric{
+				.label{
+					border-color: $c_dark;
+				}
+			}
+		}
 		.selectric{
 			border: none;
 			.label{
@@ -528,7 +570,7 @@ form{
 				display: block;
 				width: 100%;
 				height: 40px;
-				padding: 0 15px;
+				padding: 0 25px 0 15px;
 				margin: 0;
 				background: $c_white;
 				border: 1px solid #b2b2b2;;
@@ -540,9 +582,9 @@ form{
 					@include font();
 					position: absolute;
 					top: 50%;
-					transform: translateY(-50%);
 					right: 10px;
 					font-size: 20px;
+					margin-top: -10px;
 				}
 			}
 			.button{
@@ -556,9 +598,13 @@ form{
 			border-color: #B2B2B2;
 			ul{
 				font-size: 1em;
+				margin: 0;
 				li{
 					@include ft($f_txt, 0.875em, 400, $c_txt, 1.429em);
 					padding: 8px 15px;
+					&:before{
+						content: none;
+					}
 				}
 			}
 		}
@@ -573,6 +619,11 @@ form{
 			}
 		}
 	}
+
+	.input-ghost{
+		display: none;
+	}
+
 	.input-group-btn{
 		font-size: 1em;
 		.btn{
@@ -583,13 +634,14 @@ form{
 			padding: 0 15px;
 			height: 40px;
 			border-radius: 0;
+			margin-top: 0;
 			background: $c_main;
 			@include addTransition();
 			&:hover, &:focus{
 				background: $c_dark;
 				border-color: $c_dark;
 				color: $c_main;
-				oultine: none;
+				outline: none;
 			}
 		}
 	}
@@ -599,11 +651,7 @@ form{
 		position: relative;
 		margin-left: -7.5px;
 		margin-right: -7.5px;
-		&:after{
-			content: '';
-			display: block;
-			clear: both;
-		}
+		@include clearfix();
 	}
 
 	.form-half {
