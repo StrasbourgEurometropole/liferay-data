@@ -48,7 +48,17 @@
     <div id="ops-representations" class="ops-bloc-slider-concerts">
         <div class="ops-content-wrapper">
 
-            <div class="slick-carousel slick-cards-slider">
+            <div class="slick-carousel slick-cards-slider hide">
+
+                <#-- Parcours des dates de l'event -->
+                <#list entry.getCurrentAndFuturePeriods() as period>
+                    <div class="ops-item">
+                        <time><span>${period.getDisplay(locale, false, true)}</span></time>
+                        <div class="ops-horaires">${period.timeDetail}</div>
+                        <h3>${entry.getTitle(locale)}</h3>
+                        <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
+                    </div>
+                </#list>
                 
             </div>
 
@@ -168,6 +178,12 @@
                 eventID: eventID
             },
             function(json) {
+                if(json != ""){
+                    $('#ops-representations .ops-item').each(function(index) {
+                        $('#ops-representations .slick-cards-slider').slick('slickRemove', 0);
+                    });
+                }
+                $('#ops-representations .slick-cards-slider').removeClass('hide');
 
                 for(var i = 0; i < json.length; i++) {
                     var session = json[i];
@@ -194,6 +210,7 @@
                     );
                     
                 }
+
             }
         );
     });
