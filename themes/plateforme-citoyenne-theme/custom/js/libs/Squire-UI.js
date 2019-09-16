@@ -227,7 +227,7 @@ SquireUI = function (options) {
 };
 /*! drop 0.5.4 */
 !function (t, e) {
-    "function" == typeof define && define.amd ? define(e) : "object" == typeof exports ? module.exports = e(require, exports, module) : t.Tether = e()
+    t.Tether = e();
 }(this, function () {
     return function () {
         var t, e, o, i, n, s, r, l, h, a, p, f, u, d, c, g, m, b = {}.hasOwnProperty, v = [].indexOf || function (t) {
