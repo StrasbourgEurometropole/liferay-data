@@ -10,7 +10,8 @@ Squire.prototype.testPresenceinSelection = function (name, action, format,
 };
 SquireUI = function (options) {
     if (typeof options.buildPath == "undefined") {
-        options.buildPath = 'assets/';
+        options.buildPath = '/o/plateforme-citoyenne-theme/images/assets/';
+        console.info(options.buildPath);
     }
     // Create instance of iFrame
     var container, editor;

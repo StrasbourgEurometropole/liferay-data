@@ -36,7 +36,7 @@ gulp.task('css', function () {
 });
 
 gulp.task('js', function () {
-    return gulp.src(['./custom/js/libs/squire.js','./custom/js/libs/jquery*.js','./custom/js/libs/*.js','./custom/js/src-1/*.js','./custom/js/src-2/*.js','./custom/js/src-3/*.js','./custom/js/**/*.js','./custom/js/*.js'])
+    return gulp.src(['./custom/js/libs/squire.js','./custom/js/libs/jquery*.js','./custom/js/libs/*.js','./custom/js/src-1/*.js','./custom/js/**/*.js'])
         .pipe(plugins.concat('strasbourg.js'))
         .on('error', function (err) {
             console.log(err.toString());
