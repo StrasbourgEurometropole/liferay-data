@@ -45,6 +45,9 @@
     </#if>
 
   </script>
+
+		<!-- Magnific Popup core JS file -->
+		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
     
   </head>
 
@@ -177,13 +180,15 @@
       }
     </script>
 
-    <#if locale == 'fr_FR'>
-        <style>
-        .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
-            display: block !important;
-        }
-        </style>
-    </#if>
+    <style>
+    .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
+        display: block !important;
+    }
+    </style>
+		
+		<!-- Lightbox implementation and Vendors JS -->
+		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
+    <script type="text/javascript" src="/o/christmas-2018-theme/js/lightbox.js" charset="utf-8"></script> 
 
   </body>
     

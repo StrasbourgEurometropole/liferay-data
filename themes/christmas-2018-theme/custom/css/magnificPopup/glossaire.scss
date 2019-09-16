@@ -1,0 +1,92 @@
+/* Style glossaire */
+
+/* Texte du glossaire */
+.glossaire-content p {
+	font-size: 1.2em;
+	line-height: 1.2em;
+	color: #3a3a3a;
+}
+
+.glossaire-content {
+	color: #3a3a3a;
+}
+
+/* Liens soulignés, pas au hover */
+.glossaire-content a {
+	text-decoration: underline;
+}
+
+.glossaire-content a:hover {
+text-decoration: none;
+}
+
+
+/* Page "tout le glossaire"*/
+/* Illustration : taille fixe alignée à gauche */
+.lightbox-item-illustration {
+	width: 139px;
+	height: 94px;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 25px;
+}
+
+/* Clearfix après un item */
+.lightbox-item:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+/* Titre d'un item du glossaire */
+.lightbox-item-title {
+	font-weight: 700;
+	font-size: 1.3em;
+	line-height: 1.3em;
+	margin-bottom: 5px;
+	color: #ad3939;
+}
+
+/* Catcher d'un item de glossaire */
+.lightbox-item-catcher {
+	color: #3a3a3a;
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+
+
+/* Titre et catcher : souligné au hover */
+.lightbox-item-title:hover
+, .lightbox-item-catcher:hover {
+	text-decoration: underline;
+}
+
+/* Version responsive pour écrans <= 640px */
+@media screen and (max-width: 640px) {
+	/* Padding left/right */
+	.lightbox-items {
+		padding: 0 10px;
+	}
+	
+	/* Illustratoin pas alignée à gauche */
+	.lightbox-item-illustration {
+		float: none;
+		margin: 0;
+		margin-bottom: 5px;
+		width: 100%;
+		height: auto;
+	}
+
+	.lightbox-item-catcher {
+		margin-bottom: 30px;
+	}
+
+	/* Titre déplacé au dessus de de l'image */
+	.lightbox-item {
+		display: table;
+	}
+
+	.lightbox-item-title-link {
+		display: table-header-group;
+	}
+}
