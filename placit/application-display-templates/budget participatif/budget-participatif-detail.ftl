@@ -75,7 +75,6 @@
     <meta property="og:image:height" content="298"/>
 
 </@> 
-
 <div class="pro-page-detail pro-page-detail-initiative">
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->
 
@@ -176,7 +175,11 @@
                                 </p>
                             </div>
                         </#if>
-
+                        <#if entry.getParent()?has_content >
+                            <div class="row pro-bloc pro-bloc-texte">
+                                Ce projet a été fusionné dans le projet <a href="${homeURL}detail-budget-participatif/-/entity/id/${entry.getParent().budgetParticipatifId}">${entry.getParent().title}</a>
+                            </div>
+                        </#if>
                         <div class="row pro-bloc pro-bloc-texte">
                             ${entry.description}
                         </div>
@@ -252,14 +255,28 @@
         </div>
     </div>
 	
-	<#-- Recuperation des suggestions du bp -->
-    <#assign suggestions = entry.getSuggestions(request, 10) />
+
+    <#assign childs = entry.getChilds() />
+
+    <#if childs?has_content>
+        <#assign bpsSlider = childs />
+    <#else>
+        <#-- Recuperation des suggestions du bp -->
+        <#assign bpsSlider = entry.getSuggestions(request, 10)  />
+    </#if>
 	
-	<#if suggestions?size gt 0 >
+    
+	
+	<#if bpsSlider?size gt 0 >
 		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <h2>D’autres projets citoyens</h2>
+                    <#if childs?has_content>
+                        <h2>Projet fusionné avec</h2>
+                    <#else>
+                        <h2>D’autres projets citoyens</h2>
+                    </#if>
+                    
                     <div class="pro-wrapper">
                         <a href="${homeURL}projets-budget-participatif" class="pro-btn">Tous les projets</a>
                     </div>
@@ -268,7 +285,7 @@
                 <div class="col-lg-10 col-lg-offset-1">
                     <div class="owl-carousel owl-opacify owl-theme owl-cards">
 					
-						<#list suggestions as suggestion >
+						<#list bpsSlider as suggestion >
 							
 							<#-- Recuperation de la couleur hexa correspondant au type du bp -->
 							<#assign statusColor = suggestion.getBudgetParticipatifStatusCategoryColor() />
