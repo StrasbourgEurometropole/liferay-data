@@ -1,8 +1,12 @@
 package eu.strasbourg.portlet.project.action;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,7 +43,9 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 @Component(
 	immediate = true,
@@ -131,6 +137,22 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             
             // Sélection du projet partent
             budgetParticipatif.setParentId(ParamUtil.getLong(request, "budgetParentId"));
+            
+            //Si un projet parent est associé, le projet courant(Devenu fils) prend le statut "Fusionne"
+            if(ParamUtil.getLong(request, "budgetParentId") != 0) {
+            	long[] ids = sc.getAssetCategoryIds();
+            	List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+            	List<AssetCategory> categories = AssetVocabularyHelper.getVocabulary(VocabularyNames.BUDGET_PARTICIPATIF_STATUS, sc.getScopeGroupId()).getCategories();
+            	
+            	AssetCategory selectedBPStatus = categories.stream().filter(status -> idsLong.contains(status.getCategoryId())).findFirst().orElse(null);
+            	if(selectedBPStatus != null)
+            		idsLong.remove(idsLong.indexOf(selectedBPStatus.getCategoryId()));
+            	AssetCategory mergedBPStatus = categories.stream()
+            			.filter(status -> StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), BP_MERGED.getName())).findFirst().orElse(null);
+            	
+            	idsLong.add(mergedBPStatus.getCategoryId());
+            	sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+            }
             
             // ---------------------------------------------------------------
  			// -------------------------- IMAGE / VIDEO ----------------------

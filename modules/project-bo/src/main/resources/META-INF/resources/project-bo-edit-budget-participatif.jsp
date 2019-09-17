@@ -59,9 +59,8 @@
 				<aui:input name="motif" required="false" />
 
 			</aui:fieldset>
-			
 			<c:choose>
-			    <c:when test="${not empty citoyenLastname}">
+			    <c:when test="${not empty dc.getBudgetParticipatif().getCitoyenLastname()}">
 					<%-- Groupe de champs : Citoyen --%>
 					<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
 			
