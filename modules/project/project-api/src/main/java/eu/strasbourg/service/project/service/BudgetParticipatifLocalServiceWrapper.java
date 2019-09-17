@@ -409,6 +409,15 @@ public class BudgetParticipatifLocalServiceWrapper
 		return _budgetParticipatifLocalService.getByBudgetPhase(budgetPhaseId);
 	}
 
+	/**
+	* Retourne tous les budgets participatifs d'un parent
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByParentId(
+		long budgetPhaseId) {
+		return _budgetParticipatifLocalService.getByParentId(budgetPhaseId);
+	}
+
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByPublikUserID(
 		java.lang.String publikId) {

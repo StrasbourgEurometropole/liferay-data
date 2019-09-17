@@ -25,6 +25,7 @@ import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NO
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,6 +78,7 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
@@ -201,6 +203,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         		return BP_FEASIBLE;
         	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_ACCEPTABLE.getName()))
         		return BP_ACCEPTABLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_MERGED.getName()))
+        		return BP_MERGED;
         	
         } 
         	
@@ -389,7 +393,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	}
 	
 	/**
-	 *  Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	 *  Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu, fusionné
 	 */
 	@Override
 	public boolean isNotDoable() {
@@ -398,7 +402,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	    		BP_NON_FEASIBLE,
 	    		BP_NON_SELECTED,	               		
 	    		BP_CANCELLED,
-	    		BP_SUSPENDED
+	    		BP_SUSPENDED,
+	    		BP_MERGED
 	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
 	}
 	
@@ -642,6 +647,38 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		return suggestions;
     }
     
+    /**
+     * Retourne X suggestions max pour un BP
+     *
+     * @param request la requete
+     * @param nbSuggestions le nombre de suggestions.
+     * @return la liste de bp.
+     */
+    @Override
+    public List<BudgetParticipatif> getChilds() {
+    	return BudgetParticipatifLocalServiceUtil.getByParentId(this.getBudgetParticipatifId());
+    }
+    
+    /**
+     * Retourne Le budget participatif parent dans le cas d'un bp fusionne
+     *
+     * @return Le BP parent
+     */
+    @Override
+    public BudgetParticipatif getParent() {
+    	BudgetParticipatif result = null;
+    	
+    	if(getBudgetParticipatifStatus() == BP_MERGED) {
+    		try {
+				result = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(this.getParentId());
+			} catch (PortalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+    	return result;
+    }
     
     /**
      * Retourne la version JSON de l'entité

@@ -175,7 +175,7 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public boolean isEditable();
 
 	/**
-	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu, fusionné
 	*/
 	public boolean isNotDoable();
 
@@ -255,6 +255,22 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 		javax.servlet.http.HttpServletRequest request, int nbSuggestions)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException;
+
+	/**
+	* Retourne X suggestions max pour un BP
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de bp.
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds();
+
+	/**
+	* Retourne Le budget participatif parent dans le cas d'un bp fusionne
+	*
+	* @return Le BP parent
+	*/
+	public eu.strasbourg.service.project.model.BudgetParticipatif getParent();
 
 	/**
 	* Retourne la version JSON de l'entité

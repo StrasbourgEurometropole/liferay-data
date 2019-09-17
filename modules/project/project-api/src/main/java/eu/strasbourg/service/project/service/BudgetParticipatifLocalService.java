@@ -339,6 +339,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId);
 
+	/**
+	* Retourne tous les budgets participatifs d'un parent
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getByParentId(long budgetPhaseId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getByPublikUserID(java.lang.String publikId);
 
