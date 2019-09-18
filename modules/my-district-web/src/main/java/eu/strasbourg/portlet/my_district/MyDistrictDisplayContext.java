@@ -392,31 +392,24 @@ public class MyDistrictDisplayContext {
             DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
             //eventQuery.setLimit(0, 12);
             List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-            List<AssetEntry> result = new ArrayList<AssetEntry>();
 
+            Map<Integer, AssetEntry> eventsMap = new HashMap<Integer, AssetEntry>();
             for (Event event : listEvent) {
                 AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
                         event.getPrimaryKey());
                 if (assetEntry != null) {
                     int i = 0;
                     int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
-                    while (i < result.size()) {
-                        int daysAfterPublication;
-                        Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
-                        daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
-                        if (daysBeforeNextOpenDate < daysAfterPublication) {
-                            result.add(i, assetEntry);
-                            break;
-                        }
-                        i++;
-                    }
-                    if (i == result.size()) {
-                        result.add(assetEntry);
-                    }
+                    eventsMap.put(daysBeforeNextOpenDate, assetEntry);
                 }
             }
-
-            events = result.subList(0,(result.size() > 12)?12:result.size());
+            events = eventsMap
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .limit(12)
+                    .map(e -> (AssetEntry)e.getValue())
+                    .collect(Collectors.toList());
         }
         return events;
     }
