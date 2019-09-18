@@ -62,19 +62,21 @@
         <#assign pageListing = abc.getFriendlyURL()/>
         <#break>
     </#if>
-
 </#list>
 
-<@liferay_util["html-top"]>
-    <meta property="og:url" content="${currentUrl}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="${entry.title}" />
-    <meta property="og:description" content="${entry.description?replace("<[^>]*>", "", "r")?html}" /> 
-    <meta property="og:image" content="${imageFullURL}"/>
-    <meta property="og:image:width" content="450"/>
-    <meta property="og:image:height" content="298"/>
+<#-- Liste des infos a partager -->
+<#assign openGraph = {"og:title":"${entry.title}",
+"og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
+"og:url":"${currentUrl}",
+"og:type":"article",
+"og:image":"${imageFullURL}",
+"og:image:width":"450",
+"og:image:height":"298"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
-</@> 
+
 <div class="pro-page-detail pro-page-detail-initiative">
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->
 
