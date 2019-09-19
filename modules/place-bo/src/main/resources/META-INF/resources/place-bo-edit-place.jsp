@@ -238,148 +238,169 @@
 				
 				<aui:input name="subjectPublicHolidays" label="subject-public-holidays" type="toggle-switch" 
 					value="${not empty dc.place ? dc.place.subjectToPublicHoliday : true}" />
-				
-				<!-- PÃÂ©riodes & horaires -->
-				<aui:fieldset collapsed="false" collapsible="true"
-					label="period-time">
+
+				<aui:input name="hasURLSchedule" label="has-url-schedule" type="toggle-switch"
+					value="${not empty dc.place ? dc.place.hasURLSchedule : true}" />
+
+				<div class="URLSchedule">
+                    <aui:input name="scheduleLinkName" label="period-label" value="${dc.place.scheduleLinkName}" localized="true" type="text" >
+                        <aui:validator name="require" errorMessage="this-field-is-required" />
+                    </aui:input>
+                    <div class="place-period-label" style="display: none">
+                        <liferay-ui:message key="this-field-is-required" />
+                    </div>
+
+                    <aui:input name="scheduleLinkURL" label="period-url" value="${dc.place.scheduleLinkURL}" localized="true" type="text" >
+                        <aui:validator name="url"/>
+                        <aui:validator name="require" errorMessage="this-field-is-required" />
+                    </aui:input>
+                    <div class="place-period-url" style="display: none">
+                        <liferay-ui:message key="this-field-is-required" />
+                    </div>
+                </div>
+
+
+				<div class="PeriodTime">
+                    <!-- PÃÂ©riodes & horaires -->
+                    <aui:fieldset collapsed="false" collapsible="true"
+                        label="period-time">
+
+                        <aui:input name="periodsIndexes" type="hidden" />
+
+                        <div class="nav-tabs">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <c:set var="nbPeriod" value="0"/>
+                                <c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+                                    <li role="presentation"
+                                        <c:if test="${status.count == 1}">
+                                            class="active"
+                                        </c:if>
+                                     id="onglet${nbPeriod}" >
+                                        <a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
+                                            <liferay-ui:message key="period" /> ${status.count}
+                                            <span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
+                                        </a>
+                                    </li>
+                                    <c:set var="nbPeriod" value="${nbPeriod + 1}"/>
+                                </c:forEach>
+                                <li role="presentation"
+                                    <c:if test="${empty dc.place.periods}">
+                                        class="active"
+                                    </c:if>
+                                 id="addPeriod" >
+                                    <a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content">
+                            <aui:input name="nbPeriod" type="hidden" value="${nbPeriod}" />
+                            <c:forEach items="${dc.place.periods}" var="period" varStatus="status">
+                                <fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+                                <fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
+                                <liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+                                    <liferay-util:param name="index" value="${status.count - 1}" />
+                                    <liferay-util:param name="disabled" value="false" />
+                                    <liferay-util:param name="name" value="${period.name}" />
+                                    <liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
+                                    <liferay-util:param name="startDate" value="${formattedStartDate}" />
+                                    <liferay-util:param name="endDate" value="${formattedEndDate}" />
+                                    <liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
+                                    <liferay-util:param name="periodId" value="${period.periodId}" />
+                                    <liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
+                                    <c:set var="slotJour" value="" />
+                                    <c:set var="slotStartHour" value="" />
+                                    <c:set var="slotEndHour" value="" />
+                                    <c:set var="slotComment" value="" />
+                                    <c:forEach items="${period.slots}" var="slot">
+                                        <c:if test="${not empty slotJour}">
+                                            <c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
+                                            <c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
+                                            <c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
+                                            <c:set var="slotComment" value="${slotComment} | ${slot.comment}" />
+                                        </c:if>
+                                        <c:if test="${empty slotJour}">
+                                            <c:set var="slotJour" value="${slot.dayOfWeek}" />
+                                            <c:set var="slotStartHour" value="${slot.startHour}" />
+                                            <c:set var="slotEndHour" value="${slot.endHour}" />
+                                            <c:set var="slotComment" value="${slot.comment}" />
+                                        </c:if>
+                                    </c:forEach>
+                                    <liferay-util:param name="slotJours" value="${slotJour}" />
+                                    <liferay-util:param name="slotStartHours" value="${slotStartHour}" />
+                                    <liferay-util:param name="slotEndHours" value="${slotEndHour}" />
+                                    <liferay-util:param name="slotComment" value="${slotComment}" />
+                                </liferay-util:include>
+                            </c:forEach>
+                            <div role="tabpanel"
+                                <c:if test="${empty dc.place.periods}">
+                                    class="tab-pane active fade in"
+                                </c:if>
+                                <c:if test="${not empty dc.place.periods}">
+                                    class="tab-pane fade in"
+                                </c:if>
+                            id="noPeriod">
+                                <liferay-ui:message key="no-period" />
+                            </div>
+                        </div>
+
+                    </aui:fieldset>
 					
-					<aui:input name="periodsIndexes" type="hidden" />
-				
-				    <div class="nav-tabs">
-				        <ul class="nav nav-tabs" role="tablist">
-							<c:set var="nbPeriod" value="0"/>
-							<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-				            	<li role="presentation"
-				            		<c:if test="${status.count == 1}">
-				            			class="active"
-				            		</c:if>
-				            	 id="onglet${nbPeriod}" >
-				            		<a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
-					            		<liferay-ui:message key="period" /> ${status.count} 
-					            		<span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
-					            	</a>
-				            	</li>
-								<c:set var="nbPeriod" value="${nbPeriod + 1}"/>
-							</c:forEach>
-			            	<li role="presentation"
-			            		<c:if test="${empty dc.place.periods}">
-			            			class="active"
-			            		</c:if>
-			            	 id="addPeriod" >
-			            		<a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
-			            	</li>
-				        </ul>
-				    </div>
-				
-				    <div class="tab-content">
-						<aui:input name="nbPeriod" type="hidden" value="${nbPeriod}" />
-						<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-							<fmt:formatDate value="${period.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
-							<fmt:formatDate value="${period.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
-							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-								<liferay-util:param name="index" value="${status.count - 1}" />
-								<liferay-util:param name="disabled" value="false" />
-								<liferay-util:param name="name" value="${period.name}" />
-								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
-								<liferay-util:param name="startDate" value="${formattedStartDate}" />
-								<liferay-util:param name="endDate" value="${formattedEndDate}" />
-								<liferay-util:param name="linkLabel" value="${period.linkLabel}" />
-								<liferay-util:param name="linkURL" value="${period.linkURL}" />
-								<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
-								<liferay-util:param name="periodId" value="${period.periodId}" />
-								<liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
-								<c:set var="slotJour" value="" />
-								<c:set var="slotStartHour" value="" />
-								<c:set var="slotEndHour" value="" />
-								<c:set var="slotComment" value="" />
-								<c:forEach items="${period.slots}" var="slot">
-									<c:if test="${not empty slotJour}">
-										<c:set var="slotJour" value="${slotJour},${slot.dayOfWeek}" />
-										<c:set var="slotStartHour" value="${slotStartHour},${slot.startHour}" />
-										<c:set var="slotEndHour" value="${slotEndHour},${slot.endHour}" />
-										<c:set var="slotComment" value="${slotComment} | ${slot.comment}" />
-									</c:if>
-									<c:if test="${empty slotJour}">
-										<c:set var="slotJour" value="${slot.dayOfWeek}" />
-										<c:set var="slotStartHour" value="${slot.startHour}" />
-										<c:set var="slotEndHour" value="${slot.endHour}" />
-										<c:set var="slotComment" value="${slot.comment}" />
-									</c:if>
-								</c:forEach>
-								<liferay-util:param name="slotJours" value="${slotJour}" />
-								<liferay-util:param name="slotStartHours" value="${slotStartHour}" />
-								<liferay-util:param name="slotEndHours" value="${slotEndHour}" />
-								<liferay-util:param name="slotComment" value="${slotComment}" /> 
-							</liferay-util:include>
-						</c:forEach>
-						<div role="tabpanel" 
-							<c:if test="${empty dc.place.periods}">
-								class="tab-pane active fade in"
-							</c:if>
-							<c:if test="${not empty dc.place.periods}">
-								class="tab-pane fade in"
-							</c:if>
-						id="noPeriod">
-							<liferay-ui:message key="no-period" />
-						</div>
-				    </div>
-					
-				</aui:fieldset>
-					
-				<!-- Fermetures exceptionnelles -->
-				<aui:fieldset collapsed="false" collapsible="true"
-					label="exceptional-schedule">
-				
-					<div id="date-fields">
-						<c:if test="${empty dc.place.scheduleExceptions}">
-							<div class="lfr-form-row lfr-form-row-inline">
-								<div class="row-fields">
-									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="1" />
-									</liferay-util:include>
-								</div>
-							</div>
-						</c:if>
-					
-						<c:forEach items="${dc.place.scheduleExceptions}" var="scheduleException" varStatus="status">
-							<div class="lfr-form-row lfr-form-row-inline">
-								<div class="row-fields">
-									<fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
-									<fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
-									<liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
-										<liferay-util:param name="index" value="${status.count}" />
-										<liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
-										<liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
-										<liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
-										<liferay-util:param name="startHour2" value="${scheduleException.getStartHour(1)}" />
-										<liferay-util:param name="endHour2" value="${scheduleException.getEndHour(1)}" />
-										<liferay-util:param name="secondComment" value="${scheduleException.secondComment}" />
-										<liferay-util:param name="startHour3" value="${scheduleException.getStartHour(2)}" />
-										<liferay-util:param name="endHour3" value="${scheduleException.getEndHour(2)}" />
-										<liferay-util:param name="thirdComment" value="${scheduleException.thirdComment}" />
-										<liferay-util:param name="startHour4" value="${scheduleException.getStartHour(3)}" />
-										<liferay-util:param name="endHour4" value="${scheduleException.getEndHour(3)}" />
-										<liferay-util:param name="fourthComment" value="${scheduleException.fourthComment}" />
-										<liferay-util:param name="startHour5" value="${scheduleException.getStartHour(4)}" />
-										<liferay-util:param name="endHour5" value="${scheduleException.getEndHour(4)}" />
-										<liferay-util:param name="fifthComment" value="${scheduleException.fifthComment}" />
-										<liferay-util:param name="comment" value="${scheduleException.comment}" />
-										<liferay-util:param name="startDate" value="${formattedStartDate}" />
-										<liferay-util:param name="endDate" value="${formattedEndDate}" />
-										<liferay-util:param name="closed" value="${scheduleException.closed}" />
-									</liferay-util:include>
-								</div>
-							</div>
-						</c:forEach>
-						<c:if test="${empty dc.place.scheduleExceptions}">
-							<aui:input type="hidden" name="shedulesExceptionsIndexes" value="1" />
-						</c:if>
-						<c:if test="${not empty dc.place.scheduleExceptions}">
-							<aui:input type="hidden" name="shedulesExceptionsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.scheduleExceptions))}" />
-						</c:if>
-					</div>
-					
-				</aui:fieldset>
+                    <!-- Fermetures exceptionnelles -->
+                    <aui:fieldset collapsed="false" collapsible="true"
+                        label="exceptional-schedule">
+
+                        <div id="date-fields">
+                            <c:if test="${empty dc.place.scheduleExceptions}">
+                                <div class="lfr-form-row lfr-form-row-inline">
+                                    <div class="row-fields">
+                                        <liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
+                                            <liferay-util:param name="index" value="1" />
+                                        </liferay-util:include>
+                                    </div>
+                                </div>
+                            </c:if>
+
+                            <c:forEach items="${dc.place.scheduleExceptions}" var="scheduleException" varStatus="status">
+                                <div class="lfr-form-row lfr-form-row-inline">
+                                    <div class="row-fields">
+                                        <fmt:formatDate value="${scheduleException.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+                                        <fmt:formatDate value="${scheduleException.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
+                                        <liferay-util:include page="/includes/exceptional-schedule-row.jsp" servletContext="<%=application %>">
+                                            <liferay-util:param name="index" value="${status.count}" />
+                                            <liferay-util:param name="startHour1" value="${scheduleException.getStartHour(0)}" />
+                                            <liferay-util:param name="endHour1" value="${scheduleException.getEndHour(0)}" />
+                                            <liferay-util:param name="firstComment" value="${scheduleException.firstComment}" />
+                                            <liferay-util:param name="startHour2" value="${scheduleException.getStartHour(1)}" />
+                                            <liferay-util:param name="endHour2" value="${scheduleException.getEndHour(1)}" />
+                                            <liferay-util:param name="secondComment" value="${scheduleException.secondComment}" />
+                                            <liferay-util:param name="startHour3" value="${scheduleException.getStartHour(2)}" />
+                                            <liferay-util:param name="endHour3" value="${scheduleException.getEndHour(2)}" />
+                                            <liferay-util:param name="thirdComment" value="${scheduleException.thirdComment}" />
+                                            <liferay-util:param name="startHour4" value="${scheduleException.getStartHour(3)}" />
+                                            <liferay-util:param name="endHour4" value="${scheduleException.getEndHour(3)}" />
+                                            <liferay-util:param name="fourthComment" value="${scheduleException.fourthComment}" />
+                                            <liferay-util:param name="startHour5" value="${scheduleException.getStartHour(4)}" />
+                                            <liferay-util:param name="endHour5" value="${scheduleException.getEndHour(4)}" />
+                                            <liferay-util:param name="fifthComment" value="${scheduleException.fifthComment}" />
+                                            <liferay-util:param name="comment" value="${scheduleException.comment}" />
+                                            <liferay-util:param name="startDate" value="${formattedStartDate}" />
+                                            <liferay-util:param name="endDate" value="${formattedEndDate}" />
+                                            <liferay-util:param name="closed" value="${scheduleException.closed}" />
+                                        </liferay-util:include>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                            <c:if test="${empty dc.place.scheduleExceptions}">
+                                <aui:input type="hidden" name="shedulesExceptionsIndexes" value="1" />
+                            </c:if>
+                            <c:if test="${not empty dc.place.scheduleExceptions}">
+                                <aui:input type="hidden" name="shedulesExceptionsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.place.scheduleExceptions))}" />
+                            </c:if>
+                        </div>
+
+                    </aui:fieldset>
+                </div>
 				
 				<!-- Horaires particuliers -->
 				<div class="schedule-exception">

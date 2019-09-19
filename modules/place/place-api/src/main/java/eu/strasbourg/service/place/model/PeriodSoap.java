@@ -39,8 +39,6 @@ public class PeriodSoap implements Serializable {
 		soapModel.setDefaultPeriod(model.getDefaultPeriod());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setEndDate(model.getEndDate());
-		soapModel.setLinkLabel(model.getLinkLabel());
-		soapModel.setLinkURL(model.getLinkURL());
 		soapModel.setAlwaysOpen(model.getAlwaysOpen());
 		soapModel.setRTGreenThreshold(model.getRTGreenThreshold());
 		soapModel.setRTOrangeThreshold(model.getRTOrangeThreshold());
@@ -147,22 +145,6 @@ public class PeriodSoap implements Serializable {
 		_endDate = endDate;
 	}
 
-	public String getLinkLabel() {
-		return _linkLabel;
-	}
-
-	public void setLinkLabel(String linkLabel) {
-		_linkLabel = linkLabel;
-	}
-
-	public String getLinkURL() {
-		return _linkURL;
-	}
-
-	public void setLinkURL(String linkURL) {
-		_linkURL = linkURL;
-	}
-
 	public Boolean getAlwaysOpen() {
 		return _alwaysOpen;
 	}
@@ -217,8 +199,6 @@ public class PeriodSoap implements Serializable {
 	private Boolean _defaultPeriod;
 	private Date _startDate;
 	private Date _endDate;
-	private String _linkLabel;
-	private String _linkURL;
 	private Boolean _alwaysOpen;
 	private long _RTGreenThreshold;
 	private long _RTOrangeThreshold;

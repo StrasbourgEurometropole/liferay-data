@@ -145,12 +145,6 @@ public class PeriodImpl extends PeriodBaseImpl {
 				periodJSON.put("endDate", dateFormat.format(this.getEndDate()));
 			}
 		}
-		if (Validator.isNotNull(this.getLinkLabelMap())) {
-			periodJSON.put("scheduleLinkName", JSONHelper.getJSONFromI18nMap(this.getLinkLabelMap()));
-		}
-		if (Validator.isNotNull(this.getLinkURLMap())) {
-			periodJSON.put("scheduleLinkURL", JSONHelper.getJSONFromI18nMap(this.getLinkURLMap()));
-		}
 		periodJSON.put("alwaysOpen", this.getAlwaysOpen() ? 1 : 0);
 
 		if (!this.getAlwaysOpen()) {

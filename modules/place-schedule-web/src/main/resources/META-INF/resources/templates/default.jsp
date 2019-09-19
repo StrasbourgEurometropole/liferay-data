@@ -166,18 +166,16 @@
 											</c:if>
 								    	</td>
 							    </c:if>
-							    <c:set var="hasURL" value="0" />
-								<c:forEach var="period" items="${place.periods}" varStatus="status" >
-									<c:if test="${!empty period.linkURL && !empty period.linkLabel}">  
-										<td colspan="7">
-									    	<a href="${period.getLinkURL(locale)}" target="_blank"> ${period.getLinkLabel(locale)}</a>
-									    </td>   
-										<c:set var="hasURL" value="1" />
-										<c:set var="status.index" value="${items.size}" />
-									</c:if>
-								</c:forEach> 
+                                <c:if test="${place.hasURLSchedule}">
+                                    <td colspan="7">
+                                        <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
+                                            ${place.getScheduleLinkName(locale)}
+                                        </a>
+                                    </td>
+                                    <c:set var="status.index" value="${items.size}" />
+                                </c:if>
 
-								<c:if test="${hasURL == 0}">
+								<c:if test="${!place.hasURLSchedule}">
 									<c:forEach var="horaires" items="${place.getHoraire(jourChoisi, locale)}" varStatus="status" >
 										<c:if test="${displayDate != status.count}">
 							        		<td class="screen" >
@@ -215,18 +213,12 @@
 								<tr class="color${color}">
 									 <td class="subPlace">
 									    <strong>${fn:toUpperCase(subPlace.getName(locale))}</strong>
-									</td>
-								    <c:set var="hasURL" value="0" />
-									<c:forEach var="period" items="${subPlace.periods}"  varStatus="status">
-										<c:if test="${!empty period.linkURL && !empty period.linkLabel}">  
-											<td colspan="7">
-										    	<a href="${period.getLinkURL(locale)}" target="_blank"> ${period.getLinkLabel(locale)}</a>
-										    </td>   
-											<c:set var="hasURL" value="1" />                    
-										</c:if>
-									</c:forEach> 
+									 </td>
 
-									<c:if test="${hasURL == 0}">
+									<c:if test="${place.hasURLSchedule}">
+                                         <td colspan="7"></td>
+									</c:if>
+									<c:if test="${!place.hasURLSchedule}">
 										<c:forEach var="horaires" items="${subPlace.getHoraire(jourChoisi, locale)}" varStatus="status" >
 											<c:if test="${displayDate != status.count}">
 								        		<td class="screen" >

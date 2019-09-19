@@ -115,7 +115,12 @@
 					</c:if>
 					<div class="item-geoloc"><span>${place.getCity(locale)}</span></div>
 				</div>
-				<c:if test="${not empty place.periods}">
+				<c:if test="${place.hasURLSchedule}">
+                    <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
+                        <span class="seu-btn-text">${place.getScheduleLinkName(locale)}</span>
+                    </a>
+				</c:if>
+				<c:if test="${not empty place.periods && !place.hasURLSchedule}">
 					<div class="item-schedule">
 						<span class="schedule-title">
 							<div>

@@ -204,45 +204,55 @@
 			                                </div>
 								    	</td>
 							    </c:if>
-								<c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
-									<c:choose>
-										<c:when test="${status.index eq 0}">
-											<td class="first-day">
-										</c:when>
-										<c:otherwise>
-											<td class="not-first-day">
-										</c:otherwise>
-									</c:choose>
-										<c:forEach var="placeSchedule" items="${horaires.value}" varStatus="status">
-											<c:set var="isException" value="${placeSchedule.isException() || placeSchedule.isPublicHoliday()}" />
-											<c:if test="${isException}">
-												<c:set var="hasException" value="${true}" />
-											</c:if>
-											<c:choose>
-												<c:when test="${placeSchedule.isClosed()}">
-													<div class="opening-time ${isException ? 'exception' : '' }">
-														<liferay-ui:message key="eu.closed" />
-													</div>
-												</c:when>
-												<c:when test="${placeSchedule.isAlwaysOpen()}">
-													<div class="opening-time ${isException ? 'exception' : '' }">
-												        <liferay-ui:message key="always-open" />
-											        </div>
-												</c:when>
-												<c:otherwise>
-													<c:forEach items="${placeSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
-														<div class="opening-time ${isException ? 'exception' : '' }">
-														${openingTime.first} - ${openingTime.second}				
-														</div>
-														<c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
-															<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em; ${isException ? 'color: #F44336' : '' }">(${placeSchedule.comments[loopStatus.index]})</div>
-														</c:if>
-													</c:forEach> 
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</td>
-								</c:forEach>
+								<c:if test="${place.hasURLSchedule}">
+										<c:set var="occupationState" value="${place.getRealTime('3')}" />
+										<td rowspan="${place.getSubPlaces().size() + 2}" colspan="5" >
+                                            <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
+                                                <span class="seu-btn-text">${place.getScheduleLinkName(locale)}</span>
+                                            </a>
+								    	</td>
+							    </c:if>
+								<c:if test="${!place.hasURLSchedule}">
+                                    <c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
+                                        <c:choose>
+                                            <c:when test="${status.index eq 0}">
+                                                <td class="first-day">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td class="not-first-day">
+                                            </c:otherwise>
+                                        </c:choose>
+                                            <c:forEach var="placeSchedule" items="${horaires.value}" varStatus="status">
+                                                <c:set var="isException" value="${placeSchedule.isException() || placeSchedule.isPublicHoliday()}" />
+                                                <c:if test="${isException}">
+                                                    <c:set var="hasException" value="${true}" />
+                                                </c:if>
+                                                <c:choose>
+                                                    <c:when test="${placeSchedule.isClosed()}">
+                                                        <div class="opening-time ${isException ? 'exception' : '' }">
+                                                            <liferay-ui:message key="eu.closed" />
+                                                        </div>
+                                                    </c:when>
+                                                    <c:when test="${placeSchedule.isAlwaysOpen()}">
+                                                        <div class="opening-time ${isException ? 'exception' : '' }">
+                                                            <liferay-ui:message key="always-open" />
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:forEach items="${placeSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
+                                                            <div class="opening-time ${isException ? 'exception' : '' }">
+                                                            ${openingTime.first} - ${openingTime.second}
+                                                            </div>
+                                                            <c:if test="${not empty placeSchedule.comments[loopStatus.index]}">
+                                                                <div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em; ${isException ? 'color: #F44336' : '' }">(${placeSchedule.comments[loopStatus.index]})</div>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </td>
+                                    </c:forEach>
+                                </c:if>
 							</tr>  
 							<c:forEach var="subPlace" items="${place.getSubPlaces()}">
 								<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'}">
@@ -250,45 +260,47 @@
 									    ${subPlace.getName(locale)}
 									</td> 
 
-									<c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
-										<c:choose>
-											<c:when test="${status.index eq 0}">
-												<td class="first-day">
-											</c:when>
-											<c:otherwise>
-												<td class="not-first-day">
-											</c:otherwise>
-										</c:choose>
-											<c:forEach var="subPlaceSchedule" items="${horaires.value}" varStatus="status">
-												<c:set var="isException" value="${subPlaceSchedule.isException() || subPlaceSchedule.isPublicHoliday()}" />
-												<c:if test="${isException}">
-													<c:set var="hasException" value="${true}" />
-												</c:if>
-												<c:choose>
-													<c:when test="${subPlaceSchedule.isClosed()}">
-														<div class="opening-time ${isException ? 'exception' : '' }">
-															<liferay-ui:message key="eu.closed" />
-														</div>
-													</c:when>
-													<c:when test="${subPlaceSchedule.isAlwaysOpen()}">
-														<div class="opening-time ${isException ? 'exception' : '' }">
-												        	<liferay-ui:message key="always-open" />
-												        </div>
-													</c:when>
-													<c:otherwise>
-														<c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
-															<div class="opening-time ${isException ? 'exception' : '' }">
-																${openingTime.first} - ${openingTime.second}	
-															</div>
-															<c:if test="${not empty subPlaceSchedule.comments[loopStatus.index]}">
-																	<div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;${isException ? 'color: #F44336' : '' }">(${subPlaceSchedule.comments[loopStatus.index]})</div>
-																</c:if>
-														</c:forEach>  
-													</c:otherwise>
-												</c:choose>   
-											</c:forEach>
-										</td>
-									</c:forEach>
+                                    <c:if test="${!place.hasURLSchedule}">
+                                        <c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 5, locale)}" varStatus="status" >
+                                            <c:choose>
+                                                <c:when test="${status.index eq 0}">
+                                                    <td class="first-day">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="not-first-day">
+                                                </c:otherwise>
+                                            </c:choose>
+                                                <c:forEach var="subPlaceSchedule" items="${horaires.value}" varStatus="status">
+                                                    <c:set var="isException" value="${subPlaceSchedule.isException() || subPlaceSchedule.isPublicHoliday()}" />
+                                                    <c:if test="${isException}">
+                                                        <c:set var="hasException" value="${true}" />
+                                                    </c:if>
+                                                    <c:choose>
+                                                        <c:when test="${subPlaceSchedule.isClosed()}">
+                                                            <div class="opening-time ${isException ? 'exception' : '' }">
+                                                                <liferay-ui:message key="eu.closed" />
+                                                            </div>
+                                                        </c:when>
+                                                        <c:when test="${subPlaceSchedule.isAlwaysOpen()}">
+                                                            <div class="opening-time ${isException ? 'exception' : '' }">
+                                                                <liferay-ui:message key="always-open" />
+                                                            </div>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:forEach items="${subPlaceSchedule.openingTimes}" var="openingTime" varStatus="loopStatus">
+                                                                <div class="opening-time ${isException ? 'exception' : '' }">
+                                                                    ${openingTime.first} - ${openingTime.second}
+                                                                </div>
+                                                                <c:if test="${not empty subPlaceSchedule.comments[loopStatus.index]}">
+                                                                        <div style="font-weight: 400;margin-top:-10px;margin-bottom: 5px;font-size: 0.9em;${isException ? 'color: #F44336' : '' }">(${subPlaceSchedule.comments[loopStatus.index]})</div>
+                                                                    </c:if>
+                                                            </c:forEach>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </td>
+                                        </c:forEach>
+                                    </c:if>
 								</tr>
 							</c:forEach>
 							<tr class="${placeStatus.index % 2 eq 0 ? 'bg-white' : 'bg-grey'} see-more-row">
@@ -302,20 +314,10 @@
 											</span>
 									</a>
 								</td>
-								<td class="first-day ${occupationState.cssClass}">
-									<div class="mobile-occupation-state">
-										<div class="mobile-crowded-amount">
-		                                    ${occupationState.occupationLabel}
-		                                </div>
-		                                <div class="mobile-crowded-label">
-		                                	<liferay-ui:message key="${occupationState.label}" />
-										</div>
-									</div>
-								</td>
-								<td class="not-first-day"></td>
-								<td class="not-first-day"></td>
-								<td class="not-first-day"></td>
-								<td class="not-first-day"></td>
+                                <c:if test="${!place.hasURLSchedule}">
+                                    <td class="first-day"></td>
+                                    <td class="not-first-day" colspan="4"></td>
+                                </c:if>
 							</tr>
 						</c:forEach>
 						

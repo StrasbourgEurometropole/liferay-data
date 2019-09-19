@@ -3711,6 +3711,9 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setDisplayEvents(place.isDisplayEvents());
 		placeImpl.setAdditionalInformation(place.getAdditionalInformation());
 		placeImpl.setContenuTooltipCarto(place.getContenuTooltipCarto());
+		placeImpl.setHasURLSchedule(place.isHasURLSchedule());
+		placeImpl.setScheduleLinkName(place.getScheduleLinkName());
+		placeImpl.setScheduleLinkURL(place.getScheduleLinkURL());
 		placeImpl.setPhone(place.getPhone());
 		placeImpl.setMail(place.getMail());
 		placeImpl.setSiteURL(place.getSiteURL());
