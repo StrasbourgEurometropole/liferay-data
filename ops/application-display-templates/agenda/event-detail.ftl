@@ -73,7 +73,7 @@
             <#if entry.program?has_content>
                 <div class="ops-col-33">
                     <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.program" /></span>
-                    <p>${entry.program}</p>
+                    ${entry.getProgram(locale)}
                 </div>
             </#if>
 
@@ -81,7 +81,7 @@
             <#if entry.distribution?has_content>
                 <div class="ops-col-33">
                     <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.distribution" /></span>
-                    <p>${entry.distribution}</p>
+                    ${entry.getDistribution(locale)}
                 </div>
             </#if>
 
