@@ -120,6 +120,11 @@ public class OIDCBOPortlet extends MVCPortlet {
 				if (Validator.isNotNull(anonymUserId)) {
 					PublikUser anonymUser = PublikUserLocalServiceUtil.fetchPublikUser(anonymUserId);
 					if (anonymUser != null) {
+						// Anonymisation des informations utilisateur dans publikuser
+						publikUser.setPactSignature(null);
+						publikUser.setPactDisplay(false);
+						PublikUserLocalServiceUtil.updatePublikUser(publikUser);
+
 						// Anonymisation des informations utilisateur dans projets suivis
 						List<ProjectFollowed> projectsFollowed = ProjectFollowedLocalServiceUtil
 								.getByPublikId(publikUser.getPublikId());
@@ -201,7 +206,7 @@ public class OIDCBOPortlet extends MVCPortlet {
 							}
 						}
 						
-						// Anonymisation des inforamtions utilisateur dans les soutiens des budget participatif
+						// Anonymisation des informations utilisateur dans les soutiens des budget participatif
 						List<BudgetSupport> budgetSupports = BudgetSupportLocalServiceUtil.
 								getBudgetSupportByPublikId(publikUser.getPublikId());
 						if (!budgetSupports.isEmpty()) {

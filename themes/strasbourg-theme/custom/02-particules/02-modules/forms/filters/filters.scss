@@ -4,11 +4,7 @@
 
 .seu-view-activity{
     .seu-view-filters{
-        .seu-btn-line{
-            justify-content: flex-end;
-        }
         .seu-filter-line + .seu-filter-line{
-            margin-top: 60px;
             @include RWD(mobile){
                 margin-top: 0px;
             }
