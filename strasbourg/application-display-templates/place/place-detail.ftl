@@ -73,68 +73,23 @@
                 </div>
 
                 <!-- Horaires -->
-                <#if entry.periods?has_content>
+                <#if entry.periods?has_content || entry.hasURLSchedule>
                     <div class="seu-wi--collapsing <#if !renderRequest.getAttribute("fromContactForm")?has_content>seu-first-opened</#if>">
                         <button class="seu-toggle-collapse">
                             <h2 class="schedule"><span><@liferay_ui.message key="eu.times" /></span></h2>
                         </button>
                         <div class="seu-collapsing-box">
-                            <div class="seu-wi seu-wi-schedules">
-                                <div class="tab-list">
-                                </div>
-                                <div class="tab-content">
-                                    <!-- Jours suivants -->
-                                    <h3 class="hidden"><@liferay_ui.message key="eu.place.next-days" /></h3>
-                                    <div class="tab-title">${entry.getAlias(locale)}</div>
-                                    <ul class="schedule-list">
-                                        <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
-                                        <#assign hasException = false />
-                                        <#list daySchedulesMap?keys as day>
-                                            <li>
-                                                <span>${day}</span>
-                                                <span>
-                                                    <#list daySchedulesMap[day] as schedule>
-                                                        <div>
-                                                            <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                <#assign hasException = true />
-                                                                <#assign hasAnyException = true />
-                                                            <#else>
-                                                                <#assign hasException = false />
-                                                            </#if>
-                                                            <#if schedule.isClosed()>
-                                                                <#if hasException><span class="exception"></#if>
-                                                                <@liferay_ui.message key="eu.closed" />
-                                                                <#if hasException></span></#if>
-                                                            <#elseif schedule.isAlwaysOpen()>
-                                                                <#if hasException><span class="exception"></#if>
-                                                                <@liferay_ui.message key="always-open" />
-                                                                <#if hasException></span></#if>
-                                                            <#else>
-                                                                <#list schedule.openingTimes as openingTime>
-                                                                    <div>
-                                                                        <#if hasException><span class="exception"></#if>
-                                                                        ${openingTime.first} - ${openingTime.second}
-                                                                        <#if hasException></span></#if>
-                                                                    </div>
-                                                                    <#if schedule.comments[openingTime?index]?has_content>
-                                                                        <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
-                                                                    </#if>
-                                                                </#list>
-                                                            </#if>
-                                                        </div>
-                                                        <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                            </span>
-                                                        </#if>
-                                                    </#list>
-                                                </span>
-                                            </li>
-                                        </#list>
-                                    </ul>
-                                    <!-- Jours suivants pour les sous-lieux -->
-                                    <#list entry.publishedSubPlaces as subPlace>
-                                        <div class="tab-title">${subPlace.getName(locale)}</div>
+                            <#if !entry.hasURLSchedule>
+                                <div class="seu-wi seu-wi-schedules">
+                                    <div class="tab-list">
+                                    </div>
+                                    <div class="tab-content">
+                                        <!-- Jours suivants -->
+                                        <h3 class="hidden"><@liferay_ui.message key="eu.place.next-days" /></h3>
+                                        <div class="tab-title">${entry.getAlias(locale)}</div>
                                         <ul class="schedule-list">
-                                            <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
+                                            <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
+                                            <#assign hasException = false />
                                             <#list daySchedulesMap?keys as day>
                                                 <li>
                                                     <span>${day}</span>
@@ -168,53 +123,70 @@
                                                                     </#list>
                                                                 </#if>
                                                             </div>
+                                                            <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                </span>
+                                                            </#if>
                                                         </#list>
                                                     </span>
                                                 </li>
                                             </#list>
                                         </ul>
-                                    </#list>
-                                    <#if hasAnyException?has_content && hasAnyException>
-                                        <!-- Message pour exceptions -->
-                                        <span style="color: #F44336; font-weight: bold; font-size: 1.6rem;"><@liferay_ui.message key="eu.place.look-at-exceptionnal-schedule" /></span>
-                                    </#if>
-                                </div>
-                                <!-- Période par défaut -->
-                                <#if entry.defaultPeriod?has_content>
-                                    <div class="tab-content">
-                                        <h3 class="hidden">${entry.defaultPeriod.getName(locale)}</h3>
-                                        <div class="tab-title">${entry.getAlias(locale)}</div>
-                                        <ul class="schedule-list">
-                                            <#assign weekSchedules = entry.defaultPeriod.getWeekSchedule() />
-                                            <#assign day = 0 />
-                                            <#list weekSchedules as schedule>
-                                                <li>
-                                                    <span><@liferay_ui.message key="jour-semaine${day}" /></span>
-                                                    <span>
-                                                        <#if schedule.isClosed()>
-                                                            <@liferay_ui.message key="eu.closed" />
-                                                        <#elseif schedule.isAlwaysOpen()>
-                                                            <@liferay_ui.message key="always-open" />
-                                                        <#else>
-                                                            <#list schedule.openingTimes as openingTime>
-                                                                <div>
-                                                                    ${openingTime.first} - ${openingTime.second}
-                                                                </div>
-                                                                <#if schedule.comments[openingTime?index]?has_content>
-                                                                    <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
-                                                                </#if>
-                                                            </#list>
-                                                        </#if>
-                                                    </span>
-                                                </li>
-                                                <#assign day = day + 1 />
-                                            </#list>
-                                        </ul>
-                                        <!-- Période par défaut pour les sous-lieux -->
+                                        <!-- Jours suivants pour les sous-lieux -->
                                         <#list entry.publishedSubPlaces as subPlace>
                                             <div class="tab-title">${subPlace.getName(locale)}</div>
                                             <ul class="schedule-list">
-                                                <#assign weekSchedules = subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                                <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
+                                                <#list daySchedulesMap?keys as day>
+                                                    <li>
+                                                        <span>${day}</span>
+                                                        <span>
+                                                            <#list daySchedulesMap[day] as schedule>
+                                                                <div>
+                                                                    <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                        <#assign hasException = true />
+                                                                        <#assign hasAnyException = true />
+                                                                    <#else>
+                                                                        <#assign hasException = false />
+                                                                    </#if>
+                                                                    <#if schedule.isClosed()>
+                                                                        <#if hasException><span class="exception"></#if>
+                                                                        <@liferay_ui.message key="eu.closed" />
+                                                                        <#if hasException></span></#if>
+                                                                    <#elseif schedule.isAlwaysOpen()>
+                                                                        <#if hasException><span class="exception"></#if>
+                                                                        <@liferay_ui.message key="always-open" />
+                                                                        <#if hasException></span></#if>
+                                                                    <#else>
+                                                                        <#list schedule.openingTimes as openingTime>
+                                                                            <div>
+                                                                                <#if hasException><span class="exception"></#if>
+                                                                                ${openingTime.first} - ${openingTime.second}
+                                                                                <#if hasException></span></#if>
+                                                                            </div>
+                                                                            <#if schedule.comments[openingTime?index]?has_content>
+                                                                                <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
+                                                                            </#if>
+                                                                        </#list>
+                                                                    </#if>
+                                                                </div>
+                                                            </#list>
+                                                        </span>
+                                                    </li>
+                                                </#list>
+                                            </ul>
+                                        </#list>
+                                        <#if hasAnyException?has_content && hasAnyException>
+                                            <!-- Message pour exceptions -->
+                                            <span style="color: #F44336; font-weight: bold; font-size: 1.6rem;"><@liferay_ui.message key="eu.place.look-at-exceptionnal-schedule" /></span>
+                                        </#if>
+                                    </div>
+                                    <!-- Période par défaut -->
+                                    <#if entry.defaultPeriod?has_content>
+                                        <div class="tab-content">
+                                            <h3 class="hidden">${entry.defaultPeriod.getName(locale)}</h3>
+                                            <div class="tab-title">${entry.getAlias(locale)}</div>
+                                            <ul class="schedule-list">
+                                                <#assign weekSchedules = entry.defaultPeriod.getWeekSchedule() />
                                                 <#assign day = 0 />
                                                 <#list weekSchedules as schedule>
                                                     <li>
@@ -239,47 +211,45 @@
                                                     <#assign day = day + 1 />
                                                 </#list>
                                             </ul>
-                                        </#list>
-                                    </div>
-                                </#if>
-                                <!-- Autres périodes -->
-                                <#list entry.nonDefaultPeriods as period>
-                                    <div class="tab-content">
-                                        <h3 class="hidden">${period.getName(locale)} <div>${period.getDisplay(locale)}</div></h3>
-                                        <div class="tab-title">${entry.getAlias(locale)}</div>
-                                        <ul class="schedule-list">
-                                            <#assign weekSchedules = period.getWeekSchedule() />
-                                            <#assign day = 0 />
-                                            <#list weekSchedules as schedule>
-                                                <li>
-                                                    <span><@liferay_ui.message key="jour-semaine${day}" /></span>
-                                                    <span>
-                                                        <div>
-                                                            <#if schedule.isClosed()>
-                                                                <@liferay_ui.message key="eu.closed" />
-                                                            <#elseif schedule.isAlwaysOpen()>
-                                                                <@liferay_ui.message key="always-open" />
-                                                            <#else>
-                                                                <#list schedule.openingTimes as openingTime>
-                                                                    <div>
-                                                                        ${openingTime.first} - ${openingTime.second}
-                                                                    </div>
-                                                                    <#if schedule.comments[openingTime?index]?has_content>
-                                                                        <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
-                                                                    </#if>
-                                                                </#list>
-                                                            </#if>
-                                                        </div>
-                                                    </span>
-                                                </li>
-                                                <#assign day = day + 1 />
+                                            <!-- Période par défaut pour les sous-lieux -->
+                                            <#list entry.publishedSubPlaces as subPlace>
+                                                <div class="tab-title">${subPlace.getName(locale)}</div>
+                                                <ul class="schedule-list">
+                                                    <#assign weekSchedules = subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                                    <#assign day = 0 />
+                                                    <#list weekSchedules as schedule>
+                                                        <li>
+                                                            <span><@liferay_ui.message key="jour-semaine${day}" /></span>
+                                                            <span>
+                                                                <#if schedule.isClosed()>
+                                                                    <@liferay_ui.message key="eu.closed" />
+                                                                <#elseif schedule.isAlwaysOpen()>
+                                                                    <@liferay_ui.message key="always-open" />
+                                                                <#else>
+                                                                    <#list schedule.openingTimes as openingTime>
+                                                                        <div>
+                                                                            ${openingTime.first} - ${openingTime.second}
+                                                                        </div>
+                                                                        <#if schedule.comments[openingTime?index]?has_content>
+                                                                            <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                        </#if>
+                                                                    </#list>
+                                                                </#if>
+                                                            </span>
+                                                        </li>
+                                                        <#assign day = day + 1 />
+                                                    </#list>
+                                                </ul>
                                             </#list>
-                                        </ul>
-                                        <!-- Autres Périodes pour les sous-lieux -->
-                                        <#list entry.publishedSubPlaces as subPlace>
-                                            <div class="tab-title">${subPlace.getName(locale)}</div>
+                                        </div>
+                                    </#if>
+                                    <!-- Autres périodes -->
+                                    <#list entry.nonDefaultPeriods as period>
+                                        <div class="tab-content">
+                                            <h3 class="hidden">${period.getName(locale)} <div>${period.getDisplay(locale)}</div></h3>
+                                            <div class="tab-title">${entry.getAlias(locale)}</div>
                                             <ul class="schedule-list">
-                                                <#assign weekSchedules = period.getWeekSchedule(subPlace.subPlaceId) />
+                                                <#assign weekSchedules = period.getWeekSchedule() />
                                                 <#assign day = 0 />
                                                 <#list weekSchedules as schedule>
                                                     <li>
@@ -306,11 +276,50 @@
                                                     <#assign day = day + 1 />
                                                 </#list>
                                             </ul>
-                                        </#list>
-                                    </div>
-                                </#list>
-                            </div>
+                                            <!-- Autres Périodes pour les sous-lieux -->
+                                            <#list entry.publishedSubPlaces as subPlace>
+                                                <div class="tab-title">${subPlace.getName(locale)}</div>
+                                                <ul class="schedule-list">
+                                                    <#assign weekSchedules = period.getWeekSchedule(subPlace.subPlaceId) />
+                                                    <#assign day = 0 />
+                                                    <#list weekSchedules as schedule>
+                                                        <li>
+                                                            <span><@liferay_ui.message key="jour-semaine${day}" /></span>
+                                                            <span>
+                                                                <div>
+                                                                    <#if schedule.isClosed()>
+                                                                        <@liferay_ui.message key="eu.closed" />
+                                                                    <#elseif schedule.isAlwaysOpen()>
+                                                                        <@liferay_ui.message key="always-open" />
+                                                                    <#else>
+                                                                        <#list schedule.openingTimes as openingTime>
+                                                                            <div>
+                                                                                ${openingTime.first} - ${openingTime.second}
+                                                                            </div>
+                                                                            <#if schedule.comments[openingTime?index]?has_content>
+                                                                                <div style="margin-top: -10px">(${schedule.comments[openingTime?index]})</div>
+                                                                            </#if>
+                                                                        </#list>
+                                                                    </#if>
+                                                                </div>
+                                                            </span>
+                                                        </li>
+                                                        <#assign day = day + 1 />
+                                                    </#list>
+                                                </ul>
+                                            </#list>
+                                        </div>
+                                    </#list>
+                                </div>
+                            </#if>
                             <div class="rte">
+                                <#if entry.hasURLSchedule>
+                                    <p>
+                                        <a href="${entry.getScheduleLinkURL(locale)}" target="_blank" title="${entry.getScheduleLinkName(locale)} (<@liferay_ui.message key="eu.new-window" />)">
+                                            <span class="seu-btn-text">${entry.getScheduleLinkName(locale)}</span>
+                                        </a>
+                                    </p>
+                                </#if>
                                 <#if entry.hasScheduleTable()>
                                     <p>
                                         <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
@@ -324,57 +333,59 @@
                                         </a>
                                     </p>
                                 </#if>
-                                <!-- Liste des exceptions -->
-                                <#assign exceptions = entry.getPlaceScheduleExceptionFreeMarker(.now, true, locale) />
-                                <#if exceptions?has_content || (hasAnyException?has_content && hasAnyException)>
-                                    <#assign totalExceptionsCount = 0 />
-                                    <h3><@liferay_ui.message key="eu.exceptional-closings-openings" /></h3>
-                                    <ul class="seu-dates-list">
-                                        <#list exceptions as exception>
-                                            <#assign totalExceptionsCount++ />
-                                            <li>
-                                                <strong>${exception.getPeriodDisplay(locale)}</strong> : 
-                                                <#if exception.isClosed()>
-                                                    <@liferay_ui.message key="eu.closed" />
-                                                <#else>
-                                                    <#list exception.openingTimes as openingTime>
-                                                        ${openingTime.first} - ${openingTime.second}<#sep>, </#sep>
+                                <#if !entry.hasURLSchedule>
+                                    <!-- Liste des exceptions -->
+                                    <#assign exceptions = entry.getPlaceScheduleExceptionFreeMarker(.now, true, locale) />
+                                    <#if exceptions?has_content || (hasAnyException?has_content && hasAnyException)>
+                                        <#assign totalExceptionsCount = 0 />
+                                        <h3><@liferay_ui.message key="eu.exceptional-closings-openings" /></h3>
+                                        <ul class="seu-dates-list">
+                                            <#list exceptions as exception>
+                                                <#assign totalExceptionsCount++ />
+                                                <li>
+                                                    <strong>${exception.getPeriodDisplay(locale)}</strong> : 
+                                                    <#if exception.isClosed()>
+                                                        <@liferay_ui.message key="eu.closed" />
+                                                    <#else>
+                                                        <#list exception.openingTimes as openingTime>
+                                                            ${openingTime.first} - ${openingTime.second}<#sep>, </#sep>
+                                                        </#list>
+                                                    </#if>
+                                                    - ${exception.description}
+                                                </li>
+                                            </#list>
+                                            <#list entry.publishedSubPlaces as subPlace>
+                                                <#assign exceptions = subPlace.getSubPlaceScheduleExceptionFreeMarker(.now, true, locale) />
+                                                <#if exceptions?has_content>
+                                                    <#list exceptions as exception>
+                                                        <#assign totalExceptionsCount++ />
+                                                        <li>
+                                                            <strong>${subPlace.getName(locale)} - ${exception.getPeriodDisplay(locale)}</strong> : 
+                                                            <#if exception.isClosed()>
+                                                                <@liferay_ui.message key="eu.closed" />
+                                                            <#else>
+                                                                <#list exception.openingTimes as openingTime>
+                                                                    ${openingTime.first} - ${openingTime.second}<#sep>, </#sep>
+                                                                </#list>
+                                                            </#if>
+                                                            - ${exception.description}
+                                                        </li>
                                                     </#list>
                                                 </#if>
-                                                - ${exception.description}
-                                            </li>
-                                        </#list>
-                                        <#list entry.publishedSubPlaces as subPlace>
-                                            <#assign exceptions = subPlace.getSubPlaceScheduleExceptionFreeMarker(.now, true, locale) />
-                                            <#if exceptions?has_content>
-                                                <#list exceptions as exception>
-                                                    <#assign totalExceptionsCount++ />
-                                                    <li>
-                                                        <strong>${subPlace.getName(locale)} - ${exception.getPeriodDisplay(locale)}</strong> : 
-                                                        <#if exception.isClosed()>
-                                                            <@liferay_ui.message key="eu.closed" />
-                                                        <#else>
-                                                            <#list exception.openingTimes as openingTime>
-                                                                ${openingTime.first} - ${openingTime.second}<#sep>, </#sep>
-                                                            </#list>
-                                                        </#if>
-                                                        - ${exception.description}
-                                                    </li>
-                                                </#list>
-                                            </#if>
-                                        </#list>
-                                    </ul>
+                                            </#list>
+                                        </ul>
 
-                                    <#if (totalExceptionsCount > 5)>
-                                        <div class="seu-line-left">
-                                            <button class="seu-see-more seu-btn-square seu-bordered seu-core">
-                                                <span class="seu-flexbox">
-                                                    <span class="seu-btn-text seu-more"><@liferay_ui.message key="eu.see-more" /></span>
-                                                    <span class="seu-btn-text seu-less"><@liferay_ui.message key="eu.see-less" /></span>
-                                                    <span class="seu-btn-arrow"></span>
-                                                </span>
-                                            </button>
-                                        </div>
+                                        <#if (totalExceptionsCount > 5)>
+                                            <div class="seu-line-left">
+                                                <button class="seu-see-more seu-btn-square seu-bordered seu-core">
+                                                    <span class="seu-flexbox">
+                                                        <span class="seu-btn-text seu-more"><@liferay_ui.message key="eu.see-more" /></span>
+                                                        <span class="seu-btn-text seu-less"><@liferay_ui.message key="eu.see-less" /></span>
+                                                        <span class="seu-btn-arrow"></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </#if>
                                     </#if>
                                 </#if>
                                 
