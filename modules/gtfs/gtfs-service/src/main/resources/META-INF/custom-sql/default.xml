@@ -2,13 +2,13 @@
 <custom-sql>
     <sql id="eu.strasbourg.service.gtfs.service.persistence.TripFinder.findTripAvailable"> 
       	<![CDATA[ 
-           	SELECT DISTINCT gtfs_trip.*
-			FROM gtfs_trip
-				INNER JOIN gtfs_route ON gtfs_route.route_id = gtfs_trip.route_id
-			    INNER JOIN gtfs_stoptime ON gtfs_stoptime.trip_id = gtfs_trip.trip_id
-			WHERE gtfs_trip.service_id IN (
+           	SELECT DISTINCT gtfs_Trip.*
+			FROM gtfs_Trip
+				INNER JOIN gtfs_Route ON gtfs_Route.route_id = gtfs_Trip.route_id
+			    INNER JOIN gtfs_StopTime ON gtfs_StopTime.trip_id = gtfs_Trip.trip_id
+			WHERE gtfs_Trip.service_id IN (
 				SELECT DISTINCT service_id
-				FROM gtfs_calendar
+				FROM gtfs_Calendar
 				WHERE DATE(start_date) <= DATE(NOW())
 				AND DATE(end_date) >= DATE(NOW())
 				AND CASE dayname(NOW())
@@ -20,15 +20,15 @@
 						WHEN 'Saturday' THEN saturday = 1
 						WHEN 'Sunday' THEN sunday = 1
 					END
-				AND gtfs_calendar.service_id NOT IN (
+				AND gtfs_Calendar.service_id NOT IN (
 					SELECT service_id
-					FROM gtfs_calendardate
+					FROM gtfs_CalendarDate
 					WHERE DATE(date_) = DATE(NOW())
 					AND exception_type = 2
 				)
 			)
-			AND gtfs_stoptime.stop_id = ?
-			GROUP BY gtfs_trip.route_id
+			AND gtfs_StopTime.stop_id = ?
+			GROUP BY gtfs_Trip.route_id
 		]]>
    </sql>
 </custom-sql>
