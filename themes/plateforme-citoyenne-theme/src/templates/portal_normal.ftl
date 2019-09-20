@@ -20,9 +20,9 @@
 	<#else>
 		<meta property="og:type"               content="website" />
 		<meta property="og:locale"               content="fr_FR" />
-		<meta property="og:title"              content="Eurométropole de Strasbourg" />
-		<meta property="og:description"        content="Site communautaire de l'eurométropole de Strasbourg" />
-		<meta property="og:image"              content="https://www.strasbourg.eu/documents/976405/1013671/Home-visuel-haut-de-page_europe.jpg/73d6f660-4800-c32d-741a-1a3834d0b468" />
+		<meta property="og:title"              content="${the_title_OG}" />
+		<meta property="og:description"        content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_description')}" />
+		<meta property="og:image"              content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}" />
 	</#if>
 
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
