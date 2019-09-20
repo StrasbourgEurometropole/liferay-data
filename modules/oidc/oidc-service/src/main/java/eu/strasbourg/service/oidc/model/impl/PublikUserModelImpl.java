@@ -107,7 +107,7 @@ public class PublikUserModelImpl extends BaseModelImpl<PublikUser>
 		TABLE_COLUMNS_MAP.put("pactDisplay", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig VARCHAR(1000) null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig TEXT null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY publikUser.lastName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_PublikUser.lastName ASC";

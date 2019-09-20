@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="/o/mapweb/css/map.css" />
+<link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
 
 <liferay-util:html-bottom>
     <script>
@@ -15,6 +16,7 @@
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
     <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
+    <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
     <script>
         define.amd = define._amd;
     </script>
@@ -30,7 +32,7 @@
 	    	${district.getTitle(locale)}
 	    </h2>
 	</c:if>
-	<section id="wi-aroundme">
+	<section id="wi-aroundme" class="no-widget">
 		<div id="aroundme">
 			<c:if test="${showConfig}">
 		    	<div id="aroundme__top">

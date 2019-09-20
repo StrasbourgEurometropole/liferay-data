@@ -4,36 +4,68 @@
     box-shadow: 0 0 10px rgba(#203146, 0.15);
     position: relative;
     background-color: #FFFFFF;
+    max-width: #{$container-width}px;
+    margin: 0 auto 40px;
 
     @include RWD(tablet){
         padding: 45px;
+        width: calc(100% - 80px);
     }
     @include RWD(mobile){
         padding: 45px 20px;
+        width: calc(100% - 40px);
     }
 
-    .delete-wi{
-        position: absolute;
-        top: 45px;
-        right: 75px;
-        content: '';
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        background-size: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-image: url( svg-bg-uri($svg-filled-close, $second-color) );
+    div.buttons{
+        text-align: right;
+        margin-bottom: -30px;
+        width: 100%;
 
-        @include RWD(tablet){
-            right: 45px;
-        }
         @include RWD(mobile){
-            right: 20px;
-            top: 20px;
+            margin-bottom: 0;
+            margin-top: -20px;
         }
-        &:hover, &:focus{
-            background-image: url( svg-bg-uri($svg-filled-close, $core-color) );
+
+        button + button {
+            margin-left: 15px;
+        }
+        
+        .delete-wi, .retractable-folded-wi, .retractable-unfolded-wi{
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-size: 30px;
+            background-position: center right;
+            background-repeat: no-repeat;
+            
+            &:focus{
+                outline: none;
+            }
+        }
+    
+        .delete-wi{
+            background-image: url( svg-bg-uri($svg-filled-close-white, red) );
+            
+            &:hover, &:focus{
+                background-image: url( svg-bg-uri($svg-filled-close-white, $core-color) );
+            }
+        }
+    
+        .retractable-folded-wi{
+            background-image: url( svg-bg-uri($svg-plus, $text-basis-color) );
+    
+            &:hover, &:focus{
+                background-image: url( svg-bg-uri($svg-plus, $core-color) );
+            }
+        }
+    
+        .retractable-unfolded-wi{
+            background-image: url( svg-bg-uri($svg-minus, $text-basis-color) );
+    
+            &:hover, &:focus{
+                background-image: url( svg-bg-uri($svg-minus, $core-color) );
+            }
         }
     }
 

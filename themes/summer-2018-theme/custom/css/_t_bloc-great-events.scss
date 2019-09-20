@@ -37,7 +37,7 @@
 				padding: 30px;
 				position: absolute;
 				display: inline-block;
-				background-color: rgba(0,0,0,0.5);
+				background-color: rgba(0,0,0,0.8);
 				@include mobile {
 					width: 280px !important;
 					right: 0 !important;
@@ -61,16 +61,16 @@
 				}
 				h2 {
 					text-transform: uppercase;
-					@include ft($f_ms, 50px, 400, $c_white, normal);
+					@include ft($f_ms, 40px, 400, $c_white, normal);
 					@include mobile {
 						@include ft($f_ms, 15px !important, 400, $c_white, normal);
 					}
 					@include tablet_portrait {
-						@include ft($f_ms, 50px, 400, $c_white, normal);
+						@include ft($f_ms, 40px, 400, $c_white, normal);
 					}
 					&:after{
 						content: '';
-						background: url(/o/summer-2018-theme/images/vague-jaune.png) repeat center center /contain;
+						background: url(/o/summer-2018-theme/images/vague.png) repeat center center /contain;
 						position: absolute;
 						display: block;
 						width: 100%;

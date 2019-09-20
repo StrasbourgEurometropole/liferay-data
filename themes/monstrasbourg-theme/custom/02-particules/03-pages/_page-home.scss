@@ -1,6 +1,17 @@
 .mseu .front{
     position: relative;
 
+    .portlet{
+        margin-bottom: 0;
+    }
+
+    &.home{
+        background-color: $core-color;
+    }
+    
+    .nested-portlet-layout{
+        background-color: #f6f6f6;
+    }
 
     .wi-wrapper{
         display: flex;
@@ -20,6 +31,14 @@
     }
     section.deleted{
         transform: translateX(100vw);
+    }
+    
+    &.home #main-content .custom-container{
+        width: 100%;
+
+        @include RWD(tablet){
+            padding: 0;
+        }
     }
     
 }

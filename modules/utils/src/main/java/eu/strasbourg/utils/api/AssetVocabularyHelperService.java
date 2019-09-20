@@ -35,6 +35,11 @@ public interface AssetVocabularyHelperService {
     String getCategoryProperty(long categoryId, String key);
 
     /**
+     * Retourne la catégorie passée en paramètre avec ses parents
+     */
+    List<AssetCategory> getCategoryWithAncestors(AssetCategory category) ;
+
+    /**
      * Retourne le vocabulaire ayant le nom donné et faisant parti du groupe
      * donné
      */

@@ -712,6 +712,14 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Retourne la version GeoJSON du lieu
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toGeoJSON() {
+		return _place.toGeoJSON();
+	}
+
+	/**
 	* Retourne la version JSON du lieu
 	*/
 	@Override
@@ -2331,7 +2339,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	* Retourne les périodes qui ne sont pas par défaut
+	* Retourne les périodes qui ne sont pas par défaut (uniquement les périodes en cours ou futures)
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriods() {

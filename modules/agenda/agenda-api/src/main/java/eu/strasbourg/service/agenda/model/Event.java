@@ -229,6 +229,16 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
 
 	/**
+	* Retourne les typologie de l'événement (Catégorie du site de l'OPS)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypologies();
+
+	/**
+	* Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
+	*/
+	public java.lang.String getLabelTypologies(java.util.Locale locale);
+
+	/**
 	* Retourne le label des types de l'événement
 	*/
 	public java.lang.String getTypeLabel(java.util.Locale locale);
@@ -295,11 +305,27 @@ public interface Event extends EventModel, PersistedModel {
 	*
 	* @param request  la requete
 	* @param nbSuggestions le nombre de suggestions.
+	* @param tag le tag a appliquer
+	* @param category la categorie a appliquer
 	* @return la liste d'événements.
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
 		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
-		java.lang.String tag)
+		java.lang.String tag, java.lang.String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.search.SearchException;
+
+	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
+	*
+	* @return
+	*/
+	public java.util.List<eu.strasbourg.utils.models.RodrigueEventSession> getSessionsFromRodrigue();
+
+	/**
+	* Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
+	*
+	* @return
+	*/
+	public com.liferay.portal.kernel.json.JSONArray getSessionsFromRodrigueInJSON();
 }

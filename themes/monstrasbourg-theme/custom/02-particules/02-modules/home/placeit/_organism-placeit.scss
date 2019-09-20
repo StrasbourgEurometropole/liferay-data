@@ -1,0 +1,191 @@
+%organism-placeit{    
+    @extend %molecule-home-section;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    padding: 45px 0;
+
+    b{
+        font-weight: 700;
+    }
+
+    .buttons{
+        padding-right: 75px;
+
+        @include RWD(tablet){
+            padding-right: 45px;
+        }
+
+        @include RWD(mobile){
+            padding-right: 20px;
+        }
+    }
+
+    h2:before{
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+    }
+
+    .rte{
+	    font-size: 1.8rem;
+	    color: #5c5c5c;
+        text-align: center;
+    }
+
+    .pro-bloc-dashboard{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        text-align: center;
+        font-family: $montserrat;
+        color: $core-color;
+
+        h3{
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 10px;
+            padding-bottom: 20px;
+        }
+
+        .pro-number{
+            font-size: 2.6rem;
+            font-weight: 700;
+        }
+
+        .form-group{
+            margin: 0;
+            padding: 10px;
+            padding-top: 0;
+
+            .btn-square--bordered--core .btn-text{
+                font-size: 1.1rem;
+            }
+        }
+
+        .projects-events{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+                margin-bottom: 20px;
+            }
+            @include RWD(mobile){
+                width: 100%;
+            }
+
+            .btn-square--bordered--core{
+                &:before{
+                    background-color: #FFFFFF;
+                }
+                .btn-text{
+                    color: #FFFFFF;
+                }
+                .btn-arrow{
+                    background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+                }
+                &:hover, &:focus{
+                    .btn-text{
+                        color: $core-color;
+                    }
+                    .btn-arrow{
+                        background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    }
+                }
+            }
+
+            .projects{
+                background-color: $core-color;
+                margin-bottom: 20px;
+            }
+
+            .events{
+                background-color: $core-color;
+            }
+        }
+
+        .petitions{
+            background-color: white;
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+
+                .form-group:nth-of-type(1){
+                    margin-bottom: 66px;
+                }
+            }
+            @include RWD(mobile){
+                width: 100%;
+                margin-bottom: 20px;
+
+                .form-group:nth-of-type(1){
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .initiatives{
+            background-color: white;
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+
+                .form-group:nth-of-type(1){
+                    margin-bottom: 68px;
+                }
+            }
+            @include RWD(mobile){
+                width: 100%;
+                margin-bottom: 20px;
+
+                .form-group:nth-of-type(1){
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .budget{
+            display: flex;
+            flex-direction: column;
+            background-color: $second-color;
+            width: calc(25% - 10px);
+            @include RWD(tablet){  
+                width: calc(50% - 10px);
+            }
+            @include RWD(mobile){
+                width: 100%;
+            }
+
+            .budget-reste{
+                background-color: $third-color;
+                padding: 15px;
+                font-size: 1.4em;
+                padding: 24px 10px;
+
+                span{
+                    line-height: 20px;
+                }
+            }
+        }
+
+        .acces-site{
+            width: 50%;
+            margin: auto;
+            margin-top: -68px;
+
+            @include RWD(tablet){
+                width: 100%;
+                margin-top: 0;
+            }
+
+            .form-group{
+                padding: 0;
+                margin-top: 15px;
+            }
+        }
+    }
+}

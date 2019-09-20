@@ -106,7 +106,7 @@
 								<liferay-util:param name="linkURL" value="${period.linkURL}" />
 								<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
 								<liferay-util:param name="periodId" value="${period.periodId}" />
-								<liferay-util:param name="nbSlot" value="${fn:length(period.slots)}" />
+								<liferay-util:param name="nbSlot" value="${fn:length(period.getSlots(dc.subPlace.subPlaceId))}" />
 								<c:set var="slotJour" value="" />
 								<c:set var="slotStartHour" value="" />
 								<c:set var="slotEndHour" value="" />

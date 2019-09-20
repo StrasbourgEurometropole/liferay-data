@@ -80,8 +80,10 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.RodigueSOAPClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.models.RodrigueEventSession;
 
 /**
  * The extended model implementation for the Event service. Represents a row in
@@ -560,6 +562,30 @@ public class EventImpl extends EventBaseImpl {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EVENT_TYPE);
 	}
+	
+	/**
+	 * Retourne les typologie de l'événement (Catégorie du site de l'OPS)
+	 */
+	@Override
+	public List<AssetCategory> getTypologies() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.OPS_TYPOLOGIE);
+	}
+	
+	/**
+	 * Retourne le label des typologies de l'événement (Catégorie du site de l'OPS)
+	 */
+	@Override
+	public String getLabelTypologies(Locale locale) {
+		String typos = "";
+		for (AssetCategory typo : this.getTypologies()) {
+			if (typos.length() > 0) {
+				typos += " - ";
+			}
+			typos += typo.getTitle(locale);
+		}
+		return typos;
+	}
 
 	/**
 	 * Retourne le label des types de l'événement
@@ -997,7 +1023,7 @@ public class EventImpl extends EventBaseImpl {
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
 		}
-
+		
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
 
 		List<String> mercators = this.getMercators();
@@ -1031,10 +1057,12 @@ public class EventImpl extends EventBaseImpl {
 	 *
 	 * @param request  la requete
 	 * @param nbSuggestions le nombre de suggestions.
+	 * @param tag le tag a appliquer
+	 * @param category la categorie a appliquer
 	 * @return la liste d'événements.
 	 */
 	@Override
-	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag) throws SearchException, PortalException {
+	public List<Event> getSuggestions(HttpServletRequest request, int nbSuggestions, String tag, String category) throws SearchException, PortalException {
 		
 		List<Event> suggestions = new ArrayList<>();
 		
@@ -1063,10 +1091,17 @@ public class EventImpl extends EventBaseImpl {
 				query.add(tagQuery, BooleanClauseOccur.MUST);
 			}
 			
+			List<AssetCategory> categories = new ArrayList<AssetCategory>();
+			
+			if(category.equals("theme"))
+				categories = this.getThemes();
+			else if(category.equals("typologie"))
+				categories = this.getTypologies();
+			
 			//La suggestion se fait uniquement sur la même catégorie "thème"
-			for (AssetCategory category : this.getThemes()) {
+			for (AssetCategory cat : categories) {
 				BooleanQuery categoryQuery = new BooleanQueryImpl();
-				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(category.getCategoryId()));
+				categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(cat.getCategoryId()));
 				query.add(categoryQuery, BooleanClauseOccur.MUST);
 			}
 			
@@ -1091,6 +1126,67 @@ public class EventImpl extends EventBaseImpl {
 		}
 	    
 		return suggestions;
+	}
+	
+	/**
+	 * Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
+	 * @return
+	 */
+	@Override
+	public List<RodrigueEventSession> getSessionsFromRodrigue() {
+		if (this.getConcertId() != null && !this.getConcertId().isEmpty()) {
+			return RodigueSOAPClient.getSessionListOfEvent(this.getConcertId());
+		} else {
+			return new ArrayList<RodrigueEventSession>();
+		}
+	}
+	
+	/**
+	 * Renvoi les sessions de l'evenement obtenues par le webService Rodriguesous format JSON
+	 * @return
+	 */
+	@Override
+	public JSONArray getSessionsFromRodrigueInJSON() {
+		JSONArray sessionsJSON = JSONFactoryUtil.createJSONArray();
+		
+		// Recuperation des properties
+		String ticketingURL = StrasbourgPropsUtil.getOPSTicketingURL();
+		String structureID = StrasbourgPropsUtil.getRodrigueOPSStructureID();
+		
+		for(RodrigueEventSession session : this.getSessionsFromRodrigue()) {
+			JSONObject sessionJSON = JSONFactoryUtil.createJSONObject();
+			
+			// Creation du lien vers la billeterie
+			String link = ticketingURL.replaceAll("\\[structureID\\]", structureID);
+			link = link.replaceAll("\\[eventID\\]", Integer.toString(session.getEventID()));
+			
+			// Mise a jour du format de date pour simplifier la passation en javascript
+			String date = "";
+			if (session.getSessionDate() != null) {
+				SimpleDateFormat sdf = new SimpleDateFormat("EE MMM d y H:m:s ZZZ", Locale.US);
+				date = sdf.format(session.getSessionDate());
+			}
+			
+			sessionJSON.put("link", link);
+			sessionJSON.put("eventID", session.getEventID());
+			sessionJSON.put("eventName", session.getEventName());
+			sessionJSON.put("eventCode", session.getEventCode());
+			sessionJSON.put("eventDescription1", session.getEventDescription1());
+			sessionJSON.put("eventDescription2", session.getEventDescription2());
+			sessionJSON.put("eventDescription3", session.getEventDescription3());
+			sessionJSON.put("sessionID", session.getSessionID());
+			sessionJSON.put("sessionDate", date);
+			sessionJSON.put("placeID", session.getPlaceID());
+			sessionJSON.put("placeName", session.getPlaceName());
+			sessionJSON.put("placeCode", session.getPlaceCode());
+			sessionJSON.put("nbSeat", session.getNbSeat());
+			sessionJSON.put("nbSeatMin", session.getNbSeatMin());
+			sessionJSON.put("nbSeatMax", session.getNbSeatMax());
+			
+			sessionsJSON.put(sessionJSON);
+		}
+		
+		return sessionsJSON;
 	}
 
 }

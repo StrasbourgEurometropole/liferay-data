@@ -96,3 +96,26 @@ main {
 .ops-bloc-facettes {
 	z-index : 101;
 }
+
+//appliquer le style du theme avec un autre classe que ops-scrollto dans le but de ne pas appliquer de js
+.ops-wrapper-content-rh aside .ops-noscrollto a {
+  position: relative;
+  z-index: 10;
+  color: #fff;
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px 10px
+}
+
+.ops-wrapper-content-rh aside .ops-noscrollto a:last-child {
+  margin-bottom: 0
+}
+
+.ops-wrapper-content-rh aside .ops-noscrollto a.ops-btn-inversed {
+  color: #000
+}
+
+//Ajustement du positionnement de l'icone de billeterie vers la doite.
+.ops-bloc-slider-concerts .ops-item .ops-bottom-card .ops-places-dispo:after {
+  right: 7px;
+}

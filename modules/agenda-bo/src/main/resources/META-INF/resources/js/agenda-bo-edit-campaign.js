@@ -3,6 +3,11 @@ new Choices('#themesIds', {
 	removeItemButton: true
 });
 
+// Champs select types
+new Choices('#typesIds', {
+	removeItemButton: true
+});
+
 //  on vérifie que les date sont correcte à la validation du formulaire
 $(":submit").on('click', function(e) {
     setPeriodValidators(e);

@@ -13,5 +13,6 @@
 		<field name="typeId" type="long" />
 		<field name="entityId" type="long" />
 		<field name="entityGroupId" type="long" />
+		<field name="onDashboardDate" type="Date" />
 	</model>
 </model-hints>

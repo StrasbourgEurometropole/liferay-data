@@ -133,7 +133,21 @@ function affichageDates(objet, id) {
 		
 		// Initialisation du nom de la période si période par défault
 		if($(namespaceAUI + 'namePeriod' + id).val() == ""){
-			$(namespaceAUI + 'namePeriod' + id).val("Horaires habituels");
+			$(namespaceAUI + 'namePeriod' + id).val(Liferay.Language.get("eu.place.normal-schedule"));
+			$(namespaceAUI + 'namePeriod' + id + '_fr_FR').val("Horaires habituels");
+
+			if($(namespaceAUI + 'namePeriod' + id + '_de_DE').val() != undefined)
+			    $(namespaceAUI + 'namePeriod' + id + '_de_DE').val("Übliche Öffnungszeiten");
+            else{
+                $(namespaceAUI + 'namePeriod' + id + 'BoundingBox').append('<input id="' + namespace + 'namePeriod2_de_DE" name="' + namespace + 'namePeriod2_de_DE" type="hidden" value="Übliche Öffnungszeiten">');
+                $(namespaceAUI + 'namePeriod' + id + 'ContentBox .palette-item[data-value="de_DE"]').addClass("lfr-input-localized");
+            }
+
+			if($(namespaceAUI + 'namePeriod' + id + '_en_US').val() != undefined)
+			    $(namespaceAUI + 'namePeriod' + id + '_en_US').val("Usual opening hours");
+			else
+                $(namespaceAUI + 'namePeriod' + id + 'BoundingBox').append('<input id="' + namespace + 'namePeriod2_en_US" name="' + namespace + 'namePeriod2_en_US" type="hidden" value="Usual opening hours">');
+                $(namespaceAUI + 'namePeriod' + id + 'ContentBox .palette-item[data-value="en_US"]').addClass("lfr-input-localized");
 		}
 	} else {
 		$('.dates' + id).show();

@@ -474,4 +474,12 @@ public class InterestViewerDisplayContext {
 	public boolean showDeleteButton() {
 		return PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
+
+	public boolean showRetractableButton() {
+		return PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
+
+	public boolean isFolded() {
+		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+	}
 }

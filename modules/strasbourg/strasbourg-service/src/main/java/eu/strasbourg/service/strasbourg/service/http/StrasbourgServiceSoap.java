@@ -347,5 +347,45 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static void unfoldPortlet(java.lang.String portletId)
+		throws RemoteException {
+		try {
+			StrasbourgServiceUtil.unfoldPortlet(portletId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void foldPortlet(java.lang.String portletId)
+		throws RemoteException {
+		try {
+			StrasbourgServiceUtil.foldPortlet(portletId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getPracticeCategories(
+		long parentCategoryId, java.lang.String localeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = StrasbourgServiceUtil.getPracticeCategories(parentCategoryId,
+					localeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }

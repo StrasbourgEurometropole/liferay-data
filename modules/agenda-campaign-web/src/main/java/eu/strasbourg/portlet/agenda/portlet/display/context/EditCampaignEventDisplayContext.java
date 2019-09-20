@@ -175,6 +175,37 @@ public class EditCampaignEventDisplayContext extends BaseDisplayContext {
 	}
 
 	/**
+	 * Retourne la map campaignId/typesIds (ou typesIds est la liste des ids
+	 * des types séparés par des virgules
+	 */
+	public String getCampaignTypes() {
+		JSONObject campaignTypes = JSONFactoryUtil.createJSONObject();
+		for (Campaign campaign : this.getCampaigns()) {
+			String typesIds = "";
+			for (AssetCategory type : campaign.getTypes()) {
+				if (typesIds.length() > 0) {
+					typesIds += ",";
+				}
+				typesIds += type.getCategoryId();
+			}
+			campaignTypes.put(String.valueOf(campaign.getCampaignId()), typesIds);
+		}
+		return campaignTypes.toJSONString();
+	}
+
+	/**
+	 * Retourne la map typeId/typeLabel
+	 */
+	public String getTypeLabels() throws PortalException {
+		JSONObject typeLabels = JSONFactoryUtil.createJSONObject();
+
+		for (AssetCategory type : this.getTypes()) {
+			typeLabels.put(String.valueOf(type.getCategoryId()), type.getName());
+		}
+		return typeLabels.toJSONString();
+	}
+
+	/**
 	 * Retourne la liste des types
 	 */
 	public List<AssetCategory> getTypes() throws PortalException {

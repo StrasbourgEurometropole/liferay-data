@@ -39,6 +39,13 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
+		long parentCategoryId, java.lang.String localeId) {
+		return _strasbourgService.getPracticeCategories(parentCategoryId,
+			localeId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getAlerts() {
 		return _strasbourgService.getAlerts();
 	}
@@ -156,8 +163,18 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public void foldPortlet(java.lang.String portletId) {
+		_strasbourgService.foldPortlet(portletId);
+	}
+
+	@Override
 	public void hidePortlet(java.lang.String portletId) {
 		_strasbourgService.hidePortlet(portletId);
+	}
+
+	@Override
+	public void unfoldPortlet(java.lang.String portletId) {
+		_strasbourgService.unfoldPortlet(portletId);
 	}
 
 	@Override

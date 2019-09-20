@@ -272,6 +272,17 @@ public class EventServiceImpl extends EventServiceBaseImpl {
         result.put("events", jsonEvents);
         return result;
     }
+    
+    @Override
+    public JSONArray getSessions(long eventID) {
+    	Event event = this.eventLocalService.fetchEvent(eventID);
+    	
+    	if (event != null) {
+    		return event.getSessionsFromRodrigueInJSON();
+    	} else {
+    		return JSONFactoryUtil.createJSONArray();
+    	}
+    }
 
     private JSONObject error(String message) {
         return JSONFactoryUtil.createJSONObject().put("error", message);

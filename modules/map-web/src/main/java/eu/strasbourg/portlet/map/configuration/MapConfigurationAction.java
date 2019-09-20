@@ -80,9 +80,12 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
-			
+
 			// Config par défaut
 			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
+
+			// Config par défaut
+			setPreference(request, "districtMod", String.valueOf(mode.equals("district")));
 
 			// Choix du site vers lequel les liens redirigent
 			String groupId = ParamUtil.getString(request, "groupId");
@@ -171,7 +174,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				// Choix afficher l'info trafic
 				String showTraffic = ParamUtil.getString(request, "showTraffic");
 				setPreference(request, "showTraffic", showTraffic);
-				if(mode.equals("normal")) {
+				if(mode.equals("normal") || mode.equals("district")) {
 					// Liaison de l'info trafic à une catégorie
 					String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
 					setPreference(request, "linkCategoryId", linkCategoryId);
@@ -217,7 +220,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				}
 			}
 
-			if(mode.equals("normal")) {
+			if(mode.equals("normal") || mode.equals("district")) {
 				// Préfiltre catégories
 				String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
 				// On enregistre les ids des catégories sous forme de String
@@ -315,8 +318,12 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				setPreference(request, "categoriesDefaultsIds", sortedCategoriesDefaultsIds);
 
 				// Filtre sur le quartier de l'utilisateur
-				String districtUser = ParamUtil.getString(request, "districtUser");
-				setPreference(request, "districtUser", districtUser);
+				if(mode.equals("district")) {
+					String districtUser = ParamUtil.getString(request, "districtUser");
+					setPreference(request, "districtUser", districtUser);
+				}else{
+					setPreference(request, "districtUser", "");
+				}
 			}else {
 				setPreference(request, "prefilterCategoriesIds", "");
 				setPreference(request, "categoriesIds", "");
@@ -393,6 +400,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Config par défaut
 			request.setAttribute("defaultConfig", configuration.defaultConfig());
+
+			// Config par défaut
+			request.setAttribute("districtMod", configuration.districtMod());
 
 			// Choix du site vers lequel les liens redirigent
 			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);

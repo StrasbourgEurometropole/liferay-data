@@ -11,7 +11,7 @@ create table publik_PublikUser (
 	lastName VARCHAR(200) null,
 	email VARCHAR(75) null,
 	mapConfig VARCHAR(1000) null,
-	displayConfig VARCHAR(1000) null,
+	displayConfig TEXT null,
 	pactSignature DATE null,
 	banishDate DATE null,
 	banishDescription TEXT null,

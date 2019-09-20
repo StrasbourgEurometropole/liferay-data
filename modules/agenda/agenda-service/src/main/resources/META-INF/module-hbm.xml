@@ -143,6 +143,7 @@
 		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="bookingDescription" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="bookingURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="subscriptionURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idSource" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationDate" type="org.hibernate.type.TimestampType" />

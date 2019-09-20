@@ -82,8 +82,10 @@ public class SliderUneDisplayContext {
                     AssetEntry journalArticleEntry = null;
                     journalArticleEntry = AssetEntryLocalServiceUtil.fetchEntry(JournalArticle.class.getName(),
                             Long.parseLong(classPK));
-                    if (journalArticleEntry != null && journalArticleEntry.isVisible()) {
-                        actuWebmagEvent.add(journalArticleEntry);
+                    if (journalArticleEntry != null) {
+                        JournalArticle journalArticle = JournalArticleLocalServiceUtil.fetchLatestArticle(Long.parseLong(classPK), 0);
+                        if(journalArticle != null)
+                            actuWebmagEvent.add(journalArticleEntry);
                     }
                     AssetEntry eventEntry = null;
                     eventEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),

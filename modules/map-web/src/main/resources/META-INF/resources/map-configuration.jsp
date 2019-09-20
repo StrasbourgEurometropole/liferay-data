@@ -16,7 +16,8 @@
 
                 <!-- Mode -->
                 <div class="modeSelection" style="margin-left: 20px;">
-                    <aui:input type="radio" name="mode" value="normal" label="no-mode" checked="${not widgetMod and not defaultConfig or empty widgetMod and empty defaultConfig}"/>
+                    <aui:input type="radio" name="mode" value="normal" label="no-mode" checked="${(not widgetMod and not defaultConfig and not districtMod) or (empty widgetMod and empty defaultConfig and empty districtMod)}"/>
+                    <aui:input type="radio" name="mode" value="district" label="district-mode" checked="${districtMod}"/>
                     <aui:input type="radio" name="mode" value="widget" label="widget-mode" checked="${widgetMod}"/>
                     <aui:input type="radio" name="mode" value="aroundme" label="aroundme-mode" checked="${defaultConfig}"/>
                 </div>
@@ -81,7 +82,7 @@
 
                     <!-- Choix de l'affichage des pictos dans la configuration -->
                     <div>
-                        <aui:input type="checkbox" name="showPictos" value="${showPictos || hasConfig}" label="show-pictos" />
+                        <aui:input type="checkbox" name="showPictos" value="${showPictos || !hasConfig}" label="show-pictos" />
                     </div>
                 </aui:fieldset>
 
@@ -125,7 +126,7 @@
                     </div>
 
                     <!-- Filtre sur le quartier de l'utilisateur -->
-                    <div>
+                    <div class="districtMode">
                         <aui:input type="checkbox" name="districtUser" value="${districtUser}" label="district-user" />
                     </div>
                 </aui:fieldset>
@@ -250,9 +251,44 @@
 
                 </aui:fieldset>
                 
+                
+                    <script>
+                        var refreshConfigDisplay = function() {
+                           var mode = $('.modeSelection input[type=radio]:checked').val();
+                           if (mode === 'widget') {
+                               $('.monStrasbourgMode').show();
+                               $('.widgetMode').show();
+                               $('.aroundMeMode').hide();
+                               $('.normalMode').hide();
+                               $('.noWidgetMode').hide();
+                           } else if (mode == 'aroundme') {
+                               $('.monStrasbourgMode').show();
+                               $('.widgetMode').hide();
+                               $('.aroundMeMode').show();
+                               $('.normalMode').hide();
+                               $('.noWidgetMode').show();
+                           } else {
+                               $('.monStrasbourgMode').hide();
+                               $('.widgetMode').hide();
+                               $('.aroundMeMode').hide();
+                               $('.normalMode').show();
+                               if(mode == 'district'){
+                                    $('.districtMode').show();
+                               }else{
+                                    $('.districtMode').hide();
+                               }
+                               $('.noWidgetMode').show();
+                           }
+                           if ($('.typeEvent').is(":checked")) {
+                               $('.eventExplanation').show();
+                           } else {
+                               $('.eventExplanation').hide();
+                           }
+                        }
+                    </script>
+
                 <!-- Transports -->
-                <aui:fieldset collapsed="true" collapsible="true"
-                        label="transports" cssClass="noWidgetMode transports">
+                <aui:fieldset collapsed="true" collapsible="true" label="transports" cssClass="noWidgetMode transports">
 
                     <p>
                         <!-- Affichage de l'info trafic -->

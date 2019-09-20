@@ -38,6 +38,7 @@ import java.io.Serializable;
 import java.sql.Types;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,8 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 			{ "url", Types.VARCHAR },
 			{ "typeId", Types.BIGINT },
 			{ "entityId", Types.BIGINT },
-			{ "entityGroupId", Types.BIGINT }
+			{ "entityGroupId", Types.BIGINT },
+			{ "onDashboardDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -84,9 +86,10 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("entityId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("entityGroupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("onDashboardDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table favorite_Favorite (favoriteId LONG not null primary key,publikUserId VARCHAR(75) null,title VARCHAR(255) null,url VARCHAR(255) null,typeId LONG,entityId LONG,entityGroupId LONG,onDashboardDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table favorite_Favorite";
 	public static final String ORDER_BY_JPQL = " ORDER BY favorite.favoriteId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY favorite_Favorite.favoriteId ASC";
@@ -128,6 +131,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		model.setTypeId(soapModel.getTypeId());
 		model.setEntityId(soapModel.getEntityId());
 		model.setEntityGroupId(soapModel.getEntityGroupId());
+		model.setOnDashboardDate(soapModel.getOnDashboardDate());
 
 		return model;
 	}
@@ -199,6 +203,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		attributes.put("typeId", getTypeId());
 		attributes.put("entityId", getEntityId());
 		attributes.put("entityGroupId", getEntityGroupId());
+		attributes.put("onDashboardDate", getOnDashboardDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -248,6 +253,12 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 		if (entityGroupId != null) {
 			setEntityGroupId(entityGroupId);
+		}
+
+		Date onDashboardDate = (Date)attributes.get("onDashboardDate");
+
+		if (onDashboardDate != null) {
+			setOnDashboardDate(onDashboardDate);
 		}
 	}
 
@@ -387,6 +398,17 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		_entityGroupId = entityGroupId;
 	}
 
+	@JSON
+	@Override
+	public Date getOnDashboardDate() {
+		return _onDashboardDate;
+	}
+
+	@Override
+	public void setOnDashboardDate(Date onDashboardDate) {
+		_onDashboardDate = onDashboardDate;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -425,6 +447,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		favoriteImpl.setTypeId(getTypeId());
 		favoriteImpl.setEntityId(getEntityId());
 		favoriteImpl.setEntityGroupId(getEntityGroupId());
+		favoriteImpl.setOnDashboardDate(getOnDashboardDate());
 
 		favoriteImpl.resetOriginalValues();
 
@@ -538,12 +561,21 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 		favoriteCacheModel.entityGroupId = getEntityGroupId();
 
+		Date onDashboardDate = getOnDashboardDate();
+
+		if (onDashboardDate != null) {
+			favoriteCacheModel.onDashboardDate = onDashboardDate.getTime();
+		}
+		else {
+			favoriteCacheModel.onDashboardDate = Long.MIN_VALUE;
+		}
+
 		return favoriteCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{favoriteId=");
 		sb.append(getFavoriteId());
@@ -559,6 +591,8 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 		sb.append(getEntityId());
 		sb.append(", entityGroupId=");
 		sb.append(getEntityGroupId());
+		sb.append(", onDashboardDate=");
+		sb.append(getOnDashboardDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -566,7 +600,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.favorite.model.Favorite");
@@ -600,6 +634,10 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 			"<column><column-name>entityGroupId</column-name><column-value><![CDATA[");
 		sb.append(getEntityGroupId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>onDashboardDate</column-name><column-value><![CDATA[");
+		sb.append(getOnDashboardDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -623,6 +661,7 @@ public class FavoriteModelImpl extends BaseModelImpl<Favorite>
 	private long _originalEntityId;
 	private boolean _setOriginalEntityId;
 	private long _entityGroupId;
+	private Date _onDashboardDate;
 	private long _columnBitmask;
 	private Favorite _escapedModel;
 }

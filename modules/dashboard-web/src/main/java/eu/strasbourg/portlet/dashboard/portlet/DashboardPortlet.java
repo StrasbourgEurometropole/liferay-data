@@ -10,6 +10,10 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import eu.strasbourg.utils.PortletHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONObject;
@@ -66,12 +70,11 @@ public class DashboardPortlet extends MVCPortlet {
 
     @Override
     public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
-    	
-    	
-    	
-    	// Recuperation du contexte de la requete
-    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-    	long groupId = new Long(themeDisplay.getLayout().getGroupId());
+
+    	// Récupération du group du site Participer
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        Group group = GroupLocalServiceUtil.fetchGroup(themeDisplay.getCompanyId(), StrasbourgPropsUtil.getParticperName());
+        long participerGroupId = group.getGroupId();
     	
         String publikId = DashBoardUtils.getPublikID(request);
 
@@ -81,8 +84,9 @@ public class DashboardPortlet extends MVCPortlet {
             LayoutHelperImpl lh = new LayoutHelperImpl();
             if(userConnected.isNull("photo"))
             	userConnected.put("photo", GlobalConstants.DEFAULT_PLACIT_USER_IMAGE_URL);
-            
+
             request.setAttribute("hasUserSigned", Validator.isNotNull(user.getPactSignature()));
+            request.setAttribute("isDisplayListing", user.getPactDisplay());
             request.setAttribute("isUserloggedIn", true);
             request.setAttribute("userConnected",userConnected);
             request.setAttribute("profilePictureURL",lh.getPublikIssuerURL() + "/accounts/edit/photo/");
@@ -134,7 +138,7 @@ public class DashboardPortlet extends MVCPortlet {
         List<BudgetParticipatif> budgetVoted = new ArrayList<>();
         int voteLeft = 0;
         
-        BudgetPhase activePhase  = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+        BudgetPhase activePhase  = BudgetPhaseLocalServiceUtil.getActivePhase(participerGroupId);
         
         if (activePhase != null) {
         	budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publikId);
@@ -146,7 +150,27 @@ public class DashboardPortlet extends MVCPortlet {
         request.setAttribute("budgetVoted", budgetVoted);
         request.setAttribute("voteLeft", voteLeft);
 
-        super.render(request, response);
+
+        // Vérifie sur quel site nous sommes
+        // Recuperation du contexte de la requete
+        long groupId = new Long(themeDisplay.getLayout().getGroupId());
+        String template = "view";
+        if(groupId != participerGroupId){
+            template = "widget";
+            boolean showDeleteButton = PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+            request.setAttribute("showDeleteButton", showDeleteButton);
+
+            boolean showRetractableButton = PortletHelper.showRetractableButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+            request.setAttribute("showRetractableButton", showRetractableButton);
+
+            boolean isFolded = PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
+            request.setAttribute("isFolded", isFolded);
+        }
+
+        group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/participer");
+        request.setAttribute("virtualParticiperHostName", group.getPublicLayoutSet().getVirtualHostname());
+
+        include("/" + template + ".jsp", request, response);
     }
 
 }

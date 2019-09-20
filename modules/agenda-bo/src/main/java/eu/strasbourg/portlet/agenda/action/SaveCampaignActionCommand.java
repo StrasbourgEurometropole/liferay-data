@@ -76,7 +76,14 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			Map<Locale, String> defaultImageCopyright = LocalizationUtil
 				.getLocalizationMap(request, "defaultImageCopyright");
 			long[] managersIds = ParamUtil.getLongValues(request, "managersIds");
+			long[] typesIds = ParamUtil.getLongValues(request, "typesIds");
 			long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
+			long[] assetCategoriesIds = new long[typesIds.length + themesIds.length];
+			int i = 0;
+			for(int j=0; j<typesIds.length; j++)
+				assetCategoriesIds[i++] = typesIds[j];
+			for(int j=0; j<themesIds.length; j++)
+				assetCategoriesIds[i++] = themesIds[j];
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			Date startDate = ParamUtil.getDate(request, "startDate", sdf);
 			Date endDate = ParamUtil.getDate(request, "endDate",sdf );
@@ -129,7 +136,7 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			campaign.setManagersIds(StringUtil.merge(managersIds));
 			campaign.setStartDate(startDate);
 			campaign.setEndDate(endDate);
-			sc.setAssetCategoryIds(themesIds);
+			sc.setAssetCategoryIds(assetCategoriesIds);
 			
 			_campaignLocalService
 				.updateCampaign(campaign, sc);

@@ -249,4 +249,26 @@ public class StrasbourgPropsUtil {
 	public static String getCTSServiceRealTimeToken() {
 		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.token");
 	}
+
+	public static String getParticperName() {
+		return PropsUtil.get("eu.strasbourg.participer.name");
+	}
+
+	public static String getDemarcheSuiviURL(){
+		return PropsUtil.get("eu.strasbourg.demarches.suivi.url");
+	}
+
+	public static String getRodrigueOPSStructureID() {
+		return PropsUtil.get("eu.strasbourg.ops.rodrigue.structure.id");
+	}
+	
+	public static String getOPSTicketingURL() {
+		return PropsUtil.get("eu.strasbourg.ops.ticketing.url");
+	}
+	
+	public static String getRodrigueAPIURL() {
+		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
+	}
+	
+
 }

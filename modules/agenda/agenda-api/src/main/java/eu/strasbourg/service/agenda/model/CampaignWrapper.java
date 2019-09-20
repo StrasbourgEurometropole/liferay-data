@@ -702,6 +702,14 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	}
 
 	/**
+	* Retourne les types de la campagne
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes() {
+		return _campaign.getTypes();
+	}
+
+	/**
 	* Returns a map of the locales and localized default image copyrights of this campaign.
 	*
 	* @return the locales and localized default image copyrights of this campaign

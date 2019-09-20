@@ -16,9 +16,12 @@ public interface MapConfiguration {
 	
 	@Meta.AD(name = "widgetMod", required = false)
 	public boolean widgetMod();
-	
+
 	@Meta.AD(name = "defaultConfig", required = false)
 	public boolean defaultConfig();
+
+	@Meta.AD(name = "districtMod", required = false)
+	public boolean districtMod();
 	
 	@Meta.AD(name = "groupId", required = false)
 	public long groupId();

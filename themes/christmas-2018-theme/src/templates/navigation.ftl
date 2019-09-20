@@ -90,15 +90,21 @@
                     <#if nav_item.hasChildren()>
                         <li class="dropdown">
                             <a href="${nav_item.getURL()}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${nav_item.getName()}</a>
-                            <ul class="dropdown-menu">
-                                <#list nav_item.getChildren() as nav_child>
-                                    <li>
-                                        <a href="${nav_child.getURL()}">
-                                            ${nav_child.getName()}
-                                        </a>
-                                    </li>
-                                </#list>
-                            </ul>
+                            <div class="dropdown-menu">
+                                <ul class="dropdown-submenu">
+                                    <#list nav_item.getChildren() as nav_child>
+                                        <#if nav_child?counter == (nav_item.getChildren()?size/2)?ceiling + 1>
+                                            </ul>
+                                            <ul class="dropdown-submenu">
+                                        </#if>
+                                        <li>
+                                            <a href="${nav_child.getURL()}">
+                                                ${nav_child.getName()}
+                                            </a>
+                                        </li>
+                                    </#list>
+                                </ul>
+                            </div>
                         </li>
                     <#else>
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
@@ -106,7 +112,7 @@
                 </#list>
                 <#if themeDisplay.getLocale() == "fr_FR">
                     <li>
-                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='magic-christmas' /></a>
+                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='prepare-your-program' /></a>
                     </li>
                 </#if>
             </ul>

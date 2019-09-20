@@ -5,25 +5,20 @@
 <html class="${root_css_class} mseu" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
 <head>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+      <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#else>
+      <#assign homeURL = "/" />
+    </#if>
   <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay ni avec un compte Publik 
   (et qu'il n'est pas sur la page de bienvenue ni sur la page de validation médiathèque), 
   on le redirige vers la page de bienvenue -->
   <#if !is_signed_in && !(request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() != "/bienvenue" && layout.getFriendlyURL() != "/validation-mediatheque">
-      <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-      <#else>
-        <#assign homeURL = "/" />
-      </#if>
       ${themeDisplay.getResponse().sendRedirect(homeURL + 'bienvenue')} 
   </#if>
   <#-- Si l'utilisateur n'est pas connecté avec un compte Liferay mais qu'il est connecté
   avec un compte Publik et s'il est sur la page de bienvenue, on le redirige vers la page d'accueil -->
   <#if !is_signed_in && (request.session.getAttribute("publik_logged_in")!false) && layout.getFriendlyURL() == "/bienvenue">
-      <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-      <#else>
-        <#assign homeURL = "/" />
-      </#if>
       ${themeDisplay.getResponse().sendRedirect(homeURL)}
   </#if>
 
@@ -54,7 +49,7 @@
 <#assign isWelcome = layout.getFriendlyURL() == "/bienvenue" />
 
 <body class="${css_class} no-js
-     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if> <#if isWelcome>welcome</#if>">
+     class_group_home <#if isHome || isDistrict>front<#else>not-front</#if> <#if isWelcome>welcome</#if> <#if isHome>home</#if>">
 
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -98,7 +93,6 @@
       </#if>
 
       <!-- Menu -->
-
       <#if layout.getFriendlyURL() != "/bienvenue">
         <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
@@ -114,10 +108,16 @@
  
   <main id="main-content">
     <#if !isWelcome>
-      <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
+      <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+      <#if !layoutImage?has_content>
+        <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
+      </#if>
+      <#if layoutImage?has_content>
+        <div class="bg-banner" style="background-image: url(${layoutImage});"></div>
+      </#if>
     </#if>
     <#if !isWelcome>
-      <div class="custom-container">
+      <div class="custom-container" >
         <#include "${full_templates_path}/home_banner.ftl" />
         <#if !(isHome || isDistrict)>
           <div class="card-box">  
@@ -137,9 +137,9 @@
         <@liferay_util["include"] page=content_include />
       </@>
     </#if>
-      <#if !(isHome || isDistrict || !isWelcome)>
-        </div>
-      </#if>
+    <#if !(isHome || isDistrict || isWelcome)>
+      </div>
+    </#if>
     </div> 
   </main>
   <#include "${full_templates_path}/footer.ftl" />

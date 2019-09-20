@@ -112,7 +112,7 @@ public interface Place extends PlaceModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.place.model.Period> getPeriods();
 
 	/**
-	* Retourne les périodes qui ne sont pas par défaut
+	* Retourne les périodes qui ne sont pas par défaut (uniquement les périodes en cours ou futures)
 	*/
 	public java.util.List<eu.strasbourg.service.place.model.Period> getNonDefaultPeriods();
 
@@ -351,6 +351,11 @@ public interface Place extends PlaceModel, PersistedModel {
 	* Retourne la version JSON du lieu
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
+	/**
+	* Retourne la version GeoJSON du lieu
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toGeoJSON();
 
 	/**
 	* Reprise de l'horriblissime webservice des lieux de LR6

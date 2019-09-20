@@ -1,6 +1,5 @@
 %organism-family-space{    
     @extend %molecule-home-section;
-    margin-bottom: 40px;
 
     h2:before{
         background-image: url( svg-bg-uri($svg-wave, #dddddd) );
@@ -47,7 +46,7 @@
 	    border-bottom: 1px solid;
 	    color: #31455d;
 	    margin-bottom: 25px;
-	    height: 35px;
+	    min-height: 35px;
 	    width: 100%;
     	cursor: pointer;
 
@@ -56,10 +55,11 @@
 	        content: '';
 	        display: inline-block;
 	        background-size: 25px;
-	        background-position: right;
+	        background-position: top right;
 	        background-repeat: no-repeat;
 	        flex-shrink: 0;   
-	        width: 100%;  		
+	        width: 100%; 
+            padding-right: 30px; 		
     	}
 
     	.btn-minus{
@@ -67,10 +67,11 @@
 	        content: '';
 	        display: inline-block;
 	        background-size: 25px;
-	        background-position: right;
+	        background-position: top right;
 	        background-repeat: no-repeat;
 	        flex-shrink: 0; 
-	        width: 100%;      		
+	        width: 100%;   
+            padding-right: 30px;   		
     	}
     }
 

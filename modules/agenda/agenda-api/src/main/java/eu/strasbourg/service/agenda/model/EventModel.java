@@ -1609,6 +1609,21 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	public void setBookingURL(String bookingURL);
 
 	/**
+	 * Returns the subscription url of this event.
+	 *
+	 * @return the subscription url of this event
+	 */
+	@AutoEscape
+	public String getSubscriptionURL();
+
+	/**
+	 * Sets the subscription url of this event.
+	 *
+	 * @param subscriptionURL the subscription url of this event
+	 */
+	public void setSubscriptionURL(String subscriptionURL);
+
+	/**
 	 * Returns the source of this event.
 	 *
 	 * @return the source of this event
@@ -1657,8 +1672,58 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 *
 	 * @return the distribution of this event
 	 */
-	@AutoEscape
 	public String getDistribution();
+
+	/**
+	 * Returns the localized distribution of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized distribution of this event
+	 */
+	@AutoEscape
+	public String getDistribution(Locale locale);
+
+	/**
+	 * Returns the localized distribution of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized distribution of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getDistribution(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized distribution of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized distribution of this event
+	 */
+	@AutoEscape
+	public String getDistribution(String languageId);
+
+	/**
+	 * Returns the localized distribution of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized distribution of this event
+	 */
+	@AutoEscape
+	public String getDistribution(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getDistributionCurrentLanguageId();
+
+	@AutoEscape
+	public String getDistributionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized distributions of this event.
+	 *
+	 * @return the locales and localized distributions of this event
+	 */
+	public Map<Locale, String> getDistributionMap();
 
 	/**
 	 * Sets the distribution of this event.
@@ -1666,6 +1731,42 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 * @param distribution the distribution of this event
 	 */
 	public void setDistribution(String distribution);
+
+	/**
+	 * Sets the localized distribution of this event in the language.
+	 *
+	 * @param distribution the localized distribution of this event
+	 * @param locale the locale of the language
+	 */
+	public void setDistribution(String distribution, Locale locale);
+
+	/**
+	 * Sets the localized distribution of this event in the language, and sets the default locale.
+	 *
+	 * @param distribution the localized distribution of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setDistribution(String distribution, Locale locale,
+		Locale defaultLocale);
+
+	public void setDistributionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized distributions of this event from the map of locales and localized distributions.
+	 *
+	 * @param distributionMap the locales and localized distributions of this event
+	 */
+	public void setDistributionMap(Map<Locale, String> distributionMap);
+
+	/**
+	 * Sets the localized distributions of this event from the map of locales and localized distributions, and sets the default locale.
+	 *
+	 * @param distributionMap the locales and localized distributions of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setDistributionMap(Map<Locale, String> distributionMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the composer of this event.
@@ -1702,8 +1803,58 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 *
 	 * @return the program of this event
 	 */
-	@AutoEscape
 	public String getProgram();
+
+	/**
+	 * Returns the localized program of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized program of this event
+	 */
+	@AutoEscape
+	public String getProgram(Locale locale);
+
+	/**
+	 * Returns the localized program of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized program of this event. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getProgram(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized program of this event in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized program of this event
+	 */
+	@AutoEscape
+	public String getProgram(String languageId);
+
+	/**
+	 * Returns the localized program of this event in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized program of this event
+	 */
+	@AutoEscape
+	public String getProgram(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getProgramCurrentLanguageId();
+
+	@AutoEscape
+	public String getProgramCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized programs of this event.
+	 *
+	 * @return the locales and localized programs of this event
+	 */
+	public Map<Locale, String> getProgramMap();
 
 	/**
 	 * Sets the program of this event.
@@ -1711,6 +1862,41 @@ public interface EventModel extends BaseModel<Event>, LocalizedModel,
 	 * @param program the program of this event
 	 */
 	public void setProgram(String program);
+
+	/**
+	 * Sets the localized program of this event in the language.
+	 *
+	 * @param program the localized program of this event
+	 * @param locale the locale of the language
+	 */
+	public void setProgram(String program, Locale locale);
+
+	/**
+	 * Sets the localized program of this event in the language, and sets the default locale.
+	 *
+	 * @param program the localized program of this event
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setProgram(String program, Locale locale, Locale defaultLocale);
+
+	public void setProgramCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized programs of this event from the map of locales and localized programs.
+	 *
+	 * @param programMap the locales and localized programs of this event
+	 */
+	public void setProgramMap(Map<Locale, String> programMap);
+
+	/**
+	 * Sets the localized programs of this event from the map of locales and localized programs, and sets the default locale.
+	 *
+	 * @param programMap the locales and localized programs of this event
+	 * @param defaultLocale the default locale
+	 */
+	public void setProgramMap(Map<Locale, String> programMap,
+		Locale defaultLocale);
 
 	/**
 	 * Returns the first start date of this event.

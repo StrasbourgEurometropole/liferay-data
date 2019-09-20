@@ -37,6 +37,8 @@
         }
     }
     &__toggle-trigger{
+        width: 40px;
+        margin: auto;
         input{
             position: absolute;
             opacity: 0;
@@ -51,8 +53,8 @@
             &:after{
                 position: absolute;
                 top: 50%;
-                left: 0;
-                transform: translateY(-50%);
+                left: 100%;
+                transform: translate(-100%, -50%);
                 border-radius: 50%;
                 background-color: #FFFFFF;
                 height: 20px;
@@ -102,8 +104,8 @@
     // Etat lu
     .customize-list__item--read{
         .customize-list__toggle-trigger label:after{
-            left: 100%;
-            transform: translate(-100%, -50%);
+            left: 0;
+            transform: translateY(-50%);
         }
         .customize-list__toggle,
         .customize-item{

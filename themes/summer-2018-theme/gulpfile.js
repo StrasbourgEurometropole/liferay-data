@@ -29,7 +29,7 @@ gulp.task('css', function () {
 
     return gulp.src(source + '/t_main.scss')
     .pipe(plugins.sass({outputStyle: 'compressed'}))
-    .pipe(plugins.autoprefixer(autoprefixer_options))
+   // .pipe(plugins.autoprefixer(autoprefixer_options))
     .pipe(gulp.dest(destination));
 });
 

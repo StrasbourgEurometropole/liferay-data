@@ -80,7 +80,27 @@ public class EditCampaignDisplayContext extends BaseDisplayContext {
 	 */
 	public List<AssetCategory> getThemes() throws PortalException {
 		AssetVocabulary vocabulary = AssetVocabularyHelper
-			.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+				.getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+		if (vocabulary != null) {
+			return vocabulary.getCategories();
+		}
+		return new ArrayList<AssetCategory>();
+	}
+
+	/**
+	 * Retourne la liste des ids des types de la campagne sous forme de string
+	 */
+	public String getTypesIds() throws PortalException {
+		return (getCampaign() != null)
+				? ListUtil.toString(getCampaign().getTypes(), "categoryId") : "";
+	}
+
+	/**
+	 * Retourne la liste des types
+	 */
+	public List<AssetCategory> getTypes() throws PortalException {
+		AssetVocabulary vocabulary = AssetVocabularyHelper
+				.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
 		if (vocabulary != null) {
 			return vocabulary.getCategories();
 		}

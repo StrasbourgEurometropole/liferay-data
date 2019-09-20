@@ -56,6 +56,10 @@ public interface StrasbourgService extends BaseService {
 	public JSONArray getCoordinateForAddress(java.lang.String address);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPracticeCategories(long parentCategoryId,
+		java.lang.String localeId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getAlerts();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -126,5 +130,9 @@ public interface StrasbourgService extends BaseService {
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
 
+	public void foldPortlet(java.lang.String portletId);
+
 	public void hidePortlet(java.lang.String portletId);
+
+	public void unfoldPortlet(java.lang.String portletId);
 }

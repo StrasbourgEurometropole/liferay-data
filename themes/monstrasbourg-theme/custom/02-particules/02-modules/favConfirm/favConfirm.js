@@ -5,9 +5,11 @@ function destroyPopin(){
 function createPopin(message, agree, deny){
     var template = '<div id="favConfirm"> \
         <div class="favMessage">##favMessage##</div> \
-        <div class="favActions"> \
-            <button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button> \
-            <button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text">Valider</span><span class="btn-arrow"></span></span></button> \
+        <div class="favActions"> ';
+    if(deny !== undefined || agree == undefined){
+        template = template + '<button class="btn-square--bordered--core deny"><span class="flexbox"><span class="btn-text">Annuler</span><span class="btn-arrow"></span></span></button>';
+    }
+    template = template + '<button class="btn-square--filled--second confirm"><span class="flexbox"><span class="btn-text"> ' + (deny !== undefined || agree == undefined ? 'Valider' : 'OK') + '</span><span class="btn-arrow"></span></span></button> \
         </div> \
     </div>';
 

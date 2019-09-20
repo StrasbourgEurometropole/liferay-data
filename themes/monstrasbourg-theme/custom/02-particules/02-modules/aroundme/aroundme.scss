@@ -1,3 +1,9 @@
+#wi-aroundme.no-widget{
+    width: auto;
+    box-shadow: none;
+    padding: 0;
+}
+
 #aroundme{
     overflow: hidden;
     position: relative;
@@ -98,7 +104,7 @@
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             background-color: #f5f5f5;
-            z-index: 2;
+            z-index: 406;
             transform: translateX(-100%);
             @include RWD(mobile){
                 top: 33%;
@@ -614,6 +620,7 @@
             font-size: 11px;
             text-align: center;
             line-height: 8px;
+            white-space: nowrap;
 
             &.red{
                 background-color: $crowded-red;
@@ -807,6 +814,7 @@
                 flex-shrink: 0;
                 margin: 5px auto;
                 line-height: 16px;
+                white-space: nowrap;
 
                 &.orange{
                     background-color: $crowded-orange;
@@ -961,10 +969,6 @@
     /* ------------------------------ Etat full screen */
 
     .aroundme--fullscreen{
-        main{
-
-        
-        }
         header{
             display: none !important;
         }
@@ -990,9 +994,6 @@
             #aroundme__center{
                 height: 100%;
                 z-index: 15;
-            }
-            #aroundme__side{
-
             }
             #aroundme__top{
                 display: none !important;

@@ -1,5 +1,24 @@
 package eu.strasbourg.portlet.search_asset.display.context;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
+import javax.servlet.http.HttpServletRequest;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -13,12 +32,23 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
+
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
 import eu.strasbourg.service.search.log.model.SearchLog;
@@ -27,20 +57,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceURL;
-import javax.servlet.http.HttpServletRequest;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 public class SearchAssetDisplayContext {
 
@@ -91,6 +107,12 @@ public class SearchAssetDisplayContext {
 			iteratorURL.setParameter("toDay", String.valueOf(this.getToDay()));
 			iteratorURL.setParameter("toMonth", String.valueOf(this.getToMonthIndex()));
 			iteratorURL.setParameter("toYear", String.valueOf(this.getToYear()));
+		}
+		
+		//OPS workaround
+		if(ParamUtil.getString(this._request, "fromMonthLoop") != "") {
+			this._request.setAttribute("fromMonth", String.valueOf(getMonthNumber(ParamUtil.getInteger(this._request, "fromMonthLoop"))));
+			this._request.setAttribute("fromYear", String.valueOf(getYearNumber(ParamUtil.getInteger(this._request, "fromMonthLoop"))));
 		}
 
 		if (this._searchContainer == null) {
@@ -619,7 +641,13 @@ public class SearchAssetDisplayContext {
 	 * [1;12]
 	 */
 	public int getFromMonthValue() {
-		String fromMonthString = ParamUtil.getString(this._request, "fromMonth");
+		String fromMonthString = "";
+		
+		if(this._request.getAttribute("fromMonth") != null)
+			fromMonthString = (String)this._request.getAttribute("fromMonth");
+		else
+			fromMonthString = ParamUtil.getString(this._request, "fromMonth");
+		
 		if (Validator.isNull(fromMonthString)) {
 			if (this._configuration.defaultDateRange() < 0) {
 				return LocalDate.now().plusDays(this._configuration.defaultDateRange()).getMonthValue();
@@ -627,7 +655,7 @@ public class SearchAssetDisplayContext {
 				return LocalDate.now().getMonthValue();
 			}
 		} else {
-			return ParamUtil.getInteger(this._request, "fromMonth") + 1;
+			return Integer.parseInt(fromMonthString) + 1;
 		}
 	}
 
@@ -636,7 +664,13 @@ public class SearchAssetDisplayContext {
 	 * paramètres de la requête ou depuis la configuration
 	 */
 	public int getFromYear() {
-		int fromParam = ParamUtil.getInteger(this._request, "fromYear");
+		int fromParam = 0;
+		
+		if(this._request.getAttribute("fromYear") != null)
+			fromParam = Integer.parseInt((String)this._request.getAttribute("fromYear"));
+		else
+			fromParam = ParamUtil.getInteger(this._request, "fromYear");
+		
 		if (fromParam > 0) {
 			return fromParam;
 		} else {
@@ -676,14 +710,43 @@ public class SearchAssetDisplayContext {
 	}
 	
 	/**
-	 * Retourne le libelle du mois en fonction de son numéro (de 1 à 12)
+	 * Retourne le libelle du mois en fonction de son numéro
 	 */
-	public String getMonthTitle(int month, Locale locale) {
-		return  StringUtil.upperCaseFirstLetter(Month.of(++month).getDisplayName(TextStyle.FULL, locale));
+	public String getMonthYearTitle(int iterationLoop, Locale locale) {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MONTH, iterationLoop);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM - yyyy", locale);
+		
+		return  StringUtil.upperCaseFirstLetter(dateFormat.format(c.getTime()));
 	}
 	
-	public int getMonth(){
-	   return Calendar.getInstance().get(Calendar.MONTH);
+	/** 
+	 * Retourne le mois (0 à 11) à partir de l'index de la boucle du filtre des mois (OPS)
+	 * */
+	public int getMonthNumber(int iterationLoop) {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MONTH, iterationLoop);
+		return c.get(Calendar.MONTH);
+	}
+	
+	/** 
+	 * Retourne l'année à partir de l'index de la boucle du filtre des mois (OPS)
+	 * */
+	public int getYearNumber(int iterationLoop) {
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MONTH, iterationLoop);
+		return c.get(Calendar.YEAR);
+	}
+	
+	/** 
+	 * Retourne le nombre de mois entre le premier jour du mois en cours et le premier jour de la recherche en cours
+	 * */
+	public int getFromMonthLoopValue() {
+		LocalDate firstDayOfCurrentMonth =  LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1); 
+		LocalDate searchMonth = LocalDate.of(getFromYear(), getFromMonthValue(), 1);
+		Period p = Period.between(firstDayOfCurrentMonth, searchMonth);
+		
+		return p.getMonths() + p.getYears() * 12;
 	}
 
 	/**

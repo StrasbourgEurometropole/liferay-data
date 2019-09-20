@@ -106,3 +106,41 @@ create table activity_ActivityOrganizer (
 	siteURL STRING null,
 	imageId LONG
 );
+
+create table activity_Association (
+	uuid_ VARCHAR(75) null,
+	associationId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	name STRING null,
+	presentation TEXT null,
+	phone VARCHAR(75) null,
+	siteURL STRING null,
+	mail VARCHAR(75) null,
+	facebookURL STRING null,
+	othersInformations TEXT null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null
+);
+
+create table activity_Practice (
+	uuid_ VARCHAR(75) null,
+	practiceId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	associationId LONG
+);

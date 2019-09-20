@@ -71,6 +71,11 @@ public interface Campaign extends CampaignModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
 
 	/**
+	* Retourne les types de la campagne
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+
+	/**
 	* Retourne true si l'utilisateur passé en paramètre est manager de la
 	* campagne
 	*/

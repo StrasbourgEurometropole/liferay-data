@@ -240,8 +240,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 			
 			event.setComposer(ParamUtil.getString(request, "composer"));
-			event.setProgram(ParamUtil.getString(request, "program"));
-			event.setDistribution(ParamUtil.getString(request, "distribution"));
+			event.setProgramMap(LocalizationUtil.getLocalizationMap(request, "program"));
+			event.setDistributionMap(LocalizationUtil.getLocalizationMap(request, "distribution"));
 			event.setConcertId(ParamUtil.getString(request, "concertId"));
 			
 			// ---------------------------------------------------------------
@@ -268,6 +268,11 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			String bookingURL = ParamUtil.getString(request,
 					"bookingURL");
 			event.setBookingURL(bookingURL);
+			
+			// URL des abonnements
+			String subscriptionURL = ParamUtil.getString(request,
+					"subscriptionURL");
+			event.setSubscriptionURL(subscriptionURL);
 			
 			String publicationDateString = ParamUtil.getString(request,
 				"publicationDate");

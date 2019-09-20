@@ -1,0 +1,71 @@
+%organism-personnalisation{    
+    @extend %molecule-home-section;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: $third-color;
+    max-width: none;
+    width: 100%;
+
+    .content{
+        max-width: #{$container-width}px;
+        margin: auto;
+        padding: 0 75px;
+        
+        @include RWD(mobile){
+            padding-right: 20px;
+        }
+
+        @include RWD(tablet){
+            padding-right: 45px;
+        }
+
+        @include RWD(mobile){
+            padding-right: 20px;
+        }
+
+        @include RWD(tablet){            
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+
+        .picto{ 
+            width: 100%;
+            text-align: center;
+            margin-bottom: 25px;
+
+            &:before{
+                content: '';
+                position: relative;
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-custom, #ffffff) );
+            }
+
+            &:before{    
+                background-color: $core-color;
+                border-radius: 50%;
+                height: 50px;
+                width: 50px;
+                margin: 0 40px;
+                background-size: 30px;
+            }
+        }
+        
+        .rte p{
+            font-size: 1.8rem;
+            color: #5c5c5c;
+            margin-bottom: 20px;
+            text-align: center;
+
+            b,strong{
+                font-weight: bold;
+            }
+        }
+    }
+}

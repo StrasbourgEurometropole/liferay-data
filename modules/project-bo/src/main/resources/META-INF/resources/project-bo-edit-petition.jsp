@@ -210,6 +210,9 @@
 
 				<%-- Champ : Date d'expiration --%>
 				<aui:input name="expirationDate" required="false" />
+				
+				<%-- Champ : Date d'extension --%>
+				<aui:input name="extensionDate" required="false" />
 
 			</aui:fieldset>
 
