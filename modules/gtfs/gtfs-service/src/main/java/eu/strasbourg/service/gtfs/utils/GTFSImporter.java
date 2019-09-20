@@ -415,6 +415,7 @@ public class GTFSImporter {
 			 */
 			// Mettre à jour les arrets existants et sauvegarder les nouveaux
 			ArretLocalServiceUtil.updateArrets(arretsToUpdate, this.sc);
+			
 			// Supprimer les arrets non parcourus
 			this.importHistoric.addNewOperation("#4/7# Unpublish removed stop");
 			ArretLocalServiceUtil.unpublishArrets(
@@ -425,8 +426,16 @@ public class GTFSImporter {
 			
 			// Mettre à jour les lignes existantes et sauvegarder les nouvelles
 			LigneLocalServiceUtil.updateLignes(lignesToUpdate, this.sc);
+			
 			// Supprimer les lignes non parcourues
 			this.importHistoric.addNewOperation("#5/7# Unpublish removed route");
+			// On supprime de la liste les lignes deja depubliees
+			List<Ligne> lignesToCheckStatus = new ArrayList<Ligne>(lignesToUnpublish.values());
+			for (Ligne ligne : lignesToCheckStatus) {
+				if (ligne.isDraft()) {
+					lignesToUnpublish.remove(ligne.getRouteId());
+				}
+			}
 			LigneLocalServiceUtil.unpublishLignes(
 					new ArrayList<Ligne>(lignesToUnpublish.values()), 
 					this.importHistoric, 
