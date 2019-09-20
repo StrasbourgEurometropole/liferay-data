@@ -70,7 +70,7 @@
         <div class="ops-content-wrapper">
 
             <!-- Programme -->
-            <#if entry.program?has_content>
+            <#if entry.getProgram(locale)?has_content>
                 <div class="ops-col-33">
                     <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.program" /></span>
                     ${entry.getProgram(locale)}
@@ -78,7 +78,7 @@
             </#if>
 
             <!-- Distribution -->
-            <#if entry.distribution?has_content>
+            <#if entry.getDistribution(locale)?has_content>
                 <div class="ops-col-33">
                     <span class="ops-title-infos"><@liferay_ui.message key="eu.ops.distribution" /></span>
                     ${entry.getDistribution(locale)}
