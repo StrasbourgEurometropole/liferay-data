@@ -351,6 +351,11 @@ public class GTFSImporter {
 				}
 				
 			}
+			
+			// Mettre à jour les lignes existantes et sauvegarder les nouvelles
+			// Notes : Elles sont save ici puisqu'une recherche sur ces dernieres est effectuee
+			// 			directement apres. 
+			LigneLocalServiceUtil.updateLignes(lignesToUpdate, this.sc);
 
 			/**
 			 * Import des directions
@@ -409,10 +414,6 @@ public class GTFSImporter {
 				}
 				
 			}
-			
-			/**
-			 * Time to work with DB !
-			 */
 			// Mettre à jour les arrets existants et sauvegarder les nouveaux
 			ArretLocalServiceUtil.updateArrets(arretsToUpdate, this.sc);
 			
@@ -423,9 +424,6 @@ public class GTFSImporter {
 					this.importHistoric, 
 					this.sc
 			);
-			
-			// Mettre à jour les lignes existantes et sauvegarder les nouvelles
-			LigneLocalServiceUtil.updateLignes(lignesToUpdate, this.sc);
 			
 			// Supprimer les lignes non parcourues
 			this.importHistoric.addNewOperation("#5/7# Unpublish removed route");
