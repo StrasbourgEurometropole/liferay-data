@@ -7,9 +7,12 @@
   <#assign homeURL = "/" />
 </#if>
 
-<script>
-    description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-</script>
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:description":'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}'
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="seu-container rte">
     <h1>${entry.getName(locale)}</h1>

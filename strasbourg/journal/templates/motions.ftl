@@ -1,8 +1,11 @@
 <#setting locale = locale />
 
-<script>
-    description = '${chapo.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
-</script>
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}'
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <main class="seu-container" style="margin-bottom: 50px">
     <h1>${title.getData()}</h1>
