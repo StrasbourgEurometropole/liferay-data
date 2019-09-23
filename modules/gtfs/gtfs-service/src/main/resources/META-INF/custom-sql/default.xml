@@ -2,7 +2,7 @@
 <custom-sql>
     <sql id="eu.strasbourg.service.gtfs.service.persistence.TripFinder.findTripAvailable"> 
       	<![CDATA[ 
-           	SELECT any_value(gtfs_Trip.uuid_), any_value(gtfs_Trip.id_), gtfs_Trip.route_id, any_value(gtfs_Trip.service_id), any_value(gtfs_Trip.trip_id), gtfs_Trip.trip_headsign, any_value(gtfs_Trip.direction_id), any_value(gtfs_Trip.block_id)
+           	SELECT any_value(gtfs_Trip.uuid_) as uuid_, any_value(gtfs_Trip.id_) as id_, gtfs_Trip.route_id, any_value(gtfs_Trip.service_id) as service_id, any_value(gtfs_Trip.trip_id) as trip_id, gtfs_Trip.trip_headsign, any_value(gtfs_Trip.direction_id) as direction_id, any_value(gtfs_Trip.block_id) as block_id
 			FROM gtfs_Trip
 				INNER JOIN gtfs_Route ON gtfs_Route.route_id = gtfs_Trip.Route_id
 				INNER JOIN gtfs_StopTime ON gtfs_StopTime.trip_id = gtfs_Trip.trip_id
