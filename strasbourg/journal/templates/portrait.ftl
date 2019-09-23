@@ -3,6 +3,9 @@
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
+
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if image.getData()?has_content>

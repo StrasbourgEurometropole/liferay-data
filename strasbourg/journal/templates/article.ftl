@@ -1,4 +1,6 @@
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {

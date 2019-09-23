@@ -2,6 +2,8 @@
 <link rel="stylesheet" type="text/css" href="/o/strasbourg-theme/css/slick.css">
 <link rel="stylesheet" type="text/css" href="/o/strasbourg-theme/css/slick-theme.css">
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
 
 <#assign imageUrl = ""/>
 <!-- image -->
