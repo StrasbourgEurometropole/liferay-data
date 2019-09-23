@@ -2,10 +2,10 @@
 <custom-sql>
     <sql id="eu.strasbourg.service.gtfs.service.persistence.TripFinder.findTripAvailable"> 
       	<![CDATA[ 
-           	SELECT DISTINCT gtfs_trip.*
+           	SELECT any_value(gtfs_trip.uuid_), any_value(gtfs_trip.id_), gtfs_trip.route_id, any_value(gtfs_trip.service_id), any_value(gtfs_trip.trip_id), gtfs_trip.trip_headsign, any_value(gtfs_trip.direction_id), any_value(gtfs_trip.block_id)
 			FROM gtfs_trip
 				INNER JOIN gtfs_route ON gtfs_route.route_id = gtfs_trip.route_id
-			    INNER JOIN gtfs_stoptime ON gtfs_stoptime.trip_id = gtfs_trip.trip_id
+				INNER JOIN gtfs_stoptime ON gtfs_stoptime.trip_id = gtfs_trip.trip_id
 			WHERE gtfs_trip.service_id IN (
 				SELECT DISTINCT service_id
 				FROM gtfs_calendar
@@ -28,7 +28,7 @@
 				)
 			)
 			AND gtfs_stoptime.stop_id = ?
-			GROUP BY gtfs_trip.route_id
+			GROUP BY gtfs_trip.route_id, gtfs_trip.trip_headsign
 		]]>
    </sql>
 </custom-sql>
