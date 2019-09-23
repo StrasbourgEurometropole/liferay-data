@@ -11,17 +11,22 @@
 
 <#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",articleResourcePK) >
+<#assign request = serviceContext.getRequest()/>
 
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if !image.data?has_content>
     <#assign imageUrl = image.data />
 </#if>
-<script>
-    title = '${title.data?html?js_string}';
-    description = '${text.data?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.data?html}",
+"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="mns-page-experience">
     <header class="container mns-top-experience">
