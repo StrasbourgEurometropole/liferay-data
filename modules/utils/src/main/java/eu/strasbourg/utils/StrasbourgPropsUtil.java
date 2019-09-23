@@ -269,6 +269,5 @@ public class StrasbourgPropsUtil {
 	public static String getRodrigueAPIURL() {
 		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
 	}
-	
 
 }

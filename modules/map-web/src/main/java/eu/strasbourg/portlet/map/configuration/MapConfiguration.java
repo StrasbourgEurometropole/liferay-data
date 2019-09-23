@@ -92,8 +92,8 @@ public interface MapConfiguration {
 	@Meta.AD(name = "showTransports", required = false)
 	public boolean showTransports();
 	
-	@Meta.AD(name = "tranportsLinkCategoryId", required = false)
-	public String tranportsLinkCategoryId();
+	@Meta.AD(name = "transportsLinkCategoryId", required = false)
+	public String transportsLinkCategoryId();
 
 	@Meta.AD(name = "transportsLinkCategoryTitle", deflt = "", required = false)
 	public String transportsLinkCategoryTitle();

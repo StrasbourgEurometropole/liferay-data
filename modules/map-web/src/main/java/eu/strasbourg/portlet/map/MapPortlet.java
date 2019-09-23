@@ -199,7 +199,7 @@ public class MapPortlet extends MVCPortlet {
                     showTransports = configuration.showTransports();
                     trafficCategoryId = configuration.linkCategoryId();
                     trafficInterestId = configuration.linkInterestId();
-                    transportsLinkCategoryId = configuration.tranportsLinkCategoryId();
+                    transportsLinkCategoryId = configuration.transportsLinkCategoryId();
                     transportsLinkInterestId = configuration.transportsLinkInterestId();
                 }
 

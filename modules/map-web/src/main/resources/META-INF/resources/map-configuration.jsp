@@ -309,7 +309,7 @@
                                 <div id="transportsLinkCategorySelector"></div>
                                 <aui:input type="hidden" name="transportsLinkCategoryId" />
                             </p>
-
+							
                         </div>
 
                         <!-- Mode autour de moi -->

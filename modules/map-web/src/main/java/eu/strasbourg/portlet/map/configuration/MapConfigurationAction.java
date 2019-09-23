@@ -200,18 +200,18 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				setPreference(request, "showTransports", showTransports);
 				if(mode.equals("normal")) {
 					// Liaison des transports à une catégorie
-					String tranportsLinkCategoryId = ParamUtil.getString(request, "tranportsLinkCategoryId");
-					setPreference(request, "tranportsLinkCategoryId", tranportsLinkCategoryId);
+					String transportsLinkCategoryId = ParamUtil.getString(request, "transportsLinkCategoryId");
+					setPreference(request, "transportsLinkCategoryId", transportsLinkCategoryId);
 					// Recuperer le nom de la categorie
-					String tranportsLinkCategoryTitle = "";
-					if (Validator.isNotNull(tranportsLinkCategoryId)) {
+					String transportsLinkCategoryTitle = "";
+					if (Validator.isNotNull(transportsLinkCategoryId)) {
 						AssetCategory category = AssetCategoryLocalServiceUtil
-								.fetchAssetCategory(Long.parseLong(tranportsLinkCategoryId));
+								.fetchAssetCategory(Long.parseLong(transportsLinkCategoryId));
 						if (Validator.isNotNull(category)) {
-							tranportsLinkCategoryTitle = category.getTitle(Locale.FRANCE);
+							transportsLinkCategoryTitle = category.getTitle(Locale.FRANCE);
 						}
 					}
-					setPreference(request, "tranportsLinkCategoryTitle", tranportsLinkCategoryTitle);
+					setPreference(request, "transportsLinkCategoryTitle", transportsLinkCategoryTitle);
 				}else {
 					// Liaison des transports à un CI
 					String transportsLinkInterestId = ParamUtil.getString(request, "transportsLinkInterestId");
@@ -518,7 +518,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				transportsVocabulariesStr += assetVocabulary.getVocabularyId();
 			}
 			request.setAttribute("transportsVocabulariesStr", transportsVocabulariesStr);
-			request.setAttribute("transportsLinkCategoryId", configuration.tranportsLinkCategoryId());
+			request.setAttribute("transportsLinkCategoryId", configuration.transportsLinkCategoryId());
 			request.setAttribute("transportsLinkCategoryTitle", configuration.transportsLinkCategoryTitle());
 
 			// Liaison des transports à un CI
