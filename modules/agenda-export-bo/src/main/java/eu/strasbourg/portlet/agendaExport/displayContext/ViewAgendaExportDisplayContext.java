@@ -28,17 +28,6 @@ public class ViewAgendaExportDisplayContext extends  ViewListBaseDisplayContext<
     public ViewAgendaExportDisplayContext(RenderRequest request, RenderResponse response) {
         super(AgendaExport.class, request, response);
     }
-
-    public String getAllAgendaExportIds() throws PortalException {
-        StringBuilder agendaExportIds = new StringBuilder();
-        for (AgendaExport agendaExport : this.getAgendaExports()) {
-            if (agendaExportIds.length() > 0) {
-            	agendaExportIds.append(",");
-            }
-            agendaExportIds.append(agendaExport.getAgendaExportId());
-        }
-        return agendaExportIds.toString();
-    }
     
     public List<AgendaExport> getAgendaExports() throws PortalException {
 
@@ -50,23 +39,6 @@ public class ViewAgendaExportDisplayContext extends  ViewListBaseDisplayContext<
         return this._agendaExports;
     }
 
-    @Override
-    public String getOrderByColSearchField() {
-        String param = this.getOrderByCol();
-        String result;
-        switch (param) {
-            case "userName":
-                result="userName_String_sortable";
-                break;
-            case "entityName":
-                result= "entityName_String_sortable";
-                break;
-            default:
-                result= super.getOrderByColSearchField();
-                break;
-        }
-        return result;
-    }
 	
     private List<AgendaExport> populateAgendaExports(Hits hits) {
         List<AgendaExport> results = new ArrayList<>();

@@ -21,6 +21,6 @@
 <portlet:defineObjects />
 
 <liferay-util:html-bottom>
-    <script src="/o/agendaexportbo/js/agenda-export-bo-main.js" type="text/javascript"></script>
+    <script src="/o/agendaExport/js/agenda-export-bo-main.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

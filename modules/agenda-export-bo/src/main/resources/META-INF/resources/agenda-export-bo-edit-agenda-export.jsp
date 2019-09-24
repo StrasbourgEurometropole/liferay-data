@@ -6,8 +6,8 @@
 	<portlet:param name="tab" value="agendaExports" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:actionURL name="deleteagendaExport" var="deleteagendaExportURL">
-	<portlet:param name="cmd" value="deleteagendaExport" />
+<liferay-portlet:actionURL name="deleteAgendaExport" var="deleteAgendaExportURL">
+	<portlet:param name="cmd" value="deleteAgendaExport" />
 	<portlet:param name="tab" value="agendaExports" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
@@ -30,7 +30,7 @@
 		<aui:model-context bean="${agendaExport}"
 			model="<%=AgendaExport.class %>" />
 		<aui:fieldset-group markupView="lexicon">
-			<aui:input name="notificationId" type="hidden" />
+			<aui:input name="agendaExportId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general">
@@ -44,7 +44,7 @@
 		</aui:fieldset-group>
 		
 		<aui:button-row>
-			<c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty notif or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty notif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:input type="hidden" name="workflowAction" value="" />
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
@@ -56,7 +56,7 @@
 							value="save-as-draft" />
 				</c:if>
 			</c:if>
-			<c:if test="${not empty notif and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${not empty agendaExport and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
