@@ -38,7 +38,7 @@
     <#assign openGraphDefault = {
       "twitter:card":"summary",
       "og:type":"website",
-      "og:locale":"fr_FR",
+      "og:locale":"${locale}",
       "og:url":"${currentUrlOG}",
       "og:title":"${the_title_OG}",
       "og:description":'${descriptionOG}',
