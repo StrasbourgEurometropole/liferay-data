@@ -50,7 +50,7 @@
         <#if newsTypes?has_content>
             <p class="seu-event-categories">
                 <#list newsTypes as type>
-                        <a href="${homeURL}actualite?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
+                        <a href="${homeURL}${(locale == 'fr_FR')?then('actualite','news')}?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
                             ${type.getTitle(locale)}
                         </a>
                         <#sep>, </#sep>
