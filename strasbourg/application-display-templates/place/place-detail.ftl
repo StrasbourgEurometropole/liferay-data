@@ -314,7 +314,7 @@
                             </#if>
                             <div class="rte">
                                 <#if entry.hasURLSchedule>
-                                    <p>
+                                    <p style="margin-bottom: 20px;">
                                         <a href="${entry.getScheduleLinkURL(locale)}" target="_blank" title="${entry.getScheduleLinkName(locale)} (<@liferay_ui.message key="eu.new-window" />)">
                                             <span class="seu-btn-text">${entry.getScheduleLinkName(locale)}</span>
                                         </a>
