@@ -69,28 +69,25 @@
     } />
 
     <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
-        <#assign openGraph = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
-        <#list openGraphDefault?keys as keyOG>  
-          <#assign valueOG = (openGraph[keyOG]?has_content)?then(openGraph[keyOG],openGraphDefault[keyOG])> 
-          <#if keyOG == "og:description" >
-            <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
-          </#if>
-          <#if (keyOG != "og:description" && !keyOG?contains("og:image")) || valueOG?has_content >
-              <meta property="${keyOG}" content="${valueOG}" />
-          </#if>
-        </#list>
-    <#else>
-        <#list openGraphDefault?keys as keyOG>
-          <#assign valueOG = openGraphDefault[keyOG]> 
-          <#if keyOG == "og:description" >
-            <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
-          </#if>
-          <#if (keyOG != "og:description" && !keyOG?contains("og:image")) || valueOG?has_content >
-              <meta property="${keyOG}" content="${valueOG}" />
-          </#if>
+        <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
+        <#list openGraphCustom?keys as keyOG>  
+          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
         </#list>
     </#if>
     
+    <#list openGraph?keys as keyOG>
+      <#assign valueOG = openGraph[keyOG]> 
+      <#if keyOG == "og:description" >
+        <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
+      </#if>
+      <#if keyOG == "og:description" && valueOG?has_content >
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG?contains("og:image") && openGraph["og:image"]?has_content>
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG != "og:description" && !keyOG?contains("og:image")>
+          <meta property="${keyOG}" content="${valueOG}" />
+      </#if>
+    </#list>    
   </head>
 
 
