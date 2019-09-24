@@ -207,9 +207,11 @@
 								<c:if test="${place.hasURLSchedule}">
 										<c:set var="occupationState" value="${place.getRealTime('3')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" colspan="5" >
-                                            <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
-                                                <span class="seu-btn-text">${place.getScheduleLinkName(locale)}</span>
-                                            </a>
+										    <div class="rte">
+                                                <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
+                                                    <span class="seu-btn-text">${place.getScheduleLinkName(locale)}</span>
+                                                </a>
+                                            </div>
 								    	</td>
 							    </c:if>
 								<c:if test="${!place.hasURLSchedule}">

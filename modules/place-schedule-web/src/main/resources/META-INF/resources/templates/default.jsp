@@ -168,9 +168,11 @@
 							    </c:if>
                                 <c:if test="${place.hasURLSchedule}">
                                     <td colspan="7">
-                                        <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
-                                            ${place.getScheduleLinkName(locale)}
-                                        </a>
+                                        <div class="rte">
+                                            <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
+                                                ${place.getScheduleLinkName(locale)}
+                                            </a>
+                                        </div>
                                     </td>
                                     <c:set var="status.index" value="${items.size}" />
                                 </c:if>
