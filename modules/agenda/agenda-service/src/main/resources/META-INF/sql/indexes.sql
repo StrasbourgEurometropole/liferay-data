@@ -1,3 +1,8 @@
+create index IX_8AC0B357 on agenda_AgendaExport (groupId, status);
+create index IX_FEBA893F on agenda_AgendaExport (status);
+create index IX_6B24710D on agenda_AgendaExport (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_F53FD6CF on agenda_AgendaExport (uuid_[$COLUMN_LENGTH:75$], groupId);
+
 create index IX_33C5F7C1 on agenda_Campaign (groupId);
 create index IX_B306DFDF on agenda_Campaign (title[$COLUMN_LENGTH:75$]);
 create index IX_5EB688BD on agenda_Campaign (uuid_[$COLUMN_LENGTH:75$], companyId);

@@ -117,4 +117,6 @@ public class StrasbourgPortletKeys {
 	public static final String FORM_SEND_WEB = "eu_strasbourg_portlet_form_send_FormSendPortlet";
 
 	public static final String SLIDER_UNE_WEB = "eu_strasbourg_portlet_slider_une_SliderUnePortlet";
+	
+	public static final String AGENDA_EXPORT_BO = "eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet";
 }

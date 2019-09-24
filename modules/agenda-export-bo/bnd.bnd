@@ -1,0 +1,4 @@
+Bundle-Name: agenda-export-bo
+Bundle-SymbolicName: eu.strasbourg.portlet.agendaExport
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.agendaExport.constants

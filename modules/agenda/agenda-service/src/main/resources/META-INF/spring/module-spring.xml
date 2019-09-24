@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportLocalServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.AgendaExportPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventLocalService" />
