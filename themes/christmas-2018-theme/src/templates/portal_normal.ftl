@@ -102,7 +102,7 @@
                     </span>    
                   </a>
                 </#if>
-                <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a>
+                <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
