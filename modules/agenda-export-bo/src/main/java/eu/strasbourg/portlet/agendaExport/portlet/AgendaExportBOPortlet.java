@@ -58,7 +58,7 @@ public class AgendaExportBOPortlet extends MVCPortlet {
         }
         
       //on set le displayContext selon la page sur laquelle on est
-        if (cmd.equals("editAgendaExports")){
+        if (cmd.equals("editAgendaExports") || cmd.equals("copyAgendaExports")){
             EditAgendaExportDisplayContext dc = new EditAgendaExportDisplayContext(renderRequest,renderResponse);
             renderRequest.setAttribute("dc",dc);
         } else {

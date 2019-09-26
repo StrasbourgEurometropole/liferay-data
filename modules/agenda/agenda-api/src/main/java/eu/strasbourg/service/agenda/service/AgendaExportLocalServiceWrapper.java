@@ -93,6 +93,14 @@ public class AgendaExportLocalServiceWrapper implements AgendaExportLocalService
 		return _agendaExportLocalService.addAgendaExport(agendaExport);
 	}
 
+	@Override
+	public eu.strasbourg.service.agenda.model.AgendaExport cloneAgendaExport(
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		eu.strasbourg.service.agenda.model.AgendaExport agendaToCopy)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agendaExportLocalService.cloneAgendaExport(sc, agendaToCopy);
+	}
+
 	/**
 	* Crée un Agenda Export vide avec une PK, non ajouté à la base de donnée
 	*/

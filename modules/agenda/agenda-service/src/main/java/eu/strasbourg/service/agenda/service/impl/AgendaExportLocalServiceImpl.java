@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 
@@ -82,6 +83,29 @@ public class AgendaExportLocalServiceImpl
 		agendaExport.setGroupId(sc.getScopeGroupId());
 		agendaExport.setUserName(user.getFullName());
 		agendaExport.setUserId(sc.getUserId());
+
+		agendaExport.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return agendaExport;
+	}
+	
+	@Override
+	public AgendaExport cloneAgendaExport(ServiceContext sc, AgendaExport agendaToCopy) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = counterLocalService.increment();
+
+		AgendaExport agendaExport = (AgendaExport)agendaToCopy.clone();
+
+		agendaExport.setGroupId(sc.getScopeGroupId());
+		agendaExport.setUserName(user.getFullName());
+		agendaExport.setUserId(sc.getUserId());
+		agendaExport.setNew(true);
+		agendaExport.setPrimaryKey(pk);
+
+		String uuid = PortalUUIDUtil.generate();
+
+		agendaExport.setUuid(uuid);
 
 		agendaExport.setStatus(WorkflowConstants.STATUS_DRAFT);
 

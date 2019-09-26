@@ -7,13 +7,10 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -51,12 +48,24 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				agendaExport = _agendaExportLocalService.createAgendaExport(sc);
 			} else {
 				agendaExport = _agendaExportLocalService.getAgendaExport(agendaExportId);
-				agendaExport.setNew(false);
+				agendaExport.setNew(false);	
+			}
+
+			boolean isCopy = ParamUtil.getBoolean(request, "isCopy");
+			if(isCopy) {
+				agendaExport =_agendaExportLocalService.cloneAgendaExport(sc, agendaExport);		
 			}
 
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 			agendaExport.setTitleMap(title);
 					
+			
+			if(!isCopy) {
+				
+				//TOUTDOUX
+				// Ici l'enregistrement des autres champs (vu qu'à la copie on change juste le titre et copie le reste de l'objet)
+			}
+			
 			_agendaExportLocalService.updateAgendaExport(agendaExport, sc);
 
 			// Redirection (évite double
@@ -76,7 +85,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 	private AgendaExportLocalService _agendaExportLocalService;
 
 	@Reference(unbind = "-")
-	protected void setNotificationLocalService(AgendaExportLocalService agendaExportLocalService) {
+	protected void setAgendaExportLocalService(AgendaExportLocalService agendaExportLocalService) {
 
 		_agendaExportLocalService = agendaExportLocalService;
 	}

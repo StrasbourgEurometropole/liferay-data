@@ -17,6 +17,8 @@
 	<portlet:param name="returnURL" value="${agendaExportsURL}" />
 </liferay-portlet:renderURL>
 
+
+
 <%-- Composant : barre de filtres et de gestion des entite --%>
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="agendaExportsSearchContainer">
 
@@ -108,7 +110,16 @@
 						<c:if test="${dc.hasPermission('EDIT_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editAgendaExportURL}" />
 						</c:if>
-
+						
+						<%-- URL : definit le lien vers la page de duplication d'une entite --%>
+						<liferay-portlet:renderURL varImpl="copyAgendaExportURL">
+							<portlet:param name="cmd" value="copyAgendaExports" />
+							<portlet:param name="mvcPath" value="/agenda-export-bo-copy-agenda-export.jsp" />
+							<portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
+							<portlet:param name="returnURL" value="${agendaExportsURL}" />
+						</liferay-portlet:renderURL>
+						<liferay-ui:icon message="copy" url="${copyAgendaExportURL}" />
+						
 						<liferay-portlet:actionURL name="deleteAgendaExport"
 							var="deleteAgendaExportURL">
 							<portlet:param name="cmd" value="deleteAgendaExport" />
@@ -116,7 +127,7 @@
 							<portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteAgendaExportURL}" />
+							<liferay-ui:icon message="delete" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' url="#"/>
 						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
@@ -206,4 +217,9 @@
 		}
 	}
 
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteAgendaExportURL}';
+		}
+	}
 </aui:script>

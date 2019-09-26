@@ -93,6 +93,13 @@ public class AgendaExportLocalServiceUtil {
 		return getService().addAgendaExport(agendaExport);
 	}
 
+	public static eu.strasbourg.service.agenda.model.AgendaExport cloneAgendaExport(
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		eu.strasbourg.service.agenda.model.AgendaExport agendaToCopy)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().cloneAgendaExport(sc, agendaToCopy);
+	}
+
 	/**
 	* Crée un Agenda Export vide avec une PK, non ajouté à la base de donnée
 	*/

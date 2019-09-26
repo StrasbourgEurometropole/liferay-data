@@ -109,6 +109,9 @@ public interface AgendaExportLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public AgendaExport addAgendaExport(AgendaExport agendaExport);
 
+	public AgendaExport cloneAgendaExport(ServiceContext sc,
+		AgendaExport agendaToCopy) throws PortalException;
+
 	/**
 	* Crée un Agenda Export vide avec une PK, non ajouté à la base de donnée
 	*/
