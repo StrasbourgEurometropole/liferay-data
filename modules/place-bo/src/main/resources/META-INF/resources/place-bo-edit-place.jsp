@@ -95,9 +95,7 @@
 			
 			<!-- Categorisation -->
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="categorization">
-					
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				label="categorization" id="categorization">
 				
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
@@ -110,6 +108,7 @@
 									fieldContent = fields[i];
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                        $('html,body').animate({scrollTop: $("#categorization").offset().top - 100}, 'slow');
 								    	validated = false;
 								    	break;
 								    }
@@ -119,6 +118,8 @@
 						</aui:validator>
 					</aui:input>
 				</div>
+
+				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
 
 				<aui:input name="tags" type="assetTags" />
 
@@ -183,12 +184,12 @@
 						
 						<div id="site">
 							<aui:input name="siteLabel" >
-								<aui:validator name="required" errorMessage="this-field-is-required" />
+								<aui:validator name="require" errorMessage="this-field-is-required" />
 							</aui:input>
 							
 							<aui:input name="siteURL" helpMessage="url-help-message">
 							 	<aui:validator name="url"/>
-								<aui:validator name="required" errorMessage="this-field-is-required" />
+								<aui:validator name="require" errorMessage="this-field-is-required" />
 							</aui:input>
 						</div>
 						
@@ -241,7 +242,7 @@
 				
 				<!-- PÃÂ©riodes & horaires -->
 				<aui:fieldset collapsed="false" collapsible="true"
-					label="period-time">
+					label="period-time" id="period-time">
 					
 					<aui:input name="periodsIndexes" type="hidden" />
 				

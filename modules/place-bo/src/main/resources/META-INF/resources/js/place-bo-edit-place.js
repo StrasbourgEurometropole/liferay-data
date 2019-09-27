@@ -2,6 +2,7 @@
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
 	var namespaceAUI = "#" + namespace;
+    var allValidate = true;
 
 	$(namespaceAUI + 'siteLabel').on('change', function(e) {
 		setSiteConditionalValidators();
@@ -20,10 +21,16 @@ jQuery(function() {
 	});
 
 	$(":submit").on('click', function(e) {
+        allValidate = true;
+
 		setSiteConditionalValidators(e);
 		setFacebookConditionalValidators(e);
-		setScheduleExceptionValidators(e);
 		setPeriodValidators(e);
+		setScheduleExceptionValidators(e);
+
+		if (!allValidate) {
+			event.preventDefault();
+		}
 	});
 
 	function setSiteConditionalValidators(event) {
@@ -74,7 +81,6 @@ jQuery(function() {
 	}
 
 	function setPeriodValidators(event) {
-		var allValidated = true;
 		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
 		var periodsIndexes = "";
@@ -84,81 +90,102 @@ jQuery(function() {
 			periodsIndexes += index + ",";
 			var nom = $(namespaceAUI + "namePeriod" + index).val();			
 			if (nom == "") {
-				$('.place-period-name', $(periodLabel).parent()).show();
-				allValidated = false;
+				$('.place-period-name', $(periodLabel)).show();
+				if(allValidate){
+				    activePeriod(index);
+                    $('html,body').animate({scrollTop: $(namespaceAUI + "namePeriod" + index).offset().top - 100}, 'slow');
+                    allValidate = false;
+                }
 			}else{
-				$('.place-period-name', $(periodLabel).parent()).hide();
+				$('.place-period-name', $(periodLabel)).hide();
 			}
 
 			var labelHasValue = $(namespaceAUI + 'periodLabel' + index).val().length > 0;
 			var URLHasValue = $(namespaceAUI + 'periodURL' + index).val().length > 0;
 			if (labelHasValue && !URLHasValue) {
-				$('.place-period-label', $(periodLabel).parent()).hide();
-				$('.place-period-url', $(periodLabel).parent()).show();
-				allValidated = false;
+				$('.place-period-label', $(periodLabel)).hide();
+				$('.place-period-url', $(periodLabel)).show();
+				if(allValidate){
+				    activePeriod(index);
+                    $('html,body').animate({scrollTop: $(namespaceAUI + "periodURL" + index).offset().top - 100}, 'slow');
+                    allValidate = false;
+                }
 			} else {
 				if (!labelHasValue && URLHasValue) {
-					$('.place-period-label', $(periodLabel).parent()).show();
-					$('.place-period-url', $(periodLabel).parent()).hide();
-					allValidated = false;
+					$('.place-period-label', $(periodLabel)).show();
+					$('.place-period-url', $(periodLabel)).hide();
+                    if(allValidate){
+                        activePeriod(index);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + "periodLabel" + index).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				} else{
-					$('.place-period-label', $(periodLabel).parent()).hide();
-					$('.place-period-url', $(periodLabel).parent()).hide();
+					$('.place-period-label', $(periodLabel)).hide();
+					$('.place-period-url', $(periodLabel)).hide();
 				}
 			}
-			
+
 			var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
 			if (periodDefault) {
-				$('.place-period-start-date', $(periodLabel).parent()).hide();
-				$('.place-period-end-date', $(periodLabel).parent()).hide();
+				$('.place-period-start-date', $(periodLabel)).hide();
+				$('.place-period-end-date', $(periodLabel)).hide();
 				if (nbPeriodDefault == 0) {
 					nbPeriodDefault++;
-					$('.place-period-default', $(periodLabel).parent()).hide();
+					$('.place-period-default', $(periodLabel)).hide();
 				} else {
-					$('.place-period-default', $(periodLabel).parent()).show();
-					allValidated = false;
+					$('.place-period-default', $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(index);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + "defaultPeriod" + index).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}
 			} else{
-				$('.place-period-default', $(periodLabel).parent()).hide();
+				$('.place-period-default', $(periodLabel)).hide();
 				var startDatePeriod = $(namespaceAUI + "startDatePeriod" + index).val();
 				if(startDatePeriod == ""){
-					$('.place-period-start-date', $(periodLabel).parent()).show();
-					allValidated = false;
+					$('.place-period-start-date', $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(index);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + "startDatePeriod" + index).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}else{
-					$('.place-period-start-date', $(periodLabel).parent()).hide();
+					$('.place-period-start-date', $(periodLabel)).hide();
 				}
 				var endDatePeriod = $(namespaceAUI + "endDatePeriod" + index).val();
 				if(endDatePeriod == ""){
-					$('.place-period-end-date', $(periodLabel).parent()).show();
-					allValidated = false;
+					$('.place-period-end-date', $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(index);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + "endDatePeriod" + index).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}else{
-					$('.place-period-end-date', $(periodLabel).parent()).hide();
+					$('.place-period-end-date', $(periodLabel)).hide();
 				}
 				
 				// on vérifie que la date de début soit <= à la date de fin
 				if(!comparDatesYMD(startDatePeriod, endDatePeriod)){
-					$('.place-period-incorrect-date', $(periodLabel).parent()).show();
-					allValidated = false;
+					$('.place-period-incorrect-date', $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(index);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + "startDatePeriod" + index).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}else{
-					$('.place-period-incorrect-date', $(periodLabel).parent()).hide();
+					$('.place-period-incorrect-date', $(periodLabel)).hide();
 				}
 			}
-			var retour = setSlotValidators(index, periodLabel);
-			if(!retour){
-				allValidated = false;
-			}
+			setSlotValidators(index, periodLabel);
 		}
-		
-		if (!allValidated) {
-			event.preventDefault();
-		}else{
+
+        if(allValidate){
 			$(namespaceAUI + 'periodsIndexes').val(periodsIndexes.substr(0, periodsIndexes.length -1));
-		}
+        }
 	}
 
 	function setSlotValidators(indexPeriod, periodLabel) {
-		var allValidated = true;
-		
 		for (var jour = 0; jour < 7; jour++) {
 			var nbSlot = $(namespaceAUI + 'nbSlot' + indexPeriod
 					+ '-' + jour).val();
@@ -171,39 +198,48 @@ jQuery(function() {
 						+ '-' + jour + '-' + indexSlot).val();
 				if(startHour == "") {
 					$('#slotStartHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
-					allValidated = false;
+							+ '-' + jour + '-' + indexSlot, $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(indexPeriod);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + 'startHour' + indexPeriod + '-' + jour + '-' + indexSlot).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}else{
 					$('#slotStartHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+							+ '-' + jour + '-' + indexSlot, $(periodLabel)).hide();
 				}
 				if(endHour == "") {
 					$('#slotEndHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
-					allValidated = false;
+							+ '-' + jour + '-' + indexSlot, $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(indexPeriod);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + 'endHour' + indexPeriod + '-' + jour + '-' + indexSlot).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}else{
 					$('#slotEndHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+							+ '-' + jour + '-' + indexSlot, $(periodLabel)).hide();
 				}
 
 				// on vérifie que l'heure de début soit < à l'heure de fin
 				if(!comparHour(startHour, endHour)){
 					$('#slotIncorrectHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).show();
-					allValidated = false;
+							+ '-' + jour + '-' + indexSlot, $(periodLabel)).show();
+                    if(allValidate){
+                        activePeriod(indexPeriod);
+                        $('html,body').animate({scrollTop: $(namespaceAUI + 'startHour' + indexPeriod + '-' + jour + '-' + indexSlot).offset().top - 100}, 'slow');
+                        allValidate = false;
+                    }
 				}else{
 					$('#slotIncorrectHour' + indexPeriod
-							+ '-' + jour + '-' + indexSlot, $(periodLabel).parent()).hide();
+							+ '-' + jour + '-' + indexSlot, $(periodLabel)).hide();
 				}
 			}
 			$(namespaceAUI + 'slotsIndexes' + indexPeriod + "-" + jour).val(slotsIndexes.substr(0, slotsIndexes.length -1));
 		}
-
-		return allValidated;
 	}
 
 	function setScheduleExceptionValidators(event) {
-		var allValidated = true;
 		var scheduleLabels = document
 				.querySelectorAll('#date-fields .schedule-label');
 		var periods = [];
@@ -220,83 +256,123 @@ jQuery(function() {
 						namespaceAUI + "scheduleExceptionDescription" + index + "_fr_FR")
 						.val();
 				var endDateSchedule = $(namespaceAUI + "endDateScheduleException" + index).val();
-				if(startDateSchedule == ""){
-					var startHour = $(namespaceAUI + "startHour1_" + index).val();
-					var endHour = $(namespaceAUI + "endHour1_" + index).val();
-					if (endDateSchedule != "" || scheduleExceptionDescription != "" || startHour != "" || endHour != "") {
+                var startHour = $(namespaceAUI + "startHour1_" + index).val();
+                var endHour = $(namespaceAUI + "endHour1_" + index).val();
+				if(scheduleExceptionDescription != "" || startDateSchedule != "" || endDateSchedule != "" || startHour != "" || endHour != "") {
+					if (scheduleExceptionDescription == "") {
+						$('.place-schedule-description', $(scheduleLabel).parent()).show();
+                        if(allValidate){
+                            $('html,body').animate({scrollTop: $(namespaceAUI + "scheduleExceptionDescription" + index).offset().top - 100}, 'slow');
+                            allValidate = false;
+                        }
+					}else{
+						$('.place-schedule-description', $(scheduleLabel).parent()).hide();
+					}
+
+					if (startDateSchedule == "") {
 						$('.place-schedule-start-date', $(scheduleLabel).parent()).show();
-						allValidated = false;
+                        if(allValidate){
+                            $('html,body').animate({scrollTop: $(namespaceAUI + "startDateScheduleException" + index).offset().top - 100}, 'slow');
+                            allValidate = false;
+                        }
 					}else{
 						$('.place-schedule-start-date', $(scheduleLabel).parent()).hide();
 					}
-				}else{
+
 					if (endDateSchedule == "") {
 						$('.place-schedule-end-date', $(scheduleLabel).parent()).show();
-						allValidated = false;
+                        if(allValidate){
+                            $('html,body').animate({scrollTop: $(namespaceAUI + "endDateScheduleException" + index).offset().top - 100}, 'slow');
+                            allValidate = false;
+                        }
 					}else{
 						$('.place-schedule-end-date', $(scheduleLabel).parent()).hide();
-						
-						// on vérifie que la date de début soit <= à la date de fin
-						if(!comparDatesYMD(startDateSchedule, endDateSchedule)){
-							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).show();
-							allValidated = false;
-						}else{
-							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).hide();
-						}
-						
+                    }
+
+					if (startDateSchedule != "" && endDateSchedule != "") {
 						// on vérifie que cette période ne chevauche pas une autre période
 						var nbPeriod = 0
 						$('.place-schedule-period', $(scheduleLabel).parent()).hide();
 						for (nbPeriod; nbPeriod < periods.length; nbPeriod++) {
 							if(!(!(comparDatesYMD(startDateSchedule, periods[nbPeriod][1])) || (!comparDatesYMD(periods[nbPeriod][0], endDateSchedule)))){
 								$('.place-schedule-period', $(scheduleLabel).parent()).show();
-								allValidated = false;
+                                if(allValidate){
+                                    $('html,body').animate({scrollTop: $(scheduleLabel).offset().top - 100}, 'slow');
+                                    allValidate = false;
+                                }
 								break;
 							}
 						}
-						periods[periods.length] = [startDateSchedule, endDateSchedule];
-					}
-					if (scheduleExceptionDescription == "") {
-						$('.place-schedule-description', $(scheduleLabel).parent()).show();
-						allValidated = false;
-					}else{
-						$('.place-schedule-description', $(scheduleLabel).parent()).hide();
-					}
-					var fermeture = $(namespaceAUI + "closed" + index).get(0).checked;
-					if (!fermeture) {
-						var startHour = $(namespaceAUI + "startHour1_" + index).val();
-						var endHour = $(namespaceAUI + "endHour1_" + index).val();
-						if(startHour == "") {
-							$('.place-schedule-start-hour', $(scheduleLabel).parent()).show();
-							allValidated = false;
+
+						// on vérifie que la date de début soit <= à la date de fin
+						if(!comparDatesYMD(startDateSchedule, endDateSchedule)){
+							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).show();
+                            if(allValidate){
+                                $('html,body').animate({scrollTop: $(namespaceAUI + "startDateScheduleException" + index).offset().top - 100}, 'slow');
+                                allValidate = false;
+                            }
 						}else{
-							$('.place-schedule-start-hour', $(scheduleLabel).parent()).hide();
-						}
-						if(endHour == "") {
-							$('.place-schedule-end-hour', $(scheduleLabel).parent()).show();
-							allValidated = false;
-						}else{
-							$('.place-schedule-end-hour', $(scheduleLabel).parent()).hide();
+							$('.place-schedule-incorrect-date', $(scheduleLabel).parent()).hide();
 						}
 
-						// on vérifie que l'heure de début soit < à l'heure de fin
-						if(!comparHour(startHour, endHour)){
-							$('.place-schedule-incorrect-hour', $(scheduleLabel).parent()).show();
-							allValidated = false;
-						}else{
-							$('.place-schedule-incorrect-hour', $(scheduleLabel).parent()).hide();
-						}
+						periods[periods.length] = [startDateSchedule, endDateSchedule];
+					}
+
+					var fermeture = $(namespaceAUI + "closed" + index).get(0).checked;
+					if (!fermeture) {
+					    for(var j=1; j <= 5; j++){
+                            var startHour = $(namespaceAUI + "startHour" + j + "_" + index).val();
+                            var endHour = $(namespaceAUI + "endHour" + j + "_" + index).val();
+                            if(j == 1 || startHour != "" || endHour != ""){
+                                if(startHour == "") {
+                                    $('.place-schedule-start-hour' + j, $(scheduleLabel).parent()).show();
+                                    if(allValidate){
+                                        $('html,body').animate({scrollTop: $(namespaceAUI + "startHour" + j + "_" + index).offset().top - 100}, 'slow');
+                                        allValidate = false;
+                                    }
+                                }else{
+                                    $('.place-schedule-start-hour' + j, $(scheduleLabel).parent()).hide();
+                                }
+
+                                if(endHour == "") {
+                                    $('.place-schedule-end-hour' + j, $(scheduleLabel).parent()).show();
+                                    if(allValidate){
+                                        $('html,body').animate({scrollTop: $(namespaceAUI + "endHour" + j + "_" + index).offset().top - 100}, 'slow');
+                                        allValidate = false;
+                                    }
+                                }else{
+                                    $('.place-schedule-end-hour' + j, $(scheduleLabel).parent()).hide();
+                                }
+
+                                // on vérifie que l'heure de début soit < à l'heure de fin
+                                if(startHour != "" && endHour != "" && !comparHour(startHour, endHour)){
+                                    $('.place-schedule-incorrect-hour' + i, $(scheduleLabel).parent()).show();
+                                    if(allValidate){
+                                        $('html,body').animate({scrollTop: $(namespaceAUI + "startHour" + j + "_" + index).offset().top - 100}, 'slow');
+                                        allValidate = false;
+                                    }
+                                }else{
+                                    $('.place-schedule-incorrect-hour' + j, $(scheduleLabel).parent()).hide();
+                                }
+                            }
+					    }
 					}
 				}
 			}
 		}
-		
-		if (!allValidated) {
-			event.preventDefault();
-		}
+	}
+
+	function activePeriod(indexPeriod){
+        //cache les périodes non concernées
+        $(".active", $("#period-time")).removeClass("active");
+        // affiche la période concernée
+        $("#onglet" + indexPeriod).addClass("active");
+        $("#period" + indexPeriod).addClass("active in");
 	}
 
 });
+
+
 
 // Schedules
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)

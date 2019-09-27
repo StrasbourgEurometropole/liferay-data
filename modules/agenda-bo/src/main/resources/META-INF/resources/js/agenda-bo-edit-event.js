@@ -1,7 +1,7 @@
 // Champs conditionnelles
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
-	
+
 	$('[name=placeType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
 		var classOfDivToHide = 'sigmanual'.replace(classOfDivToShow, '');
@@ -24,6 +24,12 @@ jQuery(function() {
 	});
 	
 	Liferay.on('allPortletsReady', setConditionalValidators);
+
+	$(":submit").on('click', function(e) {
+        allValidate = true;
+
+		setConditionalValidators(e);
+	});
 	
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
