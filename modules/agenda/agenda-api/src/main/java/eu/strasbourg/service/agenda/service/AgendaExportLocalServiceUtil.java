@@ -93,11 +93,11 @@ public class AgendaExportLocalServiceUtil {
 		return getService().addAgendaExport(agendaExport);
 	}
 
-	public static eu.strasbourg.service.agenda.model.AgendaExport cloneAgendaExport(
+	public static eu.strasbourg.service.agenda.model.AgendaExport copyAgendaExport(
 		com.liferay.portal.kernel.service.ServiceContext sc,
 		eu.strasbourg.service.agenda.model.AgendaExport agendaToCopy)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().cloneAgendaExport(sc, agendaToCopy);
+		return getService().copyAgendaExport(sc, agendaToCopy);
 	}
 
 	/**

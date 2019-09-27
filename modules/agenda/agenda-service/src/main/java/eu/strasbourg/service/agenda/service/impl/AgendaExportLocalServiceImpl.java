@@ -90,7 +90,7 @@ public class AgendaExportLocalServiceImpl
 	}
 	
 	@Override
-	public AgendaExport cloneAgendaExport(ServiceContext sc, AgendaExport agendaToCopy) throws PortalException {
+	public AgendaExport copyAgendaExport(ServiceContext sc, AgendaExport agendaToCopy) throws PortalException {
 		User user = UserLocalServiceUtil.getUser(sc.getUserId());
 
 		long pk = counterLocalService.increment();

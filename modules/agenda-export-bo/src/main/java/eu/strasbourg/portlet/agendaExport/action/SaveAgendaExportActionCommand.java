@@ -53,7 +53,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 
 			boolean isCopy = ParamUtil.getBoolean(request, "isCopy");
 			if(isCopy) {
-				agendaExport =_agendaExportLocalService.cloneAgendaExport(sc, agendaExport);		
+				agendaExport =_agendaExportLocalService.copyAgendaExport(sc, agendaExport);		
 			}
 
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
