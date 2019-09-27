@@ -35,7 +35,7 @@
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"userName", "modified-date","status","reportings","entityName"} %>'
+				orderColumns='<%= new String[] {"userName","title","modified-date","status"} %>'
 				portletURL="${agendaExportsURL}" />
 		</liferay-frontend:management-bar-filters>
 
@@ -89,7 +89,7 @@
 					value="${agendaExport.userName}" />
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
-														 href="${editAgendaExportURL}" name="agendaExport" truncate="true" orderable="true"
+														 href="${editAgendaExportURL}" name="title" truncate="true" orderable="true"
 														 value="${agendaExport.titleCurrentValue}" />
 				
 				<%-- Colonne : Date de modification --%>
