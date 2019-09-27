@@ -20,6 +20,13 @@
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
 </liferay-portlet:actionURL>
 
+<liferay-portlet:actionURL name="exportAgendaExport" varImpl="exportAgendaExportURL">
+	<portlet:param name="cmd" value="exportAgendaExport" />
+	<portlet:param name="tab" value="agendaExports" />
+	<portlet:param name="agendaExportId"
+		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
+</liferay-portlet:actionURL>
+
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:form action="${saveAgendaExportURL}" method="post" name="fm">
@@ -56,6 +63,7 @@
 							value="save-as-draft" />
 				</c:if>
 			</c:if>
+			<aui:button cssClass="btn-lg" href="${exportAgendaExportURL}" value="eu.export"/>
 			<c:if test="${not empty agendaExport and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
