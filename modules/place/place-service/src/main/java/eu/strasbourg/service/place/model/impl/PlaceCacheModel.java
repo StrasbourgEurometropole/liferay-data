@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(125);
+		StringBundler sb = new StringBundler(131);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -133,6 +133,12 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(additionalInformation);
 		sb.append(", contenuTooltipCarto=");
 		sb.append(contenuTooltipCarto);
+		sb.append(", hasURLSchedule=");
+		sb.append(hasURLSchedule);
+		sb.append(", scheduleLinkName=");
+		sb.append(scheduleLinkName);
+		sb.append(", scheduleLinkURL=");
+		sb.append(scheduleLinkURL);
 		sb.append(", phone=");
 		sb.append(phone);
 		sb.append(", mail=");
@@ -387,6 +393,22 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			placeImpl.setContenuTooltipCarto(contenuTooltipCarto);
 		}
 
+		placeImpl.setHasURLSchedule(hasURLSchedule);
+
+		if (scheduleLinkName == null) {
+			placeImpl.setScheduleLinkName(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setScheduleLinkName(scheduleLinkName);
+		}
+
+		if (scheduleLinkURL == null) {
+			placeImpl.setScheduleLinkURL(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setScheduleLinkURL(scheduleLinkURL);
+		}
+
 		if (phone == null) {
 			placeImpl.setPhone(StringPool.BLANK);
 		}
@@ -564,6 +586,10 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		displayEvents = objectInput.readBoolean();
 		additionalInformation = objectInput.readUTF();
 		contenuTooltipCarto = objectInput.readUTF();
+
+		hasURLSchedule = objectInput.readBoolean();
+		scheduleLinkName = objectInput.readUTF();
+		scheduleLinkURL = objectInput.readUTF();
 		phone = objectInput.readUTF();
 		mail = objectInput.readUTF();
 		siteURL = objectInput.readUTF();
@@ -780,6 +806,22 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			objectOutput.writeUTF(contenuTooltipCarto);
 		}
 
+		objectOutput.writeBoolean(hasURLSchedule);
+
+		if (scheduleLinkName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(scheduleLinkName);
+		}
+
+		if (scheduleLinkURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(scheduleLinkURL);
+		}
+
 		if (phone == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -947,6 +989,9 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public boolean displayEvents;
 	public String additionalInformation;
 	public String contenuTooltipCarto;
+	public boolean hasURLSchedule;
+	public String scheduleLinkName;
+	public String scheduleLinkURL;
 	public String phone;
 	public String mail;
 	public String siteURL;

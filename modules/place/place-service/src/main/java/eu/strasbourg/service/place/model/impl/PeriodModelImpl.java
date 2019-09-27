@@ -76,8 +76,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 			{ "defaultPeriod", Types.BOOLEAN },
 			{ "startDate", Types.TIMESTAMP },
 			{ "endDate", Types.TIMESTAMP },
-			{ "linkLabel", Types.VARCHAR },
-			{ "linkURL", Types.VARCHAR },
 			{ "alwaysOpen", Types.BOOLEAN },
 			{ "RTGreenThreshold", Types.BIGINT },
 			{ "RTOrangeThreshold", Types.BIGINT },
@@ -94,8 +92,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		TABLE_COLUMNS_MAP.put("defaultPeriod", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("linkLabel", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("linkURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("alwaysOpen", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("RTGreenThreshold", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("RTOrangeThreshold", Types.BIGINT);
@@ -104,7 +100,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		TABLE_COLUMNS_MAP.put("placeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,linkLabel STRING null,linkURL STRING null,alwaysOpen BOOLEAN,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,placeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table place_Period (uuid_ VARCHAR(75) null,periodId LONG not null primary key,name STRING null,defaultPeriod BOOLEAN,startDate DATE null,endDate DATE null,alwaysOpen BOOLEAN,RTGreenThreshold LONG,RTOrangeThreshold LONG,RTRedThreshold LONG,RTMaxThreshold LONG,placeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table place_Period";
 	public static final String ORDER_BY_JPQL = " ORDER BY period.periodId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Period.periodId ASC";
@@ -169,8 +165,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		attributes.put("defaultPeriod", getDefaultPeriod());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
-		attributes.put("linkLabel", getLinkLabel());
-		attributes.put("linkURL", getLinkURL());
 		attributes.put("alwaysOpen", getAlwaysOpen());
 		attributes.put("RTGreenThreshold", getRTGreenThreshold());
 		attributes.put("RTOrangeThreshold", getRTOrangeThreshold());
@@ -220,18 +214,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 		if (endDate != null) {
 			setEndDate(endDate);
-		}
-
-		String linkLabel = (String)attributes.get("linkLabel");
-
-		if (linkLabel != null) {
-			setLinkLabel(linkLabel);
-		}
-
-		String linkURL = (String)attributes.get("linkURL");
-
-		if (linkURL != null) {
-			setLinkURL(linkURL);
 		}
 
 		Boolean alwaysOpen = (Boolean)attributes.get("alwaysOpen");
@@ -433,206 +415,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	}
 
 	@Override
-	public String getLinkLabel() {
-		if (_linkLabel == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _linkLabel;
-		}
-	}
-
-	@Override
-	public String getLinkLabel(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getLinkLabel(languageId);
-	}
-
-	@Override
-	public String getLinkLabel(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getLinkLabel(languageId, useDefault);
-	}
-
-	@Override
-	public String getLinkLabel(String languageId) {
-		return LocalizationUtil.getLocalization(getLinkLabel(), languageId);
-	}
-
-	@Override
-	public String getLinkLabel(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getLinkLabel(), languageId,
-			useDefault);
-	}
-
-	@Override
-	public String getLinkLabelCurrentLanguageId() {
-		return _linkLabelCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getLinkLabelCurrentValue() {
-		Locale locale = getLocale(_linkLabelCurrentLanguageId);
-
-		return getLinkLabel(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getLinkLabelMap() {
-		return LocalizationUtil.getLocalizationMap(getLinkLabel());
-	}
-
-	@Override
-	public void setLinkLabel(String linkLabel) {
-		_linkLabel = linkLabel;
-	}
-
-	@Override
-	public void setLinkLabel(String linkLabel, Locale locale) {
-		setLinkLabel(linkLabel, locale, LocaleUtil.getDefault());
-	}
-
-	@Override
-	public void setLinkLabel(String linkLabel, Locale locale,
-		Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(linkLabel)) {
-			setLinkLabel(LocalizationUtil.updateLocalization(getLinkLabel(),
-					"LinkLabel", linkLabel, languageId, defaultLanguageId));
-		}
-		else {
-			setLinkLabel(LocalizationUtil.removeLocalization(getLinkLabel(),
-					"LinkLabel", languageId));
-		}
-	}
-
-	@Override
-	public void setLinkLabelCurrentLanguageId(String languageId) {
-		_linkLabelCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setLinkLabelMap(Map<Locale, String> linkLabelMap) {
-		setLinkLabelMap(linkLabelMap, LocaleUtil.getDefault());
-	}
-
-	@Override
-	public void setLinkLabelMap(Map<Locale, String> linkLabelMap,
-		Locale defaultLocale) {
-		if (linkLabelMap == null) {
-			return;
-		}
-
-		setLinkLabel(LocalizationUtil.updateLocalization(linkLabelMap,
-				getLinkLabel(), "LinkLabel",
-				LocaleUtil.toLanguageId(defaultLocale)));
-	}
-
-	@Override
-	public String getLinkURL() {
-		if (_linkURL == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _linkURL;
-		}
-	}
-
-	@Override
-	public String getLinkURL(Locale locale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getLinkURL(languageId);
-	}
-
-	@Override
-	public String getLinkURL(Locale locale, boolean useDefault) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-
-		return getLinkURL(languageId, useDefault);
-	}
-
-	@Override
-	public String getLinkURL(String languageId) {
-		return LocalizationUtil.getLocalization(getLinkURL(), languageId);
-	}
-
-	@Override
-	public String getLinkURL(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(getLinkURL(), languageId,
-			useDefault);
-	}
-
-	@Override
-	public String getLinkURLCurrentLanguageId() {
-		return _linkURLCurrentLanguageId;
-	}
-
-	@JSON
-	@Override
-	public String getLinkURLCurrentValue() {
-		Locale locale = getLocale(_linkURLCurrentLanguageId);
-
-		return getLinkURL(locale);
-	}
-
-	@Override
-	public Map<Locale, String> getLinkURLMap() {
-		return LocalizationUtil.getLocalizationMap(getLinkURL());
-	}
-
-	@Override
-	public void setLinkURL(String linkURL) {
-		_linkURL = linkURL;
-	}
-
-	@Override
-	public void setLinkURL(String linkURL, Locale locale) {
-		setLinkURL(linkURL, locale, LocaleUtil.getDefault());
-	}
-
-	@Override
-	public void setLinkURL(String linkURL, Locale locale, Locale defaultLocale) {
-		String languageId = LocaleUtil.toLanguageId(locale);
-		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
-
-		if (Validator.isNotNull(linkURL)) {
-			setLinkURL(LocalizationUtil.updateLocalization(getLinkURL(),
-					"LinkURL", linkURL, languageId, defaultLanguageId));
-		}
-		else {
-			setLinkURL(LocalizationUtil.removeLocalization(getLinkURL(),
-					"LinkURL", languageId));
-		}
-	}
-
-	@Override
-	public void setLinkURLCurrentLanguageId(String languageId) {
-		_linkURLCurrentLanguageId = languageId;
-	}
-
-	@Override
-	public void setLinkURLMap(Map<Locale, String> linkURLMap) {
-		setLinkURLMap(linkURLMap, LocaleUtil.getDefault());
-	}
-
-	@Override
-	public void setLinkURLMap(Map<Locale, String> linkURLMap,
-		Locale defaultLocale) {
-		if (linkURLMap == null) {
-			return;
-		}
-
-		setLinkURL(LocalizationUtil.updateLocalization(linkURLMap,
-				getLinkURL(), "LinkURL", LocaleUtil.toLanguageId(defaultLocale)));
-	}
-
-	@Override
 	public Boolean getAlwaysOpen() {
 		return _alwaysOpen;
 	}
@@ -736,28 +518,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 			}
 		}
 
-		Map<Locale, String> linkLabelMap = getLinkLabelMap();
-
-		for (Map.Entry<Locale, String> entry : linkLabelMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
-		Map<Locale, String> linkURLMap = getLinkURLMap();
-
-		for (Map.Entry<Locale, String> entry : linkURLMap.entrySet()) {
-			Locale locale = entry.getKey();
-			String value = entry.getValue();
-
-			if (Validator.isNotNull(value)) {
-				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
-			}
-		}
-
 		return availableLanguageIds.toArray(new String[availableLanguageIds.size()]);
 	}
 
@@ -802,25 +562,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		else {
 			setName(getName(defaultLocale), defaultLocale, defaultLocale);
 		}
-
-		String linkLabel = getLinkLabel(defaultLocale);
-
-		if (Validator.isNull(linkLabel)) {
-			setLinkLabel(getLinkLabel(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setLinkLabel(getLinkLabel(defaultLocale), defaultLocale,
-				defaultLocale);
-		}
-
-		String linkURL = getLinkURL(defaultLocale);
-
-		if (Validator.isNull(linkURL)) {
-			setLinkURL(getLinkURL(modelDefaultLanguageId), defaultLocale);
-		}
-		else {
-			setLinkURL(getLinkURL(defaultLocale), defaultLocale, defaultLocale);
-		}
 	}
 
 	@Override
@@ -843,8 +584,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		periodImpl.setDefaultPeriod(getDefaultPeriod());
 		periodImpl.setStartDate(getStartDate());
 		periodImpl.setEndDate(getEndDate());
-		periodImpl.setLinkLabel(getLinkLabel());
-		periodImpl.setLinkURL(getLinkURL());
 		periodImpl.setAlwaysOpen(getAlwaysOpen());
 		periodImpl.setRTGreenThreshold(getRTGreenThreshold());
 		periodImpl.setRTOrangeThreshold(getRTOrangeThreshold());
@@ -964,22 +703,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 			periodCacheModel.endDate = Long.MIN_VALUE;
 		}
 
-		periodCacheModel.linkLabel = getLinkLabel();
-
-		String linkLabel = periodCacheModel.linkLabel;
-
-		if ((linkLabel != null) && (linkLabel.length() == 0)) {
-			periodCacheModel.linkLabel = null;
-		}
-
-		periodCacheModel.linkURL = getLinkURL();
-
-		String linkURL = periodCacheModel.linkURL;
-
-		if ((linkURL != null) && (linkURL.length() == 0)) {
-			periodCacheModel.linkURL = null;
-		}
-
 		periodCacheModel.alwaysOpen = getAlwaysOpen();
 
 		periodCacheModel.RTGreenThreshold = getRTGreenThreshold();
@@ -997,7 +720,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1011,10 +734,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		sb.append(getStartDate());
 		sb.append(", endDate=");
 		sb.append(getEndDate());
-		sb.append(", linkLabel=");
-		sb.append(getLinkLabel());
-		sb.append(", linkURL=");
-		sb.append(getLinkURL());
 		sb.append(", alwaysOpen=");
 		sb.append(getAlwaysOpen());
 		sb.append(", RTGreenThreshold=");
@@ -1034,7 +753,7 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Period");
@@ -1063,14 +782,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 		sb.append(
 			"<column><column-name>endDate</column-name><column-value><![CDATA[");
 		sb.append(getEndDate());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>linkLabel</column-name><column-value><![CDATA[");
-		sb.append(getLinkLabel());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>linkURL</column-name><column-value><![CDATA[");
-		sb.append(getLinkURL());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>alwaysOpen</column-name><column-value><![CDATA[");
@@ -1114,10 +825,6 @@ public class PeriodModelImpl extends BaseModelImpl<Period>
 	private Boolean _defaultPeriod;
 	private Date _startDate;
 	private Date _endDate;
-	private String _linkLabel;
-	private String _linkLabelCurrentLanguageId;
-	private String _linkURL;
-	private String _linkURLCurrentLanguageId;
 	private Boolean _alwaysOpen;
 	private long _RTGreenThreshold;
 	private long _RTOrangeThreshold;

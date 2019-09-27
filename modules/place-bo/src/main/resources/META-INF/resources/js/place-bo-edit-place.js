@@ -20,13 +20,31 @@ jQuery(function() {
 		setFacebookConditionalValidators();
 	});
 
+	// affichage ou non des périodes/exception et URL
+    showScheduleBlock();
+	$(namespaceAUI + 'hasURLSchedule').on('change', function(e) {
+		showScheduleBlock();
+	});
+
+	$(namespaceAUI + 'scheduleLinkName').on('change', function(e) {
+		setScheduleConditionalValidators();
+	});
+
+	$(namespaceAUI + 'scheduleLinkURL').on('change', function(e) {
+		setScheduleConditionalValidators();
+	});
+
+
 	$(":submit").on('click', function(e) {
         allValidate = true;
 
 		setSiteConditionalValidators(e);
 		setFacebookConditionalValidators(e);
-		setPeriodValidators(e);
-		setScheduleExceptionValidators(e);
+        setScheduleConditionalValidators(e);
+        if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
+            setScheduleExceptionValidators(e);
+            setPeriodValidators(e);
+        }
 
 		if (!allValidate) {
 			event.preventDefault();
@@ -80,6 +98,43 @@ jQuery(function() {
 		});
 	}
 
+	function showScheduleBlock() {
+        if($(namespaceAUI + 'hasURLSchedule').is(':checked')){
+            $('.URLSchedule').show();
+            $('.PeriodTime').hide();
+        }else{
+            $('.URLSchedule').hide();
+            $('.PeriodTime').show();
+        }
+	}
+
+	function setScheduleConditionalValidators(event) {
+		// Validation des champs obligatoires conditionnels
+		AUI().use('liferay-form',function() {
+			var rules = Liferay.Form.get(namespace + 'fm').formValidator
+					.get('rules');
+			var labelHasValue = $(
+					namespaceAUI + 'scheduleLinkName').val().length > 0;
+			var URLHasValue = $(namespaceAUI + 'scheduleLinkURL')
+					.val().length > 0;
+            if($(namespaceAUI + 'hasURLSchedule').is(':checked')){
+                if (!URLHasValue) {
+                    rules[namespace + 'scheduleLinkURL'].required = true;
+                } else {
+                     rules[namespace + 'scheduleLinkURL'].required = false;
+                 }
+                if (!labelHasValue) {
+                    rules[namespace + 'scheduleLinkName'].required = true;
+                } else {
+                    rules[namespace + 'scheduleLinkName'].required = false;
+                }
+            }else{
+                    rules[namespace + 'scheduleLinkName'].required = false;
+                    rules[namespace + 'scheduleLinkURL'].required = false;
+            }
+		});
+	}
+
 	function setPeriodValidators(event) {
 		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
@@ -98,31 +153,6 @@ jQuery(function() {
                 }
 			}else{
 				$('.place-period-name', $(periodLabel)).hide();
-			}
-
-			var labelHasValue = $(namespaceAUI + 'periodLabel' + index).val().length > 0;
-			var URLHasValue = $(namespaceAUI + 'periodURL' + index).val().length > 0;
-			if (labelHasValue && !URLHasValue) {
-				$('.place-period-label', $(periodLabel)).hide();
-				$('.place-period-url', $(periodLabel)).show();
-				if(allValidate){
-				    activePeriod(index);
-                    $('html,body').animate({scrollTop: $(namespaceAUI + "periodURL" + index).offset().top - 100}, 'slow');
-                    allValidate = false;
-                }
-			} else {
-				if (!labelHasValue && URLHasValue) {
-					$('.place-period-label', $(periodLabel)).show();
-					$('.place-period-url', $(periodLabel)).hide();
-                    if(allValidate){
-                        activePeriod(index);
-                        $('html,body').animate({scrollTop: $(namespaceAUI + "periodLabel" + index).offset().top - 100}, 'slow');
-                        allValidate = false;
-                    }
-				} else{
-					$('.place-period-label', $(periodLabel)).hide();
-					$('.place-period-url', $(periodLabel)).hide();
-				}
 			}
 
 			var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
@@ -371,8 +401,6 @@ jQuery(function() {
 	}
 
 });
-
-
 
 // Schedules
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)
