@@ -82,7 +82,9 @@ $(function () {
 
 
 
-// SQUIRE.JS
-new SquireUI({
-    replace: '.form-squire-target'
-});
+if($('.form-squire-target').length > 0) {
+    // SQUIRE.JS
+    new SquireUI({
+        replace: '.form-squire-target'
+    });
+}

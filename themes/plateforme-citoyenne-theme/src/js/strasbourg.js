@@ -13473,7 +13473,6 @@ var objectFitImages = (function () {
 
 })(window.Zepto || window.jQuery, window, document);
 
-
 /*!
  * Pikaday
  *
@@ -18964,7 +18963,6 @@ Squire.prototype.testPresenceinSelection = function (name, action, format,
 SquireUI = function (options) {
     if (typeof options.buildPath == "undefined") {
         options.buildPath = '/o/plateforme-citoyenne-theme/images/assets/';
-        console.info(options.buildPath);
     }
     // Create instance of iFrame
     var container, editor;
@@ -20584,11 +20582,12 @@ $(function () {
 
 
 
-// SQUIRE.JS
-new SquireUI({
-    replace: '.form-squire-target'
-});
-
+if($('.form-squire-target').length > 0) {
+    // SQUIRE.JS
+    new SquireUI({
+        replace: '.form-squire-target'
+    });
+}
 // défini la hauteur a la hauteur de la fenêtre - la hauteur du header - 20px de marge
 $('.bloc-iframe iframe').height(
     document.body.clientHeight - $('header#pro-header').height() - 20
@@ -20648,28 +20647,6 @@ $('.pro-bloc-prefooter .pro-ico').on('click',function(e){
     e.preventDefault();
     $('.pro-bloc-prefooter .pro-ico').removeClass('active');
     $(this).addClass('active').siblings().removeClass('active');
-});
-
-
-$('.pro-bloc-prefooter .pro-signature-pacte > a').on('click',function(e){
-    e.preventDefault();
-    $(this).toggleClass('active');
-    if($(this).hasClass('active')){
-        $('h3',this).text('Vous avez adhéré au pacte');
-        $('span',this).css('display','none');
-        if($(this).hasClass('pro-disabled')){
-            $('h3',this).text('Signer');
-            $('span',this).css('display','block');
-        }
-    }
-    else if($(this).hasClass('pro-disabled')){
-        $('h3',this).text('Signer');
-        $('span',this).css('display','block');
-    }
-    else{
-        $('h3',this).text('Signer');
-        $('span',this).css('display','block');
-    }
 });
 // Slider Actu Quartiers - Changement de slider
 $('.pro-wrapper-quartier').first().addClass('active');
@@ -20737,20 +20714,7 @@ $('.pro-bloc-video').each(function() {
 	}
 
 });
-/*
-$("[href$='like-pro']").on('click',function(e){
-    e.preventDefault();
-    // $(this).text(+parseInt($(this).text()) + 1);
-    $(this).toggleClass('active');
-});
 
-
-$("[href$='-approuv']").on('click',function(e){
-    e.preventDefault();
-    // $(this).find('strong').text(+parseInt($(this).text()) + 1);
-    $(this).toggleClass('active');
-});
-*/
 (function (factory) {
     factory(window.L);
 }(function (L) {
@@ -26225,27 +26189,6 @@ document.addEventListener('scroll', function () {
 });
 
 
-$('.pro-bloc-card-event').on('click', function (e) {
-    e.preventDefault();
-    $(this).find('pro-btn-action').toggleClass('active');
-});
-
-$('.pro-btn-signer').on('click', function (e) {
-    e.preventDefault();
-    $(this).toggleClass('active');
-});
-
-
-// Call To Action -- Ajout de la Classe Active
-$('.pro-btn-action').on('click', function (e) {
-    if(!$(this).hasClass('pro-btn-disabled')) {
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).toggleClass('active');
-    }
-});
-
-
 // Disabled CTA
 $('.pro-btn-disabled').on('click', function (e) {
     e.preventDefault();
@@ -26320,8 +26263,6 @@ $('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function () {
 $('.modal-dialog').each(function(){
     new SimpleBar($(this)[0]);
 });
-
-
 $('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
     if(!$(this).hasClass('pro-btn-disabled')){
         e.preventDefault();

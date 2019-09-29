@@ -33,27 +33,6 @@ document.addEventListener('scroll', function () {
 });
 
 
-$('.pro-bloc-card-event').on('click', function (e) {
-    e.preventDefault();
-    $(this).find('pro-btn-action').toggleClass('active');
-});
-
-$('.pro-btn-signer').on('click', function (e) {
-    e.preventDefault();
-    $(this).toggleClass('active');
-});
-
-
-// Call To Action -- Ajout de la Classe Active
-$('.pro-btn-action').on('click', function (e) {
-    if(!$(this).hasClass('pro-btn-disabled')) {
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).toggleClass('active');
-    }
-});
-
-
 // Disabled CTA
 $('.pro-btn-disabled').on('click', function (e) {
     e.preventDefault();
@@ -128,4 +107,3 @@ $('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function () {
 $('.modal-dialog').each(function(){
     new SimpleBar($(this)[0]);
 });
-
