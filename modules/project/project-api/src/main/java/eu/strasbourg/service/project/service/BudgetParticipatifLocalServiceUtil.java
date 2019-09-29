@@ -384,6 +384,14 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService().getByBudgetPhase(budgetPhaseId);
 	}
 
+	/**
+	* Retourne tous les budgets participatifs d'un parent
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByParentId(
+		long budgetPhaseId) {
+		return getService().getByParentId(budgetPhaseId);
+	}
+
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByPublikUserID(
 		java.lang.String publikId) {
 		return getService().getByPublikUserID(publikId);

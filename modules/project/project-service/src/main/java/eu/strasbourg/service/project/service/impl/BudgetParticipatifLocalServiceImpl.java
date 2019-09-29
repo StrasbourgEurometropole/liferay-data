@@ -420,6 +420,15 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId) {
         return this.budgetParticipatifPersistence.findByBudgetPhaseId(budgetPhaseId);
     }
+	
+	/**
+	 * Retourne tous les budgets participatifs d'un parent
+     */
+	@Override
+    public List<BudgetParticipatif> getByParentId(long budgetPhaseId) {
+        return this.budgetParticipatifPersistence.findByParentId(budgetPhaseId);
+    }
+	
     
     /**
 	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes

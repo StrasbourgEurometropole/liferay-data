@@ -468,7 +468,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu, fusionné
 	*/
 	@Override
 	public boolean isNotDoable() {
@@ -578,6 +578,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public eu.strasbourg.service.project.constants.ParticiperCategories getBudgetParticipatifStatus() {
 		return _budgetParticipatif.getBudgetParticipatifStatus();
+	}
+
+	/**
+	* Retourne Le budget participatif parent dans le cas d'un bp fusionne
+	*
+	* @return Le BP parent
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetParticipatif getParent() {
+		return _budgetParticipatif.getParent();
 	}
 
 	@Override
@@ -1049,6 +1059,18 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _budgetParticipatif.getCategories();
+	}
+
+	/**
+	* Retourne X suggestions max pour un BP
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de bp.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds() {
+		return _budgetParticipatif.getChilds();
 	}
 
 	/**
