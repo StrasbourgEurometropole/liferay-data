@@ -1,6 +1,8 @@
 <#setting locale = locale />
 
-<#assign date = dateUtil.parseDate("yyyy-MM-dd", date.getData(), locale)/>  
+<#if date.getData()?has_content>
+    <#assign dateOffre = dateUtil.parseDate("yyyy-MM-dd", date.getData(), locale)/>  
+</#if>
 
 <div class="ops-page-rh">
 
@@ -12,7 +14,9 @@
                 <div class="ops-cats">
                     <span class="ops-cat">${postName.getData()}</span>
                 </div>
-                <span class="ops-date-article"><@liferay_ui.message key="eu.ops.contest.date" /> : ${date?string("dd.MM.yyyy")}</time></span>
+                <#if dateOffre?has_content>
+                    <span class="ops-date-article"><@liferay_ui.message key="eu.ops.contest.date" /> : ${dateOffre?string("dd.MM.yyyy")}</time></span>
+                </#if>
             </div>
             <h1>${title.getData()}</h1>
         </header>
