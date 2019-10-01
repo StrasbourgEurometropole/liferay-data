@@ -21,7 +21,8 @@
                         <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.submitbudget.information.description" value=""/>
+                    	<aui:input id="budgetdescription" type="hidden" name="description" value="hidden description"/>
+                        <aui:input name="squiredescription" type="textarea" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -199,7 +200,6 @@
 	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
 
     $(document).ready(function(){
-    	resetValues();
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
         $('#checkboxSaveInfo').hide();
@@ -213,8 +213,10 @@
         event.preventDefault();
         var response = validateForm();
         if (response){
-            var budgetTitleValue = $("#"+namespace+"budgettitle").val();
-            var budgetDescriptionValue = $("#"+namespace+"budgetdescription").val();
+            var budgetTitleValue = $("#"+namespace+"budgettitle").val();           
+            var iframe = $('.Squire-UI').next('iframe').first()[0];
+        	var editor = iframe.contentWindow.editor;       	
+            var budgetDescriptionValue = editor.getHTML();
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
             var postalcodeValue = $("#"+namespace+"postalcode").val();
@@ -244,7 +246,7 @@
                         dataType: 'json',
                         data:{
                             <portlet:namespace/>title:budgetTitleValue,
-                            <portlet:namespace/>description:budgetDescriptionValue,
+                            <portlet:namespace/>squiredescription:budgetDescriptionValue,
                             <portlet:namespace/>address:addressValue,
                             <portlet:namespace/>city:cityValue,
                             <portlet:namespace/>postalcode:postalcodeValue,
@@ -328,6 +330,10 @@
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
         $("#"+namespace+"birthday").val(saved_dateNaiss);
+        
+        var iframe = $('.Squire-UI').next('iframe').first()[0];
+    	var editor = iframe.contentWindow.editor;
+    	editor.setHTML('');
     }
 
     function checkValues(){
@@ -346,7 +352,9 @@
     {
         var result = true;
         var budgettitle = $("#"+namespace+"budgettitle").val();
-        var budgetdescription = $("#"+namespace+"budgetdescription").val();
+        var iframe = $('.Squire-UI').next('iframe').first()[0];
+    	var editor = iframe.contentWindow.editor;       	
+        var budgetdescription = editor.getHTML();
         var city = $("#"+namespace+"city").val();
         var address = $("#"+namespace+"address").val();
         var postalcode = $("#"+namespace+"postalcode").val();
@@ -368,6 +376,7 @@
             result = false;
         }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
 
+             
         if (budgetdescription===null || budgetdescription===""){
             $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;

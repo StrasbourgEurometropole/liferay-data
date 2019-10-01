@@ -83,7 +83,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
     private static final String BUDGETTITLE = "title";
-    private static final String BUDGETDESCRIPTION = "description";
+    private static final String BUDGETDESCRIPTION = "squiredescription";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -139,10 +139,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
-        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
+        this.description = ParamUtil.getString(request, BUDGETDESCRIPTION);
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
+        
         
         // Verification de la validite des informations
         if (validate(request)) {

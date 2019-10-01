@@ -20584,7 +20584,7 @@ $(function () {
 
 if($('.form-squire-target').length > 0) {
     // SQUIRE.JS
-    new SquireUI({
+    var SUI = new SquireUI({
         replace: '.form-squire-target'
     });
 }
