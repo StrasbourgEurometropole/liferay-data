@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Image"
+                "fr_FR": "Content"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -17,16 +17,16 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "image",
+            "dataType": "html",
             "fieldNamespace": "ddm",
             "indexType": "",
             "localizable": true,
-            "name": "images",
+            "name": "content",
             "readOnly": false,
-            "repeatable": true,
+            "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-image"
+            "type": "ddm-text-html"
         }
     ]
 }
