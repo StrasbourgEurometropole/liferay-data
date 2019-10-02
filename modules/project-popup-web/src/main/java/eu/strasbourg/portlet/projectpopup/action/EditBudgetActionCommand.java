@@ -71,7 +71,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 public class EditBudgetActionCommand implements MVCActionCommand {
 	
     private static final String BUDGETTITLE = "title";
-    private static final String BUDGETDESCRIPTION = "description";
+    private static final String BUDGETDESCRIPTION = "budgetdescription";
     private static final String LIEU = "budgetlieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -110,7 +110,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
-        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETDESCRIPTION));
+        this.description = ParamUtil.getString(request, BUDGETDESCRIPTION);
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
@@ -298,7 +298,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         }
 
         // description
-        if (Validator.isNull(this.description)) {
+        if (Validator.isNull(HtmlUtil.stripHtml(this.description))) {
         	this.message = "Description non valide";
             return false;
         }

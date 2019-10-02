@@ -24,7 +24,8 @@
                         <aui:input id="budgettitle" name="title" label="modal.editbudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetdescription" type="textarea" name="description" required="true" label="modal.editbudget.information.description" value=""/>
+                    	<aui:input id="budgetdescription" name="budgetdescription" type="hidden"/>
+                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -157,7 +158,6 @@
 	var namespace = "<portlet:namespace />";
 
     $(document).ready(function(){
-    	resetValues();
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
     });
@@ -184,7 +184,9 @@
 	                        	var data = this.get('responseData');
 	                        	
 	                        	$("#"+namespace+"budgettitle").val(data.title);
-	                        	$("#"+namespace+"budgetdescription").val(data.description);
+	                        	var iframe = $('.Squire-UI').next('iframe').first()[0];
+	                        	var editor = iframe.contentWindow.editor;
+	                        	editor.setHTML(data.description);
 	                        	//$("#"+namespace+"budgetSummary").val(data.summary);
 	                        	$("#"+namespace+"quartier").val(data.quartier).change().selectric('refresh');
 	                        	$("#"+namespace+"budgetlieux").val(data.placeText);
@@ -218,6 +220,9 @@
         event.preventDefault();
         var response = validateForm();
         if (response){
+        	var iframe = $('.Squire-UI').next('iframe').first()[0];
+        	var editor = iframe.contentWindow.editor;
+        	$("#"+namespace+"budgetdescription").val(editor.getHTML());
         	$("#uploadForm").submit();
         }
     });
@@ -255,13 +260,19 @@
         $("#edit-budget-cnil").prop("checked", false);
         $("#"+namespace+"budgetPhoto").val("");
         $("#"+namespace+"budgetVideo").val("");
+        
+        var iframe = $('.Squire-UI').next('iframe').first()[0];
+    	var editor = iframe.contentWindow.editor;
+    	editor.setHTML('');
     }
 
     function validateForm()
     {
         var result = true;
         var budgettitle = $("#"+namespace+"budgettitle").val();
-        var budgetdescription = $("#"+namespace+"budgetdescription").val();
+        var iframe = $('.Squire-UI').next('iframe').first()[0];
+    	var editor = iframe.contentWindow.editor;       	
+        var budgetdescription = editor.getHTML();
         var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         var legalage = $("#edit-budget-legalage").is(":checked");
@@ -280,10 +291,10 @@
             result = false;
         }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
 
-        if (budgetdescription===null || budgetdescription===""){
-            $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
+            $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgetdescription").css({ "box-shadow" : "" });
+        }else $(iframe).css({ "box-shadow" : "" });
 
         if (!legalage)
             result = false;
