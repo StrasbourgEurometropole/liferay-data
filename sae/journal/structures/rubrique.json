@@ -1,21 +1,31 @@
 {
     "availableLanguageIds": [
-        "fr_FR"
+        "fr_FR",
+        "en_US",
+        "de_DE"
     ],
     "defaultLanguageId": "fr_FR",
     "fields": [
         {
             "label": {
-                "fr_FR": "name"
+                "fr_FR": "name",
+                "en_US": "name",
+                "de_DE": "name"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -29,16 +39,24 @@
         },
         {
             "label": {
-                "fr_FR": "description"
+                "fr_FR": "description",
+                "en_US": "description",
+                "de_DE": "description"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -52,16 +70,24 @@
         },
         {
             "label": {
-                "fr_FR": "child name"
+                "fr_FR": "child name",
+                "en_US": "child name",
+                "de_DE": "child name"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "style": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "",
+                "en_US": "",
+                "de_DE": ""
             },
             "dataType": "string",
             "indexType": "keyword",
@@ -75,19 +101,27 @@
             "nestedFields": [
                 {
                     "label": {
-                        "fr_FR": "link"
+                        "fr_FR": "link",
+                        "en_US": "link",
+                        "de_DE": "link"
                     },
                     "predefinedValue": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": "",
+                        "de_DE": ""
                     },
                     "style": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": "",
+                        "de_DE": ""
                     },
                     "tip": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": "",
+                        "de_DE": ""
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "link",
                     "readOnly": false,
@@ -98,20 +132,28 @@
                 },
                 {
                     "label": {
-                        "fr_FR": "image"
+                        "fr_FR": "image",
+                        "en_US": "image",
+                        "de_DE": "image"
                     },
                     "predefinedValue": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": "",
+                        "de_DE": ""
                     },
                     "style": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": "",
+                        "de_DE": ""
                     },
                     "tip": {
-                        "fr_FR": ""
+                        "fr_FR": "",
+                        "en_US": "",
+                        "de_DE": ""
                     },
                     "dataType": "image",
                     "fieldNamespace": "ddm",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "image",
                     "readOnly": false,
