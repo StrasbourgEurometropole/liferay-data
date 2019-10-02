@@ -18,7 +18,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
             "name": "title",
             "readOnly": false,
@@ -41,7 +41,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
             "name": "subtitle",
             "readOnly": false,
@@ -65,7 +65,7 @@
             },
             "dataType": "html",
             "fieldNamespace": "ddm",
-            "indexType": "",
+            "indexType": "text",
             "localizable": true,
             "name": "textContent",
             "readOnly": false,
@@ -88,7 +88,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
             "name": "linkLabel1",
             "readOnly": false,
@@ -134,7 +134,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
             "name": "linkLabel2",
             "readOnly": false,

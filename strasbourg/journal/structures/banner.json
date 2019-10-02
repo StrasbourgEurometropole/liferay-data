@@ -65,7 +65,7 @@
                         "fr_FR": ""
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "externalLink",
                     "readOnly": false,
