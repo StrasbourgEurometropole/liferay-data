@@ -23868,42 +23868,42 @@ function getMarkerIcon(entityType) {
     switch (entityType) {
         case 'project':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-projet.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-projet.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'participation':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-participation.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-participation.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'event':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-event.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'petition':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-petition.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-petition.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'initiative':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-initiative.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'budget-participatif':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-budget.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-budgetparticipatif.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
@@ -24661,6 +24661,13 @@ function createBudgetParticipatif(budgetParticipatif){
 
     var vignette =
         '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
+                (budgetParticipatif.imageURL != "" ? 
+                '<figure role="group" class="fit-cover">' +
+                    '<img src="' + budgetParticipatif.imageURL + '" width="155" height="200" alt="Image projet citoyen"/>' +
+                '</figure>'
+                :
+                ''
+            ) +
             '<div class="pro-header-budget">' +
                 '<figure role="group">' +
                     '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
@@ -24677,7 +24684,8 @@ function createBudgetParticipatif(budgetParticipatif){
             '</div>' +
             '<div class="pro-content-budget">' +
                 '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
+                '<span class="pro-time">Publiée le ' + budgetParticipatif.publicationDate + '</time></span>' +
+                '<p class="pro-summary">' + budgetParticipatif.summary + '</p>' +
             '</div>' +
             '<div class="pro-footer-budget">' + footer +
             '</div>' +

@@ -698,6 +698,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+        jsonBudget.put("summary", HtmlUtil.stripHtml(HtmlUtil.escape(this.getSummary())));
         jsonBudget.put("isCrush", this.getIsCrush());
         jsonBudget.put("BPStatusColor", this.getBudgetParticipatifStatusCategoryColor());
         jsonBudget.put("hasBeenVoted", this.hasBeenVoted());
@@ -709,6 +710,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
         jsonBudget.put("projectName", this.getProjectName());
+        
+        // Champs : Médias
+ 		jsonBudget.put("imageURL", this.getImageURL());
         
         // Champs : Interactivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
