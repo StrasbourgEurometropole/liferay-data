@@ -588,8 +588,12 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget ${classFaisable}"
-								data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+								<c:if test="${budget.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                	</figure>
+                               	</c:if>
 								<div class="pro-header-budget">
 									<figure>
 										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
@@ -654,8 +658,12 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget ${classFaisable}"
-								data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+								<c:if test="${budget.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                	</figure>
+                               	</c:if>
 								<div class="pro-header-budget">
 									<figure>
 										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
