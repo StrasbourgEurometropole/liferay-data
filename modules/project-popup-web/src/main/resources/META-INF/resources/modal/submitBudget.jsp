@@ -21,8 +21,7 @@
                         <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                    	<aui:input id="budgetdescription" type="hidden" name="description" value="hidden description"/>
-                        <aui:input name="squiredescription" type="textarea" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
+                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -375,12 +374,11 @@
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
-
              
-        if (budgetdescription===null || budgetdescription===""){
-            $("#"+namespace+"budgetdescription").css({ "box-shadow" : "0 0 10px #CC0000" });
+        if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
+            $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgetdescription").css({ "box-shadow" : "" });
+        }else $(iframe).css({ "box-shadow" : "" });
 
         if (city===null || city===""){
             $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });

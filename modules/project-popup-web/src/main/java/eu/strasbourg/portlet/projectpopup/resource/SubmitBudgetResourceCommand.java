@@ -401,7 +401,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         }
 
         // description
-        if (Validator.isNull(this.description)) {
+        if (Validator.isNull(HtmlUtil.stripHtml(this.description))) {
         	this.message = "Description non valide";
             return false;
         }
