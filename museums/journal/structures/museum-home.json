@@ -18,7 +18,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "firstLine",
             "readOnly": false,
@@ -41,7 +41,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "secondLine",
             "readOnly": false,
@@ -80,7 +80,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "videoSource",
             "readOnly": false,
@@ -103,7 +103,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "videoId",
             "readOnly": false,
@@ -127,7 +127,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "image",
             "readOnly": false,
