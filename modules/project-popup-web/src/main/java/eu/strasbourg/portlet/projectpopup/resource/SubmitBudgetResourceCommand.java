@@ -83,6 +83,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
     private static final String BUDGETTITLE = "title";
+    private static final String BUDGETSUMMARY = "summary";
     private static final String BUDGETDESCRIPTION = "squiredescription";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
@@ -104,6 +105,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private String mobile;
     private String video;
     private String title;
+    private String summary;
     private String description;
     private String lieu;
     private long projectId;
@@ -139,6 +141,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
+        this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
         this.description = ParamUtil.getString(request, BUDGETDESCRIPTION);
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
@@ -220,6 +223,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
             budgetParticipatif.setTitle(this.title);
+            budgetParticipatif.setSummary(this.summary);
             budgetParticipatif.setDescription(this.description);
             budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
             budgetParticipatif.setCitoyenLastname(this.user.getLastName());
@@ -397,6 +401,12 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         // title
         if (Validator.isNull(this.title)) {
         	this.message = "Titre non valide";
+            return false;
+        }
+        
+        // resume
+        if (Validator.isNull(this.summary)) {
+        	this.message = "Resume non valide";
             return false;
         }
 

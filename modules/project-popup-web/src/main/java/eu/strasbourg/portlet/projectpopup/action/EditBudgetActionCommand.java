@@ -71,6 +71,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 public class EditBudgetActionCommand implements MVCActionCommand {
 	
     private static final String BUDGETTITLE = "title";
+    private static final String BUDGETSUMMARY = "summary";
     private static final String BUDGETDESCRIPTION = "budgetdescription";
     private static final String LIEU = "budgetlieux";
     private static final String PROJECT = "project";
@@ -84,6 +85,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
     private PublikUser user;
     private String video;
     private String title;
+    private String summary;
     private String description;
     private String lieu;
     private boolean deletePhoto;
@@ -110,6 +112,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
+        this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
         this.description = ParamUtil.getString(request, BUDGETDESCRIPTION);
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
@@ -169,6 +172,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
             
             sc.setAssetCategoryIds(idCategories.stream().mapToLong(w -> w).toArray());
             bp.setTitle(this.title);
+            bp.setSummary(this.summary);
             bp.setDescription(this.description);
             bp.setVideoUrl(this.video);
             bp.setPlaceTextArea(this.lieu);
@@ -294,6 +298,12 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         // title
         if (Validator.isNull(this.title)) {
         	this.message = "Titre non valide";
+            return false;
+        }
+        
+        // Resume
+        if (Validator.isNull(this.summary)) {
+        	this.message = "Resume non valide";
             return false;
         }
 

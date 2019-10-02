@@ -24,6 +24,9 @@
                         <aui:input id="budgettitle" name="title" label="modal.editbudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
+                        <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
+                    </div>
+                    <div class="form-group">
                     	<aui:input id="budgetdescription" name="budgetdescription" type="hidden"/>
                         <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
@@ -187,7 +190,7 @@
 	                        	var iframe = $('.Squire-UI').next('iframe').first()[0];
 	                        	var editor = iframe.contentWindow.editor;
 	                        	editor.setHTML(data.description);
-	                        	//$("#"+namespace+"budgetSummary").val(data.summary);
+	                        	$("#"+namespace+"budgetsummary").val(data.summary);
 	                        	$("#"+namespace+"quartier").val(data.quartier).change().selectric('refresh');
 	                        	$("#"+namespace+"budgetlieux").val(data.placeText);
 	                        	$("#"+namespace+"project").val(data.projectId).change().selectric('refresh');
@@ -248,6 +251,7 @@
     function resetValues()
     {
         $("#"+namespace+"budgettitle").val("");
+        $("#"+namespace+"budgetsummary").val("");
         $("#"+namespace+"budgetdescription").val("");
         $("#"+namespace+"budgetlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
@@ -270,6 +274,7 @@
     {
         var result = true;
         var budgettitle = $("#"+namespace+"budgettitle").val();
+        var budgetsummary = $("#"+namespace+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;       	
         var budgetdescription = editor.getHTML();
@@ -290,6 +295,11 @@
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
+        
+        if (budgetsummary===null || budgetsummary===""){
+            $("#"+namespace+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
 
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
