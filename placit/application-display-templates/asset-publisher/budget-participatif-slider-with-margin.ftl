@@ -43,6 +43,11 @@
 						</#if>
 
                         <div class="item pro-bloc-card-budget ${classFaisable} data-linkall="a">
+                            <#if entry.getImageURL()?has_content>
+									<figure role="group" class="fit-cover">
+										<img src="${entry.getImageURL()}" width="155" height="200" alt="Image budget participatif"/>
+									</figure>
+                            </#if>
                             <div class="pro-header-budget">
                                 <#if imageURL?has_content >
                                     <figure role="group">

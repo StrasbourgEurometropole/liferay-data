@@ -117,15 +117,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
 
                     <div id="breadcrumb">
-                    <span>
                         <span>
-                            <a href="${homeURL}">Accueil</a>
-                            <#if pageListing??>
-                                <a href="${homeURL2}${pageListing}">Listings des projets</a>
-                            </#if>
-                            <span class="breadcrumb_last">${entry.title}</span>
+                            <span>
+                                <a href="${homeURL}">Accueil</a>
+                                <#if pageListing??>
+                                    <a href="${homeURL2}${pageListing}">Listings des projets</a>
+                                </#if>
+                                <span class="breadcrumb_last">${entry.title}</span>
+                            </span>
                         </span>
-                    </span>
+                    </div>
+                     <div class="pro-summary pro-bloc-texte">
+                        <p>${entry.summary}</p>
                     </div>
                 </header>
 
