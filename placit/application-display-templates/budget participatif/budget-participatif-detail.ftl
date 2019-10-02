@@ -304,6 +304,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							</#if>
 							
 							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+                                <#if suggestion.getImageURL()?has_content>
+									<figure role="group" class="fit-cover">
+										<img src="${suggestion.getImageURL()}" width="155" height="200" alt="Image du budget participatif"/>
+									</figure>
+								</#if>
 								<div class="pro-header-budget">
 									<#if imageURL?has_content >
 										<figure role="group">
