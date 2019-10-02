@@ -18,7 +18,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "menuNavigation",
             "readOnly": false,
@@ -41,7 +41,7 @@
                         "fr_FR": ""
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "classMenu",
                     "readOnly": false,
@@ -65,7 +65,7 @@
                     },
                     "dataType": "image",
                     "fieldNamespace": "ddm",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "illustration",
                     "readOnly": false,
@@ -88,7 +88,7 @@
                         "fr_FR": ""
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "link",
                     "readOnly": false,
@@ -113,7 +113,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "custom",
             "readOnly": false,
@@ -136,7 +136,7 @@
                         "fr_FR": ""
                     },
                     "dataType": "boolean",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "hideItem",
                     "readOnly": false,
@@ -159,7 +159,7 @@
                         "fr_FR": ""
                     },
                     "dataType": "string",
-                    "indexType": "keyword",
+                    "indexType": "",
                     "localizable": true,
                     "name": "linkCustom",
                     "readOnly": false,
@@ -184,7 +184,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "disconnection",
             "readOnly": false,

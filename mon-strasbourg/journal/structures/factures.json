@@ -65,7 +65,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "tipiURL",
             "readOnly": false,
@@ -88,7 +88,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "tipiCallbackURL",
             "readOnly": false,
