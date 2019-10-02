@@ -42,7 +42,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "image",
             "readOnly": false,
@@ -89,7 +89,6 @@
                 "fr_FR": ""
             },
             "dataType": "html",
-            "fieldNamespace": "ddm",
             "indexType": "text",
             "localizable": true,
             "name": "lieu",
