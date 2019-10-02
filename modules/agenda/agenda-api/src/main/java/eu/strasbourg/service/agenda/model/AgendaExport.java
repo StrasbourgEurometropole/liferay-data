@@ -64,4 +64,10 @@ public interface AgendaExport extends AgendaExportModel, PersistedModel {
 	* l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Retourne la liste des périodes auxquelles l'événement à lieu (classées par
+	* date de début croissante)
+	*/
+	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod> getAgendaExportPeriods();
 }

@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -23,7 +25,7 @@ public class EditAgendaExportDisplayContext {
     private final ThemeDisplay _themeDisplay;
     
     private AgendaExport _agendaExport;
-
+    private String _defaultPeriodIndexes;
 
     public EditAgendaExportDisplayContext(RenderRequest request, RenderResponse response) {
         this._request = request;
@@ -37,6 +39,18 @@ public class EditAgendaExportDisplayContext {
         	_agendaExport = AgendaExportLocalServiceUtil.fetchAgendaExport(agendaExportId);
         }
         return _agendaExport;
+    }
+
+    public String getDefaultPeriodIndexes() {
+        if (this.getAgendaExport() != null) {
+            List<AgendaExportPeriod> periods = this.getAgendaExport().getAgendaExportPeriods();
+            String indexes = "0";
+            for (int i = 1; i <= periods.size(); i++) {
+                indexes +=  "," + i;
+            }
+            return indexes;
+        }
+        return "";
     }
 
     public String getDefaultIndexes(int length) {
@@ -68,10 +82,9 @@ public class EditAgendaExportDisplayContext {
 
     public boolean hasPermission(String actionId) {
         return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
+                this._themeDisplay.getCompanyId(),
                 StrasbourgPortletKeys.AGENDA_EXPORT_BO,
                 StrasbourgPortletKeys.AGENDA_EXPORT_BO,
                 actionId);
     }
-
 }

@@ -4,6 +4,9 @@
 	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportLocalServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.AgendaExportPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodLocalServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportPeriodService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.AgendaExportPeriodPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventLocalService" />

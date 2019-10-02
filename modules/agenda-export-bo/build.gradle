@@ -14,6 +14,8 @@ dependencies {
 	compile group: "jstl", name: "jstl", version: "1.2"
 	
 	compile group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
+
+	compile group: "com.fasterxml.jackson.dataformat", name: "jackson-dataformat-xml", version: "2.9.0"
 	
 	
 	compile project (':modules:utils')

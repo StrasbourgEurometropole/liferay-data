@@ -18,10 +18,16 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.AgendaExportService;
+import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
@@ -40,6 +46,9 @@ public class AgendaExportImpl extends AgendaExportBaseImpl {
 	 *
 	 * Never reference this class directly. All methods that expect a agenda export model instance should use the {@link eu.strasbourg.service.agenda.model.AgendaExport} interface instead.
 	 */
+
+	private List<AgendaExportPeriod> agendaExportPeriods;
+
 	public AgendaExportImpl() {
 	}
 	
@@ -60,5 +69,17 @@ public class AgendaExportImpl extends AgendaExportBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 			.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Retourne la liste des périodes auxquelles l'événement à lieu (classées par
+	 * date de début croissante)
+	 */
+	@Override
+	public List<AgendaExportPeriod> getAgendaExportPeriods() {
+		List<AgendaExportPeriod> periods = AgendaExportPeriodLocalServiceUtil.getByAgendaExportId(this.getAgendaExportId());
+		List<AgendaExportPeriod> sortedPeriods = new ArrayList<>(periods);
+		sortedPeriods.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
+		return sortedPeriods;
 	}
 }

@@ -1,2 +1,126 @@
-.agenda-export-bo {
+.period-label {
+	margin-bottom: 10px;
+}
+
+#date-fields .date-range {
+	cursor: pointer;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	width: 100%;
+}
+
+.time-detail-wrapper {
+   margin-top: 10px;
+   margin-bottom: -40px;
+}
+
+.time-detail-wrapper .form-group {
+	max-width: 65%;
+}
+
+.time-detail-generator-wrapper {
+	margin-top: 10px;
+}
+
+.event-periods-title {
+	margin-top: 30px;
+}
+
+.event-periods-title .control-label {
+	font-size: 16px;
+}
+
+.add-dates-section {
+	padding-top: 15px;
+}
+
+.row-fields {
+	padding: 20px;
+}
+
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+    padding-top: 1px;
+}
+
+.lfr-form-row:nth-child(2) {
+	display: none;
+}
+
+.event-period-conflict {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #F44336;
+    color: white;
+    border-radius: 4px;
+}
+
+.portlet-body > .daterangepicker {
+    display: none;
+}
+
+.daterangepicker {
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+	display: -ms-flexbox;  /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+	display: flex;
+	width: 700px;
+}
+.daterangepicker .calendar {
+	height: 300px;
+}
+
+.daterangepicker .input-mini {
+	font-size: 16px;
+}
+
+.daterangepicker .input-mini.active {
+    border: 4px solid #0088cc;
+    border-radius: 4px;
+    padding: 0 6px 0 25px;
+}
+
+.daterangepicker .range_inputs button {
+    display: block;
+    width: 120px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.add-row.btn, .delete-row.btn {
+	margin-right: 10px;
+}
+.place-autocomplete-input-wrapper {
+	position: relative;
+}
+.autocomplete-suggestions {
+	margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}
+
+.start-date-error, .end-date-error, .incorrect-date-error {
+   	margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}
+
+span[id $= "displayTime"]{
+    display: none;
 }

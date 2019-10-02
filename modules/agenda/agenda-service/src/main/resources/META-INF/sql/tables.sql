@@ -15,6 +15,14 @@ create table agenda_AgendaExport (
 	title STRING null
 );
 
+create table agenda_AgendaExportPeriod (
+	uuid_ VARCHAR(75) null,
+	agendaExportPeriodId LONG not null primary key,
+	startDate DATE null,
+	endDate DATE null,
+	agendaExportId LONG
+);
+
 create table agenda_Campaign (
 	uuid_ VARCHAR(75) null,
 	campaignId LONG not null primary key,

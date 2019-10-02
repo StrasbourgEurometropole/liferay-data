@@ -19,6 +19,13 @@
 			<hint name="max-length">400</hint>
 		</field>
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.AgendaExportPeriod">
+		<field name="uuid" type="String" />
+		<field name="agendaExportPeriodId" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="agendaExportId" type="long" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Campaign">
 		<field name="uuid" type="String" />
 		<field name="campaignId" type="long" />

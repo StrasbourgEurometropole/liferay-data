@@ -20,7 +20,10 @@
 
 <portlet:defineObjects />
 
+<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
+</liferay-portlet:actionURL>
 <liferay-util:html-bottom>
-    <script src="/o/agendaExport/js/agenda-export-bo-main.js" type="text/javascript"></script>
+    <script src="/o/agendaexportbo/js/agenda-export-bo-main.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

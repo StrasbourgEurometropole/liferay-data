@@ -497,6 +497,15 @@ public class AgendaExportWrapper implements AgendaExport,
 	}
 
 	/**
+	* Retourne la liste des périodes auxquelles l'événement à lieu (classées par
+	* date de début croissante)
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod> getAgendaExportPeriods() {
+		return _agendaExport.getAgendaExportPeriods();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/

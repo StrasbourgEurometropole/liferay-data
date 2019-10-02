@@ -33,6 +33,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationService;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
@@ -122,6 +123,63 @@ public abstract class ManifestationServiceBaseImpl extends BaseServiceImpl
 	public void setAgendaExportPersistence(
 		AgendaExportPersistence agendaExportPersistence) {
 		this.agendaExportPersistence = agendaExportPersistence;
+	}
+
+	/**
+	 * Returns the agenda export period local service.
+	 *
+	 * @return the agenda export period local service
+	 */
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService getAgendaExportPeriodLocalService() {
+		return agendaExportPeriodLocalService;
+	}
+
+	/**
+	 * Sets the agenda export period local service.
+	 *
+	 * @param agendaExportPeriodLocalService the agenda export period local service
+	 */
+	public void setAgendaExportPeriodLocalService(
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+		this.agendaExportPeriodLocalService = agendaExportPeriodLocalService;
+	}
+
+	/**
+	 * Returns the agenda export period remote service.
+	 *
+	 * @return the agenda export period remote service
+	 */
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodService getAgendaExportPeriodService() {
+		return agendaExportPeriodService;
+	}
+
+	/**
+	 * Sets the agenda export period remote service.
+	 *
+	 * @param agendaExportPeriodService the agenda export period remote service
+	 */
+	public void setAgendaExportPeriodService(
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodService agendaExportPeriodService) {
+		this.agendaExportPeriodService = agendaExportPeriodService;
+	}
+
+	/**
+	 * Returns the agenda export period persistence.
+	 *
+	 * @return the agenda export period persistence
+	 */
+	public AgendaExportPeriodPersistence getAgendaExportPeriodPersistence() {
+		return agendaExportPeriodPersistence;
+	}
+
+	/**
+	 * Sets the agenda export period persistence.
+	 *
+	 * @param agendaExportPeriodPersistence the agenda export period persistence
+	 */
+	public void setAgendaExportPeriodPersistence(
+		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
+		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
 	}
 
 	/**
@@ -933,6 +991,12 @@ public abstract class ManifestationServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.agenda.service.AgendaExportService agendaExportService;
 	@BeanReference(type = AgendaExportPersistence.class)
 	protected AgendaExportPersistence agendaExportPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class)
+	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodService.class)
+	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodService agendaExportPeriodService;
+	@BeanReference(type = AgendaExportPeriodPersistence.class)
+	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
 	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
 	@BeanReference(type = CampaignPersistence.class)

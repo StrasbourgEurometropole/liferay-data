@@ -48,6 +48,58 @@
 				</aui:input>
 
 			</aui:fieldset>
+
+
+           <aui:fieldset collapsed="true" collapsible="true"
+                label="eu.dates-and-times">
+
+                <div class="event-periods-title">
+                    <p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
+                </div>
+
+                <div class="add-dates-section">
+                    <aui:button id="periodGenerator" cssClass="date-range" name="periodGenerator" value="select-period-dates" />
+                </div>
+
+                <div class="change-times-section">
+                    <div class="event-periods-title">
+                        <p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
+                    </div>
+                    <div class="time-detail-generator-wrapper">
+                        <aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+                    </div>
+                    <aui:button id="changeTimes" name="changeTimes" value="update-times" />
+                </div>
+
+                <div class="event-periods-title">
+                    <p class="control-label"><liferay-ui:message key="event-periods" /></p>
+                </div>
+                <div id="date-fields">
+                    <div class="lfr-form-row lfr-form-row-inline">
+                        <div class="row-fields">
+                            <liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+                                <liferay-util:param name="index" value="0" />
+                            </liferay-util:include>
+                        </div>
+                    </div>
+
+                    <c:forEach items="${dc.agendaExport.agendaExportPeriods}" var="period" varStatus="status">
+                        <div class="lfr-form-row lfr-form-row-inline">
+                            <div class="row-fields">
+                                <fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
+                                <fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
+                                <liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+                                    <liferay-util:param name="index" value="${status.count}" />
+                                    <liferay-util:param name="startDate" value="${formattedStartDate}" />
+                                    <liferay-util:param name="endDate" value="${formattedEndDate}" />
+                                </liferay-util:include>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
+                </div>
+
+            </aui:fieldset>
 		</aui:fieldset-group>
 		
 		<aui:button-row>
@@ -72,6 +124,39 @@
 		</aui:button-row>
 	</aui:form>
 </div>
+
+<liferay-util:html-top>
+	<script>
+        var getPeriodRowJSPURL = '${periodRowURL}';
+        var getSlotRowJSPURL = '${slotRowURL}';
+        var getAttendanceRowJSPURL = '${attendanceRowURL}';
+        var getScheduleExceptionRowJSPURL = '${scheduleExceptionRowURL}';
+	</script>
+</liferay-util:html-top>
+<liferay-util:html-bottom>
+    <!-- Include Choices CSS -->
+	<link rel="stylesheet" href="/o/agendaexportbo/css/vendors/choices.min.css">
+	<link rel="stylesheet" href="/o/agendaexportbo/css/vendors/daterangepicker.css">
+	<!-- Include Choices JavaScript -->
+	<script>
+		define._amd = define.amd;
+		define.amd = false;
+	</script>
+	<script src="/o/agendaexportbo/js/vendors/moment.min.js"
+		type="text/javascript"></script>
+	<script
+		src="/o/agendaexportbo/js/vendors/daterangepicker.js"
+		type="text/javascript"></script>
+	<script
+		src="/o/agendaexportbo/js/vendors/jquery.autocomplete.js"
+		type="text/javascript"></script>
+	<script>
+		define.amd = define._amd;
+	</script>
+	<script
+		src="/o/agendaexportbo/js/agenda-export-bo-edit-event.js"
+		type="text/javascript"></script>
+</liferay-util:html-bottom>
 
 <aui:script>
 	function <portlet:namespace />deleteEntity() {
