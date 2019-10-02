@@ -3,7 +3,8 @@
         "fr_FR"
     ],
     "defaultLanguageId": "fr_FR",
-    "fields": [{
+    "fields": [
+        {
             "label": {
                 "fr_FR": "Petite enfance"
             },
@@ -18,7 +19,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "childhood",
             "readOnly": false,
@@ -42,7 +43,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "schoolRestaurant",
             "readOnly": false,
@@ -66,7 +67,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "afterSchool",
             "readOnly": false,
@@ -90,7 +91,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "water",
             "readOnly": false,
@@ -114,7 +115,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "reom",
             "readOnly": false,
@@ -138,7 +139,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "rs",
             "readOnly": false,
