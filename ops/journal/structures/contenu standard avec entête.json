@@ -65,7 +65,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "text",
+            "indexType": "",
             "localizable": true,
             "name": "image",
             "readOnly": false,

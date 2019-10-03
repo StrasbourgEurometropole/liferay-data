@@ -18,7 +18,7 @@
                 "fr_FR": "Est automatiquement ajouté dans le menu de l'entête de la page"
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "title",
             "readOnly": false,
@@ -42,7 +42,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "text",
+            "indexType": "",
             "localizable": true,
             "name": "image",
             "readOnly": false,

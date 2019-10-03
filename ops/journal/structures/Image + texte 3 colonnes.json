@@ -66,7 +66,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "text",
+            "indexType": "",
             "localizable": true,
             "name": "imageLeft",
             "readOnly": false,
@@ -112,7 +112,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "linkURLLeft",
             "readOnly": false,
@@ -135,7 +135,7 @@
                 "fr_FR": ""
             },
             "dataType": "boolean",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "openInaNewTabLeft",
             "readOnly": false,
@@ -252,7 +252,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "linkURLMiddle",
             "readOnly": false,
@@ -275,7 +275,7 @@
                 "fr_FR": ""
             },
             "dataType": "boolean",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "openInaNewTabMiddle",
             "readOnly": false,
@@ -346,7 +346,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "text",
+            "indexType": "",
             "localizable": true,
             "name": "imageRight",
             "readOnly": false,
@@ -392,7 +392,7 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "linkURLRight",
             "readOnly": false,
@@ -415,7 +415,7 @@
                 "fr_FR": ""
             },
             "dataType": "boolean",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "openInaNewTabRight",
             "readOnly": false,
