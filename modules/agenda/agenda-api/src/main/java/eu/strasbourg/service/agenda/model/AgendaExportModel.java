@@ -411,6 +411,21 @@ public interface AgendaExportModel extends BaseModel<AgendaExport>,
 	public void setTitleMap(Map<Locale, String> titleMap, Locale defaultLocale);
 
 	/**
+	 * Returns the language of this agenda export.
+	 *
+	 * @return the language of this agenda export
+	 */
+	@AutoEscape
+	public String getLanguage();
+
+	/**
+	 * Sets the language of this agenda export.
+	 *
+	 * @param language the language of this agenda export
+	 */
+	public void setLanguage(String language);
+
+	/**
 	 * Returns <code>true</code> if this agenda export is approved.
 	 *
 	 * @return <code>true</code> if this agenda export is approved; <code>false</code> otherwise

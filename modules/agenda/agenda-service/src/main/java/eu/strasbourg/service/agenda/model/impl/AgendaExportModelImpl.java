@@ -94,7 +94,8 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
-			{ "title", Types.VARCHAR }
+			{ "title", Types.VARCHAR },
+			{ "language", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -113,9 +114,10 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("language", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_AgendaExport";
 	public static final String ORDER_BY_JPQL = " ORDER BY agendaExport.agendaExportId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_AgendaExport.agendaExportId ASC";
@@ -164,6 +166,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
+		model.setLanguage(soapModel.getLanguage());
 
 		return model;
 	}
@@ -242,6 +245,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("language", getLanguage());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -333,6 +337,12 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String language = (String)attributes.get("language");
+
+		if (language != null) {
+			setLanguage(language);
 		}
 	}
 
@@ -675,6 +685,22 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 				"Title", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	@JSON
+	@Override
+	public String getLanguage() {
+		if (_language == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _language;
+		}
+	}
+
+	@Override
+	public void setLanguage(String language) {
+		_language = language;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -867,6 +893,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		agendaExportImpl.setStatusByUserName(getStatusByUserName());
 		agendaExportImpl.setStatusDate(getStatusDate());
 		agendaExportImpl.setTitle(getTitle());
+		agendaExportImpl.setLanguage(getLanguage());
 
 		agendaExportImpl.resetOriginalValues();
 
@@ -1032,12 +1059,20 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			agendaExportCacheModel.title = null;
 		}
 
+		agendaExportCacheModel.language = getLanguage();
+
+		String language = agendaExportCacheModel.language;
+
+		if ((language != null) && (language.length() == 0)) {
+			agendaExportCacheModel.language = null;
+		}
+
 		return agendaExportCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1067,6 +1102,8 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", language=");
+		sb.append(getLanguage());
 		sb.append("}");
 
 		return sb.toString();
@@ -1074,7 +1111,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.AgendaExport");
@@ -1136,6 +1173,10 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			"<column><column-name>title</column-name><column-value><![CDATA[");
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>language</column-name><column-value><![CDATA[");
+		sb.append(getLanguage());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1169,6 +1210,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 	private Date _statusDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
+	private String _language;
 	private long _columnBitmask;
 	private AgendaExport _escapedModel;
 }

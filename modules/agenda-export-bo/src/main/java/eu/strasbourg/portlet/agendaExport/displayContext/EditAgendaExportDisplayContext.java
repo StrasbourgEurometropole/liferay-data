@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -25,7 +26,6 @@ public class EditAgendaExportDisplayContext {
     private final ThemeDisplay _themeDisplay;
     
     private AgendaExport _agendaExport;
-    private String _defaultPeriodIndexes;
 
     public EditAgendaExportDisplayContext(RenderRequest request, RenderResponse response) {
         this._request = request;
@@ -68,6 +68,16 @@ public class EditAgendaExportDisplayContext {
         Set<Locale> availableLocalesSet = LanguageUtil.getSupportedLocales();
         return availableLocalesSet
                 .toArray(new Locale[availableLocalesSet.size()]);
+    }
+
+    public List<String> getLanguageList() {
+        List<String> languages = new ArrayList<>();
+
+        languages.add("Français");
+        languages.add("Anglais");
+        languages.add("Allemand");
+
+        return languages;
     }
 
     /**

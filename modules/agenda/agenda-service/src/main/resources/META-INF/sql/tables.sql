@@ -12,7 +12,8 @@ create table agenda_AgendaExport (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	title STRING null
+	title STRING null,
+	language VARCHAR(75) null
 );
 
 create table agenda_AgendaExportPeriod (

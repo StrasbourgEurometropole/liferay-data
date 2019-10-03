@@ -18,6 +18,7 @@
 		<field localized="true" name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="language" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.AgendaExportPeriod">
 		<field name="uuid" type="String" />

@@ -74,6 +74,7 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("language", getLanguage());
 
 		return attributes;
 	}
@@ -162,6 +163,12 @@ public class AgendaExportWrapper implements AgendaExport,
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String language = (String)attributes.get("language");
+
+		if (language != null) {
+			setLanguage(language);
 		}
 	}
 
@@ -322,6 +329,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _agendaExport.getDefaultLanguageId();
+	}
+
+	/**
+	* Returns the language of this agenda export.
+	*
+	* @return the language of this agenda export
+	*/
+	@Override
+	public java.lang.String getLanguage() {
+		return _agendaExport.getLanguage();
 	}
 
 	/**
@@ -661,6 +678,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public void setGroupId(long groupId) {
 		_agendaExport.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the language of this agenda export.
+	*
+	* @param language the language of this agenda export
+	*/
+	@Override
+	public void setLanguage(java.lang.String language) {
+		_agendaExport.setLanguage(language);
 	}
 
 	/**

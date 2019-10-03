@@ -472,6 +472,9 @@
 		<!-- Champs généraux -->
         <column name="title" type="String" localized="true" />
 
+		<!-- Champs de recherche -->
+		<column name="language" type="String" localized="false" />
+
 		<!-- Collections -->
 		<column name="agendaExportPeriod" type="Collection" entity="AgendaExportPeriod"/>
 

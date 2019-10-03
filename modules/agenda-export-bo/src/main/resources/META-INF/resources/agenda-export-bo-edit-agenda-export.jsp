@@ -50,9 +50,7 @@
 			</aui:fieldset>
 
 
-           <aui:fieldset collapsed="true" collapsible="true"
-                label="eu.dates-and-times">
-
+           <aui:fieldset collapsed="true" collapsible="true" label="eu.dates-and-times">
                 <div class="event-periods-title">
                     <p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
                 </div>
@@ -100,6 +98,14 @@
                 </div>
 
             </aui:fieldset>
+
+           <aui:fieldset collapsed="true" collapsible="true" label="eu.languages">
+                <aui:select name="groupId" label="detail-target-site">
+                    <c:forEach var="language" items="${dc.languageList}">
+                        <aui:option value="${language}" selected="${language eq language}">${language}</aui:option>
+                    </c:forEach>
+                </aui:select>
+           </aui:fieldset>
 		</aui:fieldset-group>
 		
 		<aui:button-row>
