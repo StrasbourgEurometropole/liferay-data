@@ -99,6 +99,10 @@
 
             </aui:fieldset>
 
+           <aui:fieldset collapsed="true" collapsible="true" label="Tags">
+               <aui:input name="tags" type="assetTags" />
+           </aui:fieldset>
+
            <aui:fieldset collapsed="true" collapsible="true" label="eu.languages">
                 <aui:select name="groupId" label="detail-target-site">
                     <c:forEach var="language" items="${dc.languageList}">
