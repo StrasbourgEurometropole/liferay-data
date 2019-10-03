@@ -19,7 +19,7 @@
             },
             "dataType": "image",
             "fieldNamespace": "ddm",
-            "indexType": "keyword",
+            "indexType": "",
             "localizable": true,
             "name": "image",
             "readOnly": false,

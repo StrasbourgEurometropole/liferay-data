@@ -19,7 +19,7 @@
             },
             "dataType": "html",
             "fieldNamespace": "ddm",
-            "indexType": "text",
+            "indexType": "",
             "localizable": true,
             "name": "content",
             "readOnly": false,
