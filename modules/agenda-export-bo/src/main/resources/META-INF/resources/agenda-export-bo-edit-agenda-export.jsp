@@ -49,7 +49,6 @@
 
 			</aui:fieldset>
 
-
            <aui:fieldset collapsed="true" collapsible="true" label="eu.dates-and-times">
                 <div class="event-periods-title">
                     <p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
@@ -97,7 +96,25 @@
                     <aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
                 </div>
 
-            </aui:fieldset>
+           </aui:fieldset>
+
+           <aui:fieldset collapsed="true" collapsible="true" label="Categories">
+                <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
+                    <label><span>${vocabulary.getTitle(locale)}</span></label>
+                    <select
+                        id="${vocabulary.getTitle(locale)}"
+                        class="choices-element"
+                        name="<portlet:namespace />_${vocabulary.getTitle(locale)}"
+                        placeholder="<liferay-ui:message key="select-multiple" />"
+                    multiple>
+                        <c:forEach var="category" items="${vocabulary.categories}">
+                            <option value="${category.getTitle(locale)}">
+                                ${category.getTitle(locale)}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </c:forEach>
+           </aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="Tags">
                <aui:input name="tags" type="assetTags" />
@@ -154,6 +171,8 @@
 	</script>
 	<script src="/o/agendaexportbo/js/vendors/moment.min.js"
 		type="text/javascript"></script>
+    <script src="/o/agendaexportbo/js/vendors/choices.min.js"
+            type="text/javascript"></script>
 	<script
 		src="/o/agendaexportbo/js/vendors/daterangepicker.js"
 		type="text/javascript"></script>

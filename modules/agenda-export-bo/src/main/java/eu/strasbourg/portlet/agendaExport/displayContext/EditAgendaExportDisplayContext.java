@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -18,12 +19,15 @@ import javax.portlet.RenderResponse;
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditAgendaExportDisplayContext {
 	
 	private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
+    private final AssetVocabularyAccessor _assetVocabularyAccessor;
     
     private AgendaExport _agendaExport;
 
@@ -31,6 +35,7 @@ public class EditAgendaExportDisplayContext {
         this._request = request;
         this._themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
+        _assetVocabularyAccessor = new AssetVocabularyAccessor();
     }
 
     public AgendaExport getAgendaExport() {
@@ -72,12 +77,20 @@ public class EditAgendaExportDisplayContext {
 
     public List<String> getLanguageList() {
         List<String> languages = new ArrayList<>();
-
         languages.add("Français");
         languages.add("Anglais");
         languages.add("Allemand");
-
         return languages;
+    }
+
+    public List<AssetVocabulary> getEventVocabularies() {
+        List<AssetVocabulary> vocabularies = new ArrayList<>();
+        vocabularies.add(_assetVocabularyAccessor.getEventThemes());
+        vocabularies.add(_assetVocabularyAccessor.getTerritories());
+        vocabularies.add(_assetVocabularyAccessor.getEventPublics());
+        vocabularies.add(_assetVocabularyAccessor.getEventTypes());
+        vocabularies.add(_assetVocabularyAccessor.getPlaceTypes());
+        return vocabularies;
     }
 
     /**

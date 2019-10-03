@@ -1,3 +1,8 @@
+// Transformation des champs select-multiple
+new Choices('.choices-element', {
+	removeItemButton: true
+});
+
 // Champs conditionnelles
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_";
