@@ -54,7 +54,7 @@
                 <#list entry.getCurrentAndFuturePeriods() as period>
                     <div class="ops-item">
                         <time><span>${period.getDisplay(locale, false, true)}</span></time>
-                        <div class="ops-horaires">${period.timeDetail}</div>
+                        <div class="ops-horaires">${period.getTimeDetail(locale)}</div>
                         <h3>${entry.getTitle(locale)}</h3>
                         <span class="ops-typologie">${entry.getThemeLabel(locale)}</span>
                     </div>
