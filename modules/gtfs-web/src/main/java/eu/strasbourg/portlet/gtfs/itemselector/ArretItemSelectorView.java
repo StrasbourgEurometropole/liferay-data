@@ -99,11 +99,11 @@ private ServletContext _servletContext;
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<Arret> arrets = ArretLocalServiceUtil.findByKeyword(keywords,
-			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
+			themeDisplay.getCompanyGroupId(), (delta * cur) - delta,
 			(delta * cur));
 
 		long arretsCount = ArretLocalServiceUtil.findByKeywordCount(
-			keywords, themeDisplay.getScopeGroupId());
+			keywords, themeDisplay.getCompanyGroupId());
 
 		servletRequest.setAttribute("total", arretsCount);
 		servletRequest.setAttribute("arrets", arrets);

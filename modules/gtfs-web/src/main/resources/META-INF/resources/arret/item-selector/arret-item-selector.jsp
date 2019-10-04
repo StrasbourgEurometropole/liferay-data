@@ -27,7 +27,7 @@
 		rowChecker="<%=new RowChecker(renderResponse) %>"
 	>
 		<liferay-ui:search-container-results
-			results="${arret}"
+			results="${arrets}"
 		/>
 
 		<liferay-ui:search-container-row
@@ -52,7 +52,6 @@
 
 		<liferay-ui:search-iterator  />
 
-		<liferay-ui:search-paginator searchContainer="${searchContainer}"   />
 	</liferay-ui:search-container>
 </div>
 <aui:script>
