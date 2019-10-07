@@ -26,7 +26,7 @@
 
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"codes", "titles", "modified-date"} %>'
+				orderColumns='<%= new String[] {"title", "modified-date"} %>'
 				portletURL="${arretsURL}" />
 		</liferay-frontend:management-bar-filters>
 
@@ -68,6 +68,14 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editArretURL}" name="titles" truncate="true" orderable="true"
 					value="${arret.title}" />
+
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					href="${editArretURL}" name="modified-date" truncate="true" orderable="true"
+					value="${arret.modifiedDate}" />
+
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					href="${editArretURL}" name="user-name" truncate="true" orderable="true"
+					value="${dc.getUserName(arret.statusByUserId)}" />
 
 				<liferay-ui:search-container-column-text name="status">
 					<aui:workflow-status markupView="lexicon" showIcon="false"

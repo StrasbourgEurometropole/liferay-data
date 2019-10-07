@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -176,15 +177,26 @@ public class ViewArretsDisplayContext
 		return hits;
 	}
 
-	/**
-	 * Wrapper autour du permission checker pour les permissions de module
-	 */
-	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(
-				this._themeDisplay.getCompanyGroupId(),
-				StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO,
-				actionId);
-	}
+    /**
+     * Wrapper autour du permission checker pour les permissions de module
+     */
+    public boolean hasPermission(String actionId) throws PortalException {
+        return _themeDisplay.getPermissionChecker().hasPermission(
+                this._themeDisplay.getCompanyGroupId(),
+                StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO,
+                actionId);
+    }
+
+    /**
+     * Retourne le nom d'un utilisateur par son Id
+     */
+    public String getUserName(long userId) throws PortalException {
+        User user = UserLocalServiceUtil.getUser(userId);
+        if(Validator.isNotNull(user))
+            return user.getFullName();
+
+        return "";
+    }
 
 	private List<Arret> _arrets;
 

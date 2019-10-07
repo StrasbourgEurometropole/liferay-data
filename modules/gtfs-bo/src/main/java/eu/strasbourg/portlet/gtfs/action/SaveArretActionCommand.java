@@ -102,6 +102,8 @@ public class SaveArretActionCommand implements MVCActionCommand {
 
 				}
 
+				this._arretLocalService.updateArret(arret, sc);
+
 			}
 		} catch (
 
