@@ -29,7 +29,8 @@ public enum FavoriteType {
 	ACTIVITY(10, "ACTIVITY", Activity.class),
 	COURSE(11, "COURSE", ActivityCourse.class),
 	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
-	GALLERY(13,"GALLERY", EditionGallery.class);
+	GALLERY(13,"GALLERY", EditionGallery.class),
+	ARRET(14,"ARRET", Place.class);
 
 	private long id;
 	private String name;
