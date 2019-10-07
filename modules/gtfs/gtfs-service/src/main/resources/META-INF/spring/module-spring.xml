@@ -3,6 +3,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean class="eu.strasbourg.service.gtfs.service.impl.AgencyLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.AgencyLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AgencyPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.impl.AlertLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.AlertLocalService" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AlertPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.AlertPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ArretLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.ArretLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl" id="eu.strasbourg.service.gtfs.service.ArretService" />
 	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ArretPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ArretPersistence" parent="basePersistence" />

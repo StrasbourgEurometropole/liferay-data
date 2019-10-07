@@ -1,1 +1,54 @@
-project-bo-main.css
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+    padding-top: 1px;
+}
+
+.alert-start-date, .alert-end-date, .alert-incorrect-date, .place-schedule-incorrect-hour, .alert-ligne-and-direction, .alert-perturbation {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: #CC6677;
+}
+
+.row-fields {
+	padding: 20px;
+}
+
+.alert-label {
+	margin-bottom: 10px;
+}
+
+.alert{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.ligne-direction {
+    display: flex;
+}
+
+.tram-destination-letter {
+    margin: 015px 0;
+}
+
+.transport-letters-icon {
+    display: inline-block;
+    font-size:1em;
+    font-weight: bold;
+    width:2.5em;
+    height:2.5em;
+    line-height:2.5em;
+    text-align:center;
+    border-radius:20%;
+    vertical-align:middle;
+    margin-right:1em;
+}
+
+.tram-destination-name {
+    margin: auto 1px;
+}

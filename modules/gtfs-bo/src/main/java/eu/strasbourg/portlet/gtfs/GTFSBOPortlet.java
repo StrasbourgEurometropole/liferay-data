@@ -16,6 +16,8 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.gtfs.display.context.EditArretDisplayContext;
+import eu.strasbourg.portlet.gtfs.display.context.ViewArretsDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
 import eu.strasbourg.portlet.gtfs.display.context.EditImportHistoricDisplayContext;
@@ -49,6 +51,7 @@ public class GTFSBOPortlet extends MVCPortlet {
 		
 		// Recuperation des données de la requete de page
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String tab = ParamUtil.getString(renderRequest, "tab");
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		String title = PortalUtil.getPortletTitle(renderRequest);
 		
@@ -65,6 +68,16 @@ public class GTFSBOPortlet extends MVCPortlet {
 			EditImportHistoricDisplayContext dc = new EditImportHistoricDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "import-historics";
+		} else if (cmd.equals("editArret")) {
+			EditArretDisplayContext dc = new EditArretDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "arrets";
+		} else if (tab.equals("arrets")) {
+			ViewArretsDisplayContext dc = new ViewArretsDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "arrets";
 		} else { // Else, we are on the import project list page
 			ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

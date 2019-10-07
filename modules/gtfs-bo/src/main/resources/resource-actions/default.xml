@@ -12,6 +12,7 @@
 				<action-key>ADD_IMPORT_HISTORIC</action-key>
 				<action-key>DELETE_IMPORT_HISTORIC</action-key>
 				<action-key>EDIT_IMPORT_HISTORIC</action-key>
+				<action-key>EDIT_ARRET</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -24,6 +25,7 @@
 				<action-key>ADD_IMPORT_HISTORIC</action-key>
 				<action-key>DELETE_IMPORT_HISTORIC</action-key>
 				<action-key>EDIT_IMPORT_HISTORIC</action-key>
+				<action-key>EDIT_ARRET</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
@@ -33,6 +35,25 @@
 			<portlet-name>eu_strasbourg_portlet_gtfs_GTFSBOPortlet</portlet-name>
 		</portlet-ref>
 		<weight>2</weight>
+		<permissions>
+			<supports>
+				<action-key>VIEW</action-key>
+			</supports>
+			<site-member-defaults>
+				<action-key>VIEW</action-key>
+			</site-member-defaults>
+			<guest-defaults>
+				<action-key>VIEW</action-key>
+			</guest-defaults>
+			<guest-unsupported></guest-unsupported>
+		</permissions>
+	</model-resource>
+	<model-resource>
+		<model-name>eu.strasbourg.service.gtfs.model.Arret</model-name>
+		<portlet-ref>
+			<portlet-name>eu_strasbourg_portlet_gtfs_GTFSBOPortlet</portlet-name>
+		</portlet-ref>
+		<weight>3</weight>
 		<permissions>
 			<supports>
 				<action-key>VIEW</action-key>

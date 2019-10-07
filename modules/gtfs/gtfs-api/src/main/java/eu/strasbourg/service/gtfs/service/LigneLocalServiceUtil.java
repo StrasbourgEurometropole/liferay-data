@@ -376,6 +376,13 @@ public class LigneLocalServiceUtil {
 	}
 
 	/**
+	* Recuperer toutes les couleurs de ligne au format HashMap
+	*/
+	public static java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker() {
+		return getService().getLigneColorsFreemarker();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

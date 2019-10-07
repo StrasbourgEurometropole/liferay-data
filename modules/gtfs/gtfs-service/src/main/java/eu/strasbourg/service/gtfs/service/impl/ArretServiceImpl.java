@@ -55,8 +55,8 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 	 * Recuperer tous les arrêts en format GeoJSON
 	 */
 	@Override
-	public JSONObject getAllArrets() {
-		return ArretLocalServiceUtil.getAllGeoJSON();
+	public JSONObject getAllArrets(long groupId) {
+		return ArretLocalServiceUtil.getAllGeoJSON(groupId);
 	}
 	
 }

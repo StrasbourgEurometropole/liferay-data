@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.util.Map;
+
 /**
  * Provides the remote service interface for Ligne. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -64,4 +66,10 @@ public interface LigneService extends BaseService {
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	/**
+	* Recuperer les couleurs des lignes pour freemarker
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker();
 }

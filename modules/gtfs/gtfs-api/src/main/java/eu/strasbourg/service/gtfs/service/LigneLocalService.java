@@ -329,6 +329,12 @@ public interface LigneLocalService extends BaseLocalService,
 	public Map<java.lang.String, Ligne> getAll();
 
 	/**
+	* Recuperer toutes les couleurs de ligne au format HashMap
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker();
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

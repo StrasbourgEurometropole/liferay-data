@@ -6,6 +6,9 @@
 <liferay-portlet:renderURL var="importHistoricsURL">
 	<portlet:param name="tab" value="import-historics" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="arretsURL">
+	<portlet:param name="tab" value="arrets" />
+</liferay-portlet:renderURL>
 
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
 <liferay-portlet:renderURL varImpl="searchURL">
@@ -24,6 +27,10 @@
 		<aui:nav-item href="${importHistoricsURL}" label="import-historics"
 			selected="${tab eq 'import-historics'}" />
 	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${arretsURL}" label="arrets"
+			selected="${tab eq 'arrets'}" />
+	</aui:nav>
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
 			<liferay-ui:input-search markupView="lexicon" />
@@ -36,6 +43,10 @@
 <c:choose>
     <c:when test="${tab eq 'import-historics'}">
 		<liferay-util:include page="/gtfs-bo-view-import-historics.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'arrets'}">
+		<liferay-util:include page="/gtfs-bo-view-arrets.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

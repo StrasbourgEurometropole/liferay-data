@@ -86,7 +86,7 @@ public interface ArretLocalService extends BaseLocalService,
 	* Notes : ne prend que les arrets publies
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getAllGeoJSON();
+	public JSONObject getAllGeoJSON(long groupId);
 
 	/**
 	* @throws PortalException

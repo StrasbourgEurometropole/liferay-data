@@ -34,6 +34,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.LigneService;
 import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
@@ -103,6 +104,43 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAgencyPersistence(AgencyPersistence agencyPersistence) {
 		this.agencyPersistence = agencyPersistence;
+	}
+
+	/**
+	 * Returns the alert local service.
+	 *
+	 * @return the alert local service
+	 */
+	public eu.strasbourg.service.gtfs.service.AlertLocalService getAlertLocalService() {
+		return alertLocalService;
+	}
+
+	/**
+	 * Sets the alert local service.
+	 *
+	 * @param alertLocalService the alert local service
+	 */
+	public void setAlertLocalService(
+		eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService) {
+		this.alertLocalService = alertLocalService;
+	}
+
+	/**
+	 * Returns the alert persistence.
+	 *
+	 * @return the alert persistence
+	 */
+	public AlertPersistence getAlertPersistence() {
+		return alertPersistence;
+	}
+
+	/**
+	 * Sets the alert persistence.
+	 *
+	 * @param alertPersistence the alert persistence
+	 */
+	public void setAlertPersistence(AlertPersistence alertPersistence) {
+		this.alertPersistence = alertPersistence;
 	}
 
 	/**
@@ -887,6 +925,10 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	protected eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService;
 	@BeanReference(type = AgencyPersistence.class)
 	protected AgencyPersistence agencyPersistence;
+	@BeanReference(type = eu.strasbourg.service.gtfs.service.AlertLocalService.class)
+	protected eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService;
+	@BeanReference(type = AlertPersistence.class)
+	protected AlertPersistence alertPersistence;
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretLocalService.class)
 	protected eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService;
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretService.class)

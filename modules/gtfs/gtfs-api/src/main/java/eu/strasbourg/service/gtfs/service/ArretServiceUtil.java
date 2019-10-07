@@ -55,8 +55,9 @@ public class ArretServiceUtil {
 	/**
 	* Recuperer tous les arrêts en format GeoJSON
 	*/
-	public static com.liferay.portal.kernel.json.JSONObject getAllArrets() {
-		return getService().getAllArrets();
+	public static com.liferay.portal.kernel.json.JSONObject getAllArrets(
+		long groupId) {
+		return getService().getAllArrets(groupId);
 	}
 
 	/**

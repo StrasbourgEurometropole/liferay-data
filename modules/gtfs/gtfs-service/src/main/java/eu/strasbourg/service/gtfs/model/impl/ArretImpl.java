@@ -17,15 +17,23 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
@@ -70,7 +78,7 @@ public class ArretImpl extends ArretBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
 	}
-	
+
 	/**
 	 * Renvoie la liste des Directions de cet arret
 	 */
@@ -78,15 +86,15 @@ public class ArretImpl extends ArretBaseImpl {
 	public List<Direction> getDirections() {
 		return DirectionLocalServiceUtil.getByStopId(this.getStopId());
 	}
-	
+
 	/**
-	 * Renvoie la liste des Directions de cet arret
+	 * Renvoie la liste des Alertes de cet arret
 	 */
 	@Override
-	public List<Direction> getLignes() {
-		return DirectionLocalServiceUtil.getByStopId(this.getStopId());
+	public List<Alert> getAlerts() {
+		return AlertLocalServiceUtil.getByArretId(this.getArretId());
 	}
-	
+
 	/**
 	 * Renvoie la correspondance du type d'arret en format texte
 	 */
@@ -94,12 +102,27 @@ public class ArretImpl extends ArretBaseImpl {
 	public String getTypeText() {
 		return this.getType() == 0 ? TYPE_TRAM : TYPE_BUS;
 	}
+
+	/**
+	 * Renvoie les prochains passages
+	 */
+	@Override
+	public List<JSONObject> getArretRealTime() {
+		List<JSONObject> realTimeList = new ArrayList<JSONObject>();
+		JSONArray realTimes = ArretServiceUtil.getArretRealTime(this.getCode());
+		for (int i = 0; i < realTimes.length(); i++) {
+			JSONObject realTime = realTimes.getJSONObject(i);
+			realTimeList.add(realTime);
+		}
+
+		return realTimeList;
+	}
 	
 	/**
 	 * Renvoie le JSON de l'entite au format GeoJSON
 	 */
 	@Override
-	public JSONObject getGeoJSON() {
+	public JSONObject getGeoJSON(long groupId) {
 		JSONObject feature = JSONFactoryUtil.createJSONObject();
 		
 			feature.put("type", "Feature");
@@ -122,6 +145,24 @@ public class ArretImpl extends ArretBaseImpl {
 				properties.put("name", this.getTitle());
 				properties.put("type", this.getTypeText());
 				properties.put("code", this.getCode());
+
+				// récupère l'url de l'arret
+				Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+				if (group == null) {
+					group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
+				}
+				if (group != null) {
+					String url = "";
+					String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+					if (virtualHostName.isEmpty()) {
+						url = "/web" + group.getFriendlyURL() + "/";
+					} else {
+						url = "https://" + virtualHostName + "/";
+					}
+					url += "arret/-/entity/id/" + this.getArretId();
+					properties.put("url", url);
+				}
+				properties.put("id", this.getArretId());
 			
 			feature.put("properties", properties);
 		

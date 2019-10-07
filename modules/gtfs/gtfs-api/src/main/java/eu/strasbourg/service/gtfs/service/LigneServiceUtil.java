@@ -58,6 +58,13 @@ public class LigneServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	/**
+	* Recuperer les couleurs des lignes pour freemarker
+	*/
+	public static java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker() {
+		return getService().getLigneColorsFreemarker();
+	}
+
 	public static LigneService getService() {
 		return _serviceTracker.getService();
 	}

@@ -364,7 +364,7 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 		}
 		return this.lignePersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	
+
 	/**
 	 * Recuperer toutes les couleurs de ligne au format JSON
 	 */
@@ -373,6 +373,19 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 		JSONArray ligneColors = JSONFactoryUtil.createJSONArray();
 		for (Ligne ligne : this.lignePersistence.findAll()) {
 			ligneColors.put(ligne.getColors());
+		}
+		return ligneColors;
+	}
+
+	/**
+	 * Recuperer toutes les couleurs de ligne au format HashMap
+	 */
+	@Override
+	public Map<String, String[]> getLigneColorsFreemarker() {
+		Map<String, String[]> ligneColors = new HashMap<String, String[]>();
+		for (Ligne ligne : this.lignePersistence.findAll()) {
+			String[] colors = {ligne.getColors().getString("backgroundColor"), ligne.getColors().getString("textColor")};
+			ligneColors.put(ligne.getColors().getString("shortName"), colors);
 		}
 		return ligneColors;
 	}

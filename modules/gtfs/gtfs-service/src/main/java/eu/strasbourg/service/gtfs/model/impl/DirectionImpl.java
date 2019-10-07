@@ -15,6 +15,8 @@
 package eu.strasbourg.service.gtfs.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 
 /**
  * The extended model implementation for the Direction service. Represents a row in the &quot;gtfs_Direction&quot; database table, with each column mapped to a property of this class.
@@ -36,5 +38,13 @@ public class DirectionImpl extends DirectionBaseImpl {
 	 * Never reference this class directly. All methods that expect a direction model instance should use the {@link eu.strasbourg.service.gtfs.model.Direction} interface instead.
 	 */
 	public DirectionImpl() {
+	}
+
+	/**
+	 * Renvoie la Ligne de cette direction
+	 */
+	@Override
+	public Ligne getLigne() {
+		return LigneLocalServiceUtil.getByRouteId(this.getRouteId());
 	}
 }

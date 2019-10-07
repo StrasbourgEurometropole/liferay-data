@@ -87,9 +87,10 @@ public class ArretServiceSoap {
 	/**
 	* Recuperer tous les arrêts en format GeoJSON
 	*/
-	public static java.lang.String getAllArrets() throws RemoteException {
+	public static java.lang.String getAllArrets(long groupId)
+		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = ArretServiceUtil.getAllArrets();
+			com.liferay.portal.kernel.json.JSONObject returnValue = ArretServiceUtil.getAllArrets(groupId);
 
 			return returnValue.toString();
 		}

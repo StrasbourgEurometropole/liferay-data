@@ -304,8 +304,8 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	* Renvoie le JSON de l'entite au format GeoJSON
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getGeoJSON() {
-		return _arret.getGeoJSON();
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId) {
+		return _arret.getGeoJSON(groupId);
 	}
 
 	@Override
@@ -512,6 +512,22 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
+	* Renvoie la liste des Alertes de cet arret
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts() {
+		return _arret.getAlerts();
+	}
+
+	/**
+	* Renvoie les prochains passages
+	*/
+	@Override
+	public java.util.List<com.liferay.portal.kernel.json.JSONObject> getArretRealTime() {
+		return _arret.getArretRealTime();
+	}
+
+	/**
 	* Renvoie la liste des AssetCategory rattachées à cet item (via
 	* l'assetEntry)
 	*/
@@ -526,14 +542,6 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	@Override
 	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getDirections() {
 		return _arret.getDirections();
-	}
-
-	/**
-	* Renvoie la liste des Directions de cet arret
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getLignes() {
-		return _arret.getLignes();
 	}
 
 	/**

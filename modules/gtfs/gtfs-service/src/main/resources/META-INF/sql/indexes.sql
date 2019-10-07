@@ -1,5 +1,10 @@
 create index IX_899580E4 on gtfs_Agency (uuid_[$COLUMN_LENGTH:75$]);
 
+create index IX_ACF097DE on gtfs_Alert (arretId);
+create index IX_A2EDAC0D on gtfs_Alert (groupId);
+create index IX_34C6E9F1 on gtfs_Alert (uuid_[$COLUMN_LENGTH:75$], companyId);
+create unique index IX_2E3338B3 on gtfs_Alert (uuid_[$COLUMN_LENGTH:75$], groupId);
+
 create index IX_19AE1219 on gtfs_Arret (groupId);
 create index IX_C5E4B797 on gtfs_Arret (status);
 create index IX_DD7BF9A2 on gtfs_Arret (stopId[$COLUMN_LENGTH:75$]);

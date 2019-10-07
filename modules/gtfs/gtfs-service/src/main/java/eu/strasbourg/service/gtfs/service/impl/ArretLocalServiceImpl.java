@@ -379,7 +379,7 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	 * Notes : ne prend que les arrets publies
 	 */
 	@Override
-	public JSONObject getAllGeoJSON() {
+	public JSONObject getAllGeoJSON(long groupId) {
 		// Recherche de tous les arrets visibles
 		List<Arret> arrets = this.arretPersistence.findByStatus(WorkflowConstants.STATUS_APPROVED);
 		
@@ -389,7 +389,7 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		JSONArray features = JSONFactoryUtil.createJSONArray();
 		
 		for (Arret arret : arrets) {
-			features.put(arret.getGeoJSON());
+			features.put(arret.getGeoJSON(groupId));
 		}
 		
 		geoJSON.put("features", features);

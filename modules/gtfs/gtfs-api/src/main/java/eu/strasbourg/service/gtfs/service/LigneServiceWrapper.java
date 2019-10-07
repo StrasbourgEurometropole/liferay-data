@@ -50,6 +50,14 @@ public class LigneServiceWrapper implements LigneService,
 		return _ligneService.getOSGiServiceIdentifier();
 	}
 
+	/**
+	* Recuperer les couleurs des lignes pour freemarker
+	*/
+	@Override
+	public java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker() {
+		return _ligneService.getLigneColorsFreemarker();
+	}
+
 	@Override
 	public LigneService getWrappedService() {
 		return _ligneService;

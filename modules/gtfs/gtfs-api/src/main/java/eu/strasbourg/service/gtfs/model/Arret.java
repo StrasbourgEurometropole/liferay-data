@@ -71,9 +71,9 @@ public interface Arret extends ArretModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getDirections();
 
 	/**
-	* Renvoie la liste des Directions de cet arret
+	* Renvoie la liste des Alertes de cet arret
 	*/
-	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getLignes();
+	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts();
 
 	/**
 	* Renvoie la correspondance du type d'arret en format texte
@@ -81,7 +81,12 @@ public interface Arret extends ArretModel, PersistedModel {
 	public java.lang.String getTypeText();
 
 	/**
+	* Renvoie les prochains passages
+	*/
+	public java.util.List<com.liferay.portal.kernel.json.JSONObject> getArretRealTime();
+
+	/**
 	* Renvoie le JSON de l'entite au format GeoJSON
 	*/
-	public com.liferay.portal.kernel.json.JSONObject getGeoJSON();
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId);
 }

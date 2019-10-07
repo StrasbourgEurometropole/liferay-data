@@ -154,6 +154,14 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 		return new DirectionWrapper(_direction.toUnescapedModel());
 	}
 
+	/**
+	* Renvoie la Ligne de cette direction
+	*/
+	@Override
+	public eu.strasbourg.service.gtfs.model.Ligne getLigne() {
+		return _direction.getLigne();
+	}
+
 	@Override
 	public int compareTo(eu.strasbourg.service.gtfs.model.Direction direction) {
 		return _direction.compareTo(direction);

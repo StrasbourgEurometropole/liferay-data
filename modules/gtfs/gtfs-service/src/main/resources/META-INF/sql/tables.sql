@@ -9,6 +9,18 @@ create table gtfs_Agency (
 	agency_lang VARCHAR(75) null
 );
 
+create table gtfs_Alert (
+	uuid_ VARCHAR(75) null,
+	alertId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	arretId LONG,
+	startDate DATE null,
+	endDate DATE null,
+	ligneAndDirection STRING null,
+	perturbation TEXT null
+);
+
 create table gtfs_Arret (
 	uuid_ VARCHAR(75) null,
 	arretId LONG not null primary key,

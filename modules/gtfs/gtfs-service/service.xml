@@ -191,6 +191,39 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 		
 	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="Alert" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="alertId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+
+		<!-- Other fields -->
+		<column name="arretId" type="long" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="ligneAndDirection" type="String" localized="true" />
+		<column name="perturbation" type="String" localized="true" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="alertId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="ArretId" return-type="Collection">
+			<finder-column name="arretId" />
+		</finder>
+
+	</entity>
 	
 	<entity local-service="true" name="Agency" remote-service="false" uuid="true">
 

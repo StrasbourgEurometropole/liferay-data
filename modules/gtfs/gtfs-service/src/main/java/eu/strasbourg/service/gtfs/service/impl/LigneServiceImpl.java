@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.LigneServiceBaseImpl;
 
+import java.util.Map;
+
 /**
  * The implementation of the ligne remote service.
  *
@@ -39,13 +41,21 @@ public class LigneServiceImpl extends LigneServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.LigneServiceUtil} to access the ligne remote service.
 	 */
-	
+
 	/**
 	 * Recuperer les couleurs des lignes
 	 */
 	@Override
 	public JSONArray getLigneColors() {
 		return LigneLocalServiceUtil.getLigneColors();
+	}
+
+	/**
+	 * Recuperer les couleurs des lignes pour freemarker
+	 */
+	@Override
+	public Map<String, String[]> getLigneColorsFreemarker() {
+		return LigneLocalServiceUtil.getLigneColorsFreemarker();
 	}
 	
 }

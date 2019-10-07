@@ -15,6 +15,21 @@
 		</field>
 		<field name="agency_lang" type="String" />
 	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Alert">
+		<field name="uuid" type="String" />
+		<field name="alertId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="arretId" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field localized="true" name="ligneAndDirection" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="perturbation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Arret">
 		<field name="uuid" type="String" />
 		<field name="arretId" type="long" />

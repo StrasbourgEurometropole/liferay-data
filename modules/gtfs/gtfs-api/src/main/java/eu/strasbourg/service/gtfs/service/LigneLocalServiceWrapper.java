@@ -395,6 +395,14 @@ public class LigneLocalServiceWrapper implements LigneLocalService,
 	}
 
 	/**
+	* Recuperer toutes les couleurs de ligne au format HashMap
+	*/
+	@Override
+	public java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker() {
+		return _ligneLocalService.getLigneColorsFreemarker();
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query
