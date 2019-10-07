@@ -13,6 +13,7 @@
 				<action-key>DELETE_IMPORT_HISTORIC</action-key>
 				<action-key>EDIT_IMPORT_HISTORIC</action-key>
 				<action-key>EDIT_ARRET</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -26,6 +27,7 @@
 				<action-key>DELETE_IMPORT_HISTORIC</action-key>
 				<action-key>EDIT_IMPORT_HISTORIC</action-key>
 				<action-key>EDIT_ARRET</action-key>
+				<action-key>CONTRIBUTE</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>

@@ -36,28 +36,16 @@ public class ViewArretsDisplayContext
 	public List<Arret> getArrets() throws PortalException {
 		if (this._arrets == null) {
 			List<Arret> results = new ArrayList<Arret>();
+			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
 
-			// On essaye déjà de récupérer un arret par code
-			Arret arret =  null;
-
-			// TODO arret = ArretLocalServiceUtil.getArretByCode(this.getKeywords());
-			if (arret != null)
+			if (hits != null)
 			{
-				results.add(arret);
-			}
-			else
-			{ // Sinon recherche classique
-				Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
-				if (hits != null)
+				for (Document document : hits.getDocs())
 				{
-					for (Document document : hits.getDocs())
+					Arret arret = ArretLocalServiceUtil.fetchArret(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+					if (arret != null)
 					{
-						arret = ArretLocalServiceUtil.fetchArret(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						if (arret != null)
-						{
-							results.add(arret);
-						}
+						results.add(arret);
 					}
 				}
 			}

@@ -41,11 +41,6 @@
 						icon="times" label="unpublish" />
 				</c:if>
 			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_ARRET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
-			</c:if>
 		</liferay-frontend:management-bar-action-buttons>
 </liferay-frontend:management-bar>
 
@@ -85,15 +80,6 @@
 						<c:if test="${dc.hasPermission('EDIT_ARRET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editArretURL}" />
 						</c:if>
-
-						<liferay-portlet:actionURL name="deleteArret" var="deleteArretURL">
-							<portlet:param name="cmd" value="deleteArret" />
-							<portlet:param name="tab" value="arrets" />
-							<portlet:param name="arretId" value="${arret.arretId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_ARRET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteArretURL}" />
-						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
@@ -107,17 +93,6 @@
 </div>
 
 
-<liferay-portlet:actionURL name="selectionAction"
-	var="deleteSelectionURL">
-	<portlet:param name="cmd" value="delete" />
-	<portlet:param name="tab" value="arrets" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="selectionAction"
 	var="publishSelectionURL">
 	<portlet:param name="cmd" value="publish" />
@@ -141,18 +116,7 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <aui:script>
-	
-	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-arrets" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
 
-			submitForm(form, '${deleteSelectionURL}');
-		}
-	}
 	function <portlet:namespace />publishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-arrets" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);

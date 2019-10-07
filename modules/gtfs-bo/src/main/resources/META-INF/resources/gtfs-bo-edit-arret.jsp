@@ -125,7 +125,7 @@
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
-			<c:if test="${(dc.hasPermission('ADD_ARRET') and empty dc.arret or dc.hasPermission('EDIT_ARRET') and not empty dc.arret) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${(empty dc.arret or dc.hasPermission('EDIT_ARRET') and not empty dc.arret) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
@@ -135,10 +135,6 @@
 					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
 							value="save-as-draft" />
 				</c:if>
-			</c:if>
-			<c:if test="${not empty dc.arret && dc.hasPermission('DELETE_ARRET') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteArretURL}"
-					type="cancel" value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
