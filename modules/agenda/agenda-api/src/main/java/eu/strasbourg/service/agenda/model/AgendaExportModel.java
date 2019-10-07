@@ -411,6 +411,21 @@ public interface AgendaExportModel extends BaseModel<AgendaExport>,
 	public void setTitleMap(Map<Locale, String> titleMap, Locale defaultLocale);
 
 	/**
+	 * Returns the event categories of this agenda export.
+	 *
+	 * @return the event categories of this agenda export
+	 */
+	@AutoEscape
+	public String getEventCategories();
+
+	/**
+	 * Sets the event categories of this agenda export.
+	 *
+	 * @param eventCategories the event categories of this agenda export
+	 */
+	public void setEventCategories(String eventCategories);
+
+	/**
 	 * Returns the language of this agenda export.
 	 *
 	 * @return the language of this agenda export

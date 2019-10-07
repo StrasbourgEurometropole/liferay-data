@@ -1,6 +1,9 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -43,6 +46,21 @@ public class EditAgendaExportDisplayContext {
         	_agendaExport = AgendaExportLocalServiceUtil.fetchAgendaExport(agendaExportId);
         }
         return _agendaExport;
+    }
+
+    public String getSavedCategoriesByVocabulary(String vocabularyId) throws JSONException {
+        AgendaExport agendaExport = this.getAgendaExport();
+        JSONObject vocabulaires = JSONFactoryUtil.createJSONObject(
+            agendaExport.getEventCategories()
+        );
+
+        if(!vocabulaires.has(vocabularyId)) {
+            return "";
+        }
+
+        return "216469";
+
+//        return vocabulaires.get(vocabularyId).toString();
     }
 
     public String getDefaultPeriodIndexes() {

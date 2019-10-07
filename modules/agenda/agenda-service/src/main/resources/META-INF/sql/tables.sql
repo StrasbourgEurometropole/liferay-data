@@ -13,6 +13,7 @@ create table agenda_AgendaExport (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title STRING null,
+	eventCategories VARCHAR(75) null,
 	language VARCHAR(75) null
 );
 

@@ -76,21 +76,32 @@
            </aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="Categories">
-                <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
+                <c:forEach var="vocabulary" items="${dc.eventVocabularies}" varStatus="status">
                     <label><span>${vocabulary.getTitle(locale)}</span></label>
                     <select
-                        id="${vocabulary.getTitle(locale)}"
+                        id="vocabulary${status.index}"
                         class="choices-element"
-                        name="<portlet:namespace />_${vocabulary.getTitle(locale)}"
+                        name="<portlet:namespace />vocabulary_${status.index}_select"
                         placeholder="<liferay-ui:message key="select-multiple" />"
                     multiple>
                         <c:forEach var="category" items="${vocabulary.categories}">
-                            <option value="${category.getTitle(locale)}">
+                            <option
+                                value="${category.categoryId}"
+                                <c:if test="${fn:contains(dc.getSavedCategoriesByVocabulary(vocabulary.vocabularyId), Long.toString(category.categoryId) )}">
+                                    selected="selected"
+                                </c:if>
+                            >
                                 ${category.getTitle(locale)}
                             </option>
                         </c:forEach>
                     </select>
+                    <aui:input
+                        type="hidden"
+                        name="vocabulary_${status.index}_id"
+                        value="${vocabulary.vocabularyId}"
+                    />
                 </c:forEach>
+                 <aui:input type="hidden" name="vocabulary_number" value="${dc.eventVocabularies.size()}"/>
            </aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="Tags">

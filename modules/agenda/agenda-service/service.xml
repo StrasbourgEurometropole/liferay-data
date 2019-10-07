@@ -471,6 +471,7 @@
 
 		<!-- Champs généraux -->
         <column name="title" type="String" localized="true" />
+		<column name="eventCategories" type="String" json-enabled="true"/>
 
 		<!-- Champs de recherche -->
 		<column name="language" type="String" localized="false" />

@@ -1,6 +1,10 @@
 package eu.strasbourg.portlet.agendaExport.action;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -13,6 +17,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -66,13 +71,16 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 			agendaExport.setTitleMap(title);
-					
+
 			//Enregistrement des champs, lorsqu'on ne copie pas l'objet
 			if(!isCopy) {
 
 				/** Période de l'événement **/
 				this.deletePeriods(agendaExport);
 				this.savePeriod(request, agendaExport);
+
+				/** Catégories **/
+				this.saveCategories(request, agendaExport);
 			}
 			
 			_agendaExportLocalService.updateAgendaExport(agendaExport, sc);
@@ -89,6 +97,17 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		}
 
 		return true;
+	}
+
+	/**
+	 * Suppression des anciennes périodes
+	 * @param agendaExport
+	 */
+	private void deletePeriods(AgendaExport agendaExport) {
+		List<AgendaExportPeriod> oldPeriods = agendaExport.getAgendaExportPeriods();
+		for (AgendaExportPeriod period : oldPeriods) {
+			_agendaExportPeriodLocalService.deleteAgendaExportPeriod(period);
+		}
 	}
 
 	/**
@@ -119,14 +138,26 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 	}
 
 	/**
-	 * Suppression des anciennes périodes
+	 * Remplissage du champ eventCategories de l'entité agendaExport
+	 * @param request
 	 * @param agendaExport
 	 */
-	private void deletePeriods(AgendaExport agendaExport) {
-		List<AgendaExportPeriod> oldPeriods = agendaExport.getAgendaExportPeriods();
-		for (AgendaExportPeriod period : oldPeriods) {
-			_agendaExportPeriodLocalService.deleteAgendaExportPeriod(period);
+	private void saveCategories(ActionRequest request, AgendaExport agendaExport) {
+		int vocabularyNumber = ParamUtil.getInteger(request, "vocabulary_number");
+		JSONObject vocabularies = JSONFactoryUtil.createJSONObject();
+		for(int i = 0; i < vocabularyNumber; i++) {
+			long vocabularyId = ParamUtil.getLong(request, "vocabulary_" + i + "_id");
+			long[] categoryIds = ParamUtil.getLongValues(request, "vocabulary_" + i + "_select");
+			if(categoryIds.length == 0) {
+				continue;
+			}
+			JSONArray categories = JSONFactoryUtil.createJSONArray();
+			for (int j = 0; j < categoryIds.length; j++) {
+				categories.put(categoryIds[j]);
+			}
+			vocabularies.put(Long.toString(vocabularyId), categories);
 		}
+		agendaExport.setEventCategories(vocabularies.toString());
 	}
 
 	private AgendaExportLocalService _agendaExportLocalService;

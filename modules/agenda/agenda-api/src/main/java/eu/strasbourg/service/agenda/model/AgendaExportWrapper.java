@@ -74,6 +74,7 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("eventCategories", getEventCategories());
 		attributes.put("language", getLanguage());
 
 		return attributes;
@@ -163,6 +164,12 @@ public class AgendaExportWrapper implements AgendaExport,
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String eventCategories = (String)attributes.get("eventCategories");
+
+		if (eventCategories != null) {
+			setEventCategories(eventCategories);
 		}
 
 		String language = (String)attributes.get("language");
@@ -329,6 +336,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public java.lang.String getDefaultLanguageId() {
 		return _agendaExport.getDefaultLanguageId();
+	}
+
+	/**
+	* Returns the event categories of this agenda export.
+	*
+	* @return the event categories of this agenda export
+	*/
+	@Override
+	public java.lang.String getEventCategories() {
+		return _agendaExport.getEventCategories();
 	}
 
 	/**
@@ -662,6 +679,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public void setCreateDate(Date createDate) {
 		_agendaExport.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the event categories of this agenda export.
+	*
+	* @param eventCategories the event categories of this agenda export
+	*/
+	@Override
+	public void setEventCategories(java.lang.String eventCategories) {
+		_agendaExport.setEventCategories(eventCategories);
 	}
 
 	@Override
