@@ -80,6 +80,14 @@ public class AgendaExportPeriodLocalServiceUtil {
 	}
 
 	/**
+	* Créé un nouvel object AgendaExportPeriod, non ajoutée à la base de donnée
+	*/
+	public static eu.strasbourg.service.agenda.model.AgendaExportPeriod createAgendaExportPeriod()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createAgendaExportPeriod();
+	}
+
+	/**
 	* Creates a new agenda export period with the primary key. Does not add the agenda export period to the database.
 	*
 	* @param agendaExportPeriodId the primary key for the new agenda export period

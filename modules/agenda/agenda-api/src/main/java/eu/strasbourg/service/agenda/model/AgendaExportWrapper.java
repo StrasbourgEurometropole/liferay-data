@@ -532,6 +532,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	}
 
 	/**
+	* Retourne la liste des périodes ou en initialise une si la liste est vide
+	* Les périodes sont triées par ordre croissant
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod> getOrCreateAgendaExportPeriods()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agendaExport.getOrCreateAgendaExportPeriods();
+	}
+
+	/**
 	* Returns a map of the locales and localized titles of this agenda export.
 	*
 	* @return the locales and localized titles of this agenda export

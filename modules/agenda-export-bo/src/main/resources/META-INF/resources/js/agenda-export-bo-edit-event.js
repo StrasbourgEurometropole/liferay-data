@@ -119,7 +119,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	$('span.date-range').on('apply.daterangepicker', onDateChange);	
 	
 	// Configuration de l'autofield
-	AUI().use('liferay-auto-fields', function(Y) {
+	/*AUI().use('liferay-auto-fields', function(Y) {
 		if (!!document.getElementById('date-fields')) {
 			// Création de l'autofield
 			autoFields = new Liferay.AutoFields({
@@ -129,7 +129,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 				url: getPeriodRowJSPURL
 			}).render();
 		}
-	});
+	});*/
 
 	// Evenement appelé après un "clone" : on doit reactiver le datepicker et rattacher l'event
 	$('#date-fields').on('dateRangeCreated', function(event, index) {
@@ -147,6 +147,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		locale: dateRangePickerLocaleSettings
 	});
 	// Lors du clic sur le bouton "Appliquer
+	/*
 	$('#' + namespace + 'periodGenerator').on('apply.daterangepicker', function (ev, picker) {
 		// On laisse le calendrier ouvert
 		$('#' + namespace + 'periodGenerator').trigger('click');
@@ -160,11 +161,12 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		autoFields.url = autoFields.url + '&' + namespace + 'startDate=' + formattedStartDate
 			+ '&' + namespace + 'endDate=' + formattedEndDate;
 
-		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
+//		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
 		
 		// On reset l'URL à sa valeur initiale
 		autoFields.url = previousURL;		
 	});
+	*/
 	
 	/**
 	 * Modification globale des horaires

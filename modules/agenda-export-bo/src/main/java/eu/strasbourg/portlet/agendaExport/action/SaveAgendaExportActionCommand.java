@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.action;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -9,8 +10,13 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -20,6 +26,8 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -59,17 +67,18 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 			Map<Locale, String> title = LocalizationUtil.getLocalizationMap(request, "title");
 			agendaExport.setTitleMap(title);
 					
-			
+			//Enregistrement des champs, lorsqu'on ne copie pas l'objet
 			if(!isCopy) {
-				
-				//TOUTDOUX
-				// Ici l'enregistrement des autres champs (vu qu'� la copie on change juste le titre et copie le reste de l'objet)
+
+				/** Période de l'événement **/
+				this.deletePeriods(agendaExport);
+				this.savePeriod(request, agendaExport);
 			}
 			
 			_agendaExportLocalService.updateAgendaExport(agendaExport, sc);
 
-			// Redirection (�vite double
-			// requ�te POST si l'utilisateur actualise sa page)
+			// Redirection (évite double)
+			// requête POST si l'utilisateur actualise sa page)
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 			PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
@@ -82,12 +91,58 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		return true;
 	}
 
+	/**
+	 * Sauvegarde de la période
+	 * @param request
+	 * @param agendaExport
+	 * @throws PortalException
+	 */
+	private void savePeriod(ActionRequest request, AgendaExport agendaExport) throws PortalException {
+		String periodIndex = "0";
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		if (!(
+				Validator.isNotNull(ParamUtil.getString(request, "startDate" + periodIndex)) &&
+				Validator.isNotNull(ParamUtil.getString(request, "endDate" + periodIndex))
+			)) {
+			return;
+		}
+
+		Date startDate = ParamUtil.getDate(request, "startDate" + periodIndex, dateFormat);
+		Date endDate = ParamUtil.getDate(request, "endDate" + periodIndex, dateFormat);
+
+		AgendaExportPeriod agendaExportPeriod = _agendaExportPeriodLocalService.createAgendaExportPeriod();
+		agendaExportPeriod.setStartDate(startDate);
+		agendaExportPeriod.setEndDate(endDate);
+		agendaExportPeriod.setAgendaExportId(agendaExport.getAgendaExportId());
+		this._agendaExportPeriodLocalService.updateAgendaExportPeriod(agendaExportPeriod);
+	}
+
+	/**
+	 * Suppression des anciennes périodes
+	 * @param agendaExport
+	 */
+	private void deletePeriods(AgendaExport agendaExport) {
+		List<AgendaExportPeriod> oldPeriods = agendaExport.getAgendaExportPeriods();
+		for (AgendaExportPeriod period : oldPeriods) {
+			_agendaExportPeriodLocalService.deleteAgendaExportPeriod(period);
+		}
+	}
+
 	private AgendaExportLocalService _agendaExportLocalService;
 
 	@Reference(unbind = "-")
 	protected void setAgendaExportLocalService(AgendaExportLocalService agendaExportLocalService) {
 
 		_agendaExportLocalService = agendaExportLocalService;
+	}
+
+	private AgendaExportPeriodLocalService _agendaExportPeriodLocalService;
+
+	@Reference(unbind = "-")
+	protected void setAgendaExportPeriodLocalService(AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+
+		_agendaExportPeriodLocalService = agendaExportPeriodLocalService;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

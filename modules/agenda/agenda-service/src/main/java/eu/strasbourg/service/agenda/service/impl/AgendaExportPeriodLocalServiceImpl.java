@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.base.AgendaExportPeriodLocalServiceBaseImpl;
 
@@ -41,7 +42,17 @@ public class AgendaExportPeriodLocalServiceImpl
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil} to access the agenda export period local service.
 	 */
 
-	 /**
+	/**
+	 * Créé un nouvel object AgendaExportPeriod, non ajoutée à la base de donnée
+	 */
+	@Override
+	public AgendaExportPeriod createAgendaExportPeriod() throws PortalException {
+		long pk = counterLocalService.increment();
+		AgendaExportPeriod period = this.agendaExportPeriodLocalService.createAgendaExportPeriod(pk);
+		return period;
+	}
+
+	/**
 	 * Retourne les périodes d'un événement
 	 */
 	@Override

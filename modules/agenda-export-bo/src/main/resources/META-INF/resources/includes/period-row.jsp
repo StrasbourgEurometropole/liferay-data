@@ -10,10 +10,6 @@
 	</c:if>
 </span>
 
-<div class="time-detail-wrapper">
-	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="Horaires" localized="true" inlineField="true" />
-</div>
-
 <aui:input type="hidden" value="${param.startDate}" id="startDate${param.index}" name="startDate${param.index}" cssClass="startDate" />
 <aui:input type="hidden" value="${param.endDate}" id="endDate${param.index}" name="endDate${param.index}" cssClass="endDate" />
 <div class="event-period-conflict" style="display: none">
