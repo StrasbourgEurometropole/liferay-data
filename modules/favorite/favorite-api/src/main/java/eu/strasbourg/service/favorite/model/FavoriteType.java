@@ -13,6 +13,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.video.model.Video;
 
@@ -30,7 +31,7 @@ public enum FavoriteType {
 	COURSE(11, "COURSE", ActivityCourse.class),
 	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
 	GALLERY(13,"GALLERY", EditionGallery.class),
-	ARRET(14,"ARRET", Place.class);
+	ARRET(14,"ARRET", Arret.class);
 
 	private long id;
 	private String name;

@@ -8,4 +8,5 @@ dependencies {
 	compileOnly project(":modules:edition:edition-api")
 	compileOnly project(":modules:video:video-api")
 	compileOnly project(":modules:activity:activity-api")
+	compileOnly project(":modules:gtfs:gtfs-api")
 }
