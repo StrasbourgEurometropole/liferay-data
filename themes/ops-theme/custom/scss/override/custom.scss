@@ -119,3 +119,14 @@ main {
 .ops-bloc-slider-concerts .ops-item .ops-bottom-card .ops-places-dispo:after {
   right: 7px;
 }
+
+//Cache le tiret avant la date du bloc liste d'actualites
+.ops-date-article:before {
+  content : none;
+}
+
+@media screen and (max-width: 599px) {
+  .ops-col-33 {
+    margin-bottom: 18px;
+  }
+}
