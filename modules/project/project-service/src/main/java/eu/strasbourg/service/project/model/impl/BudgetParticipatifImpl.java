@@ -808,7 +808,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
     
     //Retourne l'etat du BP
-    //Cette methode retourne chaque cas present dans la matrice de cas Matrice_casBP.xlsx
+    //Cette methode retourne chaque cas present dans la matrice de cas Matrice_cas_BP.xlsx
     //Si changement dans cette méthode, vérifier les methodes qui referencent cette methode 
     @Override
     public int getBPState() {
