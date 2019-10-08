@@ -1,9 +1,4 @@
 <#setting locale = locale />
-
-<script>
-    description = '${text1.data?replace("<[^>]*>", "", "r")?html?js_string}';
-</script>
-
 <!-- Zone Introduction -->
 <div class="small-container mns-home-intro">
     <h2 class="title">${title.data}</h2>
