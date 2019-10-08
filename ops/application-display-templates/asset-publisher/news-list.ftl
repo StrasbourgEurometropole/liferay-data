@@ -45,11 +45,11 @@
                     </figure>
                     <div>
                         <div class="ops-meta-card-article">
-                            <div class="ops-cats">
+                            <#--  <div class="ops-cats">
                                 <#list categoryList as category>
                                     <span class="ops-cat">${category.getTitle(locale)}</span>
                                 </#list>
-                            </div>
+                            </div>  -->
                             <span class="ops-date-article">
                                 <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${firstJournal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(firstJournal.displayDate?date, locale)}</time>
                             </span>
@@ -84,11 +84,11 @@
                                 </figure>
                                 <div>
                                     <div class="ops-meta-card-article">
-                                        <div class="ops-cats">
+                                        <#--  <div class="ops-cats">
                                             <#list categoryList as categoryList>
                                                 <span class="ops-cat">${categoryList.getName()}</span>
                                             </#list>
-                                        </div>
+                                        </div>  -->
                                         <span class="ops-date-article">
                                             <@liferay_ui.message key="eu.ops.published.on" /> <time datetime="${journal.displayDate?datetime?string('yyyy-MM-dd')}">${dateHelperService.displayShortDate(journal.displayDate?date, locale)}</time>
                                         </span>
