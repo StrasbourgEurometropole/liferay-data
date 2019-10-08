@@ -21,6 +21,8 @@ import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.ArretServiceBaseImpl;
 import eu.strasbourg.service.gtfs.utils.CTSService;
 
+import java.util.Locale;
+
 /**
  * The implementation of the arret remote service.
  *
@@ -55,8 +57,8 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 	 * Recuperer tous les arrêts en format GeoJSON
 	 */
 	@Override
-	public JSONObject getAllArrets(long groupId) {
-		return ArretLocalServiceUtil.getAllGeoJSON(groupId);
+	public JSONObject getAllArrets(long groupId, String localeId) {
+		return ArretLocalServiceUtil.getAllGeoJSON(groupId, localeId);
 	}
 	
 }

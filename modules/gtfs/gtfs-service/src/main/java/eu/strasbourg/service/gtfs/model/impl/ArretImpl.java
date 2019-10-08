@@ -23,7 +23,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.Group;
@@ -87,13 +90,24 @@ public class ArretImpl extends ArretBaseImpl {
 		return DirectionLocalServiceUtil.getByStopId(this.getStopId());
 	}
 
-	/**
-	 * Renvoie la liste des Alertes de cet arret
-	 */
-	@Override
-	public List<Alert> getAlerts() {
-		return AlertLocalServiceUtil.getByArretId(this.getArretId());
-	}
+    /**
+     * Renvoie la liste des Alertes de cet arret
+     */
+    @Override
+    public List<Alert> getAlerts() {
+        return AlertLocalServiceUtil.getByArretId(this.getArretId());
+    }
+
+    /**
+     * Renvoie la liste des Alertes en cours ou à venir de cet arret
+     */
+    @Override
+    public List<Alert> getAlertsActives() {
+        List<Alert> alerts = AlertLocalServiceUtil.getByArretId(this.getArretId()).stream()
+                .filter(a -> !a.getEndDate().before(new Date())).collect(Collectors.toList());
+
+        return  alerts;
+    }
 
 	/**
 	 * Renvoie la correspondance du type d'arret en format texte
@@ -119,53 +133,62 @@ public class ArretImpl extends ArretBaseImpl {
 	}
 	
 	/**
-	 * Renvoie le JSON de l'entite au format GeoJSON
+	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	@Override
-	public JSONObject getGeoJSON(long groupId) {
+	public JSONObject getGeoJSON(long groupId, Locale locale) {
 		JSONObject feature = JSONFactoryUtil.createJSONObject();
-		
-			feature.put("type", "Feature");
-			
-			JSONObject geometry = JSONFactoryUtil.createJSONObject();
-			
-				geometry.put("type", "Point");
-				
-				JSONArray coordinates = JSONFactoryUtil.createJSONArray();
-				
-					coordinates.put(Float.valueOf(this.getLongitude()));
-					coordinates.put(Float.valueOf(this.getLatitude()));
-					
-				geometry.put("coordinates", coordinates);
-				
-			feature.put("geometry", geometry);
-			
-			JSONObject properties = JSONFactoryUtil.createJSONObject();
-			
-				properties.put("name", this.getTitle());
-				properties.put("type", this.getTypeText());
-				properties.put("code", this.getCode());
+		feature.put("type", "Feature");
 
-				// récupère l'url de l'arret
-				Group group = GroupLocalServiceUtil.fetchGroup(groupId);
-				if (group == null) {
-					group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
-				}
-				if (group != null) {
-					String url = "";
-					String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
-					if (virtualHostName.isEmpty()) {
-						url = "/web" + group.getFriendlyURL() + "/";
-					} else {
-						url = "https://" + virtualHostName + "/";
-					}
-					url += "arret/-/entity/id/" + this.getArretId();
-					properties.put("url", url);
-				}
-				properties.put("id", this.getArretId());
-			
-			feature.put("properties", properties);
-		
+		JSONObject properties = JSONFactoryUtil.createJSONObject();
+		properties.put("name", this.getTypeText() + " - " + this.getTitle());
+
+		String contenu = "<div class='popup-content-tram-list' data-code='" + this.getCode() + "'>" +
+				"				<div class='loading'>" +
+				"					<div class='loading-circle'></div>" +
+				"				</div>" +
+				"			</div>";
+		properties.put("contenu", contenu);
+
+		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText() + ".png");
+
+		// récupère l'url de détail du poi
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null) {
+			group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
+		}
+		if (group != null) {
+			String url = "";
+			String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+			if (virtualHostName.isEmpty()) {
+				url = "/web" + group.getFriendlyURL() + "/";
+			} else {
+				url = "https://" + virtualHostName + "/";
+			}
+			url += "arret/-/entity/id/" + this.getArretId();
+			properties.put("url", url);
+		}
+
+		// bouton favoris
+		properties.put("type", "14");
+		properties.put("id", this.getArretId());
+
+		// pour la gestion des doublons qui a besoin d'un sigId et non un Id
+		properties.put("sigId", this.getArretId());
+
+		// affichage des prochains passages
+		properties.put("codeArret", this.getCode());
+
+		feature.put("properties", properties);
+
+		JSONObject geometry = JSONFactoryUtil.createJSONObject();
+		geometry.put("type", "Point");
+		JSONArray coordinates = JSONFactoryUtil.createJSONArray();
+		coordinates.put(Float.valueOf(this.getLongitude()));
+		coordinates.put(Float.valueOf(this.getLatitude()));
+		geometry.put("coordinates", coordinates);
+		feature.put("geometry", geometry);
+
 		return feature;
 	}
 	

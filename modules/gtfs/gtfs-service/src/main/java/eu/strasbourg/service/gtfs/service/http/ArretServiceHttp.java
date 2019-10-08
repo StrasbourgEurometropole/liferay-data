@@ -82,12 +82,13 @@ public class ArretServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getAllArrets(
-		HttpPrincipal httpPrincipal, long groupId) {
+		HttpPrincipal httpPrincipal, long groupId, java.lang.String localeId) {
 		try {
 			MethodKey methodKey = new MethodKey(ArretServiceUtil.class,
 					"getAllArrets", _getAllArretsParameterTypes1);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, groupId);
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
+					localeId);
 
 			Object returnObj = null;
 
@@ -112,6 +113,6 @@ public class ArretServiceHttp {
 			java.lang.String.class
 		};
 	private static final Class<?>[] _getAllArretsParameterTypes1 = new Class[] {
-			long.class
+			long.class, java.lang.String.class
 		};
 }

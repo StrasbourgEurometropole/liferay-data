@@ -301,11 +301,12 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Renvoie le JSON de l'entite au format GeoJSON
+	* Renvoie le JSON de l'entite au format GeoJSON pour la map
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId) {
-		return _arret.getGeoJSON(groupId);
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId,
+		java.util.Locale locale) {
+		return _arret.getGeoJSON(groupId, locale);
 	}
 
 	@Override
@@ -517,6 +518,14 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	@Override
 	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts() {
 		return _arret.getAlerts();
+	}
+
+	/**
+	* Renvoie la liste des Alertes en cours ou à venir de cet arret
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlertsActives() {
+		return _arret.getAlertsActives();
 	}
 
 	/**

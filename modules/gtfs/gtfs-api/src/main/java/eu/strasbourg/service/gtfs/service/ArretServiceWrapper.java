@@ -47,8 +47,9 @@ public class ArretServiceWrapper implements ArretService,
 	* Recuperer tous les arrêts en format GeoJSON
 	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getAllArrets(long groupId) {
-		return _arretService.getAllArrets(groupId);
+	public com.liferay.portal.kernel.json.JSONObject getAllArrets(
+		long groupId, java.lang.String localeId) {
+		return _arretService.getAllArrets(groupId, localeId);
 	}
 
 	/**

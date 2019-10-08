@@ -37,15 +37,12 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.LongStream;
 
 import eu.strasbourg.service.gtfs.model.Arret;
@@ -379,7 +376,10 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	 * Notes : ne prend que les arrets publies
 	 */
 	@Override
-	public JSONObject getAllGeoJSON(long groupId) {
+	public JSONObject getAllGeoJSON(long groupId, String localeId) {
+
+		Locale locale = LocaleUtil.fromLanguageId(localeId);
+
 		// Recherche de tous les arrets visibles
 		List<Arret> arrets = this.arretPersistence.findByStatus(WorkflowConstants.STATUS_APPROVED);
 		
@@ -389,7 +389,7 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		JSONArray features = JSONFactoryUtil.createJSONArray();
 		
 		for (Arret arret : arrets) {
-			features.put(arret.getGeoJSON(groupId));
+			features.put(arret.getGeoJSON(groupId, locale));
 		}
 		
 		geoJSON.put("features", features);

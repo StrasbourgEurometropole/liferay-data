@@ -44,8 +44,8 @@ import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
 import java.io.Serializable;
 
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for Arret. Methods of this
@@ -86,7 +86,7 @@ public interface ArretLocalService extends BaseLocalService,
 	* Notes : ne prend que les arrets publies
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getAllGeoJSON(long groupId);
+	public JSONObject getAllGeoJSON(long groupId, java.lang.String localeId);
 
 	/**
 	* @throws PortalException
@@ -208,7 +208,8 @@ public interface ArretLocalService extends BaseLocalService,
 	* Met à jour le statut de l'entree par le framework workflow
 	*/
 	public Arret updateStatus(long userId, long entryId, int status,
-		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		ServiceContext sc,
+		java.util.Map<java.lang.String, Serializable> workflowContext)
 		throws PortalException;
 
 	/**
@@ -327,7 +328,7 @@ public interface ArretLocalService extends BaseLocalService,
 	* Retourne la liste de tous les arrets
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Map<java.lang.String, Arret> getAll();
+	public java.util.Map<java.lang.String, Arret> getAll();
 
 	/**
 	* Returns the number of rows matching the dynamic query.

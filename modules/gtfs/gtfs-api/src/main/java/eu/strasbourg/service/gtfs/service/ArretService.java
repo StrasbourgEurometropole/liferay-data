@@ -65,7 +65,7 @@ public interface ArretService extends BaseService {
 	* Recuperer tous les arrêts en format GeoJSON
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getAllArrets(long groupId);
+	public JSONObject getAllArrets(long groupId, java.lang.String localeId);
 
 	/**
 	* Returns the OSGi service identifier.

@@ -63,8 +63,8 @@ public class ArretLocalServiceUtil {
 	* Notes : ne prend que les arrets publies
 	*/
 	public static com.liferay.portal.kernel.json.JSONObject getAllGeoJSON(
-		long groupId) {
-		return getService().getAllGeoJSON(groupId);
+		long groupId, java.lang.String localeId) {
+		return getService().getAllGeoJSON(groupId, localeId);
 	}
 
 	/**
