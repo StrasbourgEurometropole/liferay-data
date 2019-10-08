@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -22,6 +23,7 @@ import javax.portlet.RenderResponse;
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -52,6 +54,18 @@ public class EditAgendaExportDisplayContext {
         return _agendaExport;
     }
 
+    public List<AgendaExportPeriod> getOrCreateAgendaExportPeriods() throws PortalException {
+
+        List<AgendaExportPeriod> periods = new ArrayList<>();
+        if(_agendaExport == null || _agendaExport.getAgendaExportPeriods().isEmpty()) {
+            periods.add(AgendaExportPeriodLocalServiceUtil.createAgendaExportPeriod());
+        } else {
+            periods = _agendaExport.getAgendaExportPeriods();
+        }
+
+        return periods;
+    }
+
     /**
      * Retourne la liste des catégories sauvegardées en fonction du vocabulaire
      * @param vocabularyId
@@ -60,13 +74,11 @@ public class EditAgendaExportDisplayContext {
      */
     public String getSavedCategoriesByVocabulary(String vocabularyId) throws JSONException {
         AgendaExport agendaExport = this.getAgendaExport();
-        JSONObject vocabulaires = JSONFactoryUtil.createJSONObject(
-            agendaExport.getEventCategories()
-        );
-
-        if(!vocabulaires.has(vocabularyId)) {
-            return "";
-        }
+        if(agendaExport == null) { return ""; }
+        String categoriesString = agendaExport.getEventCategories();
+        if(categoriesString == null) { return ""; }
+        JSONObject vocabulaires = JSONFactoryUtil.createJSONObject(categoriesString);
+        if(!vocabulaires.has(vocabularyId)) { return ""; }
 
         return vocabulaires.get(vocabularyId).toString();
     }

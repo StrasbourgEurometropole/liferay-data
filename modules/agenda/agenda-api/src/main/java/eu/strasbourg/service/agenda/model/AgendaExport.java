@@ -70,11 +70,4 @@ public interface AgendaExport extends AgendaExportModel, PersistedModel {
 	* date de début croissante)
 	*/
 	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod> getAgendaExportPeriods();
-
-	/**
-	* Retourne la liste des périodes ou en initialise une si la liste est vide
-	* Les périodes sont triées par ordre croissant
-	*/
-	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod> getOrCreateAgendaExportPeriods()
-		throws com.liferay.portal.kernel.exception.PortalException;
 }

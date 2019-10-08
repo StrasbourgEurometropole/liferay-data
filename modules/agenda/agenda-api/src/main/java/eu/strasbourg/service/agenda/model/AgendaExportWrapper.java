@@ -74,8 +74,8 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
-		attributes.put("eventCategories", getEventCategories());
 		attributes.put("language", getLanguage());
+		attributes.put("eventCategories", getEventCategories());
 
 		return attributes;
 	}
@@ -166,16 +166,16 @@ public class AgendaExportWrapper implements AgendaExport,
 			setTitle(title);
 		}
 
-		String eventCategories = (String)attributes.get("eventCategories");
-
-		if (eventCategories != null) {
-			setEventCategories(eventCategories);
-		}
-
 		String language = (String)attributes.get("language");
 
 		if (language != null) {
 			setLanguage(language);
+		}
+
+		String eventCategories = (String)attributes.get("eventCategories");
+
+		if (eventCategories != null) {
+			setEventCategories(eventCategories);
 		}
 	}
 
@@ -546,16 +546,6 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
 		return _agendaExport.getCategories();
-	}
-
-	/**
-	* Retourne la liste des périodes ou en initialise une si la liste est vide
-	* Les périodes sont triées par ordre croissant
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod> getOrCreateAgendaExportPeriods()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _agendaExport.getOrCreateAgendaExportPeriods();
 	}
 
 	/**

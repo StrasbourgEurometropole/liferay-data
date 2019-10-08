@@ -48,8 +48,8 @@ public class AgendaExportSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setEventCategories(model.getEventCategories());
 		soapModel.setLanguage(model.getLanguage());
+		soapModel.setEventCategories(model.getEventCategories());
 
 		return soapModel;
 	}
@@ -214,20 +214,20 @@ public class AgendaExportSoap implements Serializable {
 		_title = title;
 	}
 
-	public String getEventCategories() {
-		return _eventCategories;
-	}
-
-	public void setEventCategories(String eventCategories) {
-		_eventCategories = eventCategories;
-	}
-
 	public String getLanguage() {
 		return _language;
 	}
 
 	public void setLanguage(String language) {
 		_language = language;
+	}
+
+	public String getEventCategories() {
+		return _eventCategories;
+	}
+
+	public void setEventCategories(String eventCategories) {
+		_eventCategories = eventCategories;
 	}
 
 	private String _uuid;
@@ -244,6 +244,6 @@ public class AgendaExportSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _eventCategories;
 	private String _language;
+	private String _eventCategories;
 }

@@ -83,21 +83,4 @@ public class AgendaExportImpl extends AgendaExportBaseImpl {
 		sortedPeriods.sort((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
 		return sortedPeriods;
 	}
-
-	/**
-	 * Retourne la liste des périodes ou en initialise une si la liste est vide
-	 * Les périodes sont triées par ordre croissant
-	 */
-	@Override
-	public List<AgendaExportPeriod> getOrCreateAgendaExportPeriods() throws PortalException {
-
-		List<AgendaExportPeriod> periods = this.getAgendaExportPeriods();
-		if(periods.isEmpty()) {
-			periods.add(
-				AgendaExportPeriodLocalServiceUtil.createAgendaExportPeriod()
-			);
-		}
-
-		return periods;
-	}
 }

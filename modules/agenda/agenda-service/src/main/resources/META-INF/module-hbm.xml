@@ -30,8 +30,8 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="eventCategories" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="language" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="eventCategories" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl" table="agenda_AgendaExportPeriod">
 		<id name="agendaExportPeriodId" type="long">

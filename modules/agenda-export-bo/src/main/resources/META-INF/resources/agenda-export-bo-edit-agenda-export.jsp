@@ -51,7 +51,7 @@
 
            <aui:fieldset collapsed="true" collapsible="true" label="eu.period">
                 <div id="date-fields">
-                    <c:forEach items="${dc.agendaExport.getOrCreateAgendaExportPeriods()}" var="period" varStatus="status">
+                    <c:forEach items="${dc.getOrCreateAgendaExportPeriods()}" var="period" varStatus="status">
                         <div class="lfr-form-row lfr-form-row-inline">
                             <div class="row-fields">
                                 <fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>

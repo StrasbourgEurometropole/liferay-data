@@ -96,10 +96,10 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
-		sb.append(", eventCategories=");
-		sb.append(eventCategories);
 		sb.append(", language=");
 		sb.append(language);
+		sb.append(", eventCategories=");
+		sb.append(eventCategories);
 		sb.append("}");
 
 		return sb.toString();
@@ -173,18 +173,18 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			agendaExportImpl.setTitle(title);
 		}
 
-		if (eventCategories == null) {
-			agendaExportImpl.setEventCategories(StringPool.BLANK);
-		}
-		else {
-			agendaExportImpl.setEventCategories(eventCategories);
-		}
-
 		if (language == null) {
 			agendaExportImpl.setLanguage(StringPool.BLANK);
 		}
 		else {
 			agendaExportImpl.setLanguage(language);
+		}
+
+		if (eventCategories == null) {
+			agendaExportImpl.setEventCategories(StringPool.BLANK);
+		}
+		else {
+			agendaExportImpl.setEventCategories(eventCategories);
 		}
 
 		agendaExportImpl.resetOriginalValues();
@@ -214,8 +214,8 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		eventCategories = objectInput.readUTF();
 		language = objectInput.readUTF();
+		eventCategories = objectInput.readUTF();
 	}
 
 	@Override
@@ -267,18 +267,18 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			objectOutput.writeUTF(title);
 		}
 
-		if (eventCategories == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(eventCategories);
-		}
-
 		if (language == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(language);
+		}
+
+		if (eventCategories == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(eventCategories);
 		}
 	}
 
@@ -296,6 +296,6 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
-	public String eventCategories;
 	public String language;
+	public String eventCategories;
 }
