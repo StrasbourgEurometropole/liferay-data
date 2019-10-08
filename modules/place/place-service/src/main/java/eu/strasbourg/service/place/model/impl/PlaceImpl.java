@@ -208,11 +208,11 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
-     * Retourne les périodes qui ne sont pas par défaut
+     * Retourne les périodes qui ne sont pas par défaut (uniquement les périodes en cours ou futures)
      */
     @Override
     public List<Period> getNonDefaultPeriods() {
-        return this.getPeriods().stream().filter(p -> !p.getDefaultPeriod()).collect(Collectors.toList());
+        return this.getPeriods().stream().filter(p -> !p.getDefaultPeriod() && !p.getEndDate().before(new Date())).collect(Collectors.toList());
     }
 
     /**

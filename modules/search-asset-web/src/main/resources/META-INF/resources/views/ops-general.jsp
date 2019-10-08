@@ -9,7 +9,7 @@
     </figure>
     <div class="ops-content-wrapper ops-caption ops-aligncenter">
         <h1>
-        	<liferay-ui:message key="eu.search.asset.web.ops.general.your.research" />
+        	<liferay-ui:message key="eu.search.asset.web.ops.general.your.research" /> "${dc.keywords}"
         </h1>
         <span class="ops-numbers-results">
         	<strong>0</strong> <liferay-ui:message key="eu.search.asset.web.ops.general.results" />

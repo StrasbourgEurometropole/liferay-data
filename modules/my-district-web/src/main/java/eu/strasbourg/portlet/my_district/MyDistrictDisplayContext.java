@@ -348,7 +348,7 @@ public class MyDistrictDisplayContext {
         try {
             document = SAXReaderUtil.read(new StringReader(content));
             Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-            if (node.getText().length() > 0) {
+            if (node != null && node.getText().length() > 0) {
                 value = node.getText();
             }
         } catch (Exception ex) {
@@ -390,33 +390,38 @@ public class MyDistrictDisplayContext {
             Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
             Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
             DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-            //eventQuery.setLimit(0, 12);
             List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-            List<AssetEntry> result = new ArrayList<AssetEntry>();
 
+            Map<Integer, List<Event>> eventsMap = new HashMap<Integer, List<Event>>();
             for (Event event : listEvent) {
-                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
-                        event.getPrimaryKey());
-                if (assetEntry != null) {
-                    int i = 0;
-                    int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
-                    while (i < result.size()) {
-                        int daysAfterPublication;
-                        Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
-                        daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
-                        if (daysBeforeNextOpenDate < daysAfterPublication) {
-                            result.add(i, assetEntry);
-                            break;
-                        }
-                        i++;
-                    }
-                    if (i == result.size()) {
-                        result.add(assetEntry);
-                    }
-                }
+                int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
+                if(eventsMap.containsKey(daysBeforeNextOpenDate)){
+                    eventsMap.get(daysBeforeNextOpenDate).add(event);
+                }else{
+                    List<Event> eventList = new ArrayList<Event>();
+                    eventList.add(event);
+                    eventsMap.put(daysBeforeNextOpenDate, eventList);
+                 }
             }
 
-            events = result.subList(0,(result.size() > 12)?12:result.size());
+            List<List<Event>> eventsList =  eventsMap
+                    .entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .map(e -> e.getValue())
+                    .collect(Collectors.toList());
+
+            events = new ArrayList<AssetEntry>();
+            for (List<Event> eventList: eventsList) {
+                for (Event event: eventList) {
+                    if(events.size() < 12)
+                        events.add(entries.stream().filter(a -> a.getClassPK() == event.getEventId()).collect(Collectors.toList()).get(0));
+                    else
+                        break;
+                }
+                if(events.size() == 12)
+                    break;
+            }
         }
         return events;
     }
