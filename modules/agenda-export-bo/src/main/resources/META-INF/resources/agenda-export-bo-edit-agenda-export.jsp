@@ -51,14 +51,6 @@
 
            <aui:fieldset collapsed="true" collapsible="true" label="eu.period">
                 <div id="date-fields">
-                    <div class="lfr-form-row lfr-form-row-inline">
-                        <div class="row-fields">
-                            <liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-                                <liferay-util:param name="index" value="0" />
-                            </liferay-util:include>
-                        </div>
-                    </div>
-
                     <c:forEach items="${dc.agendaExport.getOrCreateAgendaExportPeriods()}" var="period" varStatus="status">
                         <div class="lfr-form-row lfr-form-row-inline">
                             <div class="row-fields">
@@ -108,10 +100,15 @@
                <aui:input name="tags" type="assetTags" />
            </aui:fieldset>
 
-           <aui:fieldset collapsed="true" collapsible="true" label="eu.languages">
-                <aui:select name="groupId" label="detail-target-site">
+           <aui:fieldset collapsed="true" collapsible="true" label="eu.language">
+                <aui:select name="language" label="detail-target-site">
                     <c:forEach var="language" items="${dc.languageList}">
-                        <aui:option value="${language}" selected="${language eq language}">${language}</aui:option>
+                        <aui:option
+                            value="${language}"
+                            selected="${language eq dc.agendaExport.language ? true : false}"
+                        >
+                            ${language}
+                        </aui:option>
                     </c:forEach>
                 </aui:select>
            </aui:fieldset>

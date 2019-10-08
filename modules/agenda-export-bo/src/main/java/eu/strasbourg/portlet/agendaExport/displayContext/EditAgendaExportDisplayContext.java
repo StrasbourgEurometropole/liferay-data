@@ -40,6 +40,10 @@ public class EditAgendaExportDisplayContext {
         _assetVocabularyAccessor = new AssetVocabularyAccessor();
     }
 
+    /**
+     * Retourne l'instance AgendaExport
+     * @return
+     */
     public AgendaExport getAgendaExport() {
         long agendaExportId = ParamUtil.getLong(_request, "agendaExportId");
         if (_agendaExport == null && agendaExportId > 0) {
@@ -48,6 +52,12 @@ public class EditAgendaExportDisplayContext {
         return _agendaExport;
     }
 
+    /**
+     * Retourne la liste des catégories sauvegardées en fonction du vocabulaire
+     * @param vocabularyId
+     * @return
+     * @throws JSONException
+     */
     public String getSavedCategoriesByVocabulary(String vocabularyId) throws JSONException {
         AgendaExport agendaExport = this.getAgendaExport();
         JSONObject vocabulaires = JSONFactoryUtil.createJSONObject(
@@ -58,9 +68,7 @@ public class EditAgendaExportDisplayContext {
             return "";
         }
 
-        return "216469";
-
-//        return vocabulaires.get(vocabularyId).toString();
+        return vocabulaires.get(vocabularyId).toString();
     }
 
     public String getDefaultPeriodIndexes() {
@@ -92,6 +100,10 @@ public class EditAgendaExportDisplayContext {
                 .toArray(new Locale[availableLocalesSet.size()]);
     }
 
+    /**
+     * Define the language filter list
+     * @return
+     */
     public List<String> getLanguageList() {
         List<String> languages = new ArrayList<>();
         languages.add("Français");
@@ -100,6 +112,10 @@ public class EditAgendaExportDisplayContext {
         return languages;
     }
 
+    /**
+     * Define the list of vocaularies that can be used as filter
+     * @return
+     */
     public List<AssetVocabulary> getEventVocabularies() {
         List<AssetVocabulary> vocabularies = new ArrayList<>();
         vocabularies.add(_assetVocabularyAccessor.getEventThemes());
