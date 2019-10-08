@@ -1,6 +1,10 @@
 .pro-bloc-text-hp {
 	position: relative;
 	padding: 40px 15px;
+	margin-top: 20px;
+	@include mobile{
+		margin-top: 0;
+	}
 	&:before {
 		content: '';
 		position: absolute;
@@ -34,11 +38,21 @@
 		text-transform: uppercase;
 		@include mobile {
 			font-size: 3em;
+			line-height: 1.1em;
 		}
 	}
 
 	p{
 		margin-bottom: 10px;
+	}
+
+	a{
+		color: $c_txt;
+		text-decoration: underline;
+		@include addTransition();
+		&:hover, &:focus {
+			color: $c_grey;
+		}
 	}
 
 	.pro-btn-yellow {
@@ -71,9 +85,11 @@
 		min-width: 200px;
 		width: auto;
 		margin-top: 20px;
+		text-decoration: none;
 		&:hover, &:focus {
 			background: $c_dark;
 			border-color: $c_dark;
+			color: $c_main;
 		}
 	}
 
@@ -82,6 +98,10 @@
 		text-transform: uppercase;
 		margin-bottom: 10px;
 		display: inline-block;
+		@include mobile{
+			font-size: 22px;
+			line-height: 28px;
+		}
 		&:before {
 			content: '';
 			position: absolute;
@@ -123,8 +143,17 @@
 			text-decoration: underline;
 			@include addTransition();
 			&:hover, &:focus {
-				color: $c_main;
+				color: $c_grey;
 			}
+		}
+	}
+
+	> a{
+		color: $c_txt;
+		text-decoration: underline;
+		@include addTransition();
+		&:hover, &:focus {
+			color: $c_grey;
 		}
 	}
 

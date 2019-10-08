@@ -392,6 +392,7 @@ public class MyDistrictDisplayContext {
             DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
             List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
 
+
             // trie par date de fin de l'évènement
             listEvent = listEvent.stream().sorted((e1, e2) -> {
                 Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);

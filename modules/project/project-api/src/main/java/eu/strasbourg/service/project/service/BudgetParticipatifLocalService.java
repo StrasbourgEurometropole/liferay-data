@@ -16,6 +16,8 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -270,6 +272,11 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	public List<BudgetParticipatif> findActiveBPByGroupId(long groupId);
+
+	/**
 	* Recherche par mot clés
 	*/
 	public List<BudgetParticipatif> findByKeyword(java.lang.String keyword,
@@ -332,6 +339,12 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId);
 
+	/**
+	* Retourne tous les budgets participatifs d'un parent
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetParticipatif> getByParentId(long budgetPhaseId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getByPublikUserID(java.lang.String publikId);
 
@@ -343,7 +356,8 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* @return Liste des budgets participatifs les plus commentes triee.
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getMostCommented(long groupId, int delta);
+	public List<BudgetParticipatif> getMostCommented(long groupId, int delta,
+		AssetCategory phase);
 
 	/**
 	* Recuperer le nombre voulu des budgets participatifs les plus soutenus
@@ -353,7 +367,8 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* @return Liste des budgets participatifs les plus soutenus triee.
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getMostSupported(long groupId, int delta);
+	public List<BudgetParticipatif> getMostSupported(long groupId, int delta,
+		AssetCategory phase);
 
 	/**
 	* Retourne les budgets votes par en utilisateur pour la phase en cours en ne prenant pas en compte les doublons
@@ -380,7 +395,8 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* @return Liste des budgets participatifs coup de coeurs recent
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta);
+	public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta,
+		AssetCategory phase);
 
 	/**
 	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
@@ -389,7 +405,8 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* @return Liste des budgets participatifs triee par nombre de commentaires
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getSortedByNbComments(long groupId);
+	public List<BudgetParticipatif> getSortedByNbComments(long groupId,
+		AssetCategory phase);
 
 	/**
 	* Methode permettant de recuperer une liste de budgets participatifs trie par nombre de soutiens
@@ -398,7 +415,8 @@ public interface BudgetParticipatifLocalService extends BaseLocalService,
 	* @return Liste des budgets participatifs triee par nombre de soutiens
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getSortedByNbSupports(long groupId);
+	public List<BudgetParticipatif> getSortedByNbSupports(long groupId,
+		AssetCategory phase);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

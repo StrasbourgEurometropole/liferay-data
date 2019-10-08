@@ -1,0 +1,39 @@
+.menu {
+	position: relative;
+	.group{
+		border-radius:3px;
+		display:inline-block;
+		border:1px #EEE solid;
+		margin:5px;
+		&:first-child{
+			margin-left: 0;
+		}
+
+		.item{
+			color:#000;
+			float:left;
+			background:#FFF;
+			padding:10px;
+			border-left:1px #EEE solid;
+			border-bottom: 3px transparent solid;
+			-webkit-font-smoothing:subpixel-antialiased;
+			@include addTransition();
+			&:hover{
+				cursor: pointer;
+				border-bottom: 3px solid $c_dark;
+			}
+			i{
+				display: block;
+			}
+		}
+
+	}
+}
+
+.menu .item:first-child {
+	border-left:none;
+}
+
+.hidden {
+	display: none;
+}

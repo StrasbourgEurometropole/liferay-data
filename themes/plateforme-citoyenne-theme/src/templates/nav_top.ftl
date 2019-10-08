@@ -64,6 +64,7 @@
                         </#if>
                         <ul>
                             <li><a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité">Accessibilité</a></li>
+                            <li><a href="https://demarches.strasbourg.eu/interventions-signalements/" target="_blank" title="Avertir">Avertir</a></li>
                             <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
                         </ul>
                     </div>
@@ -81,14 +82,31 @@
             <div class="pro-wrapper-nav">
                 <nav id="menu">
                     <ul>
-                        <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a>
-                        </li>
-                        <li class="active"><a href="${themeDisplay.getPortalURL()}${homeURL}informer" title="S'informer">S'informer</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}participations" title="Participer">Participer</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}initiatives" title="Initiatives">Initiatives citoyennes</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}petitions" title="Petition">Pétitions</a></li>
-                        <li><a href="${themeDisplay.getPortalURL()}${homeURL}budget-participatif" title="Budget participatif">Budget participatif</a></li>
-                        <li><a href="https://demarches.strasbourg.eu/interventions-signalements/" target="_blank" title="Avertir">Avertir</a></li>
+                        <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a></li>
+                        <#list nav_items as item>
+                            <#assign li_css_class = "" />
+                            <#if item.hasChildren()>
+                                <#assign li_css_class = "dropdown" />
+                            </#if>
+                            <li class="${li_css_class}">
+                                <#if !item.hasChildren()>
+                                    <a href="${item.getURL()}" title="${item.getName()}">
+                                        ${item.getName()}
+                                    </a>
+                                <#else>
+                                    <a href="javascript:void(0)" class="dropdown-toggle" title="${item.getName()}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        ${item.getName()} <span class="caret"></span>
+                                    </a>
+                                </#if>
+                                <#if item.hasChildren()>
+                                    <ul class="dropdown-menu">
+                                        <#list item.getChildren() as subItem>
+                                            <li><a href="${subItem.getURL()}"  title="${subItem.getName()}">${subItem.getName()}</a></li>
+                                        </#list>
+                                    </ul>
+                                </#if>
+                            </li>
+                        </#list>
                     </ul>
                 </nav>
             </div>

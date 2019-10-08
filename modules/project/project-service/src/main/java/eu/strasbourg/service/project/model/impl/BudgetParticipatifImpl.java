@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.project.model.impl;
 
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
@@ -23,6 +24,8 @@ import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NO
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +44,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -65,6 +69,7 @@ import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
+import eu.strasbourg.service.project.constants.PhaseState;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
@@ -73,6 +78,7 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
@@ -110,7 +116,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
     /**
-     * Retourne les thematiques de la participation (
+     * Retourne les thematiques du budget participatif (
      */
     @Override
     public List<AssetCategory> getThematicCategories() {
@@ -127,6 +133,21 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		String thematicTitle = AssetVocabularyHelper.getThematicTitle(locale, thematics);
 		return thematicTitle;
 	}
+	
+	
+	/**
+     * Retourne la catégorie 'Thematic' du budget participatif. Si plusieurs, retourne la première de la liste
+     */
+    @Override
+    public AssetCategory getThematicCategory() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.THEMATIC);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+    }
 
     /**
      * Retourne les catégories 'Territoire' correspondant aux pays du budget
@@ -138,7 +159,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
     
     /**
-     * Retourne les catégories 'Statut BP' du budget participatif
+     * Retourne la catégorie 'Statut BP' du budget participatif
      */
     @Override
     public AssetCategory getBudgetParticipatifStatusCategory() {
@@ -151,6 +172,45 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
     }
     
+    /**
+     * Retourne le statut (Enumeration) du budget participatif
+     */
+    @Override
+    public ParticiperCategories getBudgetParticipatifStatus() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),VocabularyNames.BUDGET_PARTICIPATIF_STATUS);
+    	
+        if (assetCategories.size() > 0) {
+        	
+        	AssetCategory category = assetCategories.get(0);
+        	
+        	if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_LAUREAT.getName()))
+    			return BP_LAUREAT;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_REALIZED.getName()))
+        		return BP_REALIZED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()))
+        		return BP_NON_ACCEPTABLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()))
+        		return BP_NON_SELECTED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()))
+        		return BP_NON_FEASIBLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_SUBMITTED.getName()))
+        		return BP_SUBMITTED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_SUSPENDED.getName()))
+        		return BP_SUSPENDED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_CANCELLED.getName()))
+        		return BP_CANCELLED;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
+        		return BP_FEASIBLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_ACCEPTABLE.getName()))
+        		return BP_ACCEPTABLE;
+        	else if(StringHelper.compareIgnoringAccentuation(category.getTitle(Locale.FRENCH), BP_MERGED.getName()))
+        		return BP_MERGED;
+        	
+        } 
+        	
+        return null;
+    }
+    
     @Override
     public String getBudgetParticipatifStatusTitle(Locale locale) {
         AssetCategory budgetParticipatifStatusCategory = this.getBudgetParticipatifStatusCategory();
@@ -158,6 +218,20 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         	return budgetParticipatifStatusCategory.getTitle(locale);
         } else {
         	return "";
+        }
+    }
+    
+    /**
+     * Retourne la catégorie 'Phase du budget participatif' du budget participatif
+     */
+    @Override
+    public AssetCategory getPhaseCategory() {
+    	List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
         }
     }
 
@@ -276,10 +350,13 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
      */
     @Override
     public String getAuthor(){
+    	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
+			return this.getInTheNameOf();
+		} else {
     		return StringUtil.upperCaseFirstLetter(this.getCitoyenFirstname())
     				+ " "
     				+  StringUtil.toUpperCase(StringUtil.shorten(this.getCitoyenLastname(), 2, "."));
-    	
+		}
     }
 	
 	/**
@@ -287,20 +364,16 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public boolean hasBeenVoted() {
-		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
-		
-		if (BPStatus != null) {
-			if (StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_LAUREAT.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_REALIZED.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_ACCEPTABLE.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_SELECTED.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_NON_FEASIBLE.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_IN_PROGRESS.getName()) 
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_SUSPENDED.getName())
-					|| StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_CANCELLED.getName())) 
-				return true;
-		}
-		return false;
+		return Stream.of(
+				BP_LAUREAT,
+				BP_REALIZED,
+				BP_NON_ACCEPTABLE,	               		
+				BP_NON_SELECTED,
+				BP_NON_FEASIBLE,
+				BP_IN_PROGRESS,
+				BP_SUSPENDED,
+				BP_CANCELLED
+	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
 	}
 	
 	/**
@@ -308,30 +381,43 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public boolean isVotable() {
-		BudgetPhase budgetPhase = this.getPhase();
-		AssetCategory BPStatus = this.getBudgetParticipatifStatusCategory();
-		
-		if (budgetPhase != null && BPStatus != null) {
-			if (budgetPhase.isInVotingPeriod() 
-					&& StringHelper.compareIgnoringAccentuation(BPStatus.getTitle(Locale.FRENCH), BP_FEASIBLE.getName()))
-				return true;
-		}
-		return false;
+		return getBPState() == 23 ? true : false;
 	}
 	
 	/**
-	 *  Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	 * Peut être modifié
+	 */
+	@Override
+	public boolean isEditable() {
+		return getBPState() == 3 ? true : false;
+	}
+	
+	/**
+	 *  Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu, fusionné
 	 */
 	@Override
 	public boolean isNotDoable() {
 		return Stream.of(
-	    		ParticiperCategories.BP_NON_ACCEPTABLE.getName(),
-	    		ParticiperCategories.BP_NON_FEASIBLE.getName(),
-	    		ParticiperCategories.BP_NON_SELECTED.getName(),	               		
-	    		ParticiperCategories.BP_CANCELLED.getName(),
-	    		ParticiperCategories.BP_SUSPENDED.getName()
-	    		).anyMatch(x -> StringHelper.compareIgnoringAccentuation(x, this.getBudgetParticipatifStatusCategory().getName()));
+	    		BP_NON_ACCEPTABLE,
+	    		BP_NON_FEASIBLE,
+	    		BP_NON_SELECTED,	               		
+	    		BP_CANCELLED,
+	    		BP_SUSPENDED,
+	    		BP_MERGED
+	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
 	}
+	
+	/**
+     * Le budget a-t-il ete evalue par l'administration ?
+     * @note : doit alors posseder l'un des statuts adequat
+     */
+    @Override
+    public boolean hasBeenEvaluated() {
+        return Stream.of(
+        		BP_NON_FEASIBLE,
+        		BP_FEASIBLE
+	    		).anyMatch(x ->  x == this.getBudgetParticipatifStatus());
+    }
     
 	@Override
 	public int getPriorityOrder() {
@@ -387,19 +473,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
     }
     
-    /**
-     * Le budget a-t-il ete evalue par l'administration ?
-     * @note : doit alors posseder l'un des statuts adequat
-     */
-    @Override
-    public boolean hasBeenEvaluated() {
-        AssetCategory bpStatus = this.getBudgetParticipatifStatusCategory();
-        if (StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_NON_FEASIBLE.getName()) 
-        		|| StringHelper.compareIgnoringAccentuation(bpStatus.getTitle(Locale.FRANCE), BP_FEASIBLE.getName())) {
-        	return true;
-        }
-        return false;
-    }
     
     /**
 	 * Retourne les commentaires de l'entité
@@ -451,12 +524,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public int getNbSupportOfUserInActivePhase(String publikUserId) {
-		List<BudgetPhase> activePhases = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, this.getGroupId());
+		BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(this.getGroupId());
 		
-		if (activePhases.size() > 0) {
+		if (activePhase != null) {
 			return BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
 						publikUserId,
-						activePhases.get(0).getBudgetPhaseId()
+						activePhase.getBudgetPhaseId()
 					);
 		}
 		
@@ -541,6 +614,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			}
 			mainQuery.add(thematiqueQuery, BooleanClauseOccur.MUST);
 			
+			//La même phase
+			mainQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(this.getPhaseCategory().getCategoryId()));
+			
 			//Le même projet
 			if(this.getProjectCategory() != null) {
 				BooleanQuery projetQuery = new BooleanQueryImpl();
@@ -571,6 +647,38 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		return suggestions;
     }
     
+    /**
+     * Retourne X suggestions max pour un BP
+     *
+     * @param request la requete
+     * @param nbSuggestions le nombre de suggestions.
+     * @return la liste de bp.
+     */
+    @Override
+    public List<BudgetParticipatif> getChilds() {
+    	return BudgetParticipatifLocalServiceUtil.getByParentId(this.getBudgetParticipatifId());
+    }
+    
+    /**
+     * Retourne Le budget participatif parent dans le cas d'un bp fusionne
+     *
+     * @return Le BP parent
+     */
+    @Override
+    public BudgetParticipatif getParent() {
+    	BudgetParticipatif result = null;
+    	
+    	if(getBudgetParticipatifStatus() == BP_MERGED) {
+    		try {
+				result = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(this.getParentId());
+			} catch (PortalException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+    	return result;
+    }
     
     /**
      * Retourne la version JSON de l'entité
@@ -590,6 +698,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("userName", HtmlUtil.stripHtml(HtmlUtil.escape(this.getUserName())));
         jsonBudget.put("author", HtmlUtil.stripHtml(HtmlUtil.escape(this.getAuthor())));
         jsonBudget.put("title", HtmlUtil.stripHtml(HtmlUtil.escape(this.getTitle())));
+        jsonBudget.put("summary", HtmlUtil.stripHtml(HtmlUtil.escape(this.getSummary())));
         jsonBudget.put("isCrush", this.getIsCrush());
         jsonBudget.put("BPStatusColor", this.getBudgetParticipatifStatusCategoryColor());
         jsonBudget.put("hasBeenVoted", this.hasBeenVoted());
@@ -601,6 +710,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         jsonBudget.put("districtsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getDistrictLabel(Locale.FRENCH))));
         jsonBudget.put("thematicsLabel", HtmlUtil.stripHtml(HtmlUtil.escape(this.getThematicsLabel(Locale.FRENCH))));
         jsonBudget.put("projectName", this.getProjectName());
+        
+        // Champs : Médias
+ 		jsonBudget.put("imageURL", this.getImageURL());
         
         // Champs : Interactivités
         jsonBudget.put("nbApprovedComments", this.getNbApprovedComments());
@@ -619,6 +731,255 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         }
 
         return jsonBudget;
+    }
+    
+    @Override
+    public String getBPMessageState(HttpServletRequest request) {
+    	switch (getBPState()) {
+		case 3:
+		case 4:
+		case 9:
+		case 10:
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.analyse.in.progress") + "</p>";
+		case 7:
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended") + "</p>";
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.acceptable") + "</p>";
+		case 19:
+		case 23:
+		case 24:
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>";
+		case 25:
+		case 28:
+		case 29:
+		case 30:
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible") + "</p>";
+		case 31:
+		case 36:
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</p>";
+		case 37:
+		case 42:
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected") + "</p>";
+		case 43:
+		case 48:
+			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled") + "</p>";
+		case 49:
+		case 54:
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</p>";
+		case 55:
+		case 60:
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</p>";
+		default:
+			return "";
+		}
+    }
+    
+    @Override
+    public String getBPbuttonMessageState(HttpServletRequest request) {
+    	switch (getBPState()) {
+		case 7:
+		case 19:
+		case 24:
+		case 31:
+		case 36:
+		case 37:
+		case 42:
+		case 49:
+		case 54:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended");
+		case 23:
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote");
+		case 22:
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			return LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.from") + " " + sdf.format(this.getPhase().getBeginVoteDate());
+		default:
+			//Le bouton est caché (regle js) si la methode retourne une chaine vide
+			return "";
+		}
+    }
+    
+    //Retourne l'etat du BP
+    //Cette methode retourne chaque cas present dans la matrice de cas Matrice_casBP.xlsx
+    //Si changement dans cette méthode, vérifier les methodes qui referencent cette methode 
+    @Override
+    public int getBPState() {
+    	int result = 0;
+    	
+    	//Récupération du Statut du bp en cours
+    	ParticiperCategories status = getBudgetParticipatifStatus();
+    	//Récupération de la période du bp en cours
+    	PhaseState phaseState = this.getPhase().getPhaseState();
+    	
+    	//Statut déposé
+    	if(status == ParticiperCategories.BP_SUBMITTED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 1;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 2;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 3;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 4;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 5;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 6;
+    	}
+    	
+    	//Statut recevable
+    	else if(status == ParticiperCategories.BP_ACCEPTABLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 7;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 8;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 9;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 10;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 11;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 12;
+    	}
+    	
+    	//Statut non recevable
+    	else if(status == ParticiperCategories.BP_NON_ACCEPTABLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 13;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 14;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 15;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 16;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 17;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 18;
+    	}
+    	
+    	//Statut faisable
+    	else if(status == ParticiperCategories.BP_FEASIBLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 19;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 20;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 21;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 22;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 23;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 24;
+    	}
+    	
+    	//Statut non faisable
+    	else if(status == ParticiperCategories.BP_NON_FEASIBLE) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 25;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 26;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 27;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 28;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 29;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 30;
+    	}
+    	
+    	//Statut lauréat
+    	else if(status == ParticiperCategories.BP_LAUREAT) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 31;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 32;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 33;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 34;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 35;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 36;
+    	}
+    	
+    	//Statut non retenu
+    	else if(status == ParticiperCategories.BP_NON_SELECTED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 37;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 38;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 39;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 40;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 41;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 42;
+    	}
+    	
+    	//Statut annulé
+    	else if(status == ParticiperCategories.BP_CANCELLED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 43;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 44;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 45;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 46;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 47;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 48;
+    	}
+    	
+    	//Statut réalisé
+    	else if(status == ParticiperCategories.BP_REALIZED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 49;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 50;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 51;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 52;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 53;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 54;
+    	}
+    	
+    	//Statut suspendu
+    	else if(status == ParticiperCategories.BP_SUSPENDED) { 
+    		if(phaseState == PhaseState.NOT_ACTIVE)
+    			result = 55;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_DEPOSIT)
+    			result = 56;
+    		else if(phaseState == PhaseState.BEFORE_END_DEPOSIT)
+    			result = 57;
+    		else if(phaseState == PhaseState.BEFORE_BEGIN_VOTE)
+    			result = 58;
+    		else if(phaseState == PhaseState.BEFORE_END_VOTE)
+    			result = 59;
+    		else if(phaseState == PhaseState.AFTER_VOTE)
+    			result = 60;
+    	}
+    	
+    	return result;
     }
 
 }

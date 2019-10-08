@@ -138,6 +138,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         updatedSupportsInfo.put("nbUserSupports", this.nbUserSupports);
         updatedSupportsInfo.put("nbUserEntrySupports", this.nbUserEntrySupports);
         updatedSupportsInfo.put("nbEntrySupports", this.nbEntrySupports);
+        updatedSupportsInfo.put("nbSupportForActivePhase", this.budgetParticipatif.getPhase().getNumberOfVote());
         
         jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
 
@@ -234,7 +235,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         this.nbUserSupports = BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
         		this.publikID,
         		this.budgetParticipatif.getPhase().getBudgetPhaseId());
-        if (this.nbUserSupports >= 5) {
+        if (this.nbUserSupports >= this.budgetParticipatif.getPhase().getNumberOfVote()) {
         	this.message = "Vous ne pouvez plus voter pour cette phase";
 			return false;
         }

@@ -20,11 +20,17 @@
 		<field name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="summary" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="budget" type="String" />
 		<field name="motif" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="placeTextArea" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="inTheNameOf" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="citoyenLastname" type="String" />
@@ -54,6 +60,7 @@
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String" />
 		<field name="budgetPhaseId" type="long" />
+		<field name="parentId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.BudgetPhase">
 		<field name="uuid" type="String" />

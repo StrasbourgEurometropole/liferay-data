@@ -4,6 +4,7 @@
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl" id="eu.strasbourg.service.project.service.BudgetParticipatifLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl" id="eu.strasbourg.service.project.service.BudgetParticipatifService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifFinderImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetPhaseLocalServiceImpl" id="eu.strasbourg.service.project.service.BudgetPhaseLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetPhaseServiceImpl" id="eu.strasbourg.service.project.service.BudgetPhaseService" />
 	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetPhasePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence" parent="basePersistence" />

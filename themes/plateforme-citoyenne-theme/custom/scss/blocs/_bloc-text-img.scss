@@ -6,6 +6,7 @@
 		position: relative;
 		margin-top: 40px;
 		padding: 0;
+		@include clearfix();
 		&:first-child {
 			margin-top: 0;
 		}
@@ -14,11 +15,6 @@
 			@include mobile {
 				margin-bottom: 0;
 			}
-		}
-		&:after {
-			content: "";
-			clear: both;
-			display: block;
 		}
 		@media screen and (max-width: 800px) {
 			padding: 0 !important;

@@ -5,10 +5,14 @@ import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,7 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 
@@ -41,12 +44,17 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
         // Creation du document
         XSSFSheet sheet = workbook.createSheet("Export budget participatif");
 
+        
         // Initialisation des colonnes
-        Object[][] budgetParticipatifData = {{
+        List<List<Object>> budgetParticipatifData = new ArrayList<List<Object>>();
+        
+        budgetParticipatifData.add(
+        		Arrays.asList(
                 LanguageUtil.get(bundle, "budget-part-phase"),
                 LanguageUtil.get(bundle, "budget-part-statut"),
                 LanguageUtil.get(bundle, "budget-part-title"),
                 LanguageUtil.get(bundle, "budget-part-description"),
+                LanguageUtil.get(bundle, "budget-part-summary"),
                 LanguageUtil.get(bundle, "budget-part-nb-votes"),
                 LanguageUtil.get(bundle, "budget-part-create-date"),
                 LanguageUtil.get(bundle, "budget-part-modified-date"),
@@ -66,17 +74,39 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "thematic"),
                 LanguageUtil.get(bundle, "districts"),
                 LanguageUtil.get(bundle, "project"),
-                LanguageUtil.get(bundle, "user-liferay")
-        }};
-
+                LanguageUtil.get(bundle, "user-liferay"),
+                LanguageUtil.get(bundle, "budget-part-place-name"),
+                LanguageUtil.get(bundle, "budget-part-place-mercator-x"),
+                LanguageUtil.get(bundle, "budget-part-place-mercator-y")
+		));
+        	
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
         for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
         	
-            Object[] budgetParticipatifRow = {
+        	
+        	String placesNames = String.join("\n", budgetParticipatif.getPlacitPlaces()
+        			.stream()
+        			.map(pl->pl.getPlaceAlias(Locale.FRANCE))
+        			.collect(Collectors.toList()));
+        	
+        	String placesX = String.join("\n", budgetParticipatif.getPlacitPlaces()
+        			.stream()
+        			.map(pl->pl.getMercatorX())
+        			.collect(Collectors.toList()));
+        	
+        	String placesY = String.join("\n", budgetParticipatif.getPlacitPlaces()
+        			.stream()
+        			.map(pl->pl.getMercatorY())
+        			.collect(Collectors.toList()));
+        			
+        			
+        	budgetParticipatifData.add(
+        	Arrays.asList(
                     getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
                     getfield(unescapeHtml4(budgetParticipatif.getBudgetParticipatifStatusTitle(Locale.FRANCE))),
                     getfield(unescapeHtml4(budgetParticipatif.getTitle())),
                     getfield(unescapeHtml4(budgetParticipatif.getDescription())),
+                    getfield(unescapeHtml4(budgetParticipatif.getSummary())),
                     getfield(Long.toString(budgetParticipatif.getNbSupports())),
                     getfield(budgetParticipatif.getCreateDate()),
                     getfield(budgetParticipatif.getModifiedDate()),
@@ -96,17 +126,18 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(budgetParticipatif.getThematicsLabel(Locale.FRANCE)),
                     getfield(budgetParticipatif.getDistrictLabel(Locale.FRANCE)),
                     getfield(budgetParticipatif.getProjectName()),
-                    getfield(budgetParticipatif.getUserName())
-            };
-
-            budgetParticipatifData = ArrayUtil.append(budgetParticipatifData, budgetParticipatifRow);
+                    getfield(budgetParticipatif.getUserName()),
+                    getfield(placesNames),
+                    getfield(placesX),
+                    getfield(placesY)
+        			));
         }
 
         // Parcours et ajout des donnees dans les cellules
         int rowIndex = 0;
         int columnIndex = 0;
 
-        for (Object[] budgetParticipatifObject : budgetParticipatifData) {
+        for (List<Object> budgetParticipatifObject : budgetParticipatifData) {
             Row row = sheet.createRow(rowIndex);
             columnIndex = 0;
             for (Object field : budgetParticipatifObject) {

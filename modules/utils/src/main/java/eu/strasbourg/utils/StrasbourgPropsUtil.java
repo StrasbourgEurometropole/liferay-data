@@ -234,7 +234,7 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
 
-	public static String getParticperName() {
+	public static String getParticiperName() {
 		return PropsUtil.get("eu.strasbourg.participer.name");
 	}
 

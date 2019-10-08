@@ -41,11 +41,7 @@
 			display: none;
 		}
 		> video {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
+			@extend %center;
 			width: 100%;
 			height: 100%;
 			z-index: 50;
@@ -84,11 +80,7 @@
 
 	.pro-container-img {
 		figure {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
+			@extend %center;
 			z-index: 10;
 			img {
 				width: 100%;
@@ -207,10 +199,8 @@
 
 .legend-video {
 	@include ft($f_txt, $s_small, 400, $c_txt, 1.846em);
-	margin-bottom: 0;
 	position: absolute;
 	text-align: right;
-	width: 40%;
 	right: 0;
 	float: right;
 	margin: 0;
@@ -238,9 +228,7 @@
 	z-index: 5;
 	@include aspect-ratio(1280, 100, 49%);
 	iframe {
-		position: absolute;
-		top: 0;
-		left: 0;
+		@extend %center;
 		width: 100%;
 		height: 100%;
 		margin: 0;
@@ -251,11 +239,7 @@
 	position: relative;
 
 	.mask-video {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
+		@extend %center;
 		cursor: pointer;
 		z-index: 10;
 		@include addTransition();
@@ -273,11 +257,7 @@
 		}
 
 		a.btn-ytbe {
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
+			@extend %center;
 			&:hover, &:focus {
 				> span {
 					background: $c_dark;
@@ -341,14 +321,13 @@
 			position: absolute;
 			right: 0;
 			top: 50%;
-			transform: translateY(-50%);
-			transform: translate3d(0, -50%, 0);
+			margin-top: -12px;
 			@include mobile {
 				position: relative;
 				text-align: left;
-				transform: none;
 				top: 0;
 				padding-right: 20px;
+				margin-top: 0;
 			}
 		}
 	}

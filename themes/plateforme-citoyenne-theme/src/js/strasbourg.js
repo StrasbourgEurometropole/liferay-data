@@ -1,3 +1,4610 @@
+/* Copyright © 2011-2015 by Neil Jenkins. MIT Licensed. */
+
+( function ( doc, undefined ) {
+
+    "use strict";
+
+    var DOCUMENT_POSITION_PRECEDING = 2; // Node.DOCUMENT_POSITION_PRECEDING
+    var ELEMENT_NODE = 1;                // Node.ELEMENT_NODE;
+    var TEXT_NODE = 3;                   // Node.TEXT_NODE;
+    var DOCUMENT_NODE = 9;               // Node.DOCUMENT_NODE;
+    var DOCUMENT_FRAGMENT_NODE = 11;     // Node.DOCUMENT_FRAGMENT_NODE;
+    var SHOW_ELEMENT = 1;                // NodeFilter.SHOW_ELEMENT;
+    var SHOW_TEXT = 4;                   // NodeFilter.SHOW_TEXT;
+
+    var START_TO_START = 0; // Range.START_TO_START
+    var START_TO_END = 1;   // Range.START_TO_END
+    var END_TO_END = 2;     // Range.END_TO_END
+    var END_TO_START = 3;   // Range.END_TO_START
+
+    var HIGHLIGHT_CLASS = 'highlight';
+    var COLOUR_CLASS = 'colour';
+    var FONT_FAMILY_CLASS = 'font';
+    var FONT_SIZE_CLASS = 'size';
+
+    var ZWS = '\u200B';
+
+    var win = doc.defaultView;
+
+    var ua = navigator.userAgent;
+
+    var isAndroid = /Android/.test( ua );
+    var isIOS = /iP(?:ad|hone|od)/.test( ua );
+    var isMac = /Mac OS X/.test( ua );
+    var isWin = /Windows NT/.test( ua );
+
+    var isGecko = /Gecko\//.test( ua );
+    var isIElt11 = /Trident\/[456]\./.test( ua );
+    var isPresto = !!win.opera;
+    var isEdge = /Edge\//.test( ua );
+    var isWebKit = !isEdge && /WebKit\//.test( ua );
+    var isIE = /Trident\/[4567]\./.test( ua );
+
+    var ctrlKey = isMac ? 'meta-' : 'ctrl-';
+
+    var useTextFixer = isIElt11 || isPresto;
+    var cantFocusEmptyTextNodes = isIElt11 || isWebKit;
+    var losesSelectionOnBlur = isIElt11;
+
+    var canObserveMutations = typeof MutationObserver !== 'undefined';
+    var canWeakMap = typeof WeakMap !== 'undefined';
+
+// Use [^ \t\r\n] instead of \S so that nbsp does not count as white-space
+    var notWS = /[^ \t\r\n]/;
+
+    var indexOf = Array.prototype.indexOf;
+
+// Polyfill for FF3.5
+    if ( !Object.create ) {
+        Object.create = function ( proto ) {
+            var F = function () {};
+            F.prototype = proto;
+            return new F();
+        };
+    }
+
+    /*
+     Native TreeWalker is buggy in IE and Opera:
+     * IE9/10 sometimes throw errors when calling TreeWalker#nextNode or
+     TreeWalker#previousNode. No way to feature detect this.
+     * Some versions of Opera have a bug in TreeWalker#previousNode which makes
+     it skip to the wrong node.
+
+     Rather than risk further bugs, it's easiest just to implement our own
+     (subset) of the spec in all browsers.
+     */
+
+    var typeToBitArray = {
+        // ELEMENT_NODE
+        1: 1,
+        // ATTRIBUTE_NODE
+        2: 2,
+        // TEXT_NODE
+        3: 4,
+        // COMMENT_NODE
+        8: 128,
+        // DOCUMENT_NODE
+        9: 256,
+        // DOCUMENT_FRAGMENT_NODE
+        11: 1024
+    };
+
+    function TreeWalker ( root, nodeType, filter ) {
+        this.root = this.currentNode = root;
+        this.nodeType = nodeType;
+        this.filter = filter;
+    }
+
+    TreeWalker.prototype.nextNode = function () {
+        var current = this.currentNode,
+            root = this.root,
+            nodeType = this.nodeType,
+            filter = this.filter,
+            node;
+        while ( true ) {
+            node = current.firstChild;
+            while ( !node && current ) {
+                if ( current === root ) {
+                    break;
+                }
+                node = current.nextSibling;
+                if ( !node ) { current = current.parentNode; }
+            }
+            if ( !node ) {
+                return null;
+            }
+            if ( ( typeToBitArray[ node.nodeType ] & nodeType ) &&
+                filter( node ) ) {
+                this.currentNode = node;
+                return node;
+            }
+            current = node;
+        }
+    };
+
+    TreeWalker.prototype.previousNode = function () {
+        var current = this.currentNode,
+            root = this.root,
+            nodeType = this.nodeType,
+            filter = this.filter,
+            node;
+        while ( true ) {
+            if ( current === root ) {
+                return null;
+            }
+            node = current.previousSibling;
+            if ( node ) {
+                while ( current = node.lastChild ) {
+                    node = current;
+                }
+            } else {
+                node = current.parentNode;
+            }
+            if ( !node ) {
+                return null;
+            }
+            if ( ( typeToBitArray[ node.nodeType ] & nodeType ) &&
+                filter( node ) ) {
+                this.currentNode = node;
+                return node;
+            }
+            current = node;
+        }
+    };
+
+// Previous node in post-order.
+    TreeWalker.prototype.previousPONode = function () {
+        var current = this.currentNode,
+            root = this.root,
+            nodeType = this.nodeType,
+            filter = this.filter,
+            node;
+        while ( true ) {
+            node = current.lastChild;
+            while ( !node && current ) {
+                if ( current === root ) {
+                    break;
+                }
+                node = current.previousSibling;
+                if ( !node ) { current = current.parentNode; }
+            }
+            if ( !node ) {
+                return null;
+            }
+            if ( ( typeToBitArray[ node.nodeType ] & nodeType ) &&
+                filter( node ) ) {
+                this.currentNode = node;
+                return node;
+            }
+            current = node;
+        }
+    };
+
+    var inlineNodeNames  = /^(?:#text|A(?:BBR|CRONYM)?|B(?:R|D[IO])?|C(?:ITE|ODE)|D(?:ATA|EL|FN)|EM|FONT|HR|I(?:FRAME|MG|NPUT|NS)?|KBD|Q|R(?:P|T|UBY)|S(?:AMP|MALL|PAN|TR(?:IKE|ONG)|U[BP])?|TIME|U|VAR|WBR)$/;
+
+    var leafNodeNames = {
+        BR: 1,
+        HR: 1,
+        IFRAME: 1,
+        IMG: 1,
+        INPUT: 1
+    };
+
+    function every ( nodeList, fn ) {
+        var l = nodeList.length;
+        while ( l-- ) {
+            if ( !fn( nodeList[l] ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+// ---
+
+    var UNKNOWN = 0;
+    var INLINE = 1;
+    var BLOCK = 2;
+    var CONTAINER = 3;
+
+    var nodeCategoryCache = canWeakMap ? new WeakMap() : null;
+
+    function isLeaf ( node ) {
+        return node.nodeType === ELEMENT_NODE && !!leafNodeNames[ node.nodeName ];
+    }
+    function getNodeCategory ( node ) {
+        switch ( node.nodeType ) {
+            case TEXT_NODE:
+                return INLINE;
+            case ELEMENT_NODE:
+            case DOCUMENT_FRAGMENT_NODE:
+                if ( canWeakMap && nodeCategoryCache.has( node ) ) {
+                    return nodeCategoryCache.get( node );
+                }
+                break;
+            default:
+                return UNKNOWN;
+        }
+
+        var nodeCategory;
+        if ( !every( node.childNodes, isInline ) ) {
+            // Malformed HTML can have block tags inside inline tags. Need to treat
+            // these as containers rather than inline. See #239.
+            nodeCategory = CONTAINER;
+        } else if ( inlineNodeNames.test( node.nodeName ) ) {
+            nodeCategory = INLINE;
+        } else {
+            nodeCategory = BLOCK;
+        }
+        if ( canWeakMap ) {
+            nodeCategoryCache.set( node, nodeCategory );
+        }
+        return nodeCategory;
+    }
+    function isInline ( node ) {
+        return getNodeCategory( node ) === INLINE;
+    }
+    function isBlock ( node ) {
+        return getNodeCategory( node ) === BLOCK;
+    }
+    function isContainer ( node ) {
+        return getNodeCategory( node ) === CONTAINER;
+    }
+
+    function getBlockWalker ( node, root ) {
+        var walker = new TreeWalker( root, SHOW_ELEMENT, isBlock );
+        walker.currentNode = node;
+        return walker;
+    }
+    function getPreviousBlock ( node, root ) {
+        node = getBlockWalker( node, root ).previousNode();
+        return node !== root ? node : null;
+    }
+    function getNextBlock ( node, root ) {
+        node = getBlockWalker( node, root ).nextNode();
+        return node !== root ? node : null;
+    }
+
+    function areAlike ( node, node2 ) {
+        return !isLeaf( node ) && (
+                node.nodeType === node2.nodeType &&
+                node.nodeName === node2.nodeName &&
+                node.nodeName !== 'A' &&
+                node.className === node2.className &&
+                ( ( !node.style && !node2.style ) ||
+                node.style.cssText === node2.style.cssText )
+            );
+    }
+    function hasTagAttributes ( node, tag, attributes ) {
+        if ( node.nodeName !== tag ) {
+            return false;
+        }
+        for ( var attr in attributes ) {
+            if ( node.getAttribute( attr ) !== attributes[ attr ] ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    function getNearest ( node, root, tag, attributes ) {
+        while ( node && node !== root ) {
+            if ( hasTagAttributes( node, tag, attributes ) ) {
+                return node;
+            }
+            node = node.parentNode;
+        }
+        return null;
+    }
+    function isOrContains ( parent, node ) {
+        while ( node ) {
+            if ( node === parent ) {
+                return true;
+            }
+            node = node.parentNode;
+        }
+        return false;
+    }
+
+    function getPath ( node, root ) {
+        var path = '';
+        var id, className, classNames, dir;
+        if ( node && node !== root ) {
+            path = getPath( node.parentNode, root );
+            if ( node.nodeType === ELEMENT_NODE ) {
+                path += ( path ? '>' : '' ) + node.nodeName;
+                if ( id = node.id ) {
+                    path += '#' + id;
+                }
+                if ( className = node.className.trim() ) {
+                    classNames = className.split( /\s\s*/ );
+                    classNames.sort();
+                    path += '.';
+                    path += classNames.join( '.' );
+                }
+                if ( dir = node.dir ) {
+                    path += '[dir=' + dir + ']';
+                }
+                if ( classNames ) {
+                    if ( indexOf.call( classNames, HIGHLIGHT_CLASS ) > -1 ) {
+                        path += '[backgroundColor=' +
+                            node.style.backgroundColor.replace( / /g,'' ) + ']';
+                    }
+                    if ( indexOf.call( classNames, COLOUR_CLASS ) > -1 ) {
+                        path += '[color=' +
+                            node.style.color.replace( / /g,'' ) + ']';
+                    }
+                    if ( indexOf.call( classNames, FONT_FAMILY_CLASS ) > -1 ) {
+                        path += '[fontFamily=' +
+                            node.style.fontFamily.replace( / /g,'' ) + ']';
+                    }
+                    if ( indexOf.call( classNames, FONT_SIZE_CLASS ) > -1 ) {
+                        path += '[fontSize=' + node.style.fontSize + ']';
+                    }
+                }
+            }
+        }
+        return path;
+    }
+
+    function getLength ( node ) {
+        var nodeType = node.nodeType;
+        return nodeType === ELEMENT_NODE ?
+            node.childNodes.length : node.length || 0;
+    }
+
+    function detach ( node ) {
+        var parent = node.parentNode;
+        if ( parent ) {
+            parent.removeChild( node );
+        }
+        return node;
+    }
+    function replaceWith ( node, node2 ) {
+        var parent = node.parentNode;
+        if ( parent ) {
+            parent.replaceChild( node2, node );
+        }
+    }
+    function empty ( node ) {
+        var frag = node.ownerDocument.createDocumentFragment(),
+            childNodes = node.childNodes,
+            l = childNodes ? childNodes.length : 0;
+        while ( l-- ) {
+            frag.appendChild( node.firstChild );
+        }
+        return frag;
+    }
+
+    function createElement ( doc, tag, props, children ) {
+        var el = doc.createElement( tag ),
+            attr, value, i, l;
+        if ( props instanceof Array ) {
+            children = props;
+            props = null;
+        }
+        if ( props ) {
+            for ( attr in props ) {
+                value = props[ attr ];
+                if ( value !== undefined ) {
+                    el.setAttribute( attr, props[ attr ] );
+                }
+            }
+        }
+        if ( children ) {
+            for ( i = 0, l = children.length; i < l; i += 1 ) {
+                el.appendChild( children[i] );
+            }
+        }
+        return el;
+    }
+
+    function fixCursor ( node, root ) {
+        // In Webkit and Gecko, block level elements are collapsed and
+        // unfocussable if they have no content. To remedy this, a <BR> must be
+        // inserted. In Opera and IE, we just need a textnode in order for the
+        // cursor to appear.
+        var self = root.__squire__;
+        var doc = node.ownerDocument;
+        var originalNode = node;
+        var fixer, child;
+
+        if ( node === root ) {
+            if ( !( child = node.firstChild ) || child.nodeName === 'BR' ) {
+                fixer = self.createDefaultBlock();
+                if ( child ) {
+                    node.replaceChild( fixer, child );
+                }
+                else {
+                    node.appendChild( fixer );
+                }
+                node = fixer;
+                fixer = null;
+            }
+        }
+
+        if ( node.nodeType === TEXT_NODE ) {
+            return originalNode;
+        }
+
+        if ( isInline( node ) ) {
+            child = node.firstChild;
+            while ( cantFocusEmptyTextNodes && child &&
+            child.nodeType === TEXT_NODE && !child.data ) {
+                node.removeChild( child );
+                child = node.firstChild;
+            }
+            if ( !child ) {
+                if ( cantFocusEmptyTextNodes ) {
+                    fixer = doc.createTextNode( ZWS );
+                    self._didAddZWS();
+                } else {
+                    fixer = doc.createTextNode( '' );
+                }
+            }
+        } else {
+            if ( useTextFixer ) {
+                while ( node.nodeType !== TEXT_NODE && !isLeaf( node ) ) {
+                    child = node.firstChild;
+                    if ( !child ) {
+                        fixer = doc.createTextNode( '' );
+                        break;
+                    }
+                    node = child;
+                }
+                if ( node.nodeType === TEXT_NODE ) {
+                    // Opera will collapse the block element if it contains
+                    // just spaces (but not if it contains no data at all).
+                    if ( /^ +$/.test( node.data ) ) {
+                        node.data = '';
+                    }
+                } else if ( isLeaf( node ) ) {
+                    node.parentNode.insertBefore( doc.createTextNode( '' ), node );
+                }
+            }
+            else if ( !node.querySelector( 'BR' ) ) {
+                fixer = createElement( doc, 'BR' );
+                while ( ( child = node.lastElementChild ) && !isInline( child ) ) {
+                    node = child;
+                }
+            }
+        }
+        if ( fixer ) {
+            try {
+                node.appendChild( fixer );
+            } catch ( error ) {
+                self.didError({
+                    name: 'Squire: fixCursor – ' + error,
+                    message: 'Parent: ' + node.nodeName + '/' + node.innerHTML +
+                    ' appendChild: ' + fixer.nodeName
+                });
+            }
+        }
+
+        return originalNode;
+    }
+
+// Recursively examine container nodes and wrap any inline children.
+    function fixContainer ( container, root ) {
+        var children = container.childNodes;
+        var doc = container.ownerDocument;
+        var wrapper = null;
+        var i, l, child, isBR;
+        var config = root.__squire__._config;
+
+        for ( i = 0, l = children.length; i < l; i += 1 ) {
+            child = children[i];
+            isBR = child.nodeName === 'BR';
+            if ( !isBR && isInline( child ) ) {
+                if ( !wrapper ) {
+                    wrapper = createElement( doc,
+                        config.blockTag, config.blockAttributes );
+                }
+                wrapper.appendChild( child );
+                i -= 1;
+                l -= 1;
+            } else if ( isBR || wrapper ) {
+                if ( !wrapper ) {
+                    wrapper = createElement( doc,
+                        config.blockTag, config.blockAttributes );
+                }
+                fixCursor( wrapper, root );
+                if ( isBR ) {
+                    container.replaceChild( wrapper, child );
+                } else {
+                    container.insertBefore( wrapper, child );
+                    i += 1;
+                    l += 1;
+                }
+                wrapper = null;
+            }
+            if ( isContainer( child ) ) {
+                fixContainer( child, root );
+            }
+        }
+        if ( wrapper ) {
+            container.appendChild( fixCursor( wrapper, root ) );
+        }
+        return container;
+    }
+
+    function split ( node, offset, stopNode, root ) {
+        var nodeType = node.nodeType,
+            parent, clone, next;
+        if ( nodeType === TEXT_NODE && node !== stopNode ) {
+            return split(
+                node.parentNode, node.splitText( offset ), stopNode, root );
+        }
+        if ( nodeType === ELEMENT_NODE ) {
+            if ( typeof( offset ) === 'number' ) {
+                offset = offset < node.childNodes.length ?
+                    node.childNodes[ offset ] : null;
+            }
+            if ( node === stopNode ) {
+                return offset;
+            }
+
+            // Clone node without children
+            parent = node.parentNode;
+            clone = node.cloneNode( false );
+
+            // Add right-hand siblings to the clone
+            while ( offset ) {
+                next = offset.nextSibling;
+                clone.appendChild( offset );
+                offset = next;
+            }
+
+            // Maintain li numbering if inside a quote.
+            if ( node.nodeName === 'OL' &&
+                getNearest( node, root, 'BLOCKQUOTE' ) ) {
+                clone.start = ( +node.start || 1 ) + node.childNodes.length - 1;
+            }
+
+            // DO NOT NORMALISE. This may undo the fixCursor() call
+            // of a node lower down the tree!
+
+            // We need something in the element in order for the cursor to appear.
+            fixCursor( node, root );
+            fixCursor( clone, root );
+
+            // Inject clone after original node
+            if ( next = node.nextSibling ) {
+                parent.insertBefore( clone, next );
+            } else {
+                parent.appendChild( clone );
+            }
+
+            // Keep on splitting up the tree
+            return split( parent, clone, stopNode, root );
+        }
+        return offset;
+    }
+
+    function _mergeInlines ( node, fakeRange ) {
+        var children = node.childNodes,
+            l = children.length,
+            frags = [],
+            child, prev, len;
+        while ( l-- ) {
+            child = children[l];
+            prev = l && children[ l - 1 ];
+            if ( l && isInline( child ) && areAlike( child, prev ) &&
+                !leafNodeNames[ child.nodeName ] ) {
+                if ( fakeRange.startContainer === child ) {
+                    fakeRange.startContainer = prev;
+                    fakeRange.startOffset += getLength( prev );
+                }
+                if ( fakeRange.endContainer === child ) {
+                    fakeRange.endContainer = prev;
+                    fakeRange.endOffset += getLength( prev );
+                }
+                if ( fakeRange.startContainer === node ) {
+                    if ( fakeRange.startOffset > l ) {
+                        fakeRange.startOffset -= 1;
+                    }
+                    else if ( fakeRange.startOffset === l ) {
+                        fakeRange.startContainer = prev;
+                        fakeRange.startOffset = getLength( prev );
+                    }
+                }
+                if ( fakeRange.endContainer === node ) {
+                    if ( fakeRange.endOffset > l ) {
+                        fakeRange.endOffset -= 1;
+                    }
+                    else if ( fakeRange.endOffset === l ) {
+                        fakeRange.endContainer = prev;
+                        fakeRange.endOffset = getLength( prev );
+                    }
+                }
+                detach( child );
+                if ( child.nodeType === TEXT_NODE ) {
+                    prev.appendData( child.data );
+                }
+                else {
+                    frags.push( empty( child ) );
+                }
+            }
+            else if ( child.nodeType === ELEMENT_NODE ) {
+                len = frags.length;
+                while ( len-- ) {
+                    child.appendChild( frags.pop() );
+                }
+                _mergeInlines( child, fakeRange );
+            }
+        }
+    }
+
+    function mergeInlines ( node, range ) {
+        if ( node.nodeType === TEXT_NODE ) {
+            node = node.parentNode;
+        }
+        if ( node.nodeType === ELEMENT_NODE ) {
+            var fakeRange = {
+                startContainer: range.startContainer,
+                startOffset: range.startOffset,
+                endContainer: range.endContainer,
+                endOffset: range.endOffset
+            };
+            _mergeInlines( node, fakeRange );
+            range.setStart( fakeRange.startContainer, fakeRange.startOffset );
+            range.setEnd( fakeRange.endContainer, fakeRange.endOffset );
+        }
+    }
+
+    function mergeWithBlock ( block, next, range ) {
+        var container = next,
+            last, offset;
+        while ( container.parentNode.childNodes.length === 1 ) {
+            container = container.parentNode;
+        }
+        detach( container );
+
+        offset = block.childNodes.length;
+
+        // Remove extra <BR> fixer if present.
+        last = block.lastChild;
+        if ( last && last.nodeName === 'BR' ) {
+            block.removeChild( last );
+            offset -= 1;
+        }
+
+        block.appendChild( empty( next ) );
+
+        range.setStart( block, offset );
+        range.collapse( true );
+        mergeInlines( block, range );
+
+        // Opera inserts a BR if you delete the last piece of text
+        // in a block-level element. Unfortunately, it then gets
+        // confused when setting the selection subsequently and
+        // refuses to accept the range that finishes just before the
+        // BR. Removing the BR fixes the bug.
+        // Steps to reproduce bug: Type "a-b-c" (where - is return)
+        // then backspace twice. The cursor goes to the top instead
+        // of after "b".
+        if ( isPresto && ( last = block.lastChild ) && last.nodeName === 'BR' ) {
+            block.removeChild( last );
+        }
+    }
+
+    function mergeContainers ( node, root ) {
+        var prev = node.previousSibling,
+            first = node.firstChild,
+            doc = node.ownerDocument,
+            isListItem = ( node.nodeName === 'LI' ),
+            needsFix, block;
+
+        // Do not merge LIs, unless it only contains a UL
+        if ( isListItem && ( !first || !/^[OU]L$/.test( first.nodeName ) ) ) {
+            return;
+        }
+
+        if ( prev && areAlike( prev, node ) ) {
+            if ( !isContainer( prev ) ) {
+                if ( isListItem ) {
+                    block = createElement( doc, 'DIV' );
+                    block.appendChild( empty( prev ) );
+                    prev.appendChild( block );
+                } else {
+                    return;
+                }
+            }
+            detach( node );
+            needsFix = !isContainer( node );
+            prev.appendChild( empty( node ) );
+            if ( needsFix ) {
+                fixContainer( prev, root );
+            }
+            if ( first ) {
+                mergeContainers( first, root );
+            }
+        } else if ( isListItem ) {
+            prev = createElement( doc, 'DIV' );
+            node.insertBefore( prev, first );
+            fixCursor( prev, root );
+        }
+    }
+
+    var getNodeBefore = function ( node, offset ) {
+        var children = node.childNodes;
+        while ( offset && node.nodeType === ELEMENT_NODE ) {
+            node = children[ offset - 1 ];
+            children = node.childNodes;
+            offset = children.length;
+        }
+        return node;
+    };
+
+    var getNodeAfter = function ( node, offset ) {
+        if ( node.nodeType === ELEMENT_NODE ) {
+            var children = node.childNodes;
+            if ( offset < children.length ) {
+                node = children[ offset ];
+            } else {
+                while ( node && !node.nextSibling ) {
+                    node = node.parentNode;
+                }
+                if ( node ) { node = node.nextSibling; }
+            }
+        }
+        return node;
+    };
+
+// ---
+
+    var insertNodeInRange = function ( range, node ) {
+        // Insert at start.
+        var startContainer = range.startContainer,
+            startOffset = range.startOffset,
+            endContainer = range.endContainer,
+            endOffset = range.endOffset,
+            parent, children, childCount, afterSplit;
+
+        // If part way through a text node, split it.
+        if ( startContainer.nodeType === TEXT_NODE ) {
+            parent = startContainer.parentNode;
+            children = parent.childNodes;
+            if ( startOffset === startContainer.length ) {
+                startOffset = indexOf.call( children, startContainer ) + 1;
+                if ( range.collapsed ) {
+                    endContainer = parent;
+                    endOffset = startOffset;
+                }
+            } else {
+                if ( startOffset ) {
+                    afterSplit = startContainer.splitText( startOffset );
+                    if ( endContainer === startContainer ) {
+                        endOffset -= startOffset;
+                        endContainer = afterSplit;
+                    }
+                    else if ( endContainer === parent ) {
+                        endOffset += 1;
+                    }
+                    startContainer = afterSplit;
+                }
+                startOffset = indexOf.call( children, startContainer );
+            }
+            startContainer = parent;
+        } else {
+            children = startContainer.childNodes;
+        }
+
+        childCount = children.length;
+
+        if ( startOffset === childCount ) {
+            startContainer.appendChild( node );
+        } else {
+            startContainer.insertBefore( node, children[ startOffset ] );
+        }
+
+        if ( startContainer === endContainer ) {
+            endOffset += children.length - childCount;
+        }
+
+        range.setStart( startContainer, startOffset );
+        range.setEnd( endContainer, endOffset );
+    };
+
+    var extractContentsOfRange = function ( range, common, root ) {
+        var startContainer = range.startContainer,
+            startOffset = range.startOffset,
+            endContainer = range.endContainer,
+            endOffset = range.endOffset;
+
+        if ( !common ) {
+            common = range.commonAncestorContainer;
+        }
+
+        if ( common.nodeType === TEXT_NODE ) {
+            common = common.parentNode;
+        }
+
+        var endNode = split( endContainer, endOffset, common, root ),
+            startNode = split( startContainer, startOffset, common, root ),
+            frag = common.ownerDocument.createDocumentFragment(),
+            next, before, after;
+
+        // End node will be null if at end of child nodes list.
+        while ( startNode !== endNode ) {
+            next = startNode.nextSibling;
+            frag.appendChild( startNode );
+            startNode = next;
+        }
+
+        startContainer = common;
+        startOffset = endNode ?
+            indexOf.call( common.childNodes, endNode ) :
+            common.childNodes.length;
+
+        // Merge text nodes if adjacent. IE10 in particular will not focus
+        // between two text nodes
+        after = common.childNodes[ startOffset ];
+        before = after && after.previousSibling;
+        if ( before &&
+            before.nodeType === TEXT_NODE &&
+            after.nodeType === TEXT_NODE ) {
+            startContainer = before;
+            startOffset = before.length;
+            before.appendData( after.data );
+            detach( after );
+        }
+
+        range.setStart( startContainer, startOffset );
+        range.collapse( true );
+
+        fixCursor( common, root );
+
+        return frag;
+    };
+
+    var deleteContentsOfRange = function ( range, root ) {
+        var startBlock = getStartBlockOfRange( range, root );
+        var endBlock = getEndBlockOfRange( range, root );
+        var needsMerge = ( startBlock !== endBlock );
+        var frag, child;
+
+        // Move boundaries up as much as possible without exiting block,
+        // to reduce need to split.
+        moveRangeBoundariesDownTree( range );
+        moveRangeBoundariesUpTree( range, startBlock, endBlock, root );
+
+        // Remove selected range
+        frag = extractContentsOfRange( range, null, root );
+
+        // Move boundaries back down tree as far as possible.
+        moveRangeBoundariesDownTree( range );
+
+        // If we split into two different blocks, merge the blocks.
+        if ( needsMerge ) {
+            // endBlock will have been split, so need to refetch
+            endBlock = getEndBlockOfRange( range, root );
+            if ( startBlock && endBlock && startBlock !== endBlock ) {
+                mergeWithBlock( startBlock, endBlock, range );
+            }
+        }
+
+        // Ensure block has necessary children
+        if ( startBlock ) {
+            fixCursor( startBlock, root );
+        }
+
+        // Ensure root has a block-level element in it.
+        child = root.firstChild;
+        if ( !child || child.nodeName === 'BR' ) {
+            fixCursor( root, root );
+            range.selectNodeContents( root.firstChild );
+        } else {
+            range.collapse( true );
+        }
+        return frag;
+    };
+
+// ---
+
+    var insertTreeFragmentIntoRange = function ( range, frag, root ) {
+        // Check if it's all inline content
+        var allInline = true,
+            children = frag.childNodes,
+            l = children.length;
+        while ( l-- ) {
+            if ( !isInline( children[l] ) ) {
+                allInline = false;
+                break;
+            }
+        }
+
+        // Delete any selected content
+        if ( !range.collapsed ) {
+            deleteContentsOfRange( range, root );
+        }
+
+        // Move range down into text nodes
+        moveRangeBoundariesDownTree( range );
+
+        if ( allInline ) {
+            // If inline, just insert at the current position.
+            insertNodeInRange( range, frag );
+            if ( range.startContainer !== range.endContainer ) {
+                mergeInlines( range.endContainer, range );
+            }
+            mergeInlines( range.startContainer, range );
+            range.collapse( false );
+        } else {
+            // Otherwise...
+            // 1. Split up to blockquote (if a parent) or root
+            var splitPoint = range.startContainer,
+                nodeAfterSplit = split(
+                    splitPoint,
+                    range.startOffset,
+                    getNearest( splitPoint.parentNode, root, 'BLOCKQUOTE' ) || root,
+                    root
+                ),
+                nodeBeforeSplit = nodeAfterSplit.previousSibling,
+                startContainer = nodeBeforeSplit,
+                startOffset = startContainer.childNodes.length,
+                endContainer = nodeAfterSplit,
+                endOffset = 0,
+                parent = nodeAfterSplit.parentNode,
+                child, node, prev, next, startAnchor;
+
+            // 2. Move down into edge either side of split and insert any inline
+            // nodes at the beginning/end of the fragment
+            while ( ( child = startContainer.lastChild ) &&
+            child.nodeType === ELEMENT_NODE ) {
+                if ( child.nodeName === 'BR' ) {
+                    startOffset -= 1;
+                    break;
+                }
+                startContainer = child;
+                startOffset = startContainer.childNodes.length;
+            }
+            while ( ( child = endContainer.firstChild ) &&
+            child.nodeType === ELEMENT_NODE &&
+            child.nodeName !== 'BR' ) {
+                endContainer = child;
+            }
+            startAnchor = startContainer.childNodes[ startOffset ] || null;
+            while ( ( child = frag.firstChild ) && isInline( child ) ) {
+                startContainer.insertBefore( child, startAnchor );
+            }
+            while ( ( child = frag.lastChild ) && isInline( child ) ) {
+                endContainer.insertBefore( child, endContainer.firstChild );
+                endOffset += 1;
+            }
+
+            // 3. Fix cursor then insert block(s) in the fragment
+            node = frag;
+            while ( node = getNextBlock( node, root ) ) {
+                fixCursor( node, root );
+            }
+            parent.insertBefore( frag, nodeAfterSplit );
+
+            // 4. Remove empty nodes created either side of split, then
+            // merge containers at the edges.
+            next = nodeBeforeSplit.nextSibling;
+            node = getPreviousBlock( next, root );
+            if ( node && !/\S/.test( node.textContent ) ) {
+                do {
+                    parent = node.parentNode;
+                    parent.removeChild( node );
+                    node = parent;
+                } while ( node && !node.lastChild && node !== root );
+            }
+            if ( !nodeBeforeSplit.parentNode ) {
+                nodeBeforeSplit = next.previousSibling;
+            }
+            if ( !startContainer.parentNode ) {
+                startContainer = nodeBeforeSplit || next.parentNode;
+                startOffset = nodeBeforeSplit ?
+                    nodeBeforeSplit.childNodes.length : 0;
+            }
+            // Merge inserted containers with edges of split
+            if ( isContainer( next ) ) {
+                mergeContainers( next, root );
+            }
+
+            prev = nodeAfterSplit.previousSibling;
+            node = isBlock( nodeAfterSplit ) ?
+                nodeAfterSplit : getNextBlock( nodeAfterSplit, root );
+            if ( node && !/\S/.test( node.textContent ) ) {
+                do {
+                    parent = node.parentNode;
+                    parent.removeChild( node );
+                    node = parent;
+                } while ( node && !node.lastChild && node !== root );
+            }
+            if ( !nodeAfterSplit.parentNode ) {
+                nodeAfterSplit = prev.nextSibling;
+            }
+            if ( !endOffset ) {
+                endContainer = prev;
+                endOffset = prev.childNodes.length;
+            }
+            // Merge inserted containers with edges of split
+            if ( nodeAfterSplit && isContainer( nodeAfterSplit ) ) {
+                mergeContainers( nodeAfterSplit, root );
+            }
+
+            range.setStart( startContainer, startOffset );
+            range.setEnd( endContainer, endOffset );
+            moveRangeBoundariesDownTree( range );
+        }
+    };
+
+// ---
+
+    var isNodeContainedInRange = function ( range, node, partial ) {
+        var nodeRange = node.ownerDocument.createRange();
+
+        nodeRange.selectNode( node );
+
+        if ( partial ) {
+            // Node must not finish before range starts or start after range
+            // finishes.
+            var nodeEndBeforeStart = ( range.compareBoundaryPoints(
+                END_TO_START, nodeRange ) > -1 ),
+                nodeStartAfterEnd = ( range.compareBoundaryPoints(
+                    START_TO_END, nodeRange ) < 1 );
+            return ( !nodeEndBeforeStart && !nodeStartAfterEnd );
+        }
+        else {
+            // Node must start after range starts and finish before range
+            // finishes
+            var nodeStartAfterStart = ( range.compareBoundaryPoints(
+                START_TO_START, nodeRange ) < 1 ),
+                nodeEndBeforeEnd = ( range.compareBoundaryPoints(
+                    END_TO_END, nodeRange ) > -1 );
+            return ( nodeStartAfterStart && nodeEndBeforeEnd );
+        }
+    };
+
+    var moveRangeBoundariesDownTree = function ( range ) {
+        var startContainer = range.startContainer,
+            startOffset = range.startOffset,
+            endContainer = range.endContainer,
+            endOffset = range.endOffset,
+            maySkipBR = true,
+            child;
+
+        while ( startContainer.nodeType !== TEXT_NODE ) {
+            child = startContainer.childNodes[ startOffset ];
+            if ( !child || isLeaf( child ) ) {
+                break;
+            }
+            startContainer = child;
+            startOffset = 0;
+        }
+        if ( endOffset ) {
+            while ( endContainer.nodeType !== TEXT_NODE ) {
+                child = endContainer.childNodes[ endOffset - 1 ];
+                if ( !child || isLeaf( child ) ) {
+                    if ( maySkipBR && child && child.nodeName === 'BR' ) {
+                        endOffset -= 1;
+                        maySkipBR = false;
+                        continue;
+                    }
+                    break;
+                }
+                endContainer = child;
+                endOffset = getLength( endContainer );
+            }
+        } else {
+            while ( endContainer.nodeType !== TEXT_NODE ) {
+                child = endContainer.firstChild;
+                if ( !child || isLeaf( child ) ) {
+                    break;
+                }
+                endContainer = child;
+            }
+        }
+
+        // If collapsed, this algorithm finds the nearest text node positions
+        // *outside* the range rather than inside, but also it flips which is
+        // assigned to which.
+        if ( range.collapsed ) {
+            range.setStart( endContainer, endOffset );
+            range.setEnd( startContainer, startOffset );
+        } else {
+            range.setStart( startContainer, startOffset );
+            range.setEnd( endContainer, endOffset );
+        }
+    };
+
+    var moveRangeBoundariesUpTree = function ( range, startMax, endMax, root ) {
+        var startContainer = range.startContainer;
+        var startOffset = range.startOffset;
+        var endContainer = range.endContainer;
+        var endOffset = range.endOffset;
+        var maySkipBR = true;
+        var parent;
+
+        if ( !startMax ) {
+            startMax = range.commonAncestorContainer;
+        }
+        if ( !endMax ) {
+            endMax = startMax;
+        }
+
+        while ( !startOffset &&
+        startContainer !== startMax &&
+        startContainer !== root ) {
+            parent = startContainer.parentNode;
+            startOffset = indexOf.call( parent.childNodes, startContainer );
+            startContainer = parent;
+        }
+
+        while ( true ) {
+            if ( maySkipBR &&
+                endContainer.nodeType !== TEXT_NODE &&
+                endContainer.childNodes[ endOffset ] &&
+                endContainer.childNodes[ endOffset ].nodeName === 'BR' ) {
+                endOffset += 1;
+                maySkipBR = false;
+            }
+            if ( endContainer === endMax ||
+                endContainer === root ||
+                endOffset !== getLength( endContainer ) ) {
+                break;
+            }
+            parent = endContainer.parentNode;
+            endOffset = indexOf.call( parent.childNodes, endContainer ) + 1;
+            endContainer = parent;
+        }
+
+        range.setStart( startContainer, startOffset );
+        range.setEnd( endContainer, endOffset );
+    };
+
+// Returns the first block at least partially contained by the range,
+// or null if no block is contained by the range.
+    var getStartBlockOfRange = function ( range, root ) {
+        var container = range.startContainer,
+            block;
+
+        // If inline, get the containing block.
+        if ( isInline( container ) ) {
+            block = getPreviousBlock( container, root );
+        } else if ( container !== root && isBlock( container ) ) {
+            block = container;
+        } else {
+            block = getNodeBefore( container, range.startOffset );
+            block = getNextBlock( block, root );
+        }
+        // Check the block actually intersects the range
+        return block && isNodeContainedInRange( range, block, true ) ? block : null;
+    };
+
+// Returns the last block at least partially contained by the range,
+// or null if no block is contained by the range.
+    var getEndBlockOfRange = function ( range, root ) {
+        var container = range.endContainer,
+            block, child;
+
+        // If inline, get the containing block.
+        if ( isInline( container ) ) {
+            block = getPreviousBlock( container, root );
+        } else if ( container !== root && isBlock( container ) ) {
+            block = container;
+        } else {
+            block = getNodeAfter( container, range.endOffset );
+            if ( !block || !isOrContains( root, block ) ) {
+                block = root;
+                while ( child = block.lastChild ) {
+                    block = child;
+                }
+            }
+            block = getPreviousBlock( block, root );
+        }
+        // Check the block actually intersects the range
+        return block && isNodeContainedInRange( range, block, true ) ? block : null;
+    };
+
+    var contentWalker = new TreeWalker( null,
+        SHOW_TEXT|SHOW_ELEMENT,
+        function ( node ) {
+            return node.nodeType === TEXT_NODE ?
+                notWS.test( node.data ) :
+            node.nodeName === 'IMG';
+        }
+    );
+
+    var rangeDoesStartAtBlockBoundary = function ( range, root ) {
+        var startContainer = range.startContainer;
+        var startOffset = range.startOffset;
+        var nodeAfterCursor;
+
+        // If in the middle or end of a text node, we're not at the boundary.
+        contentWalker.root = null;
+        if ( startContainer.nodeType === TEXT_NODE ) {
+            if ( startOffset ) {
+                return false;
+            }
+            nodeAfterCursor = startContainer;
+        } else {
+            nodeAfterCursor = getNodeAfter( startContainer, startOffset );
+            if ( nodeAfterCursor && !isOrContains( root, nodeAfterCursor ) ) {
+                nodeAfterCursor = null;
+            }
+            // The cursor was right at the end of the document
+            if ( !nodeAfterCursor ) {
+                nodeAfterCursor = getNodeBefore( startContainer, startOffset );
+                if ( nodeAfterCursor.nodeType === TEXT_NODE &&
+                    nodeAfterCursor.length ) {
+                    return false;
+                }
+            }
+        }
+
+        // Otherwise, look for any previous content in the same block.
+        contentWalker.currentNode = nodeAfterCursor;
+        contentWalker.root = getStartBlockOfRange( range, root );
+
+        return !contentWalker.previousNode();
+    };
+
+    var rangeDoesEndAtBlockBoundary = function ( range, root ) {
+        var endContainer = range.endContainer,
+            endOffset = range.endOffset,
+            length;
+
+        // If in a text node with content, and not at the end, we're not
+        // at the boundary
+        contentWalker.root = null;
+        if ( endContainer.nodeType === TEXT_NODE ) {
+            length = endContainer.data.length;
+            if ( length && endOffset < length ) {
+                return false;
+            }
+            contentWalker.currentNode = endContainer;
+        } else {
+            contentWalker.currentNode = getNodeBefore( endContainer, endOffset );
+        }
+
+        // Otherwise, look for any further content in the same block.
+        contentWalker.root = getEndBlockOfRange( range, root );
+
+        return !contentWalker.nextNode();
+    };
+
+    var expandRangeToBlockBoundaries = function ( range, root ) {
+        var start = getStartBlockOfRange( range, root ),
+            end = getEndBlockOfRange( range, root ),
+            parent;
+
+        if ( start && end ) {
+            parent = start.parentNode;
+            range.setStart( parent, indexOf.call( parent.childNodes, start ) );
+            parent = end.parentNode;
+            range.setEnd( parent, indexOf.call( parent.childNodes, end ) + 1 );
+        }
+    };
+
+    var keys = {
+        8: 'backspace',
+        9: 'tab',
+        13: 'enter',
+        32: 'space',
+        33: 'pageup',
+        34: 'pagedown',
+        37: 'left',
+        39: 'right',
+        46: 'delete',
+        219: '[',
+        221: ']'
+    };
+
+// Ref: http://unixpapa.com/js/key.html
+    var onKey = function ( event ) {
+        var code = event.keyCode,
+            key = keys[ code ],
+            modifiers = '',
+            range = this.getSelection();
+
+        if ( event.defaultPrevented ) {
+            return;
+        }
+
+        if ( !key ) {
+            key = String.fromCharCode( code ).toLowerCase();
+            // Only reliable for letters and numbers
+            if ( !/^[A-Za-z0-9]$/.test( key ) ) {
+                key = '';
+            }
+        }
+
+        // On keypress, delete and '.' both have event.keyCode 46
+        // Must check event.which to differentiate.
+        if ( isPresto && event.which === 46 ) {
+            key = '.';
+        }
+
+        // Function keys
+        if ( 111 < code && code < 124 ) {
+            key = 'f' + ( code - 111 );
+        }
+
+        // We need to apply the backspace/delete handlers regardless of
+        // control key modifiers.
+        if ( key !== 'backspace' && key !== 'delete' ) {
+            if ( event.altKey  ) { modifiers += 'alt-'; }
+            if ( event.ctrlKey ) { modifiers += 'ctrl-'; }
+            if ( event.metaKey ) { modifiers += 'meta-'; }
+        }
+        // However, on Windows, shift-delete is apparently "cut" (WTF right?), so
+        // we want to let the browser handle shift-delete.
+        if ( event.shiftKey ) { modifiers += 'shift-'; }
+
+        key = modifiers + key;
+
+        if ( this._keyHandlers[ key ] ) {
+            this._keyHandlers[ key ]( this, event, range );
+        } else if ( key.length === 1 && !range.collapsed ) {
+            // Record undo checkpoint.
+            this.saveUndoState( range );
+            // Delete the selection
+            deleteContentsOfRange( range, this._root );
+            this._ensureBottomLine();
+            this.setSelection( range );
+            this._updatePath( range, true );
+        }
+    };
+
+    var mapKeyTo = function ( method ) {
+        return function ( self, event ) {
+            event.preventDefault();
+            self[ method ]();
+        };
+    };
+
+    var mapKeyToFormat = function ( tag, remove ) {
+        remove = remove || null;
+        return function ( self, event ) {
+            event.preventDefault();
+            var range = self.getSelection();
+            if ( self.hasFormat( tag, null, range ) ) {
+                self.changeFormat( null, { tag: tag }, range );
+            } else {
+                self.changeFormat( { tag: tag }, remove, range );
+            }
+        };
+    };
+
+// If you delete the content inside a span with a font styling, Webkit will
+// replace it with a <font> tag (!). If you delete all the text inside a
+// link in Opera, it won't delete the link. Let's make things consistent. If
+// you delete all text inside an inline tag, remove the inline tag.
+    var afterDelete = function ( self, range ) {
+        try {
+            if ( !range ) { range = self.getSelection(); }
+            var node = range.startContainer,
+                parent;
+            // Climb the tree from the focus point while we are inside an empty
+            // inline element
+            if ( node.nodeType === TEXT_NODE ) {
+                node = node.parentNode;
+            }
+            parent = node;
+            while ( isInline( parent ) &&
+            ( !parent.textContent || parent.textContent === ZWS ) ) {
+                node = parent;
+                parent = node.parentNode;
+            }
+            // If focused in empty inline element
+            if ( node !== parent ) {
+                // Move focus to just before empty inline(s)
+                range.setStart( parent,
+                    indexOf.call( parent.childNodes, node ) );
+                range.collapse( true );
+                // Remove empty inline(s)
+                parent.removeChild( node );
+                // Fix cursor in block
+                if ( !isBlock( parent ) ) {
+                    parent = getPreviousBlock( parent, self._root );
+                }
+                fixCursor( parent, self._root );
+                // Move cursor into text node
+                moveRangeBoundariesDownTree( range );
+            }
+            // If you delete the last character in the sole <div> in Chrome,
+            // it removes the div and replaces it with just a <br> inside the
+            // root. Detach the <br>; the _ensureBottomLine call will insert a new
+            // block.
+            if ( node === self._root &&
+                ( node = node.firstChild ) && node.nodeName === 'BR' ) {
+                detach( node );
+            }
+            self._ensureBottomLine();
+            self.setSelection( range );
+            self._updatePath( range, true );
+        } catch ( error ) {
+            self.didError( error );
+        }
+    };
+
+    var keyHandlers = {
+        enter: function ( self, event, range ) {
+            var root = self._root;
+            var block, parent, nodeAfterSplit;
+
+            // We handle this ourselves
+            event.preventDefault();
+
+            // Save undo checkpoint and add any links in the preceding section.
+            // Remove any zws so we don't think there's content in an empty
+            // block.
+            self._recordUndoState( range );
+            addLinks( range.startContainer, root, self );
+            self._removeZWS();
+            self._getRangeAndRemoveBookmark( range );
+
+            // Selected text is overwritten, therefore delete the contents
+            // to collapse selection.
+            if ( !range.collapsed ) {
+                deleteContentsOfRange( range, root );
+            }
+
+            block = getStartBlockOfRange( range, root );
+
+            // If this is a malformed bit of document or in a table;
+            // just play it safe and insert a <br>.
+            if ( !block || /^T[HD]$/.test( block.nodeName ) ) {
+                insertNodeInRange( range, self.createElement( 'BR' ) );
+                range.collapse( false );
+                self.setSelection( range );
+                self._updatePath( range, true );
+                return;
+            }
+
+            // If in a list, we'll split the LI instead.
+            if ( parent = getNearest( block, root, 'LI' ) ) {
+                block = parent;
+            }
+
+            if ( !block.textContent ) {
+                // Break list
+                if ( getNearest( block, root, 'UL' ) ||
+                    getNearest( block, root, 'OL' ) ) {
+                    return self.modifyBlocks( decreaseListLevel, range );
+                }
+                // Break blockquote
+                else if ( getNearest( block, root, 'BLOCKQUOTE' ) ) {
+                    return self.modifyBlocks( removeBlockQuote, range );
+                }
+            }
+
+            // Otherwise, split at cursor point.
+            nodeAfterSplit = splitBlock( self, block,
+                range.startContainer, range.startOffset );
+
+            // Clean up any empty inlines if we hit enter at the beginning of the
+            // block
+            removeZWS( block );
+            removeEmptyInlines( block );
+            fixCursor( block, root );
+
+            // Focus cursor
+            // If there's a <b>/<i> etc. at the beginning of the split
+            // make sure we focus inside it.
+            while ( nodeAfterSplit.nodeType === ELEMENT_NODE ) {
+                var child = nodeAfterSplit.firstChild,
+                    next;
+
+                // Don't continue links over a block break; unlikely to be the
+                // desired outcome.
+                if ( nodeAfterSplit.nodeName === 'A' &&
+                    ( !nodeAfterSplit.textContent ||
+                    nodeAfterSplit.textContent === ZWS ) ) {
+                    child = self._doc.createTextNode( '' );
+                    replaceWith( nodeAfterSplit, child );
+                    nodeAfterSplit = child;
+                    break;
+                }
+
+                while ( child && child.nodeType === TEXT_NODE && !child.data ) {
+                    next = child.nextSibling;
+                    if ( !next || next.nodeName === 'BR' ) {
+                        break;
+                    }
+                    detach( child );
+                    child = next;
+                }
+
+                // 'BR's essentially don't count; they're a browser hack.
+                // If you try to select the contents of a 'BR', FF will not let
+                // you type anything!
+                if ( !child || child.nodeName === 'BR' ||
+                    ( child.nodeType === TEXT_NODE && !isPresto ) ) {
+                    break;
+                }
+                nodeAfterSplit = child;
+            }
+            range = self._createRange( nodeAfterSplit, 0 );
+            self.setSelection( range );
+            self._updatePath( range, true );
+        },
+        backspace: function ( self, event, range ) {
+            var root = self._root;
+            self._removeZWS();
+            // Record undo checkpoint.
+            self.saveUndoState( range );
+            // If not collapsed, delete contents
+            if ( !range.collapsed ) {
+                event.preventDefault();
+                deleteContentsOfRange( range, root );
+                afterDelete( self, range );
+            }
+            // If at beginning of block, merge with previous
+            else if ( rangeDoesStartAtBlockBoundary( range, root ) ) {
+                event.preventDefault();
+                var current = getStartBlockOfRange( range, root );
+                var previous;
+                if ( !current ) {
+                    return;
+                }
+                // In case inline data has somehow got between blocks.
+                fixContainer( current.parentNode, root );
+                // Now get previous block
+                previous = getPreviousBlock( current, root );
+                // Must not be at the very beginning of the text area.
+                if ( previous ) {
+                    // If not editable, just delete whole block.
+                    if ( !previous.isContentEditable ) {
+                        detach( previous );
+                        return;
+                    }
+                    // Otherwise merge.
+                    mergeWithBlock( previous, current, range );
+                    // If deleted line between containers, merge newly adjacent
+                    // containers.
+                    current = previous.parentNode;
+                    while ( current !== root && !current.nextSibling ) {
+                        current = current.parentNode;
+                    }
+                    if ( current !== root && ( current = current.nextSibling ) ) {
+                        mergeContainers( current, root );
+                    }
+                    self.setSelection( range );
+                }
+                // If at very beginning of text area, allow backspace
+                // to break lists/blockquote.
+                else if ( current ) {
+                    // Break list
+                    if ( getNearest( current, root, 'UL' ) ||
+                        getNearest( current, root, 'OL' ) ) {
+                        return self.modifyBlocks( decreaseListLevel, range );
+                    }
+                    // Break blockquote
+                    else if ( getNearest( current, root, 'BLOCKQUOTE' ) ) {
+                        return self.modifyBlocks( decreaseBlockQuoteLevel, range );
+                    }
+                    self.setSelection( range );
+                    self._updatePath( range, true );
+                }
+            }
+            // Otherwise, leave to browser but check afterwards whether it has
+            // left behind an empty inline tag.
+            else {
+                self.setSelection( range );
+                setTimeout( function () { afterDelete( self ); }, 0 );
+            }
+        },
+        'delete': function ( self, event, range ) {
+            var root = self._root;
+            var current, next, originalRange,
+                cursorContainer, cursorOffset, nodeAfterCursor;
+            self._removeZWS();
+            // Record undo checkpoint.
+            self.saveUndoState( range );
+            // If not collapsed, delete contents
+            if ( !range.collapsed ) {
+                event.preventDefault();
+                deleteContentsOfRange( range, root );
+                afterDelete( self, range );
+            }
+            // If at end of block, merge next into this block
+            else if ( rangeDoesEndAtBlockBoundary( range, root ) ) {
+                event.preventDefault();
+                current = getStartBlockOfRange( range, root );
+                if ( !current ) {
+                    return;
+                }
+                // In case inline data has somehow got between blocks.
+                fixContainer( current.parentNode, root );
+                // Now get next block
+                next = getNextBlock( current, root );
+                // Must not be at the very end of the text area.
+                if ( next ) {
+                    // If not editable, just delete whole block.
+                    if ( !next.isContentEditable ) {
+                        detach( next );
+                        return;
+                    }
+                    // Otherwise merge.
+                    mergeWithBlock( current, next, range );
+                    // If deleted line between containers, merge newly adjacent
+                    // containers.
+                    next = current.parentNode;
+                    while ( next !== root && !next.nextSibling ) {
+                        next = next.parentNode;
+                    }
+                    if ( next !== root && ( next = next.nextSibling ) ) {
+                        mergeContainers( next, root );
+                    }
+                    self.setSelection( range );
+                    self._updatePath( range, true );
+                }
+            }
+            // Otherwise, leave to browser but check afterwards whether it has
+            // left behind an empty inline tag.
+            else {
+                // But first check if the cursor is just before an IMG tag. If so,
+                // delete it ourselves, because the browser won't if it is not
+                // inline.
+                originalRange = range.cloneRange();
+                moveRangeBoundariesUpTree( range, root, root, root );
+                cursorContainer = range.endContainer;
+                cursorOffset = range.endOffset;
+                if ( cursorContainer.nodeType === ELEMENT_NODE ) {
+                    nodeAfterCursor = cursorContainer.childNodes[ cursorOffset ];
+                    if ( nodeAfterCursor && nodeAfterCursor.nodeName === 'IMG' ) {
+                        event.preventDefault();
+                        detach( nodeAfterCursor );
+                        moveRangeBoundariesDownTree( range );
+                        afterDelete( self, range );
+                        return;
+                    }
+                }
+                self.setSelection( originalRange );
+                setTimeout( function () { afterDelete( self ); }, 0 );
+            }
+        },
+        tab: function ( self, event, range ) {
+            var root = self._root;
+            var node, parent;
+            self._removeZWS();
+            // If no selection and at start of block
+            if ( range.collapsed && rangeDoesStartAtBlockBoundary( range, root ) ) {
+                node = getStartBlockOfRange( range, root );
+                // Iterate through the block's parents
+                while ( parent = node.parentNode ) {
+                    // If we find a UL or OL (so are in a list, node must be an LI)
+                    if ( parent.nodeName === 'UL' || parent.nodeName === 'OL' ) {
+                        // Then increase the list level
+                        event.preventDefault();
+                        self.modifyBlocks( increaseListLevel, range );
+                        break;
+                    }
+                    node = parent;
+                }
+            }
+        },
+        'shift-tab': function ( self, event, range ) {
+            var root = self._root;
+            var node;
+            self._removeZWS();
+            // If no selection and at start of block
+            if ( range.collapsed && rangeDoesStartAtBlockBoundary( range, root ) ) {
+                // Break list
+                node = range.startContainer;
+                if ( getNearest( node, root, 'UL' ) ||
+                    getNearest( node, root, 'OL' ) ) {
+                    event.preventDefault();
+                    self.modifyBlocks( decreaseListLevel, range );
+                }
+            }
+        },
+        space: function ( self, _, range ) {
+            var node, parent;
+            self._recordUndoState( range );
+            addLinks( range.startContainer, self._root, self );
+            self._getRangeAndRemoveBookmark( range );
+
+            // If the cursor is at the end of a link (<a>foo|</a>) then move it
+            // outside of the link (<a>foo</a>|) so that the space is not part of
+            // the link text.
+            node = range.endContainer;
+            parent = node.parentNode;
+            if ( range.collapsed && parent.nodeName === 'A' &&
+                !node.nextSibling && range.endOffset === getLength( node ) ) {
+                range.setStartAfter( parent );
+            }
+            // Delete the selection if not collapsed
+            else if ( !range.collapsed ) {
+                deleteContentsOfRange( range, self._root );
+                self._ensureBottomLine();
+                self.setSelection( range );
+                self._updatePath( range, true );
+            }
+
+            self.setSelection( range );
+        },
+        left: function ( self ) {
+            self._removeZWS();
+        },
+        right: function ( self ) {
+            self._removeZWS();
+        }
+    };
+
+// Firefox pre v29 incorrectly handles Cmd-left/Cmd-right on Mac:
+// it goes back/forward in history! Override to do the right
+// thing.
+// https://bugzilla.mozilla.org/show_bug.cgi?id=289384
+    if ( isMac && isGecko ) {
+        keyHandlers[ 'meta-left' ] = function ( self, event ) {
+            event.preventDefault();
+            var sel = getWindowSelection( self );
+            if ( sel && sel.modify ) {
+                sel.modify( 'move', 'backward', 'lineboundary' );
+            }
+        };
+        keyHandlers[ 'meta-right' ] = function ( self, event ) {
+            event.preventDefault();
+            var sel = getWindowSelection( self );
+            if ( sel && sel.modify ) {
+                sel.modify( 'move', 'forward', 'lineboundary' );
+            }
+        };
+    }
+
+// System standard for page up/down on Mac is to just scroll, not move the
+// cursor. On Linux/Windows, it should move the cursor, but some browsers don't
+// implement this natively. Override to support it.
+    if ( !isMac ) {
+        keyHandlers.pageup = function ( self ) {
+            self.moveCursorToStart();
+        };
+        keyHandlers.pagedown = function ( self ) {
+            self.moveCursorToEnd();
+        };
+    }
+
+    keyHandlers[ ctrlKey + 'b' ] = mapKeyToFormat( 'B' );
+    keyHandlers[ ctrlKey + 'i' ] = mapKeyToFormat( 'I' );
+    keyHandlers[ ctrlKey + 'u' ] = mapKeyToFormat( 'U' );
+    keyHandlers[ ctrlKey + 'shift-7' ] = mapKeyToFormat( 'S' );
+    keyHandlers[ ctrlKey + 'shift-5' ] = mapKeyToFormat( 'SUB', { tag: 'SUP' } );
+    keyHandlers[ ctrlKey + 'shift-6' ] = mapKeyToFormat( 'SUP', { tag: 'SUB' } );
+    keyHandlers[ ctrlKey + 'shift-8' ] = mapKeyTo( 'makeUnorderedList' );
+    keyHandlers[ ctrlKey + 'shift-9' ] = mapKeyTo( 'makeOrderedList' );
+    keyHandlers[ ctrlKey + '[' ] = mapKeyTo( 'decreaseQuoteLevel' );
+    keyHandlers[ ctrlKey + ']' ] = mapKeyTo( 'increaseQuoteLevel' );
+    keyHandlers[ ctrlKey + 'y' ] = mapKeyTo( 'redo' );
+    keyHandlers[ ctrlKey + 'z' ] = mapKeyTo( 'undo' );
+    keyHandlers[ ctrlKey + 'shift-z' ] = mapKeyTo( 'redo' );
+
+    var fontSizes = {
+        1: 10,
+        2: 13,
+        3: 16,
+        4: 18,
+        5: 24,
+        6: 32,
+        7: 48
+    };
+
+    var styleToSemantic = {
+        backgroundColor: {
+            regexp: notWS,
+            replace: function ( doc, colour ) {
+                return createElement( doc, 'SPAN', {
+                    'class': HIGHLIGHT_CLASS,
+                    style: 'background-color:' + colour
+                });
+            }
+        },
+        color: {
+            regexp: notWS,
+            replace: function ( doc, colour ) {
+                return createElement( doc, 'SPAN', {
+                    'class': COLOUR_CLASS,
+                    style: 'color:' + colour
+                });
+            }
+        },
+        fontWeight: {
+            regexp: /^bold|^700/i,
+            replace: function ( doc ) {
+                return createElement( doc, 'B' );
+            }
+        },
+        fontStyle: {
+            regexp: /^italic/i,
+            replace: function ( doc ) {
+                return createElement( doc, 'I' );
+            }
+        },
+        fontFamily: {
+            regexp: notWS,
+            replace: function ( doc, family ) {
+                return createElement( doc, 'SPAN', {
+                    'class': FONT_FAMILY_CLASS,
+                    style: 'font-family:' + family
+                });
+            }
+        },
+        fontSize: {
+            regexp: notWS,
+            replace: function ( doc, size ) {
+                return createElement( doc, 'SPAN', {
+                    'class': FONT_SIZE_CLASS,
+                    style: 'font-size:' + size
+                });
+            }
+        },
+        textDecoration: {
+            regexp: /^underline/i,
+            replace: function ( doc ) {
+                return createElement( doc, 'U' );
+            }
+        }
+    };
+
+    var replaceWithTag = function ( tag ) {
+        return function ( node, parent ) {
+            var el = createElement( node.ownerDocument, tag );
+            parent.replaceChild( el, node );
+            el.appendChild( empty( node ) );
+            return el;
+        };
+    };
+
+    var replaceStyles = function ( node, parent ) {
+        var style = node.style;
+        var doc = node.ownerDocument;
+        var attr, converter, css, newTreeBottom, newTreeTop, el;
+
+        for ( attr in styleToSemantic ) {
+            converter = styleToSemantic[ attr ];
+            css = style[ attr ];
+            if ( css && converter.regexp.test( css ) ) {
+                el = converter.replace( doc, css );
+                if ( !newTreeTop ) {
+                    newTreeTop = el;
+                }
+                if ( newTreeBottom ) {
+                    newTreeBottom.appendChild( el );
+                }
+                newTreeBottom = el;
+                node.style[ attr ] = '';
+            }
+        }
+
+        if ( newTreeTop ) {
+            newTreeBottom.appendChild( empty( node ) );
+            if ( node.nodeName === 'SPAN' ) {
+                parent.replaceChild( newTreeTop, node );
+            } else {
+                node.appendChild( newTreeTop );
+            }
+        }
+
+        return newTreeBottom || node;
+    };
+
+    var stylesRewriters = {
+        P: replaceStyles,
+        SPAN: replaceStyles,
+        STRONG: replaceWithTag( 'B' ),
+        EM: replaceWithTag( 'I' ),
+        INS: replaceWithTag( 'U' ),
+        STRIKE: replaceWithTag( 'S' ),
+        FONT: function ( node, parent ) {
+            var face = node.face,
+                size = node.size,
+                colour = node.color,
+                doc = node.ownerDocument,
+                fontSpan, sizeSpan, colourSpan,
+                newTreeBottom, newTreeTop;
+            if ( face ) {
+                fontSpan = createElement( doc, 'SPAN', {
+                    'class': FONT_FAMILY_CLASS,
+                    style: 'font-family:' + face
+                });
+                newTreeTop = fontSpan;
+                newTreeBottom = fontSpan;
+            }
+            if ( size ) {
+                sizeSpan = createElement( doc, 'SPAN', {
+                    'class': FONT_SIZE_CLASS,
+                    style: 'font-size:' + fontSizes[ size ] + 'px'
+                });
+                if ( !newTreeTop ) {
+                    newTreeTop = sizeSpan;
+                }
+                if ( newTreeBottom ) {
+                    newTreeBottom.appendChild( sizeSpan );
+                }
+                newTreeBottom = sizeSpan;
+            }
+            if ( colour && /^#?([\dA-F]{3}){1,2}$/i.test( colour ) ) {
+                if ( colour.charAt( 0 ) !== '#' ) {
+                    colour = '#' + colour;
+                }
+                colourSpan = createElement( doc, 'SPAN', {
+                    'class': COLOUR_CLASS,
+                    style: 'color:' + colour
+                });
+                if ( !newTreeTop ) {
+                    newTreeTop = colourSpan;
+                }
+                if ( newTreeBottom ) {
+                    newTreeBottom.appendChild( colourSpan );
+                }
+                newTreeBottom = colourSpan;
+            }
+            if ( !newTreeTop ) {
+                newTreeTop = newTreeBottom = createElement( doc, 'SPAN' );
+            }
+            parent.replaceChild( newTreeTop, node );
+            newTreeBottom.appendChild( empty( node ) );
+            return newTreeBottom;
+        },
+        TT: function ( node, parent ) {
+            var el = createElement( node.ownerDocument, 'SPAN', {
+                'class': FONT_FAMILY_CLASS,
+                style: 'font-family:menlo,consolas,"courier new",monospace'
+            });
+            parent.replaceChild( el, node );
+            el.appendChild( empty( node ) );
+            return el;
+        }
+    };
+
+    var allowedBlock = /^(?:A(?:DDRESS|RTICLE|SIDE|UDIO)|BLOCKQUOTE|CAPTION|D(?:[DLT]|IV)|F(?:IGURE|IGCAPTION|OOTER)|H[1-6]|HEADER|L(?:ABEL|EGEND|I)|O(?:L|UTPUT)|P(?:RE)?|SECTION|T(?:ABLE|BODY|D|FOOT|H|HEAD|R)|COL(?:GROUP)?|UL)$/;
+
+    var blacklist = /^(?:HEAD|META|STYLE)/;
+
+    var walker = new TreeWalker( null, SHOW_TEXT|SHOW_ELEMENT, function () {
+        return true;
+    });
+
+    /*
+     Two purposes:
+
+     1. Remove nodes we don't want, such as weird <o:p> tags, comment nodes
+     and whitespace nodes.
+     2. Convert inline tags into our preferred format.
+     */
+    var cleanTree = function cleanTree ( node, preserveWS ) {
+        var children = node.childNodes,
+            nonInlineParent, i, l, child, nodeName, nodeType, rewriter, childLength,
+            startsWithWS, endsWithWS, data, sibling;
+
+        nonInlineParent = node;
+        while ( isInline( nonInlineParent ) ) {
+            nonInlineParent = nonInlineParent.parentNode;
+        }
+        walker.root = nonInlineParent;
+
+        for ( i = 0, l = children.length; i < l; i += 1 ) {
+            child = children[i];
+            nodeName = child.nodeName;
+            nodeType = child.nodeType;
+            rewriter = stylesRewriters[ nodeName ];
+            if ( nodeType === ELEMENT_NODE ) {
+                childLength = child.childNodes.length;
+                if ( rewriter ) {
+                    child = rewriter( child, node );
+                } else if ( blacklist.test( nodeName ) ) {
+                    node.removeChild( child );
+                    i -= 1;
+                    l -= 1;
+                    continue;
+                } else if ( !allowedBlock.test( nodeName ) && !isInline( child ) ) {
+                    i -= 1;
+                    l += childLength - 1;
+                    node.replaceChild( empty( child ), child );
+                    continue;
+                }
+                if ( childLength ) {
+                    cleanTree( child, preserveWS || ( nodeName === 'PRE' ) );
+                }
+            } else {
+                if ( nodeType === TEXT_NODE ) {
+                    data = child.data;
+                    startsWithWS = !notWS.test( data.charAt( 0 ) );
+                    endsWithWS = !notWS.test( data.charAt( data.length - 1 ) );
+                    if ( preserveWS || ( !startsWithWS && !endsWithWS ) ) {
+                        continue;
+                    }
+                    // Iterate through the nodes; if we hit some other content
+                    // before the start of a new block we don't trim
+                    if ( startsWithWS ) {
+                        walker.currentNode = child;
+                        while ( sibling = walker.previousPONode() ) {
+                            nodeName = sibling.nodeName;
+                            if ( nodeName === 'IMG' ||
+                                ( nodeName === '#text' &&
+                                notWS.test( sibling.data ) ) ) {
+                                break;
+                            }
+                            if ( !isInline( sibling ) ) {
+                                sibling = null;
+                                break;
+                            }
+                        }
+                        data = data.replace( /^[ \t\r\n]+/g, sibling ? ' ' : '' );
+                    }
+                    if ( endsWithWS ) {
+                        walker.currentNode = child;
+                        while ( sibling = walker.nextNode() ) {
+                            if ( nodeName === 'IMG' ||
+                                ( nodeName === '#text' &&
+                                notWS.test( sibling.data ) ) ) {
+                                break;
+                            }
+                            if ( !isInline( sibling ) ) {
+                                sibling = null;
+                                break;
+                            }
+                        }
+                        data = data.replace( /[ \t\r\n]+$/g, sibling ? ' ' : '' );
+                    }
+                    if ( data ) {
+                        child.data = data;
+                        continue;
+                    }
+                }
+                node.removeChild( child );
+                i -= 1;
+                l -= 1;
+            }
+        }
+        return node;
+    };
+
+// ---
+
+    var removeEmptyInlines = function removeEmptyInlines ( node ) {
+        var children = node.childNodes,
+            l = children.length,
+            child;
+        while ( l-- ) {
+            child = children[l];
+            if ( child.nodeType === ELEMENT_NODE && !isLeaf( child ) ) {
+                removeEmptyInlines( child );
+                if ( isInline( child ) && !child.firstChild ) {
+                    node.removeChild( child );
+                }
+            } else if ( child.nodeType === TEXT_NODE && !child.data ) {
+                node.removeChild( child );
+            }
+        }
+    };
+
+// ---
+
+    var notWSTextNode = function ( node ) {
+        return node.nodeType === ELEMENT_NODE ?
+        node.nodeName === 'BR' :
+            notWS.test( node.data );
+    };
+    var isLineBreak = function ( br, isLBIfEmptyBlock ) {
+        var block = br.parentNode;
+        var walker;
+        while ( isInline( block ) ) {
+            block = block.parentNode;
+        }
+        walker = new TreeWalker(
+            block, SHOW_ELEMENT|SHOW_TEXT, notWSTextNode );
+        walker.currentNode = br;
+        return !!walker.nextNode() ||
+            ( isLBIfEmptyBlock && !walker.previousNode() );
+    };
+
+// <br> elements are treated specially, and differently depending on the
+// browser, when in rich text editor mode. When adding HTML from external
+// sources, we must remove them, replacing the ones that actually affect
+// line breaks by wrapping the inline text in a <div>. Browsers that want <br>
+// elements at the end of each block will then have them added back in a later
+// fixCursor method call.
+    var cleanupBRs = function ( node, root, keepForBlankLine ) {
+        var brs = node.querySelectorAll( 'BR' );
+        var brBreaksLine = [];
+        var l = brs.length;
+        var i, br, parent;
+
+        // Must calculate whether the <br> breaks a line first, because if we
+        // have two <br>s next to each other, after the first one is converted
+        // to a block split, the second will be at the end of a block and
+        // therefore seem to not be a line break. But in its original context it
+        // was, so we should also convert it to a block split.
+        for ( i = 0; i < l; i += 1 ) {
+            brBreaksLine[i] = isLineBreak( brs[i], keepForBlankLine );
+        }
+        while ( l-- ) {
+            br = brs[l];
+            // Cleanup may have removed it
+            parent = br.parentNode;
+            if ( !parent ) { continue; }
+            // If it doesn't break a line, just remove it; it's not doing
+            // anything useful. We'll add it back later if required by the
+            // browser. If it breaks a line, wrap the content in div tags
+            // and replace the brs.
+            if ( !brBreaksLine[l] ) {
+                detach( br );
+            } else if ( !isInline( parent ) ) {
+                fixContainer( parent, root );
+            }
+        }
+    };
+
+// The (non-standard but supported enough) innerText property is based on the
+// render tree in Firefox and possibly other browsers, so we must insert the
+// DOM node into the document to ensure the text part is correct.
+    var setClipboardData = function ( clipboardData, node, root ) {
+        var body = node.ownerDocument.body;
+        var html, text;
+
+        // Firefox will add an extra new line for BRs at the end of block when
+        // calculating innerText, even though they don't actually affect display.
+        // So we need to remove them first.
+        cleanupBRs( node, root, true );
+
+        node.setAttribute( 'style',
+            'position:fixed;overflow:hidden;bottom:100%;right:100%;' );
+        body.appendChild( node );
+        html = node.innerHTML;
+        text = node.innerText || node.textContent;
+
+        // Firefox (and others?) returns unix line endings (\n) even on Windows.
+        // If on Windows, normalise to \r\n, since Notepad and some other crappy
+        // apps do not understand just \n.
+        if ( isWin ) {
+            text = text.replace( /\r?\n/g, '\r\n' );
+        }
+
+        clipboardData.setData( 'text/html', html );
+        clipboardData.setData( 'text/plain', text );
+
+        body.removeChild( node );
+    };
+
+    var onCut = function ( event ) {
+        var clipboardData = event.clipboardData;
+        var range = this.getSelection();
+        var root = this._root;
+        var self = this;
+        var startBlock, endBlock, copyRoot, contents, parent, newContents, node;
+
+        // Nothing to do
+        if ( range.collapsed ) {
+            event.preventDefault();
+            return;
+        }
+
+        // Save undo checkpoint
+        this.saveUndoState( range );
+
+        // Edge only seems to support setting plain text as of 2016-03-11.
+        // Mobile Safari flat out doesn't work:
+        // https://bugs.webkit.org/show_bug.cgi?id=143776
+        if ( !isEdge && !isIOS && clipboardData ) {
+            // Clipboard content should include all parents within block, or all
+            // parents up to root if selection across blocks
+            startBlock = getStartBlockOfRange( range, root );
+            endBlock = getEndBlockOfRange( range, root );
+            copyRoot = ( ( startBlock === endBlock ) && startBlock ) || root;
+            // Extract the contents
+            contents = deleteContentsOfRange( range, root );
+            // Add any other parents not in extracted content, up to copy root
+            parent = range.commonAncestorContainer;
+            if ( parent.nodeType === TEXT_NODE ) {
+                parent = parent.parentNode;
+            }
+            while ( parent && parent !== copyRoot ) {
+                newContents = parent.cloneNode( false );
+                newContents.appendChild( contents );
+                contents = newContents;
+                parent = parent.parentNode;
+            }
+            // Set clipboard data
+            node = this.createElement( 'div' );
+            node.appendChild( contents );
+            setClipboardData( clipboardData, node, root );
+            event.preventDefault();
+        } else {
+            setTimeout( function () {
+                try {
+                    // If all content removed, ensure div at start of root.
+                    self._ensureBottomLine();
+                } catch ( error ) {
+                    self.didError( error );
+                }
+            }, 0 );
+        }
+
+        this.setSelection( range );
+    };
+
+    var onCopy = function ( event ) {
+        var clipboardData = event.clipboardData;
+        var range = this.getSelection();
+        var root = this._root;
+        var startBlock, endBlock, copyRoot, contents, parent, newContents, node;
+
+        // Edge only seems to support setting plain text as of 2016-03-11.
+        // Mobile Safari flat out doesn't work:
+        // https://bugs.webkit.org/show_bug.cgi?id=143776
+        if ( !isEdge && !isIOS && clipboardData ) {
+            // Clipboard content should include all parents within block, or all
+            // parents up to root if selection across blocks
+            startBlock = getStartBlockOfRange( range, root );
+            endBlock = getEndBlockOfRange( range, root );
+            copyRoot = ( ( startBlock === endBlock ) && startBlock ) || root;
+            // Clone range to mutate, then move up as high as possible without
+            // passing the copy root node.
+            range = range.cloneRange();
+            moveRangeBoundariesDownTree( range );
+            moveRangeBoundariesUpTree( range, copyRoot, copyRoot, root );
+            // Extract the contents
+            contents = range.cloneContents();
+            // Add any other parents not in extracted content, up to copy root
+            parent = range.commonAncestorContainer;
+            if ( parent.nodeType === TEXT_NODE ) {
+                parent = parent.parentNode;
+            }
+            while ( parent && parent !== copyRoot ) {
+                newContents = parent.cloneNode( false );
+                newContents.appendChild( contents );
+                contents = newContents;
+                parent = parent.parentNode;
+            }
+            // Set clipboard data
+            node = this.createElement( 'div' );
+            node.appendChild( contents );
+            setClipboardData( clipboardData, node, root );
+            event.preventDefault();
+        }
+    };
+
+// Need to monitor for shift key like this, as event.shiftKey is not available
+// in paste event.
+    function monitorShiftKey ( event ) {
+        this.isShiftDown = event.shiftKey;
+    }
+
+    var onPaste = function ( event ) {
+        var clipboardData = event.clipboardData;
+        var items = clipboardData && clipboardData.items;
+        var choosePlain = this.isShiftDown;
+        var fireDrop = false;
+        var hasImage = false;
+        var plainItem = null;
+        var self = this;
+        var l, item, type, types, data;
+
+        // Current HTML5 Clipboard interface
+        // ---------------------------------
+        // https://html.spec.whatwg.org/multipage/interaction.html
+
+        // Edge only provides access to plain text as of 2016-03-11.
+        if ( !isEdge && items ) {
+            event.preventDefault();
+            l = items.length;
+            while ( l-- ) {
+                item = items[l];
+                type = item.type;
+                if ( !choosePlain && type === 'text/html' ) {
+                    /*jshint loopfunc: true */
+                    item.getAsString( function ( html ) {
+                        self.insertHTML( html, true );
+                    });
+                    /*jshint loopfunc: false */
+                    return;
+                }
+                if ( type === 'text/plain' ) {
+                    plainItem = item;
+                }
+                if ( !choosePlain && /^image\/.*/.test( type ) ) {
+                    hasImage = true;
+                }
+            }
+            // Treat image paste as a drop of an image file.
+            if ( hasImage ) {
+                this.fireEvent( 'dragover', {
+                    dataTransfer: clipboardData,
+                    /*jshint loopfunc: true */
+                    preventDefault: function () {
+                        fireDrop = true;
+                    }
+                    /*jshint loopfunc: false */
+                });
+                if ( fireDrop ) {
+                    this.fireEvent( 'drop', {
+                        dataTransfer: clipboardData
+                    });
+                }
+            } else if ( plainItem ) {
+                plainItem.getAsString( function ( text ) {
+                    self.insertPlainText( text, true );
+                });
+            }
+            return;
+        }
+
+        // Old interface
+        // -------------
+
+        // Safari (and indeed many other OS X apps) copies stuff as text/rtf
+        // rather than text/html; even from a webpage in Safari. The only way
+        // to get an HTML version is to fallback to letting the browser insert
+        // the content. Same for getting image data. *Sigh*.
+        //
+        // Firefox is even worse: it doesn't even let you know that there might be
+        // an RTF version on the clipboard, but it will also convert to HTML if you
+        // let the browser insert the content. I've filed
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1254028
+        types = clipboardData && clipboardData.types;
+        if ( !isEdge && types && (
+                indexOf.call( types, 'text/html' ) > -1 || (
+                !isGecko &&
+                indexOf.call( types, 'text/plain' ) > -1 &&
+                indexOf.call( types, 'text/rtf' ) < 0 )
+            )) {
+            event.preventDefault();
+            // Abiword on Linux copies a plain text and html version, but the HTML
+            // version is the empty string! So always try to get HTML, but if none,
+            // insert plain text instead. On iOS, Facebook (and possibly other
+            // apps?) copy links as type text/uri-list, but also insert a **blank**
+            // text/plain item onto the clipboard. Why? Who knows.
+            if ( !choosePlain && ( data = clipboardData.getData( 'text/html' ) ) ) {
+                this.insertHTML( data, true );
+            } else if (
+                ( data = clipboardData.getData( 'text/plain' ) ) ||
+                ( data = clipboardData.getData( 'text/uri-list' ) ) ) {
+                this.insertPlainText( data, true );
+            }
+            return;
+        }
+
+        // No interface. Includes all versions of IE :(
+        // --------------------------------------------
+
+        this._awaitingPaste = true;
+
+        var body = this._doc.body,
+            range = this.getSelection(),
+            startContainer = range.startContainer,
+            startOffset = range.startOffset,
+            endContainer = range.endContainer,
+            endOffset = range.endOffset;
+
+        // We need to position the pasteArea in the visible portion of the screen
+        // to stop the browser auto-scrolling.
+        var pasteArea = this.createElement( 'DIV', {
+            contenteditable: 'true',
+            style: 'position:fixed; overflow:hidden; top:0; right:100%; width:1px; height:1px;'
+        });
+        body.appendChild( pasteArea );
+        range.selectNodeContents( pasteArea );
+        this.setSelection( range );
+
+        // A setTimeout of 0 means this is added to the back of the
+        // single javascript thread, so it will be executed after the
+        // paste event.
+        setTimeout( function () {
+            try {
+                // IE sometimes fires the beforepaste event twice; make sure it is
+                // not run again before our after paste function is called.
+                self._awaitingPaste = false;
+
+                // Get the pasted content and clean
+                var html = '',
+                    next = pasteArea,
+                    first, range;
+
+                // #88: Chrome can apparently split the paste area if certain
+                // content is inserted; gather them all up.
+                while ( pasteArea = next ) {
+                    next = pasteArea.nextSibling;
+                    detach( pasteArea );
+                    // Safari and IE like putting extra divs around things.
+                    first = pasteArea.firstChild;
+                    if ( first && first === pasteArea.lastChild &&
+                        first.nodeName === 'DIV' ) {
+                        pasteArea = first;
+                    }
+                    html += pasteArea.innerHTML;
+                }
+
+                range = self._createRange(
+                    startContainer, startOffset, endContainer, endOffset );
+                self.setSelection( range );
+
+                if ( html ) {
+                    self.insertHTML( html, true );
+                }
+            } catch ( error ) {
+                self.didError( error );
+            }
+        }, 0 );
+    };
+
+// On Windows you can drag an drop text. We can't handle this ourselves, because
+// as far as I can see, there's no way to get the drop insertion point. So just
+// save an undo state and hope for the best.
+    var onDrop = function ( event ) {
+        var types = event.dataTransfer.types;
+        var l = types.length;
+        var hasPlain = false;
+        var hasHTML = false;
+        while ( l-- ) {
+            switch ( types[l] ) {
+                case 'text/plain':
+                    hasPlain = true;
+                    break;
+                case 'text/html':
+                    hasHTML = true;
+                    break;
+                default:
+                    return;
+            }
+        }
+        if ( hasHTML || hasPlain ) {
+            this.saveUndoState();
+        }
+    };
+
+    function mergeObjects ( base, extras, mayOverride ) {
+        var prop, value;
+        if ( !base ) {
+            base = {};
+        }
+        if ( extras ) {
+            for ( prop in extras ) {
+                if ( mayOverride || !( prop in base ) ) {
+                    value = extras[ prop ];
+                    base[ prop ] = ( value && value.constructor === Object ) ?
+                        mergeObjects( base[ prop ], value, mayOverride ) :
+                        value;
+                }
+            }
+        }
+        return base;
+    }
+
+    function Squire ( root, config ) {
+        if ( root.nodeType === DOCUMENT_NODE ) {
+            root = root.body;
+        }
+        var doc = root.ownerDocument;
+        var win = doc.defaultView;
+        var mutation;
+
+        this._win = win;
+        this._doc = doc;
+        this._root = root;
+
+        this._events = {};
+
+        this._isFocused = false;
+        this._lastSelection = null;
+
+        // IE loses selection state of iframe on blur, so make sure we
+        // cache it just before it loses focus.
+        if ( losesSelectionOnBlur ) {
+            this.addEventListener( 'beforedeactivate', this.getSelection );
+        }
+
+        this._hasZWS = false;
+
+        this._lastAnchorNode = null;
+        this._lastFocusNode = null;
+        this._path = '';
+        this._willUpdatePath = false;
+
+        if ( 'onselectionchange' in doc ) {
+            this.addEventListener( 'selectionchange', this._updatePathOnEvent );
+        } else {
+            this.addEventListener( 'keyup', this._updatePathOnEvent );
+            this.addEventListener( 'mouseup', this._updatePathOnEvent );
+        }
+
+        this._undoIndex = -1;
+        this._undoStack = [];
+        this._undoStackLength = 0;
+        this._isInUndoState = false;
+        this._ignoreChange = false;
+        this._ignoreAllChanges = false;
+
+        if ( canObserveMutations ) {
+            mutation = new MutationObserver( this._docWasChanged.bind( this ) );
+            mutation.observe( root, {
+                childList: true,
+                attributes: true,
+                characterData: true,
+                subtree: true
+            });
+            this._mutation = mutation;
+        } else {
+            this.addEventListener( 'keyup', this._keyUpDetectChange );
+        }
+
+        // On blur, restore focus except if the user taps or clicks to focus a
+        // specific point. Can't actually use click event because focus happens
+        // before click, so use mousedown/touchstart
+        this._restoreSelection = false;
+        this.addEventListener( 'blur', enableRestoreSelection );
+        this.addEventListener( 'mousedown', disableRestoreSelection );
+        this.addEventListener( 'touchstart', disableRestoreSelection );
+        this.addEventListener( 'focus', restoreSelection );
+
+        // IE sometimes fires the beforepaste event twice; make sure it is not run
+        // again before our after paste function is called.
+        this._awaitingPaste = false;
+        this.addEventListener( isIElt11 ? 'beforecut' : 'cut', onCut );
+        this.addEventListener( 'copy', onCopy );
+        this.addEventListener( 'keydown', monitorShiftKey );
+        this.addEventListener( 'keyup', monitorShiftKey );
+        this.addEventListener( isIElt11 ? 'beforepaste' : 'paste', onPaste );
+        this.addEventListener( 'drop', onDrop );
+
+        // Opera does not fire keydown repeatedly.
+        this.addEventListener( isPresto ? 'keypress' : 'keydown', onKey );
+
+        // Add key handlers
+        this._keyHandlers = Object.create( keyHandlers );
+
+        // Override default properties
+        this.setConfig( config );
+
+        // Fix IE<10's buggy implementation of Text#splitText.
+        // If the split is at the end of the node, it doesn't insert the newly split
+        // node into the document, and sets its value to undefined rather than ''.
+        // And even if the split is not at the end, the original node is removed
+        // from the document and replaced by another, rather than just having its
+        // data shortened.
+        // We used to feature test for this, but then found the feature test would
+        // sometimes pass, but later on the buggy behaviour would still appear.
+        // I think IE10 does not have the same bug, but it doesn't hurt to replace
+        // its native fn too and then we don't need yet another UA category.
+        if ( isIElt11 ) {
+            win.Text.prototype.splitText = function ( offset ) {
+                var afterSplit = this.ownerDocument.createTextNode(
+                    this.data.slice( offset ) ),
+                    next = this.nextSibling,
+                    parent = this.parentNode,
+                    toDelete = this.length - offset;
+                if ( next ) {
+                    parent.insertBefore( afterSplit, next );
+                } else {
+                    parent.appendChild( afterSplit );
+                }
+                if ( toDelete ) {
+                    this.deleteData( offset, toDelete );
+                }
+                return afterSplit;
+            };
+        }
+
+        root.setAttribute( 'contenteditable', 'true' );
+
+        // Remove Firefox's built-in controls
+        try {
+            doc.execCommand( 'enableObjectResizing', false, 'false' );
+            doc.execCommand( 'enableInlineTableEditing', false, 'false' );
+        } catch ( error ) {}
+
+        root.__squire__ = this;
+
+        // Need to register instance before calling setHTML, so that the fixCursor
+        // function can lookup any default block tag options set.
+        this.setHTML( '' );
+    }
+
+    var proto = Squire.prototype;
+
+    var sanitizeToDOMFragment = function ( html, isPaste, self ) {
+        var doc = self._doc;
+        var frag = html ? DOMPurify.sanitize( html, {
+            WHOLE_DOCUMENT: false,
+            RETURN_DOM: true,
+            RETURN_DOM_FRAGMENT: true
+        }) : null;
+        return frag ? doc.importNode( frag, true ) : doc.createDocumentFragment();
+    };
+
+    proto.setConfig = function ( config ) {
+        config = mergeObjects({
+            blockTag: 'DIV',
+            blockAttributes: null,
+            tagAttributes: {
+                blockquote: null,
+                ul: null,
+                ol: null,
+                li: null,
+                a: null
+            },
+            leafNodeNames: leafNodeNames,
+            undo: {
+                documentSizeThreshold: -1, // -1 means no threshold
+                undoLimit: -1 // -1 means no limit
+            },
+            isInsertedHTMLSanitized: true,
+            isSetHTMLSanitized: true,
+            sanitizeToDOMFragment:
+                typeof DOMPurify !== 'undefined' && DOMPurify.isSupported ?
+                    sanitizeToDOMFragment : null
+
+        }, config, true );
+
+        // Users may specify block tag in lower case
+        config.blockTag = config.blockTag.toUpperCase();
+
+        this._config = config;
+
+        return this;
+    };
+
+    proto.createElement = function ( tag, props, children ) {
+        return createElement( this._doc, tag, props, children );
+    };
+
+    proto.createDefaultBlock = function ( children ) {
+        var config = this._config;
+        return fixCursor(
+            this.createElement( config.blockTag, config.blockAttributes, children ),
+            this._root
+        );
+    };
+
+    proto.didError = function ( error ) {
+        console.log( error );
+    };
+
+    proto.getDocument = function () {
+        return this._doc;
+    };
+    proto.getRoot = function () {
+        return this._root;
+    };
+
+    proto.modifyDocument = function ( modificationCallback ) {
+        var mutation = this._mutation;
+        if ( mutation ) {
+            if ( mutation.takeRecords().length ) {
+                this._docWasChanged();
+            }
+            mutation.disconnect();
+        }
+
+        this._ignoreAllChanges = true;
+        modificationCallback();
+        this._ignoreAllChanges = false;
+
+        if ( mutation ) {
+            mutation.observe( this._root, {
+                childList: true,
+                attributes: true,
+                characterData: true,
+                subtree: true
+            });
+            this._ignoreChange = false;
+        }
+    };
+
+// --- Events ---
+
+// Subscribing to these events won't automatically add a listener to the
+// document node, since these events are fired in a custom manner by the
+// editor code.
+    var customEvents = {
+        pathChange: 1, select: 1, input: 1, undoStateChange: 1
+    };
+
+    proto.fireEvent = function ( type, event ) {
+        var handlers = this._events[ type ];
+        var isFocused, l, obj;
+        // UI code, especially modal views, may be monitoring for focus events and
+        // immediately removing focus. In certain conditions, this can cause the
+        // focus event to fire after the blur event, which can cause an infinite
+        // loop. So we detect whether we're actually focused/blurred before firing.
+        if ( /^(?:focus|blur)/.test( type ) ) {
+            isFocused = isOrContains( this._root, this._doc.activeElement );
+            if ( type === 'focus' ) {
+                if ( !isFocused || this._isFocused ) {
+                    return this;
+                }
+                this._isFocused = true;
+            } else {
+                if ( isFocused || !this._isFocused ) {
+                    return this;
+                }
+                this._isFocused = false;
+            }
+        }
+        if ( handlers ) {
+            if ( !event ) {
+                event = {};
+            }
+            if ( event.type !== type ) {
+                event.type = type;
+            }
+            // Clone handlers array, so any handlers added/removed do not affect it.
+            handlers = handlers.slice();
+            l = handlers.length;
+            while ( l-- ) {
+                obj = handlers[l];
+                try {
+                    if ( obj.handleEvent ) {
+                        obj.handleEvent( event );
+                    } else {
+                        obj.call( this, event );
+                    }
+                } catch ( error ) {
+                    error.details = 'Squire: fireEvent error. Event type: ' + type;
+                    this.didError( error );
+                }
+            }
+        }
+        return this;
+    };
+
+    proto.destroy = function () {
+        var events = this._events;
+        var type;
+
+        for ( type in events ) {
+            this.removeEventListener( type );
+        }
+        if ( this._mutation ) {
+            this._mutation.disconnect();
+        }
+        delete this._root.__squire__;
+
+        // Destroy undo stack
+        this._undoIndex = -1;
+        this._undoStack = [];
+        this._undoStackLength = 0;
+    };
+
+    proto.handleEvent = function ( event ) {
+        this.fireEvent( event.type, event );
+    };
+
+    proto.addEventListener = function ( type, fn ) {
+        var handlers = this._events[ type ];
+        var target = this._root;
+        if ( !fn ) {
+            this.didError({
+                name: 'Squire: addEventListener with null or undefined fn',
+                message: 'Event type: ' + type
+            });
+            return this;
+        }
+        if ( !handlers ) {
+            handlers = this._events[ type ] = [];
+            if ( !customEvents[ type ] ) {
+                if ( type === 'selectionchange' ) {
+                    target = this._doc;
+                }
+                target.addEventListener( type, this, true );
+            }
+        }
+        handlers.push( fn );
+        return this;
+    };
+
+    proto.removeEventListener = function ( type, fn ) {
+        var handlers = this._events[ type ];
+        var target = this._root;
+        var l;
+        if ( handlers ) {
+            if ( fn ) {
+                l = handlers.length;
+                while ( l-- ) {
+                    if ( handlers[l] === fn ) {
+                        handlers.splice( l, 1 );
+                    }
+                }
+            } else {
+                handlers.length = 0;
+            }
+            if ( !handlers.length ) {
+                delete this._events[ type ];
+                if ( !customEvents[ type ] ) {
+                    if ( type === 'selectionchange' ) {
+                        target = this._doc;
+                    }
+                    target.removeEventListener( type, this, true );
+                }
+            }
+        }
+        return this;
+    };
+
+// --- Selection and Path ---
+
+    proto._createRange =
+        function ( range, startOffset, endContainer, endOffset ) {
+            if ( range instanceof this._win.Range ) {
+                return range.cloneRange();
+            }
+            var domRange = this._doc.createRange();
+            domRange.setStart( range, startOffset );
+            if ( endContainer ) {
+                domRange.setEnd( endContainer, endOffset );
+            } else {
+                domRange.setEnd( range, startOffset );
+            }
+            return domRange;
+        };
+
+    proto.getCursorPosition = function ( range ) {
+        if ( ( !range && !( range = this.getSelection() ) ) ||
+            !range.getBoundingClientRect ) {
+            return null;
+        }
+        // Get the bounding rect
+        var rect = range.getBoundingClientRect();
+        var node, parent;
+        if ( rect && !rect.top ) {
+            this._ignoreChange = true;
+            node = this._doc.createElement( 'SPAN' );
+            node.textContent = ZWS;
+            insertNodeInRange( range, node );
+            rect = node.getBoundingClientRect();
+            parent = node.parentNode;
+            parent.removeChild( node );
+            mergeInlines( parent, range );
+        }
+        return rect;
+    };
+
+    proto._moveCursorTo = function ( toStart ) {
+        var root = this._root,
+            range = this._createRange( root, toStart ? 0 : root.childNodes.length );
+        moveRangeBoundariesDownTree( range );
+        this.setSelection( range );
+        return this;
+    };
+    proto.moveCursorToStart = function () {
+        return this._moveCursorTo( true );
+    };
+    proto.moveCursorToEnd = function () {
+        return this._moveCursorTo( false );
+    };
+
+    var getWindowSelection = function ( self ) {
+        return self._win.getSelection() || null;
+    };
+
+    proto.setSelection = function ( range ) {
+        if ( range ) {
+            this._lastSelection = range;
+            // If we're setting selection, that automatically, and synchronously, // triggers a focus event. So just store the selection and mark it as
+            // needing restore on focus.
+            if ( !this._isFocused ) {
+                enableRestoreSelection.call( this );
+            } else if ( isAndroid && !this._restoreSelection ) {
+                // Android closes the keyboard on removeAllRanges() and doesn't
+                // open it again when addRange() is called, sigh.
+                // Since Android doesn't trigger a focus event in setSelection(),
+                // use a blur/focus dance to work around this by letting the
+                // selection be restored on focus.
+                // Need to check for !this._restoreSelection to avoid infinite loop
+                enableRestoreSelection.call( this );
+                this.blur();
+                this.focus();
+            } else {
+                // iOS bug: if you don't focus the iframe before setting the
+                // selection, you can end up in a state where you type but the input
+                // doesn't get directed into the contenteditable area but is instead
+                // lost in a black hole. Very strange.
+                if ( isIOS ) {
+                    this._win.focus();
+                }
+                var sel = getWindowSelection( this );
+                if ( sel ) {
+                    sel.removeAllRanges();
+                    sel.addRange( range );
+                }
+            }
+        }
+        return this;
+    };
+
+    proto.getSelection = function () {
+        var sel = getWindowSelection( this );
+        var root = this._root;
+        var selection, startContainer, endContainer;
+        // If not focused, always rely on cached selection; another function may
+        // have set it but the DOM is not modified until focus again
+        if ( this._isFocused && sel && sel.rangeCount ) {
+            selection  = sel.getRangeAt( 0 ).cloneRange();
+            startContainer = selection.startContainer;
+            endContainer = selection.endContainer;
+            // FF can return the selection as being inside an <img>. WTF?
+            if ( startContainer && isLeaf( startContainer ) ) {
+                selection.setStartBefore( startContainer );
+            }
+            if ( endContainer && isLeaf( endContainer ) ) {
+                selection.setEndBefore( endContainer );
+            }
+        }
+        if ( selection &&
+            isOrContains( root, selection.commonAncestorContainer ) ) {
+            this._lastSelection = selection;
+        } else {
+            selection = this._lastSelection;
+        }
+        if ( !selection ) {
+            selection = this._createRange( root.firstChild, 0 );
+        }
+        return selection;
+    };
+
+    function enableRestoreSelection () {
+        this._restoreSelection = true;
+    }
+    function disableRestoreSelection () {
+        this._restoreSelection = false;
+    }
+    function restoreSelection () {
+        if ( this._restoreSelection ) {
+            this.setSelection( this._lastSelection );
+        }
+    }
+
+    proto.getSelectedText = function () {
+        var range = this.getSelection(),
+            walker = new TreeWalker(
+                range.commonAncestorContainer,
+                SHOW_TEXT|SHOW_ELEMENT,
+                function ( node ) {
+                    return isNodeContainedInRange( range, node, true );
+                }
+            ),
+            startContainer = range.startContainer,
+            endContainer = range.endContainer,
+            node = walker.currentNode = startContainer,
+            textContent = '',
+            addedTextInBlock = false,
+            value;
+
+        if ( !walker.filter( node ) ) {
+            node = walker.nextNode();
+        }
+
+        while ( node ) {
+            if ( node.nodeType === TEXT_NODE ) {
+                value = node.data;
+                if ( value && ( /\S/.test( value ) ) ) {
+                    if ( node === endContainer ) {
+                        value = value.slice( 0, range.endOffset );
+                    }
+                    if ( node === startContainer ) {
+                        value = value.slice( range.startOffset );
+                    }
+                    textContent += value;
+                    addedTextInBlock = true;
+                }
+            } else if ( node.nodeName === 'BR' ||
+                addedTextInBlock && !isInline( node ) ) {
+                textContent += '\n';
+                addedTextInBlock = false;
+            }
+            node = walker.nextNode();
+        }
+
+        return textContent;
+    };
+
+    proto.getPath = function () {
+        return this._path;
+    };
+
+// --- Workaround for browsers that can't focus empty text nodes ---
+
+// WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=15256
+
+// Walk down the tree starting at the root and remove any ZWS. If the node only
+// contained ZWS space then remove it too. We may want to keep one ZWS node at
+// the bottom of the tree so the block can be selected. Define that node as the
+// keepNode.
+    var removeZWS = function ( root, keepNode ) {
+        var walker = new TreeWalker( root, SHOW_TEXT, function () {
+                return true;
+            }, false ),
+            parent, node, index;
+        while ( node = walker.nextNode() ) {
+            while ( ( index = node.data.indexOf( ZWS ) ) > -1  &&
+            ( !keepNode || node.parentNode !== keepNode ) ) {
+                if ( node.length === 1 ) {
+                    do {
+                        parent = node.parentNode;
+                        parent.removeChild( node );
+                        node = parent;
+                        walker.currentNode = parent;
+                    } while ( isInline( node ) && !getLength( node ) );
+                    break;
+                } else {
+                    node.deleteData( index, 1 );
+                }
+            }
+        }
+    };
+
+    proto._didAddZWS = function () {
+        this._hasZWS = true;
+    };
+    proto._removeZWS = function () {
+        if ( !this._hasZWS ) {
+            return;
+        }
+        removeZWS( this._root );
+        this._hasZWS = false;
+    };
+
+// --- Path change events ---
+
+    proto._updatePath = function ( range, force ) {
+        var anchor = range.startContainer,
+            focus = range.endContainer,
+            newPath;
+        if ( force || anchor !== this._lastAnchorNode ||
+            focus !== this._lastFocusNode ) {
+            this._lastAnchorNode = anchor;
+            this._lastFocusNode = focus;
+            newPath = ( anchor && focus ) ? ( anchor === focus ) ?
+                getPath( focus, this._root ) : '(selection)' : '';
+            if ( this._path !== newPath ) {
+                this._path = newPath;
+                this.fireEvent( 'pathChange', { path: newPath } );
+            }
+        }
+        if ( !range.collapsed ) {
+            this.fireEvent( 'select' );
+        }
+    };
+
+// selectionchange is fired synchronously in IE when removing current selection
+// and when setting new selection; keyup/mouseup may have processing we want
+// to do first. Either way, send to next event loop.
+    proto._updatePathOnEvent = function () {
+        var self = this;
+        if ( !self._willUpdatePath ) {
+            self._willUpdatePath = true;
+            setTimeout( function () {
+                self._willUpdatePath = false;
+                self._updatePath( self.getSelection() );
+            }, 0 );
+        }
+    };
+
+// --- Focus ---
+
+    proto.focus = function () {
+        this._root.focus();
+
+        if ( isIE ) {
+            this.fireEvent( 'focus' );
+        }
+
+        return this;
+    };
+
+    proto.blur = function () {
+        this._root.blur();
+
+        if ( isIE ) {
+            this.fireEvent( 'blur' );
+        }
+
+        return this;
+    };
+
+// --- Bookmarking ---
+
+    var startSelectionId = 'squire-selection-start';
+    var endSelectionId = 'squire-selection-end';
+
+    proto._saveRangeToBookmark = function ( range ) {
+        var startNode = this.createElement( 'INPUT', {
+                id: startSelectionId,
+                type: 'hidden'
+            }),
+            endNode = this.createElement( 'INPUT', {
+                id: endSelectionId,
+                type: 'hidden'
+            }),
+            temp;
+
+        insertNodeInRange( range, startNode );
+        range.collapse( false );
+        insertNodeInRange( range, endNode );
+
+        // In a collapsed range, the start is sometimes inserted after the end!
+        if ( startNode.compareDocumentPosition( endNode ) &
+            DOCUMENT_POSITION_PRECEDING ) {
+            startNode.id = endSelectionId;
+            endNode.id = startSelectionId;
+            temp = startNode;
+            startNode = endNode;
+            endNode = temp;
+        }
+
+        range.setStartAfter( startNode );
+        range.setEndBefore( endNode );
+    };
+
+    proto._getRangeAndRemoveBookmark = function ( range ) {
+        var root = this._root,
+            start = root.querySelector( '#' + startSelectionId ),
+            end = root.querySelector( '#' + endSelectionId );
+
+        if ( start && end ) {
+            var startContainer = start.parentNode,
+                endContainer = end.parentNode,
+                startOffset = indexOf.call( startContainer.childNodes, start ),
+                endOffset = indexOf.call( endContainer.childNodes, end );
+
+            if ( startContainer === endContainer ) {
+                endOffset -= 1;
+            }
+
+            detach( start );
+            detach( end );
+
+            if ( !range ) {
+                range = this._doc.createRange();
+            }
+            range.setStart( startContainer, startOffset );
+            range.setEnd( endContainer, endOffset );
+
+            // Merge any text nodes we split
+            mergeInlines( startContainer, range );
+            if ( startContainer !== endContainer ) {
+                mergeInlines( endContainer, range );
+            }
+
+            // If we didn't split a text node, we should move into any adjacent
+            // text node to current selection point
+            if ( range.collapsed ) {
+                startContainer = range.startContainer;
+                if ( startContainer.nodeType === TEXT_NODE ) {
+                    endContainer = startContainer.childNodes[ range.startOffset ];
+                    if ( !endContainer || endContainer.nodeType !== TEXT_NODE ) {
+                        endContainer =
+                            startContainer.childNodes[ range.startOffset - 1 ];
+                    }
+                    if ( endContainer && endContainer.nodeType === TEXT_NODE ) {
+                        range.setStart( endContainer, 0 );
+                        range.collapse( true );
+                    }
+                }
+            }
+        }
+        return range || null;
+    };
+
+// --- Undo ---
+
+    proto._keyUpDetectChange = function ( event ) {
+        var code = event.keyCode;
+        // Presume document was changed if:
+        // 1. A modifier key (other than shift) wasn't held down
+        // 2. The key pressed is not in range 16<=x<=20 (control keys)
+        // 3. The key pressed is not in range 33<=x<=45 (navigation keys)
+        if ( !event.ctrlKey && !event.metaKey && !event.altKey &&
+            ( code < 16 || code > 20 ) &&
+            ( code < 33 || code > 45 ) ) {
+            this._docWasChanged();
+        }
+    };
+
+    proto._docWasChanged = function () {
+        if ( canWeakMap ) {
+            nodeCategoryCache = new WeakMap();
+        }
+        if ( this._ignoreAllChanges ) {
+            return;
+        }
+
+        if ( canObserveMutations && this._ignoreChange ) {
+            this._ignoreChange = false;
+            return;
+        }
+        if ( this._isInUndoState ) {
+            this._isInUndoState = false;
+            this.fireEvent( 'undoStateChange', {
+                canUndo: true,
+                canRedo: false
+            });
+        }
+        this.fireEvent( 'input' );
+    };
+
+// Leaves bookmark
+    proto._recordUndoState = function ( range ) {
+        // Don't record if we're already in an undo state
+        if ( !this._isInUndoState ) {
+            // Advance pointer to new position
+            var undoIndex = this._undoIndex += 1;
+            var undoStack = this._undoStack;
+            var undoConfig = this._config.undo;
+            var undoThreshold = undoConfig.documentSizeThreshold;
+            var undoLimit = undoConfig.undoLimit;
+            var html;
+
+            // Truncate stack if longer (i.e. if has been previously undone)
+            if ( undoIndex < this._undoStackLength ) {
+                undoStack.length = this._undoStackLength = undoIndex;
+            }
+
+            // Get data
+            if ( range ) {
+                this._saveRangeToBookmark( range );
+            }
+            html = this._getHTML();
+
+            // If this document is above the configured size threshold,
+            // limit the number of saved undo states.
+            // Threshold is in bytes, JS uses 2 bytes per character
+            if ( undoThreshold > -1 && html.length * 2 > undoThreshold ) {
+                if ( undoLimit > -1 && undoIndex > undoLimit ) {
+                    undoStack.splice( 0, undoIndex - undoLimit );
+                    undoIndex = this._undoIndex = undoLimit;
+                    this._undoStackLength = undoLimit;
+                }
+            }
+
+            // Save data
+            undoStack[ undoIndex ] = html;
+            this._undoStackLength += 1;
+            this._isInUndoState = true;
+        }
+    };
+
+    proto.saveUndoState = function ( range ) {
+        if ( range === undefined ) {
+            range = this.getSelection();
+        }
+        if ( !this._isInUndoState ) {
+            this._recordUndoState( range );
+            this._getRangeAndRemoveBookmark( range );
+        }
+        return this;
+    };
+
+    proto.undo = function () {
+        // Sanity check: must not be at beginning of the history stack
+        if ( this._undoIndex !== 0 || !this._isInUndoState ) {
+            // Make sure any changes since last checkpoint are saved.
+            this._recordUndoState( this.getSelection() );
+
+            this._undoIndex -= 1;
+            this._setHTML( this._undoStack[ this._undoIndex ] );
+            var range = this._getRangeAndRemoveBookmark();
+            if ( range ) {
+                this.setSelection( range );
+            }
+            this._isInUndoState = true;
+            this.fireEvent( 'undoStateChange', {
+                canUndo: this._undoIndex !== 0,
+                canRedo: true
+            });
+            this.fireEvent( 'input' );
+        }
+        return this;
+    };
+
+    proto.redo = function () {
+        // Sanity check: must not be at end of stack and must be in an undo
+        // state.
+        var undoIndex = this._undoIndex,
+            undoStackLength = this._undoStackLength;
+        if ( undoIndex + 1 < undoStackLength && this._isInUndoState ) {
+            this._undoIndex += 1;
+            this._setHTML( this._undoStack[ this._undoIndex ] );
+            var range = this._getRangeAndRemoveBookmark();
+            if ( range ) {
+                this.setSelection( range );
+            }
+            this.fireEvent( 'undoStateChange', {
+                canUndo: true,
+                canRedo: undoIndex + 2 < undoStackLength
+            });
+            this.fireEvent( 'input' );
+        }
+        return this;
+    };
+
+// --- Inline formatting ---
+
+// Looks for matching tag and attributes, so won't work
+// if <strong> instead of <b> etc.
+    proto.hasFormat = function ( tag, attributes, range ) {
+        // 1. Normalise the arguments and get selection
+        tag = tag.toUpperCase();
+        if ( !attributes ) { attributes = {}; }
+        if ( !range && !( range = this.getSelection() ) ) {
+            return false;
+        }
+
+        // Sanitize range to prevent weird IE artifacts
+        if ( !range.collapsed &&
+            range.startContainer.nodeType === TEXT_NODE &&
+            range.startOffset === range.startContainer.length &&
+            range.startContainer.nextSibling ) {
+            range.setStartBefore( range.startContainer.nextSibling );
+        }
+        if ( !range.collapsed &&
+            range.endContainer.nodeType === TEXT_NODE &&
+            range.endOffset === 0 &&
+            range.endContainer.previousSibling ) {
+            range.setEndAfter( range.endContainer.previousSibling );
+        }
+
+        // If the common ancestor is inside the tag we require, we definitely
+        // have the format.
+        var root = this._root;
+        var common = range.commonAncestorContainer;
+        var walker, node;
+        if ( getNearest( common, root, tag, attributes ) ) {
+            return true;
+        }
+
+        // If common ancestor is a text node and doesn't have the format, we
+        // definitely don't have it.
+        if ( common.nodeType === TEXT_NODE ) {
+            return false;
+        }
+
+        // Otherwise, check each text node at least partially contained within
+        // the selection and make sure all of them have the format we want.
+        walker = new TreeWalker( common, SHOW_TEXT, function ( node ) {
+            return isNodeContainedInRange( range, node, true );
+        }, false );
+
+        var seenNode = false;
+        while ( node = walker.nextNode() ) {
+            if ( !getNearest( node, root, tag, attributes ) ) {
+                return false;
+            }
+            seenNode = true;
+        }
+
+        return seenNode;
+    };
+
+// Extracts the font-family and font-size (if any) of the element
+// holding the cursor. If there's a selection, returns an empty object.
+    proto.getFontInfo = function ( range ) {
+        var fontInfo = {
+            color: undefined,
+            backgroundColor: undefined,
+            family: undefined,
+            size: undefined
+        };
+        var seenAttributes = 0;
+        var element, style, attr;
+
+        if ( !range && !( range = this.getSelection() ) ) {
+            return fontInfo;
+        }
+
+        element = range.commonAncestorContainer;
+        if ( range.collapsed || element.nodeType === TEXT_NODE ) {
+            if ( element.nodeType === TEXT_NODE ) {
+                element = element.parentNode;
+            }
+            while ( seenAttributes < 4 && element ) {
+                if ( style = element.style ) {
+                    if ( !fontInfo.color && ( attr = style.color ) ) {
+                        fontInfo.color = attr;
+                        seenAttributes += 1;
+                    }
+                    if ( !fontInfo.backgroundColor &&
+                        ( attr = style.backgroundColor ) ) {
+                        fontInfo.backgroundColor = attr;
+                        seenAttributes += 1;
+                    }
+                    if ( !fontInfo.family && ( attr = style.fontFamily ) ) {
+                        fontInfo.family = attr;
+                        seenAttributes += 1;
+                    }
+                    if ( !fontInfo.size && ( attr = style.fontSize ) ) {
+                        fontInfo.size = attr;
+                        seenAttributes += 1;
+                    }
+                }
+                element = element.parentNode;
+            }
+        }
+        return fontInfo;
+    };
+
+    proto._addFormat = function ( tag, attributes, range ) {
+        // If the range is collapsed we simply insert the node by wrapping
+        // it round the range and focus it.
+        var root = this._root;
+        var el, walker, startContainer, endContainer, startOffset, endOffset,
+            node, needsFormat, block;
+
+        if ( range.collapsed ) {
+            el = fixCursor( this.createElement( tag, attributes ), root );
+            insertNodeInRange( range, el );
+            range.setStart( el.firstChild, el.firstChild.length );
+            range.collapse( true );
+
+            // Clean up any previous formats that may have been set on this block
+            // that are unused.
+            block = el;
+            while ( isInline( block ) ) {
+                block = block.parentNode;
+            }
+            removeZWS( block, el );
+        }
+        // Otherwise we find all the textnodes in the range (splitting
+        // partially selected nodes) and if they're not already formatted
+        // correctly we wrap them in the appropriate tag.
+        else {
+            // Create an iterator to walk over all the text nodes under this
+            // ancestor which are in the range and not already formatted
+            // correctly.
+            //
+            // In Blink/WebKit, empty blocks may have no text nodes, just a <br>.
+            // Therefore we wrap this in the tag as well, as this will then cause it
+            // to apply when the user types something in the block, which is
+            // presumably what was intended.
+            //
+            // IMG tags are included because we may want to create a link around
+            // them, and adding other styles is harmless.
+            walker = new TreeWalker(
+                range.commonAncestorContainer,
+                SHOW_TEXT|SHOW_ELEMENT,
+                function ( node ) {
+                    return ( node.nodeType === TEXT_NODE ||
+                            node.nodeName === 'BR' ||
+                            node.nodeName === 'IMG'
+                        ) && isNodeContainedInRange( range, node, true );
+                },
+                false
+            );
+
+            // Start at the beginning node of the range and iterate through
+            // all the nodes in the range that need formatting.
+            startContainer = range.startContainer;
+            startOffset = range.startOffset;
+            endContainer = range.endContainer;
+            endOffset = range.endOffset;
+
+            // Make sure we start with a valid node.
+            walker.currentNode = startContainer;
+            if ( !walker.filter( startContainer ) ) {
+                startContainer = walker.nextNode();
+                startOffset = 0;
+            }
+
+            // If there are no interesting nodes in the selection, abort
+            if ( !startContainer ) {
+                return range;
+            }
+
+            do {
+                node = walker.currentNode;
+                needsFormat = !getNearest( node, root, tag, attributes );
+                if ( needsFormat ) {
+                    // <br> can never be a container node, so must have a text node
+                    // if node == (end|start)Container
+                    if ( node === endContainer && node.length > endOffset ) {
+                        node.splitText( endOffset );
+                    }
+                    if ( node === startContainer && startOffset ) {
+                        node = node.splitText( startOffset );
+                        if ( endContainer === startContainer ) {
+                            endContainer = node;
+                            endOffset -= startOffset;
+                        }
+                        startContainer = node;
+                        startOffset = 0;
+                    }
+                    el = this.createElement( tag, attributes );
+                    replaceWith( node, el );
+                    el.appendChild( node );
+                }
+            } while ( walker.nextNode() );
+
+            // If we don't finish inside a text node, offset may have changed.
+            if ( endContainer.nodeType !== TEXT_NODE ) {
+                if ( node.nodeType === TEXT_NODE ) {
+                    endContainer = node;
+                    endOffset = node.length;
+                } else {
+                    // If <br>, we must have just wrapped it, so it must have only
+                    // one child
+                    endContainer = node.parentNode;
+                    endOffset = 1;
+                }
+            }
+
+            // Now set the selection to as it was before
+            range = this._createRange(
+                startContainer, startOffset, endContainer, endOffset );
+        }
+        return range;
+    };
+
+    proto._removeFormat = function ( tag, attributes, range, partial ) {
+        // Add bookmark
+        this._saveRangeToBookmark( range );
+
+        // We need a node in the selection to break the surrounding
+        // formatted text.
+        var doc = this._doc,
+            fixer;
+        if ( range.collapsed ) {
+            if ( cantFocusEmptyTextNodes ) {
+                fixer = doc.createTextNode( ZWS );
+                this._didAddZWS();
+            } else {
+                fixer = doc.createTextNode( '' );
+            }
+            insertNodeInRange( range, fixer );
+        }
+
+        // Find block-level ancestor of selection
+        var root = range.commonAncestorContainer;
+        while ( isInline( root ) ) {
+            root = root.parentNode;
+        }
+
+        // Find text nodes inside formatTags that are not in selection and
+        // add an extra tag with the same formatting.
+        var startContainer = range.startContainer,
+            startOffset = range.startOffset,
+            endContainer = range.endContainer,
+            endOffset = range.endOffset,
+            toWrap = [],
+            examineNode = function ( node, exemplar ) {
+                // If the node is completely contained by the range then
+                // we're going to remove all formatting so ignore it.
+                if ( isNodeContainedInRange( range, node, false ) ) {
+                    return;
+                }
+
+                var isText = ( node.nodeType === TEXT_NODE ),
+                    child, next;
+
+                // If not at least partially contained, wrap entire contents
+                // in a clone of the tag we're removing and we're done.
+                if ( !isNodeContainedInRange( range, node, true ) ) {
+                    // Ignore bookmarks and empty text nodes
+                    if ( node.nodeName !== 'INPUT' &&
+                        ( !isText || node.data ) ) {
+                        toWrap.push([ exemplar, node ]);
+                    }
+                    return;
+                }
+
+                // Split any partially selected text nodes.
+                if ( isText ) {
+                    if ( node === endContainer && endOffset !== node.length ) {
+                        toWrap.push([ exemplar, node.splitText( endOffset ) ]);
+                    }
+                    if ( node === startContainer && startOffset ) {
+                        node.splitText( startOffset );
+                        toWrap.push([ exemplar, node ]);
+                    }
+                }
+                // If not a text node, recurse onto all children.
+                // Beware, the tree may be rewritten with each call
+                // to examineNode, hence find the next sibling first.
+                else {
+                    for ( child = node.firstChild; child; child = next ) {
+                        next = child.nextSibling;
+                        examineNode( child, exemplar );
+                    }
+                }
+            },
+            formatTags = Array.prototype.filter.call(
+                root.getElementsByTagName( tag ), function ( el ) {
+                    return isNodeContainedInRange( range, el, true ) &&
+                        hasTagAttributes( el, tag, attributes );
+                }
+            );
+
+        if ( !partial ) {
+            formatTags.forEach( function ( node ) {
+                examineNode( node, node );
+            });
+        }
+
+        // Now wrap unselected nodes in the tag
+        toWrap.forEach( function ( item ) {
+            // [ exemplar, node ] tuple
+            var el = item[0].cloneNode( false ),
+                node = item[1];
+            replaceWith( node, el );
+            el.appendChild( node );
+        });
+        // and remove old formatting tags.
+        formatTags.forEach( function ( el ) {
+            replaceWith( el, empty( el ) );
+        });
+
+        // Merge adjacent inlines:
+        this._getRangeAndRemoveBookmark( range );
+        if ( fixer ) {
+            range.collapse( false );
+        }
+        mergeInlines( root, range );
+
+        return range;
+    };
+
+    proto.changeFormat = function ( add, remove, range, partial ) {
+        // Normalise the arguments and get selection
+        if ( !range && !( range = this.getSelection() ) ) {
+            return this;
+        }
+
+        // Save undo checkpoint
+        this.saveUndoState( range );
+
+        if ( remove ) {
+            range = this._removeFormat( remove.tag.toUpperCase(),
+                remove.attributes || {}, range, partial );
+        }
+        if ( add ) {
+            range = this._addFormat( add.tag.toUpperCase(),
+                add.attributes || {}, range );
+        }
+
+        this.setSelection( range );
+        this._updatePath( range, true );
+
+        // We're not still in an undo state
+        if ( !canObserveMutations ) {
+            this._docWasChanged();
+        }
+
+        return this;
+    };
+
+// --- Block formatting ---
+
+    var tagAfterSplit = {
+        DT:  'DD',
+        DD:  'DT',
+        LI:  'LI'
+    };
+
+    var splitBlock = function ( self, block, node, offset ) {
+        var splitTag = tagAfterSplit[ block.nodeName ],
+            splitProperties = null,
+            nodeAfterSplit = split( node, offset, block.parentNode, self._root ),
+            config = self._config;
+
+        if ( !splitTag ) {
+            splitTag = config.blockTag;
+            splitProperties = config.blockAttributes;
+        }
+
+        // Make sure the new node is the correct type.
+        if ( !hasTagAttributes( nodeAfterSplit, splitTag, splitProperties ) ) {
+            block = createElement( nodeAfterSplit.ownerDocument,
+                splitTag, splitProperties );
+            if ( nodeAfterSplit.dir ) {
+                block.dir = nodeAfterSplit.dir;
+            }
+            replaceWith( nodeAfterSplit, block );
+            block.appendChild( empty( nodeAfterSplit ) );
+            nodeAfterSplit = block;
+        }
+        return nodeAfterSplit;
+    };
+
+    proto.forEachBlock = function ( fn, mutates, range ) {
+        if ( !range && !( range = this.getSelection() ) ) {
+            return this;
+        }
+
+        // Save undo checkpoint
+        if ( mutates ) {
+            this.saveUndoState( range );
+        }
+
+        var root = this._root;
+        var start = getStartBlockOfRange( range, root );
+        var end = getEndBlockOfRange( range, root );
+        if ( start && end ) {
+            do {
+                if ( fn( start ) || start === end ) { break; }
+            } while ( start = getNextBlock( start, root ) );
+        }
+
+        if ( mutates ) {
+            this.setSelection( range );
+
+            // Path may have changed
+            this._updatePath( range, true );
+
+            // We're not still in an undo state
+            if ( !canObserveMutations ) {
+                this._docWasChanged();
+            }
+        }
+        return this;
+    };
+
+    proto.modifyBlocks = function ( modify, range ) {
+        if ( !range && !( range = this.getSelection() ) ) {
+            return this;
+        }
+
+        // 1. Save undo checkpoint and bookmark selection
+        if ( this._isInUndoState ) {
+            this._saveRangeToBookmark( range );
+        } else {
+            this._recordUndoState( range );
+        }
+
+        var root = this._root;
+        var frag;
+
+        // 2. Expand range to block boundaries
+        expandRangeToBlockBoundaries( range, root );
+
+        // 3. Remove range.
+        moveRangeBoundariesUpTree( range, root, root, root );
+        frag = extractContentsOfRange( range, root, root );
+
+        // 4. Modify tree of fragment and reinsert.
+        insertNodeInRange( range, modify.call( this, frag ) );
+
+        // 5. Merge containers at edges
+        if ( range.endOffset < range.endContainer.childNodes.length ) {
+            mergeContainers( range.endContainer.childNodes[ range.endOffset ], root );
+        }
+        mergeContainers( range.startContainer.childNodes[ range.startOffset ], root );
+
+        // 6. Restore selection
+        this._getRangeAndRemoveBookmark( range );
+        this.setSelection( range );
+        this._updatePath( range, true );
+
+        // 7. We're not still in an undo state
+        if ( !canObserveMutations ) {
+            this._docWasChanged();
+        }
+
+        return this;
+    };
+
+    var increaseBlockQuoteLevel = function ( frag ) {
+        return this.createElement( 'BLOCKQUOTE',
+            this._config.tagAttributes.blockquote, [
+                frag
+            ]);
+    };
+
+    var decreaseBlockQuoteLevel = function ( frag ) {
+        var root = this._root;
+        var blockquotes = frag.querySelectorAll( 'blockquote' );
+        Array.prototype.filter.call( blockquotes, function ( el ) {
+            return !getNearest( el.parentNode, root, 'BLOCKQUOTE' );
+        }).forEach( function ( el ) {
+            replaceWith( el, empty( el ) );
+        });
+        return frag;
+    };
+
+    var removeBlockQuote = function (/* frag */) {
+        return this.createDefaultBlock([
+            this.createElement( 'INPUT', {
+                id: startSelectionId,
+                type: 'hidden'
+            }),
+            this.createElement( 'INPUT', {
+                id: endSelectionId,
+                type: 'hidden'
+            })
+        ]);
+    };
+
+    var makeList = function ( self, frag, type ) {
+        var walker = getBlockWalker( frag, self._root ),
+            node, tag, prev, newLi,
+            tagAttributes = self._config.tagAttributes,
+            listAttrs = tagAttributes[ type.toLowerCase() ],
+            listItemAttrs = tagAttributes.li;
+
+        while ( node = walker.nextNode() ) {
+            if ( node.parentNode.nodeName === 'LI' ) {
+                node = node.parentNode;
+                walker.currentNode = node.lastChild;
+            }
+            if ( node.nodeName !== 'LI' ) {
+                newLi = self.createElement( 'LI', listItemAttrs );
+                if ( node.dir ) {
+                    newLi.dir = node.dir;
+                }
+
+                // Have we replaced the previous block with a new <ul>/<ol>?
+                if ( ( prev = node.previousSibling ) && prev.nodeName === type ) {
+                    prev.appendChild( newLi );
+                    detach( node );
+                }
+                // Otherwise, replace this block with the <ul>/<ol>
+                else {
+                    replaceWith(
+                        node,
+                        self.createElement( type, listAttrs, [
+                            newLi
+                        ])
+                    );
+                }
+                newLi.appendChild( empty( node ) );
+                walker.currentNode = newLi;
+            } else {
+                node = node.parentNode;
+                tag = node.nodeName;
+                if ( tag !== type && ( /^[OU]L$/.test( tag ) ) ) {
+                    replaceWith( node,
+                        self.createElement( type, listAttrs, [ empty( node ) ] )
+                    );
+                }
+            }
+        }
+    };
+
+    var makeUnorderedList = function ( frag ) {
+        makeList( this, frag, 'UL' );
+        return frag;
+    };
+
+    var makeOrderedList = function ( frag ) {
+        makeList( this, frag, 'OL' );
+        return frag;
+    };
+
+    var removeList = function ( frag ) {
+        var lists = frag.querySelectorAll( 'UL, OL' ),
+            items =  frag.querySelectorAll( 'LI' ),
+            root = this._root,
+            i, l, list, listFrag, item;
+        for ( i = 0, l = lists.length; i < l; i += 1 ) {
+            list = lists[i];
+            listFrag = empty( list );
+            fixContainer( listFrag, root );
+            replaceWith( list, listFrag );
+        }
+
+        for ( i = 0, l = items.length; i < l; i += 1 ) {
+            item = items[i];
+            if ( isBlock( item ) ) {
+                replaceWith( item,
+                    this.createDefaultBlock([ empty( item ) ])
+                );
+            } else {
+                fixContainer( item, root );
+                replaceWith( item, empty( item ) );
+            }
+        }
+        return frag;
+    };
+
+    var increaseListLevel = function ( frag ) {
+        var items = frag.querySelectorAll( 'LI' ),
+            i, l, item,
+            type, newParent,
+            tagAttributes = this._config.tagAttributes,
+            listAttrs;
+        for ( i = 0, l = items.length; i < l; i += 1 ) {
+            item = items[i];
+            if ( !isContainer( item.firstChild ) ) {
+                // type => 'UL' or 'OL'
+                type = item.parentNode.nodeName;
+                newParent = item.previousSibling;
+                if ( !newParent || !( newParent = newParent.lastChild ) ||
+                    newParent.nodeName !== type ) {
+                    listAttrs = tagAttributes[ type.toLowerCase() ];
+                    newParent = this.createElement( type, listAttrs );
+
+                    replaceWith(
+                        item,
+                        newParent
+                    );
+                }
+                newParent.appendChild( item );
+            }
+        }
+        return frag;
+    };
+
+    var decreaseListLevel = function ( frag ) {
+        var root = this._root;
+        var items = frag.querySelectorAll( 'LI' );
+        Array.prototype.filter.call( items, function ( el ) {
+            return !isContainer( el.firstChild );
+        }).forEach( function ( item ) {
+            var parent = item.parentNode,
+                newParent = parent.parentNode,
+                first = item.firstChild,
+                node = first,
+                next;
+            if ( item.previousSibling ) {
+                parent = split( parent, item, newParent, root );
+            }
+
+            // if the new parent is another list then we simply move the node
+            // e.g. `ul > ul > li` becomes `ul > li`
+            if ( /^[OU]L$/.test( newParent.nodeName ) ) {
+                newParent.insertBefore( item, parent );
+                if ( !parent.firstChild ) {
+                    newParent.removeChild( parent );
+                }
+            } else {
+                while ( node ) {
+                    next = node.nextSibling;
+                    if ( isContainer( node ) ) {
+                        break;
+                    }
+                    newParent.insertBefore( node, parent );
+                    node = next;
+                }
+            }
+            if ( newParent.nodeName === 'LI' && first.previousSibling ) {
+                split( newParent, first, newParent.parentNode, root );
+            }
+            while ( item !== frag && !item.childNodes.length ) {
+                parent = item.parentNode;
+                parent.removeChild( item );
+                item = parent;
+            }
+        }, this );
+        fixContainer( frag, root );
+        return frag;
+    };
+
+    proto._ensureBottomLine = function () {
+        var root = this._root;
+        var last = root.lastElementChild;
+        if ( !last ||
+            last.nodeName !== this._config.blockTag || !isBlock( last ) ) {
+            root.appendChild( this.createDefaultBlock() );
+        }
+    };
+
+// --- Keyboard interaction ---
+
+    proto.setKeyHandler = function ( key, fn ) {
+        this._keyHandlers[ key ] = fn;
+        return this;
+    };
+
+// --- Get/Set data ---
+
+    proto._getHTML = function () {
+        return this._root.innerHTML;
+    };
+
+    proto._setHTML = function ( html ) {
+        var root = this._root;
+        var node = root;
+        node.innerHTML = html;
+        do {
+            fixCursor( node, root );
+        } while ( node = getNextBlock( node, root ) );
+        this._ignoreChange = true;
+    };
+
+    proto.getHTML = function ( withBookMark ) {
+        var brs = [],
+            root, node, fixer, html, l, range;
+        if ( withBookMark && ( range = this.getSelection() ) ) {
+            this._saveRangeToBookmark( range );
+        }
+        if ( useTextFixer ) {
+            root = this._root;
+            node = root;
+            while ( node = getNextBlock( node, root ) ) {
+                if ( !node.textContent && !node.querySelector( 'BR' ) ) {
+                    fixer = this.createElement( 'BR' );
+                    node.appendChild( fixer );
+                    brs.push( fixer );
+                }
+            }
+        }
+        html = this._getHTML().replace( /\u200B/g, '' );
+        if ( useTextFixer ) {
+            l = brs.length;
+            while ( l-- ) {
+                detach( brs[l] );
+            }
+        }
+        if ( range ) {
+            this._getRangeAndRemoveBookmark( range );
+        }
+        return html;
+    };
+
+    proto.setHTML = function ( html ) {
+        var config = this._config;
+        var sanitizeToDOMFragment = config.isSetHTMLSanitized ?
+            config.sanitizeToDOMFragment : null;
+        var root = this._root;
+        var div, frag, child;
+
+        // Parse HTML into DOM tree
+        if ( typeof sanitizeToDOMFragment === 'function' ) {
+            frag = sanitizeToDOMFragment( html, false, this );
+        } else {
+            div = this.createElement( 'DIV' );
+            div.innerHTML = html;
+            frag = this._doc.createDocumentFragment();
+            frag.appendChild( empty( div ) );
+        }
+
+        cleanTree( frag );
+        cleanupBRs( frag, root, false );
+
+        fixContainer( frag, root );
+
+        // Fix cursor
+        var node = frag;
+        while ( node = getNextBlock( node, root ) ) {
+            fixCursor( node, root );
+        }
+
+        // Don't fire an input event
+        this._ignoreChange = true;
+
+        // Remove existing root children
+        while ( child = root.lastChild ) {
+            root.removeChild( child );
+        }
+
+        // And insert new content
+        root.appendChild( frag );
+        fixCursor( root, root );
+
+        // Reset the undo stack
+        this._undoIndex = -1;
+        this._undoStack.length = 0;
+        this._undoStackLength = 0;
+        this._isInUndoState = false;
+
+        // Record undo state
+        var range = this._getRangeAndRemoveBookmark() ||
+            this._createRange( root.firstChild, 0 );
+        this.saveUndoState( range );
+        // IE will also set focus when selecting text so don't use
+        // setSelection. Instead, just store it in lastSelection, so if
+        // anything calls getSelection before first focus, we have a range
+        // to return.
+        this._lastSelection = range;
+        enableRestoreSelection.call( this );
+        this._updatePath( range, true );
+
+        return this;
+    };
+
+    proto.insertElement = function ( el, range ) {
+        if ( !range ) { range = this.getSelection(); }
+        range.collapse( true );
+        if ( isInline( el ) ) {
+            insertNodeInRange( range, el );
+            range.setStartAfter( el );
+        } else {
+            // Get containing block node.
+            var root = this._root;
+            var splitNode = getStartBlockOfRange( range, root ) || root;
+            var parent, nodeAfterSplit;
+            // While at end of container node, move up DOM tree.
+            while ( splitNode !== root && !splitNode.nextSibling ) {
+                splitNode = splitNode.parentNode;
+            }
+            // If in the middle of a container node, split up to root.
+            if ( splitNode !== root ) {
+                parent = splitNode.parentNode;
+                nodeAfterSplit = split( parent, splitNode.nextSibling, root, root );
+            }
+            if ( nodeAfterSplit ) {
+                root.insertBefore( el, nodeAfterSplit );
+            } else {
+                root.appendChild( el );
+                // Insert blank line below block.
+                nodeAfterSplit = this.createDefaultBlock();
+                root.appendChild( nodeAfterSplit );
+            }
+            range.setStart( nodeAfterSplit, 0 );
+            range.setEnd( nodeAfterSplit, 0 );
+            moveRangeBoundariesDownTree( range );
+        }
+        this.focus();
+        this.setSelection( range );
+        this._updatePath( range );
+
+        if ( !canObserveMutations ) {
+            this._docWasChanged();
+        }
+
+        return this;
+    };
+
+    proto.insertImage = function ( src, attributes ) {
+        var img = this.createElement( 'IMG', mergeObjects({
+            src: src
+        }, attributes, true ));
+        this.insertElement( img );
+        return img;
+    };
+
+    var linkRegExp = /\b((?:(?:ht|f)tps?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,}\/)(?:[^\s()<>]+|\([^\s()<>]+\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))|([\w\-.%+]+@(?:[\w\-]+\.)+[A-Z]{2,}\b)/i;
+
+    var addLinks = function ( frag, root, self ) {
+        var doc = frag.ownerDocument,
+            walker = new TreeWalker( frag, SHOW_TEXT,
+                function ( node ) {
+                    return !getNearest( node, root, 'A' );
+                }, false ),
+            defaultAttributes = self._config.tagAttributes.a,
+            node, data, parent, match, index, endIndex, child;
+        while ( node = walker.nextNode() ) {
+            data = node.data;
+            parent = node.parentNode;
+            while ( match = linkRegExp.exec( data ) ) {
+                index = match.index;
+                endIndex = index + match[0].length;
+                if ( index ) {
+                    child = doc.createTextNode( data.slice( 0, index ) );
+                    parent.insertBefore( child, node );
+                }
+                child = self.createElement( 'A', mergeObjects({
+                    href: match[1] ?
+                        /^(?:ht|f)tps?:/.test( match[1] ) ?
+                            match[1] :
+                        'http://' + match[1] :
+                    'mailto:' + match[2]
+                }, defaultAttributes, false ));
+                child.textContent = data.slice( index, endIndex );
+                parent.insertBefore( child, node );
+                node.data = data = data.slice( endIndex );
+            }
+        }
+    };
+
+// Insert HTML at the cursor location. If the selection is not collapsed
+// insertTreeFragmentIntoRange will delete the selection so that it is replaced
+// by the html being inserted.
+    proto.insertHTML = function ( html, isPaste ) {
+        var config = this._config;
+        var sanitizeToDOMFragment = config.isInsertedHTMLSanitized ?
+            config.sanitizeToDOMFragment : null;
+        var range = this.getSelection();
+        var doc = this._doc;
+        var startFragmentIndex, endFragmentIndex;
+        var div, frag, root, node, event;
+
+        // Edge doesn't just copy the fragment, but includes the surrounding guff
+        // including the full <head> of the page. Need to strip this out. If
+        // available use DOMPurify to parse and sanitise.
+        if ( typeof sanitizeToDOMFragment === 'function' ) {
+            frag = sanitizeToDOMFragment( html, isPaste, this );
+        } else {
+            if ( isPaste ) {
+                startFragmentIndex = html.indexOf( '<!--StartFragment-->' );
+                endFragmentIndex = html.lastIndexOf( '<!--EndFragment-->' );
+                if ( startFragmentIndex > -1 && endFragmentIndex > -1 ) {
+                    html = html.slice( startFragmentIndex + 20, endFragmentIndex );
+                }
+            }
+            // Parse HTML into DOM tree
+            div = this.createElement( 'DIV' );
+            div.innerHTML = html;
+            frag = doc.createDocumentFragment();
+            frag.appendChild( empty( div ) );
+        }
+
+        // Record undo checkpoint
+        this.saveUndoState( range );
+
+        try {
+            root = this._root;
+            node = frag;
+            event = {
+                fragment: frag,
+                preventDefault: function () {
+                    this.defaultPrevented = true;
+                },
+                defaultPrevented: false
+            };
+
+            addLinks( frag, frag, this );
+            cleanTree( frag );
+            cleanupBRs( frag, root, false );
+            removeEmptyInlines( frag );
+            frag.normalize();
+
+            while ( node = getNextBlock( node, frag ) ) {
+                fixCursor( node, root );
+            }
+
+            if ( isPaste ) {
+                this.fireEvent( 'willPaste', event );
+            }
+
+            if ( !event.defaultPrevented ) {
+                insertTreeFragmentIntoRange( range, event.fragment, root );
+                if ( !canObserveMutations ) {
+                    this._docWasChanged();
+                }
+                range.collapse( false );
+                this._ensureBottomLine();
+            }
+
+            this.setSelection( range );
+            this._updatePath( range, true );
+            // Safari sometimes loses focus after paste. Weird.
+            if ( isPaste ) {
+                this.focus();
+            }
+        } catch ( error ) {
+            this.didError( error );
+        }
+        return this;
+    };
+
+    var escapeHTMLFragement = function ( text ) {
+        return text.split( '&' ).join( '&amp;' )
+            .split( '<' ).join( '&lt;'  )
+            .split( '>' ).join( '&gt;'  )
+            .split( '"' ).join( '&quot;'  );
+    };
+
+    proto.insertPlainText = function ( plainText, isPaste ) {
+        var lines = plainText.split( '\n' );
+        var config = this._config;
+        var tag = config.blockTag;
+        var attributes = config.blockAttributes;
+        var closeBlock  = '</' + tag + '>';
+        var openBlock = '<' + tag;
+        var attr, i, l, line;
+
+        for ( attr in attributes ) {
+            openBlock += ' ' + attr + '="' +
+                escapeHTMLFragement( attributes[ attr ] ) +
+                '"';
+        }
+        openBlock += '>';
+
+        for ( i = 0, l = lines.length; i < l; i += 1 ) {
+            line = lines[i];
+            line = escapeHTMLFragement( line ).replace( / (?= )/g, '&nbsp;' );
+            // Wrap all but first/last lines in <div></div>
+            if ( i && i + 1 < l ) {
+                line = openBlock + ( line || '<BR>' ) + closeBlock;
+            }
+            lines[i] = line;
+        }
+        return this.insertHTML( lines.join( '' ), isPaste );
+    };
+
+// --- Formatting ---
+
+    var command = function ( method, arg, arg2 ) {
+        return function () {
+            this[ method ]( arg, arg2 );
+            return this.focus();
+        };
+    };
+
+    proto.addStyles = function ( styles ) {
+        if ( styles ) {
+            var head = this._doc.documentElement.firstChild,
+                style = this.createElement( 'STYLE', {
+                    type: 'text/css'
+                });
+            style.appendChild( this._doc.createTextNode( styles ) );
+            head.appendChild( style );
+        }
+        return this;
+    };
+
+    proto.bold = command( 'changeFormat', { tag: 'B' } );
+    proto.italic = command( 'changeFormat', { tag: 'I' } );
+    proto.underline = command( 'changeFormat', { tag: 'U' } );
+    proto.strikethrough = command( 'changeFormat', { tag: 'S' } );
+    proto.subscript = command( 'changeFormat', { tag: 'SUB' }, { tag: 'SUP' } );
+    proto.superscript = command( 'changeFormat', { tag: 'SUP' }, { tag: 'SUB' } );
+
+    proto.removeBold = command( 'changeFormat', null, { tag: 'B' } );
+    proto.removeItalic = command( 'changeFormat', null, { tag: 'I' } );
+    proto.removeUnderline = command( 'changeFormat', null, { tag: 'U' } );
+    proto.removeStrikethrough = command( 'changeFormat', null, { tag: 'S' } );
+    proto.removeSubscript = command( 'changeFormat', null, { tag: 'SUB' } );
+    proto.removeSuperscript = command( 'changeFormat', null, { tag: 'SUP' } );
+
+    proto.makeLink = function ( url, attributes ) {
+        var range = this.getSelection();
+        if ( range.collapsed ) {
+            var protocolEnd = url.indexOf( ':' ) + 1;
+            if ( protocolEnd ) {
+                while ( url[ protocolEnd ] === '/' ) { protocolEnd += 1; }
+            }
+            insertNodeInRange(
+                range,
+                this._doc.createTextNode( url.slice( protocolEnd ) )
+            );
+        }
+        attributes = mergeObjects(
+            mergeObjects({
+                href: url
+            }, attributes, true ),
+            this._config.tagAttributes.a,
+            false
+        );
+
+        this.changeFormat({
+            tag: 'A',
+            attributes: attributes
+        }, {
+            tag: 'A'
+        }, range );
+        return this.focus();
+    };
+    proto.removeLink = function () {
+        this.changeFormat( null, {
+            tag: 'A'
+        }, this.getSelection(), true );
+        return this.focus();
+    };
+
+    proto.setFontFace = function ( name ) {
+        this.changeFormat( name ? {
+            tag: 'SPAN',
+            attributes: {
+                'class': FONT_FAMILY_CLASS,
+                style: 'font-family: ' + name + ', sans-serif;'
+            }
+        } : null, {
+            tag: 'SPAN',
+            attributes: { 'class': FONT_FAMILY_CLASS }
+        });
+        return this.focus();
+    };
+    proto.setFontSize = function ( size ) {
+        this.changeFormat( size ? {
+            tag: 'SPAN',
+            attributes: {
+                'class': FONT_SIZE_CLASS,
+                style: 'font-size: ' +
+                ( typeof size === 'number' ? size + 'px' : size )
+            }
+        } : null, {
+            tag: 'SPAN',
+            attributes: { 'class': FONT_SIZE_CLASS }
+        });
+        return this.focus();
+    };
+
+    proto.setTextColour = function ( colour ) {
+        this.changeFormat( colour ? {
+            tag: 'SPAN',
+            attributes: {
+                'class': COLOUR_CLASS,
+                style: 'color:' + colour
+            }
+        } : null, {
+            tag: 'SPAN',
+            attributes: { 'class': COLOUR_CLASS }
+        });
+        return this.focus();
+    };
+
+    proto.setHighlightColour = function ( colour ) {
+        this.changeFormat( colour ? {
+            tag: 'SPAN',
+            attributes: {
+                'class': HIGHLIGHT_CLASS,
+                style: 'background-color:' + colour
+            }
+        } : colour, {
+            tag: 'SPAN',
+            attributes: { 'class': HIGHLIGHT_CLASS }
+        });
+        return this.focus();
+    };
+
+    proto.setTextAlignment = function ( alignment ) {
+        this.forEachBlock( function ( block ) {
+            var className = block.className
+                .split( /\s+/ )
+                .filter( function ( klass ) {
+                    return !!klass && !/^align/.test( klass );
+                })
+                .join( ' ' );
+            if ( alignment ) {
+                block.className = className + ' align-' + alignment;
+                block.style.textAlign = alignment;
+            } else {
+                block.className = className;
+                block.style.textAlign = '';
+            }
+        }, true );
+        return this.focus();
+    };
+
+    proto.setTextDirection = function ( direction ) {
+        this.forEachBlock( function ( block ) {
+            if ( direction ) {
+                block.dir = direction;
+            } else {
+                block.removeAttribute( 'dir' );
+            }
+        }, true );
+        return this.focus();
+    };
+
+    function removeFormatting ( self, root, clean ) {
+        var node, next;
+        for ( node = root.firstChild; node; node = next ) {
+            next = node.nextSibling;
+            if ( isInline( node ) ) {
+                if ( node.nodeType === TEXT_NODE || node.nodeName === 'BR' || node.nodeName === 'IMG' ) {
+                    clean.appendChild( node );
+                    continue;
+                }
+            } else if ( isBlock( node ) ) {
+                clean.appendChild( self.createDefaultBlock([
+                    removeFormatting(
+                        self, node, self._doc.createDocumentFragment() )
+                ]));
+                continue;
+            }
+            removeFormatting( self, node, clean );
+        }
+        return clean;
+    }
+
+    proto.removeAllFormatting = function ( range ) {
+        if ( !range && !( range = this.getSelection() ) || range.collapsed ) {
+            return this;
+        }
+
+        var root = this._root;
+        var stopNode = range.commonAncestorContainer;
+        while ( stopNode && !isBlock( stopNode ) ) {
+            stopNode = stopNode.parentNode;
+        }
+        if ( !stopNode ) {
+            expandRangeToBlockBoundaries( range, root );
+            stopNode = root;
+        }
+        if ( stopNode.nodeType === TEXT_NODE ) {
+            return this;
+        }
+
+        // Record undo point
+        this.saveUndoState( range );
+
+        // Avoid splitting where we're already at edges.
+        moveRangeBoundariesUpTree( range, stopNode, stopNode, root );
+
+        // Split the selection up to the block, or if whole selection in same
+        // block, expand range boundaries to ends of block and split up to root.
+        var doc = stopNode.ownerDocument;
+        var startContainer = range.startContainer;
+        var startOffset = range.startOffset;
+        var endContainer = range.endContainer;
+        var endOffset = range.endOffset;
+
+        // Split end point first to avoid problems when end and start
+        // in same container.
+        var formattedNodes = doc.createDocumentFragment();
+        var cleanNodes = doc.createDocumentFragment();
+        var nodeAfterSplit = split( endContainer, endOffset, stopNode, root );
+        var nodeInSplit = split( startContainer, startOffset, stopNode, root );
+        var nextNode, childNodes;
+
+        // Then replace contents in split with a cleaned version of the same:
+        // blocks become default blocks, text and leaf nodes survive, everything
+        // else is obliterated.
+        while ( nodeInSplit !== nodeAfterSplit ) {
+            nextNode = nodeInSplit.nextSibling;
+            formattedNodes.appendChild( nodeInSplit );
+            nodeInSplit = nextNode;
+        }
+        removeFormatting( this, formattedNodes, cleanNodes );
+        cleanNodes.normalize();
+        nodeInSplit = cleanNodes.firstChild;
+        nextNode = cleanNodes.lastChild;
+
+        // Restore selection
+        childNodes = stopNode.childNodes;
+        if ( nodeInSplit ) {
+            stopNode.insertBefore( cleanNodes, nodeAfterSplit );
+            startOffset = indexOf.call( childNodes, nodeInSplit );
+            endOffset = indexOf.call( childNodes, nextNode ) + 1;
+        } else {
+            startOffset = indexOf.call( childNodes, nodeAfterSplit );
+            endOffset = startOffset;
+        }
+
+        // Merge text nodes at edges, if possible
+        range.setStart( stopNode, startOffset );
+        range.setEnd( stopNode, endOffset );
+        mergeInlines( stopNode, range );
+
+        // And move back down the tree
+        moveRangeBoundariesDownTree( range );
+
+        this.setSelection( range );
+        this._updatePath( range, true );
+
+        return this.focus();
+    };
+
+    proto.increaseQuoteLevel = command( 'modifyBlocks', increaseBlockQuoteLevel );
+    proto.decreaseQuoteLevel = command( 'modifyBlocks', decreaseBlockQuoteLevel );
+
+    proto.makeUnorderedList = command( 'modifyBlocks', makeUnorderedList );
+    proto.makeOrderedList = command( 'modifyBlocks', makeOrderedList );
+    proto.removeList = command( 'modifyBlocks', removeList );
+
+    proto.increaseListLevel = command( 'modifyBlocks', increaseListLevel );
+    proto.decreaseListLevel = command( 'modifyBlocks', decreaseListLevel );
+
+// Node.js exports
+    Squire.isInline = isInline;
+    Squire.isBlock = isBlock;
+    Squire.isContainer = isContainer;
+    Squire.getBlockWalker = getBlockWalker;
+    Squire.getPreviousBlock = getPreviousBlock;
+    Squire.getNextBlock = getNextBlock;
+    Squire.areAlike = areAlike;
+    Squire.hasTagAttributes = hasTagAttributes;
+    Squire.getNearest = getNearest;
+    Squire.isOrContains = isOrContains;
+    Squire.detach = detach;
+    Squire.replaceWith = replaceWith;
+    Squire.empty = empty;
+
+// Range.js exports
+    Squire.getNodeBefore = getNodeBefore;
+    Squire.getNodeAfter = getNodeAfter;
+    Squire.insertNodeInRange = insertNodeInRange;
+    Squire.extractContentsOfRange = extractContentsOfRange;
+    Squire.deleteContentsOfRange = deleteContentsOfRange;
+    Squire.insertTreeFragmentIntoRange = insertTreeFragmentIntoRange;
+    Squire.isNodeContainedInRange = isNodeContainedInRange;
+    Squire.moveRangeBoundariesDownTree = moveRangeBoundariesDownTree;
+    Squire.moveRangeBoundariesUpTree = moveRangeBoundariesUpTree;
+    Squire.getStartBlockOfRange = getStartBlockOfRange;
+    Squire.getEndBlockOfRange = getEndBlockOfRange;
+    Squire.contentWalker = contentWalker;
+    Squire.rangeDoesStartAtBlockBoundary = rangeDoesStartAtBlockBoundary;
+    Squire.rangeDoesEndAtBlockBoundary = rangeDoesEndAtBlockBoundary;
+    Squire.expandRangeToBlockBoundaries = expandRangeToBlockBoundaries;
+
+// Clipboard.js exports
+    Squire.onPaste = onPaste;
+
+// Editor.js exports
+    Squire.addLinks = addLinks;
+    Squire.splitBlock = splitBlock;
+    Squire.startSelectionId = startSelectionId;
+    Squire.endSelectionId = endSelectionId;
+
+
+        win.Squire = Squire;
+
+        if ( top !== win &&
+            doc.documentElement.getAttribute( 'data-squireinit' ) === 'true' ) {
+            win.editor = new Squire( doc );
+            if ( win.onEditorLoad ) {
+                win.onEditorLoad( win.editor );
+                win.onEditorLoad = null;
+            }
+        }
+    
+
+}( document ) );
 !function(e){"use strict";var t=e(document),s=e(window),i="selectric",l=".sl",n=["a","e","i","o","u","n","c","y"],a=[/[\xE0-\xE5]/g,/[\xE8-\xEB]/g,/[\xEC-\xEF]/g,/[\xF2-\xF6]/g,/[\xF9-\xFC]/g,/[\xF1]/g,/[\xE7]/g,/[\xFD-\xFF]/g],o=function(t,s){var i=this;i.element=t,i.$element=e(t),i.state={multiple:!!i.$element.attr("multiple"),enabled:!1,opened:!1,currValue:-1,selectedIdx:-1,highlightedIdx:-1},i.eventTriggers={open:i.open,close:i.close,destroy:i.destroy,refresh:i.refresh,init:i.init},i.init(s)};o.prototype={utils:{isMobile:function(){return/android|ip(hone|od|ad)/i.test(navigator.userAgent)},escapeRegExp:function(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")},replaceDiacritics:function(e){for(var t=a.length;t--;)e=e.toLowerCase().replace(a[t],n[t]);return e},format:function(e){var t=arguments;return(""+e).replace(/\{(?:(\d+)|(\w+))\}/g,function(e,s,i){return i&&t[1]?t[1][i]:t[s]})},nextEnabledItem:function(e,t){for(;e[t=(t+1)%e.length].disabled;);return t},previousEnabledItem:function(e,t){for(;e[t=(t>0?t:e.length)-1].disabled;);return t},toDash:function(e){return e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()},triggerCallback:function(t,s){var l=s.element,n=s.options["on"+t],a=[l].concat([].slice.call(arguments).slice(1));e.isFunction(n)&&n.apply(l,a),e(l).trigger(i+"-"+this.toDash(t),a)},arrayToClassname:function(t){var s=e.grep(t,function(e){return!!e});return e.trim(s.join(" "))}},init:function(t){var s=this;if(s.options=e.extend(!0,{},e.fn[i].defaults,s.options,t),s.utils.triggerCallback("BeforeInit",s),s.destroy(!0),s.options.disableOnMobile&&s.utils.isMobile())s.disableOnMobile=!0;else{s.classes=s.getClassNames();var l=e("<input/>",{class:s.classes.input,readonly:s.utils.isMobile()}),n=e("<div/>",{class:s.classes.items,tabindex:-1}),a=e("<div/>",{class:s.classes.scroll}),o=e("<div/>",{class:s.classes.prefix,html:s.options.arrowButtonMarkup}),r=e("<span/>",{class:"label"}),p=s.$element.wrap("<div/>").parent().append(o.prepend(r),n,l),u=e("<div/>",{class:s.classes.hideselect});s.elements={input:l,items:n,itemsScroll:a,wrapper:o,label:r,outerWrapper:p},s.options.nativeOnMobile&&s.utils.isMobile()&&(s.elements.input=void 0,u.addClass(s.classes.prefix+"-is-native"),s.$element.on("change",function(){s.refresh()})),s.$element.on(s.eventTriggers).wrap(u),s.originalTabindex=s.$element.prop("tabindex"),s.$element.prop("tabindex",-1),s.populate(),s.activate(),s.utils.triggerCallback("Init",s)}},activate:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.$element.width();t.removeClass(e.classes.tempshow),e.utils.triggerCallback("BeforeActivate",e),e.elements.outerWrapper.prop("class",e.utils.arrayToClassname([e.classes.wrapper,e.$element.prop("class").replace(/\S+/g,e.classes.prefix+"-$&"),e.options.responsive?e.classes.responsive:""])),e.options.inheritOriginalWidth&&s>0&&e.elements.outerWrapper.width(s),e.unbindEvents(),e.$element.prop("disabled")?(e.elements.outerWrapper.addClass(e.classes.disabled),e.elements.input&&e.elements.input.prop("disabled",!0)):(e.state.enabled=!0,e.elements.outerWrapper.removeClass(e.classes.disabled),e.$li=e.elements.items.removeAttr("style").find("li"),e.bindEvents()),e.utils.triggerCallback("Activate",e)},getClassNames:function(){var t=this,s=t.options.customClass,i={};return e.each("Input Items Open Disabled TempShow HideSelect Wrapper Focus Hover Responsive Above Scroll Group GroupLabel".split(" "),function(e,l){var n=s.prefix+l;i[l.toLowerCase()]=s.camelCase?n:t.utils.toDash(n)}),i.prefix=s.prefix,i},setLabel:function(){var t=this,s=t.options.labelBuilder;if(t.state.multiple){var i=e.isArray(t.state.currValue)?t.state.currValue:[t.state.currValue];i=0===i.length?[0]:i;var l=e.map(i,function(s){return e.grep(t.lookupItems,function(e){return e.index===s})[0]});l=e.grep(l,function(t){return l.length>1||0===l.length?""!==e.trim(t.value):t}),l=e.map(l,function(i){return e.isFunction(s)?s(i):t.utils.format(s,i)}),t.options.multiple.maxLabelEntries&&(l.length>=t.options.multiple.maxLabelEntries+1?(l=l.slice(0,t.options.multiple.maxLabelEntries)).push(e.isFunction(s)?s({text:"..."}):t.utils.format(s,{text:"..."})):l.slice(l.length-1)),t.elements.label.html(l.join(t.options.multiple.separator))}else{var n=t.lookupItems[t.state.currValue];t.elements.label.html(e.isFunction(s)?s(n):t.utils.format(s,n))}},populate:function(){var t=this,s=t.$element.children(),i=t.$element.find("option"),l=i.filter(":selected"),n=i.index(l),a=0,o=t.state.multiple?[]:0;l.length>1&&t.state.multiple&&(n=[],l.each(function(){n.push(e(this).index())})),t.state.currValue=~n?n:o,t.state.selectedIdx=t.state.currValue,t.state.highlightedIdx=t.state.currValue,t.items=[],t.lookupItems=[],s.length&&(s.each(function(s){var i=e(this);if(i.is("optgroup")){var l={element:i,label:i.prop("label"),groupDisabled:i.prop("disabled"),items:[]};i.children().each(function(s){var i=e(this);l.items[s]=t.getItemData(a,i,l.groupDisabled||i.prop("disabled")),t.lookupItems[a]=l.items[s],a++}),t.items[s]=l}else t.items[s]=t.getItemData(a,i,i.prop("disabled")),t.lookupItems[a]=t.items[s],a++}),t.setLabel(),t.elements.items.append(t.elements.itemsScroll.html(t.getItemsMarkup(t.items))))},getItemData:function(t,s,i){return{index:t,element:s,value:s.val(),className:s.prop("class"),text:s.html(),slug:e.trim(this.utils.replaceDiacritics(s.html())),selected:s.prop("selected"),disabled:i}},getItemsMarkup:function(t){var s=this,i="<ul>";return e.isFunction(s.options.listBuilder)&&s.options.listBuilder&&(t=s.options.listBuilder(t)),e.each(t,function(t,l){void 0!==l.label?(i+=s.utils.format('<ul class="{1}"><li class="{2}">{3}</li>',s.utils.arrayToClassname([s.classes.group,l.groupDisabled?"disabled":"",l.element.prop("class")]),s.classes.grouplabel,l.element.prop("label")),e.each(l.items,function(e,t){i+=s.getItemMarkup(t.index,t)}),i+="</ul>"):i+=s.getItemMarkup(l.index,l)}),i+"</ul>"},getItemMarkup:function(t,s){var i=this,l=i.options.optionsItemBuilder,n={value:s.value,text:s.text,slug:s.slug,index:s.index};return i.utils.format('<li data-index="{1}" class="{2}">{3}</li>',t,i.utils.arrayToClassname([s.className,t===i.items.length-1?"last":"",s.disabled?"disabled":"",s.selected?"selected":""]),e.isFunction(l)?i.utils.format(l(s),s):i.utils.format(l,n))},unbindEvents:function(){this.elements.wrapper.add(this.$element).add(this.elements.outerWrapper).add(this.elements.input).off(l)},bindEvents:function(){var t=this;t.elements.outerWrapper.on("mouseenter.sl mouseleave"+l,function(s){e(this).toggleClass(t.classes.hover,"mouseenter"===s.type),t.options.openOnHover&&(clearTimeout(t.closeTimer),"mouseleave"===s.type?t.closeTimer=setTimeout(e.proxy(t.close,t),t.options.hoverIntentTimeout):t.open())}),t.elements.wrapper.on("click"+l,function(e){t.state.opened?t.close():t.open(e)}),t.options.nativeOnMobile&&t.utils.isMobile()||(t.$element.on("focus"+l,function(){t.elements.input.focus()}),t.elements.input.prop({tabindex:t.originalTabindex,disabled:!1}).on("keydown"+l,e.proxy(t.handleKeys,t)).on("focusin"+l,function(e){t.elements.outerWrapper.addClass(t.classes.focus),t.elements.input.one("blur",function(){t.elements.input.blur()}),t.options.openOnFocus&&!t.state.opened&&t.open(e)}).on("focusout"+l,function(){t.elements.outerWrapper.removeClass(t.classes.focus)}).on("input propertychange",function(){var s=t.elements.input.val(),i=new RegExp("^"+t.utils.escapeRegExp(s),"i");clearTimeout(t.resetStr),t.resetStr=setTimeout(function(){t.elements.input.val("")},t.options.keySearchTimeout),s.length&&e.each(t.items,function(e,s){(!s.disabled&&i.test(s.text)||i.test(s.slug))&&t.highlight(e)})})),t.$li.on({mousedown:function(e){e.preventDefault(),e.stopPropagation()},click:function(){return t.select(e(this).data("index")),!1}})},handleKeys:function(t){var s=this,i=t.which,l=s.options.keys,n=e.inArray(i,l.previous)>-1,a=e.inArray(i,l.next)>-1,o=e.inArray(i,l.select)>-1,r=e.inArray(i,l.open)>-1,p=s.state.highlightedIdx,u=n&&0===p||a&&p+1===s.items.length,c=0;if(13!==i&&32!==i||t.preventDefault(),n||a){if(!s.options.allowWrap&&u)return;n&&(c=s.utils.previousEnabledItem(s.lookupItems,p)),a&&(c=s.utils.nextEnabledItem(s.lookupItems,p)),s.highlight(c)}if(o&&s.state.opened)return s.select(p),void(s.state.multiple&&s.options.multiple.keepMenuOpen||s.close());r&&!s.state.opened&&s.open()},refresh:function(){this.populate(),this.activate(),this.utils.triggerCallback("Refresh",this)},setOptionsDimensions:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.options.maxHeight,i=e.elements.items.outerWidth(),l=e.elements.wrapper.outerWidth()-(i-e.elements.items.width());!e.options.expandToItemText||l>i?e.finalWidth=l:(e.elements.items.css("overflow","scroll"),e.elements.outerWrapper.width(9e4),e.finalWidth=e.elements.items.width(),e.elements.items.css("overflow",""),e.elements.outerWrapper.width("")),e.elements.items.width(e.finalWidth).height()>s&&e.elements.items.height(s),t.removeClass(e.classes.tempshow)},isInViewport:function(){var e=this,t=s.scrollTop(),i=s.height(),l=e.elements.outerWrapper.offset().top,n=e.elements.outerWrapper.outerHeight(),a=l+n+e.itemsHeight<=t+i,o=l-e.itemsHeight>t,r=!a&&o;e.elements.outerWrapper.toggleClass(e.classes.above,r)},detectItemVisibility:function(t){var s=this,i=s.$li.filter("[data-index]");s.state.multiple&&(t=e.isArray(t)&&0===t.length?0:t,t=e.isArray(t)?Math.min.apply(Math,t):t);var l=i.eq(t).outerHeight(),n=i[t].offsetTop,a=s.elements.itemsScroll.scrollTop(),o=n+2*l;s.elements.itemsScroll.scrollTop(o>a+s.itemsHeight?o-s.itemsHeight:n-l<a?n-l:a)},open:function(s){var n=this;if(n.options.nativeOnMobile&&n.utils.isMobile())return!1;n.utils.triggerCallback("BeforeOpen",n),s&&(s.preventDefault(),n.options.stopPropagation&&s.stopPropagation()),n.state.enabled&&(n.setOptionsDimensions(),e("."+n.classes.hideselect,"."+n.classes.open).children()[i]("close"),n.state.opened=!0,n.itemsHeight=n.elements.items.outerHeight(),n.itemsInnerHeight=n.elements.items.height(),n.elements.outerWrapper.addClass(n.classes.open),n.elements.input.val(""),s&&"focusin"!==s.type&&n.elements.input.focus(),setTimeout(function(){t.on("click"+l,e.proxy(n.close,n)).on("scroll"+l,e.proxy(n.isInViewport,n))},1),n.isInViewport(),n.options.preventWindowScroll&&t.on("mousewheel.sl DOMMouseScroll"+l,"."+n.classes.scroll,function(t){var s=t.originalEvent,i=e(this).scrollTop(),l=0;"detail"in s&&(l=-1*s.detail),"wheelDelta"in s&&(l=s.wheelDelta),"wheelDeltaY"in s&&(l=s.wheelDeltaY),"deltaY"in s&&(l=-1*s.deltaY),(i===this.scrollHeight-n.itemsInnerHeight&&l<0||0===i&&l>0)&&t.preventDefault()}),n.detectItemVisibility(n.state.selectedIdx),n.highlight(n.state.multiple?-1:n.state.selectedIdx),n.utils.triggerCallback("Open",n))},close:function(){var e=this;e.utils.triggerCallback("BeforeClose",e),t.off(l),e.elements.outerWrapper.removeClass(e.classes.open),e.state.opened=!1,e.utils.triggerCallback("Close",e)},change:function(){var t=this;t.utils.triggerCallback("BeforeChange",t),t.state.multiple?(e.each(t.lookupItems,function(e){t.lookupItems[e].selected=!1,t.$element.find("option").prop("selected",!1)}),e.each(t.state.selectedIdx,function(e,s){t.lookupItems[s].selected=!0,t.$element.find("option").eq(s).prop("selected",!0)}),t.state.currValue=t.state.selectedIdx,t.setLabel(),t.utils.triggerCallback("Change",t)):t.state.currValue!==t.state.selectedIdx&&(t.$element.prop("selectedIndex",t.state.currValue=t.state.selectedIdx).data("value",t.lookupItems[t.state.selectedIdx].text),t.setLabel(),t.utils.triggerCallback("Change",t))},highlight:function(e){var t=this,s=t.$li.filter("[data-index]").removeClass("highlighted");t.utils.triggerCallback("BeforeHighlight",t),void 0===e||-1===e||t.lookupItems[e].disabled||(s.eq(t.state.highlightedIdx=e).addClass("highlighted"),t.detectItemVisibility(e),t.utils.triggerCallback("Highlight",t))},select:function(t){var s=this,i=s.$li.filter("[data-index]");if(s.utils.triggerCallback("BeforeSelect",s,t),void 0!==t&&-1!==t&&!s.lookupItems[t].disabled){if(s.state.multiple){s.state.selectedIdx=e.isArray(s.state.selectedIdx)?s.state.selectedIdx:[s.state.selectedIdx];var l=e.inArray(t,s.state.selectedIdx);-1!==l?s.state.selectedIdx.splice(l,1):s.state.selectedIdx.push(t),i.removeClass("selected").filter(function(t){return-1!==e.inArray(t,s.state.selectedIdx)}).addClass("selected")}else i.removeClass("selected").eq(s.state.selectedIdx=t).addClass("selected");s.state.multiple&&s.options.multiple.keepMenuOpen||s.close(),s.change(),s.utils.triggerCallback("Select",s,t)}},destroy:function(e){var t=this;t.state&&t.state.enabled&&(t.elements.items.add(t.elements.wrapper).add(t.elements.input).remove(),e||t.$element.removeData(i).removeData("value"),t.$element.prop("tabindex",t.originalTabindex).off(l).off(t.eventTriggers).unwrap().unwrap(),t.state.enabled=!1)}},e.fn[i]=function(t){return this.each(function(){var s=e.data(this,i);s&&!s.disableOnMobile?"string"==typeof t&&s[t]?s[t]():s.init(t):e.data(this,i,new o(this,t))})},e.fn[i].defaults={onChange:function(t){e(t).change()},maxHeight:300,keySearchTimeout:500,arrowButtonMarkup:'<b class="button">&#x25be;</b>',disableOnMobile:!1,nativeOnMobile:!0,openOnFocus:!0,openOnHover:!1,hoverIntentTimeout:500,expandToItemText:!1,responsive:!1,preventWindowScroll:!0,inheritOriginalWidth:!1,allowWrap:!0,stopPropagation:!0,optionsItemBuilder:"{text}",labelBuilder:"{text}",listBuilder:!1,keys:{previous:[37,38],next:[39,40],select:[9,13,27],open:[13,32,37,38,39,40],close:[9,27]},customClass:{prefix:i,camelCase:!1},multiple:{separator:", ",keepMenuOpen:!0,maxLabelEntries:!1}}}(jQuery);!function(e){"use strict";var t=e(document),s=e(window),i="selectric",l=".sl",n=["a","e","i","o","u","n","c","y"],a=[/[\xE0-\xE5]/g,/[\xE8-\xEB]/g,/[\xEC-\xEF]/g,/[\xF2-\xF6]/g,/[\xF9-\xFC]/g,/[\xF1]/g,/[\xE7]/g,/[\xFD-\xFF]/g],o=function(t,s){var i=this;i.element=t,i.$element=e(t),i.state={multiple:!!i.$element.attr("multiple"),enabled:!1,opened:!1,currValue:-1,selectedIdx:-1,highlightedIdx:-1},i.eventTriggers={open:i.open,close:i.close,destroy:i.destroy,refresh:i.refresh,init:i.init},i.init(s)};o.prototype={utils:{isMobile:function(){return/android|ip(hone|od|ad)/i.test(navigator.userAgent)},escapeRegExp:function(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")},replaceDiacritics:function(e){for(var t=a.length;t--;)e=e.toLowerCase().replace(a[t],n[t]);return e},format:function(e){var t=arguments;return(""+e).replace(/\{(?:(\d+)|(\w+))\}/g,function(e,s,i){return i&&t[1]?t[1][i]:t[s]})},nextEnabledItem:function(e,t){for(;e[t=(t+1)%e.length].disabled;);return t},previousEnabledItem:function(e,t){for(;e[t=(t>0?t:e.length)-1].disabled;);return t},toDash:function(e){return e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()},triggerCallback:function(t,s){var l=s.element,n=s.options["on"+t],a=[l].concat([].slice.call(arguments).slice(1));e.isFunction(n)&&n.apply(l,a),e(l).trigger(i+"-"+this.toDash(t),a)},arrayToClassname:function(t){var s=e.grep(t,function(e){return!!e});return e.trim(s.join(" "))}},init:function(t){var s=this;if(s.options=e.extend(!0,{},e.fn[i].defaults,s.options,t),s.utils.triggerCallback("BeforeInit",s),s.destroy(!0),s.options.disableOnMobile&&s.utils.isMobile())s.disableOnMobile=!0;else{s.classes=s.getClassNames();var l=e("<input/>",{class:s.classes.input,readonly:s.utils.isMobile()}),n=e("<div/>",{class:s.classes.items,tabindex:-1}),a=e("<div/>",{class:s.classes.scroll}),o=e("<div/>",{class:s.classes.prefix,html:s.options.arrowButtonMarkup}),r=e("<span/>",{class:"label"}),p=s.$element.wrap("<div/>").parent().append(o.prepend(r),n,l),u=e("<div/>",{class:s.classes.hideselect});s.elements={input:l,items:n,itemsScroll:a,wrapper:o,label:r,outerWrapper:p},s.options.nativeOnMobile&&s.utils.isMobile()&&(s.elements.input=void 0,u.addClass(s.classes.prefix+"-is-native"),s.$element.on("change",function(){s.refresh()})),s.$element.on(s.eventTriggers).wrap(u),s.originalTabindex=s.$element.prop("tabindex"),s.$element.prop("tabindex",-1),s.populate(),s.activate(),s.utils.triggerCallback("Init",s)}},activate:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.$element.width();t.removeClass(e.classes.tempshow),e.utils.triggerCallback("BeforeActivate",e),e.elements.outerWrapper.prop("class",e.utils.arrayToClassname([e.classes.wrapper,e.$element.prop("class").replace(/\S+/g,e.classes.prefix+"-$&"),e.options.responsive?e.classes.responsive:""])),e.options.inheritOriginalWidth&&s>0&&e.elements.outerWrapper.width(s),e.unbindEvents(),e.$element.prop("disabled")?(e.elements.outerWrapper.addClass(e.classes.disabled),e.elements.input&&e.elements.input.prop("disabled",!0)):(e.state.enabled=!0,e.elements.outerWrapper.removeClass(e.classes.disabled),e.$li=e.elements.items.removeAttr("style").find("li"),e.bindEvents()),e.utils.triggerCallback("Activate",e)},getClassNames:function(){var t=this,s=t.options.customClass,i={};return e.each("Input Items Open Disabled TempShow HideSelect Wrapper Focus Hover Responsive Above Scroll Group GroupLabel".split(" "),function(e,l){var n=s.prefix+l;i[l.toLowerCase()]=s.camelCase?n:t.utils.toDash(n)}),i.prefix=s.prefix,i},setLabel:function(){var t=this,s=t.options.labelBuilder;if(t.state.multiple){var i=e.isArray(t.state.currValue)?t.state.currValue:[t.state.currValue];i=0===i.length?[0]:i;var l=e.map(i,function(s){return e.grep(t.lookupItems,function(e){return e.index===s})[0]});l=e.grep(l,function(t){return l.length>1||0===l.length?""!==e.trim(t.value):t}),l=e.map(l,function(i){return e.isFunction(s)?s(i):t.utils.format(s,i)}),t.options.multiple.maxLabelEntries&&(l.length>=t.options.multiple.maxLabelEntries+1?(l=l.slice(0,t.options.multiple.maxLabelEntries)).push(e.isFunction(s)?s({text:"..."}):t.utils.format(s,{text:"..."})):l.slice(l.length-1)),t.elements.label.html(l.join(t.options.multiple.separator))}else{var n=t.lookupItems[t.state.currValue];t.elements.label.html(e.isFunction(s)?s(n):t.utils.format(s,n))}},populate:function(){var t=this,s=t.$element.children(),i=t.$element.find("option"),l=i.filter(":selected"),n=i.index(l),a=0,o=t.state.multiple?[]:0;l.length>1&&t.state.multiple&&(n=[],l.each(function(){n.push(e(this).index())})),t.state.currValue=~n?n:o,t.state.selectedIdx=t.state.currValue,t.state.highlightedIdx=t.state.currValue,t.items=[],t.lookupItems=[],s.length&&(s.each(function(s){var i=e(this);if(i.is("optgroup")){var l={element:i,label:i.prop("label"),groupDisabled:i.prop("disabled"),items:[]};i.children().each(function(s){var i=e(this);l.items[s]=t.getItemData(a,i,l.groupDisabled||i.prop("disabled")),t.lookupItems[a]=l.items[s],a++}),t.items[s]=l}else t.items[s]=t.getItemData(a,i,i.prop("disabled")),t.lookupItems[a]=t.items[s],a++}),t.setLabel(),t.elements.items.append(t.elements.itemsScroll.html(t.getItemsMarkup(t.items))))},getItemData:function(t,s,i){return{index:t,element:s,value:s.val(),className:s.prop("class"),text:s.html(),slug:e.trim(this.utils.replaceDiacritics(s.html())),selected:s.prop("selected"),disabled:i}},getItemsMarkup:function(t){var s=this,i="<ul>";return e.isFunction(s.options.listBuilder)&&s.options.listBuilder&&(t=s.options.listBuilder(t)),e.each(t,function(t,l){void 0!==l.label?(i+=s.utils.format('<ul class="{1}"><li class="{2}">{3}</li>',s.utils.arrayToClassname([s.classes.group,l.groupDisabled?"disabled":"",l.element.prop("class")]),s.classes.grouplabel,l.element.prop("label")),e.each(l.items,function(e,t){i+=s.getItemMarkup(t.index,t)}),i+="</ul>"):i+=s.getItemMarkup(l.index,l)}),i+"</ul>"},getItemMarkup:function(t,s){var i=this,l=i.options.optionsItemBuilder,n={value:s.value,text:s.text,slug:s.slug,index:s.index};return i.utils.format('<li data-index="{1}" class="{2}">{3}</li>',t,i.utils.arrayToClassname([s.className,t===i.items.length-1?"last":"",s.disabled?"disabled":"",s.selected?"selected":""]),e.isFunction(l)?i.utils.format(l(s),s):i.utils.format(l,n))},unbindEvents:function(){this.elements.wrapper.add(this.$element).add(this.elements.outerWrapper).add(this.elements.input).off(l)},bindEvents:function(){var t=this;t.elements.outerWrapper.on("mouseenter.sl mouseleave"+l,function(s){e(this).toggleClass(t.classes.hover,"mouseenter"===s.type),t.options.openOnHover&&(clearTimeout(t.closeTimer),"mouseleave"===s.type?t.closeTimer=setTimeout(e.proxy(t.close,t),t.options.hoverIntentTimeout):t.open())}),t.elements.wrapper.on("click"+l,function(e){t.state.opened?t.close():t.open(e)}),t.options.nativeOnMobile&&t.utils.isMobile()||(t.$element.on("focus"+l,function(){t.elements.input.focus()}),t.elements.input.prop({tabindex:t.originalTabindex,disabled:!1}).on("keydown"+l,e.proxy(t.handleKeys,t)).on("focusin"+l,function(e){t.elements.outerWrapper.addClass(t.classes.focus),t.elements.input.one("blur",function(){t.elements.input.blur()}),t.options.openOnFocus&&!t.state.opened&&t.open(e)}).on("focusout"+l,function(){t.elements.outerWrapper.removeClass(t.classes.focus)}).on("input propertychange",function(){var s=t.elements.input.val(),i=new RegExp("^"+t.utils.escapeRegExp(s),"i");clearTimeout(t.resetStr),t.resetStr=setTimeout(function(){t.elements.input.val("")},t.options.keySearchTimeout),s.length&&e.each(t.items,function(e,s){(!s.disabled&&i.test(s.text)||i.test(s.slug))&&t.highlight(e)})})),t.$li.on({mousedown:function(e){e.preventDefault(),e.stopPropagation()},click:function(){return t.select(e(this).data("index")),!1}})},handleKeys:function(t){var s=this,i=t.which,l=s.options.keys,n=e.inArray(i,l.previous)>-1,a=e.inArray(i,l.next)>-1,o=e.inArray(i,l.select)>-1,r=e.inArray(i,l.open)>-1,p=s.state.highlightedIdx,u=n&&0===p||a&&p+1===s.items.length,c=0;if(13!==i&&32!==i||t.preventDefault(),n||a){if(!s.options.allowWrap&&u)return;n&&(c=s.utils.previousEnabledItem(s.lookupItems,p)),a&&(c=s.utils.nextEnabledItem(s.lookupItems,p)),s.highlight(c)}if(o&&s.state.opened)return s.select(p),void(s.state.multiple&&s.options.multiple.keepMenuOpen||s.close());r&&!s.state.opened&&s.open()},refresh:function(){this.populate(),this.activate(),this.utils.triggerCallback("Refresh",this)},setOptionsDimensions:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.options.maxHeight,i=e.elements.items.outerWidth(),l=e.elements.wrapper.outerWidth()-(i-e.elements.items.width());!e.options.expandToItemText||l>i?e.finalWidth=l:(e.elements.items.css("overflow","scroll"),e.elements.outerWrapper.width(9e4),e.finalWidth=e.elements.items.width(),e.elements.items.css("overflow",""),e.elements.outerWrapper.width("")),e.elements.items.width(e.finalWidth).height()>s&&e.elements.items.height(s),t.removeClass(e.classes.tempshow)},isInViewport:function(){var e=this,t=s.scrollTop(),i=s.height(),l=e.elements.outerWrapper.offset().top,n=e.elements.outerWrapper.outerHeight(),a=l+n+e.itemsHeight<=t+i,o=l-e.itemsHeight>t,r=!a&&o;e.elements.outerWrapper.toggleClass(e.classes.above,r)},detectItemVisibility:function(t){var s=this,i=s.$li.filter("[data-index]");s.state.multiple&&(t=e.isArray(t)&&0===t.length?0:t,t=e.isArray(t)?Math.min.apply(Math,t):t);var l=i.eq(t).outerHeight(),n=i[t].offsetTop,a=s.elements.itemsScroll.scrollTop(),o=n+2*l;s.elements.itemsScroll.scrollTop(o>a+s.itemsHeight?o-s.itemsHeight:n-l<a?n-l:a)},open:function(s){var n=this;if(n.options.nativeOnMobile&&n.utils.isMobile())return!1;n.utils.triggerCallback("BeforeOpen",n),s&&(s.preventDefault(),n.options.stopPropagation&&s.stopPropagation()),n.state.enabled&&(n.setOptionsDimensions(),e("."+n.classes.hideselect,"."+n.classes.open).children()[i]("close"),n.state.opened=!0,n.itemsHeight=n.elements.items.outerHeight(),n.itemsInnerHeight=n.elements.items.height(),n.elements.outerWrapper.addClass(n.classes.open),n.elements.input.val(""),s&&"focusin"!==s.type&&n.elements.input.focus(),setTimeout(function(){t.on("click"+l,e.proxy(n.close,n)).on("scroll"+l,e.proxy(n.isInViewport,n))},1),n.isInViewport(),n.options.preventWindowScroll&&t.on("mousewheel.sl DOMMouseScroll"+l,"."+n.classes.scroll,function(t){var s=t.originalEvent,i=e(this).scrollTop(),l=0;"detail"in s&&(l=-1*s.detail),"wheelDelta"in s&&(l=s.wheelDelta),"wheelDeltaY"in s&&(l=s.wheelDeltaY),"deltaY"in s&&(l=-1*s.deltaY),(i===this.scrollHeight-n.itemsInnerHeight&&l<0||0===i&&l>0)&&t.preventDefault()}),n.detectItemVisibility(n.state.selectedIdx),n.highlight(n.state.multiple?-1:n.state.selectedIdx),n.utils.triggerCallback("Open",n))},close:function(){var e=this;e.utils.triggerCallback("BeforeClose",e),t.off(l),e.elements.outerWrapper.removeClass(e.classes.open),e.state.opened=!1,e.utils.triggerCallback("Close",e)},change:function(){var t=this;t.utils.triggerCallback("BeforeChange",t),t.state.multiple?(e.each(t.lookupItems,function(e){t.lookupItems[e].selected=!1,t.$element.find("option").prop("selected",!1)}),e.each(t.state.selectedIdx,function(e,s){t.lookupItems[s].selected=!0,t.$element.find("option").eq(s).prop("selected",!0)}),t.state.currValue=t.state.selectedIdx,t.setLabel(),t.utils.triggerCallback("Change",t)):t.state.currValue!==t.state.selectedIdx&&(t.$element.prop("selectedIndex",t.state.currValue=t.state.selectedIdx).data("value",t.lookupItems[t.state.selectedIdx].text),t.setLabel(),t.utils.triggerCallback("Change",t))},highlight:function(e){var t=this,s=t.$li.filter("[data-index]").removeClass("highlighted");t.utils.triggerCallback("BeforeHighlight",t),void 0===e||-1===e||t.lookupItems[e].disabled||(s.eq(t.state.highlightedIdx=e).addClass("highlighted"),t.detectItemVisibility(e),t.utils.triggerCallback("Highlight",t))},select:function(t){var s=this,i=s.$li.filter("[data-index]");if(s.utils.triggerCallback("BeforeSelect",s,t),void 0!==t&&-1!==t&&!s.lookupItems[t].disabled){if(s.state.multiple){s.state.selectedIdx=e.isArray(s.state.selectedIdx)?s.state.selectedIdx:[s.state.selectedIdx];var l=e.inArray(t,s.state.selectedIdx);-1!==l?s.state.selectedIdx.splice(l,1):s.state.selectedIdx.push(t),i.removeClass("selected").filter(function(t){return-1!==e.inArray(t,s.state.selectedIdx)}).addClass("selected")}else i.removeClass("selected").eq(s.state.selectedIdx=t).addClass("selected");s.state.multiple&&s.options.multiple.keepMenuOpen||s.close(),s.change(),s.utils.triggerCallback("Select",s,t)}},destroy:function(e){var t=this;t.state&&t.state.enabled&&(t.elements.items.add(t.elements.wrapper).add(t.elements.input).remove(),e||t.$element.removeData(i).removeData("value"),t.$element.prop("tabindex",t.originalTabindex).off(l).off(t.eventTriggers).unwrap().unwrap(),t.state.enabled=!1)}},e.fn[i]=function(t){return this.each(function(){var s=e.data(this,i);s&&!s.disableOnMobile?"string"==typeof t&&s[t]?s[t]():s.init(t):e.data(this,i,new o(this,t))})},e.fn[i].defaults={onChange:function(t){e(t).change()},maxHeight:300,keySearchTimeout:500,arrowButtonMarkup:'<b class="button">&#x25be;</b>',disableOnMobile:!1,nativeOnMobile:!0,openOnFocus:!0,openOnHover:!1,hoverIntentTimeout:500,expandToItemText:!1,responsive:!1,preventWindowScroll:!0,inheritOriginalWidth:!1,allowWrap:!0,stopPropagation:!0,optionsItemBuilder:"{text}",labelBuilder:"{text}",listBuilder:!1,keys:{previous:[37,38],next:[39,40],select:[9,13,27],open:[13,32,37,38,39,40],close:[9,27]},customClass:{prefix:i,camelCase:!1},multiple:{separator:", ",keepMenuOpen:!0,maxLabelEntries:!1}}}(jQuery);
 ;(function () {
 	'use strict';
@@ -8866,290 +13473,6 @@ var objectFitImages = (function () {
 
 })(window.Zepto || window.jQuery, window, document);
 
-/**
- * Owl Carousel v2 Accessibility Plugin
- * Version 0.2.1
- * © Geoffrey Roberts 2016
- */
-
-;(function($, window, document){
-  var Owl2A11y = function(carousel) {
-    this._core = carousel;
-    this._initialized = false;
-
-    this._core._options = $.extend(Owl2A11y.defaults, this._core.options);
-
-    this.$element = this._core.$element;
-
-    var setCurrent = $.proxy(function(e) {
-      this.setCurrent(e);
-    }, this);
-
-    this._handlers = {
-      'initialized.owl.carousel': $.proxy(function(e) {
-        this.setupRoot();
-        if (e.namespace && !this._initialized) {
-          this.setupFocus();
-          this.setupKeyboard();
-        }
-        this.setCurrent(e);
-      }, this),
-      'changed.owl.carousel': setCurrent,
-      'translated.owl.carousel': setCurrent,
-      'refreshed.owl.carousel': setCurrent,
-      'resized.owl.carousel': setCurrent
-    };
-    this.$element.on(this._handlers);
-  };
-
-
-  /* PREFERENCES */
-
-  /**
-   * Contains default parameters, if there were any.
-   */
-  Owl2A11y.defaults = {};
-
-
-  /* EVENT HANDLERS */
-
-  /**
-   * Adds support for things that don't map nicely to the root object
-   * such as event handlers.
-   */
-  Owl2A11y.eventHandlers = {};
-
-  /**
-   * Get a callback for keyup events within this carousel.
-   *
-   * @return callback
-   *   An event callback that takes an Event as an argument.
-   */
-  Owl2A11y.prototype.getDocumentKeyUp = function(){
-    var self = this;
-    return function(e) {
-      var eventTarg = $(e.target),
-      targ = self.focused(eventTarg),
-      action = null;
-
-      if (!!targ) {
-        if (e.keyCode == 37 || e.keyCode == 38) {
-          action = 'prev.owl.carousel';
-        }
-        else if (e.keyCode == 39 || e.keyCode == 40) {
-          action = 'next.owl.carousel';
-        }
-        else if (e.keyCode == 13) {
-          if (eventTarg.hasClass('owl-prev')) action = 'prev.owl.carousel';
-          else if (eventTarg.hasClass('owl-next')) action = 'next.owl.carousel';
-          else if (eventTarg.hasClass('owl-dot')) action = 'click';
-        }
-
-        if (!!action) targ.trigger(action);
-      }
-    };
-  };
-
-
-  /* SETUP AND TEAR DOWN */
-
-  /**
-   * Assign attributes to the root element.
-   */
-  Owl2A11y.prototype.setupRoot = function() {
-    this.$element.attr({
-      role: 'listbox',
-      tabindex: '0'
-    });
-  };
-
-  /**
-   * Setup keyboard events for this carousel.
-   */
-  Owl2A11y.prototype.setupKeyboard = function(){
-    // Only needed to initialise once for the entire document
-    if (!this.$element.attr('data-owl-access-keyup')) {
-      this.$element.bind('keyup', this.getDocumentKeyUp())
-      .attr('data-owl-access-keyup', '1');
-    }
-    this.$element.attr('data-owl-carousel-focusable', '1');
-  };
-
-  /**
-   * Setup focusing behaviour for the carousel.
-   */
-  Owl2A11y.prototype.setupFocus = function(){
-    // Only needed to initialise once for the entire document
-    this.$element.bind('focusin', function(){
-      $(this).attr({
-        'data-owl-carousel-focused': '1',
-        'aria-live': 'polite'
-      }).trigger('stop.owl.autoplay');
-    }).bind('focusout', function(){
-      $(this).attr({
-        'data-owl-carousel-focused': '0',
-        'aria-live': 'off'
-      }).trigger('play.owl.autoplay');
-    });
-
-    // Add tabindex to allow navigation to be focused.
-    if (!!this._core._plugins.navigation) {
-      var navPlugin = this._core._plugins.navigation,
-      toFocus = [];
-      if (!!navPlugin._controls.$previous) {
-        toFocus.push(navPlugin._controls.$previous);
-      }
-      if (!!navPlugin._controls.$next) {
-        toFocus.push(navPlugin._controls.$next);
-      }
-      if (!!navPlugin._controls.$indicators) {
-        toFocus.push(navPlugin._controls.$indicators.children());
-      }
-      $.each(toFocus, function(){
-        this.attr('tabindex', '0');
-      });
-    }
-  };
-
-  /**
-   * Assign attributes to the root element.
-   */
-  Owl2A11y.prototype.destroy = function() {
-    this.$element.unbind('keyup', this.eventHandlers.documentKeyUp)
-    .removeAttr('data-owl-access-keyup data-owl-carousel-focusable')
-    .unbind('focusin focusout');
-  };
-
-
-  /* HELPER FUNCTIONS */
-
-  /**
-   * Identifies all focusable elements within a given element.
-   *
-   * @param DOMElement elem
-   *   A DOM element.
-   *
-   * @return jQuery
-   *   A jQuery object that may refer to zero or more focusable elements.
-   */
-  Owl2A11y.prototype.focusableElems = function(elem) {
-    return $(elem).find('a, input, select, button, *[tabindex]');
-  };
-
-  /**
-   * Identifies all focusable elements within a given element.
-   *
-   * @param jQeury elems
-   *   A jQuery object that may refer to zero or more focusable elements.
-   * @param boolean enable
-   *   Whether focus is to be enabled on these elements or not.
-   */
-  Owl2A11y.prototype.adjustFocus = function(elems, enable){
-    elems.each(function(){
-      var item = $(this);
-      var newTabIndex = '0',
-      storeTabIndex = '0';
-
-      currentTabIndex = item.attr('tabindex'),
-      storedTabIndex = item.attr('data-owl-temp-tabindex');
-
-      if (enable) {
-        newTabIndex = (
-          typeof(storedTabIndex) != 'undefined' && (storedTabIndex != '-1') ?
-          item.attr('data-owl-temp-tabindex') :
-          '0'
-        );
-        storedTabIndex = newTabIndex;
-      }
-      else {
-        newTabIndex = '-1';
-        storedTabIndex = (
-          (typeof(currentTabIndex) != 'undefined') || (currentTabIndex != '-1') ?
-          currentTabIndex :
-          '0'
-        );
-      }
-
-      item.attr({
-        tabindex: newTabIndex,
-        'data-owl-temp-tabindex': storeTabIndex
-      });
-    });
-  };
-
-  /**
-   * Get the root element if we are focused within it.
-   *
-   * @param DOMElement targ
-   *   An element that might be within this carousel.
-   *
-   * @return mixed
-   *   Either the jQuery element containing the root element, or NULL.
-   */
-  Owl2A11y.prototype.focused = function(targ){
-    var targ = $(targ);
-    if (targ.attr('data-owl-carousel-focused') == 1) {
-      return targ;
-    }
-    var closest = targ.closest('[data-owl-carousel-focused="1"]');
-    if (closest.length > 0) return closest;
-    return null;
-  };
-
-
-  /* UPDATE FUNCTIONS */
-
-  /**
-   * Identify active elements, set WAI-ARIA sttributes accordingly,
-   * scroll to show element if we need to, and set up focusing.
-   *
-   * @param Event e
-   *   The triggering event.
-   */
-  Owl2A11y.prototype.setCurrent = function(e) {
-    var targ = this.focused($(':focus')),
-    element = this._core.$element,
-    stage = this._core.$stage,
-    focusableElems = this.focusableElems,
-    adjustFocus = this.adjustFocus;
-
-    if (!!stage) {
-      var offs = stage.offset();
-
-      this._core.$stage.children().each(function(i) {
-        var item = $(this);
-        var focusable = focusableElems(this);
-
-        // Use the active class to determine if we can see it or not.
-        // Pretty lazy, but the Owl API doesn't make it easy to tell
-        // from indices alone.
-        if (item.hasClass('active')) {
-          item.attr('aria-hidden', 'false');
-          adjustFocus(focusable, true);
-        }
-        else {
-          item.attr('aria-hidden', 'true');
-          adjustFocus(focusable, false);
-        }
-      });
-
-      if (!!targ) {
-        // Focus on the root element after we're done moving,
-        // but only if we're not using the controls.
-        setTimeout(function(){
-          var newFocus = element;
-          if ($(':focus').closest('.owl-controls').length) {
-            newFocus = $(':focus');
-          }
-          newFocus.focus();
-        }, 250);
-      }
-    }
-  };
-
-  $.fn.owlCarousel.Constructor.Plugins['Owl2A11y'] = Owl2A11y;
-})(window.Zepto || window.jQuery, window,  document);
-
 /*!
  * Pikaday
  *
@@ -10385,6 +14708,4997 @@ var objectFitImages = (function () {
     return Pikaday;
 }));
 
+/**
+ * SimpleBar.js - v3.1.0
+ * Scrollbars, simpler.
+ * https://grsmto.github.io/simplebar/
+ *
+ * Made by Adrien Denat from a fork by Jonathan Nicol
+ * Under MIT License
+ */
+
+(function (global, factory) {
+            (global.SimpleBar = factory());
+}(this, (function () {
+
+    var _isObject = function (it) {
+        return typeof it === 'object' ? it !== null : typeof it === 'function';
+    };
+
+    var _anObject = function (it) {
+        if (!_isObject(it)) throw TypeError(it + ' is not an object!');
+        return it;
+    };
+
+    var _fails = function (exec) {
+        try {
+            return !!exec();
+        } catch (e) {
+            return true;
+        }
+    };
+
+    // Thank's IE8 for his funny defineProperty
+    var _descriptors = !_fails(function () {
+        return Object.defineProperty({}, 'a', {
+                get: function () {
+                    return 7;
+                }
+            }).a != 7;
+    });
+
+    var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+    function createCommonjsModule(fn, module) {
+        return module = {exports: {}}, fn(module, module.exports), module.exports;
+    }
+
+    var _global = createCommonjsModule(function (module) {
+        // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+        var global = module.exports = typeof window != 'undefined' && window.Math == Math
+            ? window : typeof self != 'undefined' && self.Math == Math ? self
+            // eslint-disable-next-line no-new-func
+            : Function('return this')();
+        if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+    });
+
+    var document$1 = _global.document;
+    // typeof document.createElement is 'object' in old IE
+    var is = _isObject(document$1) && _isObject(document$1.createElement);
+    var _domCreate = function (it) {
+        return is ? document$1.createElement(it) : {};
+    };
+
+    var _ie8DomDefine = !_descriptors && !_fails(function () {
+            return Object.defineProperty(_domCreate('div'), 'a', {
+                    get: function () {
+                        return 7;
+                    }
+                }).a != 7;
+        });
+
+    // 7.1.1 ToPrimitive(input [, PreferredType])
+
+    // instead of the ES6 spec version, we didn't implement @@toPrimitive case
+    // and the second argument - flag - preferred type is a string
+    var _toPrimitive = function (it, S) {
+        if (!_isObject(it)) return it;
+        var fn, val;
+        if (S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it))) return val;
+        if (typeof (fn = it.valueOf) == 'function' && !_isObject(val = fn.call(it))) return val;
+        if (!S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it))) return val;
+        throw TypeError("Can't convert object to primitive value");
+    };
+
+    var dP = Object.defineProperty;
+
+    var f = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+        _anObject(O);
+        P = _toPrimitive(P, true);
+        _anObject(Attributes);
+        if (_ie8DomDefine) try {
+            return dP(O, P, Attributes);
+        } catch (e) { /* empty */
+        }
+        if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+        if ('value' in Attributes) O[P] = Attributes.value;
+        return O;
+    };
+
+    var _objectDp = {
+        f: f
+    };
+
+    var _propertyDesc = function (bitmap, value) {
+        return {
+            enumerable: !(bitmap & 1),
+            configurable: !(bitmap & 2),
+            writable: !(bitmap & 4),
+            value: value
+        };
+    };
+
+    var _hide = _descriptors ? function (object, key, value) {
+        return _objectDp.f(object, key, _propertyDesc(1, value));
+    } : function (object, key, value) {
+        object[key] = value;
+        return object;
+    };
+
+    var hasOwnProperty = {}.hasOwnProperty;
+    var _has = function (it, key) {
+        return hasOwnProperty.call(it, key);
+    };
+
+    var id = 0;
+    var px = Math.random();
+    var _uid = function (key) {
+        return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+    };
+
+    var _core = createCommonjsModule(function (module) {
+        var core = module.exports = {version: '2.5.7'};
+        if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+    });
+    var _core_1 = _core.version;
+
+    var _redefine = createCommonjsModule(function (module) {
+        var SRC = _uid('src');
+        var TO_STRING = 'toString';
+        var $toString = Function[TO_STRING];
+        var TPL = ('' + $toString).split(TO_STRING);
+
+        _core.inspectSource = function (it) {
+            return $toString.call(it);
+        };
+
+        (module.exports = function (O, key, val, safe) {
+            var isFunction = typeof val == 'function';
+            if (isFunction) _has(val, 'name') || _hide(val, 'name', key);
+            if (O[key] === val) return;
+            if (isFunction) _has(val, SRC) || _hide(val, SRC, O[key] ? '' + O[key] : TPL.join(String(key)));
+            if (O === _global) {
+                O[key] = val;
+            } else if (!safe) {
+                delete O[key];
+                _hide(O, key, val);
+            } else if (O[key]) {
+                O[key] = val;
+            } else {
+                _hide(O, key, val);
+            }
+            // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+        })(Function.prototype, TO_STRING, function toString() {
+            return typeof this == 'function' && this[SRC] || $toString.call(this);
+        });
+    });
+
+    // 7.2.1 RequireObjectCoercible(argument)
+    var _defined = function (it) {
+        if (it == undefined) throw TypeError("Can't call method on  " + it);
+        return it;
+    };
+
+    var _library = false;
+
+    var _shared = createCommonjsModule(function (module) {
+        var SHARED = '__core-js_shared__';
+        var store = _global[SHARED] || (_global[SHARED] = {});
+
+        (module.exports = function (key, value) {
+            return store[key] || (store[key] = value !== undefined ? value : {});
+        })('versions', []).push({
+            version: _core.version,
+            mode: _library ? 'pure' : 'global',
+            copyright: '© 2018 Denis Pushkarev (zloirock.ru)'
+        });
+    });
+
+    var _wks = createCommonjsModule(function (module) {
+        var store = _shared('wks');
+
+        var Symbol = _global.Symbol;
+        var USE_SYMBOL = typeof Symbol == 'function';
+
+        var $exports = module.exports = function (name) {
+            return store[name] || (store[name] =
+                    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
+        };
+
+        $exports.store = store;
+    });
+
+    var _fixReWks = function (KEY, length, exec) {
+        var SYMBOL = _wks(KEY);
+        var fns = exec(_defined, SYMBOL, ''[KEY]);
+        var strfn = fns[0];
+        var rxfn = fns[1];
+        if (_fails(function () {
+                var O = {};
+                O[SYMBOL] = function () {
+                    return 7;
+                };
+                return ''[KEY](O) != 7;
+            })) {
+            _redefine(String.prototype, KEY, strfn);
+            _hide(RegExp.prototype, SYMBOL, length == 2
+                    // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+                    // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+                    ? function (string, arg) {
+                    return rxfn.call(string, this, arg);
+                }
+                    // 21.2.5.6 RegExp.prototype[@@match](string)
+                    // 21.2.5.9 RegExp.prototype[@@search](string)
+                    : function (string) {
+                    return rxfn.call(string, this);
+                }
+            );
+        }
+    };
+
+    // @@replace logic
+    _fixReWks('replace', 2, function (defined, REPLACE, $replace) {
+        // 21.1.3.14 String.prototype.replace(searchValue, replaceValue)
+        return [function replace(searchValue, replaceValue) {
+            var O = defined(this);
+            var fn = searchValue == undefined ? undefined : searchValue[REPLACE];
+            return fn !== undefined
+                ? fn.call(searchValue, O, replaceValue)
+                : $replace.call(String(O), searchValue, replaceValue);
+        }, $replace];
+    });
+
+    var dP$1 = _objectDp.f;
+    var FProto = Function.prototype;
+    var nameRE = /^\s*function ([^ (]*)/;
+    var NAME = 'name';
+
+    // 19.2.4.2 name
+    NAME in FProto || _descriptors && dP$1(FProto, NAME, {
+        configurable: true,
+        get: function () {
+            try {
+                return ('' + this).match(nameRE)[1];
+            } catch (e) {
+                return '';
+            }
+        }
+    });
+
+    // @@match logic
+    _fixReWks('match', 1, function (defined, MATCH, $match) {
+        // 21.1.3.11 String.prototype.match(regexp)
+        return [function match(regexp) {
+            var O = defined(this);
+            var fn = regexp == undefined ? undefined : regexp[MATCH];
+            return fn !== undefined ? fn.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+        }, $match];
+    });
+
+    // 22.1.3.31 Array.prototype[@@unscopables]
+    var UNSCOPABLES = _wks('unscopables');
+    var ArrayProto = Array.prototype;
+    if (ArrayProto[UNSCOPABLES] == undefined) _hide(ArrayProto, UNSCOPABLES, {});
+    var _addToUnscopables = function (key) {
+        ArrayProto[UNSCOPABLES][key] = true;
+    };
+
+    var _iterStep = function (done, value) {
+        return {value: value, done: !!done};
+    };
+
+    var _iterators = {};
+
+    var toString = {}.toString;
+
+    var _cof = function (it) {
+        return toString.call(it).slice(8, -1);
+    };
+
+    // fallback for non-array-like ES3 and non-enumerable old V8 strings
+
+    // eslint-disable-next-line no-prototype-builtins
+    var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+        return _cof(it) == 'String' ? it.split('') : Object(it);
+    };
+
+    // to indexed object, toObject with fallback for non-array-like ES3 strings
+
+
+    var _toIobject = function (it) {
+        return _iobject(_defined(it));
+    };
+
+    var _aFunction = function (it) {
+        if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+        return it;
+    };
+
+    // optional / simple context binding
+
+    var _ctx = function (fn, that, length) {
+        _aFunction(fn);
+        if (that === undefined) return fn;
+        switch (length) {
+            case 1:
+                return function (a) {
+                    return fn.call(that, a);
+                };
+            case 2:
+                return function (a, b) {
+                    return fn.call(that, a, b);
+                };
+            case 3:
+                return function (a, b, c) {
+                    return fn.call(that, a, b, c);
+                };
+        }
+        return function (/* ...args */) {
+            return fn.apply(that, arguments);
+        };
+    };
+
+    var PROTOTYPE = 'prototype';
+
+    var $export = function (type, name, source) {
+        var IS_FORCED = type & $export.F;
+        var IS_GLOBAL = type & $export.G;
+        var IS_STATIC = type & $export.S;
+        var IS_PROTO = type & $export.P;
+        var IS_BIND = type & $export.B;
+        var target = IS_GLOBAL ? _global : IS_STATIC ? _global[name] || (_global[name] = {}) : (_global[name] || {})[PROTOTYPE];
+        var exports = IS_GLOBAL ? _core : _core[name] || (_core[name] = {});
+        var expProto = exports[PROTOTYPE] || (exports[PROTOTYPE] = {});
+        var key, own, out, exp;
+        if (IS_GLOBAL) source = name;
+        for (key in source) {
+            // contains in native
+            own = !IS_FORCED && target && target[key] !== undefined;
+            // export native or passed
+            out = (own ? target : source)[key];
+            // bind timers to global for call from export context
+            exp = IS_BIND && own ? _ctx(out, _global) : IS_PROTO && typeof out == 'function' ? _ctx(Function.call, out) : out;
+            // extend global
+            if (target) _redefine(target, key, out, type & $export.U);
+            // export
+            if (exports[key] != out) _hide(exports, key, exp);
+            if (IS_PROTO && expProto[key] != out) expProto[key] = out;
+        }
+    };
+    _global.core = _core;
+    // type bitmap
+    $export.F = 1;   // forced
+    $export.G = 2;   // global
+    $export.S = 4;   // static
+    $export.P = 8;   // proto
+    $export.B = 16;  // bind
+    $export.W = 32;  // wrap
+    $export.U = 64;  // safe
+    $export.R = 128; // real proto method for `library`
+    var _export = $export;
+
+    // 7.1.4 ToInteger
+    var ceil = Math.ceil;
+    var floor = Math.floor;
+    var _toInteger = function (it) {
+        return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+    };
+
+    // 7.1.15 ToLength
+
+    var min = Math.min;
+    var _toLength = function (it) {
+        return it > 0 ? min(_toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+    };
+
+    var max = Math.max;
+    var min$1 = Math.min;
+    var _toAbsoluteIndex = function (index, length) {
+        index = _toInteger(index);
+        return index < 0 ? max(index + length, 0) : min$1(index, length);
+    };
+
+    // false -> Array#indexOf
+    // true  -> Array#includes
+
+
+    var _arrayIncludes = function (IS_INCLUDES) {
+        return function ($this, el, fromIndex) {
+            var O = _toIobject($this);
+            var length = _toLength(O.length);
+            var index = _toAbsoluteIndex(fromIndex, length);
+            var value;
+            // Array#includes uses SameValueZero equality algorithm
+            // eslint-disable-next-line no-self-compare
+            if (IS_INCLUDES && el != el) while (length > index) {
+                value = O[index++];
+                // eslint-disable-next-line no-self-compare
+                if (value != value) return true;
+                // Array#indexOf ignores holes, Array#includes - not
+            } else for (; length > index; index++) if (IS_INCLUDES || index in O) {
+                if (O[index] === el) return IS_INCLUDES || index || 0;
+            }
+            return !IS_INCLUDES && -1;
+        };
+    };
+
+    var shared = _shared('keys');
+
+    var _sharedKey = function (key) {
+        return shared[key] || (shared[key] = _uid(key));
+    };
+
+    var arrayIndexOf = _arrayIncludes(false);
+    var IE_PROTO = _sharedKey('IE_PROTO');
+
+    var _objectKeysInternal = function (object, names) {
+        var O = _toIobject(object);
+        var i = 0;
+        var result = [];
+        var key;
+        for (key in O) if (key != IE_PROTO) _has(O, key) && result.push(key);
+        // Don't enum bug & hidden keys
+        while (names.length > i) if (_has(O, key = names[i++])) {
+            ~arrayIndexOf(result, key) || result.push(key);
+        }
+        return result;
+    };
+
+    // IE 8- don't enum bug keys
+    var _enumBugKeys = (
+        'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+    ).split(',');
+
+    // 19.1.2.14 / 15.2.3.14 Object.keys(O)
+
+
+    var _objectKeys = Object.keys || function keys(O) {
+            return _objectKeysInternal(O, _enumBugKeys);
+        };
+
+    var _objectDps = _descriptors ? Object.defineProperties : function defineProperties(O, Properties) {
+        _anObject(O);
+        var keys = _objectKeys(Properties);
+        var length = keys.length;
+        var i = 0;
+        var P;
+        while (length > i) _objectDp.f(O, P = keys[i++], Properties[P]);
+        return O;
+    };
+
+    var document$2 = _global.document;
+    var _html = document$2 && document$2.documentElement;
+
+    // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+
+
+    var IE_PROTO$1 = _sharedKey('IE_PROTO');
+    var Empty = function () { /* empty */
+    };
+    var PROTOTYPE$1 = 'prototype';
+
+    // Create object with fake `null` prototype: use iframe Object with cleared prototype
+    var createDict = function () {
+        // Thrash, waste and sodomy: IE GC bug
+        var iframe = _domCreate('iframe');
+        var i = _enumBugKeys.length;
+        var lt = '<';
+        var gt = '>';
+        var iframeDocument;
+        iframe.style.display = 'none';
+        _html.appendChild(iframe);
+        iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+        // createDict = iframe.contentWindow.Object;
+        // html.removeChild(iframe);
+        iframeDocument = iframe.contentWindow.document;
+        iframeDocument.open();
+        iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+        iframeDocument.close();
+        createDict = iframeDocument.F;
+        while (i--) delete createDict[PROTOTYPE$1][_enumBugKeys[i]];
+        return createDict();
+    };
+
+    var _objectCreate = Object.create || function create(O, Properties) {
+            var result;
+            if (O !== null) {
+                Empty[PROTOTYPE$1] = _anObject(O);
+                result = new Empty();
+                Empty[PROTOTYPE$1] = null;
+                // add "__proto__" for Object.getPrototypeOf polyfill
+                result[IE_PROTO$1] = O;
+            } else result = createDict();
+            return Properties === undefined ? result : _objectDps(result, Properties);
+        };
+
+    var def = _objectDp.f;
+
+    var TAG = _wks('toStringTag');
+
+    var _setToStringTag = function (it, tag, stat) {
+        if (it && !_has(it = stat ? it : it.prototype, TAG)) def(it, TAG, {configurable: true, value: tag});
+    };
+
+    var IteratorPrototype = {};
+
+    // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+    _hide(IteratorPrototype, _wks('iterator'), function () {
+        return this;
+    });
+
+    var _iterCreate = function (Constructor, NAME, next) {
+        Constructor.prototype = _objectCreate(IteratorPrototype, {next: _propertyDesc(1, next)});
+        _setToStringTag(Constructor, NAME + ' Iterator');
+    };
+
+    // 7.1.13 ToObject(argument)
+
+    var _toObject = function (it) {
+        return Object(_defined(it));
+    };
+
+    // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+
+
+    var IE_PROTO$2 = _sharedKey('IE_PROTO');
+    var ObjectProto = Object.prototype;
+
+    var _objectGpo = Object.getPrototypeOf || function (O) {
+            O = _toObject(O);
+            if (_has(O, IE_PROTO$2)) return O[IE_PROTO$2];
+            if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+                return O.constructor.prototype;
+            }
+            return O instanceof Object ? ObjectProto : null;
+        };
+
+    var ITERATOR = _wks('iterator');
+    var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
+    var FF_ITERATOR = '@@iterator';
+    var KEYS = 'keys';
+    var VALUES = 'values';
+
+    var returnThis = function () {
+        return this;
+    };
+
+    var _iterDefine = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
+        _iterCreate(Constructor, NAME, next);
+        var getMethod = function (kind) {
+            if (!BUGGY && kind in proto) return proto[kind];
+            switch (kind) {
+                case KEYS:
+                    return function keys() {
+                        return new Constructor(this, kind);
+                    };
+                case VALUES:
+                    return function values() {
+                        return new Constructor(this, kind);
+                    };
+            }
+            return function entries() {
+                return new Constructor(this, kind);
+            };
+        };
+        var TAG = NAME + ' Iterator';
+        var DEF_VALUES = DEFAULT == VALUES;
+        var VALUES_BUG = false;
+        var proto = Base.prototype;
+        var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+        var $default = $native || getMethod(DEFAULT);
+        var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
+        var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
+        var methods, key, IteratorPrototype;
+        // Fix native
+        if ($anyNative) {
+            IteratorPrototype = _objectGpo($anyNative.call(new Base()));
+            if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
+                // Set @@toStringTag to native iterators
+                _setToStringTag(IteratorPrototype, TAG, true);
+                // fix for some old engines
+                if (!_library && typeof IteratorPrototype[ITERATOR] != 'function') _hide(IteratorPrototype, ITERATOR, returnThis);
+            }
+        }
+        // fix Array#{values, @@iterator}.name in V8 / FF
+        if (DEF_VALUES && $native && $native.name !== VALUES) {
+            VALUES_BUG = true;
+            $default = function values() {
+                return $native.call(this);
+            };
+        }
+        // Define iterator
+        if ((!_library || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+            _hide(proto, ITERATOR, $default);
+        }
+        // Plug for library
+        _iterators[NAME] = $default;
+        _iterators[TAG] = returnThis;
+        if (DEFAULT) {
+            methods = {
+                values: DEF_VALUES ? $default : getMethod(VALUES),
+                keys: IS_SET ? $default : getMethod(KEYS),
+                entries: $entries
+            };
+            if (FORCED) for (key in methods) {
+                if (!(key in proto)) _redefine(proto, key, methods[key]);
+            } else _export(_export.P + _export.F * (BUGGY || VALUES_BUG), NAME, methods);
+        }
+        return methods;
+    };
+
+    // 22.1.3.4 Array.prototype.entries()
+    // 22.1.3.13 Array.prototype.keys()
+    // 22.1.3.29 Array.prototype.values()
+    // 22.1.3.30 Array.prototype[@@iterator]()
+    var es6_array_iterator = _iterDefine(Array, 'Array', function (iterated, kind) {
+        this._t = _toIobject(iterated); // target
+        this._i = 0;                   // next index
+        this._k = kind;                // kind
+        // 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+    }, function () {
+        var O = this._t;
+        var kind = this._k;
+        var index = this._i++;
+        if (!O || index >= O.length) {
+            this._t = undefined;
+            return _iterStep(1);
+        }
+        if (kind == 'keys') return _iterStep(0, index);
+        if (kind == 'values') return _iterStep(0, O[index]);
+        return _iterStep(0, [index, O[index]]);
+    }, 'values');
+
+    // argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+    _iterators.Arguments = _iterators.Array;
+
+    _addToUnscopables('keys');
+    _addToUnscopables('values');
+    _addToUnscopables('entries');
+
+    var ITERATOR$1 = _wks('iterator');
+    var TO_STRING_TAG = _wks('toStringTag');
+    var ArrayValues = _iterators.Array;
+
+    var DOMIterables = {
+        CSSRuleList: true, // TODO: Not spec compliant, should be false.
+        CSSStyleDeclaration: false,
+        CSSValueList: false,
+        ClientRectList: false,
+        DOMRectList: false,
+        DOMStringList: false,
+        DOMTokenList: true,
+        DataTransferItemList: false,
+        FileList: false,
+        HTMLAllCollection: false,
+        HTMLCollection: false,
+        HTMLFormElement: false,
+        HTMLSelectElement: false,
+        MediaList: true, // TODO: Not spec compliant, should be false.
+        MimeTypeArray: false,
+        NamedNodeMap: false,
+        NodeList: true,
+        PaintRequestList: false,
+        Plugin: false,
+        PluginArray: false,
+        SVGLengthList: false,
+        SVGNumberList: false,
+        SVGPathSegList: false,
+        SVGPointList: false,
+        SVGStringList: false,
+        SVGTransformList: false,
+        SourceBufferList: false,
+        StyleSheetList: true, // TODO: Not spec compliant, should be false.
+        TextTrackCueList: false,
+        TextTrackList: false,
+        TouchList: false
+    };
+
+    for (var collections = _objectKeys(DOMIterables), i = 0; i < collections.length; i++) {
+        var NAME$1 = collections[i];
+        var explicit = DOMIterables[NAME$1];
+        var Collection = _global[NAME$1];
+        var proto = Collection && Collection.prototype;
+        var key;
+        if (proto) {
+            if (!proto[ITERATOR$1]) _hide(proto, ITERATOR$1, ArrayValues);
+            if (!proto[TO_STRING_TAG]) _hide(proto, TO_STRING_TAG, NAME$1);
+            _iterators[NAME$1] = ArrayValues;
+            if (explicit) for (key in es6_array_iterator) if (!proto[key]) _redefine(proto, key, es6_array_iterator[key], true);
+        }
+    }
+
+    // true  -> String#at
+    // false -> String#codePointAt
+    var _stringAt = function (TO_STRING) {
+        return function (that, pos) {
+            var s = String(_defined(that));
+            var i = _toInteger(pos);
+            var l = s.length;
+            var a, b;
+            if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
+            a = s.charCodeAt(i);
+            return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+                ? TO_STRING ? s.charAt(i) : a
+                : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+        };
+    };
+
+    var $at = _stringAt(true);
+
+    // 21.1.3.27 String.prototype[@@iterator]()
+    _iterDefine(String, 'String', function (iterated) {
+        this._t = String(iterated); // target
+        this._i = 0;                // next index
+        // 21.1.5.2.1 %StringIteratorPrototype%.next()
+    }, function () {
+        var O = this._t;
+        var index = this._i;
+        var point;
+        if (index >= O.length) return {value: undefined, done: true};
+        point = $at(O, index);
+        this._i += point.length;
+        return {value: point, done: false};
+    });
+
+    // call something on iterator step with safe closing on error
+
+    var _iterCall = function (iterator, fn, value, entries) {
+        try {
+            return entries ? fn(_anObject(value)[0], value[1]) : fn(value);
+            // 7.4.6 IteratorClose(iterator, completion)
+        } catch (e) {
+            var ret = iterator['return'];
+            if (ret !== undefined) _anObject(ret.call(iterator));
+            throw e;
+        }
+    };
+
+    // check on default Array iterator
+
+    var ITERATOR$2 = _wks('iterator');
+    var ArrayProto$1 = Array.prototype;
+
+    var _isArrayIter = function (it) {
+        return it !== undefined && (_iterators.Array === it || ArrayProto$1[ITERATOR$2] === it);
+    };
+
+    var _createProperty = function (object, index, value) {
+        if (index in object) _objectDp.f(object, index, _propertyDesc(0, value));
+        else object[index] = value;
+    };
+
+    // getting tag from 19.1.3.6 Object.prototype.toString()
+
+    var TAG$1 = _wks('toStringTag');
+    // ES3 wrong here
+    var ARG = _cof(function () {
+            return arguments;
+        }()) == 'Arguments';
+
+    // fallback for IE11 Script Access Denied error
+    var tryGet = function (it, key) {
+        try {
+            return it[key];
+        } catch (e) { /* empty */
+        }
+    };
+
+    var _classof = function (it) {
+        var O, T, B;
+        return it === undefined ? 'Undefined' : it === null ? 'Null'
+            // @@toStringTag case
+            : typeof (T = tryGet(O = Object(it), TAG$1)) == 'string' ? T
+            // builtinTag case
+            : ARG ? _cof(O)
+            // ES3 arguments fallback
+            : (B = _cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+    };
+
+    var ITERATOR$3 = _wks('iterator');
+
+    var core_getIteratorMethod = _core.getIteratorMethod = function (it) {
+        if (it != undefined) return it[ITERATOR$3]
+            || it['@@iterator']
+            || _iterators[_classof(it)];
+    };
+
+    var ITERATOR$4 = _wks('iterator');
+    var SAFE_CLOSING = false;
+
+    try {
+        var riter = [7][ITERATOR$4]();
+        riter['return'] = function () {
+            SAFE_CLOSING = true;
+        };
+    } catch (e) { /* empty */
+    }
+
+    var _iterDetect = function (exec, skipClosing) {
+        if (!skipClosing && !SAFE_CLOSING) return false;
+        var safe = false;
+        try {
+            var arr = [7];
+            var iter = arr[ITERATOR$4]();
+            iter.next = function () {
+                return {done: safe = true};
+            };
+            arr[ITERATOR$4] = function () {
+                return iter;
+            };
+            exec(arr);
+        } catch (e) { /* empty */
+        }
+        return safe;
+    };
+
+    _export(_export.S + _export.F * !_iterDetect(function (iter) {
+        }), 'Array', {
+        // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+        from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+            var O = _toObject(arrayLike);
+            var C = typeof this == 'function' ? this : Array;
+            var aLen = arguments.length;
+            var mapfn = aLen > 1 ? arguments[1] : undefined;
+            var mapping = mapfn !== undefined;
+            var index = 0;
+            var iterFn = core_getIteratorMethod(O);
+            var length, result, step, iterator;
+            if (mapping) mapfn = _ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+            // if object isn't iterable or it's array with default iterator - use simple case
+            if (iterFn != undefined && !(C == Array && _isArrayIter(iterFn))) {
+                for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
+                    _createProperty(result, index, mapping ? _iterCall(iterator, mapfn, [step.value, index], true) : step.value);
+                }
+            } else {
+                length = _toLength(O.length);
+                for (result = new C(length); length > index; index++) {
+                    _createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+                }
+            }
+            result.length = index;
+            return result;
+        }
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        return Constructor;
+    }
+
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                value: value,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+        } else {
+            obj[key] = value;
+        }
+
+        return obj;
+    }
+
+    function _objectSpread(target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i] != null ? arguments[i] : {};
+            var ownKeys = Object.keys(source);
+
+            if (typeof Object.getOwnPropertySymbols === 'function') {
+                ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+                    return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+                }));
+            }
+
+            ownKeys.forEach(function (key) {
+                _defineProperty(target, key, source[key]);
+            });
+        }
+
+        return target;
+    }
+
+    var scrollbarWidth = createCommonjsModule(function (module, exports) {
+        /*! scrollbarWidth.js v0.1.3 | felixexter | MIT | https://github.com/felixexter/scrollbarWidth */
+        (function (root, factory) {
+            {
+                module.exports = factory();
+            }
+        }(commonjsGlobal, function () {
+
+            function scrollbarWidth() {
+                if (typeof document === 'undefined') {
+                    return 0
+                }
+
+                var
+                    body = document.body,
+                    box = document.createElement('div'),
+                    boxStyle = box.style,
+                    width;
+
+                boxStyle.position = 'absolute';
+                boxStyle.top = boxStyle.left = '-9999px';
+                boxStyle.width = boxStyle.height = '100px';
+                boxStyle.overflow = 'scroll';
+
+                body.appendChild(box);
+
+                width = box.offsetWidth - box.clientWidth;
+
+                body.removeChild(box);
+
+                return width;
+            }
+
+            return scrollbarWidth;
+        }));
+    });
+
+    /**
+     * lodash (Custom Build) <https://lodash.com/>
+     * Build: `lodash modularize exports="npm" -o ./`
+     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+     * Released under MIT license <https://lodash.com/license>
+     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+     */
+
+    /** Used as the `TypeError` message for "Functions" methods. */
+    var FUNC_ERROR_TEXT = 'Expected a function';
+
+    /** Used as references for various `Number` constants. */
+    var NAN = 0 / 0;
+
+    /** `Object#toString` result references. */
+    var symbolTag = '[object Symbol]';
+
+    /** Used to match leading and trailing whitespace. */
+    var reTrim = /^\s+|\s+$/g;
+
+    /** Used to detect bad signed hexadecimal string values. */
+    var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+    /** Used to detect binary string values. */
+    var reIsBinary = /^0b[01]+$/i;
+
+    /** Used to detect octal string values. */
+    var reIsOctal = /^0o[0-7]+$/i;
+
+    /** Built-in method references without a dependency on `root`. */
+    var freeParseInt = parseInt;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+    /** Detect free variable `self`. */
+    var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root = freeGlobal || freeSelf || Function('return this')();
+
+    /** Used for built-in method references. */
+    var objectProto = Object.prototype;
+
+    /**
+     * Used to resolve the
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * of values.
+     */
+    var objectToString = objectProto.toString;
+
+    /* Built-in method references for those with the same name as other `lodash` methods. */
+    var nativeMax = Math.max,
+        nativeMin = Math.min;
+
+    /**
+     * Gets the timestamp of the number of milliseconds that have elapsed since
+     * the Unix epoch (1 January 1970 00:00:00 UTC).
+     *
+     * @static
+     * @memberOf _
+     * @since 2.4.0
+     * @category Date
+     * @returns {number} Returns the timestamp.
+     * @example
+     *
+     * _.defer(function(stamp) {
+   *   console.log(_.now() - stamp);
+   * }, _.now());
+     * // => Logs the number of milliseconds it took for the deferred invocation.
+     */
+    var now = function () {
+        return root.Date.now();
+    };
+
+    /**
+     * Creates a debounced function that delays invoking `func` until after `wait`
+     * milliseconds have elapsed since the last time the debounced function was
+     * invoked. The debounced function comes with a `cancel` method to cancel
+     * delayed `func` invocations and a `flush` method to immediately invoke them.
+     * Provide `options` to indicate whether `func` should be invoked on the
+     * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+     * with the last arguments provided to the debounced function. Subsequent
+     * calls to the debounced function return the result of the last `func`
+     * invocation.
+     *
+     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+     * invoked on the trailing edge of the timeout only if the debounced function
+     * is invoked more than once during the `wait` timeout.
+     *
+     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+     *
+     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+     * for details over the differences between `_.debounce` and `_.throttle`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to debounce.
+     * @param {number} [wait=0] The number of milliseconds to delay.
+     * @param {Object} [options={}] The options object.
+     * @param {boolean} [options.leading=false]
+     *  Specify invoking on the leading edge of the timeout.
+     * @param {number} [options.maxWait]
+     *  The maximum time `func` is allowed to be delayed before it's invoked.
+     * @param {boolean} [options.trailing=true]
+     *  Specify invoking on the trailing edge of the timeout.
+     * @returns {Function} Returns the new debounced function.
+     * @example
+     *
+     * // Avoid costly calculations while the window size is in flux.
+     * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+     *
+     * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+     * jQuery(element).on('click', _.debounce(sendMail, 300, {
+   *   'leading': true,
+   *   'trailing': false
+   * }));
+     *
+     * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+     * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+     * var source = new EventSource('/stream');
+     * jQuery(source).on('message', debounced);
+     *
+     * // Cancel the trailing debounced invocation.
+     * jQuery(window).on('popstate', debounced.cancel);
+     */
+    function debounce(func, wait, options) {
+        var lastArgs,
+            lastThis,
+            maxWait,
+            result,
+            timerId,
+            lastCallTime,
+            lastInvokeTime = 0,
+            leading = false,
+            maxing = false,
+            trailing = true;
+
+        if (typeof func != 'function') {
+            throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        wait = toNumber(wait) || 0;
+        if (isObject(options)) {
+            leading = !!options.leading;
+            maxing = 'maxWait' in options;
+            maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+            trailing = 'trailing' in options ? !!options.trailing : trailing;
+        }
+
+        function invokeFunc(time) {
+            var args = lastArgs,
+                thisArg = lastThis;
+
+            lastArgs = lastThis = undefined;
+            lastInvokeTime = time;
+            result = func.apply(thisArg, args);
+            return result;
+        }
+
+        function leadingEdge(time) {
+            // Reset any `maxWait` timer.
+            lastInvokeTime = time;
+            // Start the timer for the trailing edge.
+            timerId = setTimeout(timerExpired, wait);
+            // Invoke the leading edge.
+            return leading ? invokeFunc(time) : result;
+        }
+
+        function remainingWait(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime,
+                result = wait - timeSinceLastCall;
+
+            return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+        }
+
+        function shouldInvoke(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime;
+
+            // Either this is the first call, activity has stopped and we're at the
+            // trailing edge, the system time has gone backwards and we're treating
+            // it as the trailing edge, or we've hit the `maxWait` limit.
+            return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+            (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+        }
+
+        function timerExpired() {
+            var time = now();
+            if (shouldInvoke(time)) {
+                return trailingEdge(time);
+            }
+            // Restart the timer.
+            timerId = setTimeout(timerExpired, remainingWait(time));
+        }
+
+        function trailingEdge(time) {
+            timerId = undefined;
+
+            // Only invoke if we have `lastArgs` which means `func` has been
+            // debounced at least once.
+            if (trailing && lastArgs) {
+                return invokeFunc(time);
+            }
+            lastArgs = lastThis = undefined;
+            return result;
+        }
+
+        function cancel() {
+            if (timerId !== undefined) {
+                clearTimeout(timerId);
+            }
+            lastInvokeTime = 0;
+            lastArgs = lastCallTime = lastThis = timerId = undefined;
+        }
+
+        function flush() {
+            return timerId === undefined ? result : trailingEdge(now());
+        }
+
+        function debounced() {
+            var time = now(),
+                isInvoking = shouldInvoke(time);
+
+            lastArgs = arguments;
+            lastThis = this;
+            lastCallTime = time;
+
+            if (isInvoking) {
+                if (timerId === undefined) {
+                    return leadingEdge(lastCallTime);
+                }
+                if (maxing) {
+                    // Handle invocations in a tight loop.
+                    timerId = setTimeout(timerExpired, wait);
+                    return invokeFunc(lastCallTime);
+                }
+            }
+            if (timerId === undefined) {
+                timerId = setTimeout(timerExpired, wait);
+            }
+            return result;
+        }
+
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+        return debounced;
+    }
+
+    /**
+     * Creates a throttled function that only invokes `func` at most once per
+     * every `wait` milliseconds. The throttled function comes with a `cancel`
+     * method to cancel delayed `func` invocations and a `flush` method to
+     * immediately invoke them. Provide `options` to indicate whether `func`
+     * should be invoked on the leading and/or trailing edge of the `wait`
+     * timeout. The `func` is invoked with the last arguments provided to the
+     * throttled function. Subsequent calls to the throttled function return the
+     * result of the last `func` invocation.
+     *
+     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+     * invoked on the trailing edge of the timeout only if the throttled function
+     * is invoked more than once during the `wait` timeout.
+     *
+     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+     *
+     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+     * for details over the differences between `_.throttle` and `_.debounce`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to throttle.
+     * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+     * @param {Object} [options={}] The options object.
+     * @param {boolean} [options.leading=true]
+     *  Specify invoking on the leading edge of the timeout.
+     * @param {boolean} [options.trailing=true]
+     *  Specify invoking on the trailing edge of the timeout.
+     * @returns {Function} Returns the new throttled function.
+     * @example
+     *
+     * // Avoid excessively updating the position while scrolling.
+     * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+     *
+     * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+     * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+     * jQuery(element).on('click', throttled);
+     *
+     * // Cancel the trailing throttled invocation.
+     * jQuery(window).on('popstate', throttled.cancel);
+     */
+    function throttle(func, wait, options) {
+        var leading = true,
+            trailing = true;
+
+        if (typeof func != 'function') {
+            throw new TypeError(FUNC_ERROR_TEXT);
+        }
+        if (isObject(options)) {
+            leading = 'leading' in options ? !!options.leading : leading;
+            trailing = 'trailing' in options ? !!options.trailing : trailing;
+        }
+        return debounce(func, wait, {
+            'leading': leading,
+            'maxWait': wait,
+            'trailing': trailing
+        });
+    }
+
+    /**
+     * Checks if `value` is the
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+     * @example
+     *
+     * _.isObject({});
+     * // => true
+     *
+     * _.isObject([1, 2, 3]);
+     * // => true
+     *
+     * _.isObject(_.noop);
+     * // => true
+     *
+     * _.isObject(null);
+     * // => false
+     */
+    function isObject(value) {
+        var type = typeof value;
+        return !!value && (type == 'object' || type == 'function');
+    }
+
+    /**
+     * Checks if `value` is object-like. A value is object-like if it's not `null`
+     * and has a `typeof` result of "object".
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+     * @example
+     *
+     * _.isObjectLike({});
+     * // => true
+     *
+     * _.isObjectLike([1, 2, 3]);
+     * // => true
+     *
+     * _.isObjectLike(_.noop);
+     * // => false
+     *
+     * _.isObjectLike(null);
+     * // => false
+     */
+    function isObjectLike(value) {
+        return !!value && typeof value == 'object';
+    }
+
+    /**
+     * Checks if `value` is classified as a `Symbol` primitive or object.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+     * @example
+     *
+     * _.isSymbol(Symbol.iterator);
+     * // => true
+     *
+     * _.isSymbol('abc');
+     * // => false
+     */
+    function isSymbol(value) {
+        return typeof value == 'symbol' ||
+            (isObjectLike(value) && objectToString.call(value) == symbolTag);
+    }
+
+    /**
+     * Converts `value` to a number.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to process.
+     * @returns {number} Returns the number.
+     * @example
+     *
+     * _.toNumber(3.2);
+     * // => 3.2
+     *
+     * _.toNumber(Number.MIN_VALUE);
+     * // => 5e-324
+     *
+     * _.toNumber(Infinity);
+     * // => Infinity
+     *
+     * _.toNumber('3.2');
+     * // => 3.2
+     */
+    function toNumber(value) {
+        if (typeof value == 'number') {
+            return value;
+        }
+        if (isSymbol(value)) {
+            return NAN;
+        }
+        if (isObject(value)) {
+            var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+            value = isObject(other) ? (other + '') : other;
+        }
+        if (typeof value != 'string') {
+            return value === 0 ? value : +value;
+        }
+        value = value.replace(reTrim, '');
+        var isBinary = reIsBinary.test(value);
+        return (isBinary || reIsOctal.test(value))
+            ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+            : (reIsBadHex.test(value) ? NAN : +value);
+    }
+
+    var lodash_throttle = throttle;
+
+    /**
+     * lodash (Custom Build) <https://lodash.com/>
+     * Build: `lodash modularize exports="npm" -o ./`
+     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+     * Released under MIT license <https://lodash.com/license>
+     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+     */
+
+    /** Used as the `TypeError` message for "Functions" methods. */
+    var FUNC_ERROR_TEXT$1 = 'Expected a function';
+
+    /** Used as references for various `Number` constants. */
+    var NAN$1 = 0 / 0;
+
+    /** `Object#toString` result references. */
+    var symbolTag$1 = '[object Symbol]';
+
+    /** Used to match leading and trailing whitespace. */
+    var reTrim$1 = /^\s+|\s+$/g;
+
+    /** Used to detect bad signed hexadecimal string values. */
+    var reIsBadHex$1 = /^[-+]0x[0-9a-f]+$/i;
+
+    /** Used to detect binary string values. */
+    var reIsBinary$1 = /^0b[01]+$/i;
+
+    /** Used to detect octal string values. */
+    var reIsOctal$1 = /^0o[0-7]+$/i;
+
+    /** Built-in method references without a dependency on `root`. */
+    var freeParseInt$1 = parseInt;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+    /** Detect free variable `self`. */
+    var freeSelf$1 = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root$1 = freeGlobal$1 || freeSelf$1 || Function('return this')();
+
+    /** Used for built-in method references. */
+    var objectProto$1 = Object.prototype;
+
+    /**
+     * Used to resolve the
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * of values.
+     */
+    var objectToString$1 = objectProto$1.toString;
+
+    /* Built-in method references for those with the same name as other `lodash` methods. */
+    var nativeMax$1 = Math.max,
+        nativeMin$1 = Math.min;
+
+    /**
+     * Gets the timestamp of the number of milliseconds that have elapsed since
+     * the Unix epoch (1 January 1970 00:00:00 UTC).
+     *
+     * @static
+     * @memberOf _
+     * @since 2.4.0
+     * @category Date
+     * @returns {number} Returns the timestamp.
+     * @example
+     *
+     * _.defer(function(stamp) {
+   *   console.log(_.now() - stamp);
+   * }, _.now());
+     * // => Logs the number of milliseconds it took for the deferred invocation.
+     */
+    var now$1 = function () {
+        return root$1.Date.now();
+    };
+
+    /**
+     * Creates a debounced function that delays invoking `func` until after `wait`
+     * milliseconds have elapsed since the last time the debounced function was
+     * invoked. The debounced function comes with a `cancel` method to cancel
+     * delayed `func` invocations and a `flush` method to immediately invoke them.
+     * Provide `options` to indicate whether `func` should be invoked on the
+     * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+     * with the last arguments provided to the debounced function. Subsequent
+     * calls to the debounced function return the result of the last `func`
+     * invocation.
+     *
+     * **Note:** If `leading` and `trailing` options are `true`, `func` is
+     * invoked on the trailing edge of the timeout only if the debounced function
+     * is invoked more than once during the `wait` timeout.
+     *
+     * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+     * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+     *
+     * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+     * for details over the differences between `_.debounce` and `_.throttle`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to debounce.
+     * @param {number} [wait=0] The number of milliseconds to delay.
+     * @param {Object} [options={}] The options object.
+     * @param {boolean} [options.leading=false]
+     *  Specify invoking on the leading edge of the timeout.
+     * @param {number} [options.maxWait]
+     *  The maximum time `func` is allowed to be delayed before it's invoked.
+     * @param {boolean} [options.trailing=true]
+     *  Specify invoking on the trailing edge of the timeout.
+     * @returns {Function} Returns the new debounced function.
+     * @example
+     *
+     * // Avoid costly calculations while the window size is in flux.
+     * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+     *
+     * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+     * jQuery(element).on('click', _.debounce(sendMail, 300, {
+   *   'leading': true,
+   *   'trailing': false
+   * }));
+     *
+     * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+     * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+     * var source = new EventSource('/stream');
+     * jQuery(source).on('message', debounced);
+     *
+     * // Cancel the trailing debounced invocation.
+     * jQuery(window).on('popstate', debounced.cancel);
+     */
+    function debounce$1(func, wait, options) {
+        var lastArgs,
+            lastThis,
+            maxWait,
+            result,
+            timerId,
+            lastCallTime,
+            lastInvokeTime = 0,
+            leading = false,
+            maxing = false,
+            trailing = true;
+
+        if (typeof func != 'function') {
+            throw new TypeError(FUNC_ERROR_TEXT$1);
+        }
+        wait = toNumber$1(wait) || 0;
+        if (isObject$1(options)) {
+            leading = !!options.leading;
+            maxing = 'maxWait' in options;
+            maxWait = maxing ? nativeMax$1(toNumber$1(options.maxWait) || 0, wait) : maxWait;
+            trailing = 'trailing' in options ? !!options.trailing : trailing;
+        }
+
+        function invokeFunc(time) {
+            var args = lastArgs,
+                thisArg = lastThis;
+
+            lastArgs = lastThis = undefined;
+            lastInvokeTime = time;
+            result = func.apply(thisArg, args);
+            return result;
+        }
+
+        function leadingEdge(time) {
+            // Reset any `maxWait` timer.
+            lastInvokeTime = time;
+            // Start the timer for the trailing edge.
+            timerId = setTimeout(timerExpired, wait);
+            // Invoke the leading edge.
+            return leading ? invokeFunc(time) : result;
+        }
+
+        function remainingWait(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime,
+                result = wait - timeSinceLastCall;
+
+            return maxing ? nativeMin$1(result, maxWait - timeSinceLastInvoke) : result;
+        }
+
+        function shouldInvoke(time) {
+            var timeSinceLastCall = time - lastCallTime,
+                timeSinceLastInvoke = time - lastInvokeTime;
+
+            // Either this is the first call, activity has stopped and we're at the
+            // trailing edge, the system time has gone backwards and we're treating
+            // it as the trailing edge, or we've hit the `maxWait` limit.
+            return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+            (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+        }
+
+        function timerExpired() {
+            var time = now$1();
+            if (shouldInvoke(time)) {
+                return trailingEdge(time);
+            }
+            // Restart the timer.
+            timerId = setTimeout(timerExpired, remainingWait(time));
+        }
+
+        function trailingEdge(time) {
+            timerId = undefined;
+
+            // Only invoke if we have `lastArgs` which means `func` has been
+            // debounced at least once.
+            if (trailing && lastArgs) {
+                return invokeFunc(time);
+            }
+            lastArgs = lastThis = undefined;
+            return result;
+        }
+
+        function cancel() {
+            if (timerId !== undefined) {
+                clearTimeout(timerId);
+            }
+            lastInvokeTime = 0;
+            lastArgs = lastCallTime = lastThis = timerId = undefined;
+        }
+
+        function flush() {
+            return timerId === undefined ? result : trailingEdge(now$1());
+        }
+
+        function debounced() {
+            var time = now$1(),
+                isInvoking = shouldInvoke(time);
+
+            lastArgs = arguments;
+            lastThis = this;
+            lastCallTime = time;
+
+            if (isInvoking) {
+                if (timerId === undefined) {
+                    return leadingEdge(lastCallTime);
+                }
+                if (maxing) {
+                    // Handle invocations in a tight loop.
+                    timerId = setTimeout(timerExpired, wait);
+                    return invokeFunc(lastCallTime);
+                }
+            }
+            if (timerId === undefined) {
+                timerId = setTimeout(timerExpired, wait);
+            }
+            return result;
+        }
+
+        debounced.cancel = cancel;
+        debounced.flush = flush;
+        return debounced;
+    }
+
+    /**
+     * Checks if `value` is the
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+     * @example
+     *
+     * _.isObject({});
+     * // => true
+     *
+     * _.isObject([1, 2, 3]);
+     * // => true
+     *
+     * _.isObject(_.noop);
+     * // => true
+     *
+     * _.isObject(null);
+     * // => false
+     */
+    function isObject$1(value) {
+        var type = typeof value;
+        return !!value && (type == 'object' || type == 'function');
+    }
+
+    /**
+     * Checks if `value` is object-like. A value is object-like if it's not `null`
+     * and has a `typeof` result of "object".
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+     * @example
+     *
+     * _.isObjectLike({});
+     * // => true
+     *
+     * _.isObjectLike([1, 2, 3]);
+     * // => true
+     *
+     * _.isObjectLike(_.noop);
+     * // => false
+     *
+     * _.isObjectLike(null);
+     * // => false
+     */
+    function isObjectLike$1(value) {
+        return !!value && typeof value == 'object';
+    }
+
+    /**
+     * Checks if `value` is classified as a `Symbol` primitive or object.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+     * @example
+     *
+     * _.isSymbol(Symbol.iterator);
+     * // => true
+     *
+     * _.isSymbol('abc');
+     * // => false
+     */
+    function isSymbol$1(value) {
+        return typeof value == 'symbol' ||
+            (isObjectLike$1(value) && objectToString$1.call(value) == symbolTag$1);
+    }
+
+    /**
+     * Converts `value` to a number.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to process.
+     * @returns {number} Returns the number.
+     * @example
+     *
+     * _.toNumber(3.2);
+     * // => 3.2
+     *
+     * _.toNumber(Number.MIN_VALUE);
+     * // => 5e-324
+     *
+     * _.toNumber(Infinity);
+     * // => Infinity
+     *
+     * _.toNumber('3.2');
+     * // => 3.2
+     */
+    function toNumber$1(value) {
+        if (typeof value == 'number') {
+            return value;
+        }
+        if (isSymbol$1(value)) {
+            return NAN$1;
+        }
+        if (isObject$1(value)) {
+            var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+            value = isObject$1(other) ? (other + '') : other;
+        }
+        if (typeof value != 'string') {
+            return value === 0 ? value : +value;
+        }
+        value = value.replace(reTrim$1, '');
+        var isBinary = reIsBinary$1.test(value);
+        return (isBinary || reIsOctal$1.test(value))
+            ? freeParseInt$1(value.slice(2), isBinary ? 2 : 8)
+            : (reIsBadHex$1.test(value) ? NAN$1 : +value);
+    }
+
+    var lodash_debounce = debounce$1;
+
+    /**
+     * lodash (Custom Build) <https://lodash.com/>
+     * Build: `lodash modularize exports="npm" -o ./`
+     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+     * Released under MIT license <https://lodash.com/license>
+     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+     */
+
+    /** Used as the `TypeError` message for "Functions" methods. */
+    var FUNC_ERROR_TEXT$2 = 'Expected a function';
+
+    /** Used to stand-in for `undefined` hash values. */
+    var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+    /** `Object#toString` result references. */
+    var funcTag = '[object Function]',
+        genTag = '[object GeneratorFunction]';
+
+    /**
+     * Used to match `RegExp`
+     * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+     */
+    var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+    /** Used to detect host constructors (Safari). */
+    var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal$2 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+
+    /** Detect free variable `self`. */
+    var freeSelf$2 = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root$2 = freeGlobal$2 || freeSelf$2 || Function('return this')();
+
+    /**
+     * Gets the value at `key` of `object`.
+     *
+     * @private
+     * @param {Object} [object] The object to query.
+     * @param {string} key The key of the property to get.
+     * @returns {*} Returns the property value.
+     */
+    function getValue(object, key) {
+        return object == null ? undefined : object[key];
+    }
+
+    /**
+     * Checks if `value` is a host object in IE < 9.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+     */
+    function isHostObject(value) {
+        // Many host objects are `Object` objects that can coerce to strings
+        // despite having improperly defined `toString` methods.
+        var result = false;
+        if (value != null && typeof value.toString != 'function') {
+            try {
+                result = !!(value + '');
+            } catch (e) {
+            }
+        }
+        return result;
+    }
+
+    /** Used for built-in method references. */
+    var arrayProto = Array.prototype,
+        funcProto = Function.prototype,
+        objectProto$2 = Object.prototype;
+
+    /** Used to detect overreaching core-js shims. */
+    var coreJsData = root$2['__core-js_shared__'];
+
+    /** Used to detect methods masquerading as native. */
+    var maskSrcKey = (function () {
+        var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+        return uid ? ('Symbol(src)_1.' + uid) : '';
+    }());
+
+    /** Used to resolve the decompiled source of functions. */
+    var funcToString = funcProto.toString;
+
+    /** Used to check objects for own properties. */
+    var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+
+    /**
+     * Used to resolve the
+     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+     * of values.
+     */
+    var objectToString$2 = objectProto$2.toString;
+
+    /** Used to detect if a method is native. */
+    var reIsNative = RegExp('^' +
+        funcToString.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&')
+            .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+    );
+
+    /** Built-in value references. */
+    var splice = arrayProto.splice;
+
+    /* Built-in method references that are verified to be native. */
+    var Map$1 = getNative(root$2, 'Map'),
+        nativeCreate = getNative(Object, 'create');
+
+    /**
+     * Creates a hash object.
+     *
+     * @private
+     * @constructor
+     * @param {Array} [entries] The key-value pairs to cache.
+     */
+    function Hash(entries) {
+        var index = -1,
+            length = entries ? entries.length : 0;
+
+        this.clear();
+        while (++index < length) {
+            var entry = entries[index];
+            this.set(entry[0], entry[1]);
+        }
+    }
+
+    /**
+     * Removes all key-value entries from the hash.
+     *
+     * @private
+     * @name clear
+     * @memberOf Hash
+     */
+    function hashClear() {
+        this.__data__ = nativeCreate ? nativeCreate(null) : {};
+    }
+
+    /**
+     * Removes `key` and its value from the hash.
+     *
+     * @private
+     * @name delete
+     * @memberOf Hash
+     * @param {Object} hash The hash to modify.
+     * @param {string} key The key of the value to remove.
+     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+     */
+    function hashDelete(key) {
+        return this.has(key) && delete this.__data__[key];
+    }
+
+    /**
+     * Gets the hash value for `key`.
+     *
+     * @private
+     * @name get
+     * @memberOf Hash
+     * @param {string} key The key of the value to get.
+     * @returns {*} Returns the entry value.
+     */
+    function hashGet(key) {
+        var data = this.__data__;
+        if (nativeCreate) {
+            var result = data[key];
+            return result === HASH_UNDEFINED ? undefined : result;
+        }
+        return hasOwnProperty$1.call(data, key) ? data[key] : undefined;
+    }
+
+    /**
+     * Checks if a hash value for `key` exists.
+     *
+     * @private
+     * @name has
+     * @memberOf Hash
+     * @param {string} key The key of the entry to check.
+     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+     */
+    function hashHas(key) {
+        var data = this.__data__;
+        return nativeCreate ? data[key] !== undefined : hasOwnProperty$1.call(data, key);
+    }
+
+    /**
+     * Sets the hash `key` to `value`.
+     *
+     * @private
+     * @name set
+     * @memberOf Hash
+     * @param {string} key The key of the value to set.
+     * @param {*} value The value to set.
+     * @returns {Object} Returns the hash instance.
+     */
+    function hashSet(key, value) {
+        var data = this.__data__;
+        data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+        return this;
+    }
+
+    // Add methods to `Hash`.
+    Hash.prototype.clear = hashClear;
+    Hash.prototype['delete'] = hashDelete;
+    Hash.prototype.get = hashGet;
+    Hash.prototype.has = hashHas;
+    Hash.prototype.set = hashSet;
+
+    /**
+     * Creates an list cache object.
+     *
+     * @private
+     * @constructor
+     * @param {Array} [entries] The key-value pairs to cache.
+     */
+    function ListCache(entries) {
+        var index = -1,
+            length = entries ? entries.length : 0;
+
+        this.clear();
+        while (++index < length) {
+            var entry = entries[index];
+            this.set(entry[0], entry[1]);
+        }
+    }
+
+    /**
+     * Removes all key-value entries from the list cache.
+     *
+     * @private
+     * @name clear
+     * @memberOf ListCache
+     */
+    function listCacheClear() {
+        this.__data__ = [];
+    }
+
+    /**
+     * Removes `key` and its value from the list cache.
+     *
+     * @private
+     * @name delete
+     * @memberOf ListCache
+     * @param {string} key The key of the value to remove.
+     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+     */
+    function listCacheDelete(key) {
+        var data = this.__data__,
+            index = assocIndexOf(data, key);
+
+        if (index < 0) {
+            return false;
+        }
+        var lastIndex = data.length - 1;
+        if (index == lastIndex) {
+            data.pop();
+        } else {
+            splice.call(data, index, 1);
+        }
+        return true;
+    }
+
+    /**
+     * Gets the list cache value for `key`.
+     *
+     * @private
+     * @name get
+     * @memberOf ListCache
+     * @param {string} key The key of the value to get.
+     * @returns {*} Returns the entry value.
+     */
+    function listCacheGet(key) {
+        var data = this.__data__,
+            index = assocIndexOf(data, key);
+
+        return index < 0 ? undefined : data[index][1];
+    }
+
+    /**
+     * Checks if a list cache value for `key` exists.
+     *
+     * @private
+     * @name has
+     * @memberOf ListCache
+     * @param {string} key The key of the entry to check.
+     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+     */
+    function listCacheHas(key) {
+        return assocIndexOf(this.__data__, key) > -1;
+    }
+
+    /**
+     * Sets the list cache `key` to `value`.
+     *
+     * @private
+     * @name set
+     * @memberOf ListCache
+     * @param {string} key The key of the value to set.
+     * @param {*} value The value to set.
+     * @returns {Object} Returns the list cache instance.
+     */
+    function listCacheSet(key, value) {
+        var data = this.__data__,
+            index = assocIndexOf(data, key);
+
+        if (index < 0) {
+            data.push([key, value]);
+        } else {
+            data[index][1] = value;
+        }
+        return this;
+    }
+
+    // Add methods to `ListCache`.
+    ListCache.prototype.clear = listCacheClear;
+    ListCache.prototype['delete'] = listCacheDelete;
+    ListCache.prototype.get = listCacheGet;
+    ListCache.prototype.has = listCacheHas;
+    ListCache.prototype.set = listCacheSet;
+
+    /**
+     * Creates a map cache object to store key-value pairs.
+     *
+     * @private
+     * @constructor
+     * @param {Array} [entries] The key-value pairs to cache.
+     */
+    function MapCache(entries) {
+        var index = -1,
+            length = entries ? entries.length : 0;
+
+        this.clear();
+        while (++index < length) {
+            var entry = entries[index];
+            this.set(entry[0], entry[1]);
+        }
+    }
+
+    /**
+     * Removes all key-value entries from the map.
+     *
+     * @private
+     * @name clear
+     * @memberOf MapCache
+     */
+    function mapCacheClear() {
+        this.__data__ = {
+            'hash': new Hash,
+            'map': new (Map$1 || ListCache),
+            'string': new Hash
+        };
+    }
+
+    /**
+     * Removes `key` and its value from the map.
+     *
+     * @private
+     * @name delete
+     * @memberOf MapCache
+     * @param {string} key The key of the value to remove.
+     * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+     */
+    function mapCacheDelete(key) {
+        return getMapData(this, key)['delete'](key);
+    }
+
+    /**
+     * Gets the map value for `key`.
+     *
+     * @private
+     * @name get
+     * @memberOf MapCache
+     * @param {string} key The key of the value to get.
+     * @returns {*} Returns the entry value.
+     */
+    function mapCacheGet(key) {
+        return getMapData(this, key).get(key);
+    }
+
+    /**
+     * Checks if a map value for `key` exists.
+     *
+     * @private
+     * @name has
+     * @memberOf MapCache
+     * @param {string} key The key of the entry to check.
+     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+     */
+    function mapCacheHas(key) {
+        return getMapData(this, key).has(key);
+    }
+
+    /**
+     * Sets the map `key` to `value`.
+     *
+     * @private
+     * @name set
+     * @memberOf MapCache
+     * @param {string} key The key of the value to set.
+     * @param {*} value The value to set.
+     * @returns {Object} Returns the map cache instance.
+     */
+    function mapCacheSet(key, value) {
+        getMapData(this, key).set(key, value);
+        return this;
+    }
+
+    // Add methods to `MapCache`.
+    MapCache.prototype.clear = mapCacheClear;
+    MapCache.prototype['delete'] = mapCacheDelete;
+    MapCache.prototype.get = mapCacheGet;
+    MapCache.prototype.has = mapCacheHas;
+    MapCache.prototype.set = mapCacheSet;
+
+    /**
+     * Gets the index at which the `key` is found in `array` of key-value pairs.
+     *
+     * @private
+     * @param {Array} array The array to inspect.
+     * @param {*} key The key to search for.
+     * @returns {number} Returns the index of the matched value, else `-1`.
+     */
+    function assocIndexOf(array, key) {
+        var length = array.length;
+        while (length--) {
+            if (eq(array[length][0], key)) {
+                return length;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * The base implementation of `_.isNative` without bad shim checks.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a native function,
+     *  else `false`.
+     */
+    function baseIsNative(value) {
+        if (!isObject$2(value) || isMasked(value)) {
+            return false;
+        }
+        var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+        return pattern.test(toSource(value));
+    }
+
+    /**
+     * Gets the data for `map`.
+     *
+     * @private
+     * @param {Object} map The map to query.
+     * @param {string} key The reference key.
+     * @returns {*} Returns the map data.
+     */
+    function getMapData(map, key) {
+        var data = map.__data__;
+        return isKeyable(key)
+            ? data[typeof key == 'string' ? 'string' : 'hash']
+            : data.map;
+    }
+
+    /**
+     * Gets the native function at `key` of `object`.
+     *
+     * @private
+     * @param {Object} object The object to query.
+     * @param {string} key The key of the method to get.
+     * @returns {*} Returns the function if it's native, else `undefined`.
+     */
+    function getNative(object, key) {
+        var value = getValue(object, key);
+        return baseIsNative(value) ? value : undefined;
+    }
+
+    /**
+     * Checks if `value` is suitable for use as unique object key.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+     */
+    function isKeyable(value) {
+        var type = typeof value;
+        return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+            ? (value !== '__proto__')
+            : (value === null);
+    }
+
+    /**
+     * Checks if `func` has its source masked.
+     *
+     * @private
+     * @param {Function} func The function to check.
+     * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+     */
+    function isMasked(func) {
+        return !!maskSrcKey && (maskSrcKey in func);
+    }
+
+    /**
+     * Converts `func` to its source code.
+     *
+     * @private
+     * @param {Function} func The function to process.
+     * @returns {string} Returns the source code.
+     */
+    function toSource(func) {
+        if (func != null) {
+            try {
+                return funcToString.call(func);
+            } catch (e) {
+            }
+            try {
+                return (func + '');
+            } catch (e) {
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Creates a function that memoizes the result of `func`. If `resolver` is
+     * provided, it determines the cache key for storing the result based on the
+     * arguments provided to the memoized function. By default, the first argument
+     * provided to the memoized function is used as the map cache key. The `func`
+     * is invoked with the `this` binding of the memoized function.
+     *
+     * **Note:** The cache is exposed as the `cache` property on the memoized
+     * function. Its creation may be customized by replacing the `_.memoize.Cache`
+     * constructor with one whose instances implement the
+     * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+     * method interface of `delete`, `get`, `has`, and `set`.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Function
+     * @param {Function} func The function to have its output memoized.
+     * @param {Function} [resolver] The function to resolve the cache key.
+     * @returns {Function} Returns the new memoized function.
+     * @example
+     *
+     * var object = { 'a': 1, 'b': 2 };
+     * var other = { 'c': 3, 'd': 4 };
+     *
+     * var values = _.memoize(_.values);
+     * values(object);
+     * // => [1, 2]
+     *
+     * values(other);
+     * // => [3, 4]
+     *
+     * object.a = 2;
+     * values(object);
+     * // => [1, 2]
+     *
+     * // Modify the result cache.
+     * values.cache.set(object, ['a', 'b']);
+     * values(object);
+     * // => ['a', 'b']
+     *
+     * // Replace `_.memoize.Cache`.
+     * _.memoize.Cache = WeakMap;
+     */
+    function memoize(func, resolver) {
+        if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+            throw new TypeError(FUNC_ERROR_TEXT$2);
+        }
+        var memoized = function () {
+            var args = arguments,
+                key = resolver ? resolver.apply(this, args) : args[0],
+                cache = memoized.cache;
+
+            if (cache.has(key)) {
+                return cache.get(key);
+            }
+            var result = func.apply(this, args);
+            memoized.cache = cache.set(key, result);
+            return result;
+        };
+        memoized.cache = new (memoize.Cache || MapCache);
+        return memoized;
+    }
+
+    // Assign cache to `_.memoize`.
+    memoize.Cache = MapCache;
+
+    /**
+     * Performs a
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+     * comparison between two values to determine if they are equivalent.
+     *
+     * @static
+     * @memberOf _
+     * @since 4.0.0
+     * @category Lang
+     * @param {*} value The value to compare.
+     * @param {*} other The other value to compare.
+     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+     * @example
+     *
+     * var object = { 'a': 1 };
+     * var other = { 'a': 1 };
+     *
+     * _.eq(object, object);
+     * // => true
+     *
+     * _.eq(object, other);
+     * // => false
+     *
+     * _.eq('a', 'a');
+     * // => true
+     *
+     * _.eq('a', Object('a'));
+     * // => false
+     *
+     * _.eq(NaN, NaN);
+     * // => true
+     */
+    function eq(value, other) {
+        return value === other || (value !== value && other !== other);
+    }
+
+    /**
+     * Checks if `value` is classified as a `Function` object.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+     * @example
+     *
+     * _.isFunction(_);
+     * // => true
+     *
+     * _.isFunction(/abc/);
+     * // => false
+     */
+    function isFunction(value) {
+        // The use of `Object#toString` avoids issues with the `typeof` operator
+        // in Safari 8-9 which returns 'object' for typed array and other constructors.
+        var tag = isObject$2(value) ? objectToString$2.call(value) : '';
+        return tag == funcTag || tag == genTag;
+    }
+
+    /**
+     * Checks if `value` is the
+     * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+     * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+     * @example
+     *
+     * _.isObject({});
+     * // => true
+     *
+     * _.isObject([1, 2, 3]);
+     * // => true
+     *
+     * _.isObject(_.noop);
+     * // => true
+     *
+     * _.isObject(null);
+     * // => false
+     */
+    function isObject$2(value) {
+        var type = typeof value;
+        return !!value && (type == 'object' || type == 'function');
+    }
+
+    var lodash_memoize = memoize;
+
+    /**
+     * A collection of shims that provide minimal functionality of the ES6 collections.
+     *
+     * These implementations are not meant to be used outside of the ResizeObserver
+     * modules as they cover only a limited range of use cases.
+     */
+    /* eslint-disable require-jsdoc, valid-jsdoc */
+    var MapShim = (function () {
+        if (typeof Map !== 'undefined') {
+            return Map;
+        }
+
+        /**
+         * Returns index in provided array that matches the specified key.
+         *
+         * @param {Array<Array>} arr
+         * @param {*} key
+         * @returns {number}
+         */
+        function getIndex(arr, key) {
+            var result = -1;
+
+            arr.some(function (entry, index) {
+                if (entry[0] === key) {
+                    result = index;
+
+                    return true;
+                }
+
+                return false;
+            });
+
+            return result;
+        }
+
+        return (function () {
+            function anonymous() {
+                this.__entries__ = [];
+            }
+
+            var prototypeAccessors = {size: {configurable: true}};
+
+            /**
+             * @returns {boolean}
+             */
+            prototypeAccessors.size.get = function () {
+                return this.__entries__.length;
+            };
+
+            /**
+             * @param {*} key
+             * @returns {*}
+             */
+            anonymous.prototype.get = function (key) {
+                var index = getIndex(this.__entries__, key);
+                var entry = this.__entries__[index];
+
+                return entry && entry[1];
+            };
+
+            /**
+             * @param {*} key
+             * @param {*} value
+             * @returns {void}
+             */
+            anonymous.prototype.set = function (key, value) {
+                var index = getIndex(this.__entries__, key);
+
+                if (~index) {
+                    this.__entries__[index][1] = value;
+                } else {
+                    this.__entries__.push([key, value]);
+                }
+            };
+
+            /**
+             * @param {*} key
+             * @returns {void}
+             */
+            anonymous.prototype.delete = function (key) {
+                var entries = this.__entries__;
+                var index = getIndex(entries, key);
+
+                if (~index) {
+                    entries.splice(index, 1);
+                }
+            };
+
+            /**
+             * @param {*} key
+             * @returns {void}
+             */
+            anonymous.prototype.has = function (key) {
+                return !!~getIndex(this.__entries__, key);
+            };
+
+            /**
+             * @returns {void}
+             */
+            anonymous.prototype.clear = function () {
+                this.__entries__.splice(0);
+            };
+
+            /**
+             * @param {Function} callback
+             * @param {*} [ctx=null]
+             * @returns {void}
+             */
+            anonymous.prototype.forEach = function (callback, ctx) {
+                var this$1 = this;
+                if (ctx === void 0) ctx = null;
+
+                for (var i = 0, list = this$1.__entries__; i < list.length; i += 1) {
+                    var entry = list[i];
+
+                    callback.call(ctx, entry[1], entry[0]);
+                }
+            };
+
+            Object.defineProperties(anonymous.prototype, prototypeAccessors);
+
+            return anonymous;
+        }());
+    })();
+
+    /**
+     * Detects whether window and document objects are available in current environment.
+     */
+    var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
+
+    // Returns global object of a current environment.
+    var global$1 = (function () {
+        if (typeof global !== 'undefined' && global.Math === Math) {
+            return global;
+        }
+
+        if (typeof self !== 'undefined' && self.Math === Math) {
+            return self;
+        }
+
+        if (typeof window !== 'undefined' && window.Math === Math) {
+            return window;
+        }
+
+        // eslint-disable-next-line no-new-func
+        return Function('return this')();
+    })();
+
+    /**
+     * A shim for the requestAnimationFrame which falls back to the setTimeout if
+     * first one is not supported.
+     *
+     * @returns {number} Requests' identifier.
+     */
+    var requestAnimationFrame$1 = (function () {
+        if (typeof requestAnimationFrame === 'function') {
+            // It's required to use a bounded function because IE sometimes throws
+            // an "Invalid calling object" error if rAF is invoked without the global
+            // object on the left hand side.
+            return requestAnimationFrame.bind(global$1);
+        }
+
+        return function (callback) {
+            return setTimeout(function () {
+                return callback(Date.now());
+            }, 1000 / 60);
+        };
+    })();
+
+    // Defines minimum timeout before adding a trailing call.
+    var trailingTimeout = 2;
+
+    /**
+     * Creates a wrapper function which ensures that provided callback will be
+     * invoked only once during the specified delay period.
+     *
+     * @param {Function} callback - Function to be invoked after the delay period.
+     * @param {number} delay - Delay after which to invoke callback.
+     * @returns {Function}
+     */
+    var throttle$1 = function (callback, delay) {
+        var leadingCall = false,
+            trailingCall = false,
+            lastCallTime = 0;
+
+        /**
+         * Invokes the original callback function and schedules new invocation if
+         * the "proxy" was called during current request.
+         *
+         * @returns {void}
+         */
+        function resolvePending() {
+            if (leadingCall) {
+                leadingCall = false;
+
+                callback();
+            }
+
+            if (trailingCall) {
+                proxy();
+            }
+        }
+
+        /**
+         * Callback invoked after the specified delay. It will further postpone
+         * invocation of the original function delegating it to the
+         * requestAnimationFrame.
+         *
+         * @returns {void}
+         */
+        function timeoutCallback() {
+            requestAnimationFrame$1(resolvePending);
+        }
+
+        /**
+         * Schedules invocation of the original function.
+         *
+         * @returns {void}
+         */
+        function proxy() {
+            var timeStamp = Date.now();
+
+            if (leadingCall) {
+                // Reject immediately following calls.
+                if (timeStamp - lastCallTime < trailingTimeout) {
+                    return;
+                }
+
+                // Schedule new call to be in invoked when the pending one is resolved.
+                // This is important for "transitions" which never actually start
+                // immediately so there is a chance that we might miss one if change
+                // happens amids the pending invocation.
+                trailingCall = true;
+            } else {
+                leadingCall = true;
+                trailingCall = false;
+
+                setTimeout(timeoutCallback, delay);
+            }
+
+            lastCallTime = timeStamp;
+        }
+
+        return proxy;
+    };
+
+    // Minimum delay before invoking the update of observers.
+    var REFRESH_DELAY = 20;
+
+    // A list of substrings of CSS properties used to find transition events that
+    // might affect dimensions of observed elements.
+    var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
+
+    // Check if MutationObserver is available.
+    var mutationObserverSupported = typeof MutationObserver !== 'undefined';
+
+    /**
+     * Singleton controller class which handles updates of ResizeObserver instances.
+     */
+    var ResizeObserverController = function () {
+        this.connected_ = false;
+        this.mutationEventsAdded_ = false;
+        this.mutationsObserver_ = null;
+        this.observers_ = [];
+
+        this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
+        this.refresh = throttle$1(this.refresh.bind(this), REFRESH_DELAY);
+    };
+
+    /**
+     * Adds observer to observers list.
+     *
+     * @param {ResizeObserverSPI} observer - Observer to be added.
+     * @returns {void}
+     */
+
+
+    /**
+     * Holds reference to the controller's instance.
+     *
+     * @private {ResizeObserverController}
+     */
+
+
+    /**
+     * Keeps reference to the instance of MutationObserver.
+     *
+     * @private {MutationObserver}
+     */
+
+    /**
+     * Indicates whether DOM listeners have been added.
+     *
+     * @private {boolean}
+     */
+    ResizeObserverController.prototype.addObserver = function (observer) {
+        if (!~this.observers_.indexOf(observer)) {
+            this.observers_.push(observer);
+        }
+
+        // Add listeners if they haven't been added yet.
+        if (!this.connected_) {
+            this.connect_();
+        }
+    };
+
+    /**
+     * Removes observer from observers list.
+     *
+     * @param {ResizeObserverSPI} observer - Observer to be removed.
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.removeObserver = function (observer) {
+        var observers = this.observers_;
+        var index = observers.indexOf(observer);
+
+        // Remove observer if it's present in registry.
+        if (~index) {
+            observers.splice(index, 1);
+        }
+
+        // Remove listeners if controller has no connected observers.
+        if (!observers.length && this.connected_) {
+            this.disconnect_();
+        }
+    };
+
+    /**
+     * Invokes the update of observers. It will continue running updates insofar
+     * it detects changes.
+     *
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.refresh = function () {
+        var changesDetected = this.updateObservers_();
+
+        // Continue running updates if changes have been detected as there might
+        // be future ones caused by CSS transitions.
+        if (changesDetected) {
+            this.refresh();
+        }
+    };
+
+    /**
+     * Updates every observer from observers list and notifies them of queued
+     * entries.
+     *
+     * @private
+     * @returns {boolean} Returns "true" if any observer has detected changes in
+     *  dimensions of it's elements.
+     */
+    ResizeObserverController.prototype.updateObservers_ = function () {
+        // Collect observers that have active observations.
+        var activeObservers = this.observers_.filter(function (observer) {
+            return observer.gatherActive(), observer.hasActive();
+        });
+
+        // Deliver notifications in a separate cycle in order to avoid any
+        // collisions between observers, e.g. when multiple instances of
+        // ResizeObserver are tracking the same element and the callback of one
+        // of them changes content dimensions of the observed target. Sometimes
+        // this may result in notifications being blocked for the rest of observers.
+        activeObservers.forEach(function (observer) {
+            return observer.broadcastActive();
+        });
+
+        return activeObservers.length > 0;
+    };
+
+    /**
+     * Initializes DOM listeners.
+     *
+     * @private
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.connect_ = function () {
+        // Do nothing if running in a non-browser environment or if listeners
+        // have been already added.
+        if (!isBrowser || this.connected_) {
+            return;
+        }
+
+        // Subscription to the "Transitionend" event is used as a workaround for
+        // delayed transitions. This way it's possible to capture at least the
+        // final state of an element.
+        document.addEventListener('transitionend', this.onTransitionEnd_);
+
+        window.addEventListener('resize', this.refresh);
+
+        if (mutationObserverSupported) {
+            this.mutationsObserver_ = new MutationObserver(this.refresh);
+
+            this.mutationsObserver_.observe(document, {
+                attributes: true,
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+        } else {
+            document.addEventListener('DOMSubtreeModified', this.refresh);
+
+            this.mutationEventsAdded_ = true;
+        }
+
+        this.connected_ = true;
+    };
+
+    /**
+     * Removes DOM listeners.
+     *
+     * @private
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.disconnect_ = function () {
+        // Do nothing if running in a non-browser environment or if listeners
+        // have been already removed.
+        if (!isBrowser || !this.connected_) {
+            return;
+        }
+
+        document.removeEventListener('transitionend', this.onTransitionEnd_);
+        window.removeEventListener('resize', this.refresh);
+
+        if (this.mutationsObserver_) {
+            this.mutationsObserver_.disconnect();
+        }
+
+        if (this.mutationEventsAdded_) {
+            document.removeEventListener('DOMSubtreeModified', this.refresh);
+        }
+
+        this.mutationsObserver_ = null;
+        this.mutationEventsAdded_ = false;
+        this.connected_ = false;
+    };
+
+    /**
+     * "Transitionend" event handler.
+     *
+     * @private
+     * @param {TransitionEvent} event
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.onTransitionEnd_ = function (ref) {
+        var propertyName = ref.propertyName;
+        if (propertyName === void 0) propertyName = '';
+
+        // Detect whether transition may affect dimensions of an element.
+        var isReflowProperty = transitionKeys.some(function (key) {
+            return !!~propertyName.indexOf(key);
+        });
+
+        if (isReflowProperty) {
+            this.refresh();
+        }
+    };
+
+    /**
+     * Returns instance of the ResizeObserverController.
+     *
+     * @returns {ResizeObserverController}
+     */
+    ResizeObserverController.getInstance = function () {
+        if (!this.instance_) {
+            this.instance_ = new ResizeObserverController();
+        }
+
+        return this.instance_;
+    };
+
+    ResizeObserverController.instance_ = null;
+
+    /**
+     * Defines non-writable/enumerable properties of the provided target object.
+     *
+     * @param {Object} target - Object for which to define properties.
+     * @param {Object} props - Properties to be defined.
+     * @returns {Object} Target object.
+     */
+    var defineConfigurable = (function (target, props) {
+        for (var i = 0, list = Object.keys(props); i < list.length; i += 1) {
+            var key = list[i];
+
+            Object.defineProperty(target, key, {
+                value: props[key],
+                enumerable: false,
+                writable: false,
+                configurable: true
+            });
+        }
+
+        return target;
+    });
+
+    /**
+     * Returns the global object associated with provided element.
+     *
+     * @param {Object} target
+     * @returns {Object}
+     */
+    var getWindowOf = (function (target) {
+        // Assume that the element is an instance of Node, which means that it
+        // has the "ownerDocument" property from which we can retrieve a
+        // corresponding global object.
+        var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
+
+        // Return the local global object if it's not possible extract one from
+        // provided element.
+        return ownerGlobal || global$1;
+    });
+
+    // Placeholder of an empty content rectangle.
+    var emptyRect = createRectInit(0, 0, 0, 0);
+
+    /**
+     * Converts provided string to a number.
+     *
+     * @param {number|string} value
+     * @returns {number}
+     */
+    function toFloat(value) {
+        return parseFloat(value) || 0;
+    }
+
+    /**
+     * Extracts borders size from provided styles.
+     *
+     * @param {CSSStyleDeclaration} styles
+     * @param {...string} positions - Borders positions (top, right, ...)
+     * @returns {number}
+     */
+    function getBordersSize(styles) {
+        var positions = [], len = arguments.length - 1;
+        while (len-- > 0) positions[len] = arguments[len + 1];
+
+        return positions.reduce(function (size, position) {
+            var value = styles['border-' + position + '-width'];
+
+            return size + toFloat(value);
+        }, 0);
+    }
+
+    /**
+     * Extracts paddings sizes from provided styles.
+     *
+     * @param {CSSStyleDeclaration} styles
+     * @returns {Object} Paddings box.
+     */
+    function getPaddings(styles) {
+        var positions = ['top', 'right', 'bottom', 'left'];
+        var paddings = {};
+
+        for (var i = 0, list = positions; i < list.length; i += 1) {
+            var position = list[i];
+
+            var value = styles['padding-' + position];
+
+            paddings[position] = toFloat(value);
+        }
+
+        return paddings;
+    }
+
+    /**
+     * Calculates content rectangle of provided SVG element.
+     *
+     * @param {SVGGraphicsElement} target - Element content rectangle of which needs
+     *      to be calculated.
+     * @returns {DOMRectInit}
+     */
+    function getSVGContentRect(target) {
+        var bbox = target.getBBox();
+
+        return createRectInit(0, 0, bbox.width, bbox.height);
+    }
+
+    /**
+     * Calculates content rectangle of provided HTMLElement.
+     *
+     * @param {HTMLElement} target - Element for which to calculate the content rectangle.
+     * @returns {DOMRectInit}
+     */
+    function getHTMLElementContentRect(target) {
+        // Client width & height properties can't be
+        // used exclusively as they provide rounded values.
+        var clientWidth = target.clientWidth;
+        var clientHeight = target.clientHeight;
+
+        // By this condition we can catch all non-replaced inline, hidden and
+        // detached elements. Though elements with width & height properties less
+        // than 0.5 will be discarded as well.
+        //
+        // Without it we would need to implement separate methods for each of
+        // those cases and it's not possible to perform a precise and performance
+        // effective test for hidden elements. E.g. even jQuery's ':visible' filter
+        // gives wrong results for elements with width & height less than 0.5.
+        if (!clientWidth && !clientHeight) {
+            return emptyRect;
+        }
+
+        var styles = getWindowOf(target).getComputedStyle(target);
+        var paddings = getPaddings(styles);
+        var horizPad = paddings.left + paddings.right;
+        var vertPad = paddings.top + paddings.bottom;
+
+        // Computed styles of width & height are being used because they are the
+        // only dimensions available to JS that contain non-rounded values. It could
+        // be possible to utilize the getBoundingClientRect if only it's data wasn't
+        // affected by CSS transformations let alone paddings, borders and scroll bars.
+        var width = toFloat(styles.width),
+            height = toFloat(styles.height);
+
+        // Width & height include paddings and borders when the 'border-box' box
+        // model is applied (except for IE).
+        if (styles.boxSizing === 'border-box') {
+            // Following conditions are required to handle Internet Explorer which
+            // doesn't include paddings and borders to computed CSS dimensions.
+            //
+            // We can say that if CSS dimensions + paddings are equal to the "client"
+            // properties then it's either IE, and thus we don't need to subtract
+            // anything, or an element merely doesn't have paddings/borders styles.
+            if (Math.round(width + horizPad) !== clientWidth) {
+                width -= getBordersSize(styles, 'left', 'right') + horizPad;
+            }
+
+            if (Math.round(height + vertPad) !== clientHeight) {
+                height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
+            }
+        }
+
+        // Following steps can't be applied to the document's root element as its
+        // client[Width/Height] properties represent viewport area of the window.
+        // Besides, it's as well not necessary as the <html> itself neither has
+        // rendered scroll bars nor it can be clipped.
+        if (!isDocumentElement(target)) {
+            // In some browsers (only in Firefox, actually) CSS width & height
+            // include scroll bars size which can be removed at this step as scroll
+            // bars are the only difference between rounded dimensions + paddings
+            // and "client" properties, though that is not always true in Chrome.
+            var vertScrollbar = Math.round(width + horizPad) - clientWidth;
+            var horizScrollbar = Math.round(height + vertPad) - clientHeight;
+
+            // Chrome has a rather weird rounding of "client" properties.
+            // E.g. for an element with content width of 314.2px it sometimes gives
+            // the client width of 315px and for the width of 314.7px it may give
+            // 314px. And it doesn't happen all the time. So just ignore this delta
+            // as a non-relevant.
+            if (Math.abs(vertScrollbar) !== 1) {
+                width -= vertScrollbar;
+            }
+
+            if (Math.abs(horizScrollbar) !== 1) {
+                height -= horizScrollbar;
+            }
+        }
+
+        return createRectInit(paddings.left, paddings.top, width, height);
+    }
+
+    /**
+     * Checks whether provided element is an instance of the SVGGraphicsElement.
+     *
+     * @param {Element} target - Element to be checked.
+     * @returns {boolean}
+     */
+    var isSVGGraphicsElement = (function () {
+        // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
+        // interface.
+        if (typeof SVGGraphicsElement !== 'undefined') {
+            return function (target) {
+                return target instanceof getWindowOf(target).SVGGraphicsElement;
+            };
+        }
+
+        // If it's so, then check that element is at least an instance of the
+        // SVGElement and that it has the "getBBox" method.
+        // eslint-disable-next-line no-extra-parens
+        return function (target) {
+            return target instanceof getWindowOf(target).SVGElement && typeof target.getBBox === 'function';
+        };
+    })();
+
+    /**
+     * Checks whether provided element is a document element (<html>).
+     *
+     * @param {Element} target - Element to be checked.
+     * @returns {boolean}
+     */
+    function isDocumentElement(target) {
+        return target === getWindowOf(target).document.documentElement;
+    }
+
+    /**
+     * Calculates an appropriate content rectangle for provided html or svg element.
+     *
+     * @param {Element} target - Element content rectangle of which needs to be calculated.
+     * @returns {DOMRectInit}
+     */
+    function getContentRect(target) {
+        if (!isBrowser) {
+            return emptyRect;
+        }
+
+        if (isSVGGraphicsElement(target)) {
+            return getSVGContentRect(target);
+        }
+
+        return getHTMLElementContentRect(target);
+    }
+
+    /**
+     * Creates rectangle with an interface of the DOMRectReadOnly.
+     * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
+     *
+     * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
+     * @returns {DOMRectReadOnly}
+     */
+    function createReadOnlyRect(ref) {
+        var x = ref.x;
+        var y = ref.y;
+        var width = ref.width;
+        var height = ref.height;
+
+        // If DOMRectReadOnly is available use it as a prototype for the rectangle.
+        var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
+        var rect = Object.create(Constr.prototype);
+
+        // Rectangle's properties are not writable and non-enumerable.
+        defineConfigurable(rect, {
+            x: x, y: y, width: width, height: height,
+            top: y,
+            right: x + width,
+            bottom: height + y,
+            left: x
+        });
+
+        return rect;
+    }
+
+    /**
+     * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
+     * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
+     *
+     * @param {number} x - X coordinate.
+     * @param {number} y - Y coordinate.
+     * @param {number} width - Rectangle's width.
+     * @param {number} height - Rectangle's height.
+     * @returns {DOMRectInit}
+     */
+    function createRectInit(x, y, width, height) {
+        return {x: x, y: y, width: width, height: height};
+    }
+
+    /**
+     * Class that is responsible for computations of the content rectangle of
+     * provided DOM element and for keeping track of it's changes.
+     */
+    var ResizeObservation = function (target) {
+        this.broadcastWidth = 0;
+        this.broadcastHeight = 0;
+        this.contentRect_ = createRectInit(0, 0, 0, 0);
+
+        this.target = target;
+    };
+
+    /**
+     * Updates content rectangle and tells whether it's width or height properties
+     * have changed since the last broadcast.
+     *
+     * @returns {boolean}
+     */
+
+
+    /**
+     * Reference to the last observed content rectangle.
+     *
+     * @private {DOMRectInit}
+     */
+
+
+    /**
+     * Broadcasted width of content rectangle.
+     *
+     * @type {number}
+     */
+    ResizeObservation.prototype.isActive = function () {
+        var rect = getContentRect(this.target);
+
+        this.contentRect_ = rect;
+
+        return rect.width !== this.broadcastWidth || rect.height !== this.broadcastHeight;
+    };
+
+    /**
+     * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
+     * from the corresponding properties of the last observed content rectangle.
+     *
+     * @returns {DOMRectInit} Last observed content rectangle.
+     */
+    ResizeObservation.prototype.broadcastRect = function () {
+        var rect = this.contentRect_;
+
+        this.broadcastWidth = rect.width;
+        this.broadcastHeight = rect.height;
+
+        return rect;
+    };
+
+    var ResizeObserverEntry = function (target, rectInit) {
+        var contentRect = createReadOnlyRect(rectInit);
+
+        // According to the specification following properties are not writable
+        // and are also not enumerable in the native implementation.
+        //
+        // Property accessors are not being used as they'd require to define a
+        // private WeakMap storage which may cause memory leaks in browsers that
+        // don't support this type of collections.
+        defineConfigurable(this, {target: target, contentRect: contentRect});
+    };
+
+    var ResizeObserverSPI = function (callback, controller, callbackCtx) {
+        this.activeObservations_ = [];
+        this.observations_ = new MapShim();
+
+        if (typeof callback !== 'function') {
+            throw new TypeError('The callback provided as parameter 1 is not a function.');
+        }
+
+        this.callback_ = callback;
+        this.controller_ = controller;
+        this.callbackCtx_ = callbackCtx;
+    };
+
+    /**
+     * Starts observing provided element.
+     *
+     * @param {Element} target - Element to be observed.
+     * @returns {void}
+     */
+
+
+    /**
+     * Registry of the ResizeObservation instances.
+     *
+     * @private {Map<Element, ResizeObservation>}
+     */
+
+
+    /**
+     * Public ResizeObserver instance which will be passed to the callback
+     * function and used as a value of it's "this" binding.
+     *
+     * @private {ResizeObserver}
+     */
+
+    /**
+     * Collection of resize observations that have detected changes in dimensions
+     * of elements.
+     *
+     * @private {Array<ResizeObservation>}
+     */
+    ResizeObserverSPI.prototype.observe = function (target) {
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+
+        // Do nothing if current environment doesn't have the Element interface.
+        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+            return;
+        }
+
+        if (!(target instanceof getWindowOf(target).Element)) {
+            throw new TypeError('parameter 1 is not of type "Element".');
+        }
+
+        var observations = this.observations_;
+
+        // Do nothing if element is already being observed.
+        if (observations.has(target)) {
+            return;
+        }
+
+        observations.set(target, new ResizeObservation(target));
+
+        this.controller_.addObserver(this);
+
+        // Force the update of observations.
+        this.controller_.refresh();
+    };
+
+    /**
+     * Stops observing provided element.
+     *
+     * @param {Element} target - Element to stop observing.
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.unobserve = function (target) {
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+
+        // Do nothing if current environment doesn't have the Element interface.
+        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+            return;
+        }
+
+        if (!(target instanceof getWindowOf(target).Element)) {
+            throw new TypeError('parameter 1 is not of type "Element".');
+        }
+
+        var observations = this.observations_;
+
+        // Do nothing if element is not being observed.
+        if (!observations.has(target)) {
+            return;
+        }
+
+        observations.delete(target);
+
+        if (!observations.size) {
+            this.controller_.removeObserver(this);
+        }
+    };
+
+    /**
+     * Stops observing all elements.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.disconnect = function () {
+        this.clearActive();
+        this.observations_.clear();
+        this.controller_.removeObserver(this);
+    };
+
+    /**
+     * Collects observation instances the associated element of which has changed
+     * it's content rectangle.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.gatherActive = function () {
+        var this$1 = this;
+
+        this.clearActive();
+
+        this.observations_.forEach(function (observation) {
+            if (observation.isActive()) {
+                this$1.activeObservations_.push(observation);
+            }
+        });
+    };
+
+    /**
+     * Invokes initial callback function with a list of ResizeObserverEntry
+     * instances collected from active resize observations.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.broadcastActive = function () {
+        // Do nothing if observer doesn't have active observations.
+        if (!this.hasActive()) {
+            return;
+        }
+
+        var ctx = this.callbackCtx_;
+
+        // Create ResizeObserverEntry instance for every active observation.
+        var entries = this.activeObservations_.map(function (observation) {
+            return new ResizeObserverEntry(observation.target, observation.broadcastRect());
+        });
+
+        this.callback_.call(ctx, entries, ctx);
+        this.clearActive();
+    };
+
+    /**
+     * Clears the collection of active observations.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.clearActive = function () {
+        this.activeObservations_.splice(0);
+    };
+
+    /**
+     * Tells whether observer has active observations.
+     *
+     * @returns {boolean}
+     */
+    ResizeObserverSPI.prototype.hasActive = function () {
+        return this.activeObservations_.length > 0;
+    };
+
+    // Registry of internal observers. If WeakMap is not available use current shim
+    // for the Map collection as it has all required methods and because WeakMap
+    // can't be fully polyfilled anyway.
+    var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
+
+    /**
+     * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
+     * exposing only those methods and properties that are defined in the spec.
+     */
+    var ResizeObserver = function (callback) {
+        if (!(this instanceof ResizeObserver)) {
+            throw new TypeError('Cannot call a class as a function.');
+        }
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+
+        var controller = ResizeObserverController.getInstance();
+        var observer = new ResizeObserverSPI(callback, controller, this);
+
+        observers.set(this, observer);
+    };
+
+    // Expose public methods of ResizeObserver.
+    ['observe', 'unobserve', 'disconnect'].forEach(function (method) {
+        ResizeObserver.prototype[method] = function () {
+            return (ref = observers.get(this))[method].apply(ref, arguments);
+            var ref;
+        };
+    });
+
+    var index = (function () {
+        // Export existing implementation if available.
+        if (typeof global$1.ResizeObserver !== 'undefined') {
+            return global$1.ResizeObserver;
+        }
+
+        return ResizeObserver;
+    })();
+
+    var canUseDOM = !!(
+        typeof window !== 'undefined' &&
+        window.document &&
+        window.document.createElement
+    );
+
+    var canUseDom = canUseDOM;
+
+    var SimpleBar =
+        /*#__PURE__*/
+        function () {
+            function SimpleBar(element, options) {
+                var _this = this;
+
+                _classCallCheck(this, SimpleBar);
+
+                this.onScroll = function () {
+                    if (!_this.scrollXTicking) {
+                        window.requestAnimationFrame(_this.scrollX);
+                        _this.scrollXTicking = true;
+                    }
+
+                    if (!_this.scrollYTicking) {
+                        window.requestAnimationFrame(_this.scrollY);
+                        _this.scrollYTicking = true;
+                    }
+                };
+
+                this.scrollX = function () {
+                    if (_this.axis.x.isOverflowing) {
+                        _this.showScrollbar('x');
+
+                        _this.positionScrollbar('x');
+                    }
+
+                    _this.scrollXTicking = false;
+                };
+
+                this.scrollY = function () {
+                    if (_this.axis.y.isOverflowing) {
+                        _this.showScrollbar('y');
+
+                        _this.positionScrollbar('y');
+                    }
+
+                    _this.scrollYTicking = false;
+                };
+
+                this.onMouseEnter = function () {
+                    _this.showScrollbar('x');
+
+                    _this.showScrollbar('y');
+                };
+
+                this.onMouseMove = function (e) {
+                    _this.mouseX = e.clientX;
+                    _this.mouseY = e.clientY;
+
+                    if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
+                        _this.onMouseMoveForAxis('x');
+                    }
+
+                    if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
+                        _this.onMouseMoveForAxis('y');
+                    }
+                };
+
+                this.onMouseLeave = function () {
+                    _this.onMouseMove.cancel();
+
+                    if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
+                        _this.onMouseLeaveForAxis('x');
+                    }
+
+                    if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
+                        _this.onMouseLeaveForAxis('y');
+                    }
+
+                    _this.mouseX = -1;
+                    _this.mouseY = -1;
+                };
+
+                this.onWindowResize = function () {
+                    // Recalculate scrollbarWidth in case it's a zoom
+                    _this.scrollbarWidth = scrollbarWidth();
+
+                    _this.hideNativeScrollbar();
+                };
+
+                this.hideScrollbars = function () {
+                    _this.axis.x.track.rect = _this.axis.x.track.el.getBoundingClientRect();
+                    _this.axis.y.track.rect = _this.axis.y.track.el.getBoundingClientRect();
+
+                    if (!_this.isWithinBounds(_this.axis.y.track.rect)) {
+                        _this.axis.y.scrollbar.el.classList.remove(_this.classNames.visible);
+
+                        _this.axis.y.isVisible = false;
+                    }
+
+                    if (!_this.isWithinBounds(_this.axis.x.track.rect)) {
+                        _this.axis.x.scrollbar.el.classList.remove(_this.classNames.visible);
+
+                        _this.axis.x.isVisible = false;
+                    }
+                };
+
+                this.onPointerEvent = function (e) {
+                    var isWithinBoundsY, isWithinBoundsX;
+
+                    if (_this.axis.x.isOverflowing || _this.axis.x.forceVisible) {
+                        isWithinBoundsX = _this.isWithinBounds(_this.axis.x.scrollbar.rect);
+                    }
+
+                    if (_this.axis.y.isOverflowing || _this.axis.y.forceVisible) {
+                        isWithinBoundsY = _this.isWithinBounds(_this.axis.y.scrollbar.rect);
+                    } // If any pointer event is called on the scrollbar
+
+
+                    if (isWithinBoundsY || isWithinBoundsX) {
+                        // Preventing the event's default action stops text being
+                        // selectable during the drag.
+                        e.preventDefault(); // Prevent event leaking
+
+                        e.stopPropagation();
+
+                        if (e.type === 'mousedown') {
+                            if (isWithinBoundsY) {
+                                _this.onDragStart(e, 'y');
+                            }
+
+                            if (isWithinBoundsX) {
+                                _this.onDragStart(e, 'x');
+                            }
+                        }
+                    }
+                };
+
+                this.drag = function (e) {
+                    var eventOffset;
+                    var track = _this.axis[_this.draggedAxis].track;
+                    var trackSize = track.rect[_this.axis[_this.draggedAxis].sizeAttr];
+                    var scrollbar = _this.axis[_this.draggedAxis].scrollbar;
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (_this.draggedAxis === 'y') {
+                        eventOffset = e.pageY;
+                    } else {
+                        eventOffset = e.pageX;
+                    } // Calculate how far the user's mouse is from the top/left of the scrollbar (minus the dragOffset).
+
+
+                    var dragPos = eventOffset - track.rect[_this.axis[_this.draggedAxis].offsetAttr] - _this.axis[_this.draggedAxis].dragOffset; // Convert the mouse position into a percentage of the scrollbar height/width.
+
+                    var dragPerc = dragPos / track.rect[_this.axis[_this.draggedAxis].sizeAttr]; // Scroll the content by the same percentage.
+
+                    var scrollPos = dragPerc * _this.contentEl[_this.axis[_this.draggedAxis].scrollSizeAttr]; // Fix browsers inconsistency on RTL
+
+                    if (_this.draggedAxis === 'x') {
+                        scrollPos = _this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollbarInverted ? scrollPos - (trackSize + scrollbar.size) : scrollPos;
+                        scrollPos = _this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollingInverted ? -scrollPos : scrollPos;
+                    }
+
+                    _this.contentEl[_this.axis[_this.draggedAxis].scrollOffsetAttr] = scrollPos;
+                };
+
+                this.onEndDrag = function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.removeEventListener('mousemove', _this.drag);
+                    document.removeEventListener('mouseup', _this.onEndDrag);
+                };
+
+                this.el = element;
+                this.flashTimeout;
+                this.contentEl;
+                this.offsetEl;
+                this.maskEl;
+                this.globalObserver;
+                this.mutationObserver;
+                this.resizeObserver;
+                this.scrollbarWidth;
+                this.minScrollbarWidth = 20;
+                this.options = _objectSpread({}, SimpleBar.defaultOptions, options);
+                this.classNames = _objectSpread({}, SimpleBar.defaultOptions.classNames, this.options.classNames);
+                this.isRtl;
+                this.axis = {
+                    x: {
+                        scrollOffsetAttr: 'scrollLeft',
+                        sizeAttr: 'width',
+                        scrollSizeAttr: 'scrollWidth',
+                        offsetAttr: 'left',
+                        overflowAttr: 'overflowX',
+                        dragOffset: 0,
+                        isOverflowing: true,
+                        isVisible: false,
+                        forceVisible: false,
+                        track: {},
+                        scrollbar: {}
+                    },
+                    y: {
+                        scrollOffsetAttr: 'scrollTop',
+                        sizeAttr: 'height',
+                        scrollSizeAttr: 'scrollHeight',
+                        offsetAttr: 'top',
+                        overflowAttr: 'overflowY',
+                        dragOffset: 0,
+                        isOverflowing: true,
+                        isVisible: false,
+                        forceVisible: false,
+                        track: {},
+                        scrollbar: {}
+                    }
+                };
+                this.recalculate = lodash_throttle(this.recalculate.bind(this), 64);
+                this.onMouseMove = lodash_throttle(this.onMouseMove.bind(this), 64);
+                this.hideScrollbars = lodash_debounce(this.hideScrollbars.bind(this), this.options.timeout);
+                this.onWindowResize = lodash_debounce(this.onWindowResize.bind(this), 64, {
+                    leading: true
+                });
+                SimpleBar.getRtlHelpers = lodash_memoize(SimpleBar.getRtlHelpers); // getContentElement is deprecated
+
+                this.getContentElement = this.getScrollElement;
+                this.init();
+            }
+
+            /**
+             * Static properties
+             */
+
+            /**
+             * Helper to fix browsers inconsistency on RTL:
+             *  - Firefox inverts the scrollbar initial position
+             *  - IE11 inverts both scrollbar position and scrolling offset
+             * Directly inspired by @KingSora's OverlayScrollbars https://github.com/KingSora/OverlayScrollbars/blob/master/js/OverlayScrollbars.js#L1634
+             */
+
+
+            _createClass(SimpleBar, [{
+                key: "init",
+                value: function init() {
+                    // Save a reference to the instance, so we know this DOM node has already been instancied
+                    this.el.SimpleBar = this;
+                    this.initDOM(); // We stop here on server-side
+
+                    if (canUseDom) {
+                        // Recalculate scrollbarWidth in case it's a zoom
+                        this.scrollbarWidth = scrollbarWidth();
+                        this.recalculate();
+                        this.initListeners();
+                    }
+                }
+            }, {
+                key: "initDOM",
+                value: function initDOM() {
+                    var _this2 = this;
+
+                    // make sure this element doesn't have the elements yet
+                    if (Array.from(this.el.children).filter(function (child) {
+                            return child.classList.contains(_this2.classNames.wrapper);
+                        }).length) {
+                        // assume that element has his DOM already initiated
+                        this.wrapperEl = this.el.querySelector(".".concat(this.classNames.wrapper));
+                        this.contentEl = this.el.querySelector(".".concat(this.classNames.content));
+                        this.offsetEl = this.el.querySelector(".".concat(this.classNames.offset));
+                        this.maskEl = this.el.querySelector(".".concat(this.classNames.mask));
+                        this.placeholderEl = this.el.querySelector(".".concat(this.classNames.placeholder));
+                        this.heightAutoObserverWrapperEl = this.el.querySelector(".".concat(this.classNames.heightAutoObserverWrapperEl));
+                        this.heightAutoObserverEl = this.el.querySelector(".".concat(this.classNames.heightAutoObserverEl));
+                        this.axis.x.track.el = this.el.querySelector(".".concat(this.classNames.track, ".").concat(this.classNames.horizontal));
+                        this.axis.y.track.el = this.el.querySelector(".".concat(this.classNames.track, ".").concat(this.classNames.vertical));
+                    } else {
+                        // Prepare DOM
+                        this.wrapperEl = document.createElement('div');
+                        this.contentEl = document.createElement('div');
+                        this.offsetEl = document.createElement('div');
+                        this.maskEl = document.createElement('div');
+                        this.placeholderEl = document.createElement('div');
+                        this.heightAutoObserverWrapperEl = document.createElement('div');
+                        this.heightAutoObserverEl = document.createElement('div');
+                        this.wrapperEl.classList.add(this.classNames.wrapper);
+                        this.contentEl.classList.add(this.classNames.content);
+                        this.offsetEl.classList.add(this.classNames.offset);
+                        this.maskEl.classList.add(this.classNames.mask);
+                        this.placeholderEl.classList.add(this.classNames.placeholder);
+                        this.heightAutoObserverWrapperEl.classList.add(this.classNames.heightAutoObserverWrapperEl);
+                        this.heightAutoObserverEl.classList.add(this.classNames.heightAutoObserverEl);
+
+                        while (this.el.firstChild) {
+                            this.contentEl.appendChild(this.el.firstChild);
+                        }
+
+                        this.offsetEl.appendChild(this.contentEl);
+                        this.maskEl.appendChild(this.offsetEl);
+                        this.heightAutoObserverWrapperEl.appendChild(this.heightAutoObserverEl);
+                        this.wrapperEl.appendChild(this.heightAutoObserverWrapperEl);
+                        this.wrapperEl.appendChild(this.maskEl);
+                        this.wrapperEl.appendChild(this.placeholderEl);
+                        this.el.appendChild(this.wrapperEl);
+                    }
+
+                    if (!this.axis.x.track.el || !this.axis.y.track.el) {
+                        var track = document.createElement('div');
+                        var scrollbar = document.createElement('div');
+                        track.classList.add(this.classNames.track);
+                        scrollbar.classList.add(this.classNames.scrollbar);
+
+                        if (!this.options.autoHide) {
+                            scrollbar.classList.add(this.classNames.visible);
+                        }
+
+                        track.appendChild(scrollbar);
+                        this.axis.x.track.el = track.cloneNode(true);
+                        this.axis.x.track.el.classList.add(this.classNames.horizontal);
+                        this.axis.y.track.el = track.cloneNode(true);
+                        this.axis.y.track.el.classList.add(this.classNames.vertical);
+                        this.el.appendChild(this.axis.x.track.el);
+                        this.el.appendChild(this.axis.y.track.el);
+                    }
+
+                    this.axis.x.scrollbar.el = this.axis.x.track.el.querySelector(".".concat(this.classNames.scrollbar));
+                    this.axis.y.scrollbar.el = this.axis.y.track.el.querySelector(".".concat(this.classNames.scrollbar));
+                    this.el.setAttribute('data-simplebar', 'init');
+                }
+            }, {
+                key: "initListeners",
+                value: function initListeners() {
+                    var _this3 = this;
+
+                    // Event listeners
+                    if (this.options.autoHide) {
+                        this.el.addEventListener('mouseenter', this.onMouseEnter);
+                    }
+
+                    ['mousedown', 'click', 'dblclick', 'touchstart', 'touchend', 'touchmove'].forEach(function (e) {
+                        _this3.el.addEventListener(e, _this3.onPointerEvent, true);
+                    });
+                    this.el.addEventListener('mousemove', this.onMouseMove);
+                    this.el.addEventListener('mouseleave', this.onMouseLeave);
+                    this.contentEl.addEventListener('scroll', this.onScroll); // Browser zoom triggers a window resize
+
+                    window.addEventListener('resize', this.onWindowResize); // MutationObserver is IE11+
+
+                    if (typeof MutationObserver !== 'undefined') {
+                        // create an observer instance
+                        this.mutationObserver = new MutationObserver(function (mutations) {
+                            mutations.forEach(function (mutation) {
+                                if (mutation.target === _this3.el || !_this3.isChildNode(mutation.target) || mutation.addedNodes.length) {
+                                    _this3.recalculate();
+                                }
+                            });
+                        }); // pass in the target node, as well as the observer options
+
+                        this.mutationObserver.observe(this.el, {
+                            attributes: true,
+                            childList: true,
+                            characterData: true,
+                            subtree: true
+                        });
+                    }
+
+                    this.resizeObserver = new index(this.recalculate);
+                    this.resizeObserver.observe(this.el);
+                }
+            }, {
+                key: "recalculate",
+                value: function recalculate() {
+                    var isHeightAuto = this.heightAutoObserverEl.offsetHeight <= 1;
+                    this.elStyles = window.getComputedStyle(this.el);
+                    this.isRtl = this.elStyles.direction === 'rtl';
+                    this.contentEl.style.padding = "".concat(this.elStyles.paddingTop, " ").concat(this.elStyles.paddingRight, " ").concat(this.elStyles.paddingBottom, " ").concat(this.elStyles.paddingLeft);
+                    this.contentEl.style.height = isHeightAuto ? 'auto' : '100%';
+                    this.placeholderEl.style.width = "".concat(this.contentEl.scrollWidth, "px");
+                    this.placeholderEl.style.height = "".concat(this.contentEl.scrollHeight, "px");
+                    this.wrapperEl.style.margin = "-".concat(this.elStyles.paddingTop, " -").concat(this.elStyles.paddingRight, " -").concat(this.elStyles.paddingBottom, " -").concat(this.elStyles.paddingLeft);
+                    this.axis.x.track.rect = this.axis.x.track.el.getBoundingClientRect();
+                    this.axis.y.track.rect = this.axis.y.track.el.getBoundingClientRect(); // Set isOverflowing to false if scrollbar is not necessary (content is shorter than offset)
+
+                    this.axis.x.isOverflowing = (this.scrollbarWidth ? this.contentEl.scrollWidth : this.contentEl.scrollWidth - this.minScrollbarWidth) > Math.ceil(this.axis.x.track.rect.width);
+                    this.axis.y.isOverflowing = (this.scrollbarWidth ? this.contentEl.scrollHeight : this.contentEl.scrollHeight - this.minScrollbarWidth) > Math.ceil(this.axis.y.track.rect.height); // Set isOverflowing to false if user explicitely set hidden overflow
+
+                    this.axis.x.isOverflowing = this.elStyles.overflowX === 'hidden' ? false : this.axis.x.isOverflowing;
+                    this.axis.y.isOverflowing = this.elStyles.overflowY === 'hidden' ? false : this.axis.y.isOverflowing;
+                    this.axis.x.forceVisible = this.options.forceVisible === "x" || this.options.forceVisible === true;
+                    this.axis.y.forceVisible = this.options.forceVisible === "y" || this.options.forceVisible === true;
+                    this.axis.x.scrollbar.size = this.getScrollbarSize('x');
+                    this.axis.y.scrollbar.size = this.getScrollbarSize('y');
+                    this.axis.x.scrollbar.el.style.width = "".concat(this.axis.x.scrollbar.size, "px");
+                    this.axis.y.scrollbar.el.style.height = "".concat(this.axis.y.scrollbar.size, "px");
+                    this.positionScrollbar('x');
+                    this.positionScrollbar('y');
+                    this.toggleTrackVisibility('x');
+                    this.toggleTrackVisibility('y');
+                    this.hideNativeScrollbar();
+                }
+                /**
+                 * Calculate scrollbar size
+                 */
+
+            }, {
+                key: "getScrollbarSize",
+                value: function getScrollbarSize() {
+                    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'y';
+                    var contentSize = this.scrollbarWidth ? this.contentEl[this.axis[axis].scrollSizeAttr] : this.contentEl[this.axis[axis].scrollSizeAttr] - this.minScrollbarWidth;
+                    var trackSize = this.axis[axis].track.rect[this.axis[axis].sizeAttr];
+                    var scrollbarSize;
+
+                    if (!this.axis[axis].isOverflowing) {
+                        return;
+                    }
+
+                    var scrollbarRatio = trackSize / contentSize; // Calculate new height/position of drag handle.
+
+                    scrollbarSize = Math.max(~~(scrollbarRatio * trackSize), this.options.scrollbarMinSize);
+
+                    if (this.options.scrollbarMaxSize) {
+                        scrollbarSize = Math.min(scrollbarSize, this.options.scrollbarMaxSize);
+                    }
+
+                    return scrollbarSize;
+                }
+            }, {
+                key: "positionScrollbar",
+                value: function positionScrollbar() {
+                    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'y';
+                    var contentSize = this.contentEl[this.axis[axis].scrollSizeAttr];
+                    var trackSize = this.axis[axis].track.rect[this.axis[axis].sizeAttr];
+                    var hostSize = parseInt(this.elStyles[this.axis[axis].sizeAttr], 10);
+                    var scrollbar = this.axis[axis].scrollbar;
+                    var scrollOffset = this.contentEl[this.axis[axis].scrollOffsetAttr];
+                    scrollOffset = axis === 'x' && this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollingInverted ? -scrollOffset : scrollOffset;
+                    var scrollPourcent = scrollOffset / (contentSize - hostSize);
+                    var handleOffset = ~~((trackSize - scrollbar.size) * scrollPourcent);
+                    handleOffset = axis === 'x' && this.isRtl && SimpleBar.getRtlHelpers().isRtlScrollbarInverted ? handleOffset + (trackSize - scrollbar.size) : handleOffset;
+                    scrollbar.el.style.transform = axis === 'x' ? "translate3d(".concat(handleOffset, "px, 0, 0)") : "translate3d(0, ".concat(handleOffset, "px, 0)");
+                }
+            }, {
+                key: "toggleTrackVisibility",
+                value: function toggleTrackVisibility() {
+                    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'y';
+                    var track = this.axis[axis].track.el;
+                    var scrollbar = this.axis[axis].scrollbar.el;
+
+                    if (this.axis[axis].isOverflowing || this.axis[axis].forceVisible) {
+                        track.style.visibility = 'visible';
+                        this.contentEl.style[this.axis[axis].overflowAttr] = 'scroll';
+                    } else {
+                        track.style.visibility = 'hidden';
+                        this.contentEl.style[this.axis[axis].overflowAttr] = 'hidden';
+                    } // Even if forceVisible is enabled, scrollbar itself should be hidden
+
+
+                    if (this.axis[axis].isOverflowing) {
+                        scrollbar.style.visibility = 'visible';
+                    } else {
+                        scrollbar.style.visibility = 'hidden';
+                    }
+                }
+            }, {
+                key: "hideNativeScrollbar",
+                value: function hideNativeScrollbar() {
+                    this.offsetEl.style[this.isRtl ? 'left' : 'right'] = this.axis.y.isOverflowing || this.axis.y.forceVisible ? "-".concat(this.scrollbarWidth || this.minScrollbarWidth, "px") : 0;
+                    this.offsetEl.style.bottom = this.axis.x.isOverflowing || this.axis.x.forceVisible ? "-".concat(this.scrollbarWidth || this.minScrollbarWidth, "px") : 0; // If floating scrollbar
+
+                    if (!this.scrollbarWidth) {
+                        var paddingDirection = [this.isRtl ? 'paddingLeft' : 'paddingRight'];
+                        this.contentEl.style[paddingDirection] = this.axis.y.isOverflowing || this.axis.y.forceVisible ? "calc(".concat(this.elStyles[paddingDirection], " + ").concat(this.minScrollbarWidth, "px)") : this.elStyles[paddingDirection];
+                        this.contentEl.style.paddingBottom = this.axis.x.isOverflowing || this.axis.x.forceVisible ? "calc(".concat(this.elStyles.paddingBottom, " + ").concat(this.minScrollbarWidth, "px)") : this.elStyles.paddingBottom;
+                    }
+                }
+                /**
+                 * On scroll event handling
+                 */
+
+            }, {
+                key: "onMouseMoveForAxis",
+                value: function onMouseMoveForAxis() {
+                    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'y';
+                    this.axis[axis].track.rect = this.axis[axis].track.el.getBoundingClientRect();
+                    this.axis[axis].scrollbar.rect = this.axis[axis].scrollbar.el.getBoundingClientRect();
+                    var isWithinScrollbarBoundsX = this.isWithinBounds(this.axis[axis].scrollbar.rect);
+
+                    if (isWithinScrollbarBoundsX) {
+                        this.axis[axis].scrollbar.el.classList.add(this.classNames.hover);
+                    } else {
+                        this.axis[axis].scrollbar.el.classList.remove(this.classNames.hover);
+                    }
+
+                    if (this.isWithinBounds(this.axis[axis].track.rect)) {
+                        this.showScrollbar(axis);
+                        this.axis[axis].track.el.classList.add(this.classNames.hover);
+                    } else {
+                        this.axis[axis].track.el.classList.remove(this.classNames.hover);
+                    }
+                }
+            }, {
+                key: "onMouseLeaveForAxis",
+                value: function onMouseLeaveForAxis() {
+                    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'y';
+                    this.axis[axis].track.el.classList.remove(this.classNames.hover);
+                    this.axis[axis].scrollbar.el.classList.remove(this.classNames.hover);
+                }
+            }, {
+                key: "showScrollbar",
+
+                /**
+                 * Show scrollbar
+                 */
+                value: function showScrollbar() {
+                    var axis = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'y';
+                    var scrollbar = this.axis[axis].scrollbar.el;
+
+                    if (!this.axis[axis].isVisible) {
+                        scrollbar.classList.add(this.classNames.visible);
+                        this.axis[axis].isVisible = true;
+                    }
+
+                    if (this.options.autoHide) {
+                        this.hideScrollbars();
+                    }
+                }
+                /**
+                 * Hide Scrollbar
+                 */
+
+            }, {
+                key: "onDragStart",
+
+                /**
+                 * on scrollbar handle drag movement starts
+                 */
+                value: function onDragStart(e) {
+                    var axis = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'y';
+                    var scrollbar = this.axis[axis].scrollbar.el; // Measure how far the user's mouse is from the top of the scrollbar drag handle.
+
+                    var eventOffset = axis === 'y' ? e.pageY : e.pageX;
+                    this.axis[axis].dragOffset = eventOffset - scrollbar.getBoundingClientRect()[this.axis[axis].offsetAttr];
+                    this.draggedAxis = axis;
+                    document.addEventListener('mousemove', this.drag);
+                    document.addEventListener('mouseup', this.onEndDrag);
+                }
+                /**
+                 * Drag scrollbar handle
+                 */
+
+            }, {
+                key: "getScrollElement",
+
+                /**
+                 * Getter for original scrolling element
+                 */
+                value: function getScrollElement() {
+                    return this.contentEl;
+                }
+            }, {
+                key: "removeListeners",
+                value: function removeListeners() {
+                    // Event listeners
+                    if (this.options.autoHide) {
+                        this.el.removeEventListener('mouseenter', this.onMouseEnter);
+                    }
+
+                    this.contentEl.removeEventListener('scroll', this.onScroll);
+                    window.removeEventListener('resize', this.onWindowResize);
+                    this.mutationObserver && this.mutationObserver.disconnect();
+                    this.resizeObserver.disconnect();
+                }
+                /**
+                 * UnMount mutation observer and delete SimpleBar instance from DOM element
+                 */
+
+            }, {
+                key: "unMount",
+                value: function unMount() {
+                    this.removeListeners();
+                    this.el.SimpleBar = null;
+                }
+                /**
+                 * Recursively walks up the parent nodes looking for this.el
+                 */
+
+            }, {
+                key: "isChildNode",
+                value: function isChildNode(el) {
+                    if (el === null) return false;
+                    if (el === this.el) return true;
+                    return this.isChildNode(el.parentNode);
+                }
+                /**
+                 * Check if mouse is within bounds
+                 */
+
+            }, {
+                key: "isWithinBounds",
+                value: function isWithinBounds(bbox) {
+                    return this.mouseX >= bbox.left && this.mouseX <= bbox.left + bbox.width && this.mouseY >= bbox.top && this.mouseY <= bbox.top + bbox.height;
+                }
+            }], [{
+                key: "getRtlHelpers",
+                value: function getRtlHelpers() {
+                    var dummyDiv = document.createElement('div');
+                    dummyDiv.innerHTML = '<div class="hs-dummy-scrollbar-size"><div style="height: 200%; width: 200%; margin: 10px 0;"></div></div>';
+                    var scrollbarDummyEl = dummyDiv.firstElementChild;
+                    document.body.appendChild(scrollbarDummyEl);
+                    var dummyContainerChild = scrollbarDummyEl.firstElementChild;
+                    scrollbarDummyEl.scrollLeft = 0;
+                    var dummyContainerOffset = SimpleBar.getOffset(scrollbarDummyEl);
+                    var dummyContainerChildOffset = SimpleBar.getOffset(dummyContainerChild);
+                    scrollbarDummyEl.scrollLeft = 999;
+                    var dummyContainerScrollOffsetAfterScroll = SimpleBar.getOffset(dummyContainerChild);
+                    return {
+                        // determines if the scrolling is responding with negative values
+                        isRtlScrollingInverted: dummyContainerOffset.left !== dummyContainerChildOffset.left && dummyContainerChildOffset.left - dummyContainerScrollOffsetAfterScroll.left !== 0,
+                        // determines if the origin scrollbar position is inverted or not (positioned on left or right)
+                        isRtlScrollbarInverted: dummyContainerOffset.left !== dummyContainerChildOffset.left
+                    };
+                }
+            }, {
+                key: "initHtmlApi",
+                value: function initHtmlApi() {
+                    this.initDOMLoadedElements = this.initDOMLoadedElements.bind(this); // MutationObserver is IE11+
+
+                    if (typeof MutationObserver !== 'undefined') {
+                        // Mutation observer to observe dynamically added elements
+                        this.globalObserver = new MutationObserver(function (mutations) {
+                            mutations.forEach(function (mutation) {
+                                Array.from(mutation.addedNodes).forEach(function (addedNode) {
+                                    if (addedNode.nodeType === 1) {
+                                        if (addedNode.hasAttribute('data-simplebar')) {
+                                            !addedNode.SimpleBar && new SimpleBar(addedNode, SimpleBar.getElOptions(addedNode));
+                                        } else {
+                                            Array.from(addedNode.querySelectorAll('[data-simplebar]')).forEach(function (el) {
+                                                !el.SimpleBar && new SimpleBar(el, SimpleBar.getElOptions(el));
+                                            });
+                                        }
+                                    }
+                                });
+                                Array.from(mutation.removedNodes).forEach(function (removedNode) {
+                                    if (removedNode.nodeType === 1) {
+                                        if (removedNode.hasAttribute('data-simplebar')) {
+                                            removedNode.SimpleBar && removedNode.SimpleBar.unMount();
+                                        } else {
+                                            Array.from(removedNode.querySelectorAll('[data-simplebar]')).forEach(function (el) {
+                                                el.SimpleBar && el.SimpleBar.unMount();
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                        this.globalObserver.observe(document, {
+                            childList: true,
+                            subtree: true
+                        });
+                    } // Taken from jQuery `ready` function
+                    // Instantiate elements already present on the page
+
+
+                    if (document.readyState === 'complete' || document.readyState !== 'loading' && !document.documentElement.doScroll) {
+                        // Handle it asynchronously to allow scripts the opportunity to delay init
+                        window.setTimeout(this.initDOMLoadedElements);
+                    } else {
+                        document.addEventListener('DOMContentLoaded', this.initDOMLoadedElements);
+                        window.addEventListener('load', this.initDOMLoadedElements);
+                    }
+                } // Helper function to retrieve options from element attributes
+
+            }, {
+                key: "getElOptions",
+                value: function getElOptions(el) {
+                    var options = Array.from(el.attributes).reduce(function (acc, attribute) {
+                        var option = attribute.name.match(/data-simplebar-(.+)/);
+
+                        if (option) {
+                            var key = option[1].replace(/\W+(.)/g, function (x, chr) {
+                                return chr.toUpperCase();
+                            });
+
+                            switch (attribute.value) {
+                                case 'true':
+                                    acc[key] = true;
+                                    break;
+
+                                case 'false':
+                                    acc[key] = false;
+                                    break;
+
+                                case undefined:
+                                    acc[key] = true;
+                                    break;
+
+                                default:
+                                    acc[key] = attribute.value;
+                            }
+                        }
+
+                        return acc;
+                    }, {});
+                    return options;
+                }
+            }, {
+                key: "removeObserver",
+                value: function removeObserver() {
+                    this.globalObserver.disconnect();
+                }
+            }, {
+                key: "initDOMLoadedElements",
+                value: function initDOMLoadedElements() {
+                    document.removeEventListener('DOMContentLoaded', this.initDOMLoadedElements);
+                    window.removeEventListener('load', this.initDOMLoadedElements);
+                    Array.from(document.querySelectorAll('[data-simplebar]')).forEach(function (el) {
+                        if (!el.SimpleBar) new SimpleBar(el, SimpleBar.getElOptions(el));
+                    });
+                }
+            }, {
+                key: "getOffset",
+                value: function getOffset(el) {
+                    var rect = el.getBoundingClientRect();
+                    return {
+                        top: rect.top + (window.pageYOffset || document.documentElement.scrollTop),
+                        left: rect.left + (window.pageXOffset || document.documentElement.scrollLeft)
+                    };
+                }
+            }]);
+
+            return SimpleBar;
+        }();
+    /**
+     * HTML API
+     * Called only in a browser env.
+     */
+
+
+    SimpleBar.defaultOptions = {
+        autoHide: true,
+        forceVisible: false,
+        classNames: {
+            content: 'simplebar-content',
+            offset: 'simplebar-offset',
+            mask: 'simplebar-mask',
+            wrapper: 'simplebar-wrapper',
+            placeholder: 'simplebar-placeholder',
+            scrollbar: 'simplebar-scrollbar',
+            track: 'simplebar-track',
+            heightAutoObserverWrapperEl: 'simplebar-height-auto-observer-wrapper',
+            heightAutoObserverEl: 'simplebar-height-auto-observer',
+            visible: 'simplebar-visible',
+            horizontal: 'simplebar-horizontal',
+            vertical: 'simplebar-vertical',
+            hover: 'simplebar-hover'
+        },
+        scrollbarMinSize: 25,
+        scrollbarMaxSize: 0,
+        timeout: 1000
+    };
+
+    if (canUseDom) {
+        SimpleBar.initHtmlApi();
+    }
+
+    return SimpleBar;
+
+})));
+Squire.prototype.testPresenceinSelection = function (name, action, format,
+                                                     validation) {
+    var path = this.getPath(),
+        test = (validation.test(path) | this.hasFormat(format));
+    if (name == action && test) {
+        return true;
+    } else {
+        return false;
+    }
+};
+SquireUI = function (options) {
+    if (typeof options.buildPath == "undefined") {
+        options.buildPath = '/o/plateforme-citoyenne-theme/images/assets/';
+    }
+    // Create instance of iFrame
+    var container, editor;
+    if (options.replace) {
+        container = $(options.replace).parent();
+        $(options.replace).remove();
+    } else if (options.div) {
+        container = $(options.div);
+    } else {
+        throw new Error(
+            "No element was defined for the editor to inject to.");
+    }
+    var iframe = document.createElement('iframe');
+    var div = document.createElement('div');
+    div.className = 'Squire-UI';
+    iframe.height = options.height;
+
+    $(div).load(options.buildPath + 'Squire-UI.html', function () {
+        this.linkDrop = new Drop({
+            target: $('#makeLink').first()[0],
+            content: $('#drop-link').html(),
+            position: 'bottom center',
+            openOn: 'click'
+        });
+
+        this.linkDrop.on('open', function () {
+            $('.quit').click(function () {
+                $(this).parent().parent().removeClass('drop-open');
+            });
+
+            $('.submitLink').click(function () {
+                var editor = iframe.contentWindow.editor;
+                editor.makeLink($(this).parent().children('#url').first().val());
+                $(this).parent().parent().removeClass('drop-open');
+                $(this).parent().children('#url').attr('value', '');
+            });
+        });
+
+        this.imageDrop = new Drop({
+            target: $('#insertImage').first()[0],
+            content: $('#drop-image').html(),
+            position: 'bottom center',
+            openOn: 'click'
+        });
+
+        this.imageDrop.on('open', function () {
+            $('.quit').unbind().click(function () {
+                $(this).parent().parent().removeClass('drop-open');
+            });
+
+            $('.sumbitImageURL').unbind().click(function () {
+                console.log("Passed through .sumbitImageURL");
+                var editor = iframe.contentWindow.editor;
+                url = $(this).parent().children('#imageUrl').first()[0];
+                editor.insertImage(url.value);
+                $(this).parent().parent().removeClass('drop-open');
+                $(this).parent().children('#imageUrl').attr('value', '');
+            });
+
+        });
+
+        this.fontDrop = new Drop({
+            target: $('#selectFont').first()[0],
+            content: $('#drop-font').html(),
+            position: 'bottom center',
+            openOn: 'click'
+        });
+
+        this.fontDrop.on('open', function () {
+            $('.quit').click(function () {
+                $(this).parent().parent().removeClass('drop-open');
+            });
+
+            $('.submitFont').unbind().click(function () {
+                var editor = iframe.contentWindow.editor;
+                var selectedFonts = $('select#fontSelect option:selected').last().data('fonts');
+                var fontSize = $('select#textSelector option:selected').last().data('size') + 'px';
+                editor.setFontSize(fontSize);
+
+                try {
+                    editor.setFontFace(selectedFonts);
+                } catch (e) {
+                    alert('Please make a selection of text.');
+                } finally {
+                    $(this).parent().parent().removeClass('drop-open');
+                }
+
+            });
+
+
+        });
+
+        $('.item').click(function () {
+            var iframe = $(this).parents('.Squire-UI').next('iframe').first()[0];
+            var editor = iframe.contentWindow.editor;
+            var action = $(this).data('action');
+
+            test = {
+                value: $(this).data('action'),
+                testBold: editor.testPresenceinSelection('bold',
+                    action, 'B', (/>B\b/)),
+                testItalic: editor.testPresenceinSelection('italic',
+                    action, 'I', (/>I\b/)),
+                testUnderline: editor.testPresenceinSelection(
+                    'underline', action, 'U', (/>U\b/)),
+                testOrderedList: editor.testPresenceinSelection(
+                    'makeOrderedList', action, 'OL', (/>OL\b/)),
+                testLink: editor.testPresenceinSelection('makeLink',
+                    action, 'A', (/>A\b/)),
+                testQuote: editor.testPresenceinSelection(
+                    'increaseQuoteLevel', action, 'blockquote', (
+                        />blockquote\b/)),
+                isNotValue: function (a) {
+                    return (a == action && this.value !== '');
+                }
+            };
+
+            editor.alignRight = function () {
+                editor.setTextAlignment('right');
+            };
+            editor.alignCenter = function () {
+                editor.setTextAlignment('center');
+            };
+            editor.alignLeft = function () {
+                editor.setTextAlignment('left');
+            };
+            editor.alignJustify = function () {
+                editor.setTextAlignment('justify');
+            };
+            editor.makeHeading = function () {
+                editor.setFontSize('2em');
+                editor.bold();
+            };
+
+            if (test.testBold | test.testItalic | test.testUnderline | test.testOrderedList | test.testLink | test.testQuote) {
+                if (test.testBold) editor.removeBold();
+                if (test.testItalic) editor.removeItalic();
+                if (test.testUnderline) editor.removeUnderline();
+                if (test.testLink) editor.removeLink();
+                if (test.testOrderedList) editor.removeList();
+                if (test.testQuote) editor.decreaseQuoteLevel();
+            } else if (test.isNotValue('makeLink') | test.isNotValue('insertImage') | test.isNotValue('selectFont')) {
+                // do nothing these are dropdowns.
+            } else {
+                editor[action]();
+                editor.focus();
+            }
+        });
+    });
+
+    iframe.addEventListener('load', function () {
+        // Make sure we're in standards mode.
+        var doc = iframe.contentDocument;
+        if (doc.compatMode !== 'CSS1Compat') {
+            doc.open();
+            doc.write('<!DOCTYPE html><title></title>');
+            doc.close();
+        }
+        // doc.close() can cause a re-entrant load event in some browsers,
+        // such as IE9.
+        if (iframe.contentWindow.editor) {
+            return;
+        }
+        iframe.contentWindow.editor = new Squire(iframe.contentWindow.document);
+        iframe.contentWindow.editor.addStyles(
+            'html {' +
+            '  height: 100%;' +
+            '}' +
+            'body {' +
+            '  -moz-box-sizing: border-box;' +
+            '  -webkit-box-sizing: border-box;' +
+            '  box-sizing: border-box;' +
+            '  height: 100%;' +
+            '  padding: 1em;' +
+            '  background: transparent;' +
+            '  color: #2b2b2b;' +
+            '  font: 13px/1.35 Helvetica, arial, sans-serif;' +
+            '  cursor: text;' +
+            '}' +
+            'a {' +
+            '  text-decoration: underline;' +
+            '}' +
+            'h1 {' +
+            '  font-size: 138.5%;' +
+            '}' +
+            'h2 {' +
+            '  font-size: 123.1%;' +
+            '}' +
+            'h3 {' +
+            '  font-size: 108%;' +
+            '}' +
+            'h1,h2,h3,p {' +
+            '  margin: 1em 0;' +
+            '}' +
+            'h4,h5,h6 {' +
+            '  margin: 0;' +
+            '}' +
+            'ul, ol {' +
+            '  margin: 0 1em;' +
+            '  padding: 0 1em;' +
+            '}' +
+            'blockquote {' +
+            '  border-left: 2px solid blue;' +
+            '  margin: 0;' +
+            '  padding: 0 10px;' +
+            '}'
+        );
+    });
+
+    $(container).append(div);
+    $(container).append(iframe);
+
+    return iframe.contentWindow.editor;
+};
+/*! drop 0.5.4 */
+!function (t, e) {
+    t.Tether = e();
+}(this, function () {
+    return function () {
+        var t, e, o, i, n, s, r, l, h, a, p, f, u, d, c, g, m, b = {}.hasOwnProperty, v = [].indexOf || function (t) {
+                for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
+                return -1
+            }, y = [].slice;
+        null == this.Tether && (this.Tether = {modules: []}), p = function (t) {
+            var e, o, i, n, s;
+            if (o = getComputedStyle(t).position, "fixed" === o)return t;
+            for (i = void 0, e = t; e = e.parentNode;) {
+                try {
+                    n = getComputedStyle(e)
+                } catch (r) {
+                }
+                if (null == n)return e;
+                if (/(auto|scroll)/.test(n.overflow + n["overflow-y"] + n["overflow-x"]) && ("absolute" !== o || "relative" === (s = n.position) || "absolute" === s || "fixed" === s))return e
+            }
+            return document.body
+        }, c = function () {
+            var t;
+            return t = 0, function () {
+                return t++
+            }
+        }(), m = {}, h = function (t) {
+            var e, i, s, r, l;
+            if (s = t._tetherZeroElement, null == s && (s = t.createElement("div"), s.setAttribute("data-tether-id", c()), n(s.style, {
+                    top: 0,
+                    left: 0,
+                    position: "absolute"
+                }), t.body.appendChild(s), t._tetherZeroElement = s), e = s.getAttribute("data-tether-id"), null == m[e]) {
+                m[e] = {}, l = s.getBoundingClientRect();
+                for (i in l)r = l[i], m[e][i] = r;
+                o(function () {
+                    return m[e] = void 0
+                })
+            }
+            return m[e]
+        }, u = null, r = function (t) {
+            var e, o, i, n, s, r, l;
+            t === document ? (o = document, t = document.documentElement) : o = t.ownerDocument, i = o.documentElement, e = {}, l = t.getBoundingClientRect();
+            for (n in l)r = l[n], e[n] = r;
+            return s = h(o), e.top -= s.top, e.left -= s.left, null == e.width && (e.width = document.body.scrollWidth - e.left - e.right), null == e.height && (e.height = document.body.scrollHeight - e.top - e.bottom), e.top = e.top - i.clientTop, e.left = e.left - i.clientLeft, e.right = o.body.clientWidth - e.width - e.left, e.bottom = o.body.clientHeight - e.height - e.top, e
+        }, l = function (t) {
+            return t.offsetParent || document.documentElement
+        }, a = function () {
+            var t, e, o, i, s;
+            return t = document.createElement("div"), t.style.width = "100%", t.style.height = "200px", e = document.createElement("div"), n(e.style, {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                pointerEvents: "none",
+                visibility: "hidden",
+                width: "200px",
+                height: "150px",
+                overflow: "hidden"
+            }), e.appendChild(t), document.body.appendChild(e), i = t.offsetWidth, e.style.overflow = "scroll", s = t.offsetWidth, i === s && (s = e.clientWidth), document.body.removeChild(e), o = i - s, {
+                width: o,
+                height: o
+            }
+        }, n = function (t) {
+            var e, o, i, n, s, r, l;
+            for (null == t && (t = {}), e = [], Array.prototype.push.apply(e, arguments), l = e.slice(1), s = 0, r = l.length; r > s; s++)if (i = l[s])for (o in i)b.call(i, o) && (n = i[o], t[o] = n);
+            return t
+        }, d = function (t, e) {
+            var o, i, n, s, r;
+            if (null != t.classList) {
+                for (s = e.split(" "), r = [], i = 0, n = s.length; n > i; i++)o = s[i], o.trim() && r.push(t.classList.remove(o));
+                return r
+            }
+            return t.className = t.className.replace(new RegExp("(^| )" + e.split(" ").join("|") + "( |$)", "gi"), " ")
+        }, e = function (t, e) {
+            var o, i, n, s, r;
+            if (null != t.classList) {
+                for (s = e.split(" "), r = [], i = 0, n = s.length; n > i; i++)o = s[i], o.trim() && r.push(t.classList.add(o));
+                return r
+            }
+            return d(t, e), t.className += " " + e
+        }, f = function (t, e) {
+            return null != t.classList ? t.classList.contains(e) : new RegExp("(^| )" + e + "( |$)", "gi").test(t.className)
+        }, g = function (t, o, i) {
+            var n, s, r, l, h, a;
+            for (s = 0, l = i.length; l > s; s++)n = i[s], v.call(o, n) < 0 && f(t, n) && d(t, n);
+            for (a = [], r = 0, h = o.length; h > r; r++)n = o[r], a.push(f(t, n) ? void 0 : e(t, n));
+            return a
+        }, i = [], o = function (t) {
+            return i.push(t)
+        }, s = function () {
+            var t, e;
+            for (e = []; t = i.pop();)e.push(t());
+            return e
+        }, t = function () {
+            function t() {
+            }
+
+            return t.prototype.on = function (t, e, o, i) {
+                var n;
+                return null == i && (i = !1), null == this.bindings && (this.bindings = {}), null == (n = this.bindings)[t] && (n[t] = []), this.bindings[t].push({handler: e, ctx: o, once: i})
+            }, t.prototype.once = function (t, e, o) {
+                return this.on(t, e, o, !0)
+            }, t.prototype.off = function (t, e) {
+                var o, i, n;
+                if (null != (null != (i = this.bindings) ? i[t] : void 0)) {
+                    if (null == e)return delete this.bindings[t];
+                    for (o = 0, n = []; o < this.bindings[t].length;)n.push(this.bindings[t][o].handler === e ? this.bindings[t].splice(o, 1) : o++);
+                    return n
+                }
+            }, t.prototype.trigger = function () {
+                var t, e, o, i, n, s, r, l, h;
+                if (o = arguments[0], t = 2 <= arguments.length ? y.call(arguments, 1) : [], null != (r = this.bindings) ? r[o] : void 0) {
+                    for (n = 0, h = []; n < this.bindings[o].length;)l = this.bindings[o][n], i = l.handler, e = l.ctx, s = l.once, i.apply(null != e ? e : this, t), h.push(s ? this.bindings[o].splice(n, 1) : n++);
+                    return h
+                }
+            }, t
+        }(), this.Tether.Utils = {
+            getScrollParent: p,
+            getBounds: r,
+            getOffsetParent: l,
+            extend: n,
+            addClass: e,
+            removeClass: d,
+            hasClass: f,
+            updateClasses: g,
+            defer: o,
+            flush: s,
+            uniqueId: c,
+            Evented: t,
+            getScrollBarSize: a
+        }
+    }.call(this), function () {
+        var t, e, o, i, n, s, r, l, h, a, p, f, u, d, c, g, m, b, v, y, w, C, O, x, T, E, P, _, W, S = [].slice, A = function (t, e) {
+            return function () {
+                return t.apply(e, arguments)
+            }
+        };
+        if (null == this.Tether)throw new Error("You must include the utils.js file before tether.js");
+        i = this.Tether, W = i.Utils, g = W.getScrollParent, m = W.getSize, d = W.getOuterSize, f = W.getBounds, u = W.getOffsetParent, a = W.extend, n = W.addClass, O = W.removeClass, E = W.updateClasses, h = W.defer, p = W.flush, c = W.getScrollBarSize, P = function (t, e, o) {
+            return null == o && (o = 1), t + o >= e && e >= t - o
+        }, T = function () {
+            var t, e, o, i, n;
+            for (t = document.createElement("div"), n = ["transform", "webkitTransform", "OTransform", "MozTransform", "msTransform"], o = 0, i = n.length; i > o; o++)if (e = n[o], void 0 !== t.style[e])return e
+        }(), x = [], C = function () {
+            var t, e, o;
+            for (e = 0, o = x.length; o > e; e++)t = x[e], t.position(!1);
+            return p()
+        }, b = function () {
+            var t;
+            return null != (t = "undefined" != typeof performance && null !== performance && "function" == typeof performance.now ? performance.now() : void 0) ? t : +new Date
+        }, function () {
+            var t, e, o, i, n, s, r, l, h;
+            for (e = null, o = null, i = null, n = function () {
+                if (null != o && o > 16)return o = Math.min(o - 16, 250), void(i = setTimeout(n, 250));
+                if (!(null != e && b() - e < 10))return null != i && (clearTimeout(i), i = null), e = b(), C(), o = b() - e
+            }, l = ["resize", "scroll", "touchmove"], h = [], s = 0, r = l.length; r > s; s++)t = l[s], h.push(window.addEventListener(t, n));
+            return h
+        }(), t = {center: "center", left: "right", right: "left"}, e = {middle: "middle", top: "bottom", bottom: "top"}, o = {
+            top: 0,
+            left: 0,
+            middle: "50%",
+            center: "50%",
+            bottom: "100%",
+            right: "100%"
+        }, l = function (o, i) {
+            var n, s;
+            return n = o.left, s = o.top, "auto" === n && (n = t[i.left]), "auto" === s && (s = e[i.top]), {left: n, top: s}
+        }, r = function (t) {
+            var e, i;
+            return {left: null != (e = o[t.left]) ? e : t.left, top: null != (i = o[t.top]) ? i : t.top}
+        }, s = function () {
+            var t, e, o, i, n, s, r;
+            for (e = 1 <= arguments.length ? S.call(arguments, 0) : [], o = {
+                top: 0,
+                left: 0
+            }, n = 0, s = e.length; s > n; n++)r = e[n], i = r.top, t = r.left, "string" == typeof i && (i = parseFloat(i, 10)), "string" == typeof t && (t = parseFloat(t, 10)), o.top += i, o.left += t;
+            return o
+        }, v = function (t, e) {
+            return "string" == typeof t.left && -1 !== t.left.indexOf("%") && (t.left = parseFloat(t.left, 10) / 100 * e.width), "string" == typeof t.top && -1 !== t.top.indexOf("%") && (t.top = parseFloat(t.top, 10) / 100 * e.height), t
+        }, y = w = function (t) {
+            var e, o, i;
+            return i = t.split(" "), o = i[0], e = i[1], {top: o, left: e}
+        }, _ = function () {
+            function t(t) {
+                this.position = A(this.position, this);
+                var e, o, n, s, r;
+                for (x.push(this), this.history = [], this.setOptions(t, !1), s = i.modules, o = 0, n = s.length; n > o; o++)e = s[o], null != (r = e.initialize) && r.call(this);
+                this.position()
+            }
+
+            return t.modules = [], t.prototype.getClass = function (t) {
+                var e, o;
+                return (null != (e = this.options.classes) ? e[t] : void 0) ? this.options.classes[t] : (null != (o = this.options.classes) ? o[t] : void 0) !== !1 ? this.options.classPrefix ? "" + this.options.classPrefix + "-" + t : t : ""
+            }, t.prototype.setOptions = function (t, e) {
+                var o, i, s, r, l, h;
+                for (this.options = t, null == e && (e = !0), o = {
+                    offset: "0 0",
+                    targetOffset: "0 0",
+                    targetAttachment: "auto auto",
+                    classPrefix: "tether"
+                }, this.options = a(o, this.options), l = this.options, this.element = l.element, this.target = l.target, this.targetModifier = l.targetModifier, "viewport" === this.target ? (this.target = document.body, this.targetModifier = "visible") : "scroll-handle" === this.target && (this.target = document.body, this.targetModifier = "scroll-handle"), h = ["element", "target"], s = 0, r = h.length; r > s; s++) {
+                    if (i = h[s], null == this[i])throw new Error("Tether Error: Both element and target must be defined");
+                    null != this[i].jquery ? this[i] = this[i][0] : "string" == typeof this[i] && (this[i] = document.querySelector(this[i]))
+                }
+                if (n(this.element, this.getClass("element")), n(this.target, this.getClass("target")), !this.options.attachment)throw new Error("Tether Error: You must provide an attachment");
+                return this.targetAttachment = y(this.options.targetAttachment), this.attachment = y(this.options.attachment), this.offset = w(this.options.offset), this.targetOffset = w(this.options.targetOffset), null != this.scrollParent && this.disable(), this.scrollParent = "scroll-handle" === this.targetModifier ? this.target : g(this.target), this.options.enabled !== !1 ? this.enable(e) : void 0
+            }, t.prototype.getTargetBounds = function () {
+                var t, e, o, i, n, s, r, l, h;
+                if (null == this.targetModifier)return f(this.target);
+                switch (this.targetModifier) {
+                    case"visible":
+                        return this.target === document.body ? {top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth} : (t = f(this.target), n = {
+                            height: t.height,
+                            width: t.width,
+                            top: t.top,
+                            left: t.left
+                        }, n.height = Math.min(n.height, t.height - (pageYOffset - t.top)), n.height = Math.min(n.height, t.height - (t.top + t.height - (pageYOffset + innerHeight))), n.height = Math.min(innerHeight, n.height), n.height -= 2, n.width = Math.min(n.width, t.width - (pageXOffset - t.left)), n.width = Math.min(n.width, t.width - (t.left + t.width - (pageXOffset + innerWidth))), n.width = Math.min(innerWidth, n.width), n.width -= 2, n.top < pageYOffset && (n.top = pageYOffset), n.left < pageXOffset && (n.left = pageXOffset), n);
+                    case"scroll-handle":
+                        return h = this.target, h === document.body ? (h = document.documentElement, t = {
+                            left: pageXOffset,
+                            top: pageYOffset,
+                            height: innerHeight,
+                            width: innerWidth
+                        }) : t = f(h), l = getComputedStyle(h), o = h.scrollWidth > h.clientWidth || "scroll" === [l.overflow, l.overflowX] || this.target !== document.body, s = 0, o && (s = 15), i = t.height - parseFloat(l.borderTopWidth) - parseFloat(l.borderBottomWidth) - s, n = {
+                            width: 15,
+                            height: .975 * i * (i / h.scrollHeight),
+                            left: t.left + t.width - parseFloat(l.borderLeftWidth) - 15
+                        }, e = 0, 408 > i && this.target === document.body && (e = -11e-5 * Math.pow(i, 2) - .00727 * i + 22.58), this.target !== document.body && (n.height = Math.max(n.height, 24)), r = this.target.scrollTop / (h.scrollHeight - i), n.top = r * (i - n.height - e) + t.top + parseFloat(l.borderTopWidth), this.target === document.body && (n.height = Math.max(n.height, 24)), n
+                }
+            }, t.prototype.clearCache = function () {
+                return this._cache = {}
+            }, t.prototype.cache = function (t, e) {
+                return null == this._cache && (this._cache = {}), null == this._cache[t] && (this._cache[t] = e.call(this)), this._cache[t]
+            }, t.prototype.enable = function (t) {
+                return null == t && (t = !0), n(this.target, this.getClass("enabled")), n(this.element, this.getClass("enabled")), this.enabled = !0, this.scrollParent !== document && this.scrollParent.addEventListener("scroll", this.position), t ? this.position() : void 0
+            }, t.prototype.disable = function () {
+                return O(this.target, this.getClass("enabled")), O(this.element, this.getClass("enabled")), this.enabled = !1, null != this.scrollParent ? this.scrollParent.removeEventListener("scroll", this.position) : void 0
+            }, t.prototype.destroy = function () {
+                var t, e, o, i, n;
+                for (this.disable(), n = [], t = o = 0, i = x.length; i > o; t = ++o) {
+                    if (e = x[t], e === this) {
+                        x.splice(t, 1);
+                        break
+                    }
+                    n.push(void 0)
+                }
+                return n
+            }, t.prototype.updateAttachClasses = function (t, e) {
+                var o, i, n, s, r, l, a, p, f, u = this;
+                for (null == t && (t = this.attachment), null == e && (e = this.targetAttachment), s = ["left", "top", "bottom", "right", "middle", "center"], (null != (f = this._addAttachClasses) ? f.length : void 0) && this._addAttachClasses.splice(0, this._addAttachClasses.length), o = null != this._addAttachClasses ? this._addAttachClasses : this._addAttachClasses = [], t.top && o.push("" + this.getClass("element-attached") + "-" + t.top), t.left && o.push("" + this.getClass("element-attached") + "-" + t.left), e.top && o.push("" + this.getClass("target-attached") + "-" + e.top), e.left && o.push("" + this.getClass("target-attached") + "-" + e.left), i = [], r = 0, a = s.length; a > r; r++)n = s[r], i.push("" + this.getClass("element-attached") + "-" + n);
+                for (l = 0, p = s.length; p > l; l++)n = s[l], i.push("" + this.getClass("target-attached") + "-" + n);
+                return h(function () {
+                    return null != u._addAttachClasses ? (E(u.element, u._addAttachClasses, i), E(u.target, u._addAttachClasses, i), u._addAttachClasses = void 0) : void 0
+                })
+            }, t.prototype.position = function (t) {
+                var e, o, n, h, a, d, g, m, b, y, w, C, O, x, T, E, P, _, W, S, A, M, B, L, z, F, H, Y, N, X, j, k, D, U, R, q = this;
+                if (null == t && (t = !0), this.enabled) {
+                    for (this.clearCache(), S = l(this.targetAttachment, this.attachment), this.updateAttachClasses(this.attachment, S), e = this.cache("element-bounds", function () {
+                        return f(q.element)
+                    }), z = e.width, n = e.height, 0 === z && 0 === n && null != this.lastSize ? (X = this.lastSize, z = X.width, n = X.height) : this.lastSize = {
+                        width: z,
+                        height: n
+                    }, B = M = this.cache("target-bounds", function () {
+                        return q.getTargetBounds()
+                    }), b = v(r(this.attachment), {width: z, height: n}), A = v(r(S), B), a = v(this.offset, {
+                        width: z,
+                        height: n
+                    }), d = v(this.targetOffset, B), b = s(b, a), A = s(A, d), h = M.left + A.left - b.left, L = M.top + A.top - b.top, j = i.modules, F = 0, Y = j.length; Y > F; F++)if (g = j[F], T = g.position.call(this, {
+                            left: h,
+                            top: L,
+                            targetAttachment: S,
+                            targetPos: M,
+                            attachment: this.attachment,
+                            elementPos: e,
+                            offset: b,
+                            targetOffset: A,
+                            manualOffset: a,
+                            manualTargetOffset: d,
+                            scrollbarSize: _
+                        }), null != T && "object" == typeof T) {
+                        if (T === !1)return !1;
+                        L = T.top, h = T.left
+                    }
+                    if (m = {
+                            page: {top: L, left: h},
+                            viewport: {top: L - pageYOffset, bottom: pageYOffset - L - n + innerHeight, left: h - pageXOffset, right: pageXOffset - h - z + innerWidth}
+                        }, document.body.scrollWidth > window.innerWidth && (_ = this.cache("scrollbar-size", c), m.viewport.bottom -= _.height), document.body.scrollHeight > window.innerHeight && (_ = this.cache("scrollbar-size", c), m.viewport.right -= _.width), ("" !== (k = document.body.style.position) && "static" !== k || "" !== (D = document.body.parentElement.style.position) && "static" !== D) && (m.page.bottom = document.body.scrollHeight - L - n, m.page.right = document.body.scrollWidth - h - z), (null != (U = this.options.optimizations) ? U.moveElement : void 0) !== !1 && null == this.targetModifier) {
+                        for (w = this.cache("target-offsetparent", function () {
+                            return u(q.target)
+                        }), x = this.cache("target-offsetparent-bounds", function () {
+                            return f(w)
+                        }), O = getComputedStyle(w), o = getComputedStyle(this.element), C = x, y = {}, R = ["Top", "Left", "Bottom", "Right"], H = 0, N = R.length; N > H; H++)W = R[H], y[W.toLowerCase()] = parseFloat(O["border" + W + "Width"]);
+                        x.right = document.body.scrollWidth - x.left - C.width + y.right, x.bottom = document.body.scrollHeight - x.top - C.height + y.bottom, m.page.top >= x.top + y.top && m.page.bottom >= x.bottom && m.page.left >= x.left + y.left && m.page.right >= x.right && (P = w.scrollTop, E = w.scrollLeft, m.offset = {
+                            top: m.page.top - x.top + P - y.top,
+                            left: m.page.left - x.left + E - y.left
+                        })
+                    }
+                    return this.move(m), this.history.unshift(m), this.history.length > 3 && this.history.pop(), t && p(), !0
+                }
+            }, t.prototype.move = function (t) {
+                var e, o, i, n, s, r, l, p, f, d, c, g, m, b, v, y, w, C = this;
+                if (null != this.element.parentNode) {
+                    p = {};
+                    for (d in t) {
+                        p[d] = {};
+                        for (n in t[d]) {
+                            for (i = !1, y = this.history, b = 0, v = y.length; v > b; b++)if (l = y[b], !P(null != (w = l[d]) ? w[n] : void 0, t[d][n])) {
+                                i = !0;
+                                break
+                            }
+                            i || (p[d][n] = !0)
+                        }
+                    }
+                    e = {top: "", left: "", right: "", bottom: ""}, f = function (t, o) {
+                        var i, n, s;
+                        return (null != (s = C.options.optimizations) ? s.gpu : void 0) === !1 ? (t.top ? e.top = "" + o.top + "px" : e.bottom = "" + o.bottom + "px", t.left ? e.left = "" + o.left + "px" : e.right = "" + o.right + "px") : (t.top ? (e.top = 0, n = o.top) : (e.bottom = 0, n = -o.bottom), t.left ? (e.left = 0, i = o.left) : (e.right = 0, i = -o.right), e[T] = "translateX(" + Math.round(i) + "px) translateY(" + Math.round(n) + "px)", "msTransform" !== T ? e[T] += " translateZ(0)" : void 0)
+                    }, s = !1, (p.page.top || p.page.bottom) && (p.page.left || p.page.right) ? (e.position = "absolute", f(p.page, t.page)) : (p.viewport.top || p.viewport.bottom) && (p.viewport.left || p.viewport.right) ? (e.position = "fixed", f(p.viewport, t.viewport)) : null != p.offset && p.offset.top && p.offset.left ? (e.position = "absolute", r = this.cache("target-offsetparent", function () {
+                        return u(C.target)
+                    }), u(this.element) !== r && h(function () {
+                        return C.element.parentNode.removeChild(C.element), r.appendChild(C.element)
+                    }), f(p.offset, t.offset), s = !0) : (e.position = "absolute", f({
+                        top: !0,
+                        left: !0
+                    }, t.page)), s || "BODY" === this.element.parentNode.tagName || (this.element.parentNode.removeChild(this.element), document.body.appendChild(this.element)), m = {}, g = !1;
+                    for (n in e)c = e[n], o = this.element.style[n], "" === o || "" === c || "top" !== n && "left" !== n && "bottom" !== n && "right" !== n || (o = parseFloat(o), c = parseFloat(c)), o !== c && (g = !0, m[n] = e[n]);
+                    return g ? h(function () {
+                        return a(C.element.style, m)
+                    }) : void 0
+                }
+            }, t
+        }(), i.position = C, this.Tether = a(_, i)
+    }.call(this), function () {
+        var t, e, o, i, n, s, r, l, h, a, p = [].indexOf || function (t) {
+                for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
+                return -1
+            };
+        a = this.Tether.Utils, r = a.getOuterSize, s = a.getBounds, l = a.getSize, i = a.extend, h = a.updateClasses, o = a.defer, e = {
+            left: "right",
+            right: "left",
+            top: "bottom",
+            bottom: "top",
+            middle: "middle"
+        }, t = ["left", "top", "right", "bottom"], n = function (e, o) {
+            var i, n, r, l, h, a, p;
+            if ("scrollParent" === o ? o = e.scrollParent : "window" === o && (o = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset]), o === document && (o = o.documentElement), null != o.nodeType)for (n = l = s(o), h = getComputedStyle(o), o = [n.left, n.top, l.width + n.left, l.height + n.top], i = a = 0, p = t.length; p > a; i = ++a)r = t[i], r = r[0].toUpperCase() + r.substr(1), "Top" === r || "Left" === r ? o[i] += parseFloat(h["border" + r + "Width"]) : o[i] -= parseFloat(h["border" + r + "Width"]);
+            return o
+        }, this.Tether.modules.push({
+            position: function (e) {
+                var r, l, a, f, u, d, c, g, m, b, v, y, w, C, O, x, T, E, P, _, W, S, A, M, B, L, z, F, H, Y, N, X, j, k, D, U, R, q, Z, $, I, G, J, K, Q, V, te, ee = this;
+                if (L = e.top, v = e.left, W = e.targetAttachment, !this.options.constraints)return !0;
+                for (E = function (e) {
+                    var o, i, n, s;
+                    for (ee.removeClass(e), s = [], i = 0, n = t.length; n > i; i++)o = t[i], s.push(ee.removeClass("" + e + "-" + o));
+                    return s
+                }, $ = this.cache("element-bounds", function () {
+                    return s(ee.element)
+                }), b = $.height, z = $.width, 0 === z && 0 === b && null != this.lastSize && (I = this.lastSize, z = I.width, b = I.height), A = this.cache("target-bounds", function () {
+                    return ee.getTargetBounds()
+                }), S = A.height, M = A.width, _ = {}, m = {}, l = [this.getClass("pinned"), this.getClass("out-of-bounds")], G = this.options.constraints, F = 0, X = G.length; X > F; F++)g = G[F], g.outOfBoundsClass && l.push(g.outOfBoundsClass), g.pinnedClass && l.push(g.pinnedClass);
+                for (H = 0, j = l.length; j > H; H++)for (c = l[H], J = ["left", "top", "right", "bottom"], Y = 0, k = J.length; k > Y; Y++)P = J[Y], l.push("" + c + "-" + P);
+                for (r = [], _ = i({}, W), m = i({}, this.attachment), K = this.options.constraints, N = 0, D = K.length; D > N; N++) {
+                    if (g = K[N], B = g.to, a = g.attachment, O = g.pin, null == a && (a = ""), p.call(a, " ") >= 0 ? (Q = a.split(" "), d = Q[0], u = Q[1]) : u = d = a, f = n(this, B), ("target" === d || "both" === d) && (L < f[1] && "top" === _.top && (L += S, _.top = "bottom"), L + b > f[3] && "bottom" === _.top && (L -= S, _.top = "top")), "together" === d && (L < f[1] && "top" === _.top && ("bottom" === m.top ? (L += S, _.top = "bottom", L += b, m.top = "top") : "top" === m.top && (L += S, _.top = "bottom", L -= b, m.top = "bottom")), L + b > f[3] && "bottom" === _.top && ("top" === m.top ? (L -= S, _.top = "top", L -= b, m.top = "bottom") : "bottom" === m.top && (L -= S, _.top = "top", L += b, m.top = "top")), "middle" === _.top && (L + b > f[3] && "top" === m.top ? (L -= b, m.top = "bottom") : L < f[1] && "bottom" === m.top && (L += b, m.top = "top"))), ("target" === u || "both" === u) && (v < f[0] && "left" === _.left && (v += M, _.left = "right"), v + z > f[2] && "right" === _.left && (v -= M, _.left = "left")), "together" === u && (v < f[0] && "left" === _.left ? "right" === m.left ? (v += M, _.left = "right", v += z, m.left = "left") : "left" === m.left && (v += M, _.left = "right", v -= z, m.left = "right") : v + z > f[2] && "right" === _.left ? "left" === m.left ? (v -= M, _.left = "left", v -= z, m.left = "right") : "right" === m.left && (v -= M, _.left = "left", v += z, m.left = "left") : "center" === _.left && (v + z > f[2] && "left" === m.left ? (v -= z, m.left = "right") : v < f[0] && "right" === m.left && (v += z, m.left = "left"))), ("element" === d || "both" === d) && (L < f[1] && "bottom" === m.top && (L += b, m.top = "top"), L + b > f[3] && "top" === m.top && (L -= b, m.top = "bottom")), ("element" === u || "both" === u) && (v < f[0] && "right" === m.left && (v += z, m.left = "left"), v + z > f[2] && "left" === m.left && (v -= z, m.left = "right")), "string" == typeof O ? O = function () {
+                            var t, e, o, i;
+                            for (o = O.split(","), i = [], e = 0, t = o.length; t > e; e++)C = o[e], i.push(C.trim());
+                            return i
+                        }() : O === !0 && (O = ["top", "left", "right", "bottom"]), O || (O = []), x = [], y = [], L < f[1] && (p.call(O, "top") >= 0 ? (L = f[1], x.push("top")) : y.push("top")), L + b > f[3] && (p.call(O, "bottom") >= 0 ? (L = f[3] - b, x.push("bottom")) : y.push("bottom")), v < f[0] && (p.call(O, "left") >= 0 ? (v = f[0], x.push("left")) : y.push("left")), v + z > f[2] && (p.call(O, "right") >= 0 ? (v = f[2] - z, x.push("right")) : y.push("right")), x.length)for (T = null != (V = this.options.pinnedClass) ? V : this.getClass("pinned"), r.push(T), q = 0, U = x.length; U > q; q++)P = x[q], r.push("" + T + "-" + P);
+                    if (y.length)for (w = null != (te = this.options.outOfBoundsClass) ? te : this.getClass("out-of-bounds"), r.push(w), Z = 0, R = y.length; R > Z; Z++)P = y[Z], r.push("" + w + "-" + P);
+                    (p.call(x, "left") >= 0 || p.call(x, "right") >= 0) && (m.left = _.left = !1), (p.call(x, "top") >= 0 || p.call(x, "bottom") >= 0) && (m.top = _.top = !1), (_.top !== W.top || _.left !== W.left || m.top !== this.attachment.top || m.left !== this.attachment.left) && this.updateAttachClasses(m, _)
+                }
+                return o(function () {
+                    return h(ee.target, r, l), h(ee.element, r, l)
+                }), {top: L, left: v}
+            }
+        })
+    }.call(this), function () {
+        var t, e, o, i;
+        i = this.Tether.Utils, e = i.getBounds, o = i.updateClasses, t = i.defer, this.Tether.modules.push({
+            position: function (i) {
+                var n, s, r, l, h, a, p, f, u, d, c, g, m, b, v, y, w, C, O, x, T, E, P, _, W, S = this;
+                if (c = i.top, a = i.left, T = this.cache("element-bounds", function () {
+                        return e(S.element)
+                    }), h = T.height, g = T.width, d = this.getTargetBounds(), l = c + h, p = a + g, n = [], c <= d.bottom && l >= d.top)for (E = ["left", "right"], m = 0, w = E.length; w > m; m++)f = E[m], ((P = d[f]) === a || P === p) && n.push(f);
+                if (a <= d.right && p >= d.left)for (_ = ["top", "bottom"], b = 0, C = _.length; C > b; b++)f = _[b], ((W = d[f]) === c || W === l) && n.push(f);
+                for (r = [], s = [], u = ["left", "top", "right", "bottom"], r.push(this.getClass("abutted")), v = 0, O = u.length; O > v; v++)f = u[v], r.push("" + this.getClass("abutted") + "-" + f);
+                for (n.length && s.push(this.getClass("abutted")), y = 0, x = n.length; x > y; y++)f = n[y], s.push("" + this.getClass("abutted") + "-" + f);
+                return t(function () {
+                    return o(S.target, s, r), o(S.element, s, r)
+                }), !0
+            }
+        })
+    }.call(this), function () {
+        this.Tether.modules.push({
+            position: function (t) {
+                var e, o, i, n, s, r, l;
+                return r = t.top, e = t.left, this.options.shift ? (o = function (t) {
+                    return "function" == typeof t ? t.call(this, {top: r, left: e}) : t
+                }, i = o(this.options.shift), "string" == typeof i ? (i = i.split(" "), i[1] || (i[1] = i[0]), s = i[0], n = i[1], s = parseFloat(s, 10), n = parseFloat(n, 10)) : (l = [i.top, i.left], s = l[0], n = l[1]), r += s, e += n, {
+                    top: r,
+                    left: e
+                }) : void 0
+            }
+        })
+    }.call(this), this.Tether
+}), function () {
+    var t, e, o, i, n, s, r, l, h, a, p, f, u, d, c, g, m, b, v = {}.hasOwnProperty, y = function (t, e) {
+        function o() {
+            this.constructor = t
+        }
+
+        for (var i in e)v.call(e, i) && (t[i] = e[i]);
+        return o.prototype = e.prototype, t.prototype = new o, t.__super__ = e.prototype, t
+    }, w = [].indexOf || function (t) {
+            for (var e = 0, o = this.length; o > e; e++)if (e in this && this[e] === t)return e;
+            return -1
+        };
+    b = Tether.Utils, l = b.extend, o = b.addClass, p = b.removeClass, h = b.hasClass, t = b.Evented, c = "ontouchstart" in document.documentElement, n = ["click"], c && n.push("touchstart"), m = {
+        WebkitTransition: "webkitTransitionEnd",
+        MozTransition: "transitionend",
+        OTransition: "otransitionend",
+        transition: "transitionend"
+    }, g = "";
+    for (a in m)r = m[a], d = document.createElement("p"), void 0 !== d.style[a] && (g = r);
+    u = function (t) {
+        var e, o, i, n;
+        return i = t.split(" "), e = i[0], o = i[1], ("left" === e || "right" === e) && (n = [o, e], e = n[0], o = n[1]), [e, o].join(" ")
+    }, e = {left: "right", right: "left", top: "bottom", bottom: "top", middle: "middle", center: "center"}, i = {}, f = function (t, e) {
+        var o, i;
+        for (i = []; -1 !== (o = t.indexOf(e));)i.push(t.splice(o, 1));
+        return i
+    }, s = function (r) {
+        var a, d, c, m;
+        return null == r && (r = {}), c = function () {
+            return function (t, e, o) {
+                o.prototype = t.prototype;
+                var i = new o, n = t.apply(i, e);
+                return Object(n) === n ? n : i
+            }(a, arguments, function () {
+            })
+        }, l(c, {createContext: s, drops: [], defaults: {}}), d = {
+            classPrefix: "drop",
+            defaults: {position: "bottom left", openOn: "click", constrainToScrollParent: !0, constrainToWindow: !0, classes: "", remove: !1, tetherOptions: {}}
+        }, l(c, d, r), l(c.defaults, d.defaults, r.defaults), null == i[m = c.classPrefix] && (i[m] = []), c.updateBodyClasses = function () {
+            var t, e, n, s, r;
+            for (t = !1, r = i[c.classPrefix], n = 0, s = r.length; s > n; n++)if (e = r[n], e.isOpened()) {
+                t = !0;
+                break
+            }
+            return t ? o(document.body, "" + c.classPrefix + "-open") : p(document.body, "" + c.classPrefix + "-open")
+        }, a = function (t) {
+            function s(t) {
+                if (this.options = t, this.options = l({}, c.defaults, this.options), this.target = this.options.target, null == this.target)throw new Error("Drop Error: You must provide a target.");
+                this.options.classes && o(this.target, this.options.classes), c.drops.push(this), i[c.classPrefix].push(this), this._boundEvents = [], this.setupElements(), this.setupEvents(), this.setupTether()
+            }
+
+            return y(s, t), s.prototype._on = function (t, e, o) {
+                return this._boundEvents.push({element: t, event: e, handler: o}), t.addEventListener(e, o)
+            }, s.prototype.setupElements = function () {
+                return this.drop = document.createElement("div"), o(this.drop, c.classPrefix), this.options.classes && o(this.drop, this.options.classes), this.content = document.createElement("div"), o(this.content, "" + c.classPrefix + "-content"), "object" == typeof this.options.content ? this.content.appendChild(this.options.content) : this.content.innerHTML = this.options.content, this.drop.appendChild(this.content)
+            }, s.prototype.setupTether = function () {
+                var t, o;
+                return o = this.options.position.split(" "), o[0] = e[o[0]], o = o.join(" "), t = [], t.push(this.options.constrainToScrollParent ? {
+                    to: "scrollParent",
+                    pin: "top, bottom",
+                    attachment: "together none"
+                } : {to: "scrollParent"}), t.push(this.options.constrainToWindow !== !1 ? {to: "window", attachment: "together"} : {to: "window"}), r = {
+                    element: this.drop,
+                    target: this.target,
+                    attachment: u(o),
+                    targetAttachment: u(this.options.position),
+                    classPrefix: c.classPrefix,
+                    offset: "0 0",
+                    targetOffset: "0 0",
+                    enabled: !1,
+                    constraints: t
+                }, this.options.tetherOptions !== !1 ? this.tether = new Tether(l({}, r, this.options.tetherOptions)) : void 0
+            }, s.prototype.setupEvents = function () {
+                var t, e, o, i, s, r, l, h, a, p, f = this;
+                if (this.options.openOn) {
+                    if ("always" === this.options.openOn)return void setTimeout(this.open.bind(this));
+                    if (o = this.options.openOn.split(" "), w.call(o, "click") >= 0)for (s = function (t) {
+                        return f.toggle(), t.preventDefault()
+                    }, e = function (t) {
+                        return !f.isOpened() || t.target === f.drop || f.drop.contains(t.target) || t.target === f.target || f.target.contains(t.target) ? void 0 : f.close()
+                    }, a = 0, p = n.length; p > a; a++)t = n[a], this._on(this.target, t, s), this._on(document, t, e);
+                    return w.call(o, "hover") >= 0 ? (i = !1, h = function () {
+                        return i = !0, f.open()
+                    }, l = null, r = function () {
+                        return i = !1, null != l && clearTimeout(l), l = setTimeout(function () {
+                            return i || f.close(), l = null
+                        }, 50)
+                    }, this._on(this.target, "mouseover", h), this._on(this.drop, "mouseover", h), this._on(this.target, "mouseout", r), this._on(this.drop, "mouseout", r)) : void 0
+                }
+            }, s.prototype.isOpened = function () {
+                return h(this.drop, "" + c.classPrefix + "-open")
+            }, s.prototype.toggle = function () {
+                return this.isOpened() ? this.close() : this.open()
+            }, s.prototype.open = function () {
+                var t, e, i = this;
+                if (!this.isOpened())return this.drop.parentNode || document.body.appendChild(this.drop), null != (t = this.tether) && t.enable(), o(this.drop, "" + c.classPrefix + "-open"), o(this.drop, "" + c.classPrefix + "-open-transitionend"), setTimeout(function () {
+                    return o(i.drop, "" + c.classPrefix + "-after-open")
+                }), null != (e = this.tether) && e.position(), this.trigger("open"), c.updateBodyClasses()
+            }, s.prototype.close = function () {
+                var t, e, o = this;
+                if (this.isOpened())return p(this.drop, "" + c.classPrefix + "-open"), p(this.drop, "" + c.classPrefix + "-after-open"), this.drop.addEventListener(g, t = function () {
+                    return h(o.drop, "" + c.classPrefix + "-open") || p(o.drop, "" + c.classPrefix + "-open-transitionend"), o.drop.removeEventListener(g, t)
+                }), this.trigger("close"), null != (e = this.tether) && e.disable(), c.updateBodyClasses(), this.options.remove ? this.remove() : void 0
+            }, s.prototype.remove = function () {
+                var t;
+                return this.close(), null != (t = this.drop.parentNode) ? t.removeChild(this.drop) : void 0
+            }, s.prototype.position = function () {
+                var t;
+                return this.isOpened() && null != (t = this.tether) ? t.position() : void 0
+            }, s.prototype.destroy = function () {
+                var t, e, o, n, s, r, l, h;
+                for (this.remove(), null != (r = this.tether) && r.destroy(), l = this._boundEvents, n = 0, s = l.length; s > n; n++)h = l[n], t = h.element, e = h.event, o = h.handler, t.removeEventListener(e, o);
+                return this._boundEvents = [], this.tether = null, this.drop = null, this.content = null, this.target = null, f(i[c.classPrefix], this), f(c.drops, this)
+            }, s
+        }(t), c
+    }, window.Drop = s(), document.addEventListener("DOMContentLoaded", function () {
+        return Drop.updateBodyClasses()
+    })
+}.call(this);
 var th_dropdown = {
 
     $last: null,
@@ -11176,22 +20490,6 @@ $('.pro-reponse').click(function(e){
     $('.pro-reagir').find(':text').focus();
     $('.pro-reagir').find('textarea').focus();
 });
-if ($(window).width() < 992) {
-    $('.pro-affiner').on('click',function(){
-        $(this).next().toggleClass('is-display');
-        $(this).toggleClass('menu-is-display');
-    });
-}
-
-
-// $('.pro-group').each(function(){
-//     var remove = $(this).first('pro-remove');
-//     remove.on('click',function(){
-//     });
-// });
-
-
-
 /* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
 $('.pro-remove').on('click',function(){
    $(this).parents('.pro-group').find('input:checked').prop('checked',false);
@@ -11200,9 +20498,9 @@ $('.pro-remove').on('click',function(){
 
     $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
 });
-$('[data-frmval]').each(function(){
-    this.setAttribute('placeholder',this.getAttribute('data-frmval'));
-    if(this.value === this.getAttribute('data-frmval')){
+$('[data-frmval]').each(function () {
+    this.setAttribute('placeholder', this.getAttribute('data-frmval'));
+    if (this.value === this.getAttribute('data-frmval')) {
         this.value = '';
     }
 });
@@ -11224,55 +20522,52 @@ $('.frm_radio > label').append('<span></span>');
 $('.frm_checkbox > label').append('<span></span>');
 
 
-
 // Add a hidden label around the selectric input for accessibility.
 var countSelectricInput = 0;
-$(".selectric-input").each(function(){
+$(".selectric-input").each(function () {
     countSelectricInput++;
     $(this)
-        .attr('id','selectric-input-id-'+countSelectricInput).attr('tabindex','1')
+        .attr('id', 'selectric-input-id-' + countSelectricInput).attr('tabindex', '1')
         .parent()
-        .append('<label for="selectric-input-id-'+countSelectricInput+'" class="hide" aria-hidden="true">Hidden Label</label>');
+        .append('<label for="selectric-input-id-' + countSelectricInput + '" class="hide" aria-hidden="true">Hidden Label</label>');
 });
 
 
-
-$('.pro-wrapper-search-top .icon-ico-close').on('click',function(){
+$('.pro-wrapper-search-top .icon-ico-close').on('click', function () {
     $('#pro-header').removeClass('pro-wrapper-search-open');
-    $('body').css('overflow','auto');
+    $('body').css('overflow', 'auto');
     $('#pro-shadow-bg').removeClass('pro-display-block');
 });
 
 
 // Quand on click sur l'îcone de recherche dans le menu, on ouvre la search bar
-$('a[href$="rechercher"]').on('click',function(e){
+$('a[href$="rechercher"]').on('click', function (e) {
     e.preventDefault();
     $('#pro-header').toggleClass('pro-wrapper-search-open');
-    $('body').css('overflow','hidden');
+    $('body').css('overflow', 'hidden');
     $('#pro-search').focus();
     $('#pro-shadow-bg').addClass('pro-display-block');
 });
 
 
-
 function bs_input_file() {
     $(".input-file").before(
-        function() {
-            if ( ! $(this).prev().hasClass('input-ghost') ) {
+        function () {
+            if (!$(this).prev().hasClass('input-ghost')) {
                 var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
-                element.attr("name",$(this).attr("name"));
-                element.change(function(){
+                element.attr("name", $(this).attr("name"));
+                element.change(function () {
                     element.next(element).find('input').val((element.val()).split('\\').pop());
                 });
-                $(this).find("button.btn-choose").click(function(){
+                $(this).find("button.btn-choose").click(function () {
                     element.click();
                 });
-                $(this).find("button.btn-reset").click(function(){
+                $(this).find("button.btn-reset").click(function () {
                     element.val(null);
                     $(this).parents(".input-file").find('input').val('');
                 });
-                $(this).find('input').css("cursor","pointer");
-                $(this).find('input').mousedown(function() {
+                $(this).find('input').css("cursor", "pointer");
+                $(this).find('input').mousedown(function () {
                     $(this).parents('.input-file').prev().click();
                     return false;
                 });
@@ -11281,9 +20576,18 @@ function bs_input_file() {
         }
     );
 }
-$(function() {
+$(function () {
     bs_input_file();
 });
+
+
+
+if($('.form-squire-target').length > 0) {
+    // SQUIRE.JS
+    var SUI = new SquireUI({
+        replace: '.form-squire-target'
+    });
+}
 // défini la hauteur a la hauteur de la fenêtre - la hauteur du header - 20px de marge
 $('.bloc-iframe iframe').height(
     document.body.clientHeight - $('header#pro-header').height() - 20
@@ -11410,18 +20714,7 @@ $('.pro-bloc-video').each(function() {
 	}
 
 });
-/*$("[href$='like-pro']").on('click',function(e){
-    e.preventDefault();
-    // $(this).text(+parseInt($(this).text()) + 1);
-    $(this).toggleClass('active');
-});
 
-
-$("[href$='-approuv']").on('click',function(e){
-    e.preventDefault();
-    // $(this).find('strong').text(+parseInt($(this).text()) + 1);
-    $(this).toggleClass('active');
-});*/
 (function (factory) {
     factory(window.L);
 }(function (L) {
@@ -14575,42 +23868,42 @@ function getMarkerIcon(entityType) {
     switch (entityType) {
         case 'project':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-projet.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-projet.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'participation':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-participation.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-participation.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'event':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-event.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-event.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'petition':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-petition.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-petition.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'initiative':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-initiative.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-initiative.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
             });
         case 'budget-participatif':
             return new L.Icon({
-                iconUrl: '/o/plateforme-citoyenne-theme/images/logos/ico-marker-budget.png',
+                iconUrl: '/o/plateforme-citoyenne-theme/images/ico/ico-marker-budgetparticipatif.png',
                 iconSize: [75, 95],
                 iconAnchor: [37, 78],
                 popupAnchor: [1, -78]
@@ -15368,6 +24661,13 @@ function createBudgetParticipatif(budgetParticipatif){
 
     var vignette =
         '<div class="item pro-bloc-card-budget vignette ' + cssClassBPStatus + '" data-linkall="a">' +
+                (budgetParticipatif.imageURL != "" ? 
+                '<figure role="group" class="fit-cover">' +
+                    '<img src="' + budgetParticipatif.imageURL + '" width="155" height="200" alt="Image projet citoyen"/>' +
+                '</figure>'
+                :
+                ''
+            ) +
             '<div class="pro-header-budget">' +
                 '<figure role="group">' +
                     '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
@@ -15384,7 +24684,8 @@ function createBudgetParticipatif(budgetParticipatif){
             '</div>' +
             '<div class="pro-content-budget">' +
                 '<a href="' + homeURL + 'detail-budget-participatif/-/entity/id/' + budgetParticipatif.id + '" title="lien détail du projet citoyen"><h3>' + budgetParticipatif.title + '</h3></a>' +
-                '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
+                '<span class="pro-time">Publiée le ' + budgetParticipatif.publicationDate + '</time></span>' +
+                '<p class="pro-summary">' + budgetParticipatif.summary + '</p>' +
             '</div>' +
             '<div class="pro-footer-budget">' + footer +
             '</div>' +
@@ -15593,7 +24894,6 @@ if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length 
     var barreFixed = $('.pro-bloc-prefooter');
 
     $(window).on('scroll',function(){
-        console.log(footer);
         if (window.pageYOffset-90 <= footer-windowH) {
             barreFixed.addClass('pro-sticky-bar');
         } else {
@@ -15929,7 +25229,7 @@ function callbackCarteInteractive(macarte) {
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
-        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' + 
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
         '</div></div>' +
         '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
         '</div></a></div>', markerInitiative, 247);
@@ -15988,7 +25288,7 @@ th_maps.onLoad(function () {
     });
 
     th_maps.addMarkerIcon('budget', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-budgetparticipatif.png',
         scaledSize: new google.maps.Size(75, 95)
     });
 
@@ -16096,12 +25396,22 @@ $('.currentLang > a').on('focus',function(){
 if ($(window).width() < 992) {
 	$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
 	$('.pro-wrapper-nav').append($('.pro-top-header'));
+
+	$('.pro-affiner').on('click',function(){
+		$(this).next().toggleClass('is-display');
+		$(this).toggleClass('menu-is-display');
+	});
 }
 
 var menuEmplacement = 0;
 var timeoutResizeMenuEmplacement = null;
 
 $(window).resize(function() {
+	clearTimeout(timeoutResizeMenuEmplacement);
+	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
+});
+
+document.addEventListener('orientationchange', function () {
 	clearTimeout(timeoutResizeMenuEmplacement);
 	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
 });
@@ -16115,10 +25425,11 @@ function moveMenuOnResize(){
 	}
 	if (wW >= 992 && menuEmplacement == 1) {
 		menuEmplacement = 0;
-		$('.pro-wrapper-aside').append($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-aside').prepend($('.pro-bloc-facette-participation'));
 		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
 	}
 }
+
 /**
  * Profile picture
  * @author Daniel Salvagni <danielsalvagni@gmail.com>
@@ -16851,12 +26162,6 @@ if($('.pro-bloc-dashboard').length > 0) {
     });
 
 }
-// Si User et sur IE / EDGE alors on ajoute la classe IE au body
-if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
-    $('#th-global').addClass('ie');
-}
-
-
 // Lancement du script de ObjectFit
 objectFitImages('.fit-cover img');
 
@@ -16891,24 +26196,6 @@ document.addEventListener('scroll', function () {
     lastscrolltop = st;
 });
 
-
-/*$('.pro-bloc-card-event').on('click',function(e){
-    e.preventDefault();
-   $(this).find('pro-btn-action').toggleClass('active');
-});
-
-$('.pro-btn-signer').on('click',function(e){
-    e.preventDefault();
-   $(this).toggleClass('active');
-});
-
-
-// Call To Action -- Ajout de la Classe Active
-$('.pro-btn-action').on('click',function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).toggleClass('active');
-});*/
 
 // Disabled CTA
 $('.pro-btn-disabled').on('click', function (e) {
@@ -16978,6 +26265,11 @@ $("[href='#pro-onglet-activite']").on('click', function (e) {
 $('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function () {
     var widthTitle = $(this).width() + 60;
     $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
+});
+
+
+$('.modal-dialog').each(function(){
+    new SimpleBar($(this)[0]);
 });
 $('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
     if(!$(this).hasClass('pro-btn-disabled')){
@@ -17192,20 +26484,28 @@ $('.owl-timeline').each(function () {
 
 
 });
+function isIE(){
+    if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
+        return true;
+    }
+    return false;
+}
+
 function isTouchDevice() {
     return 'ontouchstart' in document.documentElement;
 }
 
-var Ww = $(window).width();
-
-if (isTouchDevice() && Ww < 1280) {
-   	$('body').addClass('no-hover');
+function isNoHover(){
+    if(isTouchDevice() && document.body.clientWidth <= 1280){
+        return true;
+    }
+    return false;
 }
 
 if (isTouchDevice()) {
     $('.lang > .sub-menu').addClass('sub-lang-mobile');
     $('#lang-mobile').addClass('is-display');
-};
+}
 
 
 var isiPad = navigator.userAgent.match(/iPad/i) != null;
@@ -17213,4 +26513,13 @@ var isiPad = navigator.userAgent.match(/iPad/i) != null;
 
 if (isiPad) {
     $('body').addClass('on-ipad');
+}
+
+
+if (isIE()) {
+    document.getElementsByTagName('body')[0].className += ' ie';
+}
+
+if (isNoHover()) {
+    document.getElementsByTagName('body')[0].className += ' no-hover';
 }

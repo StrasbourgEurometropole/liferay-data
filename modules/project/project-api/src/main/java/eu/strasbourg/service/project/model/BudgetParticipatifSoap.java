@@ -48,9 +48,11 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setSummary(model.getSummary());
 		soapModel.setBudget(model.getBudget());
 		soapModel.setMotif(model.getMotif());
 		soapModel.setPlaceTextArea(model.getPlaceTextArea());
+		soapModel.setInTheNameOf(model.getInTheNameOf());
 		soapModel.setCitoyenLastname(model.getCitoyenLastname());
 		soapModel.setCitoyenFirstname(model.getCitoyenFirstname());
 		soapModel.setCitoyenAdresse(model.getCitoyenAdresse());
@@ -68,6 +70,7 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
 		soapModel.setBudgetPhaseId(model.getBudgetPhaseId());
+		soapModel.setParentId(model.getParentId());
 
 		return soapModel;
 	}
@@ -235,6 +238,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_description = description;
 	}
 
+	public String getSummary() {
+		return _summary;
+	}
+
+	public void setSummary(String summary) {
+		_summary = summary;
+	}
+
 	public String getBudget() {
 		return _budget;
 	}
@@ -257,6 +268,14 @@ public class BudgetParticipatifSoap implements Serializable {
 
 	public void setPlaceTextArea(String placeTextArea) {
 		_placeTextArea = placeTextArea;
+	}
+
+	public String getInTheNameOf() {
+		return _inTheNameOf;
+	}
+
+	public void setInTheNameOf(String inTheNameOf) {
+		_inTheNameOf = inTheNameOf;
 	}
 
 	public String getCitoyenLastname() {
@@ -403,6 +422,14 @@ public class BudgetParticipatifSoap implements Serializable {
 		_budgetPhaseId = budgetPhaseId;
 	}
 
+	public long getParentId() {
+		return _parentId;
+	}
+
+	public void setParentId(long parentId) {
+		_parentId = parentId;
+	}
+
 	private String _uuid;
 	private long _budgetParticipatifId;
 	private long _groupId;
@@ -417,9 +444,11 @@ public class BudgetParticipatifSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private String _summary;
 	private String _budget;
 	private String _motif;
 	private String _placeTextArea;
+	private String _inTheNameOf;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;
 	private String _citoyenAdresse;
@@ -437,4 +466,5 @@ public class BudgetParticipatifSoap implements Serializable {
 	private long _imageId;
 	private String _filesIds;
 	private long _budgetPhaseId;
+	private long _parentId;
 }
