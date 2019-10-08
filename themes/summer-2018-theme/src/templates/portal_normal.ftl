@@ -36,7 +36,7 @@
       <#assign imageOG = '${themeDisplay.getPortalURL()}${imageOG}' />
     </#if> 
     
-    <#assign openGraphDefault = {
+    <#assign openGraph = {
       "twitter:card":"summary",
       "og:type":"website",
       "og:locale":"${locale}",
