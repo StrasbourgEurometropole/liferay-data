@@ -28,10 +28,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.util.*;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
@@ -1640,5 +1640,171 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("codePostal", this.getAddressZipCode());
 
         return jsonPlace;
+    }
+
+    /**
+     * Renvoie le JSON de l'entite au format GeoJSON pour la map
+     */
+    @Override
+    public JSONObject getGeoJSON(long groupId, Locale locale) {
+
+        JSONObject feature = JSONFactoryUtil.createJSONObject();
+        feature.put("type", "Feature");
+
+        JSONObject properties = JSONFactoryUtil.createJSONObject();
+        properties.put("name", this.getAlias(locale));
+        properties.put("address", this.getAddressStreet() + " " + this.getAddressComplement() + "<br>"
+                + this.getAddressZipCode() + " " + this.getCity(locale));
+        properties.put("visual", this.getImageURL());
+        // récupère l'url de détail du poi
+        Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+        if (group == null) {
+            group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
+        }
+        if (group != null) {
+            String url = "";
+            String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+            if (virtualHostName.isEmpty()) {
+                url = "/web" + group.getFriendlyURL() + "/";
+            } else {
+                url = "https://" + virtualHostName + "/";
+            }
+            url += "lieu/-/entity/sig/" + this.getSIGid();
+            properties.put("url", url);
+        }
+
+        // gestion des doublons
+        properties.put("sigId", this.getSIGid());
+        String types = "";
+        for (AssetCategory type : this.getTypes()) {
+            if (types.length() > 0) {
+                types += ", ";
+            }
+            types += type.getTitle(locale);
+        }
+        properties.put("listeTypes", types);
+
+        // bouton favoris
+        properties.put("type", "1");
+        properties.put("id", this.getPlaceId());
+
+        // Horaires et temps réel, ou contenu du tooltip carto
+        if(!this.getContenuTooltipCarto(locale).isEmpty()){
+            properties.put("contenu", this.getContenuTooltipCarto(locale));
+        }else {
+            // récupère les horaires en cours
+            GregorianCalendar now = new GregorianCalendar();
+            List<PlaceSchedule> currentSchedules = this.getPlaceSchedule(now, locale);
+            if (currentSchedules.size() > 0) {
+                PlaceSchedule currentSchedule = currentSchedules.get(0);
+                String schedule = "";
+                String opened = "";
+                if (currentSchedule.isAlwaysOpen()) {
+                    schedule = LanguageUtil.get(locale, "open-all-time");
+                    opened =  LanguageUtil.get(locale, "open-period");
+                } else if (this.isOpenNow()) {
+                    opened = LanguageUtil.get(locale, "open-period");
+                    for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
+                        if (schedule.length() > 0) {
+                            schedule += "<br>";
+                        }
+                        String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                        String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                        schedule += startString + " - " + endString;
+                    }
+                } else {
+                    opened = LanguageUtil.get(locale, "closed-period");
+                    // on récupère le prochain horaire d'ouverture
+                    PlaceSchedule nextOpening = this.getNextScheduleOpening(now, 2, locale);
+                    if (nextOpening == null) {
+                        opened = LanguageUtil.get(locale, "closed-now");
+                        schedule += "";
+                    } else {
+                        Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
+                        String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                        String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                        schedule += LanguageUtil.get(locale, "reopening") + " ";
+                        int diff = nextOpening.getStartDate().compareTo(now.getTime());
+                        if (diff > 0) {
+                            now.add(GregorianCalendar.DAY_OF_YEAR, 1);
+                            if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
+                                schedule += LanguageUtil.get(locale, "tomorrow") + " ";
+                            } else {
+                                schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
+                            }
+                        }
+                        schedule += LanguageUtil.get(locale, "at") + " " + startString;
+                        if (diff == 0) {
+                            schedule += " " + LanguageUtil.get(locale, "up-to") +" " + endString;
+                        }
+                    }
+                }
+                properties.put("opened", opened);
+                properties.put("schedules", schedule);
+            }
+        }
+
+        // Icône (on prend le premier icon que l'on trouve dans une des catégories de
+        // type de lieu)
+        String icon = "";
+        List<AssetCategory> categories = this.getTypes();
+        String[] icons = null;
+        for (AssetCategory category : categories) {
+            if (!category.getDescription(locale).isEmpty()) {
+                icons = category.getDescription(locale).split(";");
+                // vérifi si le lieu dispose d'un horaire et s'il est fermé
+                if (icons.length > 1 && this.hasScheduleTable() && !this.isOpenNow()) {
+                    icon = icons[1];
+                } else {
+                    if (icons.length > 0) {
+                        icon = icons[0];
+
+                    }
+                }
+                break;
+            }
+        }
+
+        properties.put("icon", icon);
+
+        // Temps réel
+        if (this.getRTEnabled()) {
+            OccupationState occupation = this.getRealTime();
+            String title = "";
+            String frequentation = "";
+            String label = "";
+            String color = occupation.getCssClass();
+            if (this.isSwimmingPool()) {
+                title = "frequentation-real";
+                frequentation = occupation.getOccupationLabel();
+                label = occupation.getLabel();
+            } else if (this.isMairie()) {
+                title = "time-real";
+                frequentation = occupation.getOccupationLabel();
+                label = occupation.getLabel();
+            } else {
+                title = "occupation-real";
+                frequentation = occupation.getAvailable();
+                label = "available-spots";
+            }
+            JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
+            amountProperty.put("title", title);
+            amountProperty.put("frequentation", frequentation);
+            amountProperty.put("label", label);
+            amountProperty.put("color", color);
+            properties.put("amount", amountProperty);
+        }
+
+        feature.put("properties", properties);
+
+        JSONObject geometry = JSONFactoryUtil.createJSONObject();
+        geometry.put("type", "Point");
+        JSONArray coordinates = JSONFactoryUtil.createJSONArray();
+        coordinates.put(Float.valueOf(this.getMercatorX()));
+        coordinates.put(Float.valueOf(this.getMercatorY()));
+        geometry.put("coordinates", coordinates);
+        feature.put("geometry", geometry);
+
+        return feature;
     }
 }

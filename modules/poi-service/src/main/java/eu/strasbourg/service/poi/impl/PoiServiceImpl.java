@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -339,15 +341,15 @@ public class PoiServiceImpl implements PoiService {
 	}
 	
 	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String localeId) {
-		JSONObject geoJson = null;
+		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
+		geoJSON.put("type", "FeatureCollection");
 		
 		Locale locale = LocaleUtil.fromLanguageId(localeId);
 
 		// récupère les favoris de l'uilisateur
 		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
-		List<Place> places = new ArrayList<Place>();
-		List<Event> events = new ArrayList<Event>();
 		if (favorites != null) {
+			JSONArray features = JSONFactoryUtil.createJSONArray();
 			if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
 				Stream<Favorite> placeFavorites = favorites.stream()
 						.filter(f -> f.getTypeId() == FavoriteType.PLACE.getId());
@@ -355,7 +357,19 @@ public class PoiServiceImpl implements PoiService {
 					for (Favorite favorite : placeFavorites.collect(Collectors.toList())) {
 						Place place = PlaceLocalServiceUtil.fetchPlace(favorite.getEntityId());
 						if (place != null) {
-							places.add(place);
+							features.put(place.getGeoJSON(groupId,locale));
+						}
+					}
+				}
+			}
+			if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
+				Stream<Favorite> arretFavorites = favorites.stream()
+						.filter(f -> f.getTypeId() == FavoriteType.ARRET.getId());
+				if (arretFavorites != null) {
+					for (Favorite favorite : arretFavorites.collect(Collectors.toList())) {
+						Arret arret = ArretLocalServiceUtil.fetchArret(favorite.getEntityId());
+						if (arret != null) {
+							features.put(arret.getGeoJSON(groupId,locale));
 						}
 					}
 				}
@@ -368,20 +382,14 @@ public class PoiServiceImpl implements PoiService {
 						Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
 						if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
 							// on ne garde que les évènements du jour
-							events.add(event);
+							features.put(event.getGeoJSON(groupId,locale));
 						}
 					}
 				}
 			}
+			geoJSON.put("features", features);
 		}
-
-		// récupère le fichier geoJson
-		try {
-			geoJson = getGeoJSON(places, events, groupId, locale);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return geoJson;
+		return geoJSON;
 	}
 
 	public int getFavoritesPoisCount(String userId, long groupId, String classNames) {
@@ -390,7 +398,7 @@ public class PoiServiceImpl implements PoiService {
 		// récupère les favoris de l'uilisateur
 		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
 		if (classNames.equals("all")) {
-			count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
+			count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId() || f.getTypeId() == FavoriteType.ARRET.getId())
 					.collect(Collectors.toList()).size();
 			List<Favorite> eventsfavorites = favorites.stream().filter(f -> f.getTypeId() == FavoriteType.EVENT.getId())
 					.collect(Collectors.toList());
@@ -404,6 +412,9 @@ public class PoiServiceImpl implements PoiService {
 		} else {
 			if (classNames.contains(Place.class.getName()))
 				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.PLACE.getId())
+						.collect(Collectors.toList()).size();
+			if (classNames.contains(Arret.class.getName()))
+				count += favorites.stream().filter(f -> f.getTypeId() == FavoriteType.ARRET.getId())
 						.collect(Collectors.toList()).size();
 			if (classNames.contains(Event.class.getName())) {
 				List<Favorite> eventsfavorites = favorites.stream()
@@ -426,313 +437,15 @@ public class PoiServiceImpl implements PoiService {
 		
 		JSONArray features = JSONFactoryUtil.createJSONArray();
 		for (Place place : places) {
-			
-			JSONObject feature = JSONFactoryUtil.createJSONObject();
-			feature.put("type", "Feature");
-
-			JSONObject properties = JSONFactoryUtil.createJSONObject();
-			properties.put("name", place.getAlias(locale));
-			properties.put("address", place.getAddressStreet() + " " + place.getAddressComplement() + "<br>"
-					+ place.getAddressZipCode() + " " + place.getCity(locale));
-			properties.put("visual", place.getImageURL());
-			// récupère l'url de détail du poi
-			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
-			if (group == null) {
-				group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
-			}
-			if (group != null) {
-				String url = "";
-				String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
-				if (virtualHostName.isEmpty()) {
-					url = "/web" + group.getFriendlyURL() + "/";
-				} else {
-					url = "https://" + virtualHostName + "/";
-				}
-				url += "lieu/-/entity/sig/" + place.getSIGid();
-				properties.put("url", url);
-			}
-
-			// gestion des doublons
-			properties.put("sigId", place.getSIGid());
-			String types = "";
-			for (AssetCategory type : place.getTypes()) {
-				if (types.length() > 0) {
-					types += ", ";
-				}
-				types += type.getTitle(locale);
-			}
-			properties.put("listeTypes", types);
-
-			// bouton favoris
-			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(place.getModelClassName()));
-			properties.put("id", place.getPlaceId());
-
-			// Horaires et temps réel, ou contenu du tooltip carto
-			if(!place.getContenuTooltipCarto(locale).isEmpty()){
-				properties.put("contenu", place.getContenuTooltipCarto(locale));
-			}else {
-				// récupère les horaires en cours
-				GregorianCalendar now = new GregorianCalendar();
-				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, locale);
-				if (currentSchedules.size() > 0) {
-					PlaceSchedule currentSchedule = currentSchedules.get(0);
-					String schedule = "";
-					String opened = "";
-					if (currentSchedule.isAlwaysOpen()) {
-						schedule = LanguageUtil.get(locale, "open-all-time");
-						opened =  LanguageUtil.get(locale, "open-period");
-					} else if (place.isOpenNow()) {
-						opened = LanguageUtil.get(locale, "open-period");
-						for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
-							if (schedule.length() > 0) {
-								schedule += "<br>";
-							}
-							String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							schedule += startString + " - " + endString;
-						}
-					} else {
-						opened = LanguageUtil.get(locale, "closed-period");
-						// on récupère le prochain horaire d'ouverture
-						PlaceSchedule nextOpening = place.getNextScheduleOpening(now, 2, locale);
-						if (nextOpening == null) {
-							opened = LanguageUtil.get(locale, "closed-now");
-							schedule += "";
-						} else {
-							Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
-							String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-							schedule += LanguageUtil.get(locale, "reopening") + " ";
-							int diff = nextOpening.getStartDate().compareTo(now.getTime());
-							if (diff > 0) {
-								now.add(GregorianCalendar.DAY_OF_YEAR, 1);
-								if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
-									schedule += LanguageUtil.get(locale, "tomorrow") + " ";
-								} else {
-									schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
-								}
-							}
-							schedule += LanguageUtil.get(locale, "at") + " " + startString;
-							if (diff == 0) {
-								schedule += " " + LanguageUtil.get(locale, "up-to") +" " + endString;
-							}
-						}
-					}
-					properties.put("opened", opened);
-					properties.put("schedules", schedule);
-				}
-			}
-
-			// Icône (on prend le premier icon que l'on trouve dans une des catégories de
-			// type de lieu)
-			String icon = "";
-			List<AssetCategory> categories = place.getTypes();
-			String[] icons = null;
-			for (AssetCategory category : categories) {
-				if (!category.getDescription(locale).isEmpty()) {
-					icons = category.getDescription(locale).split(";");
-					// vérifi si le lieu dispose d'un horaire et s'il est fermé
-					if (icons.length > 1 && place.hasScheduleTable() && !place.isOpenNow()) {
-						icon = icons[1];
-					} else {
-						if (icons.length > 0) {
-							icon = icons[0];
-
-						}
-					}
-					break;
-				}
-			}
-
-			properties.put("icon", icon);
-
-			// Temps réel
-			if (place.getRTEnabled()) {
-				OccupationState occupation = place.getRealTime();
-				String title = "";
-				String frequentation = "";
-				String label = "";
-				String color = occupation.getCssClass();
-				if (place.isSwimmingPool()) {
-					title = "frequentation-real";
-					frequentation = occupation.getOccupationLabel();
-					label = occupation.getLabel();
-				} else if (place.isMairie()) {
-					title = "time-real";
-					frequentation = occupation.getOccupationLabel();
-					label = occupation.getLabel();
-				} else {
-					title = "occupation-real";
-					frequentation = occupation.getAvailable();
-					label = "available-spots";
-				}
-				JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
-				amountProperty.put("title", title);
-				amountProperty.put("frequentation", frequentation);
-				amountProperty.put("label", label);
-				amountProperty.put("color", color);
-				properties.put("amount", amountProperty);
-			}
-
-			feature.put("properties", properties);
-
-			JSONObject geometry = JSONFactoryUtil.createJSONObject();
-			geometry.put("type", "Point");
-			JSONArray coordinates = JSONFactoryUtil.createJSONArray();
-			coordinates.put(Float.valueOf(place.getMercatorX()));
-			coordinates.put(Float.valueOf(place.getMercatorY()));
-			geometry.put("coordinates", coordinates);
-			feature.put("geometry", geometry);
-
-			features.put(feature);
+			features.put(place.getGeoJSON(groupId,locale));
 		}
 
 		for (Event event : events) {
-
-			JSONObject feature = JSONFactoryUtil.createJSONObject();
-			feature.put("type", "Feature");
-
-			JSONObject properties = JSONFactoryUtil.createJSONObject();
-			properties.put("name", event.getTitle(locale));
-			properties.put("address", event.getPlaceAlias(locale) + " " + event.getPlaceAddress(locale)
-					+ "<br>" + event.getPlaceZipCode() + " " + event.getPlaceCity(locale));
-			properties.put("visual", event.getImageURL());
-			// récupère l'url de détail du poi
-			Group group = GroupLocalServiceUtil.fetchGroup(groupId);
-			if (group == null) {
-				group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
-			}
-			if (group != null) {
-				String url = "";
-				String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
-				if (virtualHostName.isEmpty()) {
-					url = "/web" + group.getFriendlyURL() + "/";
-				} else {
-					url = "https://" + virtualHostName + "/";
-				}
-				url += "evenement/-/entity/id/" + event.getEventId();
-				properties.put("url", url);
-			}
-			properties.put("sigId", event.getPlaceSIGId() + "_" + event.getEventId());
-			String types = "";
-			for (AssetCategory type : event.getTypes()) {
-				if (types.length() > 0) {
-					types += ", ";
-				}
-				types += type.getTitle(locale);
-			}
-			properties.put("listeTypes", types);
-
-			// pour les favoris
-			properties.put("type", FavoriteLocalServiceUtil.getFavoriteTypeByClass(event.getModelClassName()));
-			properties.put("id", event.getEventId());
-
-			// Prochaine date
-			if (!event.getCurrentAndFuturePeriods().isEmpty()) {
-				String opened = LanguageUtil.get(locale, "eu.next-dates");
-				String schedule = "";
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				List<EventPeriod> currentAndFuturePeriods = event.getCurrentAndFuturePeriods();
-				if (!currentAndFuturePeriods.isEmpty()) {
-					EventPeriod period = currentAndFuturePeriods.get(0);
-					// Si ça n'est pas ue période mais un jour, afficher la période suivante
-					// if (period.getStartDate().equals(period.getEndDate())
-					// && period.getStartDate().compareTo(new Date()) == 0 &&
-					// currentAndFuturePeriods.size() > 1) {
-					// period = currentAndFuturePeriods.get(1);
-					// }
-					if (period.getStartDate().equals(period.getEndDate())) {
-						schedule = LanguageUtil.get(locale, "eu.event.the") +" " + sdf.format(period.getStartDate());
-					} else {
-						// if (period.getStartDate().compareTo(new Date()) <= 0) {
-						// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
-						// sdf.format(period.getEndDate());
-						// } else {
-						schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getEndDate());
-						// }
-					}
-				}
-				properties.put("opened", opened);
-				properties.put("schedules", schedule);
-			}
-
-			Place place = PlaceLocalServiceUtil.fetchPlace(event.getPlaceId());
-
-			// Icône (on le prend dans la catégorie type agenda)
-			AssetCategory category = null;
-			List<AssetCategory> categories = event.getTypes();
-			if (!categories.isEmpty()) {
-				category = categories.get(0);
-			} else {
-				categories = place.getTypes();
-				if (!categories.isEmpty()) {
-					category = categories.get(0);
-				}
-			}
-			String[] icons = null;
-			if (category != null) {
-				icons = category.getDescription(locale).split(";");
-			}
-			String icon = "";
-			// vérifi si le lieu dispose d'un horaire et s'il est fermé
-			if (place != null) {
-				if (place.hasScheduleTable() && !place.isOpenNow() && icons.length > 1) {
-					icon = icons[1];
-				} else {
-					if (icons.length > 0) {
-						icon = icons[0];
-
-					}
-				}
-			}
-			properties.put("icon", icon);
-
-			feature.put("properties", properties);
-
-			JSONObject geometry = JSONFactoryUtil.createJSONObject();
-			geometry.put("type", "Point");
-			JSONArray coordinates = JSONFactoryUtil.createJSONArray();
-			// récupère le marker du lieu ou se déroule l'évènement
-			if (place != null) {
-				coordinates.put(Float.valueOf(place.getMercatorX()));
-				coordinates.put(Float.valueOf(place.getMercatorY()));
-			} else {
-				// Si c'est un lieu manuel on récupère ses coordonnées
-				String address = event.getPlaceAddress(locale) + " " + event.getPlaceZipCode() + " "
-						+ event.getPlaceCity(locale);
-				coordinates = getCoordinateForAddress(address);
-			}
-			if (coordinates != null) {
-				geometry.put("coordinates", coordinates);
-				feature.put("geometry", geometry);
-			}
-
-			features.put(feature);
+			features.put(event.getGeoJSON(groupId, locale));
 		}
 		geoJSON.put("features", features);
 
 		return geoJSON;
-	}
-
-	/**
-	 * Retourne les coordonnées d'une adresse en JSon
-	 */
-	private static JSONArray getCoordinateForAddress(String address) {
-		JSONArray coordinates = null;
-		try {
-			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
-			String url = urlSearch + HtmlUtil.escapeURL(address);
-			JSONObject addresses = JSONHelper.readJsonFromURL(url);
-			JSONArray features = addresses.getJSONArray("features");
-			if (features.length() > 0) {
-				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
-				coordinates = geometry.getJSONArray("coordinates");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return coordinates;
 	}
 
 }
