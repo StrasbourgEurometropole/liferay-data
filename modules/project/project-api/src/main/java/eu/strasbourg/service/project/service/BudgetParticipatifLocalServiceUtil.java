@@ -299,6 +299,14 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les budgets participatifs publies d'un groupe
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findActiveBPByGroupId(
+		long groupId) {
+		return getService().findActiveBPByGroupId(groupId);
+	}
+
+	/**
 	* Recherche par mot clés
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> findByKeyword(
@@ -376,6 +384,14 @@ public class BudgetParticipatifLocalServiceUtil {
 		return getService().getByBudgetPhase(budgetPhaseId);
 	}
 
+	/**
+	* Retourne tous les budgets participatifs d'un parent
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByParentId(
+		long budgetPhaseId) {
+		return getService().getByParentId(budgetPhaseId);
+	}
+
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getByPublikUserID(
 		java.lang.String publikId) {
 		return getService().getByPublikUserID(publikId);
@@ -389,8 +405,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	* @return Liste des budgets participatifs les plus commentes triee.
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostCommented(
-		long groupId, int delta) {
-		return getService().getMostCommented(groupId, delta);
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
+		return getService().getMostCommented(groupId, delta, phase);
 	}
 
 	/**
@@ -401,8 +418,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	* @return Liste des budgets participatifs les plus soutenus triee.
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getMostSupported(
-		long groupId, int delta) {
-		return getService().getMostSupported(groupId, delta);
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
+		return getService().getMostSupported(groupId, delta, phase);
 	}
 
 	/**
@@ -435,8 +453,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	* @return Liste des budgets participatifs coup de coeurs recent
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getRecentIsCrushed(
-		long groupId, int delta) {
-		return getService().getRecentIsCrushed(groupId, delta);
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
+		return getService().getRecentIsCrushed(groupId, delta, phase);
 	}
 
 	/**
@@ -446,8 +465,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	* @return Liste des budgets participatifs triee par nombre de commentaires
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbComments(
-		long groupId) {
-		return getService().getSortedByNbComments(groupId);
+		long groupId, com.liferay.asset.kernel.model.AssetCategory phase) {
+		return getService().getSortedByNbComments(groupId, phase);
 	}
 
 	/**
@@ -457,8 +476,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	* @return Liste des budgets participatifs triee par nombre de soutiens
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getSortedByNbSupports(
-		long groupId) {
-		return getService().getSortedByNbSupports(groupId);
+		long groupId, com.liferay.asset.kernel.model.AssetCategory phase) {
+		return getService().getSortedByNbSupports(groupId, phase);
 	}
 
 	/**

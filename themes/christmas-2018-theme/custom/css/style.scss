@@ -28,7 +28,7 @@
 @import "libs/_selectric";
 @import "libs/_t_object-fit";
 @import "libs/_customSelect";
-@import "libs/_atom-form-customSelect";
+@import "libs/_atom-form-customSelect"; 
 
 
 
@@ -76,5 +76,11 @@
 @import "blocs/_t_bloc-slider-instagram";
 @import "blocs/_t_bloc_cookie-consent";
 @import "blocs/_t_bloc_cookie-consent-custom";
+
+// Style du magnific popup
+// ==========================================================================
+@import "magnificPopup/glossaire";
+@import "magnificPopup/lightbox-custom";
+@import "magnificPopup/lightbox";
 
 @import "_liferay-hacks";

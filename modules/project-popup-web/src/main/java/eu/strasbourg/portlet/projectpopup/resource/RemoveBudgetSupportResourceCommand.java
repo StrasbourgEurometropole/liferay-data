@@ -89,6 +89,7 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         updatedSupportsInfo.put("nbUserSupports", this.nbUserSupports);
         updatedSupportsInfo.put("nbUserEntrySupports", this.nbUserEntrySupports);
         updatedSupportsInfo.put("nbEntrySupports", this.nbEntrySupports);
+        updatedSupportsInfo.put("nbSupportForActivePhase", this.budgetParticipatif.getPhase().getNumberOfVote());
         
         jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
 

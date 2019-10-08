@@ -42,6 +42,7 @@
         this.showWeekNumbers = false;
         this.showISOWeekNumbers = false;
         this.showCustomRangeLabel = true;
+        this.showDates = false;
         this.timePicker = false;
         this.timePicker24Hour = false;
         this.timePickerIncrement = 1;
@@ -61,13 +62,15 @@
 
         this.buttonClasses = 'btn btn-sm';
         this.applyClass = 'btn-success';
+        this.applyAndNewClass = 'btn-success';
         this.cancelClass = 'btn-default';
 
         this.locale = {
             direction: 'ltr',
             format: 'MM/DD/YYYY',
             separator: ' - ',
-            applyLabel: 'Apply',
+            applyLabel: 'Validate',
+            applyAndNewLabel: 'Validate and add',
             cancelLabel: 'Cancel',
             weekLabel: 'W',
             customRangeLabel: 'Custom Range',
@@ -119,6 +122,7 @@
                 '<div class="ranges">' +
                     '<div class="range_inputs">' +
                         '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
+                        '<button class="applyAndNewBtn" disabled="disabled" type="button"></button> ' +
                         '<button class="cancelBtn" type="button"></button>' +
                     '</div>' +
                 '</div>' +
@@ -153,6 +157,9 @@
 
             if (typeof options.locale.applyLabel === 'string')
               this.locale.applyLabel = options.locale.applyLabel;
+
+            if (typeof options.locale.applyAndNewLabel === 'string')
+              this.locale.applyAndNewLabel = options.locale.applyAndNewLabel;
 
             if (typeof options.locale.cancelLabel === 'string')
               this.locale.cancelLabel = options.locale.cancelLabel;
@@ -201,6 +208,9 @@
         if (typeof options.applyClass === 'string')
             this.applyClass = options.applyClass;
 
+        if (typeof options.applyAndNewClass === 'string')
+            this.applyAndNewClass = options.applyAndNewClass;
+
         if (typeof options.cancelClass === 'string')
             this.cancelClass = options.cancelClass;
 
@@ -230,6 +240,9 @@
 
         if (typeof options.showCustomRangeLabel === 'boolean')
             this.showCustomRangeLabel = options.showCustomRangeLabel;
+
+        if (typeof options.showDates === 'boolean')
+            this.showDates = options.showDates;
 
         if (typeof options.singleDatePicker === 'boolean') {
             this.singleDatePicker = options.singleDatePicker;
@@ -366,7 +379,7 @@
         if (this.autoApply && typeof options.ranges !== 'object') {
             this.container.find('.ranges').hide();
         } else if (this.autoApply) {
-            this.container.find('.applyBtn, .cancelBtn').addClass('hide');
+            this.container.find('.applyBtn, .applyAndNewBtn, .cancelBtn').addClass('hide');
         }
 
         if (this.singleDatePicker) {
@@ -394,12 +407,15 @@
         }
 
         //apply CSS classes and labels to buttons
-        this.container.find('.applyBtn, .cancelBtn').addClass(this.buttonClasses);
+        this.container.find('.applyBtn, .applyAndNewBtn, .cancelBtn').addClass(this.buttonClasses);
         if (this.applyClass.length)
             this.container.find('.applyBtn').addClass(this.applyClass);
+        if (this.applyAndNewClass.length)
+            this.container.find('.applyAndNewBtn').addClass(this.applyAndNewClass);
         if (this.cancelClass.length)
             this.container.find('.cancelBtn').addClass(this.cancelClass);
         this.container.find('.applyBtn').html(this.locale.applyLabel);
+        this.container.find('.applyAndNewBtn').html(this.locale.applyAndNewLabel);
         this.container.find('.cancelBtn').html(this.locale.cancelLabel);
 
         //
@@ -411,7 +427,7 @@
             .on('click.daterangepicker', '.next', $.proxy(this.clickNext, this))
             .on('mousedown.daterangepicker', 'td.available', $.proxy(this.clickDate, this))
             .on('mouseenter.daterangepicker', 'td.available', $.proxy(this.hoverDate, this))
-            .on('mouseleave.daterangepicker', 'td.available', $.proxy(this.updateFormInputs, this))
+            //.on('mouseleave.daterangepicker', 'td.available', $.proxy(this.updateFormInputs, this))
             .on('change.daterangepicker', 'select.yearselect', $.proxy(this.monthOrYearChanged, this))
             .on('change.daterangepicker', 'select.monthselect', $.proxy(this.monthOrYearChanged, this))
             .on('change.daterangepicker', 'select.hourselect,select.minuteselect,select.secondselect,select.ampmselect', $.proxy(this.timeChanged, this))
@@ -422,6 +438,7 @@
 
         this.container.find('.ranges')
             .on('click.daterangepicker', 'button.applyBtn', $.proxy(this.clickApply, this))
+            .on('click.daterangepicker', 'button.applyAndNewBtn', $.proxy(this.clickApplyAndNew, this))
             .on('click.daterangepicker', 'button.cancelBtn', $.proxy(this.clickCancel, this))
             .on('click.daterangepicker', 'li', $.proxy(this.clickRange, this))
             .on('mouseenter.daterangepicker', 'li', $.proxy(this.hoverRange, this))
@@ -1023,11 +1040,16 @@
             this.container.find('input[name=daterangepicker_start]').val(this.startDate.format(this.locale.format));
             if (this.endDate)
                 this.container.find('input[name=daterangepicker_end]').val(this.endDate.format(this.locale.format));
+           else
+                this.container.find('input[name=daterangepicker_end]').val('');
+
 
             if (this.singleDatePicker || (this.endDate && (this.startDate.isBefore(this.endDate) || this.startDate.isSame(this.endDate)))) {
                 this.container.find('button.applyBtn').removeAttr('disabled');
+                this.container.find('button.applyAndNewBtn').removeAttr('disabled');
             } else {
                 this.container.find('button.applyBtn').attr('disabled', 'disabled');
+                this.container.find('button.applyAndNewBtn').attr('disabled', 'disabled');
             }
 
         },
@@ -1118,6 +1140,11 @@
             this.move();
             this.element.trigger('show.daterangepicker', this);
             this.isShowing = true;
+
+            if(!this.showDates){
+                this.container.find('input[name=daterangepicker_start]').val('');
+                this.container.find('input[name=daterangepicker_end]').val('');
+            }
         },
 
         hide: function(e) {
@@ -1256,11 +1283,11 @@
             var cal = $(e.target).parents('.calendar');
             var date = cal.hasClass('left') ? this.leftCalendar.calendar[row][col] : this.rightCalendar.calendar[row][col];
 
-            if (this.endDate && !this.container.find('input[name=daterangepicker_start]').is(":focus")) {
+            /*if (this.endDate && !this.container.find('input[name=daterangepicker_start]').is(":focus") && this.container.find('input[name=daterangepicker_end]').val() == '') {
                 this.container.find('input[name=daterangepicker_start]').val(date.format(this.locale.format));
             } else if (!this.endDate && !this.container.find('input[name=daterangepicker_end]').is(":focus")) {
                 this.container.find('input[name=daterangepicker_end]').val(date.format(this.locale.format));
-            }
+            }*/
 
             //highlight the dates between the start date and the date being hovered as a potential end date
             var leftCalendar = this.leftCalendar;
@@ -1391,13 +1418,28 @@
         clickApply: function(e) {
             this.hide();
             this.element.trigger('apply.daterangepicker', this);
+            if(!this.showDates){
+                this.startDate = moment().startOf('day');
+                this.endDate = moment().startOf('day');
+            }
+        },
+
+        clickApplyAndNew: function(e) {
+            this.hide();
+            this.element.trigger('applyAndNew.daterangepicker', this);
+            if(!this.showDates){
+                this.startDate = moment().startOf('day');
+                this.endDate = moment().startOf('day');
+            }
         },
 
         clickCancel: function(e) {
-            this.startDate = this.oldStartDate;
-            this.endDate = this.oldEndDate;
             this.hide();
             this.element.trigger('cancel.daterangepicker', this);
+            if(!this.showDates){
+                this.startDate = moment().startOf('day');
+                this.endDate = moment().startOf('day');
+            }
         },
 
         monthOrYearChanged: function(e) {

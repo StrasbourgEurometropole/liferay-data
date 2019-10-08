@@ -14,8 +14,8 @@
     </div>
 </div>
 
-<div class="pro-search-listing">
-    <div class="container">
+
+    <section class="container">
         <div class="row pro-listing-container" data-egalize=" > *">
             <div class="col-md-3 pro-bloc-facette">
                 <span class="pro-affiner"><liferay-ui:message key="eu.refine-research" /> <span class="icon-ico-chevron-down"></span></span>
@@ -48,7 +48,7 @@
             </div>
 
         </div>
-    </div>
+    </section>
 
     <!-- Pagination -->
     <div class="pro-pagination">
@@ -64,4 +64,3 @@
             </div>
         </div>
     </div>
-</div>

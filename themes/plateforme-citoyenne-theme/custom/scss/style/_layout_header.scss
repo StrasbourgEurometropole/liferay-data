@@ -6,11 +6,8 @@ main {
 }
 
 .pro-shadow {
+	@extend %center;
 	position: fixed;
-	left: 0;
-	right: 0px;
-	top: 0;
-	bottom: 0;
 	z-index: 150;
 	background: #000;
 	opacity: 0;
@@ -195,37 +192,31 @@ main {
 				}
 			}
 			input {
-				-webkit-appearance: none;
-				@include ft($f_hx, 1.750em, 400, $c_txt, normal);
+				@include ft($f_hx, 1.750em, 400, $c_txt, 36px);
+				@extend %appearance;
 				text-transform: uppercase;
 				width: calc(100% - 70px);
-				height: 70px;
-				border: none;
-				box-shadow: none;
+				height: 100%;
 				background: none;
-				outline: none;
-				padding: 0 40px;
+				padding: 14px 40px;
 				@include mobile {
-					padding: 0 20px;
+					padding: 23px 20px;
 					font-size: 1em;
 				}
 			}
 
 			button {
+				@extend %appearance;
 				position: absolute;
 				width: 70px;
 				height: 70px;
 				line-height: 70px;
 				right: 0;
 				top: 50%;
-				transform: translateY(-50%);
+				margin-top: -35px;
 				padding: 0;
-				-webkit-appearance: none;
-				border: none;
-				box-shadow: none;
 				outline: none;
 				font-size: 1.5em;
-				background: none;
 				background: $c_main;
 				@include addTransition();
 				@include mobile {
@@ -460,6 +451,7 @@ main {
 			line-height: $header-height;
 
 			position: absolute;
+			top: 0;
 			left: 0;
 			right: 0;
 			z-index: 10;
@@ -504,6 +496,7 @@ main {
 					width: 100%;
 					height: 77vh;
 					overflow: auto;
+					-webkit-overflow-scrolling: touch;
 					float: none;
 					margin: 0;
 					padding: 50px 30px 0 30px;
@@ -700,6 +693,7 @@ main {
 
 		.pro-menu-right {
 			position: absolute;
+			top: 0;
 			right: 15px;
 			z-index: 100;
 			height: $header-height;
@@ -809,11 +803,7 @@ main {
 				&.is-display {
 					display: block;
 					opacity: 0;
-					position: absolute;
-					top: 0;
-					left: 0;
-					bottom: 0;
-					right: 0;
+					@extend %center;
 					height: 100%;
 					width: 100%;
 					z-index: 200;

@@ -40,11 +40,11 @@
 			        }
 				</aui:validator>
 			</aui:input>
-			<div class="place-schedule-start-hour" style="display: none">
+			<div class="place-schedule-start-hour1" style="display: none">
 				<liferay-ui:message key="this-field-is-required" />
 			</div>
 			
-			<div class="place-schedule-incorrect-hour" style="display: none">
+			<div class="place-schedule-incorrect-hour1" style="display: none">
 				<liferay-ui:message key="incorrect-hour" />
 			</div>
 		</div>
@@ -58,7 +58,7 @@
 			        }
 				</aui:validator>
 			</aui:input>
-			<div class="place-schedule-end-hour" style="display: none">
+			<div class="place-schedule-end-hour1" style="display: none">
 				<liferay-ui:message key="this-field-is-required" />
 			</div>
 		</div>	
@@ -79,11 +79,11 @@
 			        }
 				</aui:validator>
 			</aui:input>
-			<div class="place-schedule-start-hour" style="display: none">
+			<div class="place-schedule-start-hour2" style="display: none">
 				<liferay-ui:message key="this-field-is-required" />
 			</div>
 			
-			<div class="place-schedule-incorrect-hour" style="display: none">
+			<div class="place-schedule-incorrect-hour2" style="display: none">
 				<liferay-ui:message key="incorrect-hour" />
 			</div>
 		</div>
@@ -97,6 +97,9 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-end-hour2" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
 		</div>
 	</div>
 	<aui:input name="secondComment${param.index}" label="comment-schedule" value="${param.secondComment}" localized="true" type="text"  /> 
@@ -114,6 +117,13 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-start-hour3" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+
+			<div class="place-schedule-incorrect-hour3" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
 		</div>
 		<div class="col-md-6">
 			<aui:input type="time" value="${param.endHour3}" name="endHour3_${param.index}" label="end-hour" placeholder="HH:MM" >
@@ -125,6 +135,9 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-end-hour3" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
 		</div>
 	</div>
 	<aui:input name="thirdComment${param.index}" label="comment-schedule" value="${param.thirdComment}" localized="true" type="text"  /> 
@@ -142,6 +155,13 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-start-hour4" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+
+			<div class="place-schedule-incorrect-hour4" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
 		</div>
 		<div class="col-md-6">
 			<aui:input type="time" value="${param.endHour4}" name="endHour4_${param.index}" label="end-hour" placeholder="HH:MM" >
@@ -153,6 +173,9 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-end-hour4" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
 		</div>
 	</div>
 	<aui:input name="fourthComment${param.index}" label="comment-schedule" value="${param.fourthComment}" localized="true" type="text"  /> 
@@ -170,6 +193,13 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-start-hour5" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
+
+			<div class="place-schedule-incorrect-hour5" style="display: none">
+				<liferay-ui:message key="incorrect-hour" />
+			</div>
 		</div>
 		<div class="col-md-6">
 			<aui:input type="time" value="${param.endHour5}" name="endHour5_${param.index}" label="end-hour" placeholder="HH:MM" >
@@ -181,6 +211,9 @@
 			        }
 				</aui:validator>
 			</aui:input>
+			<div class="place-schedule-end-hour5" style="display: none">
+				<liferay-ui:message key="this-field-is-required" />
+			</div>
 		</div>
 	</div>
 	<aui:input name="fifthComment${param.index}" label="comment-schedule" value="${param.fifthComment}" localized="true" type="text"  /> 

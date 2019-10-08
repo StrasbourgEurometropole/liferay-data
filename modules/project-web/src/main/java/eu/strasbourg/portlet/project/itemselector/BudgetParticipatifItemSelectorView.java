@@ -110,7 +110,7 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 		servletRequest.setAttribute("total", budgetsParticipatifsCount);
 		servletRequest.setAttribute("budgetsParticipatifs", budgetsParticipatifs);
 		servletRequest.setAttribute("portletURL", portletURL);
-		servletRequest.setAttribute("itemSelectedProjectName", itemSelectedBudgetParticipatifName);
+		servletRequest.setAttribute("itemSelectedBudgetParticipatifName", itemSelectedBudgetParticipatifName);
 		servletRequest.setAttribute("multiple", multiple);
 
 		ServletContext servletContext = getServletContext();

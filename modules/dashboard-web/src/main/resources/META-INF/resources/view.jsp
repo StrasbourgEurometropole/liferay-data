@@ -105,15 +105,23 @@
 									<span><liferay-ui:message key="dashboard.front.budget.voted" /></span>
 								</a>
 							</div>
-							<div class="pro-info-vote">
-								<span>
-									<liferay-ui:message key="dashboard.front.budget.reliquat" />
-									<strong>
-										${voteLeft}
-										<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
-									</strong>
-								</span>
-							</div>
+							<c:choose>
+								<c:when test="${voteLeft != ''}">
+									<div class="pro-info-vote">
+										<span>
+											<liferay-ui:message key="dashboard.front.budget.reliquat" />
+											<strong>
+												${voteLeft}
+												<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
+											</strong>
+										</span>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div style="background: #E5E5E5;position: absolute;left: 0;right: 0;bottom: 0;height: 65px;">
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 			</div>
@@ -580,8 +588,12 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget ${classFaisable}"
-								data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+								<c:if test="${budget.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                	</figure>
+                               	</c:if>
 								<div class="pro-header-budget">
 									<figure>
 										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
@@ -646,8 +658,12 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget ${classFaisable}"
-								data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+								<c:if test="${budget.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                	</figure>
+                               	</c:if>
 								<div class="pro-header-budget">
 									<figure>
 										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />

@@ -74,6 +74,12 @@
           <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
         </#list>
     </#if>
+
+  </script>
+
+		<!-- Magnific Popup core JS file -->
+		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+
     
     <#list openGraph?keys as keyOG>
       <#assign valueOG = openGraph[keyOG]> 
@@ -141,7 +147,7 @@
                     </span>    
                   </a>
                 </#if>
-                <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a>
+                <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
@@ -219,13 +225,15 @@
       }
     </script>
 
-    <#if locale == 'fr_FR'>
-        <style>
-        .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
-            display: block !important;
-        }
-        </style>
-    </#if>
+    <style>
+    .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
+        display: block !important;
+    }
+    </style>
+		
+		<!-- Lightbox implementation and Vendors JS -->
+		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
+    <script type="text/javascript" src="/o/christmas-2018-theme/js/lightbox.js" charset="utf-8"></script> 
 
   </body>
 </html>

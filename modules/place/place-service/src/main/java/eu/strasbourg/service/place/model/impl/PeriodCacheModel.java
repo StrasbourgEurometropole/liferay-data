@@ -65,7 +65,7 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -79,10 +79,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
-		sb.append(", linkLabel=");
-		sb.append(linkLabel);
-		sb.append(", linkURL=");
-		sb.append(linkURL);
 		sb.append(", alwaysOpen=");
 		sb.append(alwaysOpen);
 		sb.append(", RTGreenThreshold=");
@@ -136,20 +132,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 			periodImpl.setEndDate(new Date(endDate));
 		}
 
-		if (linkLabel == null) {
-			periodImpl.setLinkLabel(StringPool.BLANK);
-		}
-		else {
-			periodImpl.setLinkLabel(linkLabel);
-		}
-
-		if (linkURL == null) {
-			periodImpl.setLinkURL(StringPool.BLANK);
-		}
-		else {
-			periodImpl.setLinkURL(linkURL);
-		}
-
 		periodImpl.setAlwaysOpen(alwaysOpen);
 		periodImpl.setRTGreenThreshold(RTGreenThreshold);
 		periodImpl.setRTOrangeThreshold(RTOrangeThreshold);
@@ -172,8 +154,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		defaultPeriod = objectInput.readBoolean();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
-		linkLabel = objectInput.readUTF();
-		linkURL = objectInput.readUTF();
 
 		alwaysOpen = objectInput.readBoolean();
 
@@ -211,20 +191,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 
-		if (linkLabel == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(linkLabel);
-		}
-
-		if (linkURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(linkURL);
-		}
-
 		objectOutput.writeBoolean(alwaysOpen);
 
 		objectOutput.writeLong(RTGreenThreshold);
@@ -244,8 +210,6 @@ public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 	public boolean defaultPeriod;
 	public long startDate;
 	public long endDate;
-	public String linkLabel;
-	public String linkURL;
 	public boolean alwaysOpen;
 	public long RTGreenThreshold;
 	public long RTOrangeThreshold;

@@ -1,7 +1,7 @@
 // Champs conditionnelles
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
-	
+
 	$('[name=placeType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
 		var classOfDivToHide = 'sigmanual'.replace(classOfDivToShow, '');
@@ -24,6 +24,12 @@ jQuery(function() {
 	});
 	
 	Liferay.on('allPortletsReady', setConditionalValidators);
+
+	$(":submit").on('click', function(e) {
+        allValidate = true;
+
+		setConditionalValidators(e);
+	});
 	
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
@@ -62,7 +68,8 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_"; // Namespace du portlet
 	var dateRangePickerLocaleSettings =  { // Configuration française du dateRangePicker
 		format: 'DD/MM/YYYY',
-		applyLabel: 'Ajouter',
+		applyLabel: 'Valider',
+		applyAndNewLabel: 'Valider et ajouter une nouvelle période',
 		cancelLabel: 'Fermer',
 		 daysOfWeek: [
             "Di",
@@ -97,9 +104,11 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		autoApply: false,
 		parentEl: '.portlet-body',
 		opens: 'right',
+		showDates: true,
 		autoUpdateInput: false,
 		locale: dateRangePickerLocaleSettings
 	};
+
 	// Fonction appelée lors du choix d'une nouvelle range
 	var onDateChange = function(ev, picker) { 
 		// Set du texte du label
@@ -108,10 +117,21 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		$('.startDate', $(this).parent()).val(picker.startDate.format('DD/MM/YYYY'));
 		$('.endDate', $(this).parent()).val(picker.endDate.format('DD/MM/YYYY'));
 	};
+
+   // Fonction appelé pour ouvrir le calendrier général
+	var openGeneralRange = function (ev, picker) {
+		$('#' + namespace + 'periodGenerator').trigger('click');
+    };
+
 	// On active le composant
-	$('span.date-range').daterangepicker(options);
+	options.startDate = $('span.date-range').text().split(' - ')[0];
+	options.endDate = $('span.date-range').text().split(' - ')[1];
+	var dateRangePicker = $('span.date-range').daterangepicker(options);
 	// On attache l'événement de changement de range de date
-	$('span.date-range').on('apply.daterangepicker', onDateChange);	
+	$('span.date-range').on('apply.daterangepicker', onDateChange);
+	$('span.date-range').on('applyAndNew.daterangepicker', onDateChange);
+    // Lors du clic sur le bouton "Valider et ajouter une nouvelle période"
+    $('span.date-range').on('applyAndNew.daterangepicker', openGeneralRange);
 	
 	// Configuration de l'autofield
 	AUI().use('liferay-auto-fields', function(Y) {
@@ -128,8 +148,12 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 
 	// Evenement appelé après un "clone" : on doit reactiver le datepicker et rattacher l'event
 	$('#date-fields').on('dateRangeCreated', function(event, index) {
-		$('#dateRange' + index).daterangepicker(options);
+        options.startDate = $('#dateRange' + index).text().split(' - ')[0];
+        options.endDate = $('#dateRange' + index).text().split(' - ')[1];
+		dateRangePicker = $('#dateRange' + index).daterangepicker(options);
 		$('#dateRange' + index).on('apply.daterangepicker', onDateChange);
+		$('#dateRange' + index).on('applyAndNew.daterangepicker', onDateChange);
+        $('#dateRange' + index).on('applyAndNew.daterangepicker', openGeneralRange);
 	});
 	
 	/**
@@ -143,8 +167,22 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	});
 	// Lors du clic sur le bouton "Appliquer
 	$('#' + namespace + 'periodGenerator').on('apply.daterangepicker', function (ev, picker) {
-		// On laisse le calendrier ouvert
-		$('#' + namespace + 'periodGenerator').trigger('click');
+		// On simule le clic sur le bouton "+" de l'autoField
+		// On modifie également l'URL appelée pour récupérer la ligne répétable
+		// afin d'ajouter les paramètres de dates de début et de fin
+		var formattedStartDate = picker.startDate.format('DD/MM/YYYY');
+		var formattedEndDate = picker.endDate.format('DD/MM/YYYY');
+		var previousURL = autoFields.url;
+		autoFields.url = autoFields.url + '&' + namespace + 'startDate=' + formattedStartDate
+			+ '&' + namespace + 'endDate=' + formattedEndDate;
+
+		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
+
+		// On reset l'URL à sa valeur initiale
+		autoFields.url = previousURL;
+	});
+	// Lors du clic sur le bouton "Valider et ajouter une nouvelle période
+	$('#' + namespace + 'periodGenerator').on('applyAndNew.daterangepicker', function (ev, picker) {
 
 		// On simule le clic sur le bouton "+" de l'autoField
 		// On modifie également l'URL appelée pour récupérer la ligne répétable
@@ -156,6 +194,11 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 			+ '&' + namespace + 'endDate=' + formattedEndDate;
 
 		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
+
+		// On laisse le calendrier ouvert
+        picker.startDate = moment().startOf('day');
+        picker.endDate = moment().startOf('day');
+		$('#' + namespace + 'periodGenerator').trigger('click');
 		
 		// On reset l'URL à sa valeur initiale
 		autoFields.url = previousURL;		

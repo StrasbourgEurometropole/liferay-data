@@ -13,6 +13,10 @@
                         </span>
                     </span>
                 </div>
+                
+                 <div class="pro-inside-affine-search">
+
+                </div>
 
                 <div class="pro-wrapper-sort">
                      <span class="pro-legend">

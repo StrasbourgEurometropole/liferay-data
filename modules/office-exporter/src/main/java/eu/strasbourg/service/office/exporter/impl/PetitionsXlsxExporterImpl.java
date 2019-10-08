@@ -69,6 +69,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
                 LanguageUtil.get(bundle, "modification-date"),
                 LanguageUtil.get(bundle, "user-liferay"),
                 LanguageUtil.get(bundle, "signataire-count"),
+                LanguageUtil.get(bundle, "petition-paper-count"),
                 LanguageUtil.get(bundle, "description"),
                 LanguageUtil.get(bundle, "petition-publication-date"),
                 LanguageUtil.get(bundle, "petition-expiration-date"),
@@ -92,12 +93,12 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
         for (Petition petition : petitions) {
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
             String title = LocalizationUtil.getLocalization(petition.getTitle(), languageId);
-            String nombreSignataire = String.valueOf(petition.getNombreSignature());
             Object[] petitionRow = {getfield(title),
                     getfield(petition.getCreateDate()),
                     getfield(petition.getModifiedDate()),
                     getfield(petition.getUserName()),
-                    getfield(nombreSignataire),
+                    getfield(String.valueOf(petition.getNombreSignature())),
+                    getfield(String.valueOf(petition.getCountFakeSignataire())),
                     getfield(petition.getDescription()),
                     getfield(petition.getPublicationDate()),
                     getfield(petition.getExpirationDate()),

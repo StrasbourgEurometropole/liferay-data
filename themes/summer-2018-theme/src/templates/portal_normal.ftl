@@ -20,6 +20,7 @@
     <link href="/o/summer-2018-theme/css/t_main.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700" rel="stylesheet">
 
+
     <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
     <#assign descriptionOG = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}' />
@@ -67,6 +68,10 @@
           <meta property="${keyOG}" content="${valueOG}" />
       </#if>
     </#list>
+
+		<!-- Magnific Popup core JS file -->
+		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+
   </head>
 
 
@@ -157,6 +162,9 @@
           gtag('config', 'UA-16973980-1');
         </script>
     </#if>
+		
+		<!-- Lightbox implementation and Vendors JS -->
+		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
 
   </body>
 </html>

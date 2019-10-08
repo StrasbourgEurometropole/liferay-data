@@ -15,6 +15,10 @@
 			        </span>
 	            </div>
 	            
+	             <div class="pro-inside-affine-search">
+
+                </div>
+	            
 	            <div class="pro-wrapper-sort" style="padding-top:30px;">
 	            	<c:choose>
 	                    <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>

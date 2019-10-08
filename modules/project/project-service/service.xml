@@ -527,9 +527,11 @@
 		<!-- main fields -->
 		<column name="title" type="String" />
 		<column name="description" type="String" />
+		<column name="summary" type="String" />
 		<column name="budget" type="String" />
 		<column name="motif" type="String" />
 		<column name="placeTextArea" type="String" />
+		<column name="inTheNameOf" type="String" />
 
 		<!-- citoyen fields -->
 		<column name="citoyenLastname" type="String" />
@@ -555,6 +557,7 @@
 		<column name="imageId" type="long" />
 		<column name="filesIds" type="String" />
 		<column name="budgetPhaseId" type="long" />
+		<column name="parentId" type="long" />
 
 		<!-- Order -->
 		<order by="desc">
@@ -574,6 +577,9 @@
 		</finder>
 		<finder name="BudgetPhaseId" return-type="Collection">
 			<finder-column name="budgetPhaseId" />
+		</finder>
+		<finder name="ParentId" return-type="Collection">
+			<finder-column name="parentId" />
 		</finder>
 		<finder name="isCrushAndPublished" return-type="Collection">
 			<finder-column name="isCrush" />

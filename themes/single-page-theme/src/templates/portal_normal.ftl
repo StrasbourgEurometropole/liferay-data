@@ -10,10 +10,10 @@
 
    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,300,300italic,400italic,500italic&subset=latin,latin-ext" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" rel="stylesheet">
-
+  
   <@liferay_util["include"] page=top_head_include />
   
-  <link rel="icon" type="image/png" href="/image/layout_set_logo?img_id=${layout.layoutSet.logoId}" data-bini="bini-test" />
+  <link rel="Shortcut Icon" type="image/png" href="${themeDisplay.siteGroup.expandoBridge.getAttribute('Icone single-page-theme (bib, see, 5eme-lieu)')}" />
 </head>
 <body class="${css_class}">
   <@liferay_ui["quick-access"] contentId="#main-content" />

@@ -32,6 +32,7 @@
 					<!-- Selecteur de projets -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
+	                    	<span class="icon-ico-map-projet"></span>
 	                        <label for="projects_printator_mk1"><liferay-ui:message key="projects" /></label>
 	                        <input type="checkbox" id="projects_printator_mk1" value="project" checked />
 	                        <div class="pro-switch pro-round"></div>
@@ -46,6 +47,7 @@
 	                <!-- Selecteur de participations -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
+	                    	<span class="icon-ico-map-participation"></span>
 	                        <label for="participations_printator_mk1"><liferay-ui:message key="participations" /></label>
 	                        <input type="checkbox" id="participations_printator_mk1" value="participation" checked  />
 	                        <div class="pro-switch pro-round"></div>
@@ -60,6 +62,7 @@
 	                <!-- Selecteur de petitions -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
+	                    	<span class="icon-ico-map-petition"></span>
 	                        <label for="petitions_printator_mk1"><liferay-ui:message key="petitions" /></label>
 	                        <input type="checkbox" id="petitions_printator_mk1" value="petition" checked />
 	                        <div class="pro-switch pro-round"></div>
@@ -74,6 +77,7 @@
 	                <!-- Selecteur de budgets participatifs -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
+	                    	<span class="icon-ico-map-budget-participatif"></span>
 	                        <label for="budgets_printator_mk1"><liferay-ui:message key="budgets-participatifs" /></label>
 	                        <input type="checkbox" id="budgets_printator_mk1" value="budget" checked />
 	                        <div class="pro-switch pro-round"></div>
@@ -88,6 +92,7 @@
 	                <!-- Selecteur d'initiatives -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
+	                    	<span class="icon-ico-map-initiative"></span>
 	                        <label for="initiatives_printator_mk1"><liferay-ui:message key="initiatives" /></label>
 	                        <input type="checkbox" id="initiatives_printator_mk1" value="initiative" checked />
 	                        <div class="pro-switch pro-round"></div>
@@ -102,6 +107,7 @@
 					<!-- Selecteur d'evenements -->
 	                <div class="pro-group">
 	                    <div class="pro-item">
+	                    	<span class="icon-ico-map-evenements"></span>
 	                        <label for="events_printator_mk1"><liferay-ui:message key="events" /></label>
 	                        <input type="checkbox" id="events_printator_mk1" value="event" checked />
 	                        <div class="pro-switch pro-round"></div>
