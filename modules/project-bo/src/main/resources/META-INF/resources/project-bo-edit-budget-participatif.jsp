@@ -59,11 +59,12 @@
 				<aui:input name="motif" required="false" />
 
 			</aui:fieldset>
-			<c:choose>
-			    <c:when test="${not empty dc.getBudgetParticipatif().getCitoyenLastname()}">
-					<%-- Groupe de champs : Citoyen --%>
-					<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
 			
+			<%-- Groupe de champs : Citoyen --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
+			
+				<c:choose>
+				    <c:when test="${not empty dc.getBudgetParticipatif().getCitoyenLastname()}">
 						<%-- Champ : Nom --%>
 						<aui:input name="citoyenLastname" label="last-name" disabled="true" />
 						
@@ -87,23 +88,22 @@
 			
 						<%-- Champ : mobile --%>
 						<aui:input name="citoyenMobile" label="mobile" />
-			
-					</aui:fieldset>
-			    </c:when>
-				<c:otherwise>
-					<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
+				    </c:when>
+					<c:otherwise>
 						<%-- Champ : Au nom de --%>
 						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
-						
-						<p><liferay-ui:message key='project-parent-explanation' /></p>
+					</c:otherwise>
+				</c:choose>
+			</aui:fieldset>
 			
-						<strasbourg-picker:entity label="eu.budgetParent" name="budgetParentId"
-							value="${dc.budgetParticipatif.parentId}"
-							type="eu.strasbourg.service.project.model.BudgetParticipatif"
-							multiple="false" />
-					</aui:fieldset>
-				</c:otherwise>
-			</c:choose>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
+				<p><liferay-ui:message key='project-parent-explanation' /></p>
+	
+				<strasbourg-picker:entity label="eu.budgetParent" name="budgetParentId"
+					value="${dc.budgetParticipatif.parentId}"
+					type="eu.strasbourg.service.project.model.BudgetParticipatif"
+					multiple="false" />
+			</aui:fieldset>
 			
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
