@@ -22,7 +22,7 @@
                     <aui:input type="radio" name="mode" value="aroundme" label="aroundme-mode" checked="${defaultConfig}"/>
                 </div>
 
-                <!-- Type de contenu -->
+                <!-- Type de contenu carto autre que widget -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="type-contenu" cssClass="noWidgetMode" >
 
@@ -34,7 +34,7 @@
                     <aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" cssClass="typeEvent"></aui:input>
 
-                    <!-- Carto normale et page autour de moi -->
+                    <!-- Texte explicatif événement -->
                     <div class="eventExplanation">
                         <aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
                     </div>
@@ -209,7 +209,7 @@
                     </p>
 
                     <div class="infoTrafficChecked">
-                        <!-- Mode widget -->
+                        <!-- Mode normal -->
                         <div class="normalMode">
 
                             <!-- Choix de la catégorie qui affichera l'info trafic -->
@@ -250,56 +250,23 @@
                     </div>
 
                 </aui:fieldset>
-                
-                
-                    <script>
-                        var refreshConfigDisplay = function() {
-                           var mode = $('.modeSelection input[type=radio]:checked').val();
-                           if (mode === 'widget') {
-                               $('.monStrasbourgMode').show();
-                               $('.widgetMode').show();
-                               $('.aroundMeMode').hide();
-                               $('.normalMode').hide();
-                               $('.noWidgetMode').hide();
-                           } else if (mode == 'aroundme') {
-                               $('.monStrasbourgMode').show();
-                               $('.widgetMode').hide();
-                               $('.aroundMeMode').show();
-                               $('.normalMode').hide();
-                               $('.noWidgetMode').show();
-                           } else {
-                               $('.monStrasbourgMode').hide();
-                               $('.widgetMode').hide();
-                               $('.aroundMeMode').hide();
-                               $('.normalMode').show();
-                               if(mode == 'district'){
-                                    $('.districtMode').show();
-                               }else{
-                                    $('.districtMode').hide();
-                               }
-                               $('.noWidgetMode').show();
-                           }
-                           if ($('.typeEvent').is(":checked")) {
-                               $('.eventExplanation').show();
-                           } else {
-                               $('.eventExplanation').hide();
-                           }
-                        }
-                    </script>
 
                 <!-- Transports -->
                 <aui:fieldset collapsed="true" collapsible="true" label="transports" cssClass="noWidgetMode transports">
 
                     <p>
-                        <!-- Affichage de l'info trafic -->
+                        <!-- Affichage des arrets -->
                         <div>
                             <aui:input type="checkbox" name="showTransports" value="${showTransports || !hasConfig}" label="show-transports" />
+                        </div>
+                        <div class="no-selection important" style="display: none">
+                            <liferay-ui:message key="select-link" />
                         </div>
 
                     </p>
 
                     <div class="transportsChecked">
-                        <!-- Mode widget -->
+                        <!-- Mode normal -->
                         <div class="normalMode">
 							
                             <!-- Choix de la categorie qui affichera les transports -->
@@ -307,7 +274,7 @@
                             <p>
                                 <div id="transportsLinkCategorySelectorLabel"></div>
                                 <div id="transportsLinkCategorySelector"></div>
-                                <aui:input type="hidden" name="transportsLinkCategoryId" />
+                                <aui:input type="hidden" name="transportsLinkCategoryId" id="transportsLinkCategoryId"/>
                             </p>
 							
                         </div>
@@ -315,7 +282,7 @@
                         <!-- Mode autour de moi -->
                         <div class="aroundMeMode">
 
-                            <!-- Choix du CI qui affichera l'info trafic -->
+                            <!-- Choix du CI qui affichera les transports -->
                             <label><liferay-ui:message key="transports-interest-link" /></label>
 
                             <select class="toCustomSelect" id="transportsLinkInterestId" name="<portlet:namespace />transportsLinkInterestId">
@@ -361,6 +328,11 @@
                            $('.widgetMode').hide();
                            $('.aroundMeMode').hide();
                            $('.normalMode').show();
+                           if(mode == 'district'){
+                                $('.districtMode').show();
+                           }else{
+                                $('.districtMode').hide();
+                           }
                            $('.noWidgetMode').show();
                        }
                        if ($('.typeEvent').is(":checked")) {
@@ -387,6 +359,7 @@
                     $('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
                     })
+
                     $('.typeEvent').on('change', function() {
                        if ($(this).is(":checked")) {
                            $('.eventExplanation').show();
@@ -394,17 +367,38 @@
                            $('.eventExplanation').hide();
                        }
                     })
+
                     $('.infoTraffic input[type=checkbox]').on('change', function() {
                         refreshConfigTrafficDisplay();
                     })
+
                     $('.transports input[type=checkbox]').on('change', function() {
                         refreshConfigTransportsDisplay();
                     })
+
                     $(function() {
                         refreshConfigDisplay();
                         refreshConfigTrafficDisplay();
                         refreshConfigTransportsDisplay();
                     })
+
+                    $("form").on('submit', function(event) {
+                        if ($('.transports input[type=checkbox]').is(":checked")) {
+                            var mode = $('.modeSelection input[type=radio]:checked').val();
+                            if (mode == 'aroundme') {
+                                var selection = $('#transportsLinkInterestId').val();
+                            } else {
+                                var selection = $('#transportsLinkCategoryId').val();
+                            }
+                            if(selection == ""){
+							    $('.no-selection').show();
+			                    event.preventDefault();
+                                return false;
+                            }else{
+							    $('.no-selection').hide();
+                            }
+                        }
+                    });
                 </script>
 
             </aui:fieldset-group>
@@ -445,3 +439,10 @@
 		}
 	).render();
 </aui:script>
+
+<style>
+.important{
+    color: red;
+    font-weight: 700;
+}
+</style>

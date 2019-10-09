@@ -84,6 +84,15 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPois(
 		java.lang.String interests, java.lang.String categories,
+		java.lang.String prefilters, java.lang.String showTransports,
+		long groupId, java.lang.String typeContenu, java.lang.String localeId) {
+		return _strasbourgService.getPois(interests, categories, prefilters,
+			showTransports, groupId, typeContenu, localeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPois(
+		java.lang.String interests, java.lang.String categories,
 		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
 		return _strasbourgService.getPois(interests, categories, prefilters,
 			groupId, typeContenu);

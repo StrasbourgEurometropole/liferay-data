@@ -53,14 +53,6 @@ public class ArretServiceUtil {
 	}
 
 	/**
-	* Recuperer tous les arrêts en format GeoJSON
-	*/
-	public static com.liferay.portal.kernel.json.JSONObject getAllArrets(
-		long groupId, java.lang.String localeId) {
-		return getService().getAllArrets(groupId, localeId);
-	}
-
-	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

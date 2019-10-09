@@ -218,6 +218,25 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static java.lang.String getPois(java.lang.String interests,
+		java.lang.String categories, java.lang.String prefilters,
+		java.lang.String showTransports, long groupId,
+		java.lang.String typeContenu, java.lang.String localeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
+					categories, prefilters, showTransports, groupId,
+					typeContenu, localeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static int getPoisCategoryCount(long idCategory,
 		java.lang.String prefilters, long groupId, java.lang.String typeContenu)
 		throws RemoteException {

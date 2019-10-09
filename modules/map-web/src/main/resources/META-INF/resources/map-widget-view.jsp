@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="/o/mapweb/css/map.css" />
 <link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
 
 <liferay-util:html-bottom>
@@ -13,6 +14,7 @@
     <script src="/o/mapweb/js/leaflet.js"></script>
     <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
+    <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
     <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
     <script>

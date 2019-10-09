@@ -53,12 +53,4 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 		return CTSService.stopMonitoring(stopCode);
 	}
 	
-	/**
-	 * Recuperer tous les arrêts en format GeoJSON
-	 */
-	@Override
-	public JSONObject getAllArrets(long groupId, String localeId) {
-		return ArretLocalServiceUtil.getAllGeoJSON(groupId, localeId);
-	}
-	
 }

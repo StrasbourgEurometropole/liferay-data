@@ -59,15 +59,6 @@ public class ArretLocalServiceUtil {
 	}
 
 	/**
-	* Recuperer tous les arrêts en format GeoJSON
-	* Notes : ne prend que les arrets publies
-	*/
-	public static com.liferay.portal.kernel.json.JSONObject getAllGeoJSON(
-		long groupId, java.lang.String localeId) {
-		return getService().getAllGeoJSON(groupId, localeId);
-	}
-
-	/**
 	* @throws PortalException
 	*/
 	public static com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(

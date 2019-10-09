@@ -141,6 +141,9 @@ public class MapPortlet extends MVCPortlet {
                         showFavorites = json.getBoolean("showFavorites");
                         trafficInterestId = json.getString("trafficInterestId");
                         transportsLinkInterestId = json.getString("transportsLinkInterestId");
+                        // on ajoute l'entité arret si "transportsLinkInterestId" est renseigné
+                        if(Validator.isNotNull(transportsLinkInterestId))
+                            typesContenu += ",eu.strasbourg.service.gtfs.model.Arret";
                     } catch (Exception ex) {
                         _log.error("Missing expando field : map_global_config");
                     }
@@ -197,6 +200,9 @@ public class MapPortlet extends MVCPortlet {
                     showFavorites = configuration.showFavorites();
                     showTraffic = configuration.showTraffic();
                     showTransports = configuration.showTransports();
+                    // on ajoute l'entité arret si "showTransports" est true
+                    if(showTransports)
+                        typesContenu += ",eu.strasbourg.service.gtfs.model.Arret";
                     trafficCategoryId = configuration.linkCategoryId();
                     trafficInterestId = configuration.linkInterestId();
                     transportsLinkCategoryId = configuration.transportsLinkCategoryId();

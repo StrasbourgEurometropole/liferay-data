@@ -187,6 +187,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	@Override
+	public JSONObject getPois(String interests, String categories, String prefilters, String showTransports, long groupId,
+							  String typeContenu, String localeId) {
+        return getPoiService().getPois(interests, categories, prefilters, Boolean.parseBoolean(showTransports), groupId, typeContenu, localeId);
+	}
+
+	@Override
 	public int getPoisCategoryCount(long idCategory, String prefilters, long groupId, String typeContenu) {
 		return getPoiService().getPoisCategoryCount(idCategory, prefilters, groupId, typeContenu);
 	}

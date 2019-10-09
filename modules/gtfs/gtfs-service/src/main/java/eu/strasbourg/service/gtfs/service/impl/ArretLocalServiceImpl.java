@@ -371,30 +371,4 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		return arretPersistence.countWithDynamicQuery(dynamicQuery);
 	}
 	
-	/**
-	 * Recuperer tous les arrêts en format GeoJSON
-	 * Notes : ne prend que les arrets publies
-	 */
-	@Override
-	public JSONObject getAllGeoJSON(long groupId, String localeId) {
-
-		Locale locale = LocaleUtil.fromLanguageId(localeId);
-
-		// Recherche de tous les arrets visibles
-		List<Arret> arrets = this.arretPersistence.findByStatus(WorkflowConstants.STATUS_APPROVED);
-		
-		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
-		geoJSON.put("type", "FeatureCollection");
-		
-		JSONArray features = JSONFactoryUtil.createJSONArray();
-		
-		for (Arret arret : arrets) {
-			features.put(arret.getGeoJSON(groupId, locale));
-		}
-		
-		geoJSON.put("features", features);
-		
-		return geoJSON;
-	}
-	
 }

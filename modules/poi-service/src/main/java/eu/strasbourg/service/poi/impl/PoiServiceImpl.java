@@ -71,13 +71,19 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
-			String classNames, String localeId) {
+							  String classNames, String localeId) {
+		return getPois( idInterests,  idCategories,  prefilters,  false, groupId,
+				classNames, "fr_FR");
+	}
+
+	public JSONObject getPois(String idInterests, String idCategories, String prefilters, boolean showTransports, long groupId,
+							  String classNames, String localeId) {
 		JSONObject geoJson = null;
 
 		long globalGroupId = -1;
 
 		Locale locale = LocaleUtil.fromLanguageId(localeId);
-		
+
 		// Récupération des préfiltres
 		Long[] prefiltersCategoryIds = new Long[0];
 		if (prefilters.length() > 0) {
@@ -107,6 +113,7 @@ public class PoiServiceImpl implements PoiService {
 				}
 			}
 		}
+
 		// récupère les catégories ainsi que les catégories enfants des centres
 		// d'intérêts
 		if (Validator.isNotNull(idInterests)) {
@@ -154,10 +161,24 @@ public class PoiServiceImpl implements PoiService {
 			System.out.println("GetEvents : " + duration + "ms (" + events.size() + " items)");
 		}
 
+		// récupère les arrêts
+		// Si leurs affichage est demandé, et si la catégorie ou le centre d'intérêt est coché-e
+		List<Arret> arrets = new ArrayList<Arret>();
+		if(showTransports){
+			if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
+				// récupère les arrets
+				startTime = System.nanoTime();
+				arrets = getArrets();
+				endTime = System.nanoTime();
+				duration = (endTime - startTime) / 1_000_000;
+				System.out.println("GetArrets : " + duration + "ms (" + arrets.size() + " items)");
+			}
+		}
+
 		// récupère le fichier geoJson
 		try {
 			startTime = System.nanoTime();
-			geoJson = getGeoJSON(places, events, groupId, locale);
+			geoJson = getGeoJSON(places, events, arrets, groupId, locale);
 			endTime = System.nanoTime();
 			duration = (endTime - startTime) / 1_000_000;
 			System.out.println("getGeoJSON : " + duration + "ms");
@@ -332,6 +353,13 @@ public class PoiServiceImpl implements PoiService {
 		}
 	}
 
+	private List<Arret> getArrets() {
+		List<Arret> arrets = ArretLocalServiceUtil.getArrets(-1,-1).stream()
+				.filter(a -> a.getStatus() == WorkflowConstants.STATUS_APPROVED).collect(Collectors.toList());
+
+		return arrets;
+	}
+
 	public JSONObject getFavoritesPois(String userId, long groupId) {
 		return getFavoritesPois(userId, groupId, Place.class.getName());
 	}
@@ -432,9 +460,13 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, long groupId, Locale locale) throws JSONException {
+		return getGeoJSON(places, events, new ArrayList<Arret>(), groupId, locale);
+	}
+
+	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, List<Arret> arrets, long groupId, Locale locale) throws JSONException {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
-		
+
 		JSONArray features = JSONFactoryUtil.createJSONArray();
 		for (Place place : places) {
 			features.put(place.getGeoJSON(groupId,locale));
@@ -442,6 +474,10 @@ public class PoiServiceImpl implements PoiService {
 
 		for (Event event : events) {
 			features.put(event.getGeoJSON(groupId, locale));
+		}
+
+		for (Arret arret : arrets) {
+			features.put(arret.getGeoJSON(groupId, locale));
 		}
 		geoJSON.put("features", features);
 

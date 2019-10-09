@@ -164,7 +164,7 @@
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
                             } else if (info_to_display =="visual" && !feature.properties.amount) {//on n'affiche pas l'image si c'est un lieu avec des horaires
                                 formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
-                            } else if(info_to_display =="type") {
+                            } else if(info_to_display == "type") {
                     			var addedFavorite = false;
                     			if (window.userFavorites) {
                     				var i;
@@ -214,15 +214,86 @@
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
+                        if(feature.properties['codeArret'] != ""){
+                            // Chargement des prochains passages lors de l'ouverture de la popup
+                            var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
+                            //var code = destinationList.data('code');
+
+                            Liferay.Service(
+                                '/gtfs.arret/get-arret-real-time', {
+                                    stopCode: feature.properties.codeArret
+                                },
+                                function(json) {
+                                    // On efface la liste
+                                    $(destinationList).empty();
+
+                                    if (Object.keys(json).length != 0) {
+                                        // Parcours des horraires
+                                        json.forEach(function(visit, i) {
+                                            // On affiche que les 5 premiers resultats
+                                            if (i > 4) return false;
+
+                                            // Formatage de l'heure
+                                            var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
+                                            var timestr = datestr.toLocaleTimeString(navigator.language, {
+                                                hour: '2-digit',
+                                                minute:'2-digit'
+                                            });
+
+                                            // Couleur de la ligne
+                                            var colors = findColors(visit.MonitoredVehicleJourney.PublishedLineName);
+                                            var backgroundColor = colors.backgroundColor != null ? colors.backgroundColor : "000000";
+                                            var textColor = colors.textColor != null ? colors.textColor : "FFFFFF";
+
+                                            // Formatage du nom de la destination
+                                            var destinationName = visit.MonitoredVehicleJourney.DestinationName
+                                            if (destinationName.length > 30) {
+                                                destinationName = destinationName.substring(0, 30) + '...';
+                                            }
+
+                                            // Ajout des horraires dans la liste
+                                            $(destinationList).append(
+                                                '<div class="row">' +
+                                                    '<div class="col-md-2">' +
+                                                        '<p class="tram-destination-letter">' +
+                                                            '<span class="transport-letters-icon"' +
+                                                                'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
+                                                                visit.MonitoredVehicleJourney.PublishedLineName +
+                                                            '</span>' +
+                                                        '</p>' +
+                                                    '</div>' +
+                                                    '<div class="col-md-7">' +
+                                                        '<p class="tram-destination-name">' +
+                                                            destinationName +
+                                                        '</p>' +
+                                                    '</div>' +
+                                                    '<div class="col-md-2">' +
+                                                        '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+                                                    '</div>' +
+                                                '</div>'
+                                            );
+                                        });
+                                    } else {
+                                        $(destinationList).append(
+                                            '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
+                                        );
+                                    }
+                                }
+                            );
+                        }
+
+
                         var addFavoriteElement = $('.add-favorites', e.target._popup._contentNode);
                         var isFavorite = false;
                         var id = addFavoriteElement.data('id');
                         var type = addFavoriteElement.data('type');
-                        var i;
-                        for (i = 0; i < window.userFavorites.length; i++) {
-                            if(window.userFavorites[i].typeId == type && window.userFavorites[i].entityId == id){
-                                isFavorite = true;
-                                break;
+                        if (window.userFavorites) {
+                            var i;
+                            for (i = 0; i < window.userFavorites.length; i++) {
+                                if(window.userFavorites[i].typeId == type && window.userFavorites[i].entityId == id){
+                                    isFavorite = true;
+                                    break;
+                                }
                             }
                         }
                         if (isFavorite) {
@@ -264,126 +335,6 @@
                     });
                     // Titre dans la liste des markers
                     layer.options['title'] = feature.properties.lieu;
-                }
-            }
-            
-            // Création de la popup pour chaque transports
-            var onEachFeatureTransport = function(feature, layer) {
-                if (feature.properties) {
-                	var transportPopup =
-                		'<div class="aroundme__infowindow infowindow">' +
-                		'	<button class="infowindow__close"></button>' +
-			    		'	<div class="infowindow__content">' +
-						'		<div class="infowindow__visual"></div>' +         
-						'		<div class="infowindow__top">' +
-						'			<div class="infowindow__title-block">' +
-						'				<div class="infowindow__name">' +
-											feature.properties.name +
-						'				</div>' +
-						'			</div>' +                 
-						'		</div>' +         
-						'		<div class="infowindow__middle">' +
-						'			<div class="infowindow__contenu">' +
-						'				<div class="popup-content-tram-list" data-code="' + feature.properties.code + '">' +
-						'					<div class="loading">' +
-						'						<div class="loading-circle"></div>' +
-						'					</div>' +
-						'				</div>' +						
-						'			</div>' +
-						'		</div>' +  
-						'		<div class="infowindow__bottom">' +               
-						'			<div class="infowindow__type">' +
-						'				<a href="#" class="add-favorites" style="display: flex; margin-bottom: 0px;" data-type="1" data-title="Arrêt tram A-D Homme de fer" data-url="https://www.strasbourg.eu/lieu/-/entity/sig/2282_ARR_03" data-id="3783405">' +
-						'					<span>Ajouter à mes favoris</span>' +
-						'				</a>' +
-						'			</div>' +
-						'		</div>' + 
-						'	</div>' +
-						'	<div class="infowindow__url">' +
-						'		<a href="https://www.strasbourg.eu/lieu/-/entity/sig/2282_ARR_03" target="_blank">' +
-						'			<span class="flexbox">' +
-						'				<span class="btn-text">En savoir plus</span>' +
-						'				<span class="btn-arrow"></span>' +
-						'			</span>' +
-						'		</a>' +
-						'	</div>' +
-	                    '    <div class="infowindow__url"></div>' +
-	                    '</div>';
-                	
-                	// Ajout du contenu de la popup dans le marqueur
-                	var popup = $.parseHTML(transportPopup);
-                    layer.bindPopup($(popup).html(), {closeButton: false});
-                    
-                    // Chargement des prochains passages lors de l'ouverture de la popup
-                    layer.on('popupopen', function(e) {
-                    	var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
-                    	var code = destinationList.data('code');
-                    	
-                    	Liferay.Service(
-                            '/gtfs.arret/get-arret-real-time', {
-                            	stopCode: feature.properties.code
-                            },
-                            function(json) {
-                                // On efface la liste
-                                $(destinationList).empty();
-                                
-                                if (Object.keys(json).length != 0) {
-	                                // Parcours des horraires
-	                                json.forEach(function(visit, i) {
-	                                	// On affiche que les 5 premiers resultats
-	                                	if (i > 4) return false;
-	                                	
-	                                	// Formatage de l'heure
-	                                	var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
-	                                	var timestr = datestr.toLocaleTimeString(navigator.language, {
-	                                	    hour: '2-digit',
-	                                	    minute:'2-digit'
-	                                	});
-	                                	
-	                                	// Couleur de la ligne
-	                                	var colors = findColors(visit.MonitoredVehicleJourney.PublishedLineName);
-	                                	var backgroundColor = colors.backgroundColor != null ? colors.backgroundColor : "000000";
-	                                	var textColor = colors.textColor != null ? colors.textColor : "FFFFFF";
-	                                	
-	                                	// Formatage du nom de la destination
-	                                	var destinationName = visit.MonitoredVehicleJourney.DestinationName
-	                                	if (destinationName.length > 30) {
-	                                		destinationName = destinationName.substring(0, 30) + '...';
-	                                	}
-	                                	
-	                                	// Ajout des horraires dans la liste
-	                                	$(destinationList).append( 
-	                            			'<div class="row">' +
-	                							'<div class="col-md-2">' +
-	                								'<p class="tram-destination-letter">' +
-	                									'<span class="transport-letters-icon"' +
-	                										'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
-	                										visit.MonitoredVehicleJourney.PublishedLineName +
-	                									'</span>' +
-	                								'</p>' +
-	                							'</div>' +
-	                							'<div class="col-md-7">' +
-	                								'<p class="tram-destination-name">' +
-	                									destinationName +
-	                								'</p>' +
-	                							'</div>' +
-	                							'<div class="col-md-2">' +
-	                								'<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
-	                							'</div>' +
-	                						'</div>'
-	                                	);
-	                                });
-                                } else {
-                                	$(destinationList).append(
-                                		'<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
-                                	);
-                                }
-                            }
-                        );
-                    });
-                    
-                    // Titre dans la liste des markers
-                    layer.options['title'] = feature.properties.name;
                 }
             }
 
@@ -463,17 +414,6 @@
                 return L.marker(latlng, { icon: markerIcon })
             }
             
-            var pointTransportToLayer = function(feature, latlng) {
-            	var icon = feature.properties.type;
-                var markerIcon = new L.Icon({
-                    iconUrl: '/o/mapweb/images/picto_' + icon + '.png',
-                    iconSize: [43,'auto'],
-                    iconAnchor: [17, 49],
-                    popupAnchor: [1, -49]
-                });
-                return L.marker(latlng, { icon: markerIcon })
-            }
-            
             // Retient le nombre de requêtes en cours pour l'icône de chargement
             var requestsInProgress = 0;
             
@@ -504,7 +444,7 @@
             }
 
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests, categories, prefilters) {
+            var addInterestsMarkers = function(markers, interests, categories, prefilters, showTransports) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
@@ -512,6 +452,7 @@
                         interests: interests,
                         categories: categories,
                         prefilters: prefilters,
+                        showTransports: showTransports,
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
                         localeId: Liferay.ThemeDisplay.getLanguageId()
@@ -577,28 +518,6 @@
                     }
                 );
             }
-            
-            // Ajoute les transports à la carte
-            var addTransportsMarkers = function(markers) {
-            	requestsInProgress++;
-                showLoadingIcon();
-                Liferay.Service(
-                    '/gtfs.arret/get-all-arrets', {
-                    },
-                    function(data) {
-                        try {
-                            // Convertion des données geoJSON en marker
-                            var transportsData = L.geoJson(data, {
-                                pointToLayer: pointTransportToLayer,
-                                onEachFeature: onEachFeatureTransport
-                            });
-                            markers.addLayers(transportsData);
-                        } catch (e) {}
-                        requestsInProgress--;
-                        maybeHideLoadingIcon();
-                    }
-                );
-            }
 
             // Affichage des POIs
             var showPois = function() {
@@ -643,9 +562,44 @@
                     }
                 }
 
+                // Récupération des données concernant les transports
+                // uniquement si choisi en configuration
+                var showTransports = false;
+                if (window.showTransports) {
+                	if(window.mode == "normal" ){
+                        for (i = 0; i < ame.$filters_categories.length; i++) {
+                            var filter = $(ame.$filters_categories[i]);
+                            // et si la catégorie choisie est cochée en mode normal ou mon quartier
+                            if (filter.attr('value') == window.transportsLinkCategoryId && filter.is(':checked')) {
+                            	showTransports = true;
+                        		break;
+                            }
+                        }
+                	}
+                	if(window.mode == "aroundme" ){
+                        for (i = 0; i < ame.$filters_interests.length; i++) {
+                            var filter = $(ame.$filters_interests[i]);
+                            // et si le centre d'intérêt choisi est coché en mode autour de moi
+                            if (filter.attr('value') == window.transportsLinkInterestId && filter.is(':checked')) {
+                            	showTransports = true;
+                        		break;
+                            }
+                        }
+                	}
+                }
+                if (window.mode == "widget" && interests.length > 0) {
+                    var interestIds = interests.split(',');
+                    for (var i = 0; i < interestIds.length; i++) {
+                        if (interestIds[i] === window.transportsLinkInterestId) {
+                            showTransports = true;
+                            break;
+                        }
+                    }
+                }
+
                 // Récupération des données concernant les centres d'intérêt
-                if (interests.length > 0 || categories.length > 0) {
-                    addInterestsMarkers(markers, interests, categories, prefilters);
+                if (interests.length > 0 || categories.length > 0 || showTransports) {
+                    addInterestsMarkers(markers, interests, categories, prefilters, showTransports);
                 }
 
                 // Récupération des données concernant les favoris
@@ -686,40 +640,6 @@
                         if (interestIds[i] === window.linkInterestId) {
                             addTraffic(markers);
                             addAlerts(markers);
-                            break;
-                        }
-                    }
-                }
-                
-                // Récupération des données concernant les transports
-                // uniquement si choisi en configuration
-                if (window.showTransports) {
-                	if(window.mode == "normal" ){
-                        for (i = 0; i < ame.$filters_categories.length; i++) {
-                            var filter = $(ame.$filters_categories[i]);
-                            // et si la catégorie choisie est cochée en mode normal ou mon quartier
-                            if (filter.attr('value') == window.transportsLinkCategoryId && filter.is(':checked')) {
-                            	addTransportsMarkers(markers);
-                        		break;
-                            }
-                        }
-                	}
-                	if(window.mode == "aroundme" ){
-                        for (i = 0; i < ame.$filters_interests.length; i++) {
-                            var filter = $(ame.$filters_interests[i]);
-                            // et si le centre d'intérêt choisi est coché en mode autour de moi
-                            if (filter.attr('value') == window.transportsLinkInterestId && filter.is(':checked')) {
-                            	addTransportsMarkers(markers);
-                        		break;
-                            }
-                        }
-                	}
-                }
-                if (window.mode == "widget" && interests.length > 0) {
-                    var interestIds = interests.split(',');
-                    for (var i = 0; i < interestIds.length; i++) {
-                        if (interestIds[i] === window.transportsLinkInterestId) {
-                        	addTransportsMarkers(markers);
                             break;
                         }
                     }
@@ -896,7 +816,7 @@
     });
     
     /**
-     * Recuperatiobn des couleurs de lignes
+     * Recuperation des couleurs de lignes
      */
     var ligneColors;
     Liferay.Service(

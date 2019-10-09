@@ -84,7 +84,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Config par défaut
 			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
 
-			// Config par défaut
+			// mode mon quartier
 			setPreference(request, "districtMod", String.valueOf(mode.equals("district")));
 
 			// Choix du site vers lequel les liens redirigent
@@ -174,49 +174,63 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				// Choix afficher l'info trafic
 				String showTraffic = ParamUtil.getString(request, "showTraffic");
 				setPreference(request, "showTraffic", showTraffic);
-				if(mode.equals("normal") || mode.equals("district")) {
-					// Liaison de l'info trafic à une catégorie
-					String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
-					setPreference(request, "linkCategoryId", linkCategoryId);
-					// récupère le nom de la catégorie
-					String categoryTitle = "";
-					if (Validator.isNotNull(linkCategoryId)) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-								.fetchAssetCategory(Long.parseLong(linkCategoryId));
-						if (Validator.isNotNull(category)) {
-							categoryTitle = category.getTitle(Locale.FRANCE);
+				if(Boolean.parseBoolean(showTraffic)){
+					if(mode.equals("normal") || mode.equals("district")) {
+						// Liaison de l'info trafic à une catégorie
+						String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
+						setPreference(request, "linkCategoryId", linkCategoryId);
+						// récupère le nom de la catégorie
+						String categoryTitle = "";
+						if (Validator.isNotNull(linkCategoryId)) {
+							AssetCategory category = AssetCategoryLocalServiceUtil
+									.fetchAssetCategory(Long.parseLong(linkCategoryId));
+							if (Validator.isNotNull(category)) {
+								categoryTitle = category.getTitle(Locale.FRANCE);
+							}
 						}
+						setPreference(request, "categoryTitle", categoryTitle);
+					}else {
+						// Liaison de l'info trafic à un CI
+						String linkInterestId = ParamUtil.getString(request, "linkInterestId");
+						setPreference(request, "linkInterestId", linkInterestId);
+						json.put("trafficInterestId", linkInterestId);
 					}
-					setPreference(request, "categoryTitle", categoryTitle);
-				}else {
-					// Liaison de l'info trafic à un CI
-					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
-					setPreference(request, "linkInterestId", linkInterestId);
-					json.put("trafficInterestId", linkInterestId);
+				}else{
+					setPreference(request, "linkCategoryId", "");
+					setPreference(request, "categoryTitle", "");
+					setPreference(request, "linkInterestId", "");
+					json.put("trafficInterestId", "");
 				}
 				
 				// Choix afficher les transports
 				String showTransports = ParamUtil.getString(request, "showTransports");
 				setPreference(request, "showTransports", showTransports);
-				if(mode.equals("normal")) {
-					// Liaison des transports à une catégorie
-					String transportsLinkCategoryId = ParamUtil.getString(request, "transportsLinkCategoryId");
-					setPreference(request, "transportsLinkCategoryId", transportsLinkCategoryId);
-					// Recuperer le nom de la categorie
-					String transportsLinkCategoryTitle = "";
-					if (Validator.isNotNull(transportsLinkCategoryId)) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-								.fetchAssetCategory(Long.parseLong(transportsLinkCategoryId));
-						if (Validator.isNotNull(category)) {
-							transportsLinkCategoryTitle = category.getTitle(Locale.FRANCE);
+				if(Boolean.parseBoolean(showTransports)){
+					if(mode.equals("normal")) {
+						// Liaison des transports à une catégorie
+						String transportsLinkCategoryId = ParamUtil.getString(request, "transportsLinkCategoryId");
+						setPreference(request, "transportsLinkCategoryId", transportsLinkCategoryId);
+						// Recuperer le nom de la categorie
+						String transportsLinkCategoryTitle = "";
+						if (Validator.isNotNull(transportsLinkCategoryId)) {
+							AssetCategory category = AssetCategoryLocalServiceUtil
+									.fetchAssetCategory(Long.parseLong(transportsLinkCategoryId));
+							if (Validator.isNotNull(category)) {
+								transportsLinkCategoryTitle = category.getTitle(Locale.FRANCE);
+							}
 						}
+						setPreference(request, "transportsLinkCategoryTitle", transportsLinkCategoryTitle);
+					}else {
+						// Liaison des transports à un CI
+						String transportsLinkInterestId = ParamUtil.getString(request, "transportsLinkInterestId");
+						setPreference(request, "transportsLinkInterestId", transportsLinkInterestId);
+						json.put("transportsLinkInterestId", transportsLinkInterestId);
 					}
-					setPreference(request, "transportsLinkCategoryTitle", transportsLinkCategoryTitle);
-				}else {
-					// Liaison des transports à un CI
-					String transportsLinkInterestId = ParamUtil.getString(request, "transportsLinkInterestId");
-					setPreference(request, "transportsLinkInterestId", transportsLinkInterestId);
-					json.put("transportsLinkInterestId", transportsLinkInterestId);
+				}else{
+					setPreference(request, "transportsLinkCategoryId", "");
+					setPreference(request, "transportsLinkCategoryTitle", "");
+					setPreference(request, "transportsLinkInterestId", "");
+					json.put("transportsLinkInterestId", "");
 				}
 			}
 
