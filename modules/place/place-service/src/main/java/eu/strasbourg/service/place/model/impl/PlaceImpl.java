@@ -1214,6 +1214,13 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
         jsonPlace.put("accessForElder", this.getAccessForElder());
         jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+        jsonPlace.put("hasURLSchedule", this.getHasURLSchedule());
+        if (Validator.isNotNull(this.getScheduleLinkNameMap())) {
+            jsonPlace.put("scheduleLinkName", JSONHelper.getJSONFromI18nMap(this.getScheduleLinkNameMap()));
+        }
+        if (Validator.isNotNull(this.getScheduleLinkURLMap())) {
+            jsonPlace.put("scheduleLinkURL", JSONHelper.getJSONFromI18nMap(this.getScheduleLinkURLMap()));
+        }
 
         // Horaires et périodes
         JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();

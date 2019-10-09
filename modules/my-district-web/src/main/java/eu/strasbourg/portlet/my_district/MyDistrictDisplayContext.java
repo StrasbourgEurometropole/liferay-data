@@ -348,7 +348,7 @@ public class MyDistrictDisplayContext {
         try {
             document = SAXReaderUtil.read(new StringReader(content));
             Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-            if (node.getText().length() > 0) {
+            if (node != null && node.getText().length() > 0) {
                 value = node.getText();
             }
         } catch (Exception ex) {
@@ -390,33 +390,30 @@ public class MyDistrictDisplayContext {
             Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
             Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
             DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-            //eventQuery.setLimit(0, 12);
             List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-            List<AssetEntry> result = new ArrayList<AssetEntry>();
 
-            for (Event event : listEvent) {
-                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
-                        event.getPrimaryKey());
-                if (assetEntry != null) {
-                    int i = 0;
-                    int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
-                    while (i < result.size()) {
-                        int daysAfterPublication;
-                        Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
-                        daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
-                        if (daysBeforeNextOpenDate < daysAfterPublication) {
-                            result.add(i, assetEntry);
-                            break;
-                        }
-                        i++;
-                    }
-                    if (i == result.size()) {
-                        result.add(assetEntry);
-                    }
-                }
+
+            // trie par date de fin de l'évènement
+            listEvent = listEvent.stream().sorted((e1, e2) -> {
+                Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
+                Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
+                return e1EndDate.compareTo(e2EndDate);
+            }).collect(Collectors.toList());
+
+            // trie par date d'arrivé de l'événement
+            listEvent = listEvent.stream().sorted((e1, e2) -> {
+                LocalDate e1NextDate = e1.getNextOpenDate();
+                LocalDate e2NextDate = e2.getNextOpenDate();
+                return e1NextDate.compareTo(e2NextDate);
+            }).collect(Collectors.toList());
+
+            events = new ArrayList<AssetEntry>();
+            for (Event event: listEvent) {
+                if(events.size() < 12)
+                    events.add(entries.stream().filter(a -> a.getClassPK() == event.getEventId()).collect(Collectors.toList()).get(0));
+                else
+                    break;
             }
-
-            events = result.subList(0,(result.size() > 12)?12:result.size());
         }
         return events;
     }
@@ -426,10 +423,6 @@ public class MyDistrictDisplayContext {
         Pattern p = Pattern.compile("<[^>]*>");
         Matcher m = p.matcher(html);
         return m.replaceAll("");
-    }
-
-    private int getDaysBetweenTodayAndNextOpenDate(Event event) {
-        return (int) Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), event.getNextOpenDate()));
     }
 
     private int getDaysBetweenTodayAndPublicationDate(AssetEntry entry) {

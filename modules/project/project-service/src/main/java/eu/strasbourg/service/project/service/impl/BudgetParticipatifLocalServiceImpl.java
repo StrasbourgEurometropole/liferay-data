@@ -16,6 +16,7 @@ package eu.strasbourg.service.project.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -183,9 +184,22 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 
         // Si la phase n'est pas definie, definir celle qui est active (si elle existe)
         if (budget.getBudgetPhaseId() < 1) {
-            List<BudgetPhase> budgetPhaseActive = BudgetPhaseLocalServiceUtil.getByIsActiveAndGroupId(true, groupId);
-            if (budgetPhaseActive.size() > 0) {
-                budget.setBudgetPhaseId(budgetPhaseActive.get(0).getBudgetPhaseId());
+        	
+            BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+            if (budgetPhaseActive != null) {
+                budget.setBudgetPhaseId(budgetPhaseActive.getBudgetPhaseId());
+                AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+                
+                //Recuperation des categories id déjà passés dans le service context
+                long[] ids = sc.getAssetCategoryIds();
+                
+                //On ajoute la catégorie "Phase du budget participatif" de la phase active au BP dans la liste existante
+                List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+                idsLong.add(phaseCat.getCategoryId());
+                
+                //Affecte la categorie "Phase du budget participatif" de la phase active au BP
+                //La categorie est ajoutee dans le service context car le BP n'est pas encore cree
+                sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
             }
         }
 
@@ -266,6 +280,14 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 		return this.budgetParticipatifPersistence.findByStatusAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
 	}
 	
+	
+	 /**
+	 * Retourne tous les budgets participatifs publies d'un groupe
+	 */
+	public List<BudgetParticipatif> findActiveBPByGroupId(long groupId) {
+		    return budgetParticipatifFinder.findByStatusAndActivePhaseAndGroupId(WorkflowConstants.STATUS_APPROVED, groupId);
+		}
+	
 	 /**
      * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
      *
@@ -273,16 +295,18 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @return Liste des budgets participatifs triee par nombre de commentaires
      */
 	@Override
-    public List<BudgetParticipatif> getSortedByNbComments(long groupId) {
+    public List<BudgetParticipatif> getSortedByNbComments(long groupId, AssetCategory phase) {
         List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByGroupId(groupId);
         
         // Verification d'un retour vide
         if (budgetsParticipatifs == null || budgetsParticipatifs.isEmpty())
             return new ArrayList<>();
         
+        //Filtre les BP de la phase passee en parametre
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
-        		.filter(budgetParticipatif -> budgetParticipatif.getStatus() == 0)
+        		.filter(budgetParticipatif -> budgetParticipatif.getStatus() == 0
+        		&& AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry(phase.getCategoryId() ,budgetParticipatif.getAssetEntry().getEntryId()))
         		.collect(Collectors.toList());
         
         // Creation du comparateur
@@ -303,7 +327,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @return Liste des budgets participatifs triee par nombre de soutiens
      */
 	@Override
-    public List<BudgetParticipatif> getSortedByNbSupports(long groupId) {
+    public List<BudgetParticipatif> getSortedByNbSupports(long groupId, AssetCategory phase) {
         List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByStatusAndGroupId(
         													WorkflowConstants.STATUS_APPROVED, 
         													groupId);
@@ -311,6 +335,12 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         // Verification d'un retour vide
         if (budgetsParticipatifs == null || budgetsParticipatifs.isEmpty())
             return new ArrayList<>();
+        
+        //Filtre les BP de la phase passee en parametre
+        budgetsParticipatifs = budgetsParticipatifs
+        		.stream()
+        		.filter(bp -> AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry(phase.getCategoryId() ,bp.getAssetEntry().getEntryId()))
+        		.collect((Collectors.toList()));
         
         // Creation du comparateur
         Comparator<BudgetParticipatif> reversedMostSupportedComparator = Comparator
@@ -330,8 +360,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @return Liste des budgets participatifs les plus commentes triee.
      */
 	@Override
-    public List<BudgetParticipatif> getMostCommented(long groupId, int delta) {
-        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbComments(groupId);
+    public List<BudgetParticipatif> getMostCommented(long groupId, int delta, AssetCategory phase) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbComments(groupId, phase);      
         
         // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
         if (budgetsParticipatifs.size() < delta)
@@ -347,8 +377,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @return Liste des budgets participatifs les plus soutenus triee.
      */
 	@Override
-    public List<BudgetParticipatif> getMostSupported(long groupId, int delta) {
-        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbSupports(groupId);
+    public List<BudgetParticipatif> getMostSupported(long groupId, int delta, AssetCategory phase) {
+        List<BudgetParticipatif> budgetsParticipatifs = this.getSortedByNbSupports(groupId, phase);
         
         // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
         if (budgetsParticipatifs.size() < delta)
@@ -364,11 +394,17 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
      * @return Liste des budgets participatifs coup de coeurs recent
      */
 	@Override
-    public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta) {
+    public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta, AssetCategory phase) {
         List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByisCrushAndPublished(
         													true,
         													WorkflowConstants.STATUS_APPROVED,
         													groupId);
+        //Filtre les BP de la phase passee en parametre
+        budgetsParticipatifs = budgetsParticipatifs
+        		.stream()
+        		.filter(bp -> AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry(phase.getCategoryId() ,bp.getAssetEntry().getEntryId()))
+        		.collect((Collectors.toList()));
+        
         
         // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
         if (budgetsParticipatifs.size() < delta)
@@ -384,6 +420,15 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByBudgetPhase(long budgetPhaseId) {
         return this.budgetParticipatifPersistence.findByBudgetPhaseId(budgetPhaseId);
     }
+	
+	/**
+	 * Retourne tous les budgets participatifs d'un parent
+     */
+	@Override
+    public List<BudgetParticipatif> getByParentId(long budgetPhaseId) {
+        return this.budgetParticipatifPersistence.findByParentId(budgetPhaseId);
+    }
+	
     
     /**
 	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes

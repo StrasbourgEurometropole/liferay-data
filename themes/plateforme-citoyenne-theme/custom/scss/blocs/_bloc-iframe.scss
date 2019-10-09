@@ -24,6 +24,9 @@
 		margin-bottom: 40px;
 		margin-top: 40px;
 	}
+	@include mobile{
+		height: 500px;
+	}
 	.pro-fixed-map {
 		height: 100%;
 		.wrapper-map {
@@ -34,6 +37,7 @@
 
 .gm-style-iw.gm-style-thuria {
 	overflow: visible;
+	padding: 0;
 	> div {
 		box-shadow: 0 14px 29px rgba(0, 0, 22, 0.2), 0 0px 10px rgba(0, 4, 20, 0.2);
 		margin-bottom: -30px;
@@ -48,9 +52,6 @@
 			color: $c_white;
 			font-size: 64px;
 			transform: rotate(180deg) translateX(50%);
-			//@include mobile{
-			//	left: calc(45% + 2px);
-			//}
 		}
 		> div {
 			border-radius: 0;
@@ -58,6 +59,7 @@
 			background: #FFF;
 		}
 	}
+
 
 	.pro-bloc-card-map-event {
 		max-width: 250px;
@@ -110,7 +112,6 @@
 	}
 
 	.pro-bloc-card-projet {
-		color: red;
 		&:hover {
 			transform: none;
 			box-shadow: none;
@@ -127,6 +128,14 @@
 		}
 	}
 }
+
+
+.gm-style-iw-t{
+	&::after{
+		content: none !important;
+	}
+}
+
 
 .pro-vignette-map-inte {
 	position: relative;
@@ -176,94 +185,6 @@
 			}
 		}
 	}
-
-	//.pro-card-video {
-	//	height: 219px;
-	//	max-width: 300px;
-	//	border: 1px solid rgba($c_dark, 0.25);
-	//	border-radius: 4px;
-	//	@include mobile {
-	//		height: 100%;
-	//	}
-	//	&:hover, &:focus {
-	//		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-	//		.pro-header {
-	//			figure {
-	//				img {
-	//					transform: none;
-	//				}
-	//			}
-	//		}
-	//	}
-	//	.pro-header {
-	//		height: 100%;
-	//		&:before, &:after {
-	//			content: none;
-	//		}
-	//		figure {
-	//			height: 100%;
-	//			&:after {
-	//				content: '';
-	//				position: absolute;
-	//				top: 0;
-	//				left: 0;
-	//				right: 0;
-	//				bottom: 0;
-	//				z-index: 100;
-	//				/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+25,0.65+100 */
-	//				background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* FF3.6-15 */
-	//				background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
-	//				background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	//				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#a6000000', GradientType=0); /* IE6-9 */
-	//			}
-	//			img {
-	//				height: 100%;
-	//			}
-	//		}
-	//		.icon-ico-lecteur {
-	//			transform: none;
-	//			left: auto;
-	//			top: auto;
-	//			right: 85px;
-	//			bottom: 85px;
-	//			z-index: 200;
-	//		}
-	//	}
-	//	.pro-meta-avis {
-	//		position: absolute;
-	//		bottom: 10px;
-	//		left: 20px;
-	//		right: 20px;
-	//		width: calc(100% - 40px);
-	//		z-index: 200;
-	//		h3 {
-	//			color: $c_white;
-	//			margin-bottom: 10px;
-	//			text-align: left;
-	//		}
-	//		.pro-view {
-	//			color: $c_white;
-	//			font-weight: 700;
-	//			font-size: 0.923em;
-	//		}
-	//		.pro-avis {
-	//			> * {
-	//				background: $c_main;
-	//				text-align: center;
-	//				border-radius: 4px;
-	//				display: inline-block;
-	//				&:first-child {
-	//					margin-right: 4px;
-	//				}
-	//				&:hover {
-	//					cursor: default;
-	//					color: $c_txt;
-	//				}
-	//			}
-	//		}
-	//	}
-	//
-	//}
 }
 
 #map-inte-container {
@@ -337,11 +258,7 @@
 		.wrapper-rate {
 			position: relative;
 			margin-bottom: 5px;
-			&:after {
-				content: '';
-				display: block;
-				clear: both;
-			}
+			@include clearfix();
 			.rate {
 				float: left;
 				margin-bottom: 0;

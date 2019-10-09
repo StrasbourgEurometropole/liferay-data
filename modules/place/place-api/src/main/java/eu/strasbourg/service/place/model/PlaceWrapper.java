@@ -92,6 +92,9 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("displayEvents", getDisplayEvents());
 		attributes.put("additionalInformation", getAdditionalInformation());
 		attributes.put("contenuTooltipCarto", getContenuTooltipCarto());
+		attributes.put("hasURLSchedule", getHasURLSchedule());
+		attributes.put("scheduleLinkName", getScheduleLinkName());
+		attributes.put("scheduleLinkURL", getScheduleLinkURL());
 		attributes.put("phone", getPhone());
 		attributes.put("mail", getMail());
 		attributes.put("siteURL", getSiteURL());
@@ -331,6 +334,24 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 			setContenuTooltipCarto(contenuTooltipCarto);
 		}
 
+		Boolean hasURLSchedule = (Boolean)attributes.get("hasURLSchedule");
+
+		if (hasURLSchedule != null) {
+			setHasURLSchedule(hasURLSchedule);
+		}
+
+		String scheduleLinkName = (String)attributes.get("scheduleLinkName");
+
+		if (scheduleLinkName != null) {
+			setScheduleLinkName(scheduleLinkName);
+		}
+
+		String scheduleLinkURL = (String)attributes.get("scheduleLinkURL");
+
+		if (scheduleLinkURL != null) {
+			setScheduleLinkURL(scheduleLinkURL);
+		}
+
 		String phone = (String)attributes.get("phone");
 
 		if (phone != null) {
@@ -519,6 +540,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Returns the has url schedule of this place.
+	*
+	* @return the has url schedule of this place
+	*/
+	@Override
+	public boolean getHasURLSchedule() {
+		return _place.getHasURLSchedule();
+	}
+
+	/**
 	* Returns the subject to public holiday of this place.
 	*
 	* @return the subject to public holiday of this place
@@ -595,6 +626,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public boolean isExpired() {
 		return _place.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this place is has url schedule.
+	*
+	* @return <code>true</code> if this place is has url schedule; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isHasURLSchedule() {
+		return _place.isHasURLSchedule();
 	}
 
 	/**
@@ -1961,6 +2002,142 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Returns the schedule link name of this place.
+	*
+	* @return the schedule link name of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkName() {
+		return _place.getScheduleLinkName();
+	}
+
+	/**
+	* Returns the localized schedule link name of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized schedule link name of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkName(java.lang.String languageId) {
+		return _place.getScheduleLinkName(languageId);
+	}
+
+	/**
+	* Returns the localized schedule link name of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized schedule link name of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkName(java.lang.String languageId,
+		boolean useDefault) {
+		return _place.getScheduleLinkName(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized schedule link name of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized schedule link name of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkName(java.util.Locale locale) {
+		return _place.getScheduleLinkName(locale);
+	}
+
+	/**
+	* Returns the localized schedule link name of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized schedule link name of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getScheduleLinkName(java.util.Locale locale,
+		boolean useDefault) {
+		return _place.getScheduleLinkName(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getScheduleLinkNameCurrentLanguageId() {
+		return _place.getScheduleLinkNameCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getScheduleLinkNameCurrentValue() {
+		return _place.getScheduleLinkNameCurrentValue();
+	}
+
+	/**
+	* Returns the schedule link url of this place.
+	*
+	* @return the schedule link url of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkURL() {
+		return _place.getScheduleLinkURL();
+	}
+
+	/**
+	* Returns the localized schedule link url of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized schedule link url of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkURL(java.lang.String languageId) {
+		return _place.getScheduleLinkURL(languageId);
+	}
+
+	/**
+	* Returns the localized schedule link url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized schedule link url of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkURL(java.lang.String languageId,
+		boolean useDefault) {
+		return _place.getScheduleLinkURL(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized schedule link url of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized schedule link url of this place
+	*/
+	@Override
+	public java.lang.String getScheduleLinkURL(java.util.Locale locale) {
+		return _place.getScheduleLinkURL(locale);
+	}
+
+	/**
+	* Returns the localized schedule link url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized schedule link url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getScheduleLinkURL(java.util.Locale locale,
+		boolean useDefault) {
+		return _place.getScheduleLinkURL(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getScheduleLinkURLCurrentLanguageId() {
+		return _place.getScheduleLinkURLCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getScheduleLinkURLCurrentValue() {
+		return _place.getScheduleLinkURLCurrentValue();
+	}
+
+	/**
 	* Returns the service and activities of this place.
 	*
 	* @return the service and activities of this place
@@ -2610,6 +2787,26 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public Map<java.util.Locale, java.lang.String> getPresentationMap() {
 		return _place.getPresentationMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized schedule link names of this place.
+	*
+	* @return the locales and localized schedule link names of this place
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getScheduleLinkNameMap() {
+		return _place.getScheduleLinkNameMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized schedule link urls of this place.
+	*
+	* @return the locales and localized schedule link urls of this place
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getScheduleLinkURLMap() {
+		return _place.getScheduleLinkURLMap();
 	}
 
 	/**
@@ -3583,6 +3780,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Sets whether this place is has url schedule.
+	*
+	* @param hasURLSchedule the has url schedule of this place
+	*/
+	@Override
+	public void setHasURLSchedule(boolean hasURLSchedule) {
+		_place.setHasURLSchedule(hasURLSchedule);
+	}
+
+	/**
 	* Sets the image height of this place.
 	*
 	* @param imageHeight the image height of this place
@@ -3904,6 +4111,135 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setSIGid(java.lang.String SIGid) {
 		_place.setSIGid(SIGid);
+	}
+
+	/**
+	* Sets the schedule link name of this place.
+	*
+	* @param scheduleLinkName the schedule link name of this place
+	*/
+	@Override
+	public void setScheduleLinkName(java.lang.String scheduleLinkName) {
+		_place.setScheduleLinkName(scheduleLinkName);
+	}
+
+	/**
+	* Sets the localized schedule link name of this place in the language.
+	*
+	* @param scheduleLinkName the localized schedule link name of this place
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setScheduleLinkName(java.lang.String scheduleLinkName,
+		java.util.Locale locale) {
+		_place.setScheduleLinkName(scheduleLinkName, locale);
+	}
+
+	/**
+	* Sets the localized schedule link name of this place in the language, and sets the default locale.
+	*
+	* @param scheduleLinkName the localized schedule link name of this place
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setScheduleLinkName(java.lang.String scheduleLinkName,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_place.setScheduleLinkName(scheduleLinkName, locale, defaultLocale);
+	}
+
+	@Override
+	public void setScheduleLinkNameCurrentLanguageId(
+		java.lang.String languageId) {
+		_place.setScheduleLinkNameCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized schedule link names of this place from the map of locales and localized schedule link names.
+	*
+	* @param scheduleLinkNameMap the locales and localized schedule link names of this place
+	*/
+	@Override
+	public void setScheduleLinkNameMap(
+		Map<java.util.Locale, java.lang.String> scheduleLinkNameMap) {
+		_place.setScheduleLinkNameMap(scheduleLinkNameMap);
+	}
+
+	/**
+	* Sets the localized schedule link names of this place from the map of locales and localized schedule link names, and sets the default locale.
+	*
+	* @param scheduleLinkNameMap the locales and localized schedule link names of this place
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setScheduleLinkNameMap(
+		Map<java.util.Locale, java.lang.String> scheduleLinkNameMap,
+		java.util.Locale defaultLocale) {
+		_place.setScheduleLinkNameMap(scheduleLinkNameMap, defaultLocale);
+	}
+
+	/**
+	* Sets the schedule link url of this place.
+	*
+	* @param scheduleLinkURL the schedule link url of this place
+	*/
+	@Override
+	public void setScheduleLinkURL(java.lang.String scheduleLinkURL) {
+		_place.setScheduleLinkURL(scheduleLinkURL);
+	}
+
+	/**
+	* Sets the localized schedule link url of this place in the language.
+	*
+	* @param scheduleLinkURL the localized schedule link url of this place
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setScheduleLinkURL(java.lang.String scheduleLinkURL,
+		java.util.Locale locale) {
+		_place.setScheduleLinkURL(scheduleLinkURL, locale);
+	}
+
+	/**
+	* Sets the localized schedule link url of this place in the language, and sets the default locale.
+	*
+	* @param scheduleLinkURL the localized schedule link url of this place
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setScheduleLinkURL(java.lang.String scheduleLinkURL,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_place.setScheduleLinkURL(scheduleLinkURL, locale, defaultLocale);
+	}
+
+	@Override
+	public void setScheduleLinkURLCurrentLanguageId(java.lang.String languageId) {
+		_place.setScheduleLinkURLCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized schedule link urls of this place from the map of locales and localized schedule link urls.
+	*
+	* @param scheduleLinkURLMap the locales and localized schedule link urls of this place
+	*/
+	@Override
+	public void setScheduleLinkURLMap(
+		Map<java.util.Locale, java.lang.String> scheduleLinkURLMap) {
+		_place.setScheduleLinkURLMap(scheduleLinkURLMap);
+	}
+
+	/**
+	* Sets the localized schedule link urls of this place from the map of locales and localized schedule link urls, and sets the default locale.
+	*
+	* @param scheduleLinkURLMap the locales and localized schedule link urls of this place
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setScheduleLinkURLMap(
+		Map<java.util.Locale, java.lang.String> scheduleLinkURLMap,
+		java.util.Locale defaultLocale) {
+		_place.setScheduleLinkURLMap(scheduleLinkURLMap, defaultLocale);
 	}
 
 	/**

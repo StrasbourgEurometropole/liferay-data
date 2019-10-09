@@ -9,7 +9,7 @@ import java.util.List;
 @ProviderType
 public interface CommentsXlsxExporter {
 	
-	public void exportComments(OutputStream stream, String CommentsXlsxExporterentIdStr);
+	public void exportComments(OutputStream stream, long groupId);
 	
 	public void exportComments(OutputStream stream, List<Comment> CommentsXlsxExporterents);
 }

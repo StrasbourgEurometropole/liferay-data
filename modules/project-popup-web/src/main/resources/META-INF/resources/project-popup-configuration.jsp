@@ -25,8 +25,8 @@
 
 				<!-- Formulaire de recherche -->
 				<aui:select name="popupTemplateId">
-					<aui:option value="filePetition" selected="${popupTemplateId eq 'filePetition'}">
-						<liferay-ui:message key="filePetition" />
+					<aui:option value="submitPetition" selected="${popupTemplateId eq 'submitPetition'}">
+						<liferay-ui:message key="submitPetition" />
 					</aui:option>
 					<aui:option value="signPetition" selected="${popupTemplateId eq 'signPetition'}">
 						<liferay-ui:message key="signPetition" />
@@ -40,8 +40,11 @@
 					<aui:option value="submitInitiative" selected="${popupTemplateId eq 'submitInitiative'}">
 						<liferay-ui:message key="submitInitiative" />
 					</aui:option>
-					<aui:option value="fileBudget" selected="${popupTemplateId eq 'fileBudget'}">
-						<liferay-ui:message key="fileBudget" />
+					<aui:option value="submitBudget" selected="${popupTemplateId eq 'submitBudget'}">
+						<liferay-ui:message key="submitBudget" />
+					</aui:option>
+					<aui:option value="editBudget" selected="${popupTemplateId eq 'editBudget'}">
+						<liferay-ui:message key="editBudget" />
 					</aui:option>
 					<aui:option value="giveBudgetSupport" selected="${popupTemplateId eq 'giveBudgetSupport'}">
 						<liferay-ui:message key="giveBudgetSupport" />
@@ -49,7 +52,7 @@
 				</aui:select>
 			</aui:fieldset>
 
-			<!-- Désactivation de la popup -->
+			<!-- Desactivation de la popup -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="disabling">
 

@@ -4,12 +4,7 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -218,7 +213,7 @@ public class InterestViewerDisplayContext {
 			e.printStackTrace();
 		}
 
-		// récupère les évènements des centres d'intérêt
+		// récupère les catégoriesId des évènements des centres d'intérêt
 		List<Long[]> categorieEventIds = new ArrayList<Long[]>();
 		Long[] tabCategories = new Long[eventSearchCategories.size()];
 		for (int i = 0; i < eventSearchCategories.size(); i++) {
@@ -228,7 +223,7 @@ public class InterestViewerDisplayContext {
 			categorieEventIds.add(tabCategories);
 		}
 
-		// récupère les actualités des centres d'intérêt
+		// récupère les catégoriesId des actualités des centres d'intérêt
 		List<Long[]> categorieActuIds = new ArrayList<Long[]>();
 		tabCategories = new Long[actuSearchCategories.size()];
 		for (int i = 0; i < actuSearchCategories.size(); i++) {
@@ -287,13 +282,31 @@ public class InterestViewerDisplayContext {
 			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
 			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
 			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			eventQuery.setLimit(0, count);
 			List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-			for (Event event : listEvent) {
-				AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
-				if (assetEntry != null) {
-					result.add(assetEntry);
-				}
+
+
+			// trie par date de fin de l'évènement
+			listEvent = listEvent.stream().sorted((e1, e2) -> {
+				Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
+				Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
+				return e1EndDate.compareTo(e2EndDate);
+			}).collect(Collectors.toList());
+
+			// trie par date d'arrivé de l'événement
+			listEvent = listEvent.stream().sorted((e1, e2) -> {
+				LocalDate e1NextDate = e1.getNextOpenDate();
+				LocalDate e2NextDate = e2.getNextOpenDate();
+				return e1NextDate.compareTo(e2NextDate);
+			}).collect(Collectors.toList());
+
+			for (Event event: listEvent) {
+				if(result.size() < count) {
+					AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+					if (assetEntry != null) {
+						result.add(assetEntry);
+					}
+				}else
+					break;
 			}
 		}
 

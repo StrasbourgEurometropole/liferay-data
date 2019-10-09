@@ -14,9 +14,9 @@
 
 package eu.strasbourg.service.activity.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * Provides a wrapper for {@link AssociationService}.

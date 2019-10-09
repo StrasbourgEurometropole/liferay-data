@@ -1,16 +1,21 @@
 package eu.strasbourg.portlet.comment.resource;
 
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
-import com.liferay.portal.kernel.util.ParamUtil;
-import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
+import java.io.IOException;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import java.io.IOException;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+
+import eu.strasbourg.service.office.exporter.api.CommentsXlsxExporter;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
  * Export d'une campagne au format JSON
@@ -31,10 +36,12 @@ public class ExportCommentsToXlsxResourceCommand implements MVCResourceCommand {
 			throws PortletException {
 		resourceResponse.setContentType("application/force-download");
 		resourceResponse.setProperty("content-disposition", "attachment; filename=Commentaires.xlsx");
-		String commentIds = ParamUtil.getString(resourceRequest, "commentIds");
+		//String commentIds = ParamUtil.getString(resourceRequest, "commentIds");
+		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
+		long groupId = themeDisplay.getScopeGroupId();
 
 		try {
-			commentsXlsExporter.exportComments(resourceResponse.getPortletOutputStream(), commentIds);
+			commentsXlsExporter.exportComments(resourceResponse.getPortletOutputStream(), groupId);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -45,10 +45,13 @@
 
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
+				
+				<%-- Champ : Resume --%>
+				<aui:input name="summary" label="bp-summary" required="true" />
 
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="true" />
-
+				
 				<%-- Champ : Budget --%>
 				<aui:input name="budget" required="false" />
 
@@ -56,36 +59,52 @@
 				<aui:input name="motif" required="false" />
 
 			</aui:fieldset>
-
+			
 			<%-- Groupe de champs : Citoyen --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="citizen">
-
-				<%-- Champ : Nom --%>
-				<aui:input name="citoyenLastname" label="last-name" disabled="true" />
-				
-				<%-- Champ : Prenom --%>
-				<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
-
-				<%-- Champ : Adresse --%>
-				<aui:input name="citoyenAdresse" label="address" />
-
-				<%-- Champ : Code postal --%>
-				<aui:input name="citoyenPostalCode" label="postal-code" />
-
-				<%-- Champ : Ville --%>
-				<aui:input name="citoyenCity" label="city" />
-
-				<%-- Champ : Adresse mail --%>
-				<aui:input name="citoyenEmail" label="email" />
-
-				<%-- Champ : telephone --%>
-				<aui:input name="citoyenPhone" label="phone" />
-
-				<%-- Champ : mobile --%>
-				<aui:input name="citoyenMobile" label="mobile" />
-
+			
+				<c:choose>
+				    <c:when test="${not empty dc.getBudgetParticipatif().getCitoyenLastname()}">
+						<%-- Champ : Nom --%>
+						<aui:input name="citoyenLastname" label="last-name" disabled="true" />
+						
+						<%-- Champ : Prenom --%>
+						<aui:input name="citoyenFirstname" label="first-name" disabled="true" />
+			
+						<%-- Champ : Adresse --%>
+						<aui:input name="citoyenAdresse" label="address" />
+			
+						<%-- Champ : Code postal --%>
+						<aui:input name="citoyenPostalCode" label="postal-code" />
+			
+						<%-- Champ : Ville --%>
+						<aui:input name="citoyenCity" label="city" />
+			
+						<%-- Champ : Adresse mail --%>
+						<aui:input name="citoyenEmail" label="email" />
+			
+						<%-- Champ : telephone --%>
+						<aui:input name="citoyenPhone" label="phone" />
+			
+						<%-- Champ : mobile --%>
+						<aui:input name="citoyenMobile" label="mobile" />
+				    </c:when>
+					<c:otherwise>
+						<%-- Champ : Au nom de --%>
+						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
+					</c:otherwise>
+				</c:choose>
 			</aui:fieldset>
-
+			
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="fusion">
+				<p><liferay-ui:message key='project-parent-explanation' /></p>
+	
+				<strasbourg-picker:entity label="eu.budgetParent" name="budgetParentId"
+					value="${dc.budgetParticipatif.parentId}"
+					type="eu.strasbourg.service.project.model.BudgetParticipatif"
+					multiple="false" />
+			</aui:fieldset>
+			
             <%-- Groupe de champs : video/image --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-video">
 
@@ -150,18 +169,26 @@
 				<p><liferay-ui:message key='phase-explanation' /></p>
 			
 				<strasbourg-picker:entity label="eu.budgetPhase" name="budgetPhaseId"
-					value="${dc.budgetParticipatif.budgetPhaseId}"
+					value="${not empty budgetPhaseId ? budgetPhaseId : dc.budgetParticipatif.budgetPhaseId}"
 					type="eu.strasbourg.service.project.model.BudgetPhase"
 					multiple="false" />	
-				
 			</aui:fieldset>
 			
 			<%-- Groupe de champs : vocabulaire --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">
 
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-
+				<c:choose>
+				    <c:when test="${empty defaultAssetCategoryIds}">
+						<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				    </c:when>
+					<c:otherwise>
+						<liferay-ui:asset-categories-selector
+								className="<%= BudgetParticipatif.class.getName() %>"
+								curCategoryIds="${defaultAssetCategoryIds}"
+						/>
+					</c:otherwise>
+				</c:choose>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">

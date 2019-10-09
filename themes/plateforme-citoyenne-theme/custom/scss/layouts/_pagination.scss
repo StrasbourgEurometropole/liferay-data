@@ -1,0 +1,154 @@
+/* GLOBAL STYLE PAGINATION */
+.pro-pagination {
+	padding: 25px 0;
+	border-top: 1px solid $c_filet;
+	@include mobile {
+		padding: 20px 0;
+	}
+
+	p, form {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0;
+	}
+	p {
+		@include ft($f_txt, $s_p, 400, $c_txt, 1.6em);
+		margin-left: 15px;
+		@include tablet_portrait {
+			font-size: 0.750em;
+			line-height: 2em;
+		}
+	}
+
+	.selectric-wrapper {
+		display: inline-block;
+		vertical-align: middle;
+		.selectric {
+			background: none;
+			border: none;
+			padding-right: 20px;
+			&:after {
+				content: "\e902";
+				@include font();
+				color: $c_txt;
+				font-size: 8px;
+				position: absolute;
+				right: 0;
+				top: 50%;
+				margin-top: -4px;
+				border: none;
+			}
+			.button {
+				display: none;
+			}
+
+			.label {
+				position: relative;
+				@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
+				text-transform: uppercase;
+				margin: 0;
+				height: 100%;
+				padding: 0;
+				&:after {
+					content: '';
+					position: absolute;
+					bottom: 5px;
+					left: 0;
+					right: 0;
+					height: 4px;
+					background: $c_main;
+					z-index: -1;
+					@include addTransitionCurve();
+				}
+				&:hover {
+					&:after {
+						height: 10px;
+					}
+				}
+			}
+		}
+
+		.selectric-items {
+			top: 110%;
+			background: $c_white;
+			box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.20);
+			border: none;
+			width: 100px !important;
+			z-index: -1;
+			ul {
+				li {
+					@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
+					text-transform: uppercase;
+					padding: 8px 15px;
+				}
+			}
+		}
+	}
+
+	.pull-right {
+		text-align: right;
+		ul {
+			padding: 0;
+			margin: 0;
+			li {
+				padding: 0;
+				margin: 0;
+				display: inline-block;
+				vertical-align: middle;
+				@include addTransitionCurve();
+				&:hover {
+					a {
+						color: $c_grey;
+						span {
+							border-color: $c_grey;
+							background: $c_grey;
+							color: $c_white;
+						}
+					}
+				}
+				a {
+					padding: 0 20px;
+					@include ft($f_hx, $s_p, 400, $c_txt, 1.6em);
+					text-transform: uppercase;
+					position: relative;
+					@include addTransition();
+					&:hover, &:focus {
+						color: $c_grey;
+						text-decoration: underline;
+					}
+					@include tablet_portrait {
+						padding: 0;
+						margin-left: 20px;
+					}
+					span {
+						padding: 5px;
+						@include addTransitionCurve();
+					}
+
+					&.pro-first {
+						padding: 0 10px;
+						&:before {
+							content: "\e90e";
+							@include font();
+							font-size: 1.3em;
+							float: left;
+							line-height: 1.2em;
+							margin-right: 5px;
+						}
+					}
+					&.pro-last {
+						padding: 0 10px;
+						&:after {
+							content: "\e903";
+							@include font();
+							font-size: 1.3em;
+							float: right;
+							line-height: 1.2em;
+							margin-left: 5px;
+						}
+					}
+				}
+			}
+		}
+	}
+}

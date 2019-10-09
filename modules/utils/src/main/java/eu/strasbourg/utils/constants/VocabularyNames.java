@@ -37,6 +37,7 @@ public class VocabularyNames {
 	public static final String OPS_EVENT_SUBSCRIPTION_TYPE = "Abonnement";
 	public static final String OPS_TYPOLOGIE = "Typologie";
 	public static final String PROJECT = "projet";
+	public static final String PLACIT_BUDGET_PARTICIPATIF_PHASE = "Phase du Budget Participatif";
 	public static final String PRACTICE = "domaine de pratique";
 	public static final String PRACTICE_PUBLIC = "public de pratique";
 	public static final String ACCESSIBILITY = "accessibilite de pratique";
