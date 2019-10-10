@@ -78,10 +78,21 @@
 				<liferay-portlet:renderURL varImpl="editAgendaExportURL">
 					<portlet:param name="tab" value="agendaExports" />
 					<portlet:param name="cmd" value="editAgendaExports" />
+					<portlet:param name="toExport" value="false" />
 					<portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
 					<portlet:param name="returnURL" value="${agendaExportsURL}" />
 					<portlet:param name="mvcPath" value="/agenda-export-bo-edit-agenda-export.jsp" />
 				</liferay-portlet:renderURL>
+
+				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
+                <liferay-portlet:renderURL varImpl="exportAgendaExportURL">
+                    <portlet:param name="tab" value="agendaExports" />
+                    <portlet:param name="cmd" value="editAgendaExports" />
+                    <portlet:param name="toExport" value="true" />
+                    <portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
+                    <portlet:param name="returnURL" value="${agendaExportsURL}" />
+                    <portlet:param name="mvcPath" value="/agenda-export-bo-edit-agenda-export.jsp" />
+                </liferay-portlet:renderURL>
 
 				<%-- Colonne : userName --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
@@ -107,6 +118,9 @@
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
+
+					    <liferay-ui:icon message="export" url="${exportAgendaExportURL}" />
+
 						<c:if test="${dc.hasPermission('EDIT_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editAgendaExportURL}" />
 						</c:if>

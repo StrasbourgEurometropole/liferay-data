@@ -46,9 +46,10 @@ public class AgendaExportBOPortlet extends MVCPortlet {
         PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
         
         String cmd = ParamUtil.getString(renderRequest, "cmd");
+        String toExport = ParamUtil.getString(renderRequest, "toExport");
         
         renderResponse.setTitle("Export Agenda");
-        //si on est sur la page d'ajout, on affiche bien évidemment un lien de retour
+        //si on est sur la page d'ajout, on affiche bien ï¿½videmment un lien de retour
         String returnURL = ParamUtil.getString(renderRequest,"returnURL");
         
         boolean showBackButton = Validator.isNotNull(returnURL);
@@ -57,9 +58,10 @@ public class AgendaExportBOPortlet extends MVCPortlet {
             portletDisplay.setURLBack(returnURL);
         }
         
-      //on set le displayContext selon la page sur laquelle on est
-        if (cmd.equals("editAgendaExports") || cmd.equals("copyAgendaExports")){
+        //on set le displayContext selon la page sur laquelle on est
+        if (cmd.equals("editAgendaExports") || cmd.equals("copyAgendaExports") || cmd.equals("exportAgendaExports")){
             EditAgendaExportDisplayContext dc = new EditAgendaExportDisplayContext(renderRequest,renderResponse);
+            dc.setToExport(toExport);
             renderRequest.setAttribute("dc",dc);
         } else {
             ViewAgendaExportDisplayContext dc = new ViewAgendaExportDisplayContext(renderRequest,renderResponse);

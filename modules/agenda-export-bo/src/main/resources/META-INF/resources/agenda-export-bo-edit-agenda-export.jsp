@@ -1,6 +1,7 @@
 <%@ include file="/agenda-export-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.AgendaExport"%>
 <c:set var="agendaExport" value="${dc.agendaExport}" />
+<c:set var="toExport" value="${dc.toExport}" />
 
 <liferay-portlet:renderURL varImpl="agendaExportsURL">
 	<portlet:param name="tab" value="agendaExports" />
@@ -21,7 +22,7 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="exportAgendaExport" varImpl="exportAgendaExportURL">
-	<portlet:param name="cmd" value="exportAgendaExport" />
+	<portlet:param name="cmd" value="exportAgendaExports" />
 	<portlet:param name="tab" value="agendaExports" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
@@ -29,7 +30,7 @@
 
 
 <div class="container-fluid-1280 main-content-body">
-	<aui:form action="${saveAgendaExportURL}" method="post" name="fm">
+    <aui:form action="${(toExport eq true) ? exportAgendaExportURL : saveAgendaExportURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
 			id="translationManager" />
@@ -115,23 +116,27 @@
 		</aui:fieldset-group>
 		
 		<aui:button-row>
-			<c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:input type="hidden" name="workflowAction" value="" />
-				<c:if test="${dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" value="save" />
-				</c:if>
-				<c:if test="${not dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" name="publish"
-							value="eu.publish" />
-					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
-							value="save-as-draft" />
-				</c:if>
-			</c:if>
-			<aui:button cssClass="btn-lg" href="${exportAgendaExportURL}" value="eu.export"/>
-			<c:if test="${not empty agendaExport and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
-					value="delete" />
-			</c:if>
+            <c:if test="${toExport ne true}">
+                <c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                    <aui:input type="hidden" name="workflowAction" value="" />
+                    <c:if test="${dc.workflowEnabled}">
+                        <aui:button cssClass="btn-lg" type="submit" value="save" />
+                    </c:if>
+                    <c:if test="${not dc.workflowEnabled}">
+                        <aui:button cssClass="btn-lg" type="submit" name="publish"
+                                value="eu.publish" />
+                        <aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft"
+                                value="save-as-draft" />
+                    </c:if>
+                </c:if>
+                <c:if test="${not empty agendaExport and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                    <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
+                        value="delete" />
+                </c:if>
+            </c:if>
+            <c:if test="${toExport eq true}">
+                <aui:button id="export-btn" cssClass="btn-lg" type="submit" value="eu.export"/>
+            </c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>

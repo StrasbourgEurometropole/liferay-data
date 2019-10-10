@@ -32,8 +32,10 @@ public class EditAgendaExportDisplayContext {
 	private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
     private final AssetVocabularyAccessor _assetVocabularyAccessor;
-    
+
+    //View variables
     private AgendaExport _agendaExport;
+    private Boolean _toExport = false;
 
     public EditAgendaExportDisplayContext(RenderRequest request, RenderResponse response) {
         this._request = request;
@@ -52,6 +54,19 @@ public class EditAgendaExportDisplayContext {
         	_agendaExport = AgendaExportLocalServiceUtil.fetchAgendaExport(agendaExportId);
         }
         return _agendaExport;
+    }
+
+    public void setToExport(String export) {
+
+        if(export.equals("true")) {
+            _toExport = true;
+        } else {
+            _toExport = false;
+        }
+    }
+
+    public Boolean getToExport() {
+        return _toExport;
     }
 
     public List<AgendaExportPeriod> getOrCreateAgendaExportPeriods() throws PortalException {
