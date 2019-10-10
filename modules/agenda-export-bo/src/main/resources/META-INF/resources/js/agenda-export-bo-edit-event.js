@@ -115,3 +115,105 @@ function validatePeriods(event) {
 	}
 	return allValidated;
 }
+
+//option d'Export
+(function($) {
+    var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet";
+
+    /**
+     * Retourne la valeur d'un champ dans une liste d'objet donnée
+     */
+    var getValueWithName = function(items, name) {
+        for(var index in items) {
+            if(items[index].name === name) {
+                return items[index].value;
+            }
+        }
+    };
+
+    /**
+     * Retourne les valeurs d'un champ dans une liste d'objet donnée
+     */
+    var getAllValuesWithName = function(items, name) {
+        var values = [];
+        for(var index in items) {
+            if(items[index].name === name) {
+                values.push(items[index].value);
+            }
+        }
+
+        if(values.length === 0) {
+            return undefined;
+        }
+
+        return values;
+    }
+
+    /**
+     * Renvoit les categories triées par vocabulaires
+     */
+    var getCategories = function(items, token, idField, name) {
+
+        var vocabularies = {};
+        var key = 0;
+
+        for(var index in items) {
+            var itemName = items[index].name;
+            var itemValue = items[index].value;
+            key = itemName.replace(/\D/g,'');
+            itemName = itemName.replace(/[0-9]/g, token);
+
+            if(itemName === idField && key !== undefined) {
+                var fieldToFind = name.replace("[index]", key);
+                var values = getAllValuesWithName(items, fieldToFind);
+                if(values !== undefined) {
+                    vocabularies[itemValue] = values;
+                }
+            }
+        }
+
+        return vocabularies;
+    }
+
+    /**
+     * Appel de l'export
+     *
+     */
+    $("#"+ namespace + "_" + "export-btn").on("click", function() {
+
+        //Récupération des valeurs du formulaire
+        var values = $("#" + namespace + "_" + "fm").serializeArray();
+
+        //Champs du formulaire
+        var fields = {
+            title: namespace + "_title",
+            startDate: namespace + "_startDate[index]",
+            endDate: namespace + "_endDate[index]",
+            vocabularyId: namespace + "_vocabulary_[index]_id",
+            vocabularySelect: namespace + "_vocabulary_[index]_select",
+            vocabularyNumber: namespace + "_vocabulary_number",
+            tags: namespace + "_assetTagNames",
+            language: namespace + "_language",
+        };
+
+        var AgendaExport= {
+            title: getValueWithName(values, fields.title),
+            startDate: getValueWithName(values, fields.startDate.replace("[index]", 0)),
+            endDate: getValueWithName(values, fields.endDate.replace("[index]", 0)),
+            vocabularies: getCategories(values, "[index]", fields.vocabularyId, fields.vocabularySelect),
+            tags: getValueWithName(values, fields.tags).split(','),
+            language: getValueWithName(values, fields.language)
+        };
+
+        console.log(AgendaExport);
+
+//        Liferay.Service(
+//        '/gtfs.arret/get-arret-real-time', {
+//            stopCode: feature.properties.code
+//        },
+//        function(json) {
+//            console.log(json);
+//        }
+    });
+
+})(jQuery);

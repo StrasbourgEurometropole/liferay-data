@@ -21,16 +21,23 @@
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
 </liferay-portlet:actionURL>
 
-<liferay-portlet:actionURL name="exportAgendaExport" varImpl="exportAgendaExportURL">
-	<portlet:param name="cmd" value="exportAgendaExports" />
-	<portlet:param name="tab" value="agendaExports" />
-	<portlet:param name="agendaExportId"
-		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
-</liferay-portlet:actionURL>
+<liferay-portlet:resourceURL id="exportAgendaExport" var="exportAgendaExportURL">
+</liferay-portlet:resourceURL>
 
+<%--
+<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+</liferay-portlet:resourceURL>
+<form method="POST" action="${exportXlsxURL}">
+   <aui:input type="hidden" name="eventIds" value="${dc.allEventIds}" />
+   <aui:button-row>
+       <aui:button cssClass="btn-lg" type="submit"
+           value="export-xlsx" />
+   </aui:button-row>
+</form>
+--%>
 
 <div class="container-fluid-1280 main-content-body">
-    <aui:form action="${(toExport eq true) ? exportAgendaExportURL : saveAgendaExportURL}" method="post" name="fm">
+    <aui:form action="${(toExport eq true) ? exportAgendaExportURL : saveAgendaExportURL}" method="POST" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
 			id="translationManager" />
@@ -135,6 +142,7 @@
                 </c:if>
             </c:if>
             <c:if test="${toExport eq true}">
+                <%--<aui:button id="export-btn" cssClass="btn-lg" type="button" value="eu.export"/>--%>
                 <aui:button id="export-btn" cssClass="btn-lg" type="submit" value="eu.export"/>
             </c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
