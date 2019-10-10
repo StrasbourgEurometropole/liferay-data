@@ -21,11 +21,15 @@
 	.pro-wrapper-sort {
 		position: relative;
 		z-index: 140;
-		padding: 15px 0 25px 0;
+		padding: 0 0 30px 0;
 		display: block;
 		width: 100%;
+		text-align: right;
 		background: $c_white;
 		@include clearfix();
+		@include mobile{
+			padding: 10px 0 20px 0;
+		}
 		form {
 			float: left;
 			@include clearfix();
@@ -39,23 +43,15 @@
 			}
 		}
 
+
 		.pro-btn-yellow{
+			position: relative;
 			width: auto;
-			height: auto;
 			padding: 12px 40px;
-			position: absolute;
-			right: 0;
-			bottom: 30px;
+			display: inline-block;
 			&:hover, &:focus{
 				background: $c_dark;
 				border-color: $c_dark;
-			}
-			@media screen and (max-width: 1200px){
-				position: relative;
-				display: inline-block;
-				bottom: 0;
-				margin-top: 20px;
-				float: left;
 			}
 			@include mobile{
 				float: none;
@@ -76,7 +72,6 @@
 			@include tablet_landscape {
 				float: none;
 				display: inline-block;
-				margin-top: 20px;
 			}
 		}
 	}
@@ -181,9 +176,10 @@
 
 	.pro-affiner {
 		padding: 20px 30px;
+		overflow: visible;
 		@include mobile {
 			margin-bottom: 15px;
-			padding: 20px 15px;
+			padding: 20px 15px 25px;
 		}
 	}
 	form {

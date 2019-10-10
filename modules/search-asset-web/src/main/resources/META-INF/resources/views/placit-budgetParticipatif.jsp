@@ -15,10 +15,6 @@
 		            </span>
                 </div>
 
-				<div class="pro-inside-affine-search">
-
-                </div>
-
                  <div class="pro-wrapper-sort">
                     <c:choose>
                         <c:when test='${isUserloggedIn}'>
@@ -33,6 +29,8 @@
                         </c:otherwise>
                     </c:choose>
  				</div>
+ 				
+ 				<div class="pro-inside-affine-search"></div>
  				
  				<div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">

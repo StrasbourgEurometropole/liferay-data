@@ -254,8 +254,8 @@ figcaption {
 	ul, fieldset {
 		position: absolute;
 		right: -22px;
-		left: 0;
 		top: 35px;
+		min-width: 240px;
 		z-index: 200;
 		border-radius: 0;
 		list-style-type: none;
