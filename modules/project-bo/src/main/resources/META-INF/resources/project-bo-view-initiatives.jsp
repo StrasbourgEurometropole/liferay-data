@@ -126,7 +126,7 @@
 		</liferay-ui:search-container>
 	</aui:form>
 	
-	<liferay-portlet:resourceURL var="exportInitiativesXlsxURL" id="exportInitiativesXlsx">
+	<liferay-portlet:resourceURL var="exportInitiativesXlsxURL" id="exportInitiativesXlsx" copyCurrentRenderParameters="false">
     </liferay-portlet:resourceURL>
     
    	<form method="POST" action="${exportInitiativesXlsxURL}">

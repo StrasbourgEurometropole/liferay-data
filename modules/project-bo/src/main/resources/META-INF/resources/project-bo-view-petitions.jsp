@@ -142,7 +142,7 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="exportPetitionsXlsxURL" id="exportPetitionsXlsx">
+	<liferay-portlet:resourceURL var="exportPetitionsXlsxURL" id="exportPetitionsXlsx" copyCurrentRenderParameters="false">
     </liferay-portlet:resourceURL>
    	<form method="POST" action="${exportPetitionsXlsxURL}">
    		<aui:input type="hidden" name="petitionIds" value="${dc.allPetitionIds}" />
