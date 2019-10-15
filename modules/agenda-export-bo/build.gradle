@@ -12,10 +12,47 @@ dependencies {
 	compile group: "javax.servlet", name: "javax.servlet-api", version: "3.0.1"
 	
 	compile group: "jstl", name: "jstl", version: "1.2"
-	
+
 	compile group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
 
-	compile group: "org.docx4j", name: "docx4j-JAXB-Internal", version: "8.1.3"
+	compileInclude group: "org.docx4j", name: "docx4j-JAXB-Internal", version: "8.1.3"
+	compileInclude group: "org.slf4j", name: "jcl-over-slf4j", version: "1.7.26"
+	compileInclude group: "org.slf4j", name: "slf4j-api", version: "1.7.26"
+
+	/*
+	compileInclude group: "org.docx4j", name: "docx4j-core", version: "8.1.3"
+	compileInclude group: "org.docx4j", name: "docx4j-openxml-objects", version: "8.1.3"
+	compileInclude group: "org.docx4j", name: "docx4j-openxml-objects-pml", version: "8.1.3"
+	compileInclude group: "org.docx4j", name: "docx4j-openxml-objects-sml", version: "8.1.3"
+
+	compileInclude group: "antlr", name: "antlr", version: "2.7.7"
+	compileInclude group: "org.antlr", name: "antlr-runtime", version: "3.5.2"
+	compileInclude group: "org.checkerframework", name: "checker-qual", version: "2.5.2"
+	compileInclude group: "commons-codec", name: "commons-codec", version: "1.12"
+	compileInclude group: 'commons-io', name: 'commons-io', version: '2.6'
+	compileInclude group: "org.apache.commons", name: "commons-compress", version: "1.18"
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
+	compileInclude group: "com.google.errorprone", name: "error_prone_annotations", version: "2.2.0"
+	compileInclude group: "org.apache.httpcomponents", name: "httpclient", version: "4.5.8"
+	compileInclude group: "org.apache.httpcomponents", name: "httpcore", version: "4.4.11"
+	compileInclude group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.9.0"
+	compileInclude group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.9.9"
+	compileInclude group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.9.9"
+	compileInclude group: "org.plutext", name: "jaxb-svg11", version: "1.0.2"
+	compileInclude group: "org.slf4j", name: "jcl-over-slf4j", version: "1.7.26"
+	compileInclude group: "net.engio", name: "mbassador", version: "1.3.2"
+	compileInclude group: "org.slf4j", name: "slf4j-api", version: "1.7.26"
+	compileInclude group: "org.antlr", name: "stringtemplate", version: "3.2.1"
+	compileInclude group: "net.arnx", name: "wmf2svg", version: "0.9.8"
+	compileInclude group: "org.docx4j.org.apache", name: "xalan-metainf", version: "8.0.0"
+	compileInclude group: "org.docx4j.org.apache", name: "xalan-interpretive", version: "8.0.0"
+	compileInclude group: "org.docx4j.org.apache", name: "xalan-serializer", version: "8.0.0"
+	compileInclude group: "org.apache.xmlgraphics", name: "xmlgraphics-commons", version: "2.3"
+*/
+
+//	compileInclude group: 'com.github.luben', name: 'zstd-jni', version: '1.4.0-1'
+//	compileInclude group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.9.49'
+//	compileInclude group: 'com.google.api', name: 'api-common', version: '1.8.1'
 
 	compile project (':modules:utils')
 	compile project (':modules:agenda:agenda-api')
