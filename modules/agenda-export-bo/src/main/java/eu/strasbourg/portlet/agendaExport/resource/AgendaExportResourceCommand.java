@@ -5,15 +5,15 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.io3.Save;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -23,8 +23,14 @@ import java.util.*;
 /**
  * Export d'une campagne au format JSON
  */
-@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_EXPORT_BO,
-		"mvc.command.name=exportAgendaExport" }, service = MVCResourceCommand.class)
+@Component(
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + StrasbourgPortletKeys.AGENDA_EXPORT_BO,
+		"mvc.command.name=exportAgendaExport"
+	},
+	service = MVCResourceCommand.class
+)
 public class AgendaExportResourceCommand implements MVCResourceCommand {
 
 	@Override
@@ -38,36 +44,31 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 		String language = ParamUtil.getString(resourceRequest, "language");
 		String[] tags = ParamUtil.getString(resourceRequest, "assetTagNames").split(",");
 
-		WordprocessingMLPackage wordPackage = null;
+		WordprocessingMLPackage wordMLPackage = null;
 		File file = null;
+		String docx_filepath = "C:/test.docx";
 
-		try {
+//		resourceResponse.getWriter().close();
 
-//			WordprocessingMLPackage.createPackage();
+        try {
+            //Load docx file
+            wordMLPackage = Docx4J.load(new File(docx_filepath));
 
-			/*
-			wordPackage = WordprocessingMLPackage.createPackage();
-			MainDocumentPart mainDocumentPart = wordPackage.getMainDocumentPart();
-			mainDocumentPart.addStyledParagraphOfText("Title", "Hello World!");
-			mainDocumentPart.addParagraphOfText("Welcome To Baeldung");
-			file = new File("welcome.docx");
-			*/
+//            Docx4J.bind(wordMLPackage, xmlString, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
+
+            //Send it to the client
+			resourceResponse.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
+			resourceResponse.setProperty("content-disposition", "attachment; filename=test.docx");
+			OutputStream os = resourceResponse.getPortletOutputStream();
+			Save saver = new Save(wordMLPackage);
+			saver.save(os);
+			os.flush();
+
 
 		} catch (Exception e) {
-			//e.printStackTrace();
-		}
-
-//		wordPackage.save(exportFile);
-
-		resourceResponse.setContentType("application/force-download");
-		resourceResponse.setProperty("content-disposition", "attachment; filename=test.docx");
-
-		try {
-			resourceResponse.getPortletOutputStream().flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 
 		return true;
 	}

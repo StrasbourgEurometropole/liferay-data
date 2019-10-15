@@ -21,7 +21,7 @@
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
 </liferay-portlet:actionURL>
 
-<liferay-portlet:resourceURL id="exportAgendaExport" var="exportAgendaExportURL">
+<liferay-portlet:resourceURL var="exportAgendaExportURL" id="exportAgendaExport">
 </liferay-portlet:resourceURL>
 
 <%--
