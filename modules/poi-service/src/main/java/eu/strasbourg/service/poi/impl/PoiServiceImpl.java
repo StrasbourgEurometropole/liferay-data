@@ -72,12 +72,6 @@ public class PoiServiceImpl implements PoiService {
 
 	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
 							  String classNames, String localeId) {
-		return getPois( idInterests,  idCategories,  prefilters,  false, groupId,
-				classNames, "fr_FR");
-	}
-
-	public JSONObject getPois(String idInterests, String idCategories, String prefilters, boolean showTransports, long groupId,
-							  String classNames, String localeId) {
 		JSONObject geoJson = null;
 
 		long globalGroupId = -1;
@@ -162,17 +156,14 @@ public class PoiServiceImpl implements PoiService {
 		}
 
 		// récupère les arrêts
-		// Si leurs affichage est demandé, et si la catégorie ou le centre d'intérêt est coché-e
 		List<Arret> arrets = new ArrayList<Arret>();
-		if(showTransports){
-			if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
-				// récupère les arrets
-				startTime = System.nanoTime();
-				arrets = getArrets();
-				endTime = System.nanoTime();
-				duration = (endTime - startTime) / 1_000_000;
-				System.out.println("GetArrets : " + duration + "ms (" + arrets.size() + " items)");
-			}
+		if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
+			// récupère les arrets
+			startTime = System.nanoTime();
+			arrets = getArrets(filterCategoryIds, prefiltersCategoryIds, globalGroupId);
+			endTime = System.nanoTime();
+			duration = (endTime - startTime) / 1_000_000;
+			System.out.println("GetArrets : " + duration + "ms (" + arrets.size() + " items)");
 		}
 
 		// récupère le fichier geoJson
@@ -353,11 +344,34 @@ public class PoiServiceImpl implements PoiService {
 		}
 	}
 
-	private List<Arret> getArrets() {
-		List<Arret> arrets = ArretLocalServiceUtil.getArrets(-1,-1).stream()
-				.filter(a -> a.getStatus() == WorkflowConstants.STATUS_APPROVED).collect(Collectors.toList());
+	private List<Arret> getArrets(Long[] categoryIds, Long[] prefilters, long globalGroupId) {
 
-		return arrets;
+		List<AssetEntry> entriesFromFilters = new ArrayList<>();
+		for (Long categoryId : categoryIds) {
+			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+		}
+		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
+
+		if (prefilters.length > 0) {
+			List<AssetEntry> entriesFromPrefilters = new ArrayList<>();
+			for (Long categoryId : prefilters) {
+				entriesFromPrefilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+			}
+
+			entries = entries.stream()
+					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getEntryId() == e.getEntryId()))
+					.collect(Collectors.toList());
+		}
+
+		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).distinct().collect(Collectors.toList());
+		if (classPks.size() > 0) {
+			Criterion idCriterion = RestrictionsFactoryUtil.in("arretId", classPks);
+			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
+			DynamicQuery arretQuery = ArretLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
+			return ArretLocalServiceUtil.dynamicQuery(arretQuery);
+		} else {
+			return new ArrayList<Arret>();
+		}
 	}
 
 	public JSONObject getFavoritesPois(String userId, long groupId) {

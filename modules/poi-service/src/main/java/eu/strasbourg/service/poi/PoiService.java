@@ -16,9 +16,6 @@ public interface PoiService {
 
 	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
 							  String classNames, String localeId);
-
-	public JSONObject getPois(String idInterests, String idCategories, String prefilters, boolean showTransports,
-							  long groupId, String classNames, String localeId);
 	
 	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String LocaleId);
 	

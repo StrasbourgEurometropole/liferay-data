@@ -31,13 +31,30 @@
     }
 
     .favoris-grid{
-
+        
         p{
             font-size: 1.8rem;
             color: white;
             margin-bottom: 20px;
             width: 100%;
             text-align: center;
+        }
+            
+        .tram-destination p{
+            color: $core-color;
+        }
+        @extend %jscrollpane;
+        [class^=scroll-pane]{
+            @extend %tram-destination;
+            max-height: 205px;  
+
+            .row{
+                margin: 5px 0;
+
+                div:last-child{
+                    margin-left: auto;
+                }
+            }
         }
 
         a{

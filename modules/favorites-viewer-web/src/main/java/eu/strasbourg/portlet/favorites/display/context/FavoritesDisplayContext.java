@@ -17,6 +17,8 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -35,6 +37,7 @@ import eu.strasbourg.portlet.favorites.display.FavoriteDisplay;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.PortletHelper;
 
@@ -323,5 +326,9 @@ public class FavoritesDisplayContext {
 			return true;
 		}
 		return false;
+	}
+
+	public Map<String, String[]> getLigneColors() {
+		return LigneLocalServiceUtil.getLigneColorsFreemarker();
 	}
 }

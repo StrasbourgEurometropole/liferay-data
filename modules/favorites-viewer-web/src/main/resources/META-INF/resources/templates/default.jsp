@@ -25,7 +25,7 @@
                     ${dc.getNoFavoriteText()}
                 </p>
             </c:if>
-            <c:forEach items="${dc.myFavorites}" var="favorite">
+            <c:forEach items="${dc.myFavorites}" var="favorite" varStatus="loopStatus">
                 <div class="favoris-teaser type-${favorite.typeId}">
                     <a href="${favorite.url}" class="favoris-teaser__link">
                         <div class="favoris-teaser__type"><liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>
@@ -34,7 +34,7 @@
                                 style="word-wrap: break-word;">${favorite.title}</h3>
 
                             <div class="favoris-teaser__date">
-                            <c:if test="${favorite.typeId == 1 }">
+                                <c:if test="${favorite.typeId == 1 }">
                                     <c:if test="${not empty favorite.place.periods}">
                                         <c:forEach items="${favorite.place.getPlaceSchedule(dc.todayCalendar, locale)}" var="schedule" varStatus="loopStatus">
                                             <c:if test="${!favorite.place.isOpenNow()}">
@@ -93,6 +93,11 @@
                                             Du ${formattedStartDate} au ${formattedEndDate}
                                     </c:if>
                                 </c:if>
+                                <c:if test="${favorite.typeId == 14 }">
+                                    <div>
+                                        <liferay-ui:message key="eu.arret.next-bus-stop" />
+                                    </div>
+                                </c:if>
                             </div>
 
                             <div class="favoris-teaser__description">
@@ -117,6 +122,45 @@
                                     </div>
                                     <div class="favoris-teaser__crowding-label"><liferay-ui:message key="${occupationState.label}" /></div>
                                 </div>
+                            </c:if>
+
+                            <c:if test="${favorite.typeId == 14}">
+                                <c:set var="arretRealTime" value="${favorite.arret.arretRealTime}" />
+                                <c:if test="${arretRealTime.size() == 0}" >
+                                    <div class="tram-destination"><p class="tram-destination-name" style="height: auto"><liferay-ui:message key="eu.no-visit-found" /></p></div>
+                                </c:if>
+                                <c:if test="${arretRealTime.size() != 0}" >
+                                    <a class="jspArrow${loopStatus.index} jspArrowUp jspDisabled"></a>
+                                    <div class="scroll-pane${loopStatus.index}">
+                                        <c:set var="ligneColors" value="${dc.ligneColors}" />
+                                        <c:forEach items="${arretRealTime.subList(0,(arretRealTime.size() > 12)?12:arretRealTime.size())}" var="realTime">
+                                            <c:set var="colors" value='${ligneColors.get(realTime.get("MonitoredVehicleJourney").get("PublishedLineName"))}' />
+                                            <c:set var="backgroundColor" value='${not empty colors[0] ? colors[0] : "000000"}' />
+                                            <c:set var="textColor" value='${not empty colors[1] ? colors[1] : "FFFFFF"}' />
+                                            <div class="row tram-destination">
+                                                <p class="tram-destination-letter">
+                                                    <span class="transport-letters-icon" style="background:#${backgroundColor}; color:#${textColor};">
+                                                        ${realTime.get("MonitoredVehicleJourney").get("PublishedLineName")}
+                                                    </span>
+                                                </p>
+                                                <div class="tram-destination-name">
+                                                    <p data-dot="2">
+                                                        ${realTime.get("MonitoredVehicleJourney").get("DestinationName")}
+                                                    </p>
+                                                </div>
+                                                <p class="tram-destination-schedule">
+                                                    <strong>
+                                                        <fmt:parseDate value='${realTime.get("MonitoredVehicleJourney").get("MonitoredCall").get("ExpectedDepartureTime")}'
+                                                            var="nextStopDate" type="both" pattern="yyyy-MM-dd'T'HH:mm:ssX" />
+                                                        <fmt:formatDate value='${nextStopDate}' var="formattedHour" type="date" pattern="HH:mm" />
+                                                            ${formattedHour}
+                                                    </strong>
+                                                </p>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                    <a class="jspArrow${loopStatus.index} jspArrowDown ${(arretRealTime.size() <= 4)?'jspDisabled':''}"></a>
+                                </c:if>
                             </c:if>
                         </div>
                     </a>

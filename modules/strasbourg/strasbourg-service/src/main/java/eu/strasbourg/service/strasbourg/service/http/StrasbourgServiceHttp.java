@@ -333,44 +333,13 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		HttpPrincipal httpPrincipal, java.lang.String interests,
-		java.lang.String categories, java.lang.String prefilters,
-		java.lang.String showTransports, long groupId,
-		java.lang.String typeContenu, java.lang.String localeId) {
-		try {
-			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getPois", _getPoisParameterTypes12);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					interests, categories, prefilters, showTransports, groupId,
-					typeContenu, localeId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	public static int getPoisCategoryCount(HttpPrincipal httpPrincipal,
 		long idCategory, java.lang.String prefilters, long groupId,
 		java.lang.String typeContenu) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getPoisCategoryCount",
-					_getPoisCategoryCountParameterTypes13);
+					_getPoisCategoryCountParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					idCategory, prefilters, groupId, typeContenu);
@@ -398,7 +367,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getPoisInterestCount",
-					_getPoisInterestCountParameterTypes14);
+					_getPoisInterestCountParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					idCategory, groupId, typeContenu);
@@ -425,7 +394,7 @@ public class StrasbourgServiceHttp {
 		HttpPrincipal httpPrincipal, long groupId, java.lang.String typeContenu) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getFavoritesPois", _getFavoritesPoisParameterTypes15);
+					"getFavoritesPois", _getFavoritesPoisParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					typeContenu);
@@ -453,7 +422,7 @@ public class StrasbourgServiceHttp {
 		java.lang.String typeContenu, java.lang.String localeId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getFavoritesPois", _getFavoritesPoisParameterTypes16);
+					"getFavoritesPois", _getFavoritesPoisParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					typeContenu, localeId);
@@ -481,7 +450,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getFavoritesPoisCount",
-					_getFavoritesPoisCountParameterTypes17);
+					_getFavoritesPoisCountParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					typeContenu);
@@ -508,7 +477,7 @@ public class StrasbourgServiceHttp {
 		java.lang.String portletId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"hidePortlet", _hidePortletParameterTypes18);
+					"hidePortlet", _hidePortletParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
 
@@ -531,7 +500,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getCoordinateForAddress",
-					_getCoordinateForAddressParameterTypes19);
+					_getCoordinateForAddressParameterTypes18);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, address);
 
@@ -557,7 +526,7 @@ public class StrasbourgServiceHttp {
 		HttpPrincipal httpPrincipal) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getTraffic", _getTrafficParameterTypes20);
+					"getTraffic", _getTrafficParameterTypes19);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -583,7 +552,7 @@ public class StrasbourgServiceHttp {
 		HttpPrincipal httpPrincipal) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"getAlerts", _getAlertsParameterTypes21);
+					"getAlerts", _getAlertsParameterTypes20);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -609,7 +578,7 @@ public class StrasbourgServiceHttp {
 		java.lang.String portletId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"unfoldPortlet", _unfoldPortletParameterTypes22);
+					"unfoldPortlet", _unfoldPortletParameterTypes21);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
 
@@ -631,7 +600,7 @@ public class StrasbourgServiceHttp {
 		java.lang.String portletId) {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
-					"foldPortlet", _foldPortletParameterTypes23);
+					"foldPortlet", _foldPortletParameterTypes22);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, portletId);
 
@@ -655,7 +624,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
 					"getPracticeCategories",
-					_getPracticeCategoriesParameterTypes24);
+					_getPracticeCategoriesParameterTypes23);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					parentCategoryId, localeId);
@@ -712,42 +681,37 @@ public class StrasbourgServiceHttp {
 			java.lang.String.class, long.class, java.lang.String.class,
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getPoisParameterTypes12 = new Class[] {
-			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class, long.class,
-			java.lang.String.class, java.lang.String.class
-		};
-	private static final Class<?>[] _getPoisCategoryCountParameterTypes13 = new Class[] {
+	private static final Class<?>[] _getPoisCategoryCountParameterTypes12 = new Class[] {
 			long.class, java.lang.String.class, long.class,
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getPoisInterestCountParameterTypes14 = new Class[] {
+	private static final Class<?>[] _getPoisInterestCountParameterTypes13 = new Class[] {
 			long.class, long.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes15 = new Class[] {
+	private static final Class<?>[] _getFavoritesPoisParameterTypes14 = new Class[] {
 			long.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getFavoritesPoisParameterTypes16 = new Class[] {
+	private static final Class<?>[] _getFavoritesPoisParameterTypes15 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getFavoritesPoisCountParameterTypes17 = new Class[] {
+	private static final Class<?>[] _getFavoritesPoisCountParameterTypes16 = new Class[] {
 			long.class, java.lang.String.class
 		};
-	private static final Class<?>[] _hidePortletParameterTypes18 = new Class[] {
+	private static final Class<?>[] _hidePortletParameterTypes17 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getCoordinateForAddressParameterTypes19 = new Class[] {
+	private static final Class<?>[] _getCoordinateForAddressParameterTypes18 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getTrafficParameterTypes20 = new Class[] {  };
-	private static final Class<?>[] _getAlertsParameterTypes21 = new Class[] {  };
-	private static final Class<?>[] _unfoldPortletParameterTypes22 = new Class[] {
+	private static final Class<?>[] _getTrafficParameterTypes19 = new Class[] {  };
+	private static final Class<?>[] _getAlertsParameterTypes20 = new Class[] {  };
+	private static final Class<?>[] _unfoldPortletParameterTypes21 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _foldPortletParameterTypes23 = new Class[] {
+	private static final Class<?>[] _foldPortletParameterTypes22 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getPracticeCategoriesParameterTypes24 = new Class[] {
+	private static final Class<?>[] _getPracticeCategoriesParameterTypes23 = new Class[] {
 			long.class, java.lang.String.class
 		};
 }

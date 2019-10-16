@@ -30,6 +30,10 @@
                     <aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
 
+                    <!-- Arrêts -->
+                    <aui:input type="checkbox" name="typeContenu" id="arretContentType" value="eu.strasbourg.service.gtfs.model.Arret" label="eu.arrets"
+                        checked="${fn:contains(typesContenu, 'eu.strasbourg.service.gtfs.model.Arret') || !hasConfig}" ></aui:input>
+
                     <!-- Evenements -->
                     <aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" cssClass="typeEvent"></aui:input>
@@ -250,63 +254,6 @@
                     </div>
 
                 </aui:fieldset>
-
-                <!-- Transports -->
-                <aui:fieldset collapsed="true" collapsible="true" label="transports" cssClass="noWidgetMode transports">
-
-                    <p>
-                        <!-- Affichage des arrets -->
-                        <div>
-                            <aui:input type="checkbox" name="showTransports" value="${showTransports || !hasConfig}" label="show-transports" />
-                        </div>
-                        <div class="no-selection important" style="display: none">
-                            <liferay-ui:message key="select-link" />
-                        </div>
-
-                    </p>
-
-                    <div class="transportsChecked">
-                        <!-- Mode normal -->
-                        <div class="normalMode">
-							
-                            <!-- Choix de la categorie qui affichera les transports -->
-                            <label><liferay-ui:message key="transports-category-link" /></label>
-                            <p>
-                                <div id="transportsLinkCategorySelectorLabel"></div>
-                                <div id="transportsLinkCategorySelector"></div>
-                                <aui:input type="hidden" name="transportsLinkCategoryId" id="transportsLinkCategoryId"/>
-                            </p>
-							
-                        </div>
-
-                        <!-- Mode autour de moi -->
-                        <div class="aroundMeMode">
-
-                            <!-- Choix du CI qui affichera les transports -->
-                            <label><liferay-ui:message key="transports-interest-link" /></label>
-
-                            <select class="toCustomSelect" id="transportsLinkInterestId" name="<portlet:namespace />transportsLinkInterestId">
-                                <aui:option value=""></aui:option>
-                                <c:forEach var="interest" items="${interests}" varStatus="intStatus">
-                                    <c:choose>
-                                        <c:when test="${interest.interestId == transportsLinkInterestId}">
-                                            <aui:option value="${interest.interestId}" selected="true" >
-                                                ${interest.getTitle(locale)}
-                                            </aui:option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <aui:option value="${interest.interestId}" >
-                                                ${interest.getTitle(locale)}
-                                            </aui:option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </select>
-
-                        </div>
-                    </div>
-                    
-                </aui:fieldset>
                 
                 <script>
                     var refreshConfigDisplay = function() {
@@ -349,13 +296,6 @@
                            $('.infoTrafficChecked').hide();
                        }
                     }
-                    var refreshConfigTransportsDisplay = function() {
-                        if ($('.transports input[type=checkbox]').is(":checked")) {
-                            $('.transportsChecked').show();
-                        } else {
-                            $('.transportsChecked').hide();
-                        }
-                     }
                     $('.modeSelection input[type=radio]').on('change', function() {
                         refreshConfigDisplay();
                     })
@@ -372,33 +312,10 @@
                         refreshConfigTrafficDisplay();
                     })
 
-                    $('.transports input[type=checkbox]').on('change', function() {
-                        refreshConfigTransportsDisplay();
-                    })
-
                     $(function() {
                         refreshConfigDisplay();
                         refreshConfigTrafficDisplay();
-                        refreshConfigTransportsDisplay();
                     })
-
-                    $("form").on('submit', function(event) {
-                        if ($('.transports input[type=checkbox]').is(":checked")) {
-                            var mode = $('.modeSelection input[type=radio]:checked').val();
-                            if (mode == 'aroundme') {
-                                var selection = $('#transportsLinkInterestId').val();
-                            } else {
-                                var selection = $('#transportsLinkCategoryId').val();
-                            }
-                            if(selection == ""){
-							    $('.no-selection').show();
-			                    event.preventDefault();
-                                return false;
-                            }else{
-							    $('.no-selection').hide();
-                            }
-                        }
-                    });
                 </script>
 
             </aui:fieldset-group>
@@ -419,20 +336,6 @@
 			contentBox: "#categorySelector",
 			label: "<liferay-ui:message key='category' />",
 			labelNode: "#categorySelectorLabel",
-			singleSelect: true,
-			vocabularyGroupIds: ${themeDisplay.companyGroupId},
-			vocabularyIds: "${vocabularies}"
-		}
-	).render();
-	
-	new Liferay.AssetCategoriesSelector(
-		{
-			curEntryIds: "${transportsLinkCategoryId}",
-			curEntries: "${transportsLinkCategoryTitle}",
-			hiddenInput: "#<portlet:namespace />transportsLinkCategoryId",
-			contentBox: "#transportsLinkCategorySelector",
-			label: "<liferay-ui:message key='category' />",
-			labelNode: "#transportsLinkCategorySelectorLabel",
 			singleSelect: true,
 			vocabularyGroupIds: ${themeDisplay.companyGroupId},
 			vocabularyIds: "${vocabularies}"

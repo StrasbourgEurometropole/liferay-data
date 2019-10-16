@@ -1,43 +1,27 @@
 package eu.strasbourg.service.gtfs.utils;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.gtfs.model.*;
+import eu.strasbourg.service.gtfs.service.*;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.GTFSLoaderHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.exception.FileAccessException;
+import eu.strasbourg.utils.models.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import eu.strasbourg.service.gtfs.model.Arret;
-import eu.strasbourg.service.gtfs.model.Direction;
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.model.Ligne;
-import eu.strasbourg.service.gtfs.model.Route;
-import eu.strasbourg.service.gtfs.model.Stop;
-import eu.strasbourg.service.gtfs.model.Trip;
-import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.CalendarLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
-import eu.strasbourg.utils.GTFSLoaderHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.exception.FileAccessException;
-import eu.strasbourg.utils.models.AgencyGTFS;
-import eu.strasbourg.utils.models.CalendarDatesGTFS;
-import eu.strasbourg.utils.models.CalendarGTFS;
-import eu.strasbourg.utils.models.RoutesGTFS;
-import eu.strasbourg.utils.models.StopTimesGTFS;
-import eu.strasbourg.utils.models.StopsGTFS;
-import eu.strasbourg.utils.models.TripsGTFS;
 
 /**
  * Classe permettant d'effectuer l'import des donnees issues du flux GTFS
@@ -366,7 +350,33 @@ public class GTFSImporter {
 			List <Direction> directionsToSave = new ArrayList<Direction>();
 			// Liste des lignes à supprimer
 			List <Direction> directionsToRemove = DirectionLocalServiceUtil.getAll();
-			
+
+			// Récupération des catégories du vocabulaire Type d'arret
+			AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.ARRET_TYPE);
+			AssetCategory busCateg = null, tramCateg = null;
+			if(Validator.isNotNull(vocabulary)) {
+				// Récupération des catégories du vocabulaire
+				List<AssetCategory> categories = vocabulary
+						.getCategories();
+
+				// Récupère les catégories
+				AssetCategory selectCategory = null;
+				for (AssetCategory category : categories) {
+					switch (AssetVocabularyHelper
+						.getCategoryProperty(
+								category.getCategoryId(), "TypeCTS")) {
+						case "0": {
+							tramCateg = category;
+							break;
+						}
+						case "3": {
+							busCateg = category;
+							break;
+						}
+					}
+				}
+			}
+
 			// Parcours des arrets pour trouver les lignes correspondantes
 			for (Stop stop : StopLocalServiceUtil.getAllStops()) {
 				
@@ -396,8 +406,8 @@ public class GTFSImporter {
 					
 					directionsToSave.add(direction);
 					
-					// On en profite pour mettre à jour le type de l'arret si il est dans la liste d'edition
-					// Operation a ne faire q'une fois
+					// On en profite pour mettre à jour le type de l'arret s'il est dans la liste d'edition
+					// Operation à ne faire q'une fois
 					if (tripIndex == 1) {
 						Arret correspondingArret = arretsToUpdate.stream()
 								.filter(arret -> stop.getStop_id().equals(arret.getStopId()))
@@ -406,16 +416,40 @@ public class GTFSImporter {
 						if (correspondingArret != null) {
 							// On recupere la ligne de la direction pour obtenir le type de ligne
 							Ligne ligne = LigneLocalServiceUtil.getByRouteId(direction.getRouteId());
-							
-							if (ligne != null)
+
+							if (ligne != null) {
+								// créer un nouveau SC
+								ServiceContext scArret = ServiceContextFactory.getInstance(this.sc.getRequest());
+								scArret.setScopeGroupId(this.sc.getScopeGroupId());
+								scArret.setUserId(this.sc.getUserId());
+
+								// changer type d'arret
 								correspondingArret.setType(ligne.getType());
+
+								// ajout de la catégorie Bus/tram
+								long categoryId = -1;
+								switch (ligne.getType()) {
+									case 0: {
+										categoryId = Validator.isNotNull(tramCateg)?tramCateg.getCategoryId():-1;
+										break;
+									}
+									case 3: {
+										categoryId = Validator.isNotNull(busCateg)?busCateg.getCategoryId():-1;
+										break;
+									}
+								}
+								scArret.setAssetCategoryIds(new long[]{categoryId});
+
+								// Mettre à jour l'arret
+								ArretLocalServiceUtil.updateArret(correspondingArret, scArret);
+
+							}
+
 						}
 					}
 				}
 				
 			}
-			// Mettre à jour les arrets existants et sauvegarder les nouveaux
-			ArretLocalServiceUtil.updateArrets(arretsToUpdate, this.sc);
 			
 			// Supprimer les arrets non parcourus
 			this.importHistoric.addNewOperation("#4/7# Unpublish removed stop");

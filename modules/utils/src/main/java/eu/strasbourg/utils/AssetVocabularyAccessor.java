@@ -181,4 +181,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}
 	}
+
+	public AssetVocabulary getArretType(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.ARRET_TYPE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

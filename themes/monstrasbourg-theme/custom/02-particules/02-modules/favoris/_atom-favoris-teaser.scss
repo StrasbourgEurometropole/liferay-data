@@ -11,6 +11,24 @@
             margin-bottom: 0 !important;
         }
     }
+            
+    .tram-destination p{
+        //color: $core-color;
+    }
+    @extend %jscrollpane;
+    [class^=scroll-pane]{
+        @extend %tram-destination;
+        max-height: 205px;  
+
+        .row{
+            margin: 5px 0;
+
+            div:last-child{
+                margin-left: auto;
+            }
+        }
+    }
+
     padding-bottom: 60px;
     position: relative;
     &:after {

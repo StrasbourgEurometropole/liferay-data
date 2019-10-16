@@ -32,6 +32,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Direction;
@@ -124,11 +125,12 @@ public class ArretImpl extends ArretBaseImpl {
 	public List<JSONObject> getArretRealTime() {
 		List<JSONObject> realTimeList = new ArrayList<JSONObject>();
 		JSONArray realTimes = ArretServiceUtil.getArretRealTime(this.getCode());
-		for (int i = 0; i < realTimes.length(); i++) {
-			JSONObject realTime = realTimes.getJSONObject(i);
-			realTimeList.add(realTime);
+		if(Validator.isNotNull(realTimes)) {
+			for (int i = 0; i < realTimes.length(); i++) {
+				JSONObject realTime = realTimes.getJSONObject(i);
+				realTimeList.add(realTime);
+			}
 		}
-
 		return realTimeList;
 	}
 	

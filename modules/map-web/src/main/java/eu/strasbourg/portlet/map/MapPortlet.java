@@ -108,9 +108,6 @@ public class MapPortlet extends MVCPortlet {
             boolean showTraffic = false; // Affichage de l'info trafic
             String trafficCategoryId = ""; // Liaison de l'affichage de l'info trafic à une catégorie
             String trafficInterestId = ""; // Liaison de l'affichage de l'info trafic à un CI
-            boolean showTransports = false; // Affichage des transports
-            String transportsLinkCategoryId = ""; // Liaison de l'affichage des transports a une categorie
-            String transportsLinkInterestId = ""; // Liaison de l'affichage des trasnports a un CI
 
             List<AssetCategory> categories = null; // Les catégories actives
             List<Interest> interests = null; // Les intérêts actifs
@@ -140,10 +137,6 @@ public class MapPortlet extends MVCPortlet {
                         interestsIdsString = jsonArrayInterests.join(",");
                         showFavorites = json.getBoolean("showFavorites");
                         trafficInterestId = json.getString("trafficInterestId");
-                        transportsLinkInterestId = json.getString("transportsLinkInterestId");
-                        // on ajoute l'entité arret si "transportsLinkInterestId" est renseigné
-                        if(Validator.isNotNull(transportsLinkInterestId))
-                            typesContenu += ",eu.strasbourg.service.gtfs.model.Arret";
                     } catch (Exception ex) {
                         _log.error("Missing expando field : map_global_config");
                     }
@@ -199,14 +192,8 @@ public class MapPortlet extends MVCPortlet {
                     interestsIdsString = configuration.interestsIds();
                     showFavorites = configuration.showFavorites();
                     showTraffic = configuration.showTraffic();
-                    showTransports = configuration.showTransports();
-                    // on ajoute l'entité arret si "showTransports" est true
-                    if(showTransports)
-                        typesContenu += ",eu.strasbourg.service.gtfs.model.Arret";
                     trafficCategoryId = configuration.linkCategoryId();
                     trafficInterestId = configuration.linkInterestId();
-                    transportsLinkCategoryId = configuration.transportsLinkCategoryId();
-                    transportsLinkInterestId = configuration.transportsLinkInterestId();
                 }
 
                 List<Long> categoriesIds;
@@ -404,9 +391,6 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("showTraffic", showTraffic);
             request.setAttribute("trafficCategoryId", trafficCategoryId);
             request.setAttribute("trafficInterestId", trafficInterestId);
-            request.setAttribute("showTransports", showTransports);
-            request.setAttribute("transportsLinkCategoryId", transportsLinkCategoryId);
-            request.setAttribute("transportsLinkInterestId", transportsLinkInterestId);
             request.setAttribute("address", address);
             request.setAttribute("internalId", internalId);
 

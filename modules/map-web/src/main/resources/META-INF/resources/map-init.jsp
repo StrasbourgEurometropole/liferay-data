@@ -33,9 +33,6 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.mode = '${mode}';
         window.linkCategoryId = '${trafficCategoryId}';
         window.linkInterestId = '${trafficInterestId}';
-        window.showTransports = ${showTransports};
-        window.transportsLinkCategoryId = '${transportsLinkCategoryId}';
-        window.transportsLinkInterestId = '${transportsLinkInterestId}';
         window.coordinateZone = ${coordinateZone};
         window.zoom = '${zoom}';
         window.cadrageX = '${cadrageX}';
@@ -44,3 +41,24 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         mymap = '';
     </aui:script>
 </liferay-util:body-top>
+
+<link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
+<link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
+<link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
+
+<liferay-util:html-bottom>
+    <script>
+        define._amd = define.amd;
+        define.amd = false;
+    </script>
+    <script src="/o/mapweb/js/leaflet.js"></script>
+    <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
+    <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
+    <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
+    <script src="/o/mapweb/js/map.js"></script>
+    <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
+    <script>
+        define.amd = define._amd;
+    </script>
+</liferay-util:html-bottom>

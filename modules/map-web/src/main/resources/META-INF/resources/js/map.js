@@ -229,9 +229,10 @@
 
                                     if (Object.keys(json).length != 0) {
                                         // Parcours des horraires
+                                        var destinations = '';
                                         json.forEach(function(visit, i) {
                                             // On affiche que les 5 premiers resultats
-                                            if (i > 4) return false;
+                                            if (i > 12) return false;
 
                                             // Formatage de l'heure
                                             var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
@@ -252,27 +253,28 @@
                                             }
 
                                             // Ajout des horraires dans la liste
-                                            $(destinationList).append(
-                                                '<div class="row">' +
-                                                    '<div class="col-md-2">' +
-                                                        '<p class="tram-destination-letter">' +
-                                                            '<span class="transport-letters-icon"' +
-                                                                'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
-                                                                visit.MonitoredVehicleJourney.PublishedLineName +
-                                                            '</span>' +
-                                                        '</p>' +
-                                                    '</div>' +
-                                                    '<div class="col-md-7">' +
-                                                        '<p class="tram-destination-name">' +
-                                                            destinationName +
-                                                        '</p>' +
-                                                    '</div>' +
-                                                    '<div class="col-md-2">' +
-                                                        '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
-                                                    '</div>' +
-                                                '</div>'
-                                            );
+                                            destinations +=
+                                            '<div class="row tram-destination">' +
+                                                '<p class="tram-destination-letter">' +
+                                                    '<span class="transport-letters-icon"' +
+                                                        'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
+                                                        visit.MonitoredVehicleJourney.PublishedLineName +
+                                                    '</span>' +
+                                                '</p>' +
+                                                '<div class="tram-destination-name"><p>' +
+                                                    destinationName +
+                                                '</p></div>' +
+                                                '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+                                            '</div>';
                                         });
+                                        // Ajout de la scroll
+                                        $(destinationList).append(
+                                            '<a class="jspArrow jspArrowUp jspDisabled"></a>' +
+                                                '<div class="scroll-pane-map">' +
+                                                    destinations +
+                                                '</div>' +
+                                            '<a class="jspArrow jspArrowDown ' + ((Object.keys(json).length <= 4)?'jspDisabled':'') + '"></a>');
+                                        $('.scroll-pane-map').jScrollPane({arrowButtonSpeed: 200});
                                     } else {
                                         $(destinationList).append(
                                             '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
@@ -444,7 +446,7 @@
             }
 
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests, categories, prefilters, showTransports) {
+            var addInterestsMarkers = function(markers, interests, categories, prefilters) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
@@ -452,7 +454,6 @@
                         interests: interests,
                         categories: categories,
                         prefilters: prefilters,
-                        showTransports: showTransports,
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
                         localeId: Liferay.ThemeDisplay.getLanguageId()
@@ -562,44 +563,9 @@
                     }
                 }
 
-                // Récupération des données concernant les transports
-                // uniquement si choisi en configuration
-                var showTransports = false;
-                if (window.showTransports) {
-                	if(window.mode == "normal" ){
-                        for (i = 0; i < ame.$filters_categories.length; i++) {
-                            var filter = $(ame.$filters_categories[i]);
-                            // et si la catégorie choisie est cochée en mode normal ou mon quartier
-                            if (filter.attr('value') == window.transportsLinkCategoryId && filter.is(':checked')) {
-                            	showTransports = true;
-                        		break;
-                            }
-                        }
-                	}
-                	if(window.mode == "aroundme" ){
-                        for (i = 0; i < ame.$filters_interests.length; i++) {
-                            var filter = $(ame.$filters_interests[i]);
-                            // et si le centre d'intérêt choisi est coché en mode autour de moi
-                            if (filter.attr('value') == window.transportsLinkInterestId && filter.is(':checked')) {
-                            	showTransports = true;
-                        		break;
-                            }
-                        }
-                	}
-                }
-                if (window.mode == "widget" && interests.length > 0) {
-                    var interestIds = interests.split(',');
-                    for (var i = 0; i < interestIds.length; i++) {
-                        if (interestIds[i] === window.transportsLinkInterestId) {
-                            showTransports = true;
-                            break;
-                        }
-                    }
-                }
-
                 // Récupération des données concernant les centres d'intérêt
-                if (interests.length > 0 || categories.length > 0 || showTransports) {
-                    addInterestsMarkers(markers, interests, categories, prefilters, showTransports);
+                if (interests.length > 0 || categories.length > 0) {
+                    addInterestsMarkers(markers, interests, categories, prefilters);
                 }
 
                 // Récupération des données concernant les favoris
