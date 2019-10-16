@@ -1,6 +1,7 @@
 // Champs conditionnelles
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
+	var namespaceAUI = "#" + namespace;
 
 	$('[name=placeType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
@@ -250,6 +251,7 @@ function validatePeriods(event) {
 		}
 		if (!validated) {
 			$('.event-period-conflict', $(dateRange).parent()).show();
+            $('html,body').animate({scrollTop: $(dateRange).offset().top - 100}, 'slow');
 			allValidated = false;
 		}
 		
