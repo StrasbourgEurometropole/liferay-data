@@ -184,8 +184,11 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 
 	// Evenement appelé après un "clone" : on doit reactiver le datepicker et rattacher l'event
 	$('#date-fields').on('dateRangeCreated', function(event, index) {
-        options.startDate = $('#dateRange' + index).text().split(' - ')[0];
-        options.endDate = $('#dateRange' + index).text().split(' - ')[1];
+	    dates = $('#dateRange' + index).text().split(' - ');
+	    if(dates.length == 2){
+            options.startDate = dates[0];
+            options.endDate = dates[1];
+	    }
 		dateRangePicker = $('#dateRange' + index).daterangepicker(options);
 		$('#dateRange' + index).on('apply.daterangepicker', onDateChange);
 		$('#dateRange' + index).on('applyAndNew.daterangepicker', onDateChange);
