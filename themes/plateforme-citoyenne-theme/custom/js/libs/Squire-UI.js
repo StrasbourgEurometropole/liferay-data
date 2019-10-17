@@ -117,7 +117,7 @@ SquireUI = function (options) {
                 testUnderline: editor.testPresenceinSelection(
                     'underline', action, 'U', (/>U\b/)),
                 testOrderedList: editor.testPresenceinSelection(
-                    'makeOrderedList', action, 'OL', (/>OL\b/)),
+                    'makeOrderedList', action, 'UL', (/>UL\b/)),
                 testLink: editor.testPresenceinSelection('makeLink',
                     action, 'A', (/>A\b/)),
                 testQuote: editor.testPresenceinSelection(
