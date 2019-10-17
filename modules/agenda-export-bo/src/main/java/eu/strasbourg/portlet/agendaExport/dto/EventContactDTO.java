@@ -1,9 +1,12 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "contact")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventContactDTO {
 
     @XmlElement(name = "promoter")
@@ -20,6 +23,9 @@ public class EventContactDTO {
 
     @XmlElement(name = "websiteURL")
     private String websiteURL;
+
+    public EventContactDTO() {
+    }
 
     public EventContactDTO(String promoter, String phoneNumber, String mail, String websiteName, String websiteURL) {
         this.promoter = promoter;

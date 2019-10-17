@@ -1,13 +1,14 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
-import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.Event;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @XmlRootElement(name = "body")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ExportAgendaDTO {
 
     @XmlElement(name = "title")
@@ -30,6 +31,9 @@ public class ExportAgendaDTO {
     @XmlElementWrapper(name = "events")
     @XmlElement(name = "event")
     private List<EventDTO> events;
+
+    @XmlTransient
+    private Locale locale;
 
     public ExportAgendaDTO() {}
 
@@ -88,5 +92,24 @@ public class ExportAgendaDTO {
 
     public void setEvents(List<EventDTO> events) {
         this.events = events;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public void addEvents(List<Event> events) {
+
+        if(this.events == null) {
+            this.events = new ArrayList<>();
+        }
+
+        for(Event event : events) {
+           this.events.add(new EventDTO(event, filters, locale));
+        }
     }
 }

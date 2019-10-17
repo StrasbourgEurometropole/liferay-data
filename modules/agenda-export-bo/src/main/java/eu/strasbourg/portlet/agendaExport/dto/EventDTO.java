@@ -1,11 +1,19 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.model.Manifestation;
+
+import javax.xml.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @XmlRootElement(name = "event")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventDTO {
 
     @XmlElement(name = "title")
@@ -17,17 +25,11 @@ public class EventDTO {
     @XmlElement(name = "description")
     private String description;
 
-    @XmlElement(name = "manifestations")
-    private String manifestations;
-
-    @XmlElement(name = "periods")
-    private String periods;
-
     @XmlElement(name = "firstStartDate")
-    private String firstStartDate;
+    private LocalDate firstStartDate;
 
     @XmlElement(name = "lastEndDate")
-    private String lastEndDate;
+    private LocalDate lastEndDate;
 
     @XmlElement(name = "image")
     private String image;
@@ -50,31 +52,51 @@ public class EventDTO {
     @XmlElement(name = "booking")
     private EventBookingDTO booking;
 
+    @XmlElementWrapper(name = "periods")
+    @XmlElement(name = "period")
+    private List<PeriodDTO> periods;
+
+    @XmlElementWrapper(name = "manifestations")
+    @XmlElement(name = "manifestation")
+    private List<ManifestationDTO> manifestations;
+
     @XmlElementWrapper(name = "categories")
     @XmlElement(name = "category")
-    private List<EventVocabularyDTO> categories;
+    private List<EventCategoryDTO> categories;
 
     @XmlElementWrapper(name = "tags")
     @XmlElement(name = "tag")
     private List<String> tags;
 
-    public EventDTO(String title, String subtitle, String description, String manifestations, String periods, String firstStartDate, String lastEndDate, String image, String imageCopyright, EventPlaceDTO place, EventContactDTO contact, EventConcertDTO concert, EventPriceDTO price, EventBookingDTO booking, List<EventVocabularyDTO> categories, List<String> tags) {
-        this.title = title;
-        this.subtitle = subtitle;
-        this.description = description;
-        this.manifestations = manifestations;
-        this.periods = periods;
-        this.firstStartDate = firstStartDate;
-        this.lastEndDate = lastEndDate;
-        this.image = image;
-        this.imageCopyright = imageCopyright;
-        this.place = place;
-        this.contact = contact;
-        this.concert = concert;
-        this.price = price;
-        this.booking = booking;
-        this.categories = categories;
-        this.tags = tags;
+    @XmlTransient
+    private Locale locale;
+
+    public EventDTO() {}
+
+    public EventDTO(Event event, EventFiltersDTO filters, Locale locale) {
+        this.locale = locale;
+        this.title = event.getTitle(locale);
+        this.subtitle = event.getSubtitle(locale);
+        this.description = event.getDescription(locale);
+        this.image = event.getImageURL();
+        this.imageCopyright = event.getImageCopyright(locale);
+
+        if(event.getFirstStartDate() != null) {
+            this.firstStartDate = event.getFirstStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+
+        if(event.getLastEndDate() != null) {
+            this.lastEndDate = event.getLastEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+
+        addManifestations(event.getManifestations());
+        addPeriods(event.getEventPeriods());
+        addPlace(event);
+        addContact(event);
+        addPrice(event);
+        addBooking(event);
+        addTags(event);
+        addCategories(event, filters);
     }
 
     public String getTitle() {
@@ -101,35 +123,35 @@ public class EventDTO {
         this.description = description;
     }
 
-    public String getManifestations() {
+    public List<ManifestationDTO> getManifestations() {
         return manifestations;
     }
 
-    public void setManifestations(String manifestations) {
+    public void setManifestations(List<ManifestationDTO> manifestations) {
         this.manifestations = manifestations;
     }
 
-    public String getPeriods() {
+    public List<PeriodDTO> getPeriods() {
         return periods;
     }
 
-    public void setPeriods(String periods) {
+    public void setPeriods(List<PeriodDTO> periods) {
         this.periods = periods;
     }
 
-    public String getFirstStartDate() {
+    public LocalDate getFirstStartDate() {
         return firstStartDate;
     }
 
-    public void setFirstStartDate(String firstStartDate) {
+    public void setFirstStartDate(LocalDate firstStartDate) {
         this.firstStartDate = firstStartDate;
     }
 
-    public String getLastEndDate() {
+    public LocalDate getLastEndDate() {
         return lastEndDate;
     }
 
-    public void setLastEndDate(String lastEndDate) {
+    public void setLastEndDate(LocalDate lastEndDate) {
         this.lastEndDate = lastEndDate;
     }
 
@@ -189,11 +211,11 @@ public class EventDTO {
         this.booking = booking;
     }
 
-    public List<EventVocabularyDTO> getCategories() {
+    public List<EventCategoryDTO> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<EventVocabularyDTO> categories) {
+    public void setCategories(List<EventCategoryDTO> categories) {
         this.categories = categories;
     }
 
@@ -203,5 +225,118 @@ public class EventDTO {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
+    public void addManifestations(List<Manifestation> manifestations) {
+
+        if(this.manifestations == null) {
+            this.manifestations = new ArrayList<>();
+        }
+
+        for(Manifestation manifestation : manifestations) {
+            this.manifestations.add(new ManifestationDTO(manifestation, locale));
+        }
+    }
+
+    public void addPeriods(List<EventPeriod> periods) {
+
+        if(this.periods == null) {
+            this.periods = new ArrayList<>();
+        }
+
+        for(EventPeriod period : periods) {
+            this.periods.add(new PeriodDTO(period, locale));
+        }
+    }
+
+    public void addPlace(Event event) {
+        this.place = new EventPlaceDTO(
+            event.getPlaceName(this.locale),
+            event.getPlaceStreetNumber(),
+            event.getPlaceName(this.locale),
+            event.getPlaceZipCode(),
+            event.getCity(this.locale),
+            event.getPlaceCountry(),
+            event.getAccess(this.locale),
+            event.getAccess(this.locale),
+            event.getAccessForBlind(),
+            event.getAccessForWheelchair(),
+            event.getAccessForDeaf(),
+            event.getAccessForElder(),
+            event.getAccessForDeficient()
+        );
+    }
+
+    public void addContact(Event event) {
+        this.contact = new EventContactDTO(
+            event.getPromoter(),
+            event.getPhone(),
+            event.getEmail(),
+            event.getWebsiteName(this.locale),
+            event.getWebsiteURL(this.locale)
+        );
+    }
+
+    public void addConcert(Event event) {
+        this.concert = new EventConcertDTO(
+            event.getConcertId(),
+            event.getComposer(),
+            event.getDistribution(this.locale),
+            event.getProgram(this.locale)
+        );
+    }
+
+    public void addPrice(Event event) {
+        this.price = new EventPriceDTO(
+            event.getFree(),
+            event.getPrice(this.locale)
+        );
+    }
+
+    public void addBooking(Event event) {
+        this.booking = new EventBookingDTO(
+            event.getBookingDescription(this.locale),
+            event.getBookingURL(),
+            event.getSubscriptionURL()
+        );
+    }
+
+    public void addTags(Event event) {
+
+        //TODO add tags
+    }
+
+    /**
+     *
+     * @param event
+     * @param filters
+     */
+    public void addCategories(Event event, EventFiltersDTO filters) {
+
+        if(this.categories == null) {
+            this.categories = new ArrayList<>();
+        }
+
+        for(EventCategoryDTO categoryDTO : filters.getCategories()) {
+
+            EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
+            newCategoryDTO.setName(categoryDTO.getName());
+
+            if(true && categoryDTO.getName() != null) {
+                newCategoryDTO.setFirstLetter(categoryDTO.getName().substring(0, 1).toUpperCase());
+            } else {
+                newCategoryDTO.setFirstLetter("");
+            }
+
+            this.categories.add(newCategoryDTO);
+        }
     }
 }

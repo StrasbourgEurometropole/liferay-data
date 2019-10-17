@@ -1,11 +1,10 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 @XmlRootElement(name = "group")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventGroupDTO {
 
     //jour / mois / vocabulaire
@@ -15,6 +14,9 @@ public class EventGroupDTO {
     @XmlElementWrapper(name = "subgroups")
     @XmlElement(name = "subgroup")
     private List<EventGroupDTO> subgoups;
+
+    public EventGroupDTO() {
+    }
 
     public EventGroupDTO(String name, List<EventGroupDTO> subgoups) {
         this.name = name;

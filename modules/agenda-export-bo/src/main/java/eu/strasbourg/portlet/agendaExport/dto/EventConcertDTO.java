@@ -1,9 +1,12 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "concert")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventConcertDTO {
 
     @XmlElement(name = "concertId")
@@ -17,6 +20,9 @@ public class EventConcertDTO {
 
     @XmlElement(name = "program")
     private String program;
+
+    public EventConcertDTO() {
+    }
 
     public EventConcertDTO(String concertId, String concertComposers, String distribution, String program) {
         this.concertId = concertId;

@@ -1,15 +1,14 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.liferay.asset.kernel.model.AssetCategory;
+
+import javax.xml.bind.annotation.*;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @XmlRootElement(name = "filters")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EventFiltersDTO {
 
     @XmlElement(name = "title")
@@ -26,22 +25,21 @@ public class EventFiltersDTO {
     @XmlElement(name = "vocabulary")
     private List<EventVocabularyDTO> vocabularies;
 
+    @XmlElementWrapper(name = "categories")
+    @XmlElement(name = "category")
+    private List<EventCategoryDTO> categories;
+
     @XmlElementWrapper(name = "tags")
     @XmlElement(name = "tag")
     private List<String> tags;
+
+    public EventFiltersDTO() {
+    }
 
     public EventFiltersDTO(String title, String language) {
         this.title = title;
         this.language = language;
         this.periods = new ArrayList<>();
-    }
-
-    public EventFiltersDTO(String title, List<PeriodDTO> periods, String language, List<EventVocabularyDTO> vocabularies, List<String> tags) {
-        this.title = title;
-        this.periods = periods;
-        this.language = language;
-        this.vocabularies = vocabularies;
-        this.tags = tags;
     }
 
     public String getTitle() {
@@ -57,6 +55,14 @@ public class EventFiltersDTO {
     }
 
     public void setPeriod(List<PeriodDTO> periods) {
+        this.periods = periods;
+    }
+
+    public List<PeriodDTO> getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(List<PeriodDTO> periods) {
         this.periods = periods;
     }
 
@@ -92,6 +98,14 @@ public class EventFiltersDTO {
         this.vocabularies = vocabularies;
     }
 
+    public List<EventCategoryDTO> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<EventCategoryDTO> categories) {
+        this.categories = categories;
+    }
+
     public List<String> getTags() {
         return tags;
     }
@@ -104,12 +118,14 @@ public class EventFiltersDTO {
         periods.add(new PeriodDTO(startDate, endDate));
     }
 
-//    public void addVocabularyAndCategories() {
-//
-//        if(vocabularies == null && vocabularies.isEmpty()) {
-//            vocabularies = new ArrayList<>();
-//        }
-//
-//        vocabularies.add(new PeriodDTO(startDate, endDate));
-//    }
+    public void addAssetCategories(List<AssetCategory> categories) {
+
+        if(this.categories == null) {
+            this.categories = new ArrayList<>();
+        }
+
+        for(AssetCategory category : categories) {
+            this.categories.add(new EventCategoryDTO(category.getName()));
+        }
+    }
 }
