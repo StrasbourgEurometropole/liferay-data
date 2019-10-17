@@ -4,6 +4,8 @@ body {
 	background-color: $bg-color;
 }
 
+
+
 #wrapper {
 	padding: 0;
 
@@ -327,4 +329,17 @@ fieldset label, label.control-label {
 
 .manage-view #customFields .input-localized .lfr-input-text{
   width: 100%;
+}
+
+//Rend les sélecteurs de SchemeColor utilisable en rendant visible les vignettes
+#_com_liferay_layout_admin_web_portlet_GroupPagesPortlet_colorSchemesContainer  {
+
+	.aspect-ratio {
+		overflow: visible;
+		padding-bottom: 0;
+		img {
+			transform: none;
+			position: relative;
+		}
+	}
 }

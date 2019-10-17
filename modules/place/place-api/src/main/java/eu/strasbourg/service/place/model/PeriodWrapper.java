@@ -63,8 +63,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 		attributes.put("defaultPeriod", getDefaultPeriod());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
-		attributes.put("linkLabel", getLinkLabel());
-		attributes.put("linkURL", getLinkURL());
 		attributes.put("alwaysOpen", getAlwaysOpen());
 		attributes.put("RTGreenThreshold", getRTGreenThreshold());
 		attributes.put("RTOrangeThreshold", getRTOrangeThreshold());
@@ -111,18 +109,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 
 		if (endDate != null) {
 			setEndDate(endDate);
-		}
-
-		String linkLabel = (String)attributes.get("linkLabel");
-
-		if (linkLabel != null) {
-			setLinkLabel(linkLabel);
-		}
-
-		String linkURL = (String)attributes.get("linkURL");
-
-		if (linkURL != null) {
-			setLinkURL(linkURL);
 		}
 
 		Boolean alwaysOpen = (Boolean)attributes.get("alwaysOpen");
@@ -253,142 +239,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public java.lang.String getDisplay(java.util.Locale locale) {
 		return _period.getDisplay(locale);
-	}
-
-	/**
-	* Returns the link label of this period.
-	*
-	* @return the link label of this period
-	*/
-	@Override
-	public java.lang.String getLinkLabel() {
-		return _period.getLinkLabel();
-	}
-
-	/**
-	* Returns the localized link label of this period in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized link label of this period
-	*/
-	@Override
-	public java.lang.String getLinkLabel(java.lang.String languageId) {
-		return _period.getLinkLabel(languageId);
-	}
-
-	/**
-	* Returns the localized link label of this period in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized link label of this period
-	*/
-	@Override
-	public java.lang.String getLinkLabel(java.lang.String languageId,
-		boolean useDefault) {
-		return _period.getLinkLabel(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized link label of this period in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized link label of this period
-	*/
-	@Override
-	public java.lang.String getLinkLabel(java.util.Locale locale) {
-		return _period.getLinkLabel(locale);
-	}
-
-	/**
-	* Returns the localized link label of this period in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized link label of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getLinkLabel(java.util.Locale locale,
-		boolean useDefault) {
-		return _period.getLinkLabel(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getLinkLabelCurrentLanguageId() {
-		return _period.getLinkLabelCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getLinkLabelCurrentValue() {
-		return _period.getLinkLabelCurrentValue();
-	}
-
-	/**
-	* Returns the link url of this period.
-	*
-	* @return the link url of this period
-	*/
-	@Override
-	public java.lang.String getLinkURL() {
-		return _period.getLinkURL();
-	}
-
-	/**
-	* Returns the localized link url of this period in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized link url of this period
-	*/
-	@Override
-	public java.lang.String getLinkURL(java.lang.String languageId) {
-		return _period.getLinkURL(languageId);
-	}
-
-	/**
-	* Returns the localized link url of this period in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized link url of this period
-	*/
-	@Override
-	public java.lang.String getLinkURL(java.lang.String languageId,
-		boolean useDefault) {
-		return _period.getLinkURL(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized link url of this period in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized link url of this period
-	*/
-	@Override
-	public java.lang.String getLinkURL(java.util.Locale locale) {
-		return _period.getLinkURL(locale);
-	}
-
-	/**
-	* Returns the localized link url of this period in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized link url of this period. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getLinkURL(java.util.Locale locale,
-		boolean useDefault) {
-		return _period.getLinkURL(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getLinkURLCurrentLanguageId() {
-		return _period.getLinkURLCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getLinkURLCurrentValue() {
-		return _period.getLinkURLCurrentValue();
 	}
 
 	/**
@@ -546,26 +396,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	/**
-	* Returns a map of the locales and localized link labels of this period.
-	*
-	* @return the locales and localized link labels of this period
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getLinkLabelMap() {
-		return _period.getLinkLabelMap();
-	}
-
-	/**
-	* Returns a map of the locales and localized link urls of this period.
-	*
-	* @return the locales and localized link urls of this period
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getLinkURLMap() {
-		return _period.getLinkURLMap();
-	}
-
-	/**
 	* Returns a map of the locales and localized names of this period.
 	*
 	* @return the locales and localized names of this period
@@ -712,132 +542,6 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_period.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	* Sets the link label of this period.
-	*
-	* @param linkLabel the link label of this period
-	*/
-	@Override
-	public void setLinkLabel(java.lang.String linkLabel) {
-		_period.setLinkLabel(linkLabel);
-	}
-
-	/**
-	* Sets the localized link label of this period in the language.
-	*
-	* @param linkLabel the localized link label of this period
-	* @param locale the locale of the language
-	*/
-	@Override
-	public void setLinkLabel(java.lang.String linkLabel, java.util.Locale locale) {
-		_period.setLinkLabel(linkLabel, locale);
-	}
-
-	/**
-	* Sets the localized link label of this period in the language, and sets the default locale.
-	*
-	* @param linkLabel the localized link label of this period
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setLinkLabel(java.lang.String linkLabel,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
-		_period.setLinkLabel(linkLabel, locale, defaultLocale);
-	}
-
-	@Override
-	public void setLinkLabelCurrentLanguageId(java.lang.String languageId) {
-		_period.setLinkLabelCurrentLanguageId(languageId);
-	}
-
-	/**
-	* Sets the localized link labels of this period from the map of locales and localized link labels.
-	*
-	* @param linkLabelMap the locales and localized link labels of this period
-	*/
-	@Override
-	public void setLinkLabelMap(
-		Map<java.util.Locale, java.lang.String> linkLabelMap) {
-		_period.setLinkLabelMap(linkLabelMap);
-	}
-
-	/**
-	* Sets the localized link labels of this period from the map of locales and localized link labels, and sets the default locale.
-	*
-	* @param linkLabelMap the locales and localized link labels of this period
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setLinkLabelMap(
-		Map<java.util.Locale, java.lang.String> linkLabelMap,
-		java.util.Locale defaultLocale) {
-		_period.setLinkLabelMap(linkLabelMap, defaultLocale);
-	}
-
-	/**
-	* Sets the link url of this period.
-	*
-	* @param linkURL the link url of this period
-	*/
-	@Override
-	public void setLinkURL(java.lang.String linkURL) {
-		_period.setLinkURL(linkURL);
-	}
-
-	/**
-	* Sets the localized link url of this period in the language.
-	*
-	* @param linkURL the localized link url of this period
-	* @param locale the locale of the language
-	*/
-	@Override
-	public void setLinkURL(java.lang.String linkURL, java.util.Locale locale) {
-		_period.setLinkURL(linkURL, locale);
-	}
-
-	/**
-	* Sets the localized link url of this period in the language, and sets the default locale.
-	*
-	* @param linkURL the localized link url of this period
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setLinkURL(java.lang.String linkURL, java.util.Locale locale,
-		java.util.Locale defaultLocale) {
-		_period.setLinkURL(linkURL, locale, defaultLocale);
-	}
-
-	@Override
-	public void setLinkURLCurrentLanguageId(java.lang.String languageId) {
-		_period.setLinkURLCurrentLanguageId(languageId);
-	}
-
-	/**
-	* Sets the localized link urls of this period from the map of locales and localized link urls.
-	*
-	* @param linkURLMap the locales and localized link urls of this period
-	*/
-	@Override
-	public void setLinkURLMap(
-		Map<java.util.Locale, java.lang.String> linkURLMap) {
-		_period.setLinkURLMap(linkURLMap);
-	}
-
-	/**
-	* Sets the localized link urls of this period from the map of locales and localized link urls, and sets the default locale.
-	*
-	* @param linkURLMap the locales and localized link urls of this period
-	* @param defaultLocale the default locale
-	*/
-	@Override
-	public void setLinkURLMap(
-		Map<java.util.Locale, java.lang.String> linkURLMap,
-		java.util.Locale defaultLocale) {
-		_period.setLinkURLMap(linkURLMap, defaultLocale);
 	}
 
 	/**
