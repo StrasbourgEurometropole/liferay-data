@@ -97,7 +97,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			{ "title", Types.VARCHAR },
 			{ "language", Types.VARCHAR },
 			{ "exportFormat", Types.VARCHAR },
-			{ "eventCategories", Types.VARCHAR }
+			{ "eventCategories", Types.CLOB }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -118,10 +118,10 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("language", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("exportFormat", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("eventCategories", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("eventCategories", Types.CLOB);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null,exportFormat VARCHAR(75) null,eventCategories VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null,exportFormat VARCHAR(75) null,eventCategories TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_AgendaExport";
 	public static final String ORDER_BY_JPQL = " ORDER BY agendaExport.agendaExportId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_AgendaExport.agendaExportId ASC";
