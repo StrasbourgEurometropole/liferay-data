@@ -83,6 +83,10 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				/** Langue **/
 				String language = ParamUtil.getString(request, "language");
 				agendaExport.setLanguage(language);
+
+				/** Format d'export **/
+				String formatExport = ParamUtil.getString(request, "exportFormat");
+				agendaExport.setExportFormat(formatExport);
 			}
 			
 			_agendaExportLocalService.updateAgendaExport(agendaExport, sc);

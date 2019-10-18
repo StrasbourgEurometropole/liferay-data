@@ -66,7 +66,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,6 +98,8 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		sb.append(title);
 		sb.append(", language=");
 		sb.append(language);
+		sb.append(", exportFormat=");
+		sb.append(exportFormat);
 		sb.append(", eventCategories=");
 		sb.append(eventCategories);
 		sb.append("}");
@@ -180,6 +182,13 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			agendaExportImpl.setLanguage(language);
 		}
 
+		if (exportFormat == null) {
+			agendaExportImpl.setExportFormat(StringPool.BLANK);
+		}
+		else {
+			agendaExportImpl.setExportFormat(exportFormat);
+		}
+
 		if (eventCategories == null) {
 			agendaExportImpl.setEventCategories(StringPool.BLANK);
 		}
@@ -215,6 +224,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		language = objectInput.readUTF();
+		exportFormat = objectInput.readUTF();
 		eventCategories = objectInput.readUTF();
 	}
 
@@ -274,6 +284,13 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			objectOutput.writeUTF(language);
 		}
 
+		if (exportFormat == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(exportFormat);
+		}
+
 		if (eventCategories == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -297,5 +314,6 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 	public long statusDate;
 	public String title;
 	public String language;
+	public String exportFormat;
 	public String eventCategories;
 }

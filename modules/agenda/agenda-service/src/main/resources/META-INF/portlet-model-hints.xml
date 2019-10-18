@@ -19,6 +19,7 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="language" type="String" />
+		<field name="exportFormat" type="String" />
 		<field name="eventCategories" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.AgendaExportPeriod">

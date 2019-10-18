@@ -75,6 +75,7 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("language", getLanguage());
+		attributes.put("exportFormat", getExportFormat());
 		attributes.put("eventCategories", getEventCategories());
 
 		return attributes;
@@ -170,6 +171,12 @@ public class AgendaExportWrapper implements AgendaExport,
 
 		if (language != null) {
 			setLanguage(language);
+		}
+
+		String exportFormat = (String)attributes.get("exportFormat");
+
+		if (exportFormat != null) {
+			setExportFormat(exportFormat);
 		}
 
 		String eventCategories = (String)attributes.get("eventCategories");
@@ -346,6 +353,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public java.lang.String getEventCategories() {
 		return _agendaExport.getEventCategories();
+	}
+
+	/**
+	* Returns the export format of this agenda export.
+	*
+	* @return the export format of this agenda export
+	*/
+	@Override
+	public java.lang.String getExportFormat() {
+		return _agendaExport.getExportFormat();
 	}
 
 	/**
@@ -695,6 +712,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_agendaExport.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the export format of this agenda export.
+	*
+	* @param exportFormat the export format of this agenda export
+	*/
+	@Override
+	public void setExportFormat(java.lang.String exportFormat) {
+		_agendaExport.setExportFormat(exportFormat);
 	}
 
 	/**

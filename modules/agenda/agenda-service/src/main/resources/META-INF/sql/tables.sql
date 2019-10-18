@@ -14,6 +14,7 @@ create table agenda_AgendaExport (
 	statusDate DATE null,
 	title STRING null,
 	language VARCHAR(75) null,
+	exportFormat VARCHAR(75) null,
 	eventCategories VARCHAR(75) null
 );
 

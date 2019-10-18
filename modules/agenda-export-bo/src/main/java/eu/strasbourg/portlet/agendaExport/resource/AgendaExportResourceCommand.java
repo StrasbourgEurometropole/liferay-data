@@ -59,6 +59,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 		LocalDate startDate = this.getDate(resourceRequest,"startDate", "0");
 		LocalDate endDate = this.getDate(resourceRequest,"endDate", "0");
 		String language = ParamUtil.getString(resourceRequest, "language");
+		String exportFormat = ParamUtil.getString(resourceRequest, "exportFormat");
 		String[] tags = ParamUtil.getString(resourceRequest, "assetTagNames").split(",");
 
 		//Load categories and vocabularies

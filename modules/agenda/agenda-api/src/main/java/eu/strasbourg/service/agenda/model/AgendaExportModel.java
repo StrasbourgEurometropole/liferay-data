@@ -426,6 +426,21 @@ public interface AgendaExportModel extends BaseModel<AgendaExport>,
 	public void setLanguage(String language);
 
 	/**
+	 * Returns the export format of this agenda export.
+	 *
+	 * @return the export format of this agenda export
+	 */
+	@AutoEscape
+	public String getExportFormat();
+
+	/**
+	 * Sets the export format of this agenda export.
+	 *
+	 * @param exportFormat the export format of this agenda export
+	 */
+	public void setExportFormat(String exportFormat);
+
+	/**
 	 * Returns the event categories of this agenda export.
 	 *
 	 * @return the event categories of this agenda export

@@ -120,6 +120,19 @@
                     </c:forEach>
                 </aui:select>
            </aui:fieldset>
+
+           <aui:fieldset collapsible="true" label="eu.export-format">
+               <aui:select name="exportFormat" label="export-target-format">
+                   <c:forEach var="format" items="${dc.formatExportList}">
+                       <aui:option
+                           value="${format}"
+                           selected="${format eq dc.agendaExport.exportFormat ? true : false}"
+                       >
+                           ${format}
+                       </aui:option>
+                   </c:forEach>
+               </aui:select>
+          </aui:fieldset>
 		</aui:fieldset-group>
 		
 		<aui:button-row>

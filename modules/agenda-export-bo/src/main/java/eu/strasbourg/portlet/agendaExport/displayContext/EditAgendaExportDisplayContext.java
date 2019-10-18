@@ -140,6 +140,18 @@ public class EditAgendaExportDisplayContext {
     }
 
     /**
+     * Define the language filter list
+     * @return
+     */
+    public List<String> getFormatExportList() {
+        List<String> languages = new ArrayList<>();
+        languages.add("Word");
+        languages.add("PDF");
+        languages.add("Json");
+        return languages;
+    }
+
+    /**
      * Define the list of vocaularies that can be used as filter
      * @return
      */

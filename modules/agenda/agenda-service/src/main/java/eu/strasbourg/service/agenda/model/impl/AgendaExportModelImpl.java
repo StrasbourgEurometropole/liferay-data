@@ -96,6 +96,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "language", Types.VARCHAR },
+			{ "exportFormat", Types.VARCHAR },
 			{ "eventCategories", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -116,10 +117,11 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("language", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("exportFormat", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventCategories", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null,eventCategories VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null,exportFormat VARCHAR(75) null,eventCategories VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_AgendaExport";
 	public static final String ORDER_BY_JPQL = " ORDER BY agendaExport.agendaExportId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_AgendaExport.agendaExportId ASC";
@@ -169,6 +171,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
 		model.setLanguage(soapModel.getLanguage());
+		model.setExportFormat(soapModel.getExportFormat());
 		model.setEventCategories(soapModel.getEventCategories());
 
 		return model;
@@ -249,6 +252,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("language", getLanguage());
+		attributes.put("exportFormat", getExportFormat());
 		attributes.put("eventCategories", getEventCategories());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -347,6 +351,12 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 		if (language != null) {
 			setLanguage(language);
+		}
+
+		String exportFormat = (String)attributes.get("exportFormat");
+
+		if (exportFormat != null) {
+			setExportFormat(exportFormat);
 		}
 
 		String eventCategories = (String)attributes.get("eventCategories");
@@ -713,6 +723,22 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 	@JSON
 	@Override
+	public String getExportFormat() {
+		if (_exportFormat == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _exportFormat;
+		}
+	}
+
+	@Override
+	public void setExportFormat(String exportFormat) {
+		_exportFormat = exportFormat;
+	}
+
+	@JSON
+	@Override
 	public String getEventCategories() {
 		if (_eventCategories == null) {
 			return StringPool.BLANK;
@@ -920,6 +946,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		agendaExportImpl.setStatusDate(getStatusDate());
 		agendaExportImpl.setTitle(getTitle());
 		agendaExportImpl.setLanguage(getLanguage());
+		agendaExportImpl.setExportFormat(getExportFormat());
 		agendaExportImpl.setEventCategories(getEventCategories());
 
 		agendaExportImpl.resetOriginalValues();
@@ -1094,6 +1121,14 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			agendaExportCacheModel.language = null;
 		}
 
+		agendaExportCacheModel.exportFormat = getExportFormat();
+
+		String exportFormat = agendaExportCacheModel.exportFormat;
+
+		if ((exportFormat != null) && (exportFormat.length() == 0)) {
+			agendaExportCacheModel.exportFormat = null;
+		}
+
 		agendaExportCacheModel.eventCategories = getEventCategories();
 
 		String eventCategories = agendaExportCacheModel.eventCategories;
@@ -1107,7 +1142,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1139,6 +1174,8 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		sb.append(getTitle());
 		sb.append(", language=");
 		sb.append(getLanguage());
+		sb.append(", exportFormat=");
+		sb.append(getExportFormat());
 		sb.append(", eventCategories=");
 		sb.append(getEventCategories());
 		sb.append("}");
@@ -1148,7 +1185,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.agenda.model.AgendaExport");
@@ -1215,6 +1252,10 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		sb.append(getLanguage());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>exportFormat</column-name><column-value><![CDATA[");
+		sb.append(getExportFormat());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>eventCategories</column-name><column-value><![CDATA[");
 		sb.append(getEventCategories());
 		sb.append("]]></column-value></column>");
@@ -1252,6 +1293,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 	private String _title;
 	private String _titleCurrentLanguageId;
 	private String _language;
+	private String _exportFormat;
 	private String _eventCategories;
 	private long _columnBitmask;
 	private AgendaExport _escapedModel;

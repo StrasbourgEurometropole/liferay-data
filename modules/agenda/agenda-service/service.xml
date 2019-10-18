@@ -474,6 +474,7 @@
 
 		<!-- Champs de recherche -->
 		<column name="language" type="String" localized="false" />
+		<column name="exportFormat" type="String" localized="false" />
         <column name="eventCategories" type="String" json-enabled="true"/>
 
 		<!-- Collections -->

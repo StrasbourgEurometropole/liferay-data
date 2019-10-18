@@ -3512,6 +3512,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		agendaExportImpl.setStatusDate(agendaExport.getStatusDate());
 		agendaExportImpl.setTitle(agendaExport.getTitle());
 		agendaExportImpl.setLanguage(agendaExport.getLanguage());
+		agendaExportImpl.setExportFormat(agendaExport.getExportFormat());
 		agendaExportImpl.setEventCategories(agendaExport.getEventCategories());
 
 		return agendaExportImpl;
