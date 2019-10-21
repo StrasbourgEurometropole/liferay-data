@@ -6,10 +6,11 @@
 <#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
+<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
@@ -196,7 +197,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <!-- Bloc : Coup de coeur -->
                         <#if entry.isCrush >
                             <div class="pro-coup-de-coeur">
-                                <p>Coup de cœur du conseil de quartier</p>
+                                <p>Coup de cœur</p>
                             </div>
                         </#if>
 

@@ -10,11 +10,15 @@
 <#if entry.imageURL?has_content>
     <#assign imageUrl = entry.imageURL />
 </#if>
-<script>
-    title = '${entry.getManifestationScheduleDisplay(locale)?js_string} - ${entry.getTitle(locale)?html?js_string}';
-    description = '${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.getManifestationScheduleDisplay(locale)} - ${entry.getTitle(locale)?html}",
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <!-- Détail manifestation -->
 <div class="seu-container">

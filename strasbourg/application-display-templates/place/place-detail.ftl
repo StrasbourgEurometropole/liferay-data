@@ -10,11 +10,15 @@
 <#if !imageUrl?has_content>
     <#assign imageUrl = entry.imageURL />
 </#if>
-<script>
-    title = '${entry.getAlias(locale)?html?js_string}';
-    description = '${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.getAlias(locale)?html}",
+"og:description":'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />

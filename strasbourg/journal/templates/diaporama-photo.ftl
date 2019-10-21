@@ -2,18 +2,23 @@
 <link rel="stylesheet" type="text/css" href="/o/strasbourg-theme/css/slick.css">
 <link rel="stylesheet" type="text/css" href="/o/strasbourg-theme/css/slick-theme.css">
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
 
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if image.getData()?has_content>
     <#assign imageUrl = image.getData() />
 </#if>
-<script>
-    title = '${title.getData()?html?js_string}';
-    description = '${content.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
-    <#assign imageUrl = image.getData() />
-    imageUrl = '${}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.getData()?html}",
+"og:description":'${content.getData()?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
     <div>
 

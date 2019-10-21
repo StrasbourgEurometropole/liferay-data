@@ -2,17 +2,23 @@
 <#setting locale = locale />
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
 
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if image.getData()?has_content>
     <#assign imageUrl = image.getData() />
 </#if>
-<script>
-    title = '${title.getData()?html?js_string}';
-    description = '${chapo.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.getData()?html}",
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <main class="seu-container" style="margin-bottom: 50px">
     <div class="detail-line">

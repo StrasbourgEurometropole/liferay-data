@@ -4,17 +4,23 @@
 <#assign displaydate = displaydate?date("EEE, d MMM yyyy HH:mm:ss Z")>
 <#setting date_format = "d MMMM yyyy">
 <#setting locale = locale />
+<#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
+<#assign request = serviceContext.getRequest()/>
 
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if image.getData()?has_content>
     <#assign imageUrl = image.getData() />
 </#if>
-<script>
-    title = '${title.getData()?html?js_string}';
-    description = '${text.getData()?replace("<[^>]*>", "", "r")?html?js_string}';
-    imageUrl = '${imageUrl}';
-</script>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.getData()?html}",
+"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <!-- Détail actualité -->
 <div class="container mns-actu-detail mns-fck">

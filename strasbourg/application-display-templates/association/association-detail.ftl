@@ -8,7 +8,12 @@
 </#if>
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
-
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:description":'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}'
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <div class="seu-page-association">
     <main class="seu-container">
