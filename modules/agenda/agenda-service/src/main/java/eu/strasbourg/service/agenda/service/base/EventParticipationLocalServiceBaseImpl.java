@@ -47,6 +47,7 @@ import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
+import eu.strasbourg.service.agenda.service.persistence.EventFinder;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
@@ -496,6 +497,24 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the event finder.
+	 *
+	 * @return the event finder
+	 */
+	public EventFinder getEventFinder() {
+		return eventFinder;
+	}
+
+	/**
+	 * Sets the event finder.
+	 *
+	 * @param eventFinder the event finder
+	 */
+	public void setEventFinder(EventFinder eventFinder) {
+		this.eventFinder = eventFinder;
+	}
+
+	/**
 	 * Returns the event participation local service.
 	 *
 	 * @return the event participation local service
@@ -868,6 +887,8 @@ public abstract class EventParticipationLocalServiceBaseImpl
 	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+	@BeanReference(type = EventFinder.class)
+	protected EventFinder eventFinder;
 	@BeanReference(type = EventParticipationLocalService.class)
 	protected EventParticipationLocalService eventParticipationLocalService;
 	@BeanReference(type = EventParticipationPersistence.class)

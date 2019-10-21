@@ -562,6 +562,15 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				.filter(EventModel::isApproved)
 				.collect(Collectors.toList());
 	}
+
+	/**
+	 * Retourne les évènements triés par prochaine date de représentation
+	 */
+	@Override
+	public List<Event> findByNextHappening() {
+
+		return eventFinder.findByNextHappening();
+	}
     
     /**
 	 * Lance une recherche par placeSIGId

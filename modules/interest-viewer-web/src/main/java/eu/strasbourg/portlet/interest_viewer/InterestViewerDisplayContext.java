@@ -279,25 +279,8 @@ public class InterestViewerDisplayContext {
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
 		if(!entries.isEmpty()){
 			List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-
-
-			// trie par date de fin de l'évènement
-			listEvent = listEvent.stream().sorted((e1, e2) -> {
-				Date e1EndDate = e1.getLastEndDate() != null ? e1.getLastEndDate() : new Date(Long.MAX_VALUE);
-				Date e2EndDate = e2.getLastEndDate() != null ? e2.getLastEndDate() : new Date(Long.MAX_VALUE);
-				return e1EndDate.compareTo(e2EndDate);
-			}).collect(Collectors.toList());
-
-			// trie par date d'arrivé de l'événement
-			listEvent = listEvent.stream().sorted((e1, e2) -> {
-				LocalDate e1NextDate = e1.getNextOpenDate();
-				LocalDate e2NextDate = e2.getNextOpenDate();
-				return e1NextDate.compareTo(e2NextDate);
-			}).collect(Collectors.toList());
+			List<Event> listEvent = EventLocalServiceUtil.findByNextHappening();
+			listEvent = listEvent.stream().filter(e -> classPks.contains(e.getEventId())).collect(Collectors.toList());
 
 			for (Event event: listEvent) {
 				if(result.size() < count) {
@@ -443,7 +426,7 @@ public class InterestViewerDisplayContext {
 		try {
 			document = SAXReaderUtil.read(new StringReader(content));
 			Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-			if (node.getText().length() > 0) {
+			if (node != null && node.getText().length() > 0) {
 				value = node.getText();
 			}
 		} catch (Exception ex) {

@@ -293,6 +293,11 @@ public interface EventLocalService extends BaseLocalService,
 		int start, int end);
 
 	/**
+	* Retourne les évènements triés par prochaine date de représentation
+	*/
+	public List<Event> findByNextHappening();
+
+	/**
 	* Lance une recherche par placeSIGId
 	*/
 	public List<Event> findByPlaceSIGId(java.lang.String placeSIGId);
