@@ -197,7 +197,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <!-- Bloc : Coup de coeur -->
                         <#if entry.isCrush >
                             <div class="pro-coup-de-coeur">
-                                <p>Coup de cœur du conseil de quartier</p>
+                                <p>Coup de cœur</p>
                             </div>
                         </#if>
 
