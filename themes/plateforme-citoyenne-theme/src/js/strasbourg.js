@@ -1463,7 +1463,7 @@
             if ( !block.textContent ) {
                 // Break list
                 if ( getNearest( block, root, 'UL' ) ||
-                    getNearest( block, root, 'OL' ) ) {
+                    getNearest( block, root, 'UL' ) ) {
                     return self.modifyBlocks( decreaseListLevel, range );
                 }
                 // Break blockquote
@@ -3858,7 +3858,7 @@
     };
 
     var makeOrderedList = function ( frag ) {
-        makeList( this, frag, 'OL' );
+        makeList( this, frag, 'UL' );
         return frag;
     };
 
@@ -19069,7 +19069,7 @@ SquireUI = function (options) {
                 testUnderline: editor.testPresenceinSelection(
                     'underline', action, 'U', (/>U\b/)),
                 testOrderedList: editor.testPresenceinSelection(
-                    'makeOrderedList', action, 'OL', (/>OL\b/)),
+                    'makeOrderedList', action, 'UL', (/>UL\b/)),
                 testLink: editor.testPresenceinSelection('makeLink',
                     action, 'A', (/>A\b/)),
                 testQuote: editor.testPresenceinSelection(
@@ -24644,7 +24644,7 @@ function createBudgetParticipatif(budgetParticipatif){
     var crush = "";
 
     if (budgetParticipatif.isCrush)
-        crush = '<div class="pro-encart-coeur"><span>Coup de cœur du conseil de quartier</span><span class="icon-ico-coeur"></span></div>';
+        crush = '<div class="pro-encart-coeur"><span>Coup de cœur</span><span class="icon-ico-coeur"></span></div>';
 
     // HTML des catégories
     var spans = 
