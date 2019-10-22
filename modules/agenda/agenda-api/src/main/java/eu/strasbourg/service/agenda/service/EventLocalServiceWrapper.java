@@ -351,6 +351,14 @@ public class EventLocalServiceWrapper implements EventLocalService,
 	}
 
 	/**
+	* Retourne les évènements triés par prochaine date de représentation
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> findByNextHappening() {
+		return _eventLocalService.findByNextHappening();
+	}
+
+	/**
 	* Lance une recherche par placeSIGId
 	*/
 	@Override
