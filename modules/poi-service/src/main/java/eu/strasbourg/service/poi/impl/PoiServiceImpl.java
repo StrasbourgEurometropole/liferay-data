@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import eu.strasbourg.service.place.model.Period;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -471,10 +472,17 @@ public class PoiServiceImpl implements PoiService {
 			if(!place.getContenuTooltipCarto(locale).isEmpty()){
 				properties.put("contenu", place.getContenuTooltipCarto(locale));
 			}else {
-				// récupère les horaires en cours
-				GregorianCalendar now = new GregorianCalendar();
-				List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, locale);
-				if (currentSchedules.size() > 0) {
+				if(place.getHasURLSchedule()){
+					// Il n'a pas d'horaires mais un lien
+					JSONObject urlPeriodJSON = JSONFactoryUtil.createJSONObject();
+					urlPeriodJSON.put("url", place.getScheduleLinkURL(locale));
+					properties.put("opened",urlPeriodJSON );
+				}else {
+					// Il a des horaires
+					// récupère les horaires en cours
+					GregorianCalendar now = new GregorianCalendar();
+					List<PlaceSchedule> currentSchedules = place.getPlaceSchedule(now, locale);
+					if (currentSchedules.size() > 0) {
 					PlaceSchedule currentSchedule = currentSchedules.get(0);
 					String schedule = "";
 					String opened = "";
@@ -520,6 +528,7 @@ public class PoiServiceImpl implements PoiService {
 					}
 					properties.put("opened", opened);
 					properties.put("schedules", schedule);
+				}
 				}
 			}
 

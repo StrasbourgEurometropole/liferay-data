@@ -1463,7 +1463,7 @@
             if ( !block.textContent ) {
                 // Break list
                 if ( getNearest( block, root, 'UL' ) ||
-                    getNearest( block, root, 'OL' ) ) {
+                    getNearest( block, root, 'UL' ) ) {
                     return self.modifyBlocks( decreaseListLevel, range );
                 }
                 // Break blockquote
@@ -3858,7 +3858,7 @@
     };
 
     var makeOrderedList = function ( frag ) {
-        makeList( this, frag, 'OL' );
+        makeList( this, frag, 'UL' );
         return frag;
     };
 

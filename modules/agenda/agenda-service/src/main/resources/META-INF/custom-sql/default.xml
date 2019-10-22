@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+    <sql id="eu.strasbourg.service.agenda.service.persistence.EventFinder.findByNextHappening">
+        <![CDATA[
+            SELECT event.*
+            FROM (
+                SELECT event.eventId,
+                    ANY_VALUE(IF((DATE(NOW()) > DATE(period.startDate) && DATE(NOW()) <= DATE(period.endDate)) || DATE(NOW()) = DATE(period.startDate),DATE(NOW()),DATE(period.startDate))) AS next_representation,
+                    ANY_VALUE(IF(DATE(firstStartDate) = DATE(lastEndDate),0,1)) AS multiple_representation
+                FROM agenda_event AS event
+                INNER JOIN agenda_eventperiod AS period ON event.eventId = period.eventID AND DATE(period.endDate) >= DATE(NOW())
+                WHERE event.status = 0
+                GROUP BY event.eventId
+                ORDER BY next_representation, multiple_representation, lastEndDate) AS next_representations
+            INNER JOIN agenda_event AS event ON event.eventId = next_representations.eventId;
+		]]>
+    </sql>
+</custom-sql>

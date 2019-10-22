@@ -215,12 +215,11 @@
 
 				.pro-form-submit{
 					button{
-						@include ft($f_hx, 0.938em, 700, $c_dark, 36px);
+						@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
 						background: $c_main;
-						height: 40px;
 						border-radius: 4px;
 						display: inline-block;
-						padding: 0 40px;
+						padding: 12px 40px;
 						border: 2px solid $c_main;
 						text-transform: uppercase;
 						float: right;
@@ -232,12 +231,78 @@
 							width: calc(100% - 20px);
 							right: 0;
 							float: none;
-							padding: 0;
+							padding: 12px 20px;
 							margin: 10px 10px 0 10px;
 						}
 						&:hover, &:focus{
 							background: none;
 							color: $c_main;
+						}
+					}
+				}
+
+
+				.displayListing{
+					position: relative;
+					float: none;
+					width: 100%;
+					padding: 0 10px;
+					.form-group{
+						position: relative;
+						margin: 10px 0 20px 0;
+						input{
+							display: none;
+							&:checked{
+								& + label{
+									&:after{
+										opacity: 1;
+										transform: scale(1);
+									}
+								}
+							}
+						}
+						label{
+							margin: 0;
+							line-height: 20px;
+							padding: 0 0 0 30px;
+							&:hover{
+								color: $c_main;
+								cursor: pointer;
+							}
+							&:before {
+								content: '';
+								position: absolute;
+								float: left;
+								margin-right: 10px;
+								transform: none;
+								text-align: left;
+								width: 20px;
+								height: 20px;
+								border: 1px solid #a6a6a6;
+								border-radius: 2px;
+								background: #fff;
+								cursor: pointer;
+								left: 0;
+								top: 1px;
+							}
+							&:after {
+								content: "\e91a";
+								@include font();
+								text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
+								font-size: 16px;
+								position: absolute;
+								left: 5px;
+								top: 1px;
+								transform: translateY(-50%);
+								transform: translate3d(0, -50%, 0);
+								cursor: pointer;
+								color: $c_txt;
+								transition: all .2s;
+								background: none;
+								opacity: 0;
+								transform: scale(0);
+								@include addTransitionCurve();
+							}
 						}
 					}
 				}

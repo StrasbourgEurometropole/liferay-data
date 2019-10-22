@@ -211,10 +211,14 @@
 									placeholder="0611111111" value="${userConnected.get('mobile')}" />
 							</div>
 						</div>
-						<div class="pro-form-submit pro-row">
-							<div class="form-group form-half displayListing">
-					            <aui:input name="displayListing" type="checkbox" checked="${isDisplayListing}" />
+						
+						<div class="pro-row">
+							<div class="form-group displayListing2">
+				            	<aui:input name="displayListing" type="checkbox" checked="${isDisplayListing}" />
 							</div>
+						</div>
+						
+						<div class="pro-form-submit pro-row">
 							<button type="submit" class="btn btn-default">
 								<liferay-ui:message key="dashboard.account.profile.button.save" />
 							</button>
@@ -713,12 +717,14 @@
 </c:if>
 
 <style>
-    .pro-bloc-dashboard .pro-wrapper-dashboard #pro-onglet-account form .pro-row .displayListing label{
+    .pro-bloc-dashboard .pro-wrapper-dashboard #pro-onglet-account form .pro-row .displayListing2 label{
         display:flex;
         align-items: center;
+        height: 40px;
     }
 
-    .displayListing label input{
+    .displayListing2 label input{
         margin-right: 10px;
     }
+
 </style>

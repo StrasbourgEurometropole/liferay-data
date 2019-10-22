@@ -192,7 +192,11 @@
                     			lienFavori += '</a>';
                     			formated_info = lienFavori;
                             } else if (info_to_display == "opened"){
-                                formated_info = feature.properties[info_to_display];
+                                if(feature.properties[info_to_display]["url"] !== undefined){
+                                    formated_info = '<a href=' + feature.properties[info_to_display]["url"] + '>' + Liferay.Language.get("eu.see-times") + '</a>';
+                                }else{
+                                    formated_info = feature.properties[info_to_display];
+                                }
                                 hasOpened = true;
                             } else if (info_to_display !="visual") {
                                 formated_info = feature.properties[info_to_display];

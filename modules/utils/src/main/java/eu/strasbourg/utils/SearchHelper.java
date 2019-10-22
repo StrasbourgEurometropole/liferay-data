@@ -769,7 +769,7 @@ public class SearchHelper {
 			if(Validator.isNotNull(placeSigId)) {
 				BooleanQuery placeQuery = new BooleanQueryImpl();
 				placeQuery.addRequiredTerm("idSIGPlace", placeSigId);
-				query.add(query, BooleanClauseOccur.MUST);
+				query.add(placeQuery, BooleanClauseOccur.MUST);
 			}
 
 			// Si on veut les procédures/démarches, on rajoute la condition à la requête
