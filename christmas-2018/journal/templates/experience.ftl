@@ -1,6 +1,5 @@
 <#setting locale = locale />
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
-<#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 
@@ -16,7 +15,7 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if !image.data?has_content>
-    <#assign imageUrl = image.data />
+    <#assign imageUrl = themeDisplay.getPortalURL() + image.data />
 </#if>
 
 <#-- Liste des infos a partager -->

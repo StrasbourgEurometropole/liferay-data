@@ -4,7 +4,7 @@
 <!-- image -->
 <#assign imageUrl = ""/>
 <#if !imageUrl?has_content>
-    <#assign imageUrl = entry.imageURL />
+    <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL />
 </#if>
 
 <#-- Liste des infos a partager -->
