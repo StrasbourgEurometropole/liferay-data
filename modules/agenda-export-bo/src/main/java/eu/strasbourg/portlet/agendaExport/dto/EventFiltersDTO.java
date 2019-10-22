@@ -50,14 +50,6 @@ public class EventFiltersDTO {
         this.title = title;
     }
 
-    public List<PeriodDTO> getPeriod() {
-        return periods;
-    }
-
-    public void setPeriod(List<PeriodDTO> periods) {
-        this.periods = periods;
-    }
-
     public List<PeriodDTO> getPeriods() {
         return periods;
     }
