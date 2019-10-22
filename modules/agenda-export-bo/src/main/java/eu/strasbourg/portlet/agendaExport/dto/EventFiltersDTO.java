@@ -33,6 +33,18 @@ public class EventFiltersDTO {
     @XmlElement(name = "tag")
     private List<String> tags;
 
+    @XmlTransient
+    private String filename;
+
+    @XmlTransient
+    private String filepath;
+
+    @XmlTransient
+    private String groupOrdering;
+
+    @XmlTransient
+    private String subGroupOrdering;
+
     public EventFiltersDTO() {
     }
 
@@ -108,6 +120,38 @@ public class EventFiltersDTO {
 
     public void addPeriod(LocalDate startDate, LocalDate endDate) {
         periods.add(new PeriodDTO(startDate, endDate));
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
+    public String getGroupOrdering() {
+        return groupOrdering;
+    }
+
+    public void setGroupOrdering(String groupOrdering) {
+        this.groupOrdering = groupOrdering;
+    }
+
+    public String getSubGroupOrdering() {
+        return subGroupOrdering;
+    }
+
+    public void setSubGroupOrdering(String subGroupOrdering) {
+        this.subGroupOrdering = subGroupOrdering;
     }
 
     public void addAssetCategories(List<AssetCategory> categories) {

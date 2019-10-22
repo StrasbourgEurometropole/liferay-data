@@ -1,6 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.exporter;
 
-import com.liferay.asset.kernel.model.AssetCategory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -10,6 +10,8 @@ import eu.strasbourg.portlet.agendaExport.dto.*;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.SearchHelper;
+import org.docx4j.Docx4J;
+import org.docx4j.openpackaging.io3.Save;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 import javax.portlet.ResourceRequest;
@@ -17,54 +19,88 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class DocxExporter {
+public class Exporter {
 
 
-    public static void exportDOCX(ResourceRequest req, ResourceResponse res, Map<Locale, String> title, Map<Long, List<Long>> vocabularies,
-                                  LocalDate startDate, LocalDate endDate, String language, String exportFormat, String[] tags,
-                                  List<Long[]> sortedCategories, List<AssetCategory> categories //todo use DTO class for args
+    public static OutputStream exportDOCX(
+        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+        List<Long[]> sortedCategories
     ) {
 
-        //todo json
-
         try {
-
-            /** Create DTO filter Object **/
-            ThemeDisplay themeDisplay = null;
-            EventFiltersDTO filters = null;
-
-            themeDisplay = (ThemeDisplay) req.getAttribute(WebKeys.THEME_DISPLAY);
-            filters = new EventFiltersDTO(title.get(themeDisplay.getLocale()), language);
-            filters.addPeriod(startDate, endDate);
-            filters.setTags(Arrays.asList(tags));
-            filters.addAssetCategories(categories);
 
             List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
-            //TODO change level based on template
-            //TODO change filtertype based on template
-            ExportAgendaDTO data = sortDTOObjects(themeDisplay, filters, eventDTOs, "DAY", "CATEGORY" ,1);
+            ExportAgendaDTO data = sortDTOObjects(
+                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(), filters.getSubGroupOrdering() ,2
+            );
 
+            /** JAXB Marshaller **/
             StringWriter writer = new StringWriter();
             JAXBContext context = JAXBContext.newInstance(ExportAgendaDTO.class);
             Marshaller m = context.createMarshaller();
             m.marshal(data, writer);
             String xmlContent = writer.toString();
 
+            /** DOCX4J **/
             WordprocessingMLPackage wordMLPackage = null;
+            String directoryPath = "";
+
+			res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
+			res.setProperty("content-disposition", "attachment; filename="+filters.getFilename()+".docx");
+
+            wordMLPackage = Docx4J.load(new File(filters.getFilepath()));
+            Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
+			Save saver = new Save(wordMLPackage);
+			saver.save(os);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return os;
+    }
+
+    public static OutputStream exportJSON(
+        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+        List<Long[]> sortedCategories
+    ) {
+        try {
+
+            List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
+
+            /** Create and fill DTO objects **/
+            List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            ExportAgendaDTO data = sortDTOObjects(
+                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(), filters.getSubGroupOrdering() ,1
+            );
+
+            /** Export data **/
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(data);
+            byte[] b = json.getBytes(StandardCharsets.UTF_8);
+
+            res.setContentType("text/json");
+            res.setProperty("content-disposition", "attachment; filename=content.json");
+            os.write(b);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return os;
     }
 
     /**
@@ -111,7 +147,7 @@ public class DocxExporter {
     }
 
     private static ExportAgendaDTO sortDTOObjects(
-        ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, String filterType, String subFilterType, int level
+            ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, String filterType, String subFilterType, int level
     ) {
 
         ExportAgendaDTO exportAgendaDTO = new ExportAgendaDTO();
@@ -131,7 +167,7 @@ public class DocxExporter {
             case 2:
                 //create groups
                 List<EventGroupDTO> mainGroups = orderEventsInGroups(events, filterType, filters);
-                List<EventGroupDTO> subGroups = orderGroupsInGroups(mainGroups, filterType, filters);
+                orderGroupsInGroups(mainGroups, subFilterType, filters);
                 exportAgendaDTO.setGroups(mainGroups);
                 break;
         }
@@ -173,7 +209,9 @@ public class DocxExporter {
             //for each values, get or create the group and add the event in this group
             for(String value : values) {
                 EventGroupDTO group = getOrCreateGroup(groups, filterType, value);
-                group.addEvent(event);
+                if(group != null) {
+                    group.addEvent(event);
+                }
             }
         }
 
@@ -238,12 +276,13 @@ public class DocxExporter {
                             if(dateIsWithinRange(filterPeriod.getStartDate(), date, filterPeriod.getEndDate())) {
                                 values.add(date.toString()); //TODO choose a format for dates
                             }
+                            values.add(date.toString());
                         }
                     }
                 }
                 break;
             case "MONTH":
-                    //TODO month
+                //TODO month
 
                 break;
             case "CATEGORY":
@@ -270,7 +309,7 @@ public class DocxExporter {
 
     private static EventGroupDTO getOrCreateGroup(List<EventGroupDTO> groups, String filterType, String value) {
 
-        if(groups == null || groups.isEmpty()) {
+        if(groups == null) {
             return null;
         }
 
