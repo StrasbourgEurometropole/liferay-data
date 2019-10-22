@@ -1,6 +1,6 @@
 <%@ include file="/agenda-export-bo-init.jsp"%>
 
-<div class="period-label"><label><liferay-ui:message key="select-a-period" /></label></div>
+<div class="period-label"><label><liferay-ui:message key="eu.agenda.export.period.field" /></label></div>
 <span class="date-range" id="dateRange${param.index}" >
 	<c:if test="${not empty param.startDate}">
 		${param.startDate} - ${param.endDate}

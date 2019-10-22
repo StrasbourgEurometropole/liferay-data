@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -9,13 +10,12 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -25,10 +25,14 @@ import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditAgendaExportDisplayContext {
-	
+
+    private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+            this.getClass().getClassLoader());
+
 	private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
     private final AssetVocabularyAccessor _assetVocabularyAccessor;
@@ -133,9 +137,9 @@ public class EditAgendaExportDisplayContext {
      */
     public List<String> getLanguageList() {
         List<String> languages = new ArrayList<>();
-        languages.add("Français");
-        languages.add("Anglais");
-        languages.add("Allemand");
+        languages.add(LanguageUtil.get(bundle, "eu.agenda.export.language.fr"));
+        languages.add(LanguageUtil.get(bundle, "eu.agenda.export.language.en"));
+        languages.add(LanguageUtil.get(bundle, "eu.agenda.export.language.de"));
         return languages;
     }
 
@@ -145,10 +149,49 @@ public class EditAgendaExportDisplayContext {
      */
     public List<String> getFormatExportList() {
         List<String> languages = new ArrayList<>();
-        languages.add("Word");
-        languages.add("PDF");
-        languages.add("Json");
+
+        languages.add(LanguageUtil.get(bundle, "eu.agenda.export.format.word"));
+        languages.add(LanguageUtil.get(bundle, "eu.agenda.export.format.json"));
         return languages;
+    }
+
+    /**
+     * Renvoit la liste des templates disponibles
+     * @return
+     */
+    public List<String> getTemplateList() {
+
+        String directoryPath = StrasbourgPropsUtil.getAgendaExportTemplateDirectory();
+        File folder = new File(directoryPath);
+        File[] filesList = folder.listFiles();
+        List<String> filenames = new ArrayList<>();
+
+        for (int i = 0; i < filesList.length; i++) {
+            if (filesList[i].isFile()) {
+                filenames.add(filesList[i].getName().replace(".docx",""));
+            }
+        }
+
+        return filenames;
+
+    }
+
+    /**
+     * Liste toutes les possibilitées de tri des templates
+     * @return
+     */
+    public Map<String, String> getDataOrder() {
+        Map<String, String> orders = new HashMap<>();
+        orders.put("s", LanguageUtil.get(bundle, "eu.agenda.export.order.simple"));
+        orders.put("gj", LanguageUtil.get(bundle, "eu.agenda.export.order.groupe.jour"));
+        orders.put("gm", LanguageUtil.get(bundle, "eu.agenda.export.order.groupe.mois"));
+        orders.put("gc", LanguageUtil.get(bundle, "eu.agenda.export.order.groupe.categorie"));
+        orders.put("ggjc", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.jour.categorie"));
+        orders.put("ggcj", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.categorie.jour"));
+        orders.put("ggcm", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.categorie.mois"));
+        orders.put("ggmj", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.mois.jour"));
+        orders.put("ggmc", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.mois.categorie"));
+        return orders;
     }
 
     /**

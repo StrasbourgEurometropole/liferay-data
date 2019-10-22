@@ -24,18 +24,6 @@
 <liferay-portlet:resourceURL var="exportAgendaExportURL" id="exportAgendaExport">
 </liferay-portlet:resourceURL>
 
-<%--
-<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
-</liferay-portlet:resourceURL>
-<form method="POST" action="${exportXlsxURL}">
-   <aui:input type="hidden" name="eventIds" value="${dc.allEventIds}" />
-   <aui:button-row>
-       <aui:button cssClass="btn-lg" type="submit"
-           value="export-xlsx" />
-   </aui:button-row>
-</form>
---%>
-
 <div class="container-fluid-1280 main-content-body">
     <aui:form action="${(toExport eq true) ? exportAgendaExportURL : saveAgendaExportURL}" method="POST" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -57,7 +45,7 @@
 
 			</aui:fieldset>
 
-           <aui:fieldset collapsed="true" collapsible="true" label="eu.period">
+           <aui:fieldset collapsed="true" collapsible="true" label="eu.agenda.export.period">
                 <div id="date-fields">
                     <c:forEach items="${dc.getOrCreateAgendaExportPeriods()}" var="period" varStatus="status">
                         <div class="lfr-form-row lfr-form-row-inline">
@@ -75,7 +63,7 @@
                 </div>
            </aui:fieldset>
 
-           <aui:fieldset collapsed="true" collapsible="true" label="Categories">
+           <aui:fieldset collapsed="true" collapsible="true" label="eu.agenda.export.period.categories">
                 <c:forEach var="vocabulary" items="${dc.eventVocabularies}" varStatus="status">
                     <label><span>${vocabulary.getTitle(locale)}</span></label>
                     <select
@@ -108,7 +96,7 @@
                <aui:input name="tags" type="assetTags" />
            </aui:fieldset>
 
-           <aui:fieldset collapsed="true" collapsible="true" label="eu.language">
+           <aui:fieldset collapsible="true" label="eu.agenda.export.languages">
                 <aui:select name="language" label="detail-target-site">
                     <c:forEach var="language" items="${dc.languageList}">
                         <aui:option
@@ -121,8 +109,9 @@
                 </aui:select>
            </aui:fieldset>
 
-           <aui:fieldset collapsible="true" label="eu.export-format">
-               <aui:select name="exportFormat" label="export-target-format">
+            <aui:fieldset collapsible="true" label="eu.agenda.export.format.title">
+
+                <aui:select name="exportFormat" label="eu.agenda.export.target.format">
                    <c:forEach var="format" items="${dc.formatExportList}">
                        <aui:option
                            value="${format}"
@@ -131,8 +120,31 @@
                            ${format}
                        </aui:option>
                    </c:forEach>
+                </aui:select>
+
+                <aui:select name="template" label="eu.agenda.export.target.template">
+                    <c:forEach var="template" items="${dc.templateList}">
+                      <aui:option
+                          value="${template}"
+                      >
+                          ${template}
+                      </aui:option>
+                    </c:forEach>
+                </aui:select>
+            </aui:fieldset>
+
+           <aui:fieldset collapsible="true" label="eu.agenda.export.data.order">
+               <aui:select name="dataOrder" label="eu.agenda.export.data.order.field">
+                   <c:forEach var="order" items="${dc.dataOrder}">
+                       <aui:option
+                           value="${order.key}"
+                       >
+                           ${order.value}
+                       </aui:option>
+                   </c:forEach>
                </aui:select>
           </aui:fieldset>
+
 		</aui:fieldset-group>
 		
 		<aui:button-row>
