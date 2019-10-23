@@ -119,7 +119,7 @@
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
 
-					    <liferay-ui:icon message="export" url="${exportAgendaExportURL}" />
+					    <liferay-ui:icon message="eu.agenda.export.export" url="${exportAgendaExportURL}" />
 
 						<c:if test="${dc.hasPermission('EDIT_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editAgendaExportURL}" />

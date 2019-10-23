@@ -45,7 +45,9 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
             throws PortletException {
 
+        OutputStream os = null;
         try {
+            os = resourceResponse.getPortletOutputStream();
 
             /** Get form values **/
             Map<Locale, String> title = LocalizationUtil.getLocalizationMap(resourceRequest, "title");
@@ -72,28 +74,10 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             filters.setFilename(docxFilename);
             filters.setFilepath(getFilePath(docxFilename));
             List<String> orderArgs = getOrdersFromUserInput(dataTemplate);
-            filters.setGroupOrdering(orderArgs.size() >= 1 ? orderArgs.get(0) : "");
-            filters.setSubGroupOrdering((orderArgs.size() >= 2 ? orderArgs.get(1) : ""));
+            filters.setGroupOrdering(orderArgs.get(0));
+            filters.setSubGroupOrdering(orderArgs.get(1));
+            filters.setGroupDepth(orderArgs.get(2));
 
-            OutputStream os = null;
-
-            //Get the output stream
-            //TODO Correct this bug !
-            try {
-                os = resourceResponse.getPortletOutputStream();
-            } catch (Exception e) {
-                if (os != null) {
-                    try {
-
-                        os.close();
-                        os.flush();
-                        os = resourceResponse.getPortletOutputStream();
-
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
 
             if(exportFormat.toUpperCase().equals("DOCX")){
                 os = Exporter.exportDOCX(
@@ -106,127 +90,26 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 );
             }
 
-            os.close();
-            os.flush();
+            if(os != null) {
+                os.close();
+                os.flush();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
 
-        //Retrieve values
-//		Map<Locale, String> title = LocalizationUtil.getLocalizationMap(resourceRequest, "title");
-//		Map<Long, List<Long>> vocabularies = this.getCategories(resourceRequest);
-//		LocalDate startDate = this.getDate(resourceRequest,"startDate", "0");
-//		LocalDate endDate = this.getDate(resourceRequest,"endDate", "0");
-//		String language = ParamUtil.getString(resourceRequest, "language");
-//		String exportFormat = ParamUtil.getString(resourceRequest, "exportFormat");
-//		String[] tags = ParamUtil.getString(resourceRequest, "assetTagNames").split(",");
-
-        //Load categories and vocabularies
-//		List<Long[]> sortedCategories = sortCategoriesForSearch(vocabularies);
-//		List<AssetCategory> categories = getCategories(vocabularies);
-
-        //Get the output stream
-//		try {
-//			os = resourceResponse.getPortletOutputStream();
-//		} catch (Exception e) {
-//			if (os != null) {
-//				try {
-//
-//					os.close();
-//					os.flush();
-//					os = resourceResponse.getPortletOutputStream();
-//
-//				} catch (IOException ex) {
-//					ex.printStackTrace();
-//				}
-//			}
-//		}
-//
-//		try {
-
-        //Create DTO filter Object
-//			ThemeDisplay themeDisplay = null;
-//			EventFiltersDTO filters = null;
-//
-//			themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
-//			filters = new EventFiltersDTO(title.get(themeDisplay.getLocale()), language);
-//			filters.addPeriod(startDate, endDate);
-//			filters.setTags(Arrays.asList(tags));
-//			filters.addAssetCategories(categories);
-
-        //Search query
-//			List<Event> events = searchEvents(resourceRequest, resourceResponse, themeDisplay, filters, sortedCategories);
-//
-//			//Create and fill DTO objects
-//			ExportAgendaDTO data = this.createDTOObjects(themeDisplay, filters, events, 1);
-//
-//			StringWriter writer = new StringWriter();
-//			JAXBContext context = JAXBContext.newInstance(ExportAgendaDTO.class);
-//			Marshaller m = context.createMarshaller();
-//			m.marshal(data, writer);
-//			String xmlContent = writer.toString();
-//
-//			WordprocessingMLPackage wordMLPackage = null;
-
-//			File file = null;
-//			String docx_filepath = "C:/2019(3).docx";
-//
-//            //Load docx file
-//            wordMLPackage = Docx4J.load(new File(docx_filepath));
-//			resourceResponse.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
-//			resourceResponse.setProperty("content-disposition", "attachment; filename=test.docx");
-////          Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
-////			Save saver = new Save(wordMLPackage);
-////			saver.save(os);
-//
-
-//			if (os != null) {
-//				os.close();
-//				os.flush();
-//			}
-
-//		} catch (Exception e) {
-//
-//			if(os != null) {
-//				//TODO refactor class
-//				try {
-//					os.close();
-//					os.flush();
-//					resourceResponse.getWriter().close();
-//				} catch (IOException ex) {
-//					ex.printStackTrace();
-//				}
-//			}
-//
-//			e.printStackTrace();
-//		}
-
-        return true;
-    }
-
-    /**
-     * Récupère les données des categories contenus dans la liste des vocabulaires
-     * @param vocabularyMap
-     * @return
-     */
-    private static List<AssetCategory> getCategories(Map<Long, List<Long>> vocabularyMap) {
-
-        List<AssetCategory> categories = new ArrayList<>();
-        for (Map.Entry<Long, List<Long>> entry : vocabularyMap.entrySet()) {
-            List<Long> values = entry.getValue();
-
-            for(Long id : values) {
+            //Close output stream if needed
+            if(os != null) {
                 try {
-                    categories.add(AssetCategoryLocalServiceUtil.getCategory(id));
-                } catch (PortalException e) {
-                    e.printStackTrace();
+                    os.close();
+                    os.flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         }
 
-        return categories;
-
+        return true;
     }
 
     /**
@@ -269,6 +152,30 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             vocabularies.put(vocabularyId, categories);
         }
         return vocabularies;
+    }
+
+    /**
+     * Récupère les données des categories contenus dans la liste des vocabulaires
+     * @param vocabularyMap
+     * @return
+     */
+    private static List<AssetCategory> getCategories(Map<Long, List<Long>> vocabularyMap) {
+
+        List<AssetCategory> categories = new ArrayList<>();
+        for (Map.Entry<Long, List<Long>> entry : vocabularyMap.entrySet()) {
+            List<Long> values = entry.getValue();
+
+            for(Long id : values) {
+                try {
+                    categories.add(AssetCategoryLocalServiceUtil.getCategory(id));
+                } catch (PortalException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return categories;
+
     }
 
     private static List<Long[]> sortCategoriesForSearch(Map<Long, List<Long>> vocabularyMap) {
@@ -323,15 +230,15 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 
         List<String> filters = new ArrayList<>();
         Map<String, List<String>> templates = new HashMap<>();
-        templates.put("s", Arrays.asList(""));
-        templates.put("gj", Arrays.asList("DAY"));
-        templates.put("gm", Arrays.asList("MONTH"));
-        templates.put("gc", Arrays.asList("CATEGORY"));
-        templates.put("ggjc", Arrays.asList("DAY", "CATEGORY"));
-        templates.put("ggcj", Arrays.asList("CATEGORY", "DAY"));
-        templates.put("ggcm", Arrays.asList("CATEGORY", "MONTH"));
-        templates.put("ggmj", Arrays.asList("MONTH", "DAY"));
-        templates.put("ggmc", Arrays.asList("MONTH", "CATEGORY"));
+        templates.put("s", Arrays.asList("", "", "0"));
+        templates.put("gj", Arrays.asList("DAY", "", "1"));
+        templates.put("gm", Arrays.asList("MONTH", "", "1"));
+        templates.put("gc", Arrays.asList("CATEGORY", "", "1"));
+        templates.put("ggjc", Arrays.asList("DAY", "CATEGORY", "2"));
+        templates.put("ggcj", Arrays.asList("CATEGORY", "DAY", "2"));
+        templates.put("ggcm", Arrays.asList("CATEGORY", "MONTH", "2"));
+        templates.put("ggmj", Arrays.asList("MONTH", "DAY", "2"));
+        templates.put("ggmc", Arrays.asList("MONTH", "CATEGORY", "2"));
 
         //TODO check if template does exist
         filters = templates.get(key);

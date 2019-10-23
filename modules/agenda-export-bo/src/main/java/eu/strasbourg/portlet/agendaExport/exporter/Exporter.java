@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.exporter;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -54,9 +56,8 @@ public class Exporter {
             m.marshal(data, writer);
             String xmlContent = writer.toString();
 
-            /** DOCX4J **/
+            /** DOCX4J and response **/
             WordprocessingMLPackage wordMLPackage = null;
-            String directoryPath = "";
 
 			res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
 			res.setProperty("content-disposition", "attachment; filename="+filters.getFilename()+".docx");
@@ -84,11 +85,14 @@ public class Exporter {
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
             ExportAgendaDTO data = sortDTOObjects(
-                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(), filters.getSubGroupOrdering() ,1
+                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(),
+                filters.getSubGroupOrdering(), Integer.parseInt(filters.getGroupDepth())
             );
 
             /** Export data **/
             ObjectMapper mapper = new ObjectMapper();
+            //Remove empty values
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
             String json = mapper.writeValueAsString(data);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
@@ -165,7 +169,7 @@ public class Exporter {
                 exportAgendaDTO.setGroups(groups);
                 break;
             case 2:
-                //create groups
+                //create groups and subgroups
                 List<EventGroupDTO> mainGroups = orderEventsInGroups(events, filterType, filters);
                 orderGroupsInGroups(mainGroups, subFilterType, filters);
                 exportAgendaDTO.setGroups(mainGroups);
@@ -227,7 +231,9 @@ public class Exporter {
             return null;
         }
 
-        for(EventGroupDTO group : groups) {
+//        for(EventGroupDTO group : groups) {
+        for (Iterator<EventGroupDTO> iter = groups.listIterator(); iter.hasNext(); ) {
+            EventGroupDTO group = iter.next();
             List<EventGroupDTO> subGroups = new ArrayList<>();
 
             /**
@@ -248,6 +254,11 @@ public class Exporter {
 
             group.setSubgoups(subGroups);
             group.clearEvents();
+
+            //Remove group if its empty
+            if(group.getSubgoups().size() == 0) {
+                iter.remove();
+            }
         }
 
         return groups;
@@ -288,11 +299,7 @@ public class Exporter {
             case "CATEGORY":
 
                 for(EventCategoryDTO category : event.getCategories()) {
-                    for(EventCategoryDTO filterCategory : filters.getCategories()) {
-                        if(category.getName().equals(filterCategory.getName())) {
-                            values.add(category.getName());
-                        }
-                    }
+                    values.add(category.getName());
                 }
 
                 break;
@@ -326,29 +333,4 @@ public class Exporter {
         return group;
 
     }
-
-//    /**
-//     * Charge la liste des vocabulaires
-//     * @param vocabularyMap Map contenant les vocabulaires et les catégories
-//     * @return List<AssetVocabulary>
-//     */
-//    private static List<AssetVocabulary> getVocabularies(Map<Long, List<Long>> vocabularyMap) {
-//
-//        List<AssetVocabulary> vocabularies = new ArrayList<>();
-//        long[] vocabularyIds = new long[vocabularyMap.size()];
-//        int i = 0;
-//        for (Map.Entry<Long, List<Long>> entry : vocabularyMap.entrySet()) {
-//            Long key = entry.getKey();
-//            vocabularyIds[i] = key;
-//            i++;
-//        }
-//
-//        try {
-//            vocabularies = AssetVocabularyLocalServiceUtil.getVocabularies(vocabularyIds);
-//        } catch (PortalException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return vocabularies;
-//    }
 }

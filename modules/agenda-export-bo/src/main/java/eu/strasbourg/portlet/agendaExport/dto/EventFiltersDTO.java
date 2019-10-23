@@ -45,6 +45,9 @@ public class EventFiltersDTO {
     @XmlTransient
     private String subGroupOrdering;
 
+    @XmlTransient
+    private String groupDepth;
+
     public EventFiltersDTO() {
     }
 
@@ -152,6 +155,14 @@ public class EventFiltersDTO {
 
     public void setSubGroupOrdering(String subGroupOrdering) {
         this.subGroupOrdering = subGroupOrdering;
+    }
+
+    public String getGroupDepth() {
+        return groupDepth;
+    }
+
+    public void setGroupDepth(String groupDepth) {
+        this.groupDepth = groupDepth;
     }
 
     public void addAssetCategories(List<AssetCategory> categories) {

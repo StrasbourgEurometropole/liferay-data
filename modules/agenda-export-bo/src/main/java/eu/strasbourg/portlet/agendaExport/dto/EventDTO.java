@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
@@ -54,6 +55,7 @@ public class EventDTO {
 
     @XmlElementWrapper(name = "periods")
     @XmlElement(name = "period")
+//    @XmlTransient
     private List<PeriodDTO> periods;
 
     @XmlElementWrapper(name = "manifestations")
@@ -89,10 +91,13 @@ public class EventDTO {
             this.lastEndDate = event.getLastEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
 
+        //Fill lists and specials fields
         addManifestations(event.getManifestations());
         addPeriods(event.getEventPeriods());
+        setFirstAndLastDate();
         addPlace(event);
         addContact(event);
+        addConcert(event);
         addPrice(event);
         addBooking(event);
         addTags(event);
@@ -325,18 +330,41 @@ public class EventDTO {
             this.categories = new ArrayList<>();
         }
 
-        for(EventCategoryDTO categoryDTO : filters.getCategories()) {
+        for(AssetCategory category : event.getCategories()) {
+            for(EventCategoryDTO categoryDTO : filters.getCategories()) {
 
-            EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
-            newCategoryDTO.setName(categoryDTO.getName());
+                if(category.getName().equals(categoryDTO.getName())) {
+                    EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
+                    newCategoryDTO.setName(categoryDTO.getName());
+                    newCategoryDTO.setFirstLetter(categoryDTO.getName().substring(0, 1).toUpperCase());
+                    this.categories.add(newCategoryDTO);
 
-            if(true && categoryDTO.getName() != null) {
-                newCategoryDTO.setFirstLetter(categoryDTO.getName().substring(0, 1).toUpperCase());
-            } else {
-                newCategoryDTO.setFirstLetter("");
+                }
+            }
+        }
+
+    }
+
+    public void setFirstAndLastDate() {
+
+        LocalDate firstDate = null;
+        LocalDate endDate = null;
+        for(PeriodDTO period : periods) {
+
+            //StartDate
+            if(firstDate == null) {
+                firstDate = period.getStartDate();
+            } else if (period.getStartDate().isBefore(firstDate)) {
+                firstDate = period.getStartDate();
             }
 
-            this.categories.add(newCategoryDTO);
+            //EndDate
+            if(endDate == null) {
+                endDate = period.getEndDate();
+            } else if (period.getEndDate().isAfter(endDate)) {
+                endDate = period.getEndDate();
+            }
         }
+
     }
 }
