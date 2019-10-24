@@ -33,6 +33,16 @@ public class AgendaExportServiceWrapper implements AgendaExportService,
 	}
 
 	/**
+	* Renvoit la liste des catégories parentes d'un vocabulaire
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getParentCategories(
+		java.lang.Long vocabularyId, java.lang.String localeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _agendaExportService.getParentCategories(vocabularyId, localeId);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

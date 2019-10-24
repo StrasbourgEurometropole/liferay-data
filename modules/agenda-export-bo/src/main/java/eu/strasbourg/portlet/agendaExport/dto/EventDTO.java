@@ -1,11 +1,13 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import eu.strasbourg.portlet.agendaExport.XMLadapter.DateAdapter;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,9 +29,11 @@ public class EventDTO {
     private String description;
 
     @XmlElement(name = "firstStartDate")
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private LocalDate firstStartDate;
 
     @XmlElement(name = "lastEndDate")
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private LocalDate lastEndDate;
 
     @XmlElement(name = "image")

@@ -46,7 +46,8 @@ public class Exporter {
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
             ExportAgendaDTO data = sortDTOObjects(
-                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(), filters.getSubGroupOrdering() ,2
+                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(),
+                filters.getSubGroupOrdering() ,Integer.parseInt(filters.getGroupDepth())
             );
 
             /** JAXB Marshaller **/

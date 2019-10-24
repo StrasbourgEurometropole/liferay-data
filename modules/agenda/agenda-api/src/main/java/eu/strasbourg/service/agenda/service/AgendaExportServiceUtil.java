@@ -43,6 +43,15 @@ public class AgendaExportServiceUtil {
 	 */
 
 	/**
+	* Renvoit la liste des catégories parentes d'un vocabulaire
+	*/
+	public static com.liferay.portal.kernel.json.JSONArray getParentCategories(
+		java.lang.Long vocabularyId, java.lang.String localeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getParentCategories(vocabularyId, localeId);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

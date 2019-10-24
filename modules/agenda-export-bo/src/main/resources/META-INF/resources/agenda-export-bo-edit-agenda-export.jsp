@@ -121,7 +121,84 @@
                        </aui:option>
                    </c:forEach>
                 </aui:select>
+            </aui:fieldset>
 
+            <aui:fieldset collapsible="true" label="eu.agenda.export.format.configurations">
+
+                <aui:select id="aggregationLevel" name="exportFormat" label="eu.agenda.export.aggregation.level">
+                   <c:forEach var="level" items="${dc.aggregationLevel}">
+                       <aui:option
+                           value="${level.key}"
+                       >
+                           ${level.value}
+                       </aui:option>
+                   </c:forEach>
+                </aui:select>
+
+                <%-- First level Aggregation --%>
+
+                <div id="firstAggregationBlock" class="aggregationFields">
+                    <aui:select id="firstAggregationType" name="firstAggregationType" label="eu.agenda.export.aggregation.types.first">
+                        <c:forEach var="type" items="${dc.aggregationTypes}">
+                           <aui:option
+                               value="${type.key}"
+                           >
+                               ${type.value}
+                           </aui:option>
+                        </c:forEach>
+                    </aui:select>
+
+                    <div class="wrapper">
+                        <aui:select id="firstAggregationVocabulary" cssClass="vocabulary-select" name="firstAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
+                            <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
+                                <aui:option
+                                  value="${vocabulary.vocabularyId}"
+                                >
+                                    ${vocabulary.getTitle(locale)}
+                               </aui:option>
+                            </c:forEach>
+                        </aui:select>
+                    </div>
+
+                    <div class="wrapper">
+                        <aui:select id="firstAggregationCategory" name="firstAggregationCategory" label="eu.agenda.export.aggregation.category">
+                        </aui:select>
+                    </div>
+                </div>
+
+                <%-- Second level Aggregation --%>
+
+                <div id="secondAggregationBlock" class="aggregationFields">
+                    <aui:select id="secondAggregationType" name="secondAggregationType" label="eu.agenda.export.aggregation.types.second">
+                        <c:forEach var="type" items="${dc.aggregationTypes}">
+                           <aui:option
+                               value="${type.key}"
+                           >
+                               ${type.value}
+                           </aui:option>
+                        </c:forEach>
+                    </aui:select>
+
+                    <div class="wrapper">
+                        <aui:select id="secondAggregationVocabulary" cssClass="vocabulary-select" name="secondAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
+                            <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
+                                <aui:option
+                                  value="${vocabulary.vocabularyId}"
+                                >
+                                    ${vocabulary.getTitle(locale)}
+                               </aui:option>
+                            </c:forEach>
+                        </aui:select>
+                    </div>
+
+                    <div class="wrapper">
+                        <aui:select id="secondAggregationCategory" name="secondAggregationCategory" label="eu.agenda.export.aggregation.category">
+                        </aui:select>
+                    </div>
+                </div>
+            </aui:fieldset>
+
+                <%--
                 <aui:select name="template" label="eu.agenda.export.target.template">
                     <c:forEach var="template" items="${dc.templateList}">
                       <aui:option
@@ -131,7 +208,6 @@
                       </aui:option>
                     </c:forEach>
                 </aui:select>
-            </aui:fieldset>
 
            <aui:fieldset collapsible="true" label="eu.agenda.export.data.order">
                <aui:select name="dataOrder" label="eu.agenda.export.data.order.field">
@@ -144,6 +220,7 @@
                    </c:forEach>
                </aui:select>
           </aui:fieldset>
+         --%>
 
 		</aui:fieldset-group>
 		
@@ -168,12 +245,14 @@
             </c:if>
             <c:if test="${toExport eq true}">
                 <%--<aui:button id="export-btn" cssClass="btn-lg" type="button" value="eu.export"/>--%>
-                <aui:button id="export-btn" cssClass="btn-lg" type="submit" value="eu.export"/>
+                <aui:button id="export-btn-submit" cssClass="btn-lg" type="submit" value="eu.export"/>
             </c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>
+
+<div id="result"></div>
 
 <liferay-util:html-top>
 	<script>
@@ -209,6 +288,12 @@
 		src="/o/agendaexportbo/js/agenda-export-bo-edit-event.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
+
+<script type="text/javascript">
+
+    var exportResourceUrl = '${exportAgendaExportURL}';
+
+</script>
 
 <aui:script>
 	function <portlet:namespace />deleteEntity() {

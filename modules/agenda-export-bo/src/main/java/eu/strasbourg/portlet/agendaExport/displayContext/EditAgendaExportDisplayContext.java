@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -25,6 +26,7 @@ import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -156,6 +158,32 @@ public class EditAgendaExportDisplayContext {
     }
 
     /**
+     * List that define available level of aggregations
+     * @return
+     */
+    public Map<String, String> getAggregationLevel() {
+        Map<String, String> orders = new HashMap<>();
+        orders.put("0", LanguageUtil.get(bundle, "eu.agenda.export.order.none"));
+        orders.put("1", LanguageUtil.get(bundle, "eu.agenda.export.order.group"));
+        orders.put("2", LanguageUtil.get(bundle, "eu.agenda.export.order.subGroup"));
+        return orders;
+    }
+
+    /**
+     * Define aggregation types
+     * Currently DAY / MONTH / VOCABULARY / CATEGORY
+     * @return
+     */
+    public Map<String, String> getAggregationTypes() {
+        Map<String, String> types = new HashMap<>();
+        types.put("DAY", LanguageUtil.get(bundle, "eu.agenda.export.order.day"));
+        types.put("MONTH", LanguageUtil.get(bundle, "eu.agenda.export.order.month"));
+        types.put("VOCABULARY", LanguageUtil.get(bundle, "eu.agenda.export.order.vocabulary"));
+        types.put("CATEGORY", LanguageUtil.get(bundle, "eu.agenda.export.order.category"));
+        return types;
+    }
+
+    /**
      * Renvoit la liste des templates disponibles
      * @return
      */
@@ -177,24 +205,6 @@ public class EditAgendaExportDisplayContext {
     }
 
     /**
-     * Liste toutes les possibilitées de tri des templates
-     * @return
-     */
-    public Map<String, String> getDataOrder() {
-        Map<String, String> orders = new HashMap<>();
-        orders.put("s", LanguageUtil.get(bundle, "eu.agenda.export.order.simple"));
-        orders.put("gj", LanguageUtil.get(bundle, "eu.agenda.export.order.groupe.jour"));
-        orders.put("gm", LanguageUtil.get(bundle, "eu.agenda.export.order.groupe.mois"));
-        orders.put("gc", LanguageUtil.get(bundle, "eu.agenda.export.order.groupe.categorie"));
-        orders.put("ggjc", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.jour.categorie"));
-        orders.put("ggcj", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.categorie.jour"));
-        orders.put("ggcm", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.categorie.mois"));
-        orders.put("ggmj", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.mois.jour"));
-        orders.put("ggmc", LanguageUtil.get(bundle, "eu.agenda.export.order.sousgroupe.mois.categorie"));
-        return orders;
-    }
-
-    /**
      * Define the list of vocaularies that can be used as filter
      * @return
      */
@@ -206,6 +216,33 @@ public class EditAgendaExportDisplayContext {
         vocabularies.add(_assetVocabularyAccessor.getEventTypes());
         vocabularies.add(_assetVocabularyAccessor.getPlaceTypes());
         return vocabularies;
+    }
+
+    public Map<Long, String> getParentCategories(String vocabularyId, Locale locale) {
+        Map<Long, String> sortedCategories = new HashMap<>();
+        List<AssetCategory> categories = new ArrayList<>();
+
+//        if(type.toUpperCase().equals("THEME")) {
+//            categories = _assetVocabularyAccessor.getEventThemes().getCategories();
+//        }
+//        else if(type.toUpperCase().equals("TERRITOIRE")) {
+//
+//        }
+
+//        List<AssetCategory> parentCategories = AssetVocabularyHelper.getParentCategory(categories);
+//
+//        for(AssetCategory parent : parentCategories) {
+//            sortedCategories.put(parent.getCategoryId(), parent.getTitle(locale));
+//        }
+
+//        parentCategories.add(_assetVocabularyAccessor.getEventThemes().getCategories());
+//        parentCategories.add(_assetVocabularyAccessor.getTerritories());
+//        parentCategories.add(_assetVocabularyAccessor.getEventPublics());
+//        parentCategories.add(_assetVocabularyAccessor.getEventTypes());
+//        parentCategories.add(_assetVocabularyAccessor.getPlaceTypes());
+
+
+        return sortedCategories;
     }
 
     /**

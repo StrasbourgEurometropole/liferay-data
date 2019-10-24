@@ -14,7 +14,20 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import eu.strasbourg.service.agenda.service.base.AgendaExportServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The implementation of the agenda export remote service.
@@ -36,4 +49,25 @@ public class AgendaExportServiceImpl extends AgendaExportServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.AgendaExportServiceUtil} to access the agenda export remote service.
 	 */
+
+	/**
+	 * Renvoit la liste des catégories parentes d'un vocabulaire
+	 */
+	@Override
+	public JSONArray getParentCategories(Long vocabularyId, String localeId) throws PortalException {
+
+		AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getAssetVocabulary(vocabularyId);
+		List<AssetCategory> parentCategories = AssetVocabularyHelper.getParentCategory(vocabulary.getCategories());
+		Locale locale = LocaleUtil.fromLanguageId(localeId);
+
+		JSONArray result = JSONFactoryUtil.createJSONArray();
+		for (AssetCategory category : parentCategories) {
+			JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+			jsonCategory.put("title",category.getTitle(locale));
+			jsonCategory.put("id",category.getCategoryId());
+			result.put(jsonCategory);
+		}
+
+		return result;
+	}
 }

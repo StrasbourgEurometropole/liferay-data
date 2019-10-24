@@ -16,9 +16,16 @@ package eu.strasbourg.service.agenda.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.agenda.service.AgendaExportServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.agenda.service.AgendaExportServiceUtil} service utility. The
+ * {@link AgendaExportServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,29 @@ import aQute.bnd.annotation.ProviderType;
  * @author BenjaminBini
  * @see AgendaExportServiceHttp
  * @see eu.strasbourg.service.agenda.model.AgendaExportSoap
- * @see eu.strasbourg.service.agenda.service.AgendaExportServiceUtil
+ * @see AgendaExportServiceUtil
  * @generated
  */
 @ProviderType
 public class AgendaExportServiceSoap {
+	/**
+	* Renvoit la liste des catégories parentes d'un vocabulaire
+	*/
+	public static java.lang.String getParentCategories(
+		java.lang.Long vocabularyId, java.lang.String localeId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue = AgendaExportServiceUtil.getParentCategories(vocabularyId,
+					localeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(AgendaExportServiceSoap.class);
 }

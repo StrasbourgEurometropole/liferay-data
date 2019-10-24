@@ -160,12 +160,14 @@ function validatePeriods(event) {
         for(var index in items) {
             var itemName = items[index].name;
             var itemValue = items[index].value;
+
             key = itemName.replace(/\D/g,'');
             itemName = itemName.replace(/[0-9]/g, token);
 
             if(itemName === idField && key !== undefined) {
                 var fieldToFind = name.replace("[index]", key);
                 var values = getAllValuesWithName(items, fieldToFind);
+
                 if(values !== undefined) {
                     vocabularies[itemValue] = values;
                 }
@@ -194,26 +196,138 @@ function validatePeriods(event) {
             vocabularyNumber: namespace + "_vocabulary_number",
             tags: namespace + "_assetTagNames",
             language: namespace + "_language",
+            exportFormat: namespace + "_exportFormat",
+            template: namespace + "_template",
+            dataOrder: namespace + "_dataOrder",
         };
 
-        var AgendaExport= {
-            title: getValueWithName(values, fields.title),
-            startDate: getValueWithName(values, fields.startDate.replace("[index]", 0)),
-            endDate: getValueWithName(values, fields.endDate.replace("[index]", 0)),
-            vocabularies: getCategories(values, "[index]", fields.vocabularyId, fields.vocabularySelect),
-            tags: getValueWithName(values, fields.tags).split(','),
-            language: getValueWithName(values, fields.language)
-        };
+        //Fill data array
+        var data = {};
+        data[fields.title] = getValueWithName(values, fields.title);
+        data[fields.startDate.replace("[index]", 0)] = getValueWithName(values, fields.startDate.replace("[index]", 0));
+        data[fields.endDate.replace("[index]", 0)] = getValueWithName(values, fields.endDate.replace("[index]", 0));
 
-        console.log(AgendaExport);
+        var vocabularies = getCategories(values, "[index]", fields.vocabularyId, fields.vocabularySelect);
 
-//        Liferay.Service(
-//        '/gtfs.arret/get-arret-real-time', {
-//            stopCode: feature.properties.code
-//        },
-//        function(json) {
-//            console.log(json);
-//        }
+        var i = 0;
+        $.each(vocabularies, function(key, value) {
+            data[fields.vocabularyId.replace("[index]", i)] = key;
+            data[fields.vocabularySelect.replace("[index]", i)] = value;
+            i++;
+        });
+
+        data[fields.vocabularyNumber] = getValueWithName(values, fields.vocabularyNumber);
+        data[fields.tags] = getValueWithName(values, fields.tags).split(',');
+        data[fields.language] = getValueWithName(values, fields.language);
+        data[fields.exportFormat] = getValueWithName(values, fields.exportFormat);
+        data[fields.template] = getValueWithName(values, fields.template);
+        data[fields.dataOrder] = getValueWithName(values, fields.dataOrder);
+
+        AUI().use('aui-io-request', function(A) {
+            A.io.request(exportResourceUrl, {
+                method : 'POST',
+                data:data,
+                on: {
+                    success: function(data) {
+                        console.log(data);
+                        $('#result').html(data);
+                    }
+                }
+            });
+        });
     });
 
+})(jQuery);
+
+(function($) {
+
+    var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_";
+    var aggregationLevelSelect = $('#'+ namespace +'aggregationLevel');
+    var firstAggregationBlock = $('#firstAggregationBlock');
+    var secondAggregationBlock = $('#secondAggregationBlock');
+    var firstAggregationTypeSelect = $('#'+ namespace +'firstAggregationType');
+    var secondAggregationTypeSelect = $('#'+ namespace +'secondAggregationType');
+    var vocabulariesSelect = $('.vocabulary-select');
+    var firstCategorySelect = $('#'+ namespace +'firstAggregationCategory');
+    var secondCategorySelect = $('#'+ namespace +'secondAggregationCategory');
+
+    /** Affichage des champs **/
+
+    //Affichage des types d'agrégations
+    aggregationLevelSelect.on("change", function() {
+        var value = $(this).val();
+
+        if(value === "0") {
+            firstAggregationBlock.hide();
+            secondAggregationBlock.hide();
+        } else if(value === "1") {
+            firstAggregationBlock.show();
+            secondAggregationBlock.hide();
+        } else if(value === "2") {
+            firstAggregationBlock.show();
+            secondAggregationBlock.show();
+        }
+    });
+
+    //Affichage des champs (première agrégation)
+    firstAggregationTypeSelect.on("change", function() {
+        var value = $(this).val()
+        if(value === "VOCABULARY"){
+            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").show();
+            firstCategorySelect.closest(".wrapper").hide();
+        } else if(value === "CATEGORY") {
+            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").show();
+            firstCategorySelect.closest(".wrapper").show();
+        } else {
+            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").hide();
+            firstCategorySelect.closest(".wrapper").hide();
+        }
+    });
+
+    //Affichage des champs (deuxième agrégation)
+    secondAggregationTypeSelect.on("change", function() {
+        if($(this).val() === "VOCABULARY"){
+            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'secondAggregationVocabulary').closest(".wrapper").show();
+            secondCategorySelect.closest(".wrapper").hide();
+        } else if($(this).val() === "CATEGORY") {
+            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'secondAggregationVocabulary').closest(".wrapper").show();
+            secondCategorySelect.closest(".wrapper").show();
+        } else {
+            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'secondAggregationVocabulary').closest(".wrapper").hide();
+            secondCategorySelect.closest(".wrapper").hide();
+        }
+    });
+
+    //Chargements des categories en fonction du vocabulaire choisi
+    vocabulariesSelect.on("change", function() {
+        var vocabularySelect = this;
+        var select = null;
+        if($(this).val() != ""){
+            // on initialise le select des catégories parentes
+            Liferay.Service(
+                '/agenda.agendaexport/get-parent-categories', {
+                    vocabularyId: $(this).val(),
+                    localeId: Liferay.ThemeDisplay.getLanguageId()
+            }).then(function(data) {
+
+                //Choose the right select
+                var name = $(vocabularySelect).attr("name");
+                if(name === namespace+"firstAggregationVocabulary") {
+                    select = firstCategorySelect;
+                } else if (name === namespace+"secondAggregationVocabulary") {
+                    select = secondCategorySelect;
+                }
+
+                $(select).find('option').remove();
+                select.append('<option class="" value=""></option>');
+                jQuery.each(data, function(index, categ){
+                    select.append('<option class="" value="' + categ.id + '">' + categ.title + ' </option>');
+                });
+                select.show();
+            });
+        }else{
+            firstCategorySelect.hide();
+            secondCategorySelect.hide();
+        }
+    });
 })(jQuery);

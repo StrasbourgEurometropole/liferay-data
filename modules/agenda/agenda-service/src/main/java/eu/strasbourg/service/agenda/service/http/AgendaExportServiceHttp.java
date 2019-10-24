@@ -16,12 +16,21 @@ package eu.strasbourg.service.agenda.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+
+import eu.strasbourg.service.agenda.service.AgendaExportServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * {@link eu.strasbourg.service.agenda.service.AgendaExportServiceUtil} service utility. The
+ * {@link AgendaExportServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link com.liferay.portal.kernel.security.auth.HttpPrincipal} parameter.
+ * {@link HttpPrincipal} parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -40,10 +49,47 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author BenjaminBini
  * @see AgendaExportServiceSoap
- * @see com.liferay.portal.kernel.security.auth.HttpPrincipal
- * @see eu.strasbourg.service.agenda.service.AgendaExportServiceUtil
+ * @see HttpPrincipal
+ * @see AgendaExportServiceUtil
  * @generated
  */
 @ProviderType
 public class AgendaExportServiceHttp {
+	public static com.liferay.portal.kernel.json.JSONArray getParentCategories(
+		HttpPrincipal httpPrincipal, java.lang.Long vocabularyId,
+		java.lang.String localeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(AgendaExportServiceUtil.class,
+					"getParentCategories", _getParentCategoriesParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					vocabularyId, localeId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(AgendaExportServiceHttp.class);
+	private static final Class<?>[] _getParentCategoriesParameterTypes0 = new Class[] {
+			java.lang.Long.class, java.lang.String.class
+		};
 }
