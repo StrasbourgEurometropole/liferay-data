@@ -416,12 +416,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             return false;
         }
 
-        // birthday
-        if (Validator.isNull(this.birthday)) {
-        	this.message = "Date de naissance non valide";
-            return false;
-        }
-
         // city
         if (Validator.isNull(this.city)) {
         	this.message = "Ville non valide";
