@@ -5,7 +5,7 @@ jQuery(function() {
 		// on déclenche un clic sur chaque drapeau de langue correspondant
 		var language = $(this).attr('locale') ? $(this).attr('locale') : Liferay.ThemeDisplay.getLanguageId();
 		var flags = jQuery('.palette-item[data-value=' + language + ']');
-		
+
 		// On s'occupe également des pickers
 		flags.trigger('click');
 		$('.picker-fileId').removeClass('active');

@@ -12,9 +12,6 @@ public class EventCategoryDTO {
     @XmlElement(name = "name")
     private String name;
 
-    @XmlElement(name = "firstLetter")
-    private String firstLetter = "";
-
     public EventCategoryDTO() {}
 
     public EventCategoryDTO(String name) {
@@ -27,13 +24,5 @@ public class EventCategoryDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getFirstLetter() {
-        return firstLetter;
-    }
-
-    public void setFirstLetter(String firstLetter) {
-        this.firstLetter = firstLetter;
     }
 }

@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "vocabulary")
@@ -17,6 +18,10 @@ public class EventVocabularyDTO {
     public EventVocabularyDTO() {
     }
 
+    public EventVocabularyDTO(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,5 +36,14 @@ public class EventVocabularyDTO {
 
     public void setCategories(List<EventCategoryDTO> categories) {
         this.categories = categories;
+    }
+
+    public void addCategory(String name) {
+
+        if(categories == null) {
+            categories = new ArrayList<>();
+        }
+
+        categories.add(new EventCategoryDTO(name));
     }
 }

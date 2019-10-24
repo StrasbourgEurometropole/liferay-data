@@ -2,6 +2,10 @@ package eu.strasbourg.portlet.agendaExport.exporter;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -128,6 +132,7 @@ public class Exporter {
         Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/strasbourg.eu");
         long groupId = group.getGroupId();
 
+        //TODO uncomment this
 //		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId,
 //			themeDisplay.getCompanyGroupId(), true, "", true, "displayDate", filters.getStartDate(0), filters.getEndDate(0), categoriesRechercheIds,
 //			new ArrayList<Long[]>(), StringUtil.split("actu,webmag"), false, themeDisplay.getLocale(), 0,
@@ -196,11 +201,33 @@ public class Exporter {
      * @param themeDisplay
      * @return
      */
-    private static List<EventDTO> createEventDTOList(List<Event> events, EventFiltersDTO filters, ThemeDisplay themeDisplay) {
+    private static List<EventDTO> createEventDTOList(List<Event> events, EventFiltersDTO filters, ThemeDisplay themeDisplay) throws PortalException {
 
         List<EventDTO> DTOList = new ArrayList<>();
         for(Event event : events) {
-            DTOList.add(new EventDTO(event, filters, themeDisplay.getLocale()));
+            EventDTO eventDTO = new EventDTO(event, filters, themeDisplay.getLocale());
+
+            //Load vocabularies
+            List<EventVocabularyDTO> vocabularyDTOS = new ArrayList<>();
+            for(AssetCategory category : event.getCategories()) {
+
+                AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
+
+                Boolean exist = false;
+                for(EventVocabularyDTO vocabularyDTO : vocabularyDTOS) {
+                    if(vocabularyDTO.getName().equals(vocabularyDTO.getName())) {
+                        exist = true;
+                    }
+                }
+
+                if(!exist) {
+                    EventVocabularyDTO vocabularyDTO = new EventVocabularyDTO(vocabulary.getName());
+                    vocabularyDTO.addCategory(category.getName());
+                    vocabularyDTOS.add(vocabularyDTO);
+                }
+            }
+
+            DTOList.add(eventDTO);
         }
 
         return DTOList;
@@ -210,7 +237,9 @@ public class Exporter {
      * Filtre les events en fonction d'un argument et les place dans le groupe correspondant
      * Si un event appartient à plusieurs groupe, celui-ci est dupliqué
      * @param events
-     * @param filterType
+     * @param aggregationFilterDTO
+     * @param filters
+     * @return
      */
     private static List<EventGroupDTO> orderEventsInGroups(List<EventDTO> events, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) {
 
@@ -239,6 +268,10 @@ public class Exporter {
 
     /**
      * Aggrège les events contenus dans des groupes dans des sous-groupes en fonction du filtre voulu
+     * @param groups
+     * @param aggregationFilterDTO
+     * @param filters
+     * @return
      */
     private static List<EventGroupDTO> orderGroupsInGroups(List<EventGroupDTO> groups, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) {
 
@@ -246,7 +279,6 @@ public class Exporter {
             return new ArrayList<EventGroupDTO>();
         }
 
-//        for(EventGroupDTO group : groups) {
         for (Iterator<EventGroupDTO> iter = groups.listIterator(); iter.hasNext(); ) {
             EventGroupDTO group = iter.next();
             List<EventGroupDTO> subGroups = new ArrayList<>();
@@ -279,6 +311,13 @@ public class Exporter {
         return groups;
     }
 
+    /**
+     * Renvoit une liste de valeurs filtrées en fonction du type de comparaison
+     * @param event
+     * @param filterType
+     * @param filters
+     * @return
+     */
     private static List<String> getValues(EventDTO event, String filterType, EventFiltersDTO filters) {
 
         List<String> values = new ArrayList<>();
@@ -290,7 +329,6 @@ public class Exporter {
                     LocalDate endDate = period.getStartDate();
 
                     //get the days number between these dates
-                    //TODO 0 ou 1 ?
                     long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
 
                     //Create the groups associated to these days
@@ -308,7 +346,33 @@ public class Exporter {
                 }
                 break;
             case "MONTH":
-                //TODO month
+                for(PeriodDTO period : event.getPeriods()) {
+
+                    LocalDate startDate = period.getStartDate();
+                    LocalDate endDate = period.getStartDate();
+
+                    //get the days number between these dates
+                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
+
+                    //Create the groups associated to these days
+                    for(int i = 0; i < days; i++) {
+
+                        LocalDate date = startDate.plusDays(i);
+
+                        for(PeriodDTO filterPeriod : filters.getPeriods()) {
+                            if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
+                                values.add(date.toString()); //TODO format for date
+                            }
+                            values.add(date.toString());
+                        }
+                    }
+                }
+                break;
+            case "VOCABULARY":
+
+                for(EventVocabularyDTO vocabularyDTO : event.getVocabularies()) {
+                    values.add(vocabularyDTO.getName());
+                }
 
                 break;
             case "CATEGORY":
@@ -319,7 +383,6 @@ public class Exporter {
 
                 break;
         }
-
 
         return values;
     }
@@ -337,7 +400,7 @@ public class Exporter {
 
         //Find the group
         for(EventGroupDTO group : groups)  {
-            if(group.getValue().equals(value)) { //TODO compare any type -> not needed at the moment
+            if(group.getValue().equals(value)) {
                 return group;
             }
         }

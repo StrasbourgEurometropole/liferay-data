@@ -1,6 +1,9 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import eu.strasbourg.portlet.agendaExport.XMLadapter.DateAdapter;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -59,12 +62,15 @@ public class EventDTO {
 
     @XmlElementWrapper(name = "periods")
     @XmlElement(name = "period")
-//    @XmlTransient
     private List<PeriodDTO> periods;
 
     @XmlElementWrapper(name = "manifestations")
     @XmlElement(name = "manifestation")
     private List<ManifestationDTO> manifestations;
+
+    @XmlElementWrapper(name = "vocabularies")
+    @XmlElement(name = "vocabulary")
+    private List<EventVocabularyDTO> vocabularies;
 
     @XmlElementWrapper(name = "categories")
     @XmlElement(name = "category")
@@ -104,7 +110,6 @@ public class EventDTO {
         addConcert(event);
         addPrice(event);
         addBooking(event);
-        addTags(event);
         addCategories(event, filters);
     }
 
@@ -220,6 +225,14 @@ public class EventDTO {
         this.booking = booking;
     }
 
+    public List<EventVocabularyDTO> getVocabularies() {
+        return vocabularies;
+    }
+
+    public void setVocabularies(List<EventVocabularyDTO> vocabularies) {
+        this.vocabularies = vocabularies;
+    }
+
     public List<EventCategoryDTO> getCategories() {
         return categories;
     }
@@ -318,9 +331,17 @@ public class EventDTO {
         );
     }
 
-    public void addTags(Event event) {
+    public void addVocabularies(List<AssetVocabulary> vocabularies) {
 
-        //TODO add tags
+        if(this.vocabularies == null) {
+            this.vocabularies = new ArrayList<>();
+        }
+
+        for(AssetVocabulary vocabulary : vocabularies) {
+            EventVocabularyDTO vocabularyDTO = new EventVocabularyDTO();
+            vocabularyDTO.setName(vocabulary.getName());
+            this.vocabularies.add(vocabularyDTO);
+        }
     }
 
     /**
@@ -340,7 +361,6 @@ public class EventDTO {
                 if(category.getName().equals(categoryDTO.getName())) {
                     EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
                     newCategoryDTO.setName(categoryDTO.getName());
-                    newCategoryDTO.setFirstLetter(categoryDTO.getName().substring(0, 1).toUpperCase());
                     this.categories.add(newCategoryDTO);
 
                 }

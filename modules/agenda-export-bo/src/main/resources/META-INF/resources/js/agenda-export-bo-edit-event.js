@@ -40,7 +40,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	 * RangePicker répétable
 	 */
 	// Options du date range picker répétable
-	var options = { 
+	var options = {
 		autoApply: false,
 		parentEl: '.portlet-body',
 		opens: 'right',
@@ -59,11 +59,11 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	$('span.date-range').daterangepicker(options);
 	// On attache l'événement de changement de range de date
 	$('span.date-range').on('apply.daterangepicker', onDateChange);
-	
+
 	/**
 	 * RangePicker permettant la création à la chaîne
 	 */
-	// Activation du RangePicker 
+	// Activation du RangePicker
 	$('#' + namespace + 'periodGenerator').daterangepicker({
 		autoApply: false,
 		parentEl: '.portlet-body',
@@ -82,7 +82,7 @@ function validatePeriods(event) {
 		var id = $(dateRange).attr('id');
 		// On ne lance la validation que si une période a déjà été sélectionnée
 		// et que l'élément ne contient pas la classe "hide"
-		if ($(dateRange).text().indexOf('-') > 0 
+		if ($(dateRange).text().indexOf('-') > 0
 				&& $(dateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
 			var startDate = moment($(dateRange).text().split(' - ')[0], 'DD/MM/YYYY');
 			var endDate = moment($(dateRange).text().split(' - ')[1], 'DD/MM/YYYY');
@@ -90,7 +90,7 @@ function validatePeriods(event) {
 			for (var j = 0; j < otherDateRanges.length; j++) {
 				var otherDateRange = document.querySelectorAll('#date-fields .date-range')[j];
 				var otherId = $(otherDateRange).attr('id');
-				if (otherId !== id && $(otherDateRange).text().indexOf('-') > 0  
+				if (otherId !== id && $(otherDateRange).text().indexOf('-') > 0
 						&& $(otherDateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
 					var otherStartDate = moment($(otherDateRange).text().split(' - ')[0], 'DD/MM/YYYY');
 					var otherEndDate = moment($(otherDateRange).text().split(' - ')[1], 'DD/MM/YYYY');
@@ -105,9 +105,9 @@ function validatePeriods(event) {
 			$('.event-period-conflict', $(dateRange).parent()).show();
 			allValidated = false;
 		}
-		
+
 	}
-	
+
 	if (!allValidated) {
 		event.preventDefault();
 	} else {
