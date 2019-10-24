@@ -12,12 +12,32 @@
 <#assign hasUserPactSign = httpServletRequest.getSession().getAttribute("has_pact_signed")!false />
 <#assign isUserBanned = httpServletRequest.getSession().getAttribute("is_banish")!false />
 
+
+
+<#assign BudgetPhaseLocalService = serviceLocator.findService("eu.strasbourg.service.project.service.BudgetPhaseLocalService")/>
+<#assign activePhase = BudgetPhaseLocalService.getActivePhase(themeDisplay.scopeGroupId) />  
+
+
+<#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
+<#assign assets = AssetEntryService.getAssetCategoryAssetEntries(activePhase.getPhaseCategory().getCategoryId())  />
+
+<#-- Récupération de la page de listing de BP qui correspond à la phase active. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
+<#list assets as ass>
+    <#if ass.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(ass.getClassPK())/>
+        <#assign pageListing = abc.getFriendlyURL()/>
+        <#break>
+    </#if>
+</#list>
+
 <!-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
@@ -72,7 +92,9 @@
 							<#elseif isUserBanned>
 								<a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
 							</#if>
-							<a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>										
+                            <#if pageListing??>
+                                    <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                            </#if>
 						</div>
 
                     </div>
@@ -148,7 +170,9 @@
                             <#elseif isUserBanned>
                                 <a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
                             </#if>
-                            <a href="/projets-budget-participatif" class="pro-btn-transparent">Voir la liste des projets</a>
+                            <#if pageListing??>
+                                    <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                            </#if>
 						</div>
 					</div>
 				</div>
