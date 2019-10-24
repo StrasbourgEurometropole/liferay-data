@@ -176,10 +176,11 @@ public class EditAgendaExportDisplayContext {
      */
     public Map<String, String> getAggregationTypes() {
         Map<String, String> types = new HashMap<>();
-        types.put("DAY", LanguageUtil.get(bundle, "eu.agenda.export.order.day"));
-        types.put("MONTH", LanguageUtil.get(bundle, "eu.agenda.export.order.month"));
-        types.put("VOCABULARY", LanguageUtil.get(bundle, "eu.agenda.export.order.vocabulary"));
-        types.put("CATEGORY", LanguageUtil.get(bundle, "eu.agenda.export.order.category"));
+        types.put("", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.none"));
+        types.put("DAY", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.day"));
+        types.put("MONTH", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.month"));
+        types.put("VOCABULARY", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.vocabulary"));
+        types.put("CATEGORY", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.category"));
         return types;
     }
 
@@ -216,33 +217,6 @@ public class EditAgendaExportDisplayContext {
         vocabularies.add(_assetVocabularyAccessor.getEventTypes());
         vocabularies.add(_assetVocabularyAccessor.getPlaceTypes());
         return vocabularies;
-    }
-
-    public Map<Long, String> getParentCategories(String vocabularyId, Locale locale) {
-        Map<Long, String> sortedCategories = new HashMap<>();
-        List<AssetCategory> categories = new ArrayList<>();
-
-//        if(type.toUpperCase().equals("THEME")) {
-//            categories = _assetVocabularyAccessor.getEventThemes().getCategories();
-//        }
-//        else if(type.toUpperCase().equals("TERRITOIRE")) {
-//
-//        }
-
-//        List<AssetCategory> parentCategories = AssetVocabularyHelper.getParentCategory(categories);
-//
-//        for(AssetCategory parent : parentCategories) {
-//            sortedCategories.put(parent.getCategoryId(), parent.getTitle(locale));
-//        }
-
-//        parentCategories.add(_assetVocabularyAccessor.getEventThemes().getCategories());
-//        parentCategories.add(_assetVocabularyAccessor.getTerritories());
-//        parentCategories.add(_assetVocabularyAccessor.getEventPublics());
-//        parentCategories.add(_assetVocabularyAccessor.getEventTypes());
-//        parentCategories.add(_assetVocabularyAccessor.getPlaceTypes());
-
-
-        return sortedCategories;
     }
 
     /**

@@ -50,6 +50,8 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             os = resourceResponse.getPortletOutputStream();
 
             /** Get form values **/
+
+            //Valeur de l'instance export Agenda
             Map<Locale, String> title = LocalizationUtil.getLocalizationMap(resourceRequest, "title");
             Map<Long, List<Long>> vocabularies = getCategories(resourceRequest);
             LocalDate startDate = getDate(resourceRequest,"startDate", "0");
@@ -57,9 +59,18 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             String language = ParamUtil.getString(resourceRequest, "language");
             String[] tags = ParamUtil.getString(resourceRequest, "assetTagNames").split(",");
 
+            //Choix du template
             String exportFormat = ParamUtil.getString(resourceRequest, "exportFormat");
             String docxFilename = ParamUtil.getString(resourceRequest, "template");
-            String dataTemplate = ParamUtil.getString(resourceRequest, "dataOrder");
+
+            //Valeurs des agrégations
+            String aggregationLevel = ParamUtil.getString(resourceRequest, "aggregationLevel");
+            String firstAggregationType = ParamUtil.getString(resourceRequest, "firstAggregationType");
+            String firstAggregationVocabulary = ParamUtil.getString(resourceRequest, "firstAggregationVocabulary");
+            String firstAggregationCategory = ParamUtil.getString(resourceRequest, "firstAggregationCategory");
+            String secondAggregationType = ParamUtil.getString(resourceRequest, "secondAggregationType");
+            String secondAggregationVocabulary = ParamUtil.getString(resourceRequest, "secondAggregationVocabulary");
+            String secondAggregationCategory = ParamUtil.getString(resourceRequest, "secondAggregationCategory");
 
             /** Asset categories **/
             List<Long[]> sortedCategories = sortCategoriesForSearch(vocabularies);
@@ -73,11 +84,13 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             filters.addAssetCategories(categories);
             filters.setFilename(docxFilename);
             filters.setFilepath(getFilePath(docxFilename));
-            List<String> orderArgs = getOrdersFromUserInput(dataTemplate);
-            filters.setGroupOrdering(orderArgs.get(0));
-            filters.setSubGroupOrdering(orderArgs.get(1));
-            filters.setGroupDepth(orderArgs.get(2));
-
+            filters.setGroupDepth(aggregationLevel);
+            filters.addAggregationFilters(
+                firstAggregationType,
+                valueResolver(firstAggregationType, firstAggregationVocabulary, firstAggregationCategory),
+                secondAggregationType,
+                valueResolver(secondAggregationType, secondAggregationVocabulary, secondAggregationCategory)
+            );
 
             if(exportFormat.toUpperCase().equals("DOCX")){
                 os = Exporter.exportDOCX(
@@ -222,27 +235,21 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
     }
 
     /**
-     * Permet de décoder le mode de tri des documents words
-     * TODO -> Enum
+     * Renvoit la bonne valeur en fonction des choix dans le formulaire
+     * @param type
+     * @param vocabulary
+     * @param category
      * @return
      */
-    private static List<String> getOrdersFromUserInput(String key) {
+    private static String valueResolver(String type, String vocabulary, String category) {
 
-        List<String> filters = new ArrayList<>();
-        Map<String, List<String>> templates = new HashMap<>();
-        templates.put("s", Arrays.asList("", "", "0"));
-        templates.put("gj", Arrays.asList("DAY", "", "1"));
-        templates.put("gm", Arrays.asList("MONTH", "", "1"));
-        templates.put("gc", Arrays.asList("CATEGORY", "", "1"));
-        templates.put("ggjc", Arrays.asList("DAY", "CATEGORY", "2"));
-        templates.put("ggcj", Arrays.asList("CATEGORY", "DAY", "2"));
-        templates.put("ggcm", Arrays.asList("CATEGORY", "MONTH", "2"));
-        templates.put("ggmj", Arrays.asList("MONTH", "DAY", "2"));
-        templates.put("ggmc", Arrays.asList("MONTH", "CATEGORY", "2"));
+        if(type.equals("VOCABULARY")) {
+            return vocabulary;
+        }
+        else if(type.equals("CATEGORY")) {
+            return category;
+        }
 
-        //TODO check if template does exist
-        filters = templates.get(key);
-
-        return filters;
+        return "";
     }
 }

@@ -40,13 +40,10 @@ public class EventFiltersDTO {
     private String filepath;
 
     @XmlTransient
-    private String groupOrdering;
-
-    @XmlTransient
-    private String subGroupOrdering;
-
-    @XmlTransient
     private String groupDepth;
+
+    @XmlTransient
+    private AggregationFilterDTO aggregationFilter;
 
     public EventFiltersDTO() {
     }
@@ -141,28 +138,20 @@ public class EventFiltersDTO {
         this.filepath = filepath;
     }
 
-    public String getGroupOrdering() {
-        return groupOrdering;
-    }
-
-    public void setGroupOrdering(String groupOrdering) {
-        this.groupOrdering = groupOrdering;
-    }
-
-    public String getSubGroupOrdering() {
-        return subGroupOrdering;
-    }
-
-    public void setSubGroupOrdering(String subGroupOrdering) {
-        this.subGroupOrdering = subGroupOrdering;
-    }
-
     public String getGroupDepth() {
         return groupDepth;
     }
 
     public void setGroupDepth(String groupDepth) {
         this.groupDepth = groupDepth;
+    }
+
+    public AggregationFilterDTO getAggregationFilter() {
+        return aggregationFilter;
+    }
+
+    public void setAggregationFilter(AggregationFilterDTO aggregationFilter) {
+        this.aggregationFilter = aggregationFilter;
     }
 
     public void addAssetCategories(List<AssetCategory> categories) {
@@ -174,5 +163,46 @@ public class EventFiltersDTO {
         for(AssetCategory category : categories) {
             this.categories.add(new EventCategoryDTO(category.getName()));
         }
+    }
+
+    /**
+     * Rajoute jusqu'à 2 niveau de filtre d'agregation
+     * @param firstAggregationType
+     * @param firstAggregationValue
+     * @param secondAggregationType
+     * @param secondaggregationValue
+     */
+    public void addAggregationFilters(
+            String firstAggregationType, String firstAggregationValue,
+            String secondAggregationType, String secondaggregationValue
+    ) {
+
+        AggregationFilterDTO secondAggregationFilterDTO = null;
+        if(!secondAggregationType.equals("")) {
+            secondAggregationFilterDTO = new AggregationFilterDTO(secondAggregationType, secondaggregationValue);
+        }
+
+        if(!firstAggregationType.equals("")) {
+            aggregationFilter = new AggregationFilterDTO(firstAggregationType, firstAggregationValue);
+            aggregationFilter.setAggregationFilterDTO(secondAggregationFilterDTO);
+        }
+
+    }
+
+    /**
+     *
+     * TODO méthode récursive quand il y aura plus de résultats
+     * @param level
+     * @return
+     */
+    public AggregationFilterDTO getAggregationFilter(int level) {
+
+        if(level == 1) {
+            return aggregationFilter;
+        } else if(level == 2 && aggregationFilter != null) {
+            return aggregationFilter.getAggregationFilterDTO();
+        }
+
+        return null;
     }
 }

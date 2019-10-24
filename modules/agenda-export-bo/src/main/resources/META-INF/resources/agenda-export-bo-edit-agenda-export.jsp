@@ -121,14 +121,25 @@
                        </aui:option>
                    </c:forEach>
                 </aui:select>
+
+                <aui:select name="template" label="eu.agenda.export.target.template">
+                   <c:forEach var="template" items="${dc.templateList}">
+                       <aui:option
+                           value="${template}"
+                       >
+                           ${template}
+                       </aui:option>
+                   </c:forEach>
+                </aui:select>
             </aui:fieldset>
 
             <aui:fieldset collapsible="true" label="eu.agenda.export.format.configurations">
 
-                <aui:select id="aggregationLevel" name="exportFormat" label="eu.agenda.export.aggregation.level">
+                <aui:select id="aggregationLevel" name="aggregationLevel" label="eu.agenda.export.aggregation.level">
                    <c:forEach var="level" items="${dc.aggregationLevel}">
                        <aui:option
                            value="${level.key}"
+                           selected="${format eq '' ? true : false}"
                        >
                            ${level.value}
                        </aui:option>
@@ -142,6 +153,7 @@
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                value="${type.key}"
+                               selected="${type.key eq 0 ? true : false}"
                            >
                                ${type.value}
                            </aui:option>
@@ -150,6 +162,7 @@
 
                     <div class="wrapper">
                         <aui:select id="firstAggregationVocabulary" cssClass="vocabulary-select" name="firstAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
+                            <aui:option value="">Aucune</aui:option>
                             <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
                                 <aui:option
                                   value="${vocabulary.vocabularyId}"
@@ -162,6 +175,7 @@
 
                     <div class="wrapper">
                         <aui:select id="firstAggregationCategory" name="firstAggregationCategory" label="eu.agenda.export.aggregation.category">
+                            <aui:option value="">Aucune</aui:option>
                         </aui:select>
                     </div>
                 </div>
@@ -193,34 +207,11 @@
 
                     <div class="wrapper">
                         <aui:select id="secondAggregationCategory" name="secondAggregationCategory" label="eu.agenda.export.aggregation.category">
+                            <aui:option value="">Aucune</aui:option>
                         </aui:select>
                     </div>
                 </div>
             </aui:fieldset>
-
-                <%--
-                <aui:select name="template" label="eu.agenda.export.target.template">
-                    <c:forEach var="template" items="${dc.templateList}">
-                      <aui:option
-                          value="${template}"
-                      >
-                          ${template}
-                      </aui:option>
-                    </c:forEach>
-                </aui:select>
-
-           <aui:fieldset collapsible="true" label="eu.agenda.export.data.order">
-               <aui:select name="dataOrder" label="eu.agenda.export.data.order.field">
-                   <c:forEach var="order" items="${dc.dataOrder}">
-                       <aui:option
-                           value="${order.key}"
-                       >
-                           ${order.value}
-                       </aui:option>
-                   </c:forEach>
-               </aui:select>
-          </aui:fieldset>
-         --%>
 
 		</aui:fieldset-group>
 		

@@ -319,7 +319,7 @@ function validatePeriods(event) {
                 }
 
                 $(select).find('option').remove();
-                select.append('<option class="" value=""></option>');
+                select.append('<option value="">Aucune</option>');
                 jQuery.each(data, function(index, categ){
                     select.append('<option class="" value="' + categ.id + '">' + categ.title + ' </option>');
                 });

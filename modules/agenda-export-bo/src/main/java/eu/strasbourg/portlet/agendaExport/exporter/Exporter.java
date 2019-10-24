@@ -46,8 +46,7 @@ public class Exporter {
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
             ExportAgendaDTO data = sortDTOObjects(
-                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(),
-                filters.getSubGroupOrdering() ,Integer.parseInt(filters.getGroupDepth())
+                themeDisplay, filters, eventDTOs, Integer.parseInt(filters.getGroupDepth())
             );
 
             /** JAXB Marshaller **/
@@ -86,8 +85,7 @@ public class Exporter {
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
             ExportAgendaDTO data = sortDTOObjects(
-                themeDisplay, filters, eventDTOs, filters.getGroupOrdering(),
-                filters.getSubGroupOrdering(), Integer.parseInt(filters.getGroupDepth())
+                themeDisplay, filters, eventDTOs, Integer.parseInt(filters.getGroupDepth())
             );
 
             /** Export data **/
@@ -152,7 +150,7 @@ public class Exporter {
     }
 
     private static ExportAgendaDTO sortDTOObjects(
-            ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, String filterType, String subFilterType, int level
+            ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, int level
     ) {
 
         ExportAgendaDTO exportAgendaDTO = new ExportAgendaDTO();
@@ -166,13 +164,24 @@ public class Exporter {
                 break;
             case 1:
                 //create groups
-                List<EventGroupDTO> groups = orderEventsInGroups(events, filterType, filters);
+                List<EventGroupDTO> groups = orderEventsInGroups(
+                        events,
+                        filters.getAggregationFilter(1),
+                        filters);
                 exportAgendaDTO.setGroups(groups);
                 break;
             case 2:
                 //create groups and subgroups
-                List<EventGroupDTO> mainGroups = orderEventsInGroups(events, filterType, filters);
-                orderGroupsInGroups(mainGroups, subFilterType, filters);
+                List<EventGroupDTO> mainGroups = orderEventsInGroups(
+                    events,
+                    filters.getAggregationFilter(1),
+                    filters
+                );
+                orderGroupsInGroups(
+                    mainGroups,
+                    filters.getAggregationFilter(2),
+                    filters
+                );
                 exportAgendaDTO.setGroups(mainGroups);
                 break;
         }
@@ -203,17 +212,22 @@ public class Exporter {
      * @param events
      * @param filterType
      */
-    private static List<EventGroupDTO> orderEventsInGroups(List<EventDTO> events, String filterType, EventFiltersDTO filters) {
+    private static List<EventGroupDTO> orderEventsInGroups(List<EventDTO> events, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) {
 
         List<EventGroupDTO> groups = new ArrayList<>();
         List<String> values;
+
+        if(aggregationFilterDTO == null) {
+            return new ArrayList<EventGroupDTO>();
+        }
+
         for(EventDTO event : events) {
 
-            values = getValues(event, filterType, filters);
+            values = getValues(event, aggregationFilterDTO.getType(), filters);
 
             //for each values, get or create the group and add the event in this group
             for(String value : values) {
-                EventGroupDTO group = getOrCreateGroup(groups, filterType, value);
+                EventGroupDTO group = getOrCreateGroup(groups, aggregationFilterDTO.getType(), value);
                 if(group != null) {
                     group.addEvent(event);
                 }
@@ -226,10 +240,10 @@ public class Exporter {
     /**
      * Aggrège les events contenus dans des groupes dans des sous-groupes en fonction du filtre voulu
      */
-    private static List<EventGroupDTO> orderGroupsInGroups(List<EventGroupDTO> groups, String filterType, EventFiltersDTO filters) {
+    private static List<EventGroupDTO> orderGroupsInGroups(List<EventGroupDTO> groups, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) {
 
-        if(groups == null) {
-            return null;
+        if(groups == null || aggregationFilterDTO == null) {
+            return new ArrayList<EventGroupDTO>();
         }
 
 //        for(EventGroupDTO group : groups) {
@@ -244,11 +258,11 @@ public class Exporter {
             List<String> values;
             for(EventDTO event : group.getEvents()) {
 
-                values = getValues(event, filterType, filters);
+                values = getValues(event, aggregationFilterDTO.getType(), filters);
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
-                    EventGroupDTO subGroup = getOrCreateGroup(subGroups, filterType, value);
+                    EventGroupDTO subGroup = getOrCreateGroup(subGroups, aggregationFilterDTO.getType(), value);
                     subGroup.addEvent(event);
                 }
             }
