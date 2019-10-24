@@ -15,7 +15,9 @@
                     <div class="col-sm-6 col-xs-12">
                         <article class="mns-bloc-actu">
                             <a href="${viewURL}">
-                                <img src="${image}" alt="${title}" width="450" height="300" />
+                                <figure>
+                                    <img src="${image}" alt="${title}" width="450" height="300" />
+                                </figure>
                                 <div class="mns-bloc-content-actu">
                                     <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
                                     <h1>${title}</h1>
