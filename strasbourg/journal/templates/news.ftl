@@ -16,7 +16,7 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if thumbnail.getData()?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
+    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData() />
 </#if>
 
 <#-- Liste des infos a partager -->

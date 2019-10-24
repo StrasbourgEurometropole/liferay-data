@@ -10,7 +10,7 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if image.getData()?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + image.getData() />
+    <#assign imageUrl = themeDisplay.getPortalURL() + image.getData() />
 </#if>
 
 <#-- Liste des infos a partager -->
