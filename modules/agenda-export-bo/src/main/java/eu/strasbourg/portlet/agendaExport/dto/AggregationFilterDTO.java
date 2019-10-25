@@ -13,7 +13,7 @@ public class AggregationFilterDTO {
 
     public AggregationFilterDTO(String type, String value) {
         this.type = type;
-        this.value = value;
+        this.value = value != null ? value : "";
     }
 
     public String getType() {

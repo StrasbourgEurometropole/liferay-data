@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -14,6 +15,7 @@ import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.agendaExport.dto.*;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.docx4j.Docx4J;
 import org.docx4j.openpackaging.io3.Save;
@@ -49,6 +51,7 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            loadCategoriesInfo(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
                 themeDisplay, filters, eventDTOs, Integer.parseInt(filters.getGroupDepth())
             );
@@ -233,6 +236,24 @@ public class Exporter {
         return DTOList;
     }
 
+
+    private static void loadCategoriesInfo(List<EventDTO> eventDTOS) throws PortalException {
+
+        for(EventDTO eventDTO : eventDTOS) {
+
+            //Load parent categories and vocabulary
+            for(EventCategoryDTO categoryDTO : eventDTO.getCategories()) {
+                AssetVocabulary vocabulary =
+                    AssetVocabularyLocalServiceUtil.getVocabulary(categoryDTO.getVocabularyId());
+                List<AssetCategory> categories =
+                    AssetVocabularyHelper.getCategoryWithAncestors(categoryDTO.getCategoryId());
+
+                categoryDTO.addParentCategories(categories);
+                categoryDTO.addVocabulary(vocabulary);
+            }
+        }
+    }
+
     /**
      * Filtre les events en fonction d'un argument et les place dans le groupe correspondant
      * Si un event appartient à plusieurs groupe, celui-ci est dupliqué
@@ -252,7 +273,7 @@ public class Exporter {
 
         for(EventDTO event : events) {
 
-            values = getValues(event, aggregationFilterDTO.getType(), filters);
+            values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
 
             //for each values, get or create the group and add the event in this group
             for(String value : values) {
@@ -290,7 +311,7 @@ public class Exporter {
             List<String> values;
             for(EventDTO event : group.getEvents()) {
 
-                values = getValues(event, aggregationFilterDTO.getType(), filters);
+                values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
@@ -318,7 +339,7 @@ public class Exporter {
      * @param filters
      * @return
      */
-    private static List<String> getValues(EventDTO event, String filterType, EventFiltersDTO filters) {
+    private static List<String> getValues(EventDTO event, String filterType, String value, EventFiltersDTO filters) {
 
         List<String> values = new ArrayList<>();
         switch(filterType.toUpperCase()) {
@@ -371,14 +392,18 @@ public class Exporter {
             case "VOCABULARY":
 
                 for(EventVocabularyDTO vocabularyDTO : event.getVocabularies()) {
-                    values.add(vocabularyDTO.getName());
+                    if(vocabularyDTO.getName().equals(value)) {
+                        values.add(vocabularyDTO.getName());
+                    }
                 }
 
                 break;
             case "CATEGORY":
 
                 for(EventCategoryDTO category : event.getCategories()) {
-                    values.add(category.getName());
+                    if(category.getName().equals(value) || category.isChild(value)) {
+                        values.add(category.getName());
+                    }
                 }
 
                 break;

@@ -361,12 +361,13 @@ public class EventDTO {
                 if(category.getName().equals(categoryDTO.getName())) {
                     EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
                     newCategoryDTO.setName(categoryDTO.getName());
+                    newCategoryDTO.setCategoryId(category.getCategoryId());
+                    newCategoryDTO.setVocabularyId(category.getVocabularyId());
                     this.categories.add(newCategoryDTO);
 
                 }
             }
         }
-
     }
 
     public void setFirstAndLastDate() {
