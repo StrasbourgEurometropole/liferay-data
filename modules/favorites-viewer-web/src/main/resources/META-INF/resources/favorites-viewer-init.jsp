@@ -59,7 +59,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
     <script type="text/javascript">
         $(function()
         {
-            $('[class^=scroll-pane]').each(function(index){
+            $('.scroll-pane').each(function(index){
                 $(this).jScrollPane({arrowButtonSpeed: 200});
             });
         });

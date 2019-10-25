@@ -65,8 +65,15 @@
 					searchContainer="${dc.searchContainer}">
 			<ul class="favoris-list">
 				<c:forEach items="${dc.paginatedResults}" var="favorite" varStatus="status">
+                    <c:if test="${favorite.typeId == 14}">
+                        <c:set var="arret" value="${favorite.arret}" />
+                        <c:set var="alert" value="${arret.alertsActives}" />
+                    </c:if>
 					<li class="favoris-teaser type-${favorite.typeId}">
 					    <div class="favoris-teaser__link">
+                            <c:if test="${not empty alert}">
+                                <div class="alert"></div>
+                            </c:if>
                             <a href="${favorite.url}">
                                 <div class="favoris-teaser__type"><liferay-ui:message key="eu.${fn:toLowerCase(favorite.typeName) }" /></div>
                                 <div>
@@ -160,13 +167,13 @@
                                     </c:if>
 
                                     <c:if test="${favorite.typeId == 14}">
-                                        <c:set var="arretRealTime" value="${favorite.arret.arretRealTime}" />
+                                        <c:set var="arretRealTime" value="${arret.arretRealTime}" />
                                         <c:if test="${arretRealTime.size() == 0}" >
                                             <div class="tram-destination"><p class="tram-destination-name" style="height: auto"><liferay-ui:message key="eu.no-visit-found" /></p></div>
                                         </c:if>
                                         <c:if test="${arretRealTime.size() != 0}" >
-                                            <a class="jspArrow${status.index} jspArrowUp jspDisabled"></a>
-                                            <div class="scroll-pane${status.index}">
+                                            <a class="jspArrow jspArrowUp jspDisabled" data-scroll-id="scroll-pane-fav-list${status.index}"></a>
+                                            <div class="scroll-pane" id="scroll-pane-fav-list${status.index}">
                                                 <c:set var="ligneColors" value="${dc.ligneColors}" />
                                                 <c:forEach items="${arretRealTime.subList(0,(arretRealTime.size() > 12)?12:arretRealTime.size())}" var="realTime">
                                                     <c:set var="colors" value='${ligneColors.get(realTime.get("MonitoredVehicleJourney").get("PublishedLineName"))}' />
@@ -194,7 +201,7 @@
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            <a class="jspArrow${status.index} jspArrowDown ${(arretRealTime.size() <= 4)?'jspDisabled':''}"></a>
+                                            <a class="jspArrow jspArrowDown ${(arretRealTime.size() <= 4)?'jspDisabled':''}" data-scroll-id="scroll-pane-fav-list${status.index}"></a>
                                         </c:if>
                                     </c:if>
                                 </div>
