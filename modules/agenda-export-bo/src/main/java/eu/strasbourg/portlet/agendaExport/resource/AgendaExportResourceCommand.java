@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.agendaExport.resource;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -45,9 +46,12 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
             throws PortletException {
 
-        OutputStream os = null;
+//        OutputStream os = null;
         try {
-            os = resourceResponse.getPortletOutputStream();
+
+//            resourceResponse.getPortletOutputStream().flush();
+//            resourceResponse.getPortletOutputStream().close();
+//            os = resourceResponse.getPortletOutputStream();
 
             /** Get form values **/
 
@@ -92,34 +96,36 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 valueResolver(secondAggregationType, secondAggregationVocabulary, secondAggregationCategory)
             );
 
+
+
             if(exportFormat.toUpperCase().equals("DOCX")){
-                os = Exporter.exportDOCX(
-                    resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
+                Exporter.exportDOCX(
+                    resourceRequest, resourceResponse, themeDisplay, filters, sortedCategories
                 );
             }
             else if(exportFormat.toUpperCase().equals("JSON")){
-                os = Exporter.exportJSON(
-                    resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
+                Exporter.exportJSON(
+                    resourceRequest, resourceResponse, themeDisplay, filters, sortedCategories
                 );
             }
 
-            if(os != null) {
-                os.close();
-                os.flush();
-            }
+//            if(os != null) {
+//                os.flush();
+//                os.close();
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
 
             //Close output stream if needed
-            if(os != null) {
-                try {
-                    os.close();
-                    os.flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
+//            if(os != null) {
+//                try {
+//                    os.flush();
+//                    os.close();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
         }
 
         return true;

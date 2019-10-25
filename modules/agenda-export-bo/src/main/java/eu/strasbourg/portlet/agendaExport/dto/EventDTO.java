@@ -1,10 +1,12 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import eu.strasbourg.portlet.agendaExport.XMLadapter.DateAdapter;
+import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateDeserializer;
+import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateSerializer;
+import eu.strasbourg.portlet.agendaExport.XMLAdapter.DateAdapter;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
@@ -33,10 +35,14 @@ public class EventDTO {
 
     @XmlElement(name = "firstStartDate")
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate firstStartDate;
 
     @XmlElement(name = "lastEndDate")
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate lastEndDate;
 
     @XmlElement(name = "image")
@@ -342,6 +348,15 @@ public class EventDTO {
             vocabularyDTO.setName(vocabulary.getName());
             this.vocabularies.add(vocabularyDTO);
         }
+    }
+
+    public void addVocabulariesDTO(List<EventVocabularyDTO> vocabularies) {
+
+        if(this.vocabularies == null) {
+            this.vocabularies = new ArrayList<>();
+        }
+
+        this.vocabularies.addAll(vocabularies);
     }
 
     /**

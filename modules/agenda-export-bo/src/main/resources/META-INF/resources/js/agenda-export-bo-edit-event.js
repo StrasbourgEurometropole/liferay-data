@@ -55,20 +55,20 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		$('.startDate', $(this).parent()).val(picker.startDate.format('DD/MM/YYYY'));
 		$('.endDate', $(this).parent()).val(picker.endDate.format('DD/MM/YYYY'));
 	};
-	// On active le composant
-	$('span.date-range').daterangepicker(options);
-	// On attache l'événement de changement de range de date
-	$('span.date-range').on('apply.daterangepicker', onDateChange);
-
-	/**
-	 * RangePicker permettant la création à la chaîne
-	 */
-	// Activation du RangePicker
-	$('#' + namespace + 'periodGenerator').daterangepicker({
-		autoApply: false,
-		parentEl: '.portlet-body',
-		locale: dateRangePickerLocaleSettings
-	});
+//	// On active le composant
+//	$('span.date-range').daterangepicker(options);
+//	// On attache l'événement de changement de range de date
+//	$('span.date-range').on('apply.daterangepicker', onDateChange);
+//
+//	/**
+//	 * RangePicker permettant la création à la chaîne
+//	 */
+//	// Activation du RangePicker
+//	$('#' + namespace + 'periodGenerator').daterangepicker({
+//		autoApply: false,
+//		parentEl: '.portlet-body',
+//		locale: dateRangePickerLocaleSettings
+//	});
 })(jQuery);
 
 
@@ -250,12 +250,16 @@ function validatePeriods(event) {
     var vocabulariesSelect = $('.vocabulary-select');
     var firstCategorySelect = $('#'+ namespace +'firstAggregationCategory');
     var secondCategorySelect = $('#'+ namespace +'secondAggregationCategory');
+    var aggregationFields = $(".aggregationFields");
 
     /** Affichage des champs **/
 
     //Affichage des types d'agrégations
     aggregationLevelSelect.on("change", function() {
         var value = $(this).val();
+
+         console.log("coucou");
+         console.log(value);
 
         if(value === "0") {
             firstAggregationBlock.hide();
@@ -321,7 +325,7 @@ function validatePeriods(event) {
                 $(select).find('option').remove();
                 select.append('<option value="">Aucune</option>');
                 jQuery.each(data, function(index, categ){
-                    select.append('<option class="" value="' + categ.id + '">' + categ.title + ' </option>');
+                    select.append('<option value="' + categ.id + '">' + categ.title + ' </option>');
                 });
                 select.show();
             });

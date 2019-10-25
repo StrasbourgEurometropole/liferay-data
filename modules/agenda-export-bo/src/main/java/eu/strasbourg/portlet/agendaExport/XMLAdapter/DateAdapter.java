@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.agendaExport.XMLadapter;
+package eu.strasbourg.portlet.agendaExport.XMLAdapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;

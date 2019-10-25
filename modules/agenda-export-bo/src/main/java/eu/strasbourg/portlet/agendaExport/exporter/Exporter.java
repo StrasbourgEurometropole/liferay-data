@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -40,8 +41,8 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Exporter {
 
 
-    public static OutputStream exportDOCX(
-        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+    public static void exportDOCX(
+        ResourceRequest req, ResourceResponse res, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
 
@@ -69,20 +70,21 @@ public class Exporter {
 			res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
 			res.setProperty("content-disposition", "attachment; filename="+filters.getFilename()+".docx");
 
-            wordMLPackage = Docx4J.load(new File(filters.getFilepath()));
-            Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
-			Save saver = new Save(wordMLPackage);
-			saver.save(os);
+			//TODO output stream
+//            wordMLPackage = Docx4J.load(new File(filters.getFilepath()));
+//            Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
+//			Save saver = new Save(wordMLPackage);
+//			saver.save();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return os;
+//        return os;
     }
 
-    public static OutputStream exportJSON(
-        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+    public static void exportJSON(
+        ResourceRequest req, ResourceResponse res, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
         try {
@@ -102,15 +104,22 @@ public class Exporter {
             String json = mapper.writeValueAsString(data);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
+            //TODO export
             res.setContentType("text/json");
-            res.setProperty("content-disposition", "attachment; filename=content.json");
-            os.write(b);
+            res.setProperty("content-disposition", "attachment; filename=test.json");
+            PrintWriter writer = res.getWriter();
+            writer.write(json);
+            writer.close();
+
+//            res.setContentType("text/json");
+//            res.setProperty("content-disposition", "attachment; filename=content.json");
+//            os.write(b);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return os;
+//        return os;
     }
 
     /**
@@ -159,7 +168,7 @@ public class Exporter {
 
     private static ExportAgendaDTO sortDTOObjects(
             ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, int level
-    ) {
+    ) throws PortalException {
 
         ExportAgendaDTO exportAgendaDTO = new ExportAgendaDTO();
         exportAgendaDTO.setFilters(filters);
@@ -230,6 +239,7 @@ public class Exporter {
                 }
             }
 
+            eventDTO.addVocabulariesDTO(vocabularyDTOS);
             DTOList.add(eventDTO);
         }
 
@@ -262,7 +272,7 @@ public class Exporter {
      * @param filters
      * @return
      */
-    private static List<EventGroupDTO> orderEventsInGroups(List<EventDTO> events, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) {
+    private static List<EventGroupDTO> orderEventsInGroups(List<EventDTO> events, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) throws PortalException {
 
         List<EventGroupDTO> groups = new ArrayList<>();
         List<String> values;
@@ -294,7 +304,7 @@ public class Exporter {
      * @param filters
      * @return
      */
-    private static List<EventGroupDTO> orderGroupsInGroups(List<EventGroupDTO> groups, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) {
+    private static List<EventGroupDTO> orderGroupsInGroups(List<EventGroupDTO> groups, AggregationFilterDTO aggregationFilterDTO, EventFiltersDTO filters) throws PortalException {
 
         if(groups == null || aggregationFilterDTO == null) {
             return new ArrayList<EventGroupDTO>();
@@ -339,7 +349,7 @@ public class Exporter {
      * @param filters
      * @return
      */
-    private static List<String> getValues(EventDTO event, String filterType, String value, EventFiltersDTO filters) {
+    private static List<String> getValues(EventDTO event, String filterType, String value, EventFiltersDTO filters) throws PortalException {
 
         List<String> values = new ArrayList<>();
         switch(filterType.toUpperCase()) {
@@ -391,6 +401,13 @@ public class Exporter {
                 break;
             case "VOCABULARY":
 
+                if(event.getVocabularies() == null) {
+                    break;
+                }
+
+                AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(Long.parseLong(value));
+                value = vocabulary.getName();
+
                 for(EventVocabularyDTO vocabularyDTO : event.getVocabularies()) {
                     if(vocabularyDTO.getName().equals(value)) {
                         values.add(vocabularyDTO.getName());
@@ -399,6 +416,10 @@ public class Exporter {
 
                 break;
             case "CATEGORY":
+
+                if(event.getCategories() == null) {
+                    break;
+                }
 
                 for(EventCategoryDTO category : event.getCategories()) {
                     if(category.getName().equals(value) || category.isChild(value)) {

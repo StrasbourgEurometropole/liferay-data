@@ -26,9 +26,6 @@
 
 <div class="container-fluid-1280 main-content-body">
     <aui:form action="${(toExport eq true) ? exportAgendaExportURL : saveAgendaExportURL}" method="POST" name="fm">
-		<aui:translation-manager availableLocales="${dc.availableLocales}"
-			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
-			id="translationManager" />
 
 		<aui:model-context bean="${agendaExport}"
 			model="<%=AgendaExport.class %>" />
@@ -214,7 +211,7 @@
             </aui:fieldset>
 
 		</aui:fieldset-group>
-		
+
 		<aui:button-row>
             <c:if test="${toExport ne true}">
                 <c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">

@@ -1,6 +1,10 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
-import eu.strasbourg.portlet.agendaExport.XMLadapter.DateAdapter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateDeserializer;
+import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateSerializer;
+import eu.strasbourg.portlet.agendaExport.XMLAdapter.DateAdapter;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,10 +22,14 @@ public class PeriodDTO {
 
     @XmlElement(name = "startDate")
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
 
     @XmlElement(name = "endDate")
     @XmlJavaTypeAdapter(DateAdapter.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
 
     @XmlElement(name = "schedule")

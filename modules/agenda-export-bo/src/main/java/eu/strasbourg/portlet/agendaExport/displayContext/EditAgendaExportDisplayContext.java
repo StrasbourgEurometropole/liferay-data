@@ -2,7 +2,10 @@ package eu.strasbourg.portlet.agendaExport.displayContext;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -190,15 +193,28 @@ public class EditAgendaExportDisplayContext {
      */
     public List<String> getTemplateList() {
 
-        String directoryPath = StrasbourgPropsUtil.getAgendaExportTemplateDirectory();
-        File folder = new File(directoryPath);
-        File[] filesList = folder.listFiles();
         List<String> filenames = new ArrayList<>();
+        Long groupId = _themeDisplay.getCompanyGroupId();
+        DLFolder folder;
+        List<DLFileEntry> fileEntries = new ArrayList<>();
 
-        for (int i = 0; i < filesList.length; i++) {
-            if (filesList[i].isFile()) {
-                filenames.add(filesList[i].getName().replace(".docx",""));
-            }
+        try {
+
+            folder = DLFolderLocalServiceUtil.getFolder(groupId, 0, "Template Export Agenda");
+            fileEntries = DLFileEntryLocalServiceUtil.getFileEntries(groupId, folder.getFolderId());
+
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+
+        for(DLFileEntry file : fileEntries) {
+            filenames.add(file.getFileName().replace(".docx", ""));
+        }
+
+        if(filenames.isEmpty()) {
+            filenames.add(
+                LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.none")
+            );
         }
 
         return filenames;
