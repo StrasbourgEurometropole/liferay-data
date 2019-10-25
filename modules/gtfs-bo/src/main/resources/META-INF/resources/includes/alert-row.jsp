@@ -21,10 +21,15 @@
 	<liferay-ui:message key="this-field-is-required" />
 </div>
 
-<aui:input name="alertPerturbation${param.index}" label="perturbation-alert" value="${param.perturbation}" localized="true" type="textarea"  />
+<label for="alertPerturbation${param.index}">
+    <liferay-ui:message key="perturbation-alert" />
+</label>
 <div class="alert-perturbation" style="display: none">
 	<liferay-ui:message key="this-field-is-required" />
 </div>
-
+<liferay-ui:input-localized
+    xml="${param.perturbation}"
+    type="editor"
+    name="alertPerturbation${param.index}"/>
 
 

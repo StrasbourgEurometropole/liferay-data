@@ -154,6 +154,10 @@ public class ArretImpl extends ArretBaseImpl {
 
 		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText() + ".png");
 
+		// vérifi si l'arrêt a une alerte
+		if(this.getAlertsActives().size() > 0)
+			properties.put("alert", true);
+
 		// récupère l'url de détail du poi
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
 		if (group == null) {

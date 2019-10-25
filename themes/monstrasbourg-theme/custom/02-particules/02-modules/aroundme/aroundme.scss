@@ -643,6 +643,18 @@
             }
             */
         }
+        &-alert{
+            height: 21px;
+            width: 21px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%);
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-alert, $error) );
+        }
     }
 
 
@@ -766,15 +778,12 @@
 
             .infowindow__contenu:not(:empty){
                 width: 100%;
-                @extend %jscrollpane;
-                [class^=scroll-pane]{
-                    @extend %tram-destination;
-                    max-height: 140px;  
 
-                    .row{
-                        margin: 0 0 5px 0;
-                    }
-                }            
+                .scroll-pane{
+                    max-height: 140px;  
+                } 
+
+                @extend %jscrollpane;           
 
                 .popup-content-tram-list .row{
                     height: 30px;
@@ -894,6 +903,17 @@
                 display: block !important;
                 @extend %atom-btn-square--filled--core;
                 padding: 10px 20px;
+
+                &.alert-arret span.flexbox:before {
+                    content: '';
+                    width: 21px;
+                    height: 21px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-right: 12px;
+                    background-image: url( svg-bg-uri($svg-alert, $error) );
+                }
             }
         }
     }

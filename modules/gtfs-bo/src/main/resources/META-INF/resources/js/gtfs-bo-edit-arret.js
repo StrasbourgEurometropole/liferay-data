@@ -22,11 +22,9 @@ jQuery(function() {
 							.indexOf('hide') == -1) {
 				var endDateAlert = $(namespaceAUI + "endDateAlert" + index).val();
 				var alertLigneAndDirection = $(
-						namespaceAUI + "alertLigneAndDirection" + index + "_fr_FR")
-						.val();
+						namespaceAUI + "alertLigneAndDirection" + index).val();
 				var alertPerturbation = $(
-						namespaceAUI + "alertPerturbation" + index + "_fr_FR")
-						.val();
+						namespaceAUI + "alertPerturbation" + index).val();
 				if(startDateAlert == ""){
 					if (endDateAlert != "" || alertLigneAndDirection != "" || alertPerturbation != "") {
 						$('.alert-start-date', $(alertLabel).parent()).show();

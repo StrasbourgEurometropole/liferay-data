@@ -11,23 +11,13 @@
             margin-bottom: 0 !important;
         }
     }
-            
-    .tram-destination p{
-        //color: $core-color;
-    }
-    @extend %jscrollpane;
-    [class^=scroll-pane]{
-        @extend %tram-destination;
+
+                
+    .scroll-pane{
         max-height: 205px;  
+    } 
 
-        .row{
-            margin: 5px 0;
-
-            div:last-child{
-                margin-left: auto;
-            }
-        }
-    }
+    @extend %jscrollpane;
 
     padding-bottom: 60px;
     position: relative;
@@ -47,12 +37,26 @@
     &__link {
         text-decoration: none;
         display: block;
+        position: relative;
+
         &:hover,
         &:focus {
             text-decoration: none;
             .favoris-teaser__title {
                 text-decoration: underline;
             }
+        }
+            
+        .alert{
+            height: 21px;
+            width: 21px;
+            position: absolute;
+            top: 20px;
+            right: 20px;            
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-alert, $error) );
         }
     }
 

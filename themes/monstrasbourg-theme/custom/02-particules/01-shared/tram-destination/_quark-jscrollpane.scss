@@ -1,78 +1,90 @@
 %jscrollpane{
-	.jspContainer{
-		overflow: hidden;
-		position: relative;
+	.scroll-pane{
+		@extend %tram-destination;
 
-		.jspPane{
-			position: absolute;
-		}
+		.row{
+			margin: 5px 0;
 
-		.jspVerticalBar{
-			height: 100%;
-			position: absolute;
-			right: 0;
-			top: 0;
-			width: 5px;
-			
-			.jspArrow{
-				height: 16px;
-				
-				&:focus{
-					border: 1px solid red;
-					outline: none;
-				}
+			div:last-child{
+				margin-left: auto;
 			}
 		}
 
-		.jspHorizontalBar{
-			background: red;
-			bottom: 0;
-			height: 5px;
-			left: 0;
-			position: absolute;
-			width: 100%;
-		
-			.jspCap	{
-				float: left;
-			}
-		
-			.jspArrow{
-				float: left;
-				height: 100%;
-				width: 16px;
-			}
-
-			.jspTrack, .jspDrag	{
-				float: left;
-				height: 100%;
-			}
-		}
-
-		.jspCap{
-			display: none;
-		}
-
-		.jspTrack{
-			background: #dde;
+		.jspContainer{
+			overflow: hidden;
 			position: relative;
 
-			.jspDrag{
-				background: #777;
-				cursor: pointer;
-				left: 0;
-				position: relative;
+			.jspPane{
+				position: absolute;
+			}
+
+			.jspVerticalBar{
+				height: 100%;
+				position: absolute;
+				right: 0;
 				top: 0;
+				width: 5px;
+				
+				.jspArrow{
+					height: 16px;
+					
+					&:focus{
+						border: 1px solid red;
+						outline: none;
+					}
+				}
+			}
+
+			.jspHorizontalBar{
+				background: red;
+				bottom: 0;
+				height: 5px;
+				left: 0;
+				position: absolute;
+				width: 100%;
+			
+				.jspCap	{
+					float: left;
+				}
+			
+				.jspArrow{
+					float: left;
+					height: 100%;
+					width: 16px;
+				}
+
+				.jspTrack, .jspDrag	{
+					float: left;
+					height: 100%;
+				}
+			}
+
+			.jspCap{
+				display: none;
+			}
+
+			.jspTrack{
+				background: #dde;
+				position: relative;
+
+				.jspDrag{
+					background: #777;
+					cursor: pointer;
+					left: 0;
+					position: relative;
+					top: 0;
+				}
+			}
+
+			.jspCorner{
+				background: #eeeef4;
+				float: left;
+				height: 100%;
 			}
 		}
-
-		.jspCorner{
-			background: #eeeef4;
-			float: left;
-			height: 100%;
-		}
+		
 	}
-
-	[class^='jspArrow']{
+	.jspArrow{
 		cursor: pointer;
 		direction: ltr;
 		display: block;
@@ -80,6 +92,7 @@
 		margin: 0;
 		padding: 0;
 		text-indent: -20000px;
+		height: 20px;
 
 		&.jspDisabled{
 			cursor: default;

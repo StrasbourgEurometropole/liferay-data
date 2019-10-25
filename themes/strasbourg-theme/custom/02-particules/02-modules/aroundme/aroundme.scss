@@ -643,6 +643,15 @@
             }
             */
         }
+        &-alert{
+            height: 22px;
+            width: 22px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%);
+            background-image: url( svg-bg-uri($svg-filled-close, red) );
+        }
     }
 
 
@@ -1028,10 +1037,6 @@
     /* ------------------------------ Etat full screen */
 
     .aroundme--fullscreen{
-        main{
-
-        
-        }
         header{
             display: none !important;
         }
@@ -1057,9 +1062,6 @@
             #aroundme__center{
                 height: 100%;
                 z-index: 15;
-            }
-            #aroundme__side{
-
             }
             #aroundme__top{
                 display: none !important;
