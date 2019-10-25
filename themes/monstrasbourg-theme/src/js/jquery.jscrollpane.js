@@ -75,8 +75,12 @@
 //             * Bugs
 //             - #8 Make it possible to tell a scrollbar to be "always on"
 // 2.1.0  - (2017-12-16) Update jQuery to version 3.x
-//Ajout ligne 418 à 425
-//Lignes 978 et 981 mises en commentaire
+//Ajout lignes 422 à 429
+//Modification lignes 674 à 681
+//Ajout ", $(elem).attr("id")" ligne 915
+//Ajout ", dataScrollId" ligne 986
+//Lignes 988 et 1003 mises en commentaire
+//Modification lignes 989 à 1002
 
 (function (factory) {
 //  if ( typeof define === 'function' && define.amd ) {
@@ -667,8 +671,14 @@
 			{
 				return function()
 				{
-					arrowScroll(dirX, dirY, this, ele);
-					this.blur();
+					// Remplacement AZC
+					if(elem.attr("id") == $(this).data("scroll-id")){
+						arrowScroll(dirX, dirY, this, ele);
+						this.blur();
+					}					
+					//arrowScroll(dirX, dirY, this, ele);
+					//this.blur();
+					// remplacement AZC
 					return false;
 				};
 			}
@@ -902,7 +912,7 @@
 					elem.trigger('jsp-arrow-change', [wasAtTop, wasAtBottom, wasAtLeft, wasAtRight]);
 				}
 
-				updateVerticalArrows(isAtTop, isAtBottom);
+				updateVerticalArrows(isAtTop, isAtBottom, $(elem).attr("id"));
 				pane.css('top', destTop);
 				elem.trigger('jsp-scroll-y', [-destTop, isAtTop, isAtBottom]).trigger('scroll');
 			}
@@ -973,11 +983,23 @@
 				elem.trigger('jsp-scroll-x', [-destLeft, isAtLeft, isAtRight]).trigger('scroll');
 			}
 
-			function updateVerticalArrows(isAtTop, isAtBottom)
+			function updateVerticalArrows(isAtTop, isAtBottom,dataScrollId)
 			{
 				//if (settings.showArrows) {
-					arrowUp[isAtTop ? 'addClass' : 'removeClass']('jspDisabled');
-					arrowDown[isAtBottom ? 'addClass' : 'removeClass']('jspDisabled');
+					// Modification AZC
+					arrowUp.each(function(){
+						if($(this).data("scroll-id") == dataScrollId){
+							$(this)[isAtTop ? 'addClass' : 'removeClass']('jspDisabled');
+						}
+					});
+					arrowDown.each(function(){
+						if($(this).data("scroll-id") == dataScrollId){
+							$(this)[isAtBottom ? 'addClass' : 'removeClass']('jspDisabled');
+						}
+					});
+					//arrowUp[isAtTop ? 'addClass' : 'removeClass']('jspDisabled');
+					//arrowDown[isAtBottom ? 'addClass' : 'removeClass']('jspDisabled');
+					// Modification AZC
 				//}
 			}
 

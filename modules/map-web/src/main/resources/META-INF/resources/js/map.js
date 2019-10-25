@@ -158,7 +158,9 @@
                                 if (window.newTab) {
                                     newTabAttribute = 'target="_blank"';
                                 }
-                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + '><span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span></a>';
+                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + (feature.properties.alert?'class="alert-arret"':'') + ' title="'+Liferay.Language.get("know-more")+ (newTabAttribute!=''?Liferay.Language.get("eu.new-window"):'') +'">';
+                                formated_info += '<span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span>';
+                                formated_info += '</a>';
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
@@ -269,12 +271,12 @@
                                         });
                                         // Ajout de la scroll
                                         $(destinationList).append(
-                                            '<a class="jspArrow jspArrowUp jspDisabled"></a>' +
-                                                '<div class="scroll-pane-map">' +
+                                            '<a class="jspArrow jspArrowUp jspDisabled" data-scroll-id="scroll-pane-map"></a>' +
+                                                '<div class="scroll-pane" id="scroll-pane-map">' +
                                                     destinations +
                                                 '</div>' +
-                                            '<a class="jspArrow jspArrowDown ' + ((Object.keys(json).length <= 4)?'jspDisabled':'') + '"></a>');
-                                        $('.scroll-pane-map').jScrollPane({arrowButtonSpeed: 200});
+                                            '<a class="jspArrow jspArrowDown ' + ((Object.keys(json).length <= 4)?'jspDisabled':'') + '" data-scroll-id="scroll-pane-map"></a>');
+                                        $('.scroll-pane').jScrollPane({arrowButtonSpeed: 200});
                                     } else {
                                         $(destinationList).append(
                                             '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
@@ -370,6 +372,14 @@
                             popupAnchor: [1, -49]
                         });
                         return L.marker(latlng, { icon: divIcon })
+                    } else if (feature.properties.alert) {
+                           var divIcon = new L.divIcon({
+                               html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-alert"></div>',
+                               iconSize: [35,49],
+                               iconAnchor: [17, 49],
+                               popupAnchor: [1, -49]
+                           });
+                           return L.marker(latlng, { icon: divIcon })
                     } else {
                         var markerIcon = new L.Icon({
                             iconUrl: feature.properties.icon,
