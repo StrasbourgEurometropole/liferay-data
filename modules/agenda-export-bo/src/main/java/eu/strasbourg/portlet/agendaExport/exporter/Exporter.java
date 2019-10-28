@@ -28,7 +28,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -66,11 +65,12 @@ public class Exporter {
             /** DOCX4J and response **/
             WordprocessingMLPackage wordMLPackage = null;
 
-			res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
-			res.setProperty("content-disposition", "attachment; filename="+filters.getFilename()+".docx");
-
             DLFileEntry file = filters.getFile();
             if(file != null) {
+
+                res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
+                res.setProperty("content-disposition", "attachment; filename="+file.getFileName()+".docx");
+
                 wordMLPackage = Docx4J.load(file.getContentStream());
                 Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
                 Save saver = new Save(wordMLPackage);
