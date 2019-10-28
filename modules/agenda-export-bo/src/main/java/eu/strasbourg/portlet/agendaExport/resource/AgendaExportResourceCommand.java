@@ -3,6 +3,10 @@ package eu.strasbourg.portlet.agendaExport.resource;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -19,6 +23,7 @@ import javax.portlet.ResourceResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -46,12 +51,28 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
             throws PortletException {
 
-//        OutputStream os = null;
+//        try {
+//
+////            OutputStream os = resourceResponse.getPortletOutputStream();
+//
+//            resourceResponse.setContentType("application/force-download");
+//            resourceResponse.setProperty("content-disposition", "attachment; filename=content.json");
+//
+//            String jsonString = "{\"coucou\": \"coucou\"}";
+//            PrintWriter writer = resourceResponse.getWriter();
+//            writer.write(jsonString);
+//            writer.close();
+//
+//        } catch (IOException e) {
+//
+//            e.printStackTrace();
+//
+//        }
+
+        OutputStream os = null;
         try {
 
-//            resourceResponse.getPortletOutputStream().flush();
-//            resourceResponse.getPortletOutputStream().close();
-//            os = resourceResponse.getPortletOutputStream();
+            os = resourceResponse.getPortletOutputStream();
 
             /** Get form values **/
 
@@ -65,7 +86,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 
             //Choix du template
             String exportFormat = ParamUtil.getString(resourceRequest, "exportFormat");
-            String docxFilename = ParamUtil.getString(resourceRequest, "template");
+            Long fileEntryId = ParamUtil.getLong(resourceRequest, "template");
 
             //Valeurs des agrégations
             String aggregationLevel = ParamUtil.getString(resourceRequest, "aggregationLevel");
@@ -86,8 +107,8 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             filters.addPeriod(startDate, endDate);
             filters.setTags(Arrays.asList(tags));
             filters.addAssetCategories(categories);
-            filters.setFilename(docxFilename);
-            filters.setFilepath(getFilePath(docxFilename));
+            filters.setFile(getDLFileEntry(fileEntryId));
+//            filters.setFilename(docxFilename);
             filters.setGroupDepth(aggregationLevel);
             filters.addAggregationFilters(
                 firstAggregationType,
@@ -100,32 +121,32 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 
             if(exportFormat.toUpperCase().equals("DOCX")){
                 Exporter.exportDOCX(
-                    resourceRequest, resourceResponse, themeDisplay, filters, sortedCategories
+                    resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
                 );
             }
             else if(exportFormat.toUpperCase().equals("JSON")){
                 Exporter.exportJSON(
-                    resourceRequest, resourceResponse, themeDisplay, filters, sortedCategories
+                    resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
                 );
             }
 
-//            if(os != null) {
-//                os.flush();
-//                os.close();
-//            }
+            if(os != null) {
+                os.flush();
+                os.close();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
 
             //Close output stream if needed
-//            if(os != null) {
-//                try {
-//                    os.flush();
-//                    os.close();
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
+            if(os != null) {
+                try {
+                    os.flush();
+                    os.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
 
         return true;
@@ -216,28 +237,19 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 
     /**
      * Return the complete Path of the wanted word template
-     * @param filename
+     * @param fileEntryId
      * @return
      */
-    private static String getFilePath(String filename) {
-        String directoryPath = StrasbourgPropsUtil.getAgendaExportTemplateDirectory();
-        return directoryPath + "/" + filename + ".docx";
-    }
+    private static DLFileEntry getDLFileEntry(Long fileEntryId) {
 
-    /**
-     * Check if the file exist
-     * @param filename
-     * @return
-     */
-    private static boolean fileExist(String filename) {
-
-        File file = new java.io.File(getFilePath(filename));
-
-        if(file.exists() && !file.isDirectory()) {
-            return true;
+        DLFileEntry file = null;
+        try {
+            file = DLFileEntryLocalServiceUtil.getFileEntry(fileEntryId);
+        } catch (PortalException e) {
+            e.printStackTrace();
         }
 
-        return false;
+        return file;
     }
 
     /**

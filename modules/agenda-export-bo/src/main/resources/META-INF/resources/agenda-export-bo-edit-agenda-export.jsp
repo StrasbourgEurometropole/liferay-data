@@ -122,9 +122,9 @@
                 <aui:select name="template" label="eu.agenda.export.target.template">
                    <c:forEach var="template" items="${dc.templateList}">
                        <aui:option
-                           value="${template}"
+                           value="${template.key}"
                        >
-                           ${template}
+                           ${template.value}
                        </aui:option>
                    </c:forEach>
                 </aui:select>

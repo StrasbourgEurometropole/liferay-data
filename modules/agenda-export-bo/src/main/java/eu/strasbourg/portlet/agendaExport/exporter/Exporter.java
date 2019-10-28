@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -41,8 +40,8 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Exporter {
 
 
-    public static void exportDOCX(
-        ResourceRequest req, ResourceResponse res, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+    public static OutputStream exportDOCX(
+        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
 
@@ -70,21 +69,23 @@ public class Exporter {
 			res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
 			res.setProperty("content-disposition", "attachment; filename="+filters.getFilename()+".docx");
 
-			//TODO output stream
-//            wordMLPackage = Docx4J.load(new File(filters.getFilepath()));
-//            Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
-//			Save saver = new Save(wordMLPackage);
-//			saver.save();
+            DLFileEntry file = filters.getFile();
+            if(file != null) {
+                wordMLPackage = Docx4J.load(file.getContentStream());
+                Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
+                Save saver = new Save(wordMLPackage);
+                saver.save(os);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-//        return os;
+        return os;
     }
 
-    public static void exportJSON(
-        ResourceRequest req, ResourceResponse res, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+    public static OutputStream exportJSON(
+        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
         try {
@@ -104,22 +105,15 @@ public class Exporter {
             String json = mapper.writeValueAsString(data);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
-            //TODO export
             res.setContentType("text/json");
-            res.setProperty("content-disposition", "attachment; filename=test.json");
-            PrintWriter writer = res.getWriter();
-            writer.write(json);
-            writer.close();
-
-//            res.setContentType("text/json");
-//            res.setProperty("content-disposition", "attachment; filename=content.json");
-//            os.write(b);
+            res.setProperty("content-disposition", "attachment; filename=content.json");
+            os.write(b);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-//        return os;
+        return os;
     }
 
     /**

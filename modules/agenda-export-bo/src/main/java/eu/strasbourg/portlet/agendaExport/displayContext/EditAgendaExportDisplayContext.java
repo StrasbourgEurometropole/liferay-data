@@ -191,9 +191,9 @@ public class EditAgendaExportDisplayContext {
      * Renvoit la liste des templates disponibles
      * @return
      */
-    public List<String> getTemplateList() {
+    public Map<Long, String> getTemplateList() {
 
-        List<String> filenames = new ArrayList<>();
+        Map<Long, String> files = new HashMap<>();
         Long groupId = _themeDisplay.getCompanyGroupId();
         DLFolder folder;
         List<DLFileEntry> fileEntries = new ArrayList<>();
@@ -208,21 +208,21 @@ public class EditAgendaExportDisplayContext {
         }
 
         for(DLFileEntry file : fileEntries) {
-            filenames.add(file.getFileName().replace(".docx", ""));
+            files.put(file.getFileEntryId(), file.getFileName().replace(".docx", ""));
         }
 
-        if(filenames.isEmpty()) {
-            filenames.add(
-                LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.none")
+        if(files.isEmpty()) {
+            files.put(
+                new Long(0), LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.none")
             );
         }
 
-        return filenames;
+        return files;
 
     }
 
     /**
-     * Define the list of vocaularies that can be used as filter
+     * Define the list of vocabularies that can be used as filter
      * @return
      */
     public List<AssetVocabulary> getEventVocabularies() {

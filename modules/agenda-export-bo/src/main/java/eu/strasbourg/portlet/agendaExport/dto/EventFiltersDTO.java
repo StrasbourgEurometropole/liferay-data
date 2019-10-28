@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 
 import javax.xml.bind.annotation.*;
 import java.time.LocalDate;
@@ -37,7 +38,7 @@ public class EventFiltersDTO {
     private String filename;
 
     @XmlTransient
-    private String filepath;
+    private DLFileEntry file;
 
     @XmlTransient
     private String groupDepth;
@@ -130,12 +131,12 @@ public class EventFiltersDTO {
         this.filename = filename;
     }
 
-    public String getFilepath() {
-        return filepath;
+    public DLFileEntry getFile() {
+        return file;
     }
 
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
+    public void setFile(DLFileEntry file) {
+        this.file = file;
     }
 
     public String getGroupDepth() {
