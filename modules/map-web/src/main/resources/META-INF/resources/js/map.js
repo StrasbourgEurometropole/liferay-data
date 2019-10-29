@@ -192,7 +192,7 @@
                     			lienFavori += '</a>';
                     			formated_info = lienFavori;
                             } else if (info_to_display == "opened"){
-                                if(feature.properties[info_to_display]["url"] !== undefined){
+                                if(feature.properties[info_to_display]["url"] !== undefined && feature.properties[info_to_display]["url"] != ""){
                                     formated_info = '<a href="' + feature.properties[info_to_display]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>';
                                 }else{
                                     formated_info = feature.properties[info_to_display];
