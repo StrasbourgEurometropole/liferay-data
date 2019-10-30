@@ -70,9 +70,11 @@ public class EventDTO {
     @XmlElement(name = "booking")
     private EventBookingDTO booking;
 
-    @XmlElementWrapper(name = "periods")
-    @XmlElement(name = "period")
+    @XmlTransient
     private List<PeriodDTO> periods;
+
+    @XmlElement(name = "period")
+    private PeriodDTO period;
 
     @XmlElementWrapper(name = "manifestations")
     @XmlElement(name = "manifestation")
@@ -161,6 +163,14 @@ public class EventDTO {
 
     public void setPeriods(List<PeriodDTO> periods) {
         this.periods = periods;
+    }
+
+    public PeriodDTO getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(PeriodDTO period) {
+        this.period = period;
     }
 
     public LocalDate getFirstStartDate() {
@@ -411,19 +421,17 @@ public class EventDTO {
         }
     }
 
-    //TODO corriger bug
-    public void updatePeriods(DateTimeFormatter dateFormatter, String value) {
-
-
-
-        List<PeriodDTO> periodList = new ArrayList<>();
-        PeriodDTO period = new PeriodDTO();
-
-        period.setStartDate(LocalDate.parse(value, dateFormatter));
-        period.setEndDate(LocalDate.parse(value, dateFormatter));
-
-        periodList.add(period);
-
-        this.setPeriods(periodList);
+    /**
+     * Met à jour la liste des périodes à partir de la valeur donnée en paramètre
+     * @param dateFormatter
+     * @param value
+     */
+    public void updatePeriods(String value) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for(PeriodDTO period : this.periods) {
+            if(period.getStartDate().format(formatter).equals(value)) {
+                this.period = period;
+            }
+        }
     }
 }

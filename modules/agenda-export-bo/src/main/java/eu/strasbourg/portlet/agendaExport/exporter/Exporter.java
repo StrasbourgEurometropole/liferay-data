@@ -52,7 +52,7 @@ public class Exporter {
 
             List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
 
-            events = events.subList(0,50);
+            events = events.subList(0,1);
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
@@ -310,8 +310,8 @@ public class Exporter {
             for(String value : values) {
                 EventGroupDTO group = getOrCreateGroup(groups, aggregationFilterDTO.getType(), value);
                 if(group != null) {
-                    if(group.getName().equals("DAY")){
-                        event.updatePeriods(dateFormatter, value);
+                    if(aggregationFilterDTO.getType().equals("DAY")){
+                        event.updatePeriods( value);
                     }
                     group.addEvent(event);
                 }
@@ -349,7 +349,9 @@ public class Exporter {
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
-                    event.updatePeriods(dateFormatter, value);
+                    if(aggregationFilterDTO.getType().equals("DAY")) {
+                        event.updatePeriods(value);
+                    }
                     EventGroupDTO subGroup = getOrCreateGroup(subGroups, aggregationFilterDTO.getType(), value);
                     subGroup.addEvent(event);
                 }
