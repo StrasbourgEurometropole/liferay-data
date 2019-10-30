@@ -15,7 +15,9 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -30,8 +32,10 @@ public class EventDTO {
     @XmlElement(name = "subtitle")
     private String subtitle;
 
-    @XmlElement(name = "description")
+//    @XmlElement(name = "description")
+    @XmlTransient
     private String description;
+
 
     @XmlElement(name = "firstStartDate")
     @XmlJavaTypeAdapter(DateAdapter.class)
@@ -405,6 +409,27 @@ public class EventDTO {
                 endDate = period.getEndDate();
             }
         }
+    }
 
+    //TODO corriger bug
+    public void updatePeriods(DateTimeFormatter dateFormatter, String value) {
+
+        List<PeriodDTO> periodList = new ArrayList<>();
+        for(PeriodDTO period : this.getPeriods()) {
+
+            if(period.getStartDate() == null) {
+                continue;
+            }
+
+            LocalDateTime ldt = period.getStartDate().atStartOfDay();
+            if(ldt.format(dateFormatter).contains(value)) {
+                periodList.add(period);
+
+                //Nous ne voulons qu'une seule période
+                break;
+            }
+        }
+
+        this.setPeriods(periodList);
     }
 }

@@ -77,6 +77,7 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("language", getLanguage());
 		attributes.put("exportFormat", getExportFormat());
 		attributes.put("eventCategories", getEventCategories());
+		attributes.put("aggregations", getAggregations());
 
 		return attributes;
 	}
@@ -183,6 +184,12 @@ public class AgendaExportWrapper implements AgendaExport,
 
 		if (eventCategories != null) {
 			setEventCategories(eventCategories);
+		}
+
+		String aggregations = (String)attributes.get("aggregations");
+
+		if (aggregations != null) {
+			setAggregations(aggregations);
 		}
 	}
 
@@ -338,6 +345,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public java.lang.Object clone() {
 		return new AgendaExportWrapper((AgendaExport)_agendaExport.clone());
+	}
+
+	/**
+	* Returns the aggregations of this agenda export.
+	*
+	* @return the aggregations of this agenda export
+	*/
+	@Override
+	public java.lang.String getAggregations() {
+		return _agendaExport.getAggregations();
 	}
 
 	@Override
@@ -661,6 +678,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public void setAgendaExportId(long agendaExportId) {
 		_agendaExport.setAgendaExportId(agendaExportId);
+	}
+
+	/**
+	* Sets the aggregations of this agenda export.
+	*
+	* @param aggregations the aggregations of this agenda export
+	*/
+	@Override
+	public void setAggregations(java.lang.String aggregations) {
+		_agendaExport.setAggregations(aggregations);
 	}
 
 	@Override

@@ -125,6 +125,7 @@ span[id $= "displayTime"]{
     display: none;
 }
 
+/*
 .aggregationFields {
     display: none;
 }
@@ -132,3 +133,4 @@ span[id $= "displayTime"]{
 .aggregationFields > .wrapper {
     display: none;
 }
+*/

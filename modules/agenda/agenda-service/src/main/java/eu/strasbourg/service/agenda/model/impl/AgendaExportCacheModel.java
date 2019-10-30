@@ -66,7 +66,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,6 +102,8 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		sb.append(exportFormat);
 		sb.append(", eventCategories=");
 		sb.append(eventCategories);
+		sb.append(", aggregations=");
+		sb.append(aggregations);
 		sb.append("}");
 
 		return sb.toString();
@@ -196,6 +198,13 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			agendaExportImpl.setEventCategories(eventCategories);
 		}
 
+		if (aggregations == null) {
+			agendaExportImpl.setAggregations(StringPool.BLANK);
+		}
+		else {
+			agendaExportImpl.setAggregations(aggregations);
+		}
+
 		agendaExportImpl.resetOriginalValues();
 
 		return agendaExportImpl;
@@ -226,6 +235,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		language = objectInput.readUTF();
 		exportFormat = objectInput.readUTF();
 		eventCategories = objectInput.readUTF();
+		aggregations = objectInput.readUTF();
 	}
 
 	@Override
@@ -297,6 +307,13 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		else {
 			objectOutput.writeUTF(eventCategories);
 		}
+
+		if (aggregations == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(aggregations);
+		}
 	}
 
 	public String uuid;
@@ -316,4 +333,5 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 	public String language;
 	public String exportFormat;
 	public String eventCategories;
+	public String aggregations;
 }

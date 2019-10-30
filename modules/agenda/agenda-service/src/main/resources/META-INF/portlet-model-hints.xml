@@ -23,6 +23,7 @@
 		<field name="eventCategories" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="aggregations" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.AgendaExportPeriod">
 		<field name="uuid" type="String" />

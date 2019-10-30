@@ -51,6 +51,7 @@ public class AgendaExportSoap implements Serializable {
 		soapModel.setLanguage(model.getLanguage());
 		soapModel.setExportFormat(model.getExportFormat());
 		soapModel.setEventCategories(model.getEventCategories());
+		soapModel.setAggregations(model.getAggregations());
 
 		return soapModel;
 	}
@@ -239,6 +240,14 @@ public class AgendaExportSoap implements Serializable {
 		_eventCategories = eventCategories;
 	}
 
+	public String getAggregations() {
+		return _aggregations;
+	}
+
+	public void setAggregations(String aggregations) {
+		_aggregations = aggregations;
+	}
+
 	private String _uuid;
 	private long _agendaExportId;
 	private long _groupId;
@@ -256,4 +265,5 @@ public class AgendaExportSoap implements Serializable {
 	private String _language;
 	private String _exportFormat;
 	private String _eventCategories;
+	private String _aggregations;
 }

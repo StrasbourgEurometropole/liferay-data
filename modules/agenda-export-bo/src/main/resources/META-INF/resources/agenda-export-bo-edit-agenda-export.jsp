@@ -149,8 +149,8 @@
                     <aui:select id="firstAggregationType" name="firstAggregationType" label="eu.agenda.export.aggregation.types.first">
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
-                               value="${type.key}"
-                               selected="${type.key eq 0 ? true : false}"
+                                value="${type.key}"
+                                selected="${dc.getAggregationSavedValue('first', 'type') eq type.key ? true : false}"
                            >
                                ${type.value}
                            </aui:option>
@@ -159,10 +159,10 @@
 
                     <div class="wrapper">
                         <aui:select id="firstAggregationVocabulary" cssClass="vocabulary-select" name="firstAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
-                            <aui:option value="">Aucune</aui:option>
                             <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
                                 <aui:option
-                                  value="${vocabulary.vocabularyId}"
+                                    value="${vocabulary.vocabularyId}"
+                                    selected="${dc.getAggregationSavedValue('first', 'vocabulary') eq vocabulary.vocabularyId ? true : false}"
                                 >
                                     ${vocabulary.getTitle(locale)}
                                </aui:option>
@@ -173,6 +173,12 @@
                     <div class="wrapper">
                         <aui:select id="firstAggregationCategory" name="firstAggregationCategory" label="eu.agenda.export.aggregation.category">
                             <aui:option value="">Aucune</aui:option>
+                            <c:if test="${dc.getAggregationSavedValue('first', 'category') ne '' }">
+                                <aui:option
+                                    value="${dc.getAggregationSavedValue('first', 'category')}">
+                                        ${dc.getAggregationSavedValue('first', 'category')}
+                                </aui:option>
+                            </c:if>
                         </aui:select>
                     </div>
                 </div>
@@ -184,6 +190,7 @@
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                value="${type.key}"
+                                selected="${dc.getAggregationSavedValue('second', 'type') eq type.key ? true : false}"
                            >
                                ${type.value}
                            </aui:option>
@@ -192,9 +199,11 @@
 
                     <div class="wrapper">
                         <aui:select id="secondAggregationVocabulary" cssClass="vocabulary-select" name="secondAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
+                            <aui:option value="">Aucune</aui:option>
                             <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
                                 <aui:option
                                   value="${vocabulary.vocabularyId}"
+                                  selected="${dc.getAggregationSavedValue('second', 'vocabulary') eq vocabulary.vocabularyId ? true : false}"
                                 >
                                     ${vocabulary.getTitle(locale)}
                                </aui:option>
@@ -205,6 +214,11 @@
                     <div class="wrapper">
                         <aui:select id="secondAggregationCategory" name="secondAggregationCategory" label="eu.agenda.export.aggregation.category">
                             <aui:option value="">Aucune</aui:option>
+                            <c:if test="${dc.getAggregationSavedValue('second', 'category') ne '' }">
+                                <aui:option value="${dc.getAggregationSavedValue('second', 'category')}" >
+                                        ${dc.getAggregationSavedValue('second', 'category')}
+                                </aui:option>
+                            </c:if>
                         </aui:select>
                     </div>
                 </div>

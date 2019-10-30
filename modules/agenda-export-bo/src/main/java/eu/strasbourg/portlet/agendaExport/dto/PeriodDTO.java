@@ -13,8 +13,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @XmlRootElement(name = "period")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,6 +48,7 @@ public class PeriodDTO {
     public PeriodDTO(EventPeriod period, Locale locale) {
         this.startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         this.endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        this.schedule = period.getTimeDetail(locale);
     }
 
     public LocalDate getStartDate() {
@@ -69,5 +73,64 @@ public class PeriodDTO {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    /**
+     * Récupération de l'horaire de l'évenement, formaté
+     * @return String
+     */
+    public String getFormattedSchedule() {
+        String formatted;
+
+        if(schedule == null) {
+            return "";
+        }
+
+        formatted = schedule.replace(" ", "").toUpperCase();
+        return formatted;
+    }
+
+    public boolean scheduleHasValidFormat() {
+
+        String stringPattern = "([01]\\d|2[0-3])H([0-5]\\d)?-([01]\\d|2[0-3])H([0-5]\\d)?";
+        Pattern pattern = Pattern.compile(stringPattern);
+        Matcher matcher;
+
+        matcher = pattern.matcher(this.getFormattedSchedule());
+        return matcher.matches();
+    }
+
+    /**
+     *
+     * @param period another PeriodDTO instance
+     * @return boolean
+     */
+    public boolean isScheduleAfter(PeriodDTO period) {
+        LocalTime currentTime = this.scheduleToLocalTime();
+        LocalTime otherTime = period.scheduleToLocalTime();
+
+        if(currentTime == null || otherTime == null) {
+            return false;
+        }
+
+        if(currentTime.isAfter(otherTime)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public LocalTime scheduleToLocalTime() {
+        if(this.scheduleHasValidFormat()) {
+            String schedule = this.getFormattedSchedule().replace("H", ":").split("-")[0];
+
+            if(schedule.length() == 3) {
+                schedule += "00";
+            }
+
+            return LocalTime.parse(schedule);
+        } else {
+            return null;
+        }
     }
 }

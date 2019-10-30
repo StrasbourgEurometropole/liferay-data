@@ -187,6 +187,36 @@ public class EditAgendaExportDisplayContext {
         return types;
     }
 
+    public String getAggregationSavedValue(String section, String type) throws JSONException {
+
+        if(_agendaExport == null) { return ""; }
+        String aggregationsString = _agendaExport.getEventCategories();
+        if(aggregationsString == null) { return ""; }
+
+        JSONObject aggregations = JSONFactoryUtil.createJSONObject(aggregationsString);
+        JSONObject sectionObject = null;
+
+        if(section.toUpperCase().equals("FIRST") || section.toUpperCase().equals("SECOND")) {
+            sectionObject = aggregations.getJSONObject(section);
+        } else {
+            return "";
+        }
+
+        //TODO ENUM !
+        if(
+            type.toLowerCase().equals("TYPE") ||
+            type.toLowerCase().equals("VOCABULARY") ||
+            type.toLowerCase().equals("CATEGORY")
+        ) {
+            Object value = sectionObject.get(type.toLowerCase());
+            if(value != null) {
+                return value.toString();
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Renvoit la liste des templates disponibles
      * @return

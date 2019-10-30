@@ -72,7 +72,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
         OutputStream os = null;
         try {
 
-            os = resourceResponse.getPortletOutputStream();
+//            os = resourceResponse.getPortletOutputStream();
 
             /** Get form values **/
 
@@ -108,7 +108,6 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             filters.setTags(Arrays.asList(tags));
             filters.addAssetCategories(categories);
             filters.setFile(getDLFileEntry(fileEntryId));
-//            filters.setFilename(docxFilename);
             filters.setGroupDepth(aggregationLevel);
             filters.addAggregationFilters(
                 firstAggregationType,
@@ -116,8 +115,6 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 secondAggregationType,
                 valueResolver(secondAggregationType, secondAggregationVocabulary, secondAggregationCategory)
             );
-
-
 
             if(exportFormat.toUpperCase().equals("DOCX")){
                 Exporter.exportDOCX(

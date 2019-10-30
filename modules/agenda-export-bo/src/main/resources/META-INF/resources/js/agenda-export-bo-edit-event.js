@@ -6,7 +6,7 @@ new Choices('.choices-element', {
 // Périodes
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
-	var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_"; // Namespace du portlet
+	var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_"; // Namespace du portlet
 	var dateRangePickerLocaleSettings =  { // Configuration française du dateRangePicker
 		format: 'DD/MM/YYYY',
 		applyLabel: 'Ajouter',
@@ -257,9 +257,6 @@ function validatePeriods(event) {
     //Affichage des types d'agrégations
     aggregationLevelSelect.on("change", function() {
         var value = $(this).val();
-
-         console.log("coucou");
-         console.log(value);
 
         if(value === "0") {
             firstAggregationBlock.hide();

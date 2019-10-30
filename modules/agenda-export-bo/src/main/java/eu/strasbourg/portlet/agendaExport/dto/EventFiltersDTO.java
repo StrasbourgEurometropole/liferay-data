@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 
@@ -131,6 +132,7 @@ public class EventFiltersDTO {
         this.filename = filename;
     }
 
+    @JsonIgnore
     public DLFileEntry getFile() {
         return file;
     }

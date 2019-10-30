@@ -1,9 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "place")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -27,10 +24,12 @@ public class EventPlaceDTO {
     @XmlElement(name = "country")
     private String country;
 
-    @XmlElement(name = "access")
+//    @XmlElement(name = "access")
+    @XmlTransient
     private String access;
 
-    @XmlElement(name = "handicapAccess")
+//    @XmlElement(name = "handicapAccess")
+    @XmlTransient
     private String handicapAccess;
 
     @XmlElement(name = "blindAccess")

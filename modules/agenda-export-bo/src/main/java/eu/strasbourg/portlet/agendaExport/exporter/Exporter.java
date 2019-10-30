@@ -18,7 +18,7 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.docx4j.Docx4J;
-import org.docx4j.openpackaging.io3.Save;
+import org.docx4j.model.datastorage.BindingHandler;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 import javax.portlet.ResourceRequest;
@@ -30,6 +30,8 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +39,8 @@ import java.util.List;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Exporter {
+
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
 
     public static OutputStream exportDOCX(
@@ -47,6 +51,8 @@ public class Exporter {
         try {
 
             List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
+
+            events = events.subList(0,50);
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
@@ -69,12 +75,16 @@ public class Exporter {
             if(file != null) {
 
                 res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
-                res.setProperty("content-disposition", "attachment; filename="+file.getFileName()+".docx");
+                res.setProperty("content-disposition", "attachment; filename="+file.getFileName());
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
+
+                BindingHandler.getHyperlinkResolver().setHyperlinkStyle("Hyperlink");
                 Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
-                Save saver = new Save(wordMLPackage);
-                saver.save(os);
+//                Save saver = new Save(wordMLPackage);
+//                saver.save(os);
+
+                wordMLPackage.save(new java.io.File("C:/"+file.getFileName()));
             }
 
         } catch (Exception e) {
@@ -147,7 +157,7 @@ public class Exporter {
         Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, 20160,
                 20116, true, "", false, "", null, null, new ArrayList<Long[]>(),
                 new ArrayList<Long[]>(), StringUtil.split(""), false, themeDisplay.getLocale(), 0,
-                12, "modified_sortable", true);
+                5000, "modified_sortable", true);
 
         List<Event> events = new ArrayList<>();
         for (Document document : hits.getDocs()) {
@@ -161,7 +171,7 @@ public class Exporter {
     }
 
     private static ExportAgendaDTO sortDTOObjects(
-            ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, int level
+        ThemeDisplay themeDisplay, EventFiltersDTO filters, List<EventDTO> events, int level
     ) throws PortalException {
 
         ExportAgendaDTO exportAgendaDTO = new ExportAgendaDTO();
@@ -176,9 +186,16 @@ public class Exporter {
             case 1:
                 //create groups
                 List<EventGroupDTO> groups = orderEventsInGroups(
-                        events,
-                        filters.getAggregationFilter(1),
-                        filters);
+                    events,
+                    filters.getAggregationFilter(1),
+                    filters
+                );
+
+                //sort events
+                for(EventGroupDTO group : groups) {
+                    group.setEvents(sortByDates(group.getEvents()));
+                }
+
                 exportAgendaDTO.setGroups(groups);
                 break;
             case 2:
@@ -193,6 +210,14 @@ public class Exporter {
                     filters.getAggregationFilter(2),
                     filters
                 );
+
+                //sort events
+                for(EventGroupDTO group : mainGroups) {
+                    for(EventGroupDTO subgroup : group.getSubgoups()) {
+                        subgroup.setEvents(sortByDates(subgroup.getEvents()));
+                    }
+                }
+
                 exportAgendaDTO.setGroups(mainGroups);
                 break;
         }
@@ -207,7 +232,9 @@ public class Exporter {
      * @param themeDisplay
      * @return
      */
-    private static List<EventDTO> createEventDTOList(List<Event> events, EventFiltersDTO filters, ThemeDisplay themeDisplay) throws PortalException {
+    private static List<EventDTO> createEventDTOList(
+        List<Event> events, EventFiltersDTO filters, ThemeDisplay themeDisplay
+    ) throws PortalException {
 
         List<EventDTO> DTOList = new ArrayList<>();
         for(Event event : events) {
@@ -283,6 +310,7 @@ public class Exporter {
             for(String value : values) {
                 EventGroupDTO group = getOrCreateGroup(groups, aggregationFilterDTO.getType(), value);
                 if(group != null) {
+                    event.updatePeriods(dateFormatter, value);
                     group.addEvent(event);
                 }
             }
@@ -319,6 +347,7 @@ public class Exporter {
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
+                    event.updatePeriods(dateFormatter, value);
                     EventGroupDTO subGroup = getOrCreateGroup(subGroups, aggregationFilterDTO.getType(), value);
                     subGroup.addEvent(event);
                 }
@@ -363,7 +392,8 @@ public class Exporter {
 
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
                             if(dateIsWithinRange(filterPeriod.getStartDate(), date, filterPeriod.getEndDate())) {
-                                values.add(date.toString()); //TODO choose a format for dates
+                                LocalDateTime ldt = date.atStartOfDay();
+                                values.add(ldt.format(dateFormatter));
                             }
                             values.add(date.toString());
                         }
@@ -425,6 +455,44 @@ public class Exporter {
         }
 
         return values;
+    }
+
+    private static List<EventDTO> sortByDates(List<EventDTO> events) {
+
+        List<EventDTO> sortedEvents = new ArrayList<>();
+        List<EventDTO> unsortedEvents = new ArrayList<>();
+
+        PeriodDTO min = null;
+        while(events.size() > 0) {
+
+            for (Iterator<EventDTO> iter = events.listIterator(); iter.hasNext(); ) {
+                EventDTO event = iter.next();
+
+                if(event.getPeriods() == null || event.getPeriods().size() != 1 ) {
+                    unsortedEvents.add(event);
+                    iter.remove();
+                    continue;
+                }
+
+                //Récupération de la période et de l'horaire
+                PeriodDTO period = event.getPeriods().get(0);
+                if(period.scheduleHasValidFormat()) {
+                    if(min == null || period.isScheduleAfter(min)) {
+                        min =  period;
+                        sortedEvents.add(event);
+                    }
+                } else {
+                    unsortedEvents.add(event);
+                }
+
+                iter.remove();
+            }
+        }
+
+        //Repopulate events list
+        events.addAll(sortedEvents);
+        events.addAll(unsortedEvents);
+        return events;
     }
 
     private static boolean dateIsWithinRange(LocalDate startDate, LocalDate testDate, LocalDate endDate) {

@@ -87,6 +87,9 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				/** Format d'export **/
 				String formatExport = ParamUtil.getString(request, "exportFormat");
 				agendaExport.setExportFormat(formatExport);
+
+				/** Aggregation **/
+				this.saveAggregations(request, agendaExport);
 			}
 			
 			_agendaExportLocalService.updateAgendaExport(agendaExport, sc);
@@ -164,6 +167,37 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 			vocabularies.put(Long.toString(vocabularyId), categories);
 		}
 		agendaExport.setEventCategories(vocabularies.toString());
+	}
+
+	private void saveAggregations(ActionRequest request, AgendaExport agendaExport) {
+
+		JSONObject aggregations = JSONFactoryUtil.createJSONObject();
+		JSONObject firstAggregation = JSONFactoryUtil.createJSONObject();
+		JSONObject secondAggregation = JSONFactoryUtil.createJSONObject();
+
+		//Valeurs des agrégations
+		String aggregationLevel = ParamUtil.getString(request, "aggregationLevel");
+		String firstAggregationType = ParamUtil.getString(request, "firstAggregationType");
+		String firstAggregationVocabulary = ParamUtil.getString(request, "firstAggregationVocabulary");
+		String firstAggregationCategory = ParamUtil.getString(request, "firstAggregationCategory");
+		String secondAggregationType = ParamUtil.getString(request, "secondAggregationType");
+		String secondAggregationVocabulary = ParamUtil.getString(request, "secondAggregationVocabulary");
+		String secondAggregationCategory = ParamUtil.getString(request, "secondAggregationCategory");
+
+		//remplissage des objets
+		firstAggregation.put("type", firstAggregationType);
+		firstAggregation.put("vocabulary", firstAggregationVocabulary);
+		firstAggregation.put("category", firstAggregationCategory);
+
+		secondAggregation.put("type", secondAggregationType);
+		secondAggregation.put("vocabulary", secondAggregationVocabulary);
+		secondAggregation.put("category", secondAggregationCategory);
+
+		aggregations.put("level", aggregationLevel);
+		aggregations.put("first", firstAggregation);
+		aggregations.put("second", secondAggregation);
+
+		agendaExport.setAggregations(aggregations.toString());
 	}
 
 	private AgendaExportLocalService _agendaExportLocalService;

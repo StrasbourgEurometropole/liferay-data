@@ -456,6 +456,21 @@ public interface AgendaExportModel extends BaseModel<AgendaExport>,
 	public void setEventCategories(String eventCategories);
 
 	/**
+	 * Returns the aggregations of this agenda export.
+	 *
+	 * @return the aggregations of this agenda export
+	 */
+	@AutoEscape
+	public String getAggregations();
+
+	/**
+	 * Sets the aggregations of this agenda export.
+	 *
+	 * @param aggregations the aggregations of this agenda export
+	 */
+	public void setAggregations(String aggregations);
+
+	/**
 	 * Returns <code>true</code> if this agenda export is approved.
 	 *
 	 * @return <code>true</code> if this agenda export is approved; <code>false</code> otherwise
