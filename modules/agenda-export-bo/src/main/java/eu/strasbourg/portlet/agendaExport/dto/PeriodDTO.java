@@ -7,10 +7,7 @@ import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateSerializer;
 import eu.strasbourg.portlet.agendaExport.XMLAdapter.DateAdapter;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -35,8 +32,17 @@ public class PeriodDTO {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
 
-    @XmlElement(name = "schedule")
+    @XmlElement(name = "Schedule")
+    private String initialSchedule;
+
+    @XmlTransient
     private String schedule;
+
+    @XmlElement(name = "beginHour")
+    private String beginHour;
+
+    @XmlElement(name = "endHour")
+    private String endHour;
 
     public PeriodDTO() {}
 
@@ -49,6 +55,8 @@ public class PeriodDTO {
         this.startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         this.endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         this.schedule = period.getTimeDetail(locale);
+        this.initialSchedule = schedule;
+        this.setHours();
     }
 
     public LocalDate getStartDate() {
@@ -73,6 +81,30 @@ public class PeriodDTO {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    public String getInitialSchedule() {
+        return initialSchedule;
+    }
+
+    public void setInitialSchedule(String initialSchedule) {
+        this.initialSchedule = initialSchedule;
+    }
+
+    public String getBeginHour() {
+        return beginHour;
+    }
+
+    public void setBeginHour(String beginHour) {
+        this.beginHour = beginHour;
+    }
+
+    public String getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
     }
 
     /**
@@ -120,6 +152,10 @@ public class PeriodDTO {
         return false;
     }
 
+    /**
+     * Convertis le schedule à une localTime
+     * @return
+     */
     public LocalTime scheduleToLocalTime() {
         if(this.scheduleHasValidFormat()) {
             String schedule = this.getFormattedSchedule().replace("H", ":").split("-")[0];
@@ -131,6 +167,22 @@ public class PeriodDTO {
             return LocalTime.parse(schedule);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Rajoute les heures de début et de fin en fonction du champ schedule
+     */
+    public void setHours() {
+
+        if(this.scheduleHasValidFormat()) {
+
+            String[] hours = this.getFormattedSchedule().split(":");
+            this.beginHour = hours[0];
+
+            if(hours[1] != null) {
+                this.endHour = hours[1];
+            }
         }
     }
 }
