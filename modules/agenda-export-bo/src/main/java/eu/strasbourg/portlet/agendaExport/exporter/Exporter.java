@@ -31,6 +31,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +53,7 @@ public class Exporter {
 
             List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
 
-            events = events.subList(0,1);
+            events = events.subList(0,500);
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
@@ -191,9 +192,14 @@ public class Exporter {
                     filters
                 );
 
-                //sort events
-                for(EventGroupDTO group : groups) {
-                    group.setEvents(sortByDates(group.getEvents()));
+                //sort groups
+                if(filters.getAggregationFilter(1).getType().equals("DAY")) {
+                    groups = sortGroupsByDate(groups);
+
+                    //sort events
+                    for(EventGroupDTO group : groups) {
+                        group.setEvents(sortEventsByHours(group.getEvents()));
+                    }
                 }
 
                 exportAgendaDTO.setGroups(groups);
@@ -211,10 +217,15 @@ public class Exporter {
                     filters
                 );
 
-                //sort events
-                for(EventGroupDTO group : mainGroups) {
-                    for(EventGroupDTO subgroup : group.getSubgoups()) {
-                        subgroup.setEvents(sortByDates(subgroup.getEvents()));
+                //sort groups
+                if(filters.getAggregationFilter(1).getType().equals("DAY")) {
+                    mainGroups = sortGroupsByDate(mainGroups);
+
+                    //sort events
+                    for(EventGroupDTO group : mainGroups) {
+                        for(EventGroupDTO subgroup : group.getSubgoups()) {
+                            subgroup.setEvents(sortEventsByHours(subgroup.getEvents()));
+                        }
                     }
                 }
 
@@ -299,7 +310,7 @@ public class Exporter {
         List<String> values;
 
         if(aggregationFilterDTO == null) {
-            return new ArrayList<EventGroupDTO>();
+            return new ArrayList<>();
         }
 
         for(EventDTO event : events) {
@@ -311,7 +322,7 @@ public class Exporter {
                 EventGroupDTO group = getOrCreateGroup(groups, aggregationFilterDTO.getType(), value);
                 if(group != null) {
                     if(aggregationFilterDTO.getType().equals("DAY")){
-                        event.updatePeriods( value);
+                        event.updatePeriods(dateFormatter, value);
                     }
                     group.addEvent(event);
                 }
@@ -343,14 +354,15 @@ public class Exporter {
              */
 
             List<String> values;
-            for(EventDTO event : group.getEvents()) {
+            List<EventDTO> events = group.getEvents();
+            for(EventDTO event : events) {
 
                 values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
                     if(aggregationFilterDTO.getType().equals("DAY")) {
-                        event.updatePeriods(value);
+                        event.updatePeriods(dateFormatter, value);
                     }
                     EventGroupDTO subGroup = getOrCreateGroup(subGroups, aggregationFilterDTO.getType(), value);
                     subGroup.addEvent(event);
@@ -395,11 +407,11 @@ public class Exporter {
                         LocalDate date = startDate.plusDays(i);
 
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
-                            if(dateIsWithinRange(filterPeriod.getStartDate(), date, filterPeriod.getEndDate())) {
+                            //TODO remettre à la livraison
+//                            if(dateIsWithinRange(filterPeriod.getStartDate(), date, filterPeriod.getEndDate())) {
                                 LocalDateTime ldt = date.atStartOfDay();
                                 values.add(ldt.format(dateFormatter));
-                            }
-                            values.add(date.toString());
+//                            }
                         }
                     }
                 }
@@ -438,7 +450,10 @@ public class Exporter {
 
                 for(EventCategoryDTO category : event.getCategories()) {
                     for(EventCategoryDTO parentCategory : category.getParentCategories()) {
-                        if(parentCategory.getVocabulary().getName().equals(value)) {
+                        if(
+                            parentCategory.getVocabulary().getName().equals(value) &&
+                            !values.contains(parentCategory.getName())
+                        ) {
                             values.add(parentCategory.getName());
                         }
                     }
@@ -463,49 +478,83 @@ public class Exporter {
         return values;
     }
 
-    private static List<EventDTO> sortByDates(List<EventDTO> events) {
-
+    /**
+     * Tri les events par heures croissantes
+     * @param events
+     * @return
+     */
+    private static List<EventDTO> sortEventsByHours(List<EventDTO> events) {
         List<EventDTO> sortedEvents = new ArrayList<>();
         List<EventDTO> unsortedEvents = new ArrayList<>();
 
-        PeriodDTO min = null;
-        while(events.size() > 0) {
+        for (EventDTO event : events) {
+            if(event.getPeriod() == null) {
+                unsortedEvents.add(event);
+                continue;
+            }
 
-            for (Iterator<EventDTO> iter = events.listIterator(); iter.hasNext(); ) {
-                EventDTO event = iter.next();
-
-                if(event.getPeriods() == null || event.getPeriods().size() != 1 ) {
-                    unsortedEvents.add(event);
-                    iter.remove();
-                    continue;
-                }
-
-                //Récupération de la période et de l'horaire
-                PeriodDTO period = event.getPeriods().get(0);
-                if(period.scheduleHasValidFormat()) {
-                    if(min == null || period.isScheduleAfter(min)) {
-                        min =  period;
-                        sortedEvents.add(event);
-                    }
-                } else {
-                    unsortedEvents.add(event);
-                }
-
-                iter.remove();
+            //Récupération de la période et de l'horaire
+            PeriodDTO period = event.getPeriod();
+            if(period.scheduleHasValidFormat()) {
+                sortedEvents.add(event);
+            } else {
+                unsortedEvents.add(event);
             }
         }
 
+        //Sort Events that contain valid hours
+        sortedEvents.sort(
+            (e1,e2) -> {
+                LocalTime lt1 = e1.getPeriod().scheduleToLocalTime();
+                LocalTime lt2 = e2.getPeriod().scheduleToLocalTime();
+                return lt1.compareTo(lt2);
+            }
+        );
+
         //Repopulate events list
+        events.clear();
         events.addAll(sortedEvents);
         events.addAll(unsortedEvents);
         return events;
     }
 
+    /**
+     * Tri les groupes par dates croissantes
+     * @param groups
+     * @return
+     */
+    private static List<EventGroupDTO> sortGroupsByDate(List<EventGroupDTO> groups) {
+
+        groups.sort(
+            (g1,g2) -> {
+                LocalDateTime ltd1 = LocalDateTime.parse(g1.getValue());
+                LocalDateTime ltd2 = LocalDateTime.parse(g2.getValue());
+                return ltd1.compareTo(ltd2);
+            }
+        );
+
+        return groups;
+    }
+
+    /**
+     * Est ce que la date est entre les 2 bornes temporelles ?
+     * @param startDate
+     * @param testDate
+     * @param endDate
+     * @return
+     */
     private static boolean dateIsWithinRange(LocalDate startDate, LocalDate testDate, LocalDate endDate) {
         return !(testDate.isBefore(startDate) || testDate.isAfter(endDate));
     }
 
 
+    /**
+     * Créé ou récupère une instance EventGroupDTO
+     * @param groups
+     * @param filterType
+     * @param value
+     * @return
+     */
     private static EventGroupDTO getOrCreateGroup(List<EventGroupDTO> groups, String filterType, String value) {
 
         if(groups == null) {

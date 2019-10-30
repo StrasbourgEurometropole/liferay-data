@@ -423,13 +423,13 @@ public class EventDTO {
 
     /**
      * Met à jour la liste des périodes à partir de la valeur donnée en paramètre
-     * @param dateFormatter
+     * @param formatter
      * @param value
      */
-    public void updatePeriods(String value) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public void updatePeriods(DateTimeFormatter formatter, String value) {
         for(PeriodDTO period : this.periods) {
-            if(period.getStartDate().format(formatter).equals(value)) {
+            LocalDateTime ldt = period.getStartDate().atStartOfDay();
+            if(ldt.format(formatter).equals(value)) {
                 this.period = period;
             }
         }

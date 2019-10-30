@@ -32,10 +32,10 @@ public class PeriodDTO {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate endDate;
 
-    @XmlElement(name = "Schedule")
+    @XmlTransient
     private String initialSchedule;
 
-    @XmlTransient
+    @XmlElement(name = "schedule")
     private String schedule;
 
     @XmlElement(name = "beginHour")
