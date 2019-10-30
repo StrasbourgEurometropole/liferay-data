@@ -83,7 +83,7 @@ public class EventCategoryDTO {
         this.setVocabulary(vocabularyDTO);
     }
 
-    public void addParentCategories(List<AssetCategory> categories) {
+    public void addParentCategories(List<AssetCategory> categories, AssetVocabulary vocabulary) {
 
         if(this.parentCategories == null) {
             parentCategories = new ArrayList<>();
@@ -96,8 +96,11 @@ public class EventCategoryDTO {
             }
 
             EventCategoryDTO categoryDTO = new EventCategoryDTO();
+            EventVocabularyDTO vocabularyDTO = new EventVocabularyDTO();
             categoryDTO.setName(parent.getName());
             categoryDTO.setCategoryId(parent.getCategoryId());
+            vocabularyDTO.setName(vocabulary.getName());
+            categoryDTO.setVocabulary(vocabularyDTO);
             this.parentCategories.add(categoryDTO);
         }
     }

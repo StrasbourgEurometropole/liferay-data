@@ -279,7 +279,7 @@ public class Exporter {
                 List<AssetCategory> categories =
                     AssetVocabularyHelper.getCategoryWithAncestors(categoryDTO.getCategoryId());
 
-                categoryDTO.addParentCategories(categories);
+                categoryDTO.addParentCategories(categories, vocabulary);
                 categoryDTO.addVocabulary(vocabulary);
             }
         }
@@ -432,9 +432,11 @@ public class Exporter {
                 AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(Long.parseLong(value));
                 value = vocabulary.getName();
 
-                for(EventVocabularyDTO vocabularyDTO : event.getVocabularies()) {
-                    if(vocabularyDTO.getName().equals(value)) {
-                        values.add(vocabularyDTO.getName());
+                for(EventCategoryDTO category : event.getCategories()) {
+                    for(EventCategoryDTO parentCategory : category.getParentCategories()) {
+                        if(parentCategory.getVocabulary().getName().equals(value)) {
+                            values.add(parentCategory.getName());
+                        }
                     }
                 }
 

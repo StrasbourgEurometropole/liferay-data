@@ -180,7 +180,7 @@ public class PeriodDTO {
             String[] hours = this.getFormattedSchedule().split(":");
             this.beginHour = hours[0];
 
-            if(hours[1] != null) {
+            if(hours.length == 2 && hours[1] != null) {
                 this.endHour = hours[1];
             }
         }

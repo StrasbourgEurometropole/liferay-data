@@ -375,17 +375,17 @@ public class EventDTO {
         }
 
         for(AssetCategory category : event.getCategories()) {
-            for(EventCategoryDTO categoryDTO : filters.getCategories()) {
-
-                if(category.getName().equals(categoryDTO.getName())) {
+            //TODO filter categories by filters ?
+//            for(EventCategoryDTO categoryDTO : filters.getCategories()) {
+//                if(category.getName().equals(categoryDTO.getName())) {
                     EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
-                    newCategoryDTO.setName(categoryDTO.getName());
+                    newCategoryDTO.setName(category.getName());
                     newCategoryDTO.setCategoryId(category.getCategoryId());
                     newCategoryDTO.setVocabularyId(category.getVocabularyId());
                     this.categories.add(newCategoryDTO);
 
-                }
-            }
+//                }
+//            }
         }
     }
 
