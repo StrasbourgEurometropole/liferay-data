@@ -310,7 +310,9 @@ public class Exporter {
             for(String value : values) {
                 EventGroupDTO group = getOrCreateGroup(groups, aggregationFilterDTO.getType(), value);
                 if(group != null) {
-                    event.updatePeriods(dateFormatter, value);
+                    if(group.getName().equals("DAY")){
+                        event.updatePeriods(dateFormatter, value);
+                    }
                     group.addEvent(event);
                 }
             }

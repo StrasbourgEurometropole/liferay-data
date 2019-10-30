@@ -414,21 +414,15 @@ public class EventDTO {
     //TODO corriger bug
     public void updatePeriods(DateTimeFormatter dateFormatter, String value) {
 
+
+
         List<PeriodDTO> periodList = new ArrayList<>();
-        for(PeriodDTO period : this.getPeriods()) {
+        PeriodDTO period = new PeriodDTO();
 
-            if(period.getStartDate() == null) {
-                continue;
-            }
+        period.setStartDate(LocalDate.parse(value, dateFormatter));
+        period.setEndDate(LocalDate.parse(value, dateFormatter));
 
-            LocalDateTime ldt = period.getStartDate().atStartOfDay();
-            if(ldt.format(dateFormatter).contains(value)) {
-                periodList.add(period);
-
-                //Nous ne voulons qu'une seule période
-                break;
-            }
-        }
+        periodList.add(period);
 
         this.setPeriods(periodList);
     }
