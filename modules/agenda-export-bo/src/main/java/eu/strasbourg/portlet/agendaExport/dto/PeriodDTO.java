@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateDeserializer;
@@ -83,6 +84,7 @@ public class PeriodDTO {
         this.schedule = schedule;
     }
 
+    @JsonIgnore
     public String getInitialSchedule() {
         return initialSchedule;
     }
@@ -91,6 +93,7 @@ public class PeriodDTO {
         this.initialSchedule = initialSchedule;
     }
 
+    @JsonIgnore
     public String getBeginHour() {
         return beginHour;
     }
@@ -99,6 +102,7 @@ public class PeriodDTO {
         this.beginHour = beginHour;
     }
 
+    @JsonIgnore
     public String getEndHour() {
         return endHour;
     }

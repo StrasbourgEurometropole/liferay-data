@@ -274,6 +274,9 @@ function validatePeriods(event) {
     firstAggregationTypeSelect.on("change", function() {
         var value = $(this).val()
         if(value === "VOCABULARY"){
+
+           $('#'+ namespace +'firstAggregationVocabulary')[0].selectedIndex = 0;
+
             vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").show();
             firstCategorySelect.closest(".wrapper").hide();
         } else if(value === "CATEGORY") {

@@ -385,7 +385,6 @@ public class EventDTO {
         }
 
         for(AssetCategory category : event.getCategories()) {
-            //TODO filter categories by filters ?
 //            for(EventCategoryDTO categoryDTO : filters.getCategories()) {
 //                if(category.getName().equals(categoryDTO.getName())) {
                     EventCategoryDTO newCategoryDTO = new EventCategoryDTO();

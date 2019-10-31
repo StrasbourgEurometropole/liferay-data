@@ -149,6 +149,7 @@ public class EventFiltersDTO {
         this.groupDepth = groupDepth;
     }
 
+    @JsonIgnore
     public AggregationFilterDTO getAggregationFilter() {
         return aggregationFilter;
     }

@@ -59,7 +59,7 @@ public class EventCategoryDTO {
         this.parentCategories = parentCategories;
     }
 
-//    @JsonIgnore
+    @JsonIgnore
     public Long getCategoryId() {
         return categoryId;
     }

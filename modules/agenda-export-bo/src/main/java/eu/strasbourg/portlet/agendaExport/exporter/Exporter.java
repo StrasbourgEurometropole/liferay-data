@@ -53,7 +53,7 @@ public class Exporter {
 
             List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
 
-            events = events.subList(0,500);
+            events = events.subList(0,1);
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
@@ -256,18 +256,14 @@ public class Exporter {
             for(AssetCategory category : event.getCategories()) {
 
                 AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
+                EventVocabularyDTO vocabularyDTO = getVocabularyInList(vocabularyDTOS, vocabulary.getName());
 
-                Boolean exist = false;
-                for(EventVocabularyDTO vocabularyDTO : vocabularyDTOS) {
-                    if(vocabularyDTO.getName().equals(vocabularyDTO.getName())) {
-                        exist = true;
-                    }
-                }
-
-                if(!exist) {
-                    EventVocabularyDTO vocabularyDTO = new EventVocabularyDTO(vocabulary.getName());
+                if(vocabularyDTO == null) {
+                    EventVocabularyDTO newVocabularyDTO = new EventVocabularyDTO(vocabulary.getName());
+                    newVocabularyDTO.addCategory(category.getName());
+                    vocabularyDTOS.add(newVocabularyDTO);
+                } else {
                     vocabularyDTO.addCategory(category.getName());
-                    vocabularyDTOS.add(vocabularyDTO);
                 }
             }
 
@@ -276,6 +272,21 @@ public class Exporter {
         }
 
         return DTOList;
+    }
+
+    private static EventVocabularyDTO getVocabularyInList(List<EventVocabularyDTO> vocabularies, String name) {
+
+        if(vocabularies == null || name == null) {
+            return null;
+        }
+
+        for(EventVocabularyDTO vocabularyDTO : vocabularies) {
+            if(name.equals(vocabularyDTO.getName())) {
+                return vocabularyDTO;
+            }
+        }
+
+        return null;
     }
 
 
@@ -407,11 +418,10 @@ public class Exporter {
                         LocalDate date = startDate.plusDays(i);
 
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
-                            //TODO remettre à la livraison
-//                            if(dateIsWithinRange(filterPeriod.getStartDate(), date, filterPeriod.getEndDate())) {
+                            if(dateIsWithinRange(filterPeriod.getStartDate(), date, filterPeriod.getEndDate())) {
                                 LocalDateTime ldt = date.atStartOfDay();
                                 values.add(ldt.format(dateFormatter));
-//                            }
+                            }
                         }
                     }
                 }
@@ -432,9 +442,9 @@ public class Exporter {
 
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
                             if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
-                                values.add(date.toString()); //TODO format for date
+                                LocalDateTime ldt = date.atStartOfDay();
+                                values.add(ldt.format(dateFormatter));
                             }
-                            values.add(date.toString());
                         }
                     }
                 }

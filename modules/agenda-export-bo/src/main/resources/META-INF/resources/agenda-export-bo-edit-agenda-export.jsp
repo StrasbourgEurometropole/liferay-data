@@ -159,6 +159,9 @@
 
                     <div class="wrapper">
                         <aui:select id="firstAggregationVocabulary" cssClass="vocabulary-select" name="firstAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
+                            <aui:option value="">
+                                <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
+                            </aui:option>
                             <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
                                 <aui:option
                                     value="${vocabulary.vocabularyId}"
@@ -172,7 +175,9 @@
 
                     <div class="wrapper">
                         <aui:select id="firstAggregationCategory" name="firstAggregationCategory" label="eu.agenda.export.aggregation.category">
-                            <aui:option value="">Aucune</aui:option>
+                            <aui:option value="">
+                                <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
+                            </aui:option>
                             <c:if test="${dc.getAggregationSavedValue('first', 'category') ne '' }">
                                 <aui:option
                                     value="${dc.getAggregationSavedValue('first', 'category')}">
@@ -199,7 +204,9 @@
 
                     <div class="wrapper">
                         <aui:select id="secondAggregationVocabulary" cssClass="vocabulary-select" name="secondAggregationVocabulary" label="eu.agenda.export.aggregation.vocabulary">
-                            <aui:option value="">Aucune</aui:option>
+                            <aui:option value="">
+                                <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
+                            </aui:option>
                             <c:forEach var="vocabulary" items="${dc.eventVocabularies}">
                                 <aui:option
                                   value="${vocabulary.vocabularyId}"
@@ -213,7 +220,9 @@
 
                     <div class="wrapper">
                         <aui:select id="secondAggregationCategory" name="secondAggregationCategory" label="eu.agenda.export.aggregation.category">
-                            <aui:option value="">Aucune</aui:option>
+                            <aui:option value="">
+                                <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
+                            </aui:option>
                             <c:if test="${dc.getAggregationSavedValue('second', 'category') ne '' }">
                                 <aui:option value="${dc.getAggregationSavedValue('second', 'category')}" >
                                         ${dc.getAggregationSavedValue('second', 'category')}
