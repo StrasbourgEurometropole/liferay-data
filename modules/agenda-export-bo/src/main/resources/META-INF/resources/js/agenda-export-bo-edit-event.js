@@ -248,9 +248,35 @@ function validatePeriods(event) {
     var firstAggregationTypeSelect = $('#'+ namespace +'firstAggregationType');
     var secondAggregationTypeSelect = $('#'+ namespace +'secondAggregationType');
     var vocabulariesSelect = $('.vocabulary-select');
+    var firstVocabularySelect = $('#'+ namespace +'firstAggregationVocabulary');
+    var secondVocabularySelect = $('#'+ namespace +'secondAggregationVocabulary');
     var firstCategorySelect = $('#'+ namespace +'firstAggregationCategory');
     var secondCategorySelect = $('#'+ namespace +'secondAggregationCategory');
     var aggregationFields = $(".aggregationFields");
+
+    /**
+     * Reset la valeur des champs en fonction de l'aggregation choisie
+     */
+     var resetAggregation = function(firstType, firstVocabulary, firstCategory, secondType, secondVocabulary, secondCategory, ) {
+          if(firstType){
+             $('#'+ namespace +'firstAggregationType')[0].selectedIndex = 0;
+          }
+          if(secondType){
+             $('#'+ namespace +'secondAggregationType')[0].selectedIndex = 0;
+          }
+          if(firstVocabulary){
+             $('#'+ namespace +'firstAggregationVocabulary')[0].selectedIndex = 0;
+          }
+          if(secondVocabulary){
+             $('#'+ namespace +'secondAggregationVocabulary')[0].selectedIndex = 0;
+          }
+          if(firstCategory){
+             $('#'+ namespace +'firstAggregationCategory')[0].selectedIndex = 0;
+          }
+          if(secondCategory){
+             $('#'+ namespace +'secondAggregationCategory')[0].selectedIndex = 0;
+          }
+        }
 
     /** Affichage des champs **/
 
@@ -259,14 +285,20 @@ function validatePeriods(event) {
         var value = $(this).val();
 
         if(value === "0") {
-            firstAggregationBlock.hide();
-            secondAggregationBlock.hide();
+            resetAggregation(true,true,true,true,true,true);
+            firstAggregationBlock.find("select").prop('disabled','disabled');
+            secondAggregationBlock.find("select").prop('disabled','disabled');
         } else if(value === "1") {
-            firstAggregationBlock.show();
-            secondAggregationBlock.hide();
+            resetAggregation(false,false,false,true,true,true);
+            console.log( secondAggregationBlock.find("select"));
+            firstAggregationBlock.find("select").prop('disabled','disabled');
+            secondAggregationBlock.find("select").prop('disabled','disabled');
+            firstAggregationTypeSelect.prop('disabled',false);
         } else if(value === "2") {
-            firstAggregationBlock.show();
-            secondAggregationBlock.show();
+            firstAggregationBlock.find("select").prop('disabled','disabled');
+            secondAggregationBlock.find("select").prop('disabled','disabled');
+            firstAggregationTypeSelect.prop('disabled',false);
+            secondAggregationTypeSelect.prop('disabled',false);
         }
     });
 
@@ -274,31 +306,45 @@ function validatePeriods(event) {
     firstAggregationTypeSelect.on("change", function() {
         var value = $(this).val()
         if(value === "VOCABULARY"){
-
-           $('#'+ namespace +'firstAggregationVocabulary')[0].selectedIndex = 0;
-
-            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").show();
-            firstCategorySelect.closest(".wrapper").hide();
+            resetAggregation(false,true,true,false,false,false);
+            firstVocabularySelect.prop('disabled',false);
+            firstCategorySelect.prop('disabled','disabled');
         } else if(value === "CATEGORY") {
-            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").show();
-            firstCategorySelect.closest(".wrapper").show();
-        } else {
-            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'firstAggregationVocabulary').closest(".wrapper").hide();
-            firstCategorySelect.closest(".wrapper").hide();
+            resetAggregation(false,false,true,false,false,false);
+            firstVocabularySelect.prop('disabled',false);
+            firstCategorySelect.prop('disabled',false);
+        }  else if(value === "DAY") {
+                        if(secondAggregationTypeSelect.val()==="MONTH"){
+                            resetAggregation(false,false,false,true,false,false);
+                        }
+            firstVocabularySelect.prop('disabled','disabled');
+            firstCategorySelect.prop('disabled','disabled');
+        }  else {
+            firstVocabularySelect.prop('disabled','disabled');
+            firstCategorySelect.prop('disabled','disabled');
         }
     });
 
     //Affichage des champs (deuxième agrégation)
     secondAggregationTypeSelect.on("change", function() {
-        if($(this).val() === "VOCABULARY"){
-            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'secondAggregationVocabulary').closest(".wrapper").show();
-            secondCategorySelect.closest(".wrapper").hide();
-        } else if($(this).val() === "CATEGORY") {
-            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'secondAggregationVocabulary').closest(".wrapper").show();
-            secondCategorySelect.closest(".wrapper").show();
-        } else {
-            vocabulariesSelect.closest('.aggregationFields').find('#'+ namespace +'secondAggregationVocabulary').closest(".wrapper").hide();
-            secondCategorySelect.closest(".wrapper").hide();
+        var value = $(this).val()
+        if(value === "VOCABULARY"){
+            resetAggregation(false,false,false,false,true,true);
+            secondVocabularySelect.prop('disabled',false);
+            secondCategorySelect.prop('disabled','disabled');
+        } else if(value === "CATEGORY") {
+            resetAggregation(false,false,false,false,false,true);
+            secondVocabularySelect.prop('disabled',false);
+            secondCategorySelect.prop('disabled',false);
+        } else if(value === "MONTH") {
+                                  if(firstAggregationTypeSelect.val()==="DAY"){
+                                      resetAggregation(true,false,false,false,false,false);
+                                  }
+            secondVocabularySelect.prop('disabled','disabled');
+            secondCategorySelect.prop('disabled','disabled');
+        }  else {
+            secondVocabularySelect.prop('disabled','disabled');
+            secondCategorySelect.prop('disabled','disabled');
         }
     });
 
