@@ -51,24 +51,6 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
             throws PortletException {
 
-//        try {
-//
-//            OutputStream os = resourceResponse.getPortletOutputStream();
-//
-////            resourceResponse.setContentType("application/force-download");
-////            resourceResponse.setProperty("content-disposition", "attachment; filename=content.json");
-////
-////            String jsonString = "{\"coucou\": \"coucou\"}";
-////            PrintWriter writer = resourceResponse.getWriter();
-////            writer.write(jsonString);
-////            writer.close();
-//
-//        } catch (IOException e) {
-//
-//            e.printStackTrace();
-//
-//        }
-
         OutputStream os = null;
         try {
 

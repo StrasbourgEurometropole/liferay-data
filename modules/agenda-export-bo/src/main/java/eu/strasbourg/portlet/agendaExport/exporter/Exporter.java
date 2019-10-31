@@ -19,6 +19,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.docx4j.Docx4J;
 import org.docx4j.model.datastorage.BindingHandler;
+import org.docx4j.openpackaging.io3.Save;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 import javax.portlet.ResourceRequest;
@@ -53,8 +54,6 @@ public class Exporter {
 
             List<Event> events = searchEvents(req, res, themeDisplay, filters, sortedCategories);
 
-            events = events.subList(0,1);
-
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
             loadCategoriesInfo(eventDTOs);
@@ -82,8 +81,8 @@ public class Exporter {
 
                 BindingHandler.getHyperlinkResolver().setHyperlinkStyle("Hyperlink");
                 Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
-//                Save saver = new Save(wordMLPackage);
-//                saver.save(os);
+                Save saver = new Save(wordMLPackage);
+                saver.save(os);
 
                 wordMLPackage.save(new java.io.File("C:/"+file.getFileName()));
             }
@@ -149,14 +148,8 @@ public class Exporter {
         Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/strasbourg.eu");
         long groupId = group.getGroupId();
 
-        //TODO uncomment this
-//		Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId,
-//			themeDisplay.getCompanyGroupId(), true, "", true, "displayDate", filters.getStartDate(0), filters.getEndDate(0), categoriesRechercheIds,
-//			new ArrayList<Long[]>(), StringUtil.split("actu,webmag"), false, themeDisplay.getLocale(), 0,
-//			12, "modified_sortable", true);
-
-        Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, 20160,
-                20116, true, "", false, "", null, null, new ArrayList<Long[]>(),
+        Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId,
+                themeDisplay.getCompanyGroupId(), true, "", true, "dates_Number_sortable", filters.getStartDate(0), filters.getEndDate(0), new ArrayList<Long[]>(),
                 new ArrayList<Long[]>(), StringUtil.split(""), false, themeDisplay.getLocale(), 0,
                 5000, "modified_sortable", true);
 
@@ -441,10 +434,10 @@ public class Exporter {
                         LocalDate date = startDate.plusDays(i);
 
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
-                            if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
+//                            if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
                                 LocalDateTime ldt = date.atStartOfDay();
                                 values.add(ldt.format(dateFormatter));
-                            }
+//                            }
                         }
                     }
                 }

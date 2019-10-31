@@ -55,11 +55,11 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		$('.startDate', $(this).parent()).val(picker.startDate.format('DD/MM/YYYY'));
 		$('.endDate', $(this).parent()).val(picker.endDate.format('DD/MM/YYYY'));
 	};
-//	// On active le composant
-//	$('span.date-range').daterangepicker(options);
-//	// On attache l'événement de changement de range de date
-//	$('span.date-range').on('apply.daterangepicker', onDateChange);
-//
+	// On active le composant
+	$('span.date-range').daterangepicker(options);
+	// On attache l'événement de changement de range de date
+	$('span.date-range').on('apply.daterangepicker', onDateChange);
+
 //	/**
 //	 * RangePicker permettant la création à la chaîne
 //	 */
