@@ -32,6 +32,8 @@ import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class EditAgendaExportDisplayContext {
 
@@ -72,6 +74,34 @@ public class EditAgendaExportDisplayContext {
         } else {
             _toExport = false;
         }
+    }
+
+    /**
+     * Retire l'élément mvcPath s'il est défini
+     * Correction temporaire, il faudrait trouver pourquoi Liferay rajoute le mvcPath à l'url de la resourceCommand
+     * @param resourceURL
+     * @return
+     */
+    public String cleanResourceURL(String resourceURL) {
+
+        if(resourceURL.contains("mvcPath")) {
+
+            String[] splitedResourceURL = resourceURL.split("&");
+            int indexToRemove = -1;
+            for(int i = 0; i < splitedResourceURL.length; i++) {
+                if(splitedResourceURL[i].contains("mvcPath")) {
+                    indexToRemove = i;
+                }
+            }
+
+            if(indexToRemove != -1) {
+                splitedResourceURL = ArrayUtils.remove(splitedResourceURL, indexToRemove);
+            }
+
+            resourceURL = String.join("&", splitedResourceURL);
+        }
+
+        return resourceURL;
     }
 
     public Boolean getToExport() {

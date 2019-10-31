@@ -25,7 +25,7 @@
 </liferay-portlet:resourceURL>
 
 <div class="container-fluid-1280 main-content-body">
-    <aui:form action="${(toExport eq true) ? exportAgendaExportURL : saveAgendaExportURL}" method="POST" name="fm">
+    <aui:form action="${(toExport eq true) ? dc.cleanResourceURL(exportAgendaExportURL) : saveAgendaExportURL}" method="POST" name="fm">
 
 		<aui:model-context bean="${agendaExport}"
 			model="<%=AgendaExport.class %>" />
