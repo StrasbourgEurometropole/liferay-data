@@ -1,6 +1,9 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
@@ -210,10 +213,26 @@ public class EditAgendaExportDisplayContext {
         return types;
     }
 
+    public String getAggregationDepth() throws JSONException {
+
+        if(_agendaExport == null) { return "0"; }
+        String aggregationsString = _agendaExport.getAggregations();
+        if(aggregationsString == null) { return "0"; }
+
+        JSONObject aggregations = JSONFactoryUtil.createJSONObject(aggregationsString);
+        Object level = aggregations.get("level");
+
+        if(level != null) {
+            return level.toString();
+        }
+
+        return "0";
+    }
+
     public String getAggregationSavedValue(String section, String type) throws JSONException {
 
         if(_agendaExport == null) { return ""; }
-        String aggregationsString = _agendaExport.getEventCategories();
+        String aggregationsString = _agendaExport.getAggregations();
         if(aggregationsString == null) { return ""; }
 
         JSONObject aggregations = JSONFactoryUtil.createJSONObject(aggregationsString);
@@ -227,9 +246,9 @@ public class EditAgendaExportDisplayContext {
 
         //TODO ENUM !
         if(
-            type.toLowerCase().equals("TYPE") ||
-            type.toLowerCase().equals("VOCABULARY") ||
-            type.toLowerCase().equals("CATEGORY")
+            type.toUpperCase().equals("TYPE") ||
+            type.toUpperCase().equals("VOCABULARY") ||
+            type.toUpperCase().equals("CATEGORY")
         ) {
             Object value = sectionObject.get(type.toLowerCase());
             if(value != null) {
@@ -238,6 +257,29 @@ public class EditAgendaExportDisplayContext {
         }
 
         return null;
+    }
+
+    public String getAggregationCategoryName(String section) throws JSONException {
+
+        String id = getAggregationSavedValue(section, "CATEGORY");
+        if(id == null || id.equals("")) {
+            return "";
+        }
+
+        AssetCategory category = null;
+
+        try {
+            Long categoryId = Long.parseLong(id);
+            category = AssetCategoryServiceUtil.getCategory(categoryId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(category == null) {
+            return "";
+        }
+
+        return category.getName();
     }
 
     /**

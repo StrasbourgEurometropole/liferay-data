@@ -259,7 +259,9 @@ function validatePeriods(event) {
     var exportFormat = $('#'+ namespace +'exportFormat');
     var template = $('#'+ namespace +'template');
 
-    //Reactivation du bouton submit au bout de X secondes
+    /**
+     * Reactivation du bouton submit au bout de X secondes
+     */
     submitBtn.on('click', function() {
         var button = this;
         setTimeout(function(){
@@ -268,6 +270,20 @@ function validatePeriods(event) {
             $(button).css("opacity", "");
         }, 3000);
     });
+
+    /**
+     * Grise les selects qui n'ont pas de valeur au chargement de la page
+     */
+     var disableEmptySelects = function() {
+
+        $(".aggregationFields select").each(function() {
+            var value = $(this).find(":selected").val();
+            if(value == "") {
+                $(this).prop('disabled','disabled');
+            }
+        })
+     };
+     disableEmptySelects();
 
     /**
      * Reset la valeur des champs en fonction de l'aggregation choisie

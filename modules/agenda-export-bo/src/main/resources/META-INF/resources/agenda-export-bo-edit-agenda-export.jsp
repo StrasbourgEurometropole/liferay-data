@@ -139,7 +139,7 @@
                    <c:forEach var="level" items="${dc.aggregationLevel}">
                        <aui:option
                            value="${level.key}"
-                           selected="${format eq '' ? true : false}"
+                           selected="${level.key eq dc.getAggregationDepth() ? true : false}"
                        >
                            ${level.value}
                        </aui:option>
@@ -153,7 +153,7 @@
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                 value="${type.key}"
-                                selected="${dc.getAggregationSavedValue('first', 'type') eq type.key ? true : false}"
+                                selected="${type.key eq dc.getAggregationSavedValue('first', 'type') ? true : false}"
                            >
                                ${type.value}
                            </aui:option>
@@ -183,8 +183,10 @@
                             </aui:option>
                             <c:if test="${dc.getAggregationSavedValue('first', 'category') ne '' }">
                                 <aui:option
-                                    value="${dc.getAggregationSavedValue('first', 'category')}">
-                                        ${dc.getAggregationSavedValue('first', 'category')}
+                                    value="${dc.getAggregationSavedValue('first', 'category')}"
+                                    selected=""
+                                >
+                                    ${dc.getAggregationCategoryName('first')}
                                 </aui:option>
                             </c:if>
                         </aui:select>
@@ -227,8 +229,11 @@
                                 <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
                             </aui:option>
                             <c:if test="${dc.getAggregationSavedValue('second', 'category') ne '' }">
-                                <aui:option value="${dc.getAggregationSavedValue('second', 'category')}" >
-                                        ${dc.getAggregationSavedValue('second', 'category')}
+                                <aui:option
+                                    value="${dc.getAggregationSavedValue('second', 'category')}"
+                                    selected=""
+                                >
+                                        ${dc.getAggregationCategoryName('second')}
                                 </aui:option>
                             </c:if>
                         </aui:select>
