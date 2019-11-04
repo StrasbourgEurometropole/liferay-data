@@ -84,8 +84,6 @@ public class Exporter {
                 Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
                 Save saver = new Save(wordMLPackage);
                 saver.save(os);
-
-                wordMLPackage.save(new java.io.File("C:/"+file.getFileName()));
             }
 
         } catch (Exception e) {
