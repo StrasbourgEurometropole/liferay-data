@@ -21,7 +21,7 @@
     color: #CC6677;
 }
 
-.place-schedule-period, .place-schedule-start-hour, .place-schedule-end-hour, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date, .place-schedule-incorrect-date, .place-schedule-incorrect-hour {
+.place-schedule-period, .place-schedule-description, .place-schedule-start-date, .place-schedule-end-date, .place-schedule-start-hour1, .place-schedule-start-hour2, .place-schedule-start-hour3, .place-schedule-start-hour4, .place-schedule-start-hour5, .place-schedule-end-hour1, .place-schedule-end-hour2, .place-schedule-end-hour3, .place-schedule-end-hour4, .place-schedule-end-hour5, .place-schedule-incorrect-date, .place-schedule-incorrect-hour1, .place-schedule-incorrect-hour2, .place-schedule-incorrect-hour3, .place-schedule-incorrect-hour4, .place-schedule-incorrect-hour5 {
     margin-top: -10px;
     margin-bottom: 10px;
     color: #CC6677;

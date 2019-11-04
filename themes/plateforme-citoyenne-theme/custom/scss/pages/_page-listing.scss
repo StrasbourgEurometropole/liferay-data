@@ -1,0 +1,309 @@
+// PAGE LISTING PETITIONS + LISTE DES BUDGETS
+// ==========================================================================
+.pro-wrapper-listing-participation{
+
+	// PETITIONS
+	.pro-bloc-card-petition {
+		margin: 20px 0;
+		&:first-child {
+			@include tablet_landscape {
+				margin-top: 0;
+			}
+		}
+
+		&:hover, &:focus {
+			transform: none;
+			box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+		}
+
+		.pro-header-petition {
+			margin-bottom: 15px;
+			padding: 20px 30px 0 30px;
+			@include mobile{
+				padding: 20px 20px 0 20px;
+			}
+
+			.pro-number-comm{
+				display: block;
+			}
+		}
+
+		.pro-content-petition {
+			padding: 0 30px 10px 30px;
+			@include mobile{
+				padding: 0 20px 10px 20px;
+			}
+			.pro-wrapper-meta{
+				display: block;
+			}
+			h3 {
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+				margin-bottom: 15px;
+				height: 68px;
+				overflow: hidden;
+				@include mobile{
+					font-size: 22px;
+					line-height: 28px;
+					height: auto;
+				}
+			}
+
+			.pro-time {
+				@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+				margin-bottom: 10px;
+			}
+		}
+		.pro-footer-petition{
+			padding: 0 30px;
+			@include mobile{
+				padding: 0 20px;
+			}
+		}
+	}
+
+
+
+	// BUDGETS
+	.pro-bloc-card-budget {
+		margin: 20px 0;
+		&:first-child {
+			@include tablet_landscape {
+				margin-top: 0;
+			}
+		}
+
+		&:hover, &:focus {
+			transform: none;
+			box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+		}
+
+		.pro-encart-coeur{
+			display: block;
+			& ~ .pro-header-budget{
+				.pro-meta{
+					width: calc(100% - 260px);
+					@include mobile{
+						width: 100%;
+						margin-top: 15px;
+					}
+				}
+			}
+			& ~ .pro-content-budget{
+				h3{
+					width: calc(100% - 260px);
+					@include tablet_landscape{
+						width: 100%;
+					}
+					@include tablet_portrait{
+						width: calc(100% - 260px);
+					}
+					@include mobile{
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		> figure{
+			width: 240px !important;
+			@media screen and (max-width: 1200px){
+				width: 140px !important;
+			}
+			@include mobile{
+				width: 100% !important;
+			}
+			& ~ .pro-header-budget, & ~ .pro-content-budget{
+				position: relative;
+				width: calc(100% - 240px);
+				left: 240px;
+				@media screen and (max-width: 1200px){
+					width: calc(100% - 140px);
+					left: 140px;
+				}
+				@include mobile{
+					width: 100%;
+					left: 0;
+				}
+				.pro-encart-theme{
+					max-width: 100px;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
+			}
+
+			& + .pro-encart-coeur {
+				span:not(.icon-ico-coeur) {
+					display: none;
+				}
+				span{
+					padding: 11px 10px 11px 25px !important;
+					margin: 0;
+					@include mobile{
+						padding: 11px 15px !important;
+					}
+				}
+				& ~ .pro-header-budget{
+					.pro-meta{
+						width: calc(100% - 50px) !important;
+						@include mobile{
+							width: 100% !important;
+						}
+					}
+				}
+				& ~ .pro-content-budget{
+					h3{
+						width: calc(100% - 50px) !important;
+						@include mobile{
+							width: 100% !important;
+						}
+					}
+				}
+			}
+
+		}
+
+		.pro-header-budget {
+			margin-bottom: 15px;
+			padding: 20px 30px 0 30px;
+			@include mobile{
+				padding: 20px 20px 0 20px;
+			}
+			.pro-info-top-right{
+				> *, span:not(.pro-encart-theme) {
+					display: inline-block;
+					vertical-align: middle;
+				}
+			}
+
+			.pro-meta{
+				text-align: left;
+				width: 100%;
+				@include mobile{
+					margin-top: 15px;
+				}
+			}
+		}
+
+		.pro-content-budget {
+			padding: 0 30px 20px 30px;
+			@include mobile{
+				padding: 0 20px 20px 20px;
+			}
+			h3 {
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+				margin-bottom: 15px;
+				width: calc(100% - 40px);
+				height: 68px;
+				overflow: hidden;
+				@include mobile{
+					width:100%;
+					font-size: 22px;
+					line-height: 28px;
+					height: auto;
+				}
+			}
+
+			.pro-time {
+				@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+				margin-bottom: 10px;
+			}
+
+			.pro-summary{
+				width: 100%;
+				font-size: 0.875em;
+				line-height: 1.429em;
+				margin-bottom: 15px;
+				display: block;
+				@include mobile{
+					margin-bottom: 5px;
+				}
+			}
+		}
+
+		.pro-footer-budget{
+
+			p{
+				width: 40%;
+				@include mobile{
+					width: 100%;
+				}
+				& + .pro-budget-estimatif{
+					@include mobile{
+						margin-top: 10px;
+					}
+				}
+			}
+
+			.pro-budget-estimatif{
+				width: 60%;
+				text-align: right;
+				display: block;
+				@include mobile{
+					width: 100%;
+				}
+				> * {
+					display: inline-block;
+					vertical-align: middle;
+				}
+				span:not([class^="icon-"]){
+					@include ft($f_txt, 0.875em, 400, $c_white, 28px);
+					opacity: 0.5;
+					text-transform: uppercase;
+					&.pro-price{
+						font-size: 1.250em;
+						font-weight: 700;
+						opacity: 1;
+						margin: 0 0 0 10px;
+					}
+				}
+				a{
+					font-size: 1.250em;
+					color: $c_white;
+					margin-left: 10px;
+					&:first-child{
+						margin-left: 20px;
+					}
+					@include addTransition();
+					&:hover, &:focus{
+						color: $c_main;
+					}
+				}
+			}
+
+		}
+	}
+
+}
+
+
+
+
+// PAGE LISTING AGENDA
+// ==========================================================================
+.pro-bloc-listing-event {
+	padding: 10px 15px 0 15px;
+	> .pro-bloc-card-event {
+		margin: 14px 0;
+		&:hover, &:focus {
+			> div {
+				box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+				transform: translate3d(0, 0, 0) scale(1.02);
+			}
+		}
+		> div {
+			.pro-footer-event {
+				padding: 14px 20px;
+				span {
+					display: block;
+					text-align: right;
+					float: none;
+					@include mobile {
+						margin: 0;
+					}
+				}
+			}
+		}
+
+	}
+}

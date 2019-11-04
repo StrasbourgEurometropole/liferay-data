@@ -47,6 +47,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalService;
+import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetSupportPersistence;
@@ -392,6 +393,25 @@ public abstract class InitiativeHelpLocalServiceBaseImpl
 	public void setBudgetParticipatifPersistence(
 		BudgetParticipatifPersistence budgetParticipatifPersistence) {
 		this.budgetParticipatifPersistence = budgetParticipatifPersistence;
+	}
+
+	/**
+	 * Returns the budget participatif finder.
+	 *
+	 * @return the budget participatif finder
+	 */
+	public BudgetParticipatifFinder getBudgetParticipatifFinder() {
+		return budgetParticipatifFinder;
+	}
+
+	/**
+	 * Sets the budget participatif finder.
+	 *
+	 * @param budgetParticipatifFinder the budget participatif finder
+	 */
+	public void setBudgetParticipatifFinder(
+		BudgetParticipatifFinder budgetParticipatifFinder) {
+		this.budgetParticipatifFinder = budgetParticipatifFinder;
 	}
 
 	/**
@@ -1092,6 +1112,8 @@ public abstract class InitiativeHelpLocalServiceBaseImpl
 	protected eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService;
 	@BeanReference(type = BudgetParticipatifPersistence.class)
 	protected BudgetParticipatifPersistence budgetParticipatifPersistence;
+	@BeanReference(type = BudgetParticipatifFinder.class)
+	protected BudgetParticipatifFinder budgetParticipatifFinder;
 	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class)
 	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
 	@BeanReference(type = BudgetPhasePersistence.class)

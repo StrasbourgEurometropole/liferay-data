@@ -3,6 +3,7 @@ package eu.strasbourg.service.office.exporter.impl;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -68,19 +69,17 @@ public class SignatairesXlsxExporterImpl implements SignatairesXlsxExporter {
 		// Parcours des participation et creation de la ligne a ajouter dans l'excel
 		for (Signataire signataire : signataires) {
 			
-			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-			
 			Object[] signataireRow = { 
-				signataire.getSignataireName(),
-				signataire.getSignataireFirstname(),
-				signataire.getBirthday(),
-				signataire.getAddress(),
-				signataire.getPostalCode(),
-				signataire.getCity(),
-				signataire.getMail(),
-				signataire.getPhone(),
-				signataire.getMobilePhone(),
-				dateFormat.format(signataire.getCreateDate())
+				getfield(signataire.getSignataireName()),
+				getfield(signataire.getSignataireFirstname()),
+				getfield(signataire.getBirthday()),
+				getfield(signataire.getAddress()),
+				getfield(signataire.getPostalCode()),
+				getfield(signataire.getCity()),
+				getfield(signataire.getMail()),
+				getfield(signataire.getPhone()),
+				getfield(signataire.getMobilePhone()),
+				getfield(signataire.getCreateDate())
 			};
 			
 			signataireData = ArrayUtil.append(signataireData, signataireRow);
@@ -115,6 +114,40 @@ public class SignatairesXlsxExporterImpl implements SignatairesXlsxExporter {
 		}
 		
 	}
+	
+	
+	private String getfield(String param) {
+        String result = "";
+        if (param != null && !param.isEmpty())
+            result = param;
+        return result;
+    }
+
+    private String getfield(Date param) {
+        DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
+        String result = "";
+        if (param != null)
+            result = dateFormat.format(param);
+        return result;
+    }
+
+    private String getfield(boolean param) {
+        return param ? "oui" : "non";
+    }
+
+    private String getfield(long param) {
+        String result = "";
+        if (param != 0L)
+            result = String.valueOf(param);
+        return result;
+    }
+
+    private String getfield(int param) {
+        String result = "";
+        if (param != 0)
+            result = String.valueOf(param);
+        return result;
+    }
 	
 	@Reference(unbind = "-")
 	protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {

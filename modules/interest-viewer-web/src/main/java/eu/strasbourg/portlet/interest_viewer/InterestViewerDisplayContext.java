@@ -4,12 +4,7 @@ import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -218,7 +213,7 @@ public class InterestViewerDisplayContext {
 			e.printStackTrace();
 		}
 
-		// récupère les évènements des centres d'intérêt
+		// récupère les catégoriesId des évènements des centres d'intérêt
 		List<Long[]> categorieEventIds = new ArrayList<Long[]>();
 		Long[] tabCategories = new Long[eventSearchCategories.size()];
 		for (int i = 0; i < eventSearchCategories.size(); i++) {
@@ -228,7 +223,7 @@ public class InterestViewerDisplayContext {
 			categorieEventIds.add(tabCategories);
 		}
 
-		// récupère les actualités des centres d'intérêt
+		// récupère les catégoriesId des actualités des centres d'intérêt
 		List<Long[]> categorieActuIds = new ArrayList<Long[]>();
 		tabCategories = new Long[actuSearchCategories.size()];
 		for (int i = 0; i < actuSearchCategories.size(); i++) {
@@ -284,16 +279,17 @@ public class InterestViewerDisplayContext {
 		List<AssetEntry> result = new ArrayList<AssetEntry>();
 		if(!entries.isEmpty()){
 			List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-			Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-			Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-			DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-			eventQuery.setLimit(0, count);
-			List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-			for (Event event : listEvent) {
-				AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
-				if (assetEntry != null) {
-					result.add(assetEntry);
-				}
+			List<Event> listEvent = EventLocalServiceUtil.findByNextHappening();
+			listEvent = listEvent.stream().filter(e -> classPks.contains(e.getEventId())).collect(Collectors.toList());
+
+			for (Event event: listEvent) {
+				if(result.size() < count) {
+					AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+					if (assetEntry != null) {
+						result.add(assetEntry);
+					}
+				}else
+					break;
 			}
 		}
 
@@ -430,7 +426,7 @@ public class InterestViewerDisplayContext {
 		try {
 			document = SAXReaderUtil.read(new StringReader(content));
 			Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-			if (node.getText().length() > 0) {
+			if (node != null && node.getText().length() > 0) {
 				value = node.getText();
 			}
 		} catch (Exception ex) {

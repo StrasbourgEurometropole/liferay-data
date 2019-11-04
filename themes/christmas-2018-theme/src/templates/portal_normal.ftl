@@ -13,39 +13,87 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no,minimal-ui">
     <meta name="author" content="Agence Thuria">
-    <script>
-      title = '';
-      description = '';
-      imageUrl = '';
-    </script> 
     <title>${the_title}</title>
 
     <@liferay_util["include"] page=top_head_include />
     
     <link href="/o/christmas-2018-theme/css/style.css" rel="stylesheet">
 
-  <script>
-    <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-    window.homeURL = '${homeURL}/';
-    window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
+    <script>
+      <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+      window.homeURL = '${homeURL}/';
+      window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}';
 
 
-    <#if request.session.getAttribute("publik_logged_in")!false>
-      <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
-      <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
-      window.publikInternalId = '${request.session.getAttribute("publik_internal_id")}';
-      window.userFavorites = [
-        <#list favorites as favorite>
-          {
-            entityId: ${favorite.entityId},
-            typeId: ${favorite.typeId}
-          }<#sep>,</#sep>
+      <#if request.session.getAttribute("publik_logged_in")!false>
+        <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+        <#assign favorites = favoriteLocalService.getByPublikUser(request.session.getAttribute("publik_internal_id")) />
+        window.publikInternalId = '${request.session.getAttribute("publik_internal_id")}';
+        window.userFavorites = [
+          <#list favorites as favorite>
+            {
+              entityId: ${favorite.entityId},
+              typeId: ${favorite.typeId}
+            }<#sep>,</#sep>
+          </#list>
+        ];
+      </#if>
+
+    </script>
+
+    <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+
+    <#assign descriptionOG = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}' />
+    <#if !descriptionOG?has_content>
+      <#assign descriptionOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_description")}' />
+    </#if> 
+
+    <#assign imageOG = '${layout.expandoBridge.getAttribute("image")}' />
+    <#if !imageOG?has_content>
+      <#assign imageOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_image")}' />
+    </#if> 
+    <#if imageOG?has_content && !imageOG?contains('http')>
+      <#assign imageOG = '${themeDisplay.getPortalURL()}${imageOG}' />
+    </#if> 
+    
+    <#assign openGraph = {
+      "twitter:card":"summary",
+      "og:type":"website",
+      "og:locale":"${locale}",
+      "og:url":"${currentUrlOG}",
+      "og:title":"${the_title_OG}",
+      "og:description":'${descriptionOG}',
+      "og:image":"${imageOG}",
+      "og:image:width":"620",
+      "og:image:height":"400"
+    } />
+
+    <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
+        <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
+        <#list openGraphCustom?keys as keyOG>  
+          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
         </#list>
-      ];
     </#if>
 
   </script>
+
+		<!-- Magnific Popup core JS file -->
+		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
+
     
+    <#list openGraph?keys as keyOG>
+      <#assign valueOG = openGraph[keyOG]> 
+      <#if keyOG == "og:description" >
+        <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
+      </#if>
+      <#if keyOG == "og:description" && valueOG?has_content >
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG?contains("og:image") && openGraph["og:image"]?has_content>
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG != "og:description" && !keyOG?contains("og:image")>
+          <meta property="${keyOG}" content="${valueOG}" />
+      </#if>
+    </#list>    
   </head>
 
 
@@ -99,7 +147,7 @@
                     </span>    
                   </a>
                 </#if>
-                <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a>
+                <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
@@ -177,51 +225,15 @@
       }
     </script>
 
-    <#if locale == 'fr_FR'>
-        <style>
-        .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
-            display: block !important;
-        }
-        </style>
-    </#if>
+    <style>
+    .navbar-nav li .mns-btn-yellow.mns-btn-yellow {
+        display: block !important;
+    }
+    </style>
+		
+		<!-- Lightbox implementation and Vendors JS -->
+		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
+    <script type="text/javascript" src="/o/christmas-2018-theme/js/lightbox.js" charset="utf-8"></script> 
 
   </body>
-    
-  <script> 
-    baliseOG = '<meta name="twitter:card" content="summary" />'
-        + '<meta property="og:type" content="website" />';
-
-    if(title == ''){
-      title = '${the_title?replace('-', '|')?replace(' | Noël', '')}';
-    }
-    if(title != ''){
-      baliseOG += '<meta property="og:title" content="' + title + '" />';
-    }
-
-    if(description == ''){
-      description = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-    }
-    if(description != ''){
-      baliseOG += '<meta property="og:description" content="' + description.substring(0,300) + (description.length > 300?"...":"") + '" />';
-    } 
-
-    baliseOG += '<meta property="og:url" content="' + window.location.href + '" />';
-
-    if(imageUrl == ''){
-      imageUrl = '${layout.expandoBridge.getAttribute('image')}';
-      if(imageUrl == ''){ 
-        imageUrl = '${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}'; 
-      }
-    }
-    if(imageUrl != ''){  
-      if(!imageUrl.includes('http')){
-          imageUrl = '${themeDisplay.getPortalURL()}' + imageUrl;
-      }
-      baliseOG += '<meta property="og:image" content="' + imageUrl + '"/>'
-        + '<meta property="og:image:width" content="620"/>'
-        + '<meta property="og:image:height" content="400"/>';
-    }
-
-    $('head').append(baliseOG);
-  </script>
 </html>

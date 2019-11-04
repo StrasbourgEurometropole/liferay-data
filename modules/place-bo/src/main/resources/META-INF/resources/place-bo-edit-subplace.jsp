@@ -102,8 +102,6 @@
 								<liferay-util:param name="defaultPeriod" value="${period.defaultPeriod}" />
 								<liferay-util:param name="startDate" value="${formattedStartDate}" />
 								<liferay-util:param name="endDate" value="${formattedEndDate}" />
-								<liferay-util:param name="linkLabel" value="${period.linkLabel}" />
-								<liferay-util:param name="linkURL" value="${period.linkURL}" />
 								<liferay-util:param name="alwaysOpen" value="${period.alwaysOpen}" />
 								<liferay-util:param name="periodId" value="${period.periodId}" />
 								<liferay-util:param name="nbSlot" value="${fn:length(period.getSlots(dc.subPlace.subPlaceId))}" />

@@ -74,9 +74,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("summary", getSummary());
 		attributes.put("budget", getBudget());
 		attributes.put("motif", getMotif());
 		attributes.put("placeTextArea", getPlaceTextArea());
+		attributes.put("inTheNameOf", getInTheNameOf());
 		attributes.put("citoyenLastname", getCitoyenLastname());
 		attributes.put("citoyenFirstname", getCitoyenFirstname());
 		attributes.put("citoyenAdresse", getCitoyenAdresse());
@@ -94,6 +96,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
 		attributes.put("budgetPhaseId", getBudgetPhaseId());
+		attributes.put("parentId", getParentId());
 
 		return attributes;
 	}
@@ -184,6 +187,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setDescription(description);
 		}
 
+		String summary = (String)attributes.get("summary");
+
+		if (summary != null) {
+			setSummary(summary);
+		}
+
 		String budget = (String)attributes.get("budget");
 
 		if (budget != null) {
@@ -200,6 +209,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 
 		if (placeTextArea != null) {
 			setPlaceTextArea(placeTextArea);
+		}
+
+		String inTheNameOf = (String)attributes.get("inTheNameOf");
+
+		if (inTheNameOf != null) {
+			setInTheNameOf(inTheNameOf);
 		}
 
 		String citoyenLastname = (String)attributes.get("citoyenLastname");
@@ -303,6 +318,12 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		if (budgetPhaseId != null) {
 			setBudgetPhaseId(budgetPhaseId);
 		}
+
+		Long parentId = (Long)attributes.get("parentId");
+
+		if (parentId != null) {
+			setParentId(parentId);
+		}
 	}
 
 	/**
@@ -378,6 +399,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.isDraft();
 	}
 
+	/**
+	* Peut être modifié
+	*/
+	@Override
+	public boolean isEditable() {
+		return _budgetParticipatif.isEditable();
+	}
+
 	@Override
 	public boolean isEscapedModel() {
 		return _budgetParticipatif.isEscapedModel();
@@ -439,7 +468,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu, fusionné
 	*/
 	@Override
 	public boolean isNotDoable() {
@@ -475,11 +504,19 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne les catégories 'Statut BP' du budget participatif
+	* Retourne la catégorie 'Statut BP' du budget participatif
 	*/
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory() {
 		return _budgetParticipatif.getBudgetParticipatifStatusCategory();
+	}
+
+	/**
+	* Retourne la catégorie 'Phase du budget participatif' du budget participatif
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory() {
+		return _budgetParticipatif.getPhaseCategory();
 	}
 
 	/**
@@ -488,6 +525,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
 		return _budgetParticipatif.getProjectCategory();
+	}
+
+	/**
+	* Retourne la catégorie 'Thematic' du budget participatif. Si plusieurs, retourne la première de la liste
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getThematicCategory() {
+		return _budgetParticipatif.getThematicCategory();
 	}
 
 	/**
@@ -527,6 +572,24 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		return _budgetParticipatif.getAuthorPublikUser();
 	}
 
+	/**
+	* Retourne le statut (Enumeration) du budget participatif
+	*/
+	@Override
+	public eu.strasbourg.service.project.constants.ParticiperCategories getBudgetParticipatifStatus() {
+		return _budgetParticipatif.getBudgetParticipatifStatus();
+	}
+
+	/**
+	* Retourne Le budget participatif parent dans le cas d'un bp fusionne
+	*
+	* @return Le BP parent
+	*/
+	@Override
+	public eu.strasbourg.service.project.model.BudgetParticipatif getParent() {
+		return _budgetParticipatif.getParent();
+	}
+
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif toEscapedModel() {
 		return new BudgetParticipatifWrapper(_budgetParticipatif.toEscapedModel());
@@ -546,6 +609,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	public int compareTo(
 		eu.strasbourg.service.project.model.BudgetParticipatif budgetParticipatif) {
 		return _budgetParticipatif.compareTo(budgetParticipatif);
+	}
+
+	@Override
+	public int getBPState() {
+		return _budgetParticipatif.getBPState();
 	}
 
 	/**
@@ -616,6 +684,18 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getAuthorImageURL() {
 		return _budgetParticipatif.getAuthorImageURL();
+	}
+
+	@Override
+	public java.lang.String getBPMessageState(
+		javax.servlet.http.HttpServletRequest request) {
+		return _budgetParticipatif.getBPMessageState(request);
+	}
+
+	@Override
+	public java.lang.String getBPbuttonMessageState(
+		javax.servlet.http.HttpServletRequest request) {
+		return _budgetParticipatif.getBPbuttonMessageState(request);
 	}
 
 	/**
@@ -758,6 +838,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Returns the in the name of of this budget participatif.
+	*
+	* @return the in the name of of this budget participatif
+	*/
+	@Override
+	public java.lang.String getInTheNameOf() {
+		return _budgetParticipatif.getInTheNameOf();
+	}
+
+	/**
 	* Returns the motif of this budget participatif.
 	*
 	* @return the motif of this budget participatif
@@ -833,6 +923,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _budgetParticipatif.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the summary of this budget participatif.
+	*
+	* @return the summary of this budget participatif
+	*/
+	@Override
+	public java.lang.String getSummary() {
+		return _budgetParticipatif.getSummary();
 	}
 
 	/**
@@ -962,6 +1062,18 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne X suggestions max pour un BP
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de bp.
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds() {
+		return _budgetParticipatif.getChilds();
+	}
+
+	/**
 	* Retourne les sous-sous-catégories 'Territoire' correspondant aux quartiers du bp
 	*
 	* @return : null si vide, sinon la liste des catégories
@@ -1013,7 +1125,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
-	* Retourne les thematiques de la participation (
+	* Retourne les thematiques du budget participatif (
 	*/
 	@Override
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories() {
@@ -1086,6 +1198,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public long getNbSupports() {
 		return _budgetParticipatif.getNbSupports();
+	}
+
+	/**
+	* Returns the parent ID of this budget participatif.
+	*
+	* @return the parent ID of this budget participatif
+	*/
+	@Override
+	public long getParentId() {
+		return _budgetParticipatif.getParentId();
 	}
 
 	/**
@@ -1359,6 +1481,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Sets the in the name of of this budget participatif.
+	*
+	* @param inTheNameOf the in the name of of this budget participatif
+	*/
+	@Override
+	public void setInTheNameOf(java.lang.String inTheNameOf) {
+		_budgetParticipatif.setInTheNameOf(inTheNameOf);
+	}
+
+	/**
 	* Sets whether this budget participatif is is crush.
 	*
 	* @param isCrush the is crush of this budget participatif
@@ -1391,6 +1523,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setNew(boolean n) {
 		_budgetParticipatif.setNew(n);
+	}
+
+	/**
+	* Sets the parent ID of this budget participatif.
+	*
+	* @param parentId the parent ID of this budget participatif
+	*/
+	@Override
+	public void setParentId(long parentId) {
+		_budgetParticipatif.setParentId(parentId);
 	}
 
 	/**
@@ -1476,6 +1618,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_budgetParticipatif.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the summary of this budget participatif.
+	*
+	* @param summary the summary of this budget participatif
+	*/
+	@Override
+	public void setSummary(java.lang.String summary) {
+		_budgetParticipatif.setSummary(summary);
 	}
 
 	/**

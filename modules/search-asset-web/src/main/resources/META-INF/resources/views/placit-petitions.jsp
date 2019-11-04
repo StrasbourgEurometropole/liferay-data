@@ -5,7 +5,7 @@
 <div class="pro-search-listing" id="go-to-top">
      <div class="container">
         <div class="row">
-            <div class="col-md-8 pro-bloc-listing-petition">
+            <div class="col-md-8 pro-bloc-listing-participation">
                 <div id="breadcrumb">
 		            <span>
 		                <span><a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
@@ -13,7 +13,7 @@
 		                </span>
 		            </span>
                 </div>
-
+                
                  <div class="pro-wrapper-sort">
                     <c:choose>
                         <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>
@@ -33,6 +33,9 @@
                         </c:when>
                     </c:choose>
  				</div>
+ 				
+ 				<!-- Affiner votre recherche - Tablette portrait + Mobile -->
+                <div class="pro-inside-affine-search"></div>
 				
                 <div class="row pro-wrapper-listing-participation">
 

@@ -1,0 +1,313 @@
+// Style Page Registre
+// ==========================================================================
+.pro-page-registre {
+	position: relative;
+	z-index: 10;
+	#breadcrumb {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.pro-p-150 {
+		padding-left: 150px;
+		@media screen and (max-width: 1024px) {
+			padding-left: 0;
+		}
+	}
+
+	.pro-title-question {
+		@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+		position: relative;
+		display: block;
+		margin: 10px 0 5px 0;
+		text-transform: none;
+		&:before {
+			content: none;
+		}
+		& + p {
+			margin-bottom: 15px;
+		}
+	}
+}
+
+.pro-wrapper-registre {
+	min-height: 800px;
+	.pro-section {
+		margin-bottom: 30px;
+	}
+
+	form{
+		margin-bottom: 80px;
+		@include mobile{
+			margin-bottom: 40px;
+		}
+	}
+
+	.pro-form-submit {
+		background: none;
+		border: none;
+		padding: 0;
+		button {
+			&:hover, &:focus {
+				background: $c_dark;
+				border-color: $c_dark;
+			}
+		}
+	}
+}
+
+
+// Listing des Propositions
+// ==========================================================================
+.pro-wrapper-propositions {
+	padding-bottom: 30px;
+	margin-top: 40px;
+
+
+	.pro-title-propositions {
+		@include ft($f_hx, 3.750em, 700, $c_dark, normal);
+		position: relative;
+		margin: 0 0 40px 0;
+		@include tablet_landscape {
+			font-size: 3em;
+			margin: 0 0 30px 0;
+		}
+		@include tablet_portrait {
+			font-size: 2.5em;
+		}
+		@include mobile{
+			font-size: 2em;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			left: -110px;
+			top: 30px;
+			width: 90px;
+			height: 40px;
+			background: $c_main;
+			@include tablet_landscape {
+				top: 20px;
+				left: -42px;
+				width: 20px;
+			}
+			@include tablet_portrait {
+				left: -25px;
+				width: 10px;
+				height: 30px;
+			}
+			@include mobile{
+				left: -15px;
+				width: 5px;
+				height: 30px;
+				top: 10px;
+			}
+		}
+	}
+
+	.pro-item-proposition {
+		margin-bottom: 40px;
+	}
+
+	.pro-published {
+		@include ft($f_txt, 1em, 400, $c_white, 1.2em);
+		position: relative;
+		display: block;
+		background: $c_dark;
+		padding: 10px 20px;
+		margin-bottom: 25px;
+		time {
+			span {
+				font-weight: 700;
+			}
+		}
+	}
+
+	.pro-item-response {
+		border: 1px solid rgba($c_dark, 0.2);
+		border-radius: 10px;
+		background: $c_white;
+		padding: 27px 25px;
+		margin-bottom: 40px;
+		margin-top: 25px;
+		&.pro-item-response-highlight{
+			.pro-bloc-texte {
+				> * {
+					color: #b0b0b0;
+					strong{
+						color: #b0b0b0;
+					}
+					span{
+						position: relative;
+						z-index: 10;
+						display: inline;
+						-webkit-box-decoration-break: clone;
+						background: $c_main;
+						color: $c_dark;
+						padding: 0 5px;
+					}
+				}
+			}
+		}
+
+		.pro-interactions {
+			text-align: right;
+			margin-top: 25px;
+			> * {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			> span, > a {
+				position: relative;
+				@include ft($f_txt, 0.813em, 400, $c_txt, 1.462em);
+				margin: 0 12px;
+				transition: none;
+				&:hover, &:focus, &:active {
+					color: $c_grey;
+					text-decoration: underline;
+					&:before {
+						color: $c_grey;
+					}
+				}
+				&:before {
+					content: "\e913";
+					@include font();
+					float: left;
+					margin-right: 5px;
+					line-height: 1.5em;
+					position: relative;
+					top: -2px;
+				}
+				&.pro-dislike {
+					@include mobile {
+						margin-right: 0;
+					}
+					&:before {
+						transform: rotate(-180deg);
+						top: 2px;
+					}
+				}
+			}
+			> div {
+				@include mobile {
+					display: block;
+					margin-top: 10px;
+				}
+			}
+
+			.pro-action-link {
+				margin-left: 6px;
+				a {
+					@include ft($f_txt, 13px, 400, $c_txt, 20px);
+					&:hover, &:focus {
+						text-decoration: underline;
+						color: $c_txt;
+					}
+				}
+			}
+		}
+
+		.pro-footer-response {
+			position: relative;
+			padding-top: 25px;
+			margin-top: 25px;
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: -25px;
+				right: -25px;
+				width: calc(100% + 50px);
+				height: 1px;
+				background: rgba($c_dark, 0.2);
+			}
+
+			.pro-waiting-response {
+				@include ft($f_txt, 0.813em, 400, $c_dark, 1.188em);
+				position: relative;
+				display: block;
+				text-transform: uppercase;
+				span {
+					margin-right: 12px;
+					font-size: 19px;
+					line-height: 19px;
+					position: relative;
+					top: 3px;
+				}
+			}
+
+			.pro-txt {
+				> * {
+					&:last-child {
+						margin: 0;
+					}
+				}
+			}
+		}
+
+	}
+
+}
+
+
+
+// Barre latérale - Les chiffres
+// ==========================================================================
+.pro-bloc-aside-chiffre {
+	background: #fafbfb;
+	padding: 35px 50px;
+	@include tablet_portrait {
+		padding: 15px 20px;
+	}
+	> * {
+		background: none;
+	}
+	.pro-title-aside {
+		@include ft($f_hx, 2.5em, 700, $c_dark, normal);
+		position: relative;
+		display: block;
+		text-transform: uppercase;
+		margin-bottom: 5px;
+		@include tablet_landscape {
+			font-size: 2em;
+		}
+		@include tablet_portrait {
+			font-size: 1.5em;
+		}
+	}
+
+	.pro-list-chiffres {
+		li {
+			display: block;
+			font-size: 1em;
+			margin: 10px 0 20px;
+			.pro-nb {
+				@include ft($f_hx, 3.438em, 700, $c_dark, normal);
+				position: relative;
+				display: block;
+				z-index: 10;
+				margin-bottom: 7px;
+				@include tablet_landscape {
+					font-size: 3em;
+				}
+				@include tablet_portrait {
+					font-size: 2.5em;
+				}
+				&:before {
+					content: '';
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: 6px;
+					width: 100%;
+					height: 18px;
+					z-index: -1;
+					background: $c_main;
+				}
+			}
+			strong {
+				display: block;
+				@include ft($f_txt, 0.938em, 700, $c_dark, 1.5em);
+			}
+		}
+	}
+}

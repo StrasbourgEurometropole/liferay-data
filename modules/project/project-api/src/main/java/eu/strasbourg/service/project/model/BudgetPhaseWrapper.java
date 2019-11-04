@@ -339,6 +339,14 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	}
 
 	/**
+	* Retourne la categorie "Phase du budget participatif" de la phase
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory() {
+		return _budgetPhase.getPhaseCategory();
+	}
+
+	/**
 	* Retourne l'AssetEntry rattaché cet item
 	*/
 	@Override
@@ -354,6 +362,16 @@ public class BudgetPhaseWrapper implements BudgetPhase,
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.BudgetPhase> toCacheModel() {
 		return _budgetPhase.toCacheModel();
+	}
+
+	/**
+	* La l'etat de la phase
+	*
+	* @return
+	*/
+	@Override
+	public eu.strasbourg.service.project.constants.PhaseState getPhaseState() {
+		return _budgetPhase.getPhaseState();
 	}
 
 	@Override

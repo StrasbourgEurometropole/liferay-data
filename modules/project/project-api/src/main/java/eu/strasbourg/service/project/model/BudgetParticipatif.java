@@ -62,7 +62,7 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Retourne les thematiques de la participation (
+	* Retourne les thematiques du budget participatif (
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThematicCategories();
 
@@ -72,17 +72,32 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.lang.String getThematicsLabel(java.util.Locale locale);
 
 	/**
+	* Retourne la catégorie 'Thematic' du budget participatif. Si plusieurs, retourne la première de la liste
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getThematicCategory();
+
+	/**
 	* Retourne les catégories 'Territoire' correspondant aux pays du budget
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTerritoryCategories();
 
 	/**
-	* Retourne les catégories 'Statut BP' du budget participatif
+	* Retourne la catégorie 'Statut BP' du budget participatif
 	*/
 	public com.liferay.asset.kernel.model.AssetCategory getBudgetParticipatifStatusCategory();
 
+	/**
+	* Retourne le statut (Enumeration) du budget participatif
+	*/
+	public eu.strasbourg.service.project.constants.ParticiperCategories getBudgetParticipatifStatus();
+
 	public java.lang.String getBudgetParticipatifStatusTitle(
 		java.util.Locale locale);
+
+	/**
+	* Retourne la catégorie 'Phase du budget participatif' du budget participatif
+	*/
+	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory();
 
 	/**
 	* Retourne la liste des lieux placit liés
@@ -155,15 +170,14 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public boolean isVotable();
 
 	/**
-	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
+	* Peut être modifié
+	*/
+	public boolean isEditable();
+
+	/**
+	* Non faisable si le statut est : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu, fusionné
 	*/
 	public boolean isNotDoable();
-
-	public int getPriorityOrder();
-
-	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
-
-	public java.lang.String getPhaseTitleLabel();
 
 	/**
 	* Le budget a-t-il ete evalue par l'administration ?
@@ -171,6 +185,12 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	* @note : doit alors posseder l'un des statuts adequat
 	*/
 	public boolean hasBeenEvaluated();
+
+	public int getPriorityOrder();
+
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
+
+	public java.lang.String getPhaseTitleLabel();
 
 	/**
 	* Retourne les commentaires de l'entité
@@ -237,8 +257,32 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 			com.liferay.portal.kernel.search.SearchException;
 
 	/**
+	* Retourne X suggestions max pour un BP
+	*
+	* @param request la requete
+	* @param nbSuggestions le nombre de suggestions.
+	* @return la liste de bp.
+	*/
+	public java.util.List<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds();
+
+	/**
+	* Retourne Le budget participatif parent dans le cas d'un bp fusionne
+	*
+	* @return Le BP parent
+	*/
+	public eu.strasbourg.service.project.model.BudgetParticipatif getParent();
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		java.lang.String publikUserId);
+
+	public java.lang.String getBPMessageState(
+		javax.servlet.http.HttpServletRequest request);
+
+	public java.lang.String getBPbuttonMessageState(
+		javax.servlet.http.HttpServletRequest request);
+
+	public int getBPState();
 }

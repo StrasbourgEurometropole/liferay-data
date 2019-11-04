@@ -105,15 +105,23 @@
 									<span><liferay-ui:message key="dashboard.front.budget.voted" /></span>
 								</a>
 							</div>
-							<div class="pro-info-vote">
-								<span>
-									<liferay-ui:message key="dashboard.front.budget.reliquat" />
-									<strong>
-										${voteLeft}
-										<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
-									</strong>
-								</span>
-							</div>
+							<c:choose>
+								<c:when test="${voteLeft != ''}">
+									<div class="pro-info-vote">
+										<span>
+											<liferay-ui:message key="dashboard.front.budget.reliquat" />
+											<strong>
+												${voteLeft}
+												<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
+											</strong>
+										</span>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div style="background: #E5E5E5;position: absolute;left: 0;right: 0;bottom: 0;height: 65px;">
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 			</div>
@@ -203,10 +211,14 @@
 									placeholder="0611111111" value="${userConnected.get('mobile')}" />
 							</div>
 						</div>
-						<div class="pro-form-submit pro-row">
-							<div class="form-group form-half displayListing">
-					            <aui:input name="displayListing" type="checkbox" checked="${isDisplayListing}" />
+						
+						<div class="pro-row">
+							<div class="form-group displayListing2">
+				            	<aui:input name="displayListing" type="checkbox" checked="${isDisplayListing}" />
 							</div>
+						</div>
+						
+						<div class="pro-form-submit pro-row">
 							<button type="submit" class="btn btn-default">
 								<liferay-ui:message key="dashboard.account.profile.button.save" />
 							</button>
@@ -580,8 +592,12 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget ${classFaisable}"
-								data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+								<c:if test="${budget.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                	</figure>
+                               	</c:if>
 								<div class="pro-header-budget">
 									<figure>
 										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
@@ -646,8 +662,12 @@
 								</c:otherwise>
 							</c:choose>
 						
-							<div class="item pro-bloc-card-budget ${classFaisable}"
-								data-linkall="a">
+							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+								<c:if test="${budget.getImageURL() != ''}">
+									<figure role="group" class="fit-cover">
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                	</figure>
+                               	</c:if>
 								<div class="pro-header-budget">
 									<figure>
 										<img src="${budget.getAuthorImageURL()}" width="40" height="40" alt="Nom de l'utilisateur" />
@@ -697,12 +717,14 @@
 </c:if>
 
 <style>
-    .pro-bloc-dashboard .pro-wrapper-dashboard #pro-onglet-account form .pro-row .displayListing label{
+    .pro-bloc-dashboard .pro-wrapper-dashboard #pro-onglet-account form .pro-row .displayListing2 label{
         display:flex;
         align-items: center;
+        height: 40px;
     }
 
-    .displayListing label input{
+    .displayListing2 label input{
         margin-right: 10px;
     }
+
 </style>

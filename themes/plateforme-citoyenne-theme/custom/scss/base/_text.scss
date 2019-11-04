@@ -234,9 +234,9 @@ a.pro-btn-share {
 .pro-btn {
 	@include btn($c_sub, $c_white, 0, $f_hx, $s_p);
 	min-width: 100px;
+	line-height: 26px;
 	padding: 12px 35px;
 	display: inline-block;
-	line-height: normal;
 	text-transform: uppercase;
 	z-index: 10;
 	&:after {
@@ -267,14 +267,14 @@ a.pro-btn-share {
 	@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
 	text-transform: uppercase;
 	font-weight: 700;
-	height: 46px;
+	line-height: 22px;
 	border: 2px solid $c_main;
-	line-height: 46px;
 	width: 100%;
+	height: 100%;
 	display: block;
 	text-align: center;
 	position: relative;
-	padding: 0;
+	padding: 12px 0;
 	@include addTransition();
 	&:hover, &:focus {
 		background: transparent;
@@ -286,14 +286,13 @@ a.pro-btn-share {
 	@include btn(transparent, $c_main, 2, $f_hx, $s_p);
 	text-transform: uppercase;
 	font-weight: 700;
-	height: 46px;
 	border: 2px solid $c_main;
-	line-height: 46px;
+	line-height: 22px;
 	width: 100%;
 	display: block;
 	text-align: center;
 	position: relative;
-	padding: 0;
+	padding: 12px 0;
 	@include addTransition();
 	&:hover, &:focus {
 		background: $c_main;
@@ -301,53 +300,9 @@ a.pro-btn-share {
 	}
 }
 
-//.pro-btn-action {
-//	@include ft($f_hx, 0.938em, 700, $c_txt, 50px);
-//	width: 198px;
-//	height: 48px;
-//	position: relative;
-//	border: 1px solid $c_dark;
-//	background: transparent;
-//	text-transform: uppercase;
-//	display: inline-block;
-//	vertical-align: middle;
-//	text-align: center;
-//	@include addTransition();
-//	@include mobile{
-//		width: 100%;
-//	}
-//	&:hover, &.active {
-//		cursor: pointer;
-//		border-color: $c_main;
-//		background: $c_main;
-//		&:after {
-//			transform: translate(-35px, -50%);
-//			transform: translate3d(-35px, -50%, 0);
-//			opacity: 1;
-//			visibility: visible;
-//		}
-//	}
-//	&:after {
-//		content: "\e91a";
-//		@include font();
-//		position: absolute;
-//		right: 0;
-//		top: 50%;
-//		transform: translate(20px, -50%);
-//		transform: translate3d(20px, -50%, 0);
-//		visibility: hidden;
-//		opacity: 0;
-//		@include addTransition();
-//		@include mobile_small{
-//			content: none;
-//		}
-//	}
-//}
-
 .pro-btn-action {
-	@include ft($f_hx, 0.938em, 700, $c_txt, 50px);
+	@include ft($f_hx, 0.938em, 700, $c_txt, 22px);
 	width: 198px;
-	height: 48px;
 	position: relative;
 	border: 1px solid $c_dark;
 	background: transparent;
@@ -355,6 +310,7 @@ a.pro-btn-share {
 	display: inline-block;
 	vertical-align: middle;
 	text-align: center;
+	padding: 13px 0;
 	@include addTransition();
 	@include mobile {
 		width: 100%;
@@ -456,25 +412,25 @@ fieldset {
 
 .pro-btn-signer{
 	@include btn($c_dark, $c_main, 2, $f_hx, 0.938em);
+	line-height: 22px;
+	height: 100%;
 	text-transform: uppercase;
 	font-weight: 700;
-	height: 50px;
 	border: 2px solid $c_main;
 	border-radius: 2px;
-	line-height: 46px;
 	text-align: center;
 	position: relative;
-	padding: 0 50px;
+	padding: 12px 50px;
 	margin-left: 15px;
 	@include addTransition();
 	@media screen and (max-width: 1200px){
-		padding: 0 40px;
+		padding: 12px 40px;
 	}
 	@include tablet_landscape{
-		padding: 0 25px;
+		padding: 12px 25px;
 	}
 	@include tablet_portrait{
-		padding: 0 50px;
+		padding: 12px 50px;
 	}
 	@include mobile{
 		display: block;
@@ -495,7 +451,7 @@ fieldset {
 		color: $c_main;
 		float: right;
 		margin-left: 10px;
-		line-height: 42px;
+		line-height: 22px;
 	}
 }
 
@@ -503,14 +459,13 @@ fieldset {
 	@include btn($c_dark, $c_white, 2, $f_hx, 0.938em);
 	text-transform: uppercase;
 	font-weight: 700;
-	height: 50px;
 	border: 2px solid $c_dark;
-	line-height: 46px;
+	line-height: 22px;
 	width: 100%;
 	display: block;
 	text-align: center;
 	position: relative;
-	padding: 0;
+	padding: 12px 0;
 	@include addTransition();
 	&:hover, &:focus {
 		background: transparent;
@@ -526,10 +481,9 @@ fieldset {
 		position: absolute;
 		right: 20px;
 		top: 47%;
-		font-size: 1.5em;
+		font-size: 22px;
 		color: $c_main;
-		transform: translateY(-50%);
-		transform: translate3d(0, -50%, 0);
+		margin-top: -11px;
 		@include tablet_portrait {
 			content: none;
 		}
@@ -540,11 +494,10 @@ fieldset {
 	position: fixed;
 	z-index: 200;
 	left: 50%;
-	transform: translateX(-50%);
-	transform: translate3d(-50%,0,0);
 	bottom: 40px;
 	width: 50px;
 	height: 50px;
+	margin-left: -25px;
 	background: $c_main;
 	border-radius: 50%;
 	box-shadow: 0 0 10px rgba($c_dark,0.2);
@@ -585,5 +538,36 @@ fieldset {
 		&:after{
 			color: rgba($c_dark, 0.5);
 		}
+	}
+}
+
+
+.pro-cta-admin-budget{
+	position: relative;
+	margin-bottom: 8px;
+	@include clearfix();
+	> * {
+		float: left;
+		margin-right: 10px;
+		margin-bottom: 10px;
+	}
+	a{
+		@include ft($f_txt, 0.875em, 400, $c_dark, 1.250em);
+		position: relative;
+		display: block;
+		padding: 8px 14px;
+		border: 1px solid #b7b7b7;
+		border-radius: 4px;
+		@include addTransition();
+		&:hover, &:focus{
+			border-color: $c_dark;
+		}
+		span{
+			float: right;
+			margin-left: 8px;
+			font-size: 1em;
+			line-height: 1.250em;
+		}
+
 	}
 }

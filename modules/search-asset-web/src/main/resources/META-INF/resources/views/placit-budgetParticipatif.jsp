@@ -30,6 +30,8 @@
                     </c:choose>
  				</div>
  				
+ 				<div class="pro-inside-affine-search"></div>
+ 				
  				<div class="row pro-wrapper-listing-participation">
                     <div class="col-xs-12">
                     

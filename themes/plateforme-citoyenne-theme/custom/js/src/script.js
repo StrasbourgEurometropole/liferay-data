@@ -1,9 +1,3 @@
-// Si User et sur IE / EDGE alors on ajoute la classe IE au body
-if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
-    $('#th-global').addClass('ie');
-}
-
-
 // Lancement du script de ObjectFit
 objectFitImages('.fit-cover img');
 
@@ -38,24 +32,6 @@ document.addEventListener('scroll', function () {
     lastscrolltop = st;
 });
 
-
-/*$('.pro-bloc-card-event').on('click',function(e){
-    e.preventDefault();
-   $(this).find('pro-btn-action').toggleClass('active');
-});
-
-$('.pro-btn-signer').on('click',function(e){
-    e.preventDefault();
-   $(this).toggleClass('active');
-});
-
-
-// Call To Action -- Ajout de la Classe Active
-$('.pro-btn-action').on('click',function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).toggleClass('active');
-});*/
 
 // Disabled CTA
 $('.pro-btn-disabled').on('click', function (e) {
@@ -125,4 +101,9 @@ $("[href='#pro-onglet-activite']").on('click', function (e) {
 $('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function () {
     var widthTitle = $(this).width() + 60;
     $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
+});
+
+
+$('.modal-dialog').each(function(){
+    new SimpleBar($(this)[0]);
 });

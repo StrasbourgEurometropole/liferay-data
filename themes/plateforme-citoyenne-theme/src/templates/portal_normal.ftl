@@ -10,6 +10,21 @@
 
 	<@liferay_util["include"] page=top_head_include />
 
+	<#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
+		<#assign openGraph = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>	
+		<#assign keys = openGraph?keys>
+
+		<#list keys as key>
+			<meta property="${key}" content="${openGraph[key]}" />
+		</#list>
+	<#else>
+		<meta property="og:type"               content="website" />
+		<meta property="og:locale"               content="fr_FR" />
+		<meta property="og:title"              content="${the_title_OG}" />
+		<meta property="og:description"        content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_description')}" />
+		<meta property="og:image"              content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}" />
+	</#if>
+
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.fullscreen.css">

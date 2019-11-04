@@ -1230,6 +1230,229 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 		Map<Locale, String> contenuTooltipCartoMap, Locale defaultLocale);
 
 	/**
+	 * Returns the has url schedule of this place.
+	 *
+	 * @return the has url schedule of this place
+	 */
+	public boolean getHasURLSchedule();
+
+	/**
+	 * Returns <code>true</code> if this place is has url schedule.
+	 *
+	 * @return <code>true</code> if this place is has url schedule; <code>false</code> otherwise
+	 */
+	public boolean isHasURLSchedule();
+
+	/**
+	 * Sets whether this place is has url schedule.
+	 *
+	 * @param hasURLSchedule the has url schedule of this place
+	 */
+	public void setHasURLSchedule(boolean hasURLSchedule);
+
+	/**
+	 * Returns the schedule link name of this place.
+	 *
+	 * @return the schedule link name of this place
+	 */
+	public String getScheduleLinkName();
+
+	/**
+	 * Returns the localized schedule link name of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized schedule link name of this place
+	 */
+	@AutoEscape
+	public String getScheduleLinkName(Locale locale);
+
+	/**
+	 * Returns the localized schedule link name of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized schedule link name of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getScheduleLinkName(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized schedule link name of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized schedule link name of this place
+	 */
+	@AutoEscape
+	public String getScheduleLinkName(String languageId);
+
+	/**
+	 * Returns the localized schedule link name of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized schedule link name of this place
+	 */
+	@AutoEscape
+	public String getScheduleLinkName(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getScheduleLinkNameCurrentLanguageId();
+
+	@AutoEscape
+	public String getScheduleLinkNameCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized schedule link names of this place.
+	 *
+	 * @return the locales and localized schedule link names of this place
+	 */
+	public Map<Locale, String> getScheduleLinkNameMap();
+
+	/**
+	 * Sets the schedule link name of this place.
+	 *
+	 * @param scheduleLinkName the schedule link name of this place
+	 */
+	public void setScheduleLinkName(String scheduleLinkName);
+
+	/**
+	 * Sets the localized schedule link name of this place in the language.
+	 *
+	 * @param scheduleLinkName the localized schedule link name of this place
+	 * @param locale the locale of the language
+	 */
+	public void setScheduleLinkName(String scheduleLinkName, Locale locale);
+
+	/**
+	 * Sets the localized schedule link name of this place in the language, and sets the default locale.
+	 *
+	 * @param scheduleLinkName the localized schedule link name of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setScheduleLinkName(String scheduleLinkName, Locale locale,
+		Locale defaultLocale);
+
+	public void setScheduleLinkNameCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized schedule link names of this place from the map of locales and localized schedule link names.
+	 *
+	 * @param scheduleLinkNameMap the locales and localized schedule link names of this place
+	 */
+	public void setScheduleLinkNameMap(Map<Locale, String> scheduleLinkNameMap);
+
+	/**
+	 * Sets the localized schedule link names of this place from the map of locales and localized schedule link names, and sets the default locale.
+	 *
+	 * @param scheduleLinkNameMap the locales and localized schedule link names of this place
+	 * @param defaultLocale the default locale
+	 */
+	public void setScheduleLinkNameMap(
+		Map<Locale, String> scheduleLinkNameMap, Locale defaultLocale);
+
+	/**
+	 * Returns the schedule link url of this place.
+	 *
+	 * @return the schedule link url of this place
+	 */
+	public String getScheduleLinkURL();
+
+	/**
+	 * Returns the localized schedule link url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized schedule link url of this place
+	 */
+	@AutoEscape
+	public String getScheduleLinkURL(Locale locale);
+
+	/**
+	 * Returns the localized schedule link url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized schedule link url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getScheduleLinkURL(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized schedule link url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized schedule link url of this place
+	 */
+	@AutoEscape
+	public String getScheduleLinkURL(String languageId);
+
+	/**
+	 * Returns the localized schedule link url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized schedule link url of this place
+	 */
+	@AutoEscape
+	public String getScheduleLinkURL(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getScheduleLinkURLCurrentLanguageId();
+
+	@AutoEscape
+	public String getScheduleLinkURLCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized schedule link urls of this place.
+	 *
+	 * @return the locales and localized schedule link urls of this place
+	 */
+	public Map<Locale, String> getScheduleLinkURLMap();
+
+	/**
+	 * Sets the schedule link url of this place.
+	 *
+	 * @param scheduleLinkURL the schedule link url of this place
+	 */
+	public void setScheduleLinkURL(String scheduleLinkURL);
+
+	/**
+	 * Sets the localized schedule link url of this place in the language.
+	 *
+	 * @param scheduleLinkURL the localized schedule link url of this place
+	 * @param locale the locale of the language
+	 */
+	public void setScheduleLinkURL(String scheduleLinkURL, Locale locale);
+
+	/**
+	 * Sets the localized schedule link url of this place in the language, and sets the default locale.
+	 *
+	 * @param scheduleLinkURL the localized schedule link url of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setScheduleLinkURL(String scheduleLinkURL, Locale locale,
+		Locale defaultLocale);
+
+	public void setScheduleLinkURLCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized schedule link urls of this place from the map of locales and localized schedule link urls.
+	 *
+	 * @param scheduleLinkURLMap the locales and localized schedule link urls of this place
+	 */
+	public void setScheduleLinkURLMap(Map<Locale, String> scheduleLinkURLMap);
+
+	/**
+	 * Sets the localized schedule link urls of this place from the map of locales and localized schedule link urls, and sets the default locale.
+	 *
+	 * @param scheduleLinkURLMap the locales and localized schedule link urls of this place
+	 * @param defaultLocale the default locale
+	 */
+	public void setScheduleLinkURLMap(Map<Locale, String> scheduleLinkURLMap,
+		Locale defaultLocale);
+
+	/**
 	 * Returns the phone of this place.
 	 *
 	 * @return the phone of this place

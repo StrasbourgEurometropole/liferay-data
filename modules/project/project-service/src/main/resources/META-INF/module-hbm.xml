@@ -31,9 +31,11 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="summary" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="budget" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="motif" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="placeTextArea" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="inTheNameOf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenLastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenFirstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="citoyenAdresse" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -51,6 +53,7 @@
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="filesIds" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="budgetPhaseId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.BudgetPhaseImpl" table="project_BudgetPhase">
 		<id name="budgetPhaseId" type="long">

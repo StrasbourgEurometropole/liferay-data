@@ -66,7 +66,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(75);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,12 +96,16 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", summary=");
+		sb.append(summary);
 		sb.append(", budget=");
 		sb.append(budget);
 		sb.append(", motif=");
 		sb.append(motif);
 		sb.append(", placeTextArea=");
 		sb.append(placeTextArea);
+		sb.append(", inTheNameOf=");
+		sb.append(inTheNameOf);
 		sb.append(", citoyenLastname=");
 		sb.append(citoyenLastname);
 		sb.append(", citoyenFirstname=");
@@ -136,6 +140,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(filesIds);
 		sb.append(", budgetPhaseId=");
 		sb.append(budgetPhaseId);
+		sb.append(", parentId=");
+		sb.append(parentId);
 		sb.append("}");
 
 		return sb.toString();
@@ -209,6 +215,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setDescription(description);
 		}
 
+		if (summary == null) {
+			budgetParticipatifImpl.setSummary(StringPool.BLANK);
+		}
+		else {
+			budgetParticipatifImpl.setSummary(summary);
+		}
+
 		if (budget == null) {
 			budgetParticipatifImpl.setBudget(StringPool.BLANK);
 		}
@@ -228,6 +241,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 		else {
 			budgetParticipatifImpl.setPlaceTextArea(placeTextArea);
+		}
+
+		if (inTheNameOf == null) {
+			budgetParticipatifImpl.setInTheNameOf(StringPool.BLANK);
+		}
+		else {
+			budgetParticipatifImpl.setInTheNameOf(inTheNameOf);
 		}
 
 		if (citoyenLastname == null) {
@@ -323,6 +343,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 
 		budgetParticipatifImpl.setBudgetPhaseId(budgetPhaseId);
+		budgetParticipatifImpl.setParentId(parentId);
 
 		budgetParticipatifImpl.resetOriginalValues();
 
@@ -351,9 +372,11 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
+		summary = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		motif = objectInput.readUTF();
 		placeTextArea = objectInput.readUTF();
+		inTheNameOf = objectInput.readUTF();
 		citoyenLastname = objectInput.readUTF();
 		citoyenFirstname = objectInput.readUTF();
 		citoyenAdresse = objectInput.readUTF();
@@ -376,6 +399,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		filesIds = objectInput.readUTF();
 
 		budgetPhaseId = objectInput.readLong();
+
+		parentId = objectInput.readLong();
 	}
 
 	@Override
@@ -433,6 +458,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(description);
 		}
 
+		if (summary == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(summary);
+		}
+
 		if (budget == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -452,6 +484,13 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 		else {
 			objectOutput.writeUTF(placeTextArea);
+		}
+
+		if (inTheNameOf == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(inTheNameOf);
 		}
 
 		if (citoyenLastname == null) {
@@ -542,6 +581,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 
 		objectOutput.writeLong(budgetPhaseId);
+
+		objectOutput.writeLong(parentId);
 	}
 
 	public String uuid;
@@ -558,9 +599,11 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public long statusDate;
 	public String title;
 	public String description;
+	public String summary;
 	public String budget;
 	public String motif;
 	public String placeTextArea;
+	public String inTheNameOf;
 	public String citoyenLastname;
 	public String citoyenFirstname;
 	public String citoyenAdresse;
@@ -578,4 +621,5 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public long imageId;
 	public String filesIds;
 	public long budgetPhaseId;
+	public long parentId;
 }

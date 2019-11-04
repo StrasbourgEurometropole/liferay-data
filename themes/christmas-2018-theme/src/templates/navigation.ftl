@@ -110,11 +110,9 @@
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
                     </#if>
                 </#list>
-                <#if themeDisplay.getLocale() == "fr_FR">
-                    <li>
-                        <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='prepare-your-program' /></a>
-                    </li>
-                </#if>
+                <li>
+                    <a href="/experientiel" class="mns-btn-yellow"><@liferay_ui.message key='prepare-your-program' /></a>
+                </li>
             </ul>
         </div>
     </div>

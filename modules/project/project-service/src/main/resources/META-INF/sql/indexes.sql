@@ -1,6 +1,7 @@
 create index IX_7C6D150C on project_BudgetParticipatif (budgetPhaseId);
 create index IX_163FE495 on project_BudgetParticipatif (groupId);
 create index IX_129BAF78 on project_BudgetParticipatif (isCrush, status, groupId);
+create index IX_57EEF28E on project_BudgetParticipatif (parentId);
 create index IX_D87960D5 on project_BudgetParticipatif (publikId[$COLUMN_LENGTH:75$]);
 create index IX_A415ED6F on project_BudgetParticipatif (status, groupId);
 create index IX_3577CA69 on project_BudgetParticipatif (uuid_[$COLUMN_LENGTH:75$], companyId);

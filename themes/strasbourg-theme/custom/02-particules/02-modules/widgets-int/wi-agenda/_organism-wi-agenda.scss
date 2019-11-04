@@ -33,6 +33,10 @@
     }
     .seu-wi-item{
         @extend %atom-wi-agenda-vignette;
+
+        &.seu-mag.seu-actu .seu-mag-logo{
+            transform: translate(-50%,-50%) translateY(-36px);
+        }
     }
 
 

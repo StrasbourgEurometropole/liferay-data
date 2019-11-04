@@ -42,14 +42,56 @@
 
     <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-      title = '';
-      description = '';
-      imageUrl = '';
-    </script> 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
     <@liferay_util["include"] page=top_head_include />
 
+    <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+
+    <#assign descriptionOG = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}' />
+    <#if !descriptionOG?has_content>
+      <#assign descriptionOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_description")}' />
+    </#if> 
+
+    <#assign imageOG = '${layout.expandoBridge.getAttribute("image")}' />
+    <#if !imageOG?has_content>
+      <#assign imageOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_image")}' />
+    </#if> 
+    <#if imageOG?has_content && !imageOG?contains('http')>
+      <#assign imageOG = '${themeDisplay.getPortalURL()}${imageOG}' />
+    </#if> 
+    
+    <#assign openGraph = {
+      "twitter:card":"summary",
+      "og:type":"website",
+      "og:locale":"${locale}",
+      "og:url":"${currentUrlOG}",
+      "og:title":"${the_title_OG}",
+      "og:description":'${descriptionOG}',
+      "og:image":"${imageOG}",
+      "og:image:width":"620",
+      "og:image:height":"400"
+    } />
+
+    <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
+        <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
+        <#list openGraphCustom?keys as keyOG>  
+          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
+        </#list>
+    </#if>
+    
+    <#list openGraph?keys as keyOG>
+      <#assign valueOG = openGraph[keyOG]> 
+      <#if keyOG == "og:description" >
+        <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
+      </#if>
+      <#if keyOG == "og:description" && valueOG?has_content >
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG?contains("og:image") && openGraph["og:image"]?has_content>
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG != "og:description" && !keyOG?contains("og:image")>
+          <meta property="${keyOG}" content="${valueOG}" />
+      </#if>
+    </#list>
   </head>
 
   <body class="${css_class} <#if isHome> front-home </#if> <#if !isHome> class-inner </#if>">
@@ -214,42 +256,4 @@
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
  </body>
-    
-  <script> 
-    baliseOG = '<meta name="twitter:card" content="summary" />'
-        + '<meta property="og:type" content="website" />';
-
-    if(title == ''){
-      title = '${the_title?replace('-', '|')?replace(' | Strasbourg aime ses étudiants', '')}';
-    }
-    if(title != ''){
-      baliseOG += '<meta property="og:title" content="' + title + '" />';
-    }
-
-    if(description == ''){
-      description = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}';
-    }
-    if(description != ''){
-      baliseOG += '<meta property="og:description" content="' + description.substring(0,300) + (description.length > 300?"...":"") + '" />';
-    } 
-
-    baliseOG += '<meta property="og:url" content="' + window.location.href + '" />';
-
-    if(imageUrl == ''){
-      imageUrl = '${layout.expandoBridge.getAttribute('image')}';
-      if(imageUrl == ''){ 
-        imageUrl = '${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}'; 
-      }
-    }
-    if(imageUrl != ''){  
-      if(!imageUrl.includes('http')){
-          imageUrl = '${themeDisplay.getPortalURL()}' + imageUrl;
-      }
-      baliseOG += '<meta property="og:image" content="' + imageUrl + '"/>'
-        + '<meta property="og:image:width" content="620"/>'
-        + '<meta property="og:image:height" content="400"/>';
-    }
-
-    $('head').append(baliseOG);
-  </script>
 </html>

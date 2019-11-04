@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise aÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise aÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="save-info" value="save-info">
@@ -375,12 +375,12 @@
                              	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
                                 if (data.updatedSupportsInfo) {
                                 	// Modification des textes des labels et bouton
-                                	$('#nbUserSupports').text(5 - data.updatedSupportsInfo.nbUserSupports);
+                                	$('#nbUserSupports').text(data.updatedSupportsInfo.nbSupportForActivePhase - data.updatedSupportsInfo.nbUserSupports);
                                 	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
                                 	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
                                 	
                                 	// Cache du bouton si plus aucun vote disponible
-                                	if (data.updatedSupportsInfo.nbUserSupports >= 5) {
+                                	if (data.updatedSupportsInfo.nbUserSupports >= data.updatedSupportsInfo.nbSupportForActivePhase) {
                                 		$("[href='#Support']").hide();
                                 	}
                                 	
@@ -435,7 +435,7 @@
                         	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
                            if (data.updatedSupportsInfo) {
 								// Modification des textes des labels et bouton
-	                           	$('#nbUserSupports').text(5 - data.updatedSupportsInfo.nbUserSupports);
+	                           	$('#nbUserSupports').text(data.updatedSupportsInfo.nbSupportForActivePhase - data.updatedSupportsInfo.nbUserSupports);
 	                           	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
 	                           	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
 	                           	

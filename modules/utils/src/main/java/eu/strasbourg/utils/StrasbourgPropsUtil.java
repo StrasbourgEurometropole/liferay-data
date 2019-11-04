@@ -40,10 +40,6 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.agenda.file");
 	}
 
-	public static String getAgendaExportTemplateDirectory() {
-		return PropsUtil.get("eu.strasbourg.agenda.export.template.file");
-	}
-
 	public static String getPlaceImportMails() {
 		return PropsUtil.get("eu.strasbourg.place.mail");
 	}
@@ -238,7 +234,7 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
 
-	public static String getParticperName() {
+	public static String getParticiperName() {
 		return PropsUtil.get("eu.strasbourg.participer.name");
 	}
 

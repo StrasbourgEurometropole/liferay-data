@@ -71,11 +71,11 @@ public class ProjectPopupPortlet extends MVCPortlet {
             String popupTemplateId = configuration.popupTemplateId();
 
             if(configuration.disable()){
-                popupTemplateId = "filePetitionDisable";
+                popupTemplateId = "submitPetitionDisable";
             }else {
 
                 if (Validator.isNull(popupTemplateId)) {
-                    popupTemplateId = "filePetition";
+                    popupTemplateId = "submitPetition";
                 }
 
                 // Récupération de l'asset entry Id qui est partagé par le portlet détail

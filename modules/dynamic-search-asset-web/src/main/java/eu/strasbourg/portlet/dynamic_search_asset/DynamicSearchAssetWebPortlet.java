@@ -1,24 +1,29 @@
 package eu.strasbourg.portlet.dynamic_search_asset;
 
-import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
-import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
-import eu.strasbourg.service.video.model.Video;
-import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.Collator;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.osgi.service.component.annotations.Component;
+
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
@@ -49,26 +54,25 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.xml.DocumentException;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.Collator;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.osgi.service.component.annotations.Component;
+import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.Participation;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.video.model.Video;
+import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 /**
  * @author cedric.henry
@@ -215,7 +219,10 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						keywords, useDatePrefilter, "publishDate_sortable", fromDate, toDate, new ArrayList<Long[]>(),
 						prefilterCategoriesIds, prefilterTagsNames, themeDisplay.getLocale(), 0,
 						maxResults, "score", false);
+				
 				List<AssetEntry> results = new ArrayList<AssetEntry>();
+				BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+				AssetCategory activePhaseCategory = activePhase != null ? activePhase.getPhaseCategory() : null;
 				
 				if (hits != null) {
 					int i = 0;
@@ -229,6 +236,16 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
 								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+						
+						//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
+						//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
+						//de préfiltrer sur la catégorie pour une seule entité en particuler
+						if(document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
+								(activePhaseCategory == null || (activePhaseCategory != null
+								&& !AssetCategoryLocalServiceUtil.hasAssetEntryAssetCategory(entry.getEntryId(), activePhaseCategory.getCategoryId())))) {
+							entry = null;
+						}
+						
 						if (entry != null) {
 							results.add(entry);
 						}

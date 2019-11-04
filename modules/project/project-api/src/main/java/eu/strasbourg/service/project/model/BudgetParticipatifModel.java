@@ -323,6 +323,21 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setDescription(String description);
 
 	/**
+	 * Returns the summary of this budget participatif.
+	 *
+	 * @return the summary of this budget participatif
+	 */
+	@AutoEscape
+	public String getSummary();
+
+	/**
+	 * Sets the summary of this budget participatif.
+	 *
+	 * @param summary the summary of this budget participatif
+	 */
+	public void setSummary(String summary);
+
+	/**
 	 * Returns the budget of this budget participatif.
 	 *
 	 * @return the budget of this budget participatif
@@ -366,6 +381,21 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 * @param placeTextArea the place text area of this budget participatif
 	 */
 	public void setPlaceTextArea(String placeTextArea);
+
+	/**
+	 * Returns the in the name of of this budget participatif.
+	 *
+	 * @return the in the name of of this budget participatif
+	 */
+	@AutoEscape
+	public String getInTheNameOf();
+
+	/**
+	 * Sets the in the name of of this budget participatif.
+	 *
+	 * @param inTheNameOf the in the name of of this budget participatif
+	 */
+	public void setInTheNameOf(String inTheNameOf);
 
 	/**
 	 * Returns the citoyen lastname of this budget participatif.
@@ -629,6 +659,20 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	 * @param budgetPhaseId the budget phase ID of this budget participatif
 	 */
 	public void setBudgetPhaseId(long budgetPhaseId);
+
+	/**
+	 * Returns the parent ID of this budget participatif.
+	 *
+	 * @return the parent ID of this budget participatif
+	 */
+	public long getParentId();
+
+	/**
+	 * Sets the parent ID of this budget participatif.
+	 *
+	 * @param parentId the parent ID of this budget participatif
+	 */
+	public void setParentId(long parentId);
 
 	/**
 	 * Returns <code>true</code> if this budget participatif is approved.

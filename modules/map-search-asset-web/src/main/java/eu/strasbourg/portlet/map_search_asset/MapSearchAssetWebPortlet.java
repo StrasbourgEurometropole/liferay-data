@@ -169,7 +169,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 		this.projects = ProjectLocalServiceUtil.getPublishedByGroupId(groupId);
 		this.participations = ParticipationLocalServiceUtil.getPublishedByGroupId(groupId);
 		this.petitions = PetitionLocalServiceUtil.getPublishedByGroupId(groupId);
-		this.budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.getPublishedByGroupId(groupId);
+		this.budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.findActiveBPByGroupId(groupId);
 		this.initiatives = InitiativeLocalServiceUtil.getPublishedByGroupId(groupId);
 		List<String> tagLabels =  new ArrayList<String>();
 		tagLabels.add("participer");

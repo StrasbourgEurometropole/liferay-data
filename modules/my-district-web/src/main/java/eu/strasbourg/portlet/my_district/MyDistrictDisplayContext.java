@@ -387,39 +387,14 @@ public class MyDistrictDisplayContext {
             List<AssetEntry> entries = new ArrayList<AssetEntry>();
             entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(district.getCategoryId()));
             List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-            Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-            Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-            DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-            List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-
-            Map<Integer, List<Event>> eventsMap = new HashMap<Integer, List<Event>>();
-            for (Event event : listEvent) {
-                int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
-                if(eventsMap.containsKey(daysBeforeNextOpenDate)){
-                    eventsMap.get(daysBeforeNextOpenDate).add(event);
-                }else{
-                    List<Event> eventList = new ArrayList<Event>();
-                    eventList.add(event);
-                    eventsMap.put(daysBeforeNextOpenDate, eventList);
-                 }
-            }
-
-            List<List<Event>> eventsList =  eventsMap
-                    .entrySet()
-                    .stream()
-                    .sorted(Map.Entry.comparingByKey())
-                    .map(e -> e.getValue())
-                    .collect(Collectors.toList());
+            List<Event> listEvent = EventLocalServiceUtil.findByNextHappening();
+            listEvent = listEvent.stream().filter(e -> classPks.contains(e.getEventId())).collect(Collectors.toList());
 
             events = new ArrayList<AssetEntry>();
-            for (List<Event> eventList: eventsList) {
-                for (Event event: eventList) {
-                    if(events.size() < 12)
-                        events.add(entries.stream().filter(a -> a.getClassPK() == event.getEventId()).collect(Collectors.toList()).get(0));
-                    else
-                        break;
-                }
-                if(events.size() == 12)
+            for (Event event: listEvent) {
+                if(events.size() < 12)
+                    events.add(entries.stream().filter(a -> a.getClassPK() == event.getEventId()).collect(Collectors.toList()).get(0));
+                else
                     break;
             }
         }
@@ -431,10 +406,6 @@ public class MyDistrictDisplayContext {
         Pattern p = Pattern.compile("<[^>]*>");
         Matcher m = p.matcher(html);
         return m.replaceAll("");
-    }
-
-    private int getDaysBetweenTodayAndNextOpenDate(Event event) {
-        return (int) Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), event.getNextOpenDate()));
     }
 
     private int getDaysBetweenTodayAndPublicationDate(AssetEntry entry) {

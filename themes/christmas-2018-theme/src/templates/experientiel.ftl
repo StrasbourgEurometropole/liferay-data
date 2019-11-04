@@ -73,7 +73,7 @@
                         <#assign i=0>
                         <#list listTypeNoel as type>
                             <#assign i++>
-                            <label for="rep_1_${i}">${type.getName()}</label>
+                            <label for="rep_1_${i}">${type.getTitle(locale)}</label>
                         </#list>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         <#assign i=0>
                         <#list listTauxNoel as taux>
                             <#assign i++>
-                            <label for="rep_2_${i}">${taux.getName()}</label>
+                            <label for="rep_2_${i}">${taux.getTitle(locale)}</label>
                         </#list>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                          <#assign i=0>
                         <#list listDureeNoel as duree>
                             <#assign i++>
-                            <label for="rep_3_${i}">${duree.getName()}</label>
+                            <label for="rep_3_${i}">${duree.getTitle(locale)}</label>
                         </#list>
                     </div>
                 </div>
