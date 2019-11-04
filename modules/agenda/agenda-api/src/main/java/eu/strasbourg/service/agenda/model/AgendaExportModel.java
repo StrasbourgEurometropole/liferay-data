@@ -441,6 +441,21 @@ public interface AgendaExportModel extends BaseModel<AgendaExport>,
 	public void setExportFormat(String exportFormat);
 
 	/**
+	 * Returns the template of this agenda export.
+	 *
+	 * @return the template of this agenda export
+	 */
+	@AutoEscape
+	public String getTemplate();
+
+	/**
+	 * Sets the template of this agenda export.
+	 *
+	 * @param template the template of this agenda export
+	 */
+	public void setTemplate(String template);
+
+	/**
 	 * Returns the event categories of this agenda export.
 	 *
 	 * @return the event categories of this agenda export

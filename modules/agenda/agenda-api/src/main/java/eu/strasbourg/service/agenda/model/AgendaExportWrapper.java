@@ -76,6 +76,7 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("title", getTitle());
 		attributes.put("language", getLanguage());
 		attributes.put("exportFormat", getExportFormat());
+		attributes.put("template", getTemplate());
 		attributes.put("eventCategories", getEventCategories());
 		attributes.put("aggregations", getAggregations());
 
@@ -178,6 +179,12 @@ public class AgendaExportWrapper implements AgendaExport,
 
 		if (exportFormat != null) {
 			setExportFormat(exportFormat);
+		}
+
+		String template = (String)attributes.get("template");
+
+		if (template != null) {
+			setTemplate(template);
 		}
 
 		String eventCategories = (String)attributes.get("eventCategories");
@@ -410,6 +417,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _agendaExport.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the template of this agenda export.
+	*
+	* @return the template of this agenda export
+	*/
+	@Override
+	public java.lang.String getTemplate() {
+		return _agendaExport.getTemplate();
 	}
 
 	/**
@@ -859,6 +876,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_agendaExport.setStatusDate(statusDate);
+	}
+
+	/**
+	* Sets the template of this agenda export.
+	*
+	* @param template the template of this agenda export
+	*/
+	@Override
+	public void setTemplate(java.lang.String template) {
+		_agendaExport.setTemplate(template);
 	}
 
 	/**

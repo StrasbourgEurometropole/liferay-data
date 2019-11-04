@@ -1,6 +1,5 @@
 package eu.strasbourg.portlet.agendaExport.displayContext;
 
-import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
@@ -17,23 +16,17 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.io.File;
-import java.util.*;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.*;
 
 public class EditAgendaExportDisplayContext {
 

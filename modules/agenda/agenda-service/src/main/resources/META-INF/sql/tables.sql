@@ -15,8 +15,9 @@ create table agenda_AgendaExport (
 	title STRING null,
 	language VARCHAR(75) null,
 	exportFormat VARCHAR(75) null,
+	template VARCHAR(400) null,
 	eventCategories TEXT null,
-	aggregations VARCHAR(75) null
+	aggregations TEXT null
 );
 
 create table agenda_AgendaExportPeriod (

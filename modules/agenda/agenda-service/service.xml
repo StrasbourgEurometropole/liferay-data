@@ -475,6 +475,7 @@
 		<!-- Champs de recherche -->
 		<column name="language" type="String" localized="false" />
 		<column name="exportFormat" type="String" localized="false" />
+		<column name="template" type="String" localized="false" />
 
 		<!-- Champs JSON -->
 		<column name="eventCategories" type="String" json-enabled="true"/>

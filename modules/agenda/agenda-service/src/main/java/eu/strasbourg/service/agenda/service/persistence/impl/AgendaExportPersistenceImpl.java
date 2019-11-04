@@ -3513,6 +3513,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		agendaExportImpl.setTitle(agendaExport.getTitle());
 		agendaExportImpl.setLanguage(agendaExport.getLanguage());
 		agendaExportImpl.setExportFormat(agendaExport.getExportFormat());
+		agendaExportImpl.setTemplate(agendaExport.getTemplate());
 		agendaExportImpl.setEventCategories(agendaExport.getEventCategories());
 		agendaExportImpl.setAggregations(agendaExport.getAggregations());
 

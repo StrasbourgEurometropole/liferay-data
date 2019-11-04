@@ -50,6 +50,7 @@ public class AgendaExportSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setLanguage(model.getLanguage());
 		soapModel.setExportFormat(model.getExportFormat());
+		soapModel.setTemplate(model.getTemplate());
 		soapModel.setEventCategories(model.getEventCategories());
 		soapModel.setAggregations(model.getAggregations());
 
@@ -232,6 +233,14 @@ public class AgendaExportSoap implements Serializable {
 		_exportFormat = exportFormat;
 	}
 
+	public String getTemplate() {
+		return _template;
+	}
+
+	public void setTemplate(String template) {
+		_template = template;
+	}
+
 	public String getEventCategories() {
 		return _eventCategories;
 	}
@@ -264,6 +273,7 @@ public class AgendaExportSoap implements Serializable {
 	private String _title;
 	private String _language;
 	private String _exportFormat;
+	private String _template;
 	private String _eventCategories;
 	private String _aggregations;
 }

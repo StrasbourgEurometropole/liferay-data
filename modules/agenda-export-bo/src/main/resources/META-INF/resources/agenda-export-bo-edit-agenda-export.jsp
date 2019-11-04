@@ -122,6 +122,7 @@
                    <c:forEach var="template" items="${dc.templateList}">
                        <aui:option
                            value="${template.key}"
+                           selected="${template eq dc.agendaExport.template ? true : false}"
                        >
                            ${template.value}
                        </aui:option>
