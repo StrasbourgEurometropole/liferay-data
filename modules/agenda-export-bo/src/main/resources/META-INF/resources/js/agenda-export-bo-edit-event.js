@@ -300,6 +300,7 @@ function validatePeriods(event) {
             var value = $(this).val();
 
             if(value === "JSON") {
+                $('#'+ namespace +'template')[0].selectedIndex = 0;
                 template.prop('disabled','disabled');
             }
             else {
