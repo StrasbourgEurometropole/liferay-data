@@ -150,7 +150,7 @@ public class Exporter {
         long groupId = group.getGroupId();
 
         Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId,
-                themeDisplay.getCompanyGroupId(), true, "", true, "dates_Number_sortable", filters.getStartDate(0), filters.getEndDate(0), new ArrayList<Long[]>(),
+                themeDisplay.getCompanyGroupId(), true, "", true, "dates_Number_sortable", filters.getStartDate(0), filters.getEndDate(0), categoriesRechercheIds,
                 new ArrayList<Long[]>(), StringUtil.split(""), false, themeDisplay.getLocale(), 0,
                 5000, "modified_sortable", true);
 

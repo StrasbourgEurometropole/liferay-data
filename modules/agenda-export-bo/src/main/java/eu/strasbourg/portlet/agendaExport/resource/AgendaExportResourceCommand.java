@@ -99,9 +99,11 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             );
 
             if(exportFormat.toUpperCase().equals("DOCX")){
-                Exporter.exportDOCX(
-                    resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
-                );
+                if(filters.getFile() != null) {
+                    Exporter.exportDOCX(
+                            resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
+                    );
+                }
             }
             else if(exportFormat.toUpperCase().equals("JSON")){
                 Exporter.exportJSON(
@@ -223,7 +225,9 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 
         DLFileEntry file = null;
         try {
-            file = DLFileEntryLocalServiceUtil.getFileEntry(fileEntryId);
+            if(fileEntryId != 0) {
+                file = DLFileEntryLocalServiceUtil.getFileEntry(fileEntryId);
+            }
         } catch (PortalException e) {
             e.printStackTrace();
         }

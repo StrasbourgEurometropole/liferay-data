@@ -119,9 +119,6 @@
                 </aui:select>
 
                 <aui:select name="template" label="eu.agenda.export.target.template">
-                    <aui:option value="">
-                         <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
-                    </aui:option>
                    <c:forEach var="template" items="${dc.templateList}">
                        <aui:option
                            value="${template.key}"
