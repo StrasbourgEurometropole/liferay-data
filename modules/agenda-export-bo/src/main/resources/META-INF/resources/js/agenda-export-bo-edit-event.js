@@ -256,6 +256,9 @@ function validatePeriods(event) {
     var secondCategorySelect = $('#'+ namespace +'secondAggregationCategory');
     var aggregationFields = $(".aggregationFields");
 
+    var exportFormat = $('#'+ namespace +'exportFormat');
+    var template = $('#'+ namespace +'template');
+
     //Reactivation du bouton submit au bout de X secondes
     submitBtn.on('click', function() {
         var button = this;
@@ -291,6 +294,18 @@ function validatePeriods(event) {
         }
 
     /** Affichage des champs **/
+
+    //Affichage des templates
+        exportFormat.on("change", function() {
+            var value = $(this).val();
+
+            if(value === "JSON") {
+                template.prop('disabled','disabled');
+            }
+            else {
+                template.prop('disabled',false);
+            }
+        });
 
     //Affichage des types d'agrégations
     aggregationLevelSelect.on("change", function() {
