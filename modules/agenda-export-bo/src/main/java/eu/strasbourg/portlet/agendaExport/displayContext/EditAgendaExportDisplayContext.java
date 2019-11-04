@@ -3,7 +3,6 @@ package eu.strasbourg.portlet.agendaExport.displayContext;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
-import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
@@ -32,6 +31,8 @@ import javax.portlet.RenderResponse;
 import java.util.*;
 
 public class EditAgendaExportDisplayContext {
+
+    private static final String DOCUMENT_LIBRARY_FOLDER = "Template Export Agenda";
 
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
@@ -295,7 +296,7 @@ public class EditAgendaExportDisplayContext {
 
         try {
 
-            folder = DLFolderLocalServiceUtil.getFolder(groupId, 0, "Template Export Agenda");
+            folder = DLFolderLocalServiceUtil.getFolder(groupId, 0, DOCUMENT_LIBRARY_FOLDER);
             fileEntries = DLFileEntryLocalServiceUtil.getFileEntries(groupId, folder.getFolderId());
 
         } catch (PortalException e) {
