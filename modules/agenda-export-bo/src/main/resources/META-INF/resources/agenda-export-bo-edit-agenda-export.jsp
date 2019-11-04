@@ -27,8 +27,7 @@
 <div class="container-fluid-1280 main-content-body">
     <aui:form action="${(toExport eq true) ? dc.cleanResourceURL(exportAgendaExportURL) : saveAgendaExportURL}" method="POST" name="fm">
 
-		<aui:model-context bean="${agendaExport}"
-			model="<%=AgendaExport.class %>" />
+		<aui:model-context bean="${agendaExport}" model="<%=AgendaExport.class %>" />
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="agendaExportId" type="hidden" />
 
@@ -255,7 +254,6 @@
                 </c:if>
             </c:if>
             <c:if test="${toExport eq true}">
-                <%--<aui:button id="export-btn" cssClass="btn-lg" type="button" value="eu.export"/>--%>
                 <aui:button id="export-btn-submit" cssClass="btn-lg" type="submit" value="eu.export"/>
             </c:if>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />

@@ -43,6 +43,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class Exporter {
 
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private static DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-01'T'00:00:00");
 
 
     public static OutputStream exportDOCX(
@@ -436,7 +437,7 @@ public class Exporter {
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
 //                            if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
                                 LocalDateTime ldt = date.atStartOfDay();
-                                values.add(ldt.format(dateFormatter));
+                                values.add(ldt.format(monthDateFormatter));
 //                            }
                         }
                     }

@@ -242,6 +242,8 @@ function validatePeriods(event) {
 (function($) {
 
     var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_";
+    var form = $('#'+namespace+'fm');
+    var submitBtn = $('#'+namespace+'export-btn-submit');
     var aggregationLevelSelect = $('#'+ namespace +'aggregationLevel');
     var firstAggregationBlock = $('#firstAggregationBlock');
     var secondAggregationBlock = $('#secondAggregationBlock');
@@ -253,6 +255,16 @@ function validatePeriods(event) {
     var firstCategorySelect = $('#'+ namespace +'firstAggregationCategory');
     var secondCategorySelect = $('#'+ namespace +'secondAggregationCategory');
     var aggregationFields = $(".aggregationFields");
+
+    //Reactivation du bouton submit au bout de X secondes
+    submitBtn.on('click', function() {
+        var button = this;
+        setTimeout(function(){
+            console.log(button);
+            $(button).prop("disabled", false);
+            $(button).css("opacity", "");
+        }, 3000);
+    });
 
     /**
      * Reset la valeur des champs en fonction de l'aggregation choisie
