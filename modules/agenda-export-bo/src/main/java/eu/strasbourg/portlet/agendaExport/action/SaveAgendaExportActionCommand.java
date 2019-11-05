@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -50,11 +51,14 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 
+		Boolean isValid = false;
+
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
 			long agendaExportId = ParamUtil.getLong(request, "agendaExportId");
 			AgendaExport agendaExport;
+
 			if (agendaExportId == 0) {
 				agendaExport = _agendaExportLocalService.createAgendaExport(sc);
 			} else {
@@ -75,10 +79,10 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 
 				/** Période de l'événement **/
 				this.deletePeriods(agendaExport);
-				this.savePeriod(request, agendaExport);
+				isValid = this.savePeriod(request, agendaExport);
 
 				/** Catégories **/
-				this.saveCategories(request, agendaExport);
+				isValid = this.saveCategories(request, agendaExport);
 
 				/** Langue **/
 				String language = ParamUtil.getString(request, "language");
@@ -93,10 +97,12 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				agendaExport.setTemplate(template);
 
 				/** Aggregation **/
-				this.saveAggregations(request, agendaExport);
+				isValid = this.saveAggregations(request, agendaExport);
 			}
-			
-			_agendaExportLocalService.updateAgendaExport(agendaExport, sc);
+
+			if(isValid) {
+				_agendaExportLocalService.updateAgendaExport(agendaExport, sc);
+			}
 
 			// Redirection (évite double)
 			// requête POST si l'utilisateur actualise sa page)
@@ -109,7 +115,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 			_log.error(e);
 		}
 
-		return true;
+		return isValid;
 	}
 
 	/**
@@ -129,7 +135,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 	 * @param agendaExport
 	 * @throws PortalException
 	 */
-	private void savePeriod(ActionRequest request, AgendaExport agendaExport) throws PortalException {
+	private boolean savePeriod(ActionRequest request, AgendaExport agendaExport) throws PortalException {
 		String periodIndex = "0";
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -137,7 +143,8 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				Validator.isNotNull(ParamUtil.getString(request, "startDate" + periodIndex)) &&
 				Validator.isNotNull(ParamUtil.getString(request, "endDate" + periodIndex))
 			)) {
-			return;
+			SessionErrors.add(request, "periods-error");
+			return false;
 		}
 
 		Date startDate = ParamUtil.getDate(request, "startDate" + periodIndex, dateFormat);
@@ -148,6 +155,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		agendaExportPeriod.setEndDate(endDate);
 		agendaExportPeriod.setAgendaExportId(agendaExport.getAgendaExportId());
 		this._agendaExportPeriodLocalService.updateAgendaExportPeriod(agendaExportPeriod);
+		return true;
 	}
 
 	/**
@@ -155,7 +163,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 	 * @param request
 	 * @param agendaExport
 	 */
-	private void saveCategories(ActionRequest request, AgendaExport agendaExport) {
+	private boolean saveCategories(ActionRequest request, AgendaExport agendaExport) {
 		int vocabularyNumber = ParamUtil.getInteger(request, "vocabulary_number");
 		JSONObject vocabularies = JSONFactoryUtil.createJSONObject();
 		for(int i = 0; i < vocabularyNumber; i++) {
@@ -171,9 +179,11 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 			vocabularies.put(Long.toString(vocabularyId), categories);
 		}
 		agendaExport.setEventCategories(vocabularies.toString());
+
+		return true;
 	}
 
-	private void saveAggregations(ActionRequest request, AgendaExport agendaExport) {
+	private boolean saveAggregations(ActionRequest request, AgendaExport agendaExport) {
 
 		JSONObject aggregations = JSONFactoryUtil.createJSONObject();
 		JSONObject firstAggregation = JSONFactoryUtil.createJSONObject();
@@ -202,6 +212,7 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		aggregations.put("second", secondAggregation);
 
 		agendaExport.setAggregations(aggregations.toString());
+		return true;
 	}
 
 	private AgendaExportLocalService _agendaExportLocalService;

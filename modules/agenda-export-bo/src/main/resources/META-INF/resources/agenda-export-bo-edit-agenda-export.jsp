@@ -42,11 +42,12 @@
 			</aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="eu.agenda.export.period">
+                <label>
+                    <span><liferay-ui:message key="eu.agenda.export.period" /></span>
+                    <span class="icon-asterisk text-warning"></span>
+                </label>
                 <liferay-ui:error key="period-date-error" message="period-date-error" />
                 <liferay-ui:error key="period-error" message="period-error" />
-                <div id="required-period" style="display: none">
-                	<span>La période est requise<span>
-                </div>
                 <div id="date-fields">
                     <c:forEach items="${dc.getOrCreateAgendaExportPeriods()}" var="period" varStatus="status">
                         <div class="lfr-form-row lfr-form-row-inline">
@@ -61,6 +62,9 @@
                             </div>
                         </div>
                     </c:forEach>
+                </div>
+                <div id="required-period" style="display:none">
+                    <span><liferay-ui:message key="eu.agenda.export.period.required" /><span>
                 </div>
            </aui:fieldset>
 

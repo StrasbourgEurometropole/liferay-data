@@ -145,4 +145,11 @@ span[id $= "displayTime"]{
     display: none;
 }
 
+/** Champ d'erreur **/
+.dynamic-required {
+    box-sizing: border-box;
+    color: #CC6677;
+    font-weight: bold;
+}
+
 

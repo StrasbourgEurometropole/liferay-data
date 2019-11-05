@@ -59,16 +59,6 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	$('span.date-range').daterangepicker(options);
 	// On attache l'événement de changement de range de date
 	$('span.date-range').on('apply.daterangepicker', onDateChange);
-
-//	/**
-//	 * RangePicker permettant la création à la chaîne
-//	 */
-//	// Activation du RangePicker
-//	$('#' + namespace + 'periodGenerator').daterangepicker({
-//		autoApply: false,
-//		parentEl: '.portlet-body',
-//		locale: dateRangePickerLocaleSettings
-//	});
 })(jQuery);
 
 
@@ -260,20 +250,24 @@ function validatePeriods(event) {
        var begin = $(fields.period.begin).val();
        var end = $(fields.period.end).val();
 
-       if((begin === undefined || begin === "") && (end === undefined || end === "")) {
+        if((begin === undefined || begin === "") && (end === undefined || end === "")) {
+            $(messages.periods).addClass("dynamic-required");
             $(messages.periods).show();
-            console.log("coucou");
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $(messages.periods).offset().top - 200
+            }, 1000);
             valid = false;
-       } else {
+        } else {
+            $(messages.periods).removeClass("dynamic-required");
             $(messages.periods).hide();
-       }
+        }
 
-       if(!valid) {
-           e.preventDefault();
-           e.stopPropagation();
-       } else {
+        if(!valid) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
            return true
-       }
+        }
     });
 
 })(jQuery);

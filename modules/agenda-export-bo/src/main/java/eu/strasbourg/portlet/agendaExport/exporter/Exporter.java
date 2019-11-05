@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -75,7 +76,7 @@ public class Exporter {
             DLFileEntry file = filters.getFile();
             if(file != null) {
 
-                res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
+//                res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
                 res.setProperty("content-type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
                 res.setProperty("content-disposition", "attachment; filename="+file.getFileName());
 
@@ -116,7 +117,7 @@ public class Exporter {
             String json = mapper.writeValueAsString(data);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
-            res.setContentType("text/json");
+//            res.setContentType("text/json");
             res.setProperty("content-type", "text/json");
             res.setProperty("content-disposition", "attachment; filename=content.json");
             os.write(b);
@@ -471,8 +472,11 @@ public class Exporter {
                     break;
                 }
 
-                for(EventCategoryDTO category : event.getCategories()) {
-                    if(category.getName().equals(value) || category.isChild(value)) {
+                AssetCategory category = AssetCategoryServiceUtil.getCategory(Long.parseLong(value));
+                value = category.getName();
+
+                for(EventCategoryDTO categoryDTO : event.getCategories()) {
+                    if(categoryDTO.getName().equals(value) || categoryDTO.isChild(value)) {
                         values.add(category.getName());
                     }
                 }
