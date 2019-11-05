@@ -128,3 +128,7 @@ span[id $= "displayTime"]{
 .daterangepicker {
     width: 700px;
 }
+
+.required-field {
+    display: none;
+}

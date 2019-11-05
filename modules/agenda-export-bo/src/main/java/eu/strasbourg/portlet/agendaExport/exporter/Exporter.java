@@ -103,6 +103,7 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            loadCategoriesInfo(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
                 themeDisplay, filters, eventDTOs, Integer.parseInt(filters.getGroupDepth())
             );

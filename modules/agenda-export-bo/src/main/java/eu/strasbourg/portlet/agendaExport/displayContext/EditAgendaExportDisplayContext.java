@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.agendaExport.displayContext;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
@@ -23,6 +24,7 @@ import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -281,6 +283,37 @@ public class EditAgendaExportDisplayContext {
         }
 
         return category.getName();
+    }
+
+    public Map<Long, String> getSavedEventCategories(String section) throws JSONException {
+
+        Map<Long, String> categories = new HashMap<>();
+        Locale locale = _themeDisplay.getLocale();
+        String id = getAggregationSavedValue(section, "VOCABULARY");
+        if(id == null || id.equals("")) {
+            return categories;
+        }
+
+        AssetVocabulary vocabulary = null;
+
+        try {
+            Long vocabularyId = Long.parseLong(id);
+            vocabulary = AssetVocabularyServiceUtil.getVocabulary(vocabularyId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(vocabulary == null) {
+            return categories;
+        }
+
+        //load parent categories
+        List<AssetCategory> parentCategories = AssetVocabularyHelper.getParentCategory(vocabulary.getCategories());
+        for(AssetCategory category : parentCategories) {
+            categories.put(category.getCategoryId(), category.getTitle(locale));
+        }
+
+        return categories;
     }
 
     /**

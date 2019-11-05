@@ -6,7 +6,7 @@ new Choices('.choices-element', {
 // Périodes
 var autoFields = undefined; // Référence au champ répétable (setté plus loin)
 (function($) {
-	var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_"; // Namespace du portlet
+	var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_"; // Namespace du portlet
 	var dateRangePickerLocaleSettings =  { // Configuration française du dateRangePicker
 		format: 'DD/MM/YYYY',
 		applyLabel: 'Ajouter',
@@ -235,6 +235,45 @@ function validatePeriods(event) {
                 }
             });
         });
+    });
+
+})(jQuery);
+
+(function($) {
+
+    /** Validation des champs dynamiques **/
+    var namespace = "_eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet_"; // Namespace du portlet
+    var fields = {
+        period: {
+            begin: "#"+namespace+"startDate0",
+            end: "#"+namespace+"endDate0"
+        }
+    };
+
+    var messages = {
+        periods: "#required-period"
+    }
+
+    $(":submit").on('click', function(e) {
+       //champ période
+       var valid = true;
+       var begin = $(fields.period.begin).val();
+       var end = $(fields.period.end).val();
+
+       if((begin === undefined || begin === "") && (end === undefined || end === "")) {
+            $(messages.periods).show();
+            console.log("coucou");
+            valid = false;
+       } else {
+            $(messages.periods).hide();
+       }
+
+       if(!valid) {
+           e.preventDefault();
+           e.stopPropagation();
+       } else {
+           return true
+       }
     });
 
 })(jQuery);

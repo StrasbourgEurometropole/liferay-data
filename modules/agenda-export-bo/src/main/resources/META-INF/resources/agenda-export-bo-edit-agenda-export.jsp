@@ -42,6 +42,11 @@
 			</aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="eu.agenda.export.period">
+                <liferay-ui:error key="period-date-error" message="period-date-error" />
+                <liferay-ui:error key="period-error" message="period-error" />
+                <div id="required-period" style="display: none">
+                	<span>La période est requise<span>
+                </div>
                 <div id="date-fields">
                     <c:forEach items="${dc.getOrCreateAgendaExportPeriods()}" var="period" varStatus="status">
                         <div class="lfr-form-row lfr-form-row-inline">
@@ -178,14 +183,14 @@
                             <aui:option value="">
                                 <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
                             </aui:option>
-                            <c:if test="${dc.getAggregationSavedValue('first', 'category') ne '' }">
+                            <c:forEach var="category" items="${dc.getSavedEventCategories('first')}">
                                 <aui:option
-                                    value="${dc.getAggregationSavedValue('first', 'category')}"
-                                    selected=""
+                                    value="${category.key}"
+                                    selected="${dc.getAggregationSavedValue('first', 'category') eq category.key ? true : false}"
                                 >
-                                    ${dc.getAggregationCategoryName('first')}
-                                </aui:option>
-                            </c:if>
+                                    ${category.value}
+                               </aui:option>
+                            </c:forEach>
                         </aui:select>
                     </div>
                 </div>
@@ -225,14 +230,14 @@
                             <aui:option value="">
                                 <liferay-ui:message key="eu.agenda.export.aggregation.value.none" />
                             </aui:option>
-                            <c:if test="${dc.getAggregationSavedValue('second', 'category') ne '' }">
+                            <c:forEach var="category" items="${dc.getSavedEventCategories('second')}">
                                 <aui:option
-                                    value="${dc.getAggregationSavedValue('second', 'category')}"
-                                    selected=""
+                                    value="${category.key}"
+                                    selected="${dc.getAggregationSavedValue('second', 'category') eq category.key ? true : false}"
                                 >
-                                        ${dc.getAggregationCategoryName('second')}
-                                </aui:option>
-                            </c:if>
+                                    ${category.value}
+                               </aui:option>
+                            </c:forEach>
                         </aui:select>
                     </div>
                 </div>
