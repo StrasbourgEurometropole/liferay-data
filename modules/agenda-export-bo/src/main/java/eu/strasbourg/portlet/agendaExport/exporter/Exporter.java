@@ -76,6 +76,7 @@ public class Exporter {
             if(file != null) {
 
                 res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
+                res.setProperty("content-type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
                 res.setProperty("content-disposition", "attachment; filename="+file.getFileName());
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
@@ -116,6 +117,7 @@ public class Exporter {
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
             res.setContentType("text/json");
+            res.setProperty("content-type", "text/json");
             res.setProperty("content-disposition", "attachment; filename=content.json");
             os.write(b);
 
