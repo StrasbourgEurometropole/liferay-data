@@ -37,9 +37,9 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
         firstDay: 1
 	};
 	/**
-	 * RangePicker répétable
+	 * RangePicker
 	 */
-	// Options du date range picker répétable
+
 	var options = {
 		autoApply: false,
 		parentEl: '.portlet-body',

@@ -24,11 +24,9 @@ public class EventPlaceDTO {
     @XmlElement(name = "country")
     private String country;
 
-//    @XmlElement(name = "access")
     @XmlTransient
     private String access;
 
-//    @XmlElement(name = "handicapAccess")
     @XmlTransient
     private String handicapAccess;
 
