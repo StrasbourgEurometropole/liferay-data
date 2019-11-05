@@ -337,7 +337,9 @@ public class EditAgendaExportDisplayContext {
         }
 
         for(DLFileEntry file : fileEntries) {
-            files.put(file.getFileEntryId(), file.getFileName().replace(".docx", ""));
+            if(!file.isInTrash()) {
+                files.put(file.getFileEntryId(), file.getFileName().replace(".docx", ""));
+            }
         }
 
         if(files.isEmpty()) {
