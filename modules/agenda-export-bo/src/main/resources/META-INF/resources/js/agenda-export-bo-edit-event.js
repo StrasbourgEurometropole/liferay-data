@@ -329,9 +329,19 @@ function validatePeriods(event) {
      }
 
     /** Demarrage de la page **/
-    resetAggregation(true,true,true,true,true,true);
-    firstAggregationBlock.slideUp("fast");
-    secondAggregationBlock.slideUp("fast");
+
+    /**
+     * Montre les selects qui n'ont pas de valeur au chargement de la page
+     */
+     var hideEmptySelects = function() {
+        $(".aggregationFields select").each(function() {
+            var value = $(this).find(":selected").val();
+            if(value == "") {
+                $(this).closest("div").hide();
+            }
+        })
+     };
+     hideEmptySelects();
 
     //Affichage des templates
     exportFormat.on("change", function() {
@@ -393,51 +403,28 @@ function validatePeriods(event) {
         }
     });
 
-        //Affichage des champs (deuxième agrégation)
-        secondAggregationTypeSelect.on("change", function() {
-            var value = $(this).val()
-            if(value === "VOCABULARY"){
-                resetAggregation(false,false,false,false,true,true);
-                secondVocabularySelect.closest("div").slideDown("fast");
-                secondCategorySelect.closest("div").slideUp("fast");
-            } else if(value === "CATEGORY") {
-                resetAggregation(false,false,false,false,false,true);
-                secondVocabularySelect.closest("div").slideDown("fast");
-                secondCategorySelect.closest("div").slideDown("fast");
-            }  else if(value === "DAY") {
-                if(secondAggregationTypeSelect.val()==="MONTH"){
-                    resetAggregation(true,false,false,false,false,false);
-                }
-                secondVocabularySelect.closest("div").slideUp("fast");
-                secondCategorySelect.closest("div").slideUp("fast");
-            }  else {
-                secondVocabularySelect.closest("div").slideUp("fast");
-                secondCategorySelect.closest("div").slideUp("fast");
-            }
-        });
-
     //Affichage des champs (deuxième agrégation)
-//    secondAggregationTypeSelect.on("change", function() {
-//        var value = $(this).val()
-//        if(value === "VOCABULARY"){
-//            resetAggregation(false,false,false,false,true,true);
-//            secondVocabularySelect.prop('disabled',false);
-//            secondCategorySelect.prop('disabled','disabled');
-//        } else if(value === "CATEGORY") {
-//            resetAggregation(false,false,false,false,false,true);
-//            secondVocabularySelect.prop('disabled',false);
-//            secondCategorySelect.prop('disabled',false);
-//        } else if(value === "MONTH") {
-//                                  if(firstAggregationTypeSelect.val()==="DAY"){
-//                                      resetAggregation(true,false,false,false,false,false);
-//                                  }
-//            secondVocabularySelect.prop('disabled','disabled');
-//            secondCategorySelect.prop('disabled','disabled');
-//        }  else {
-//            secondVocabularySelect.prop('disabled','disabled');
-//            secondCategorySelect.prop('disabled','disabled');
-//        }
-//    });
+    secondAggregationTypeSelect.on("change", function() {
+        var value = $(this).val()
+        if(value === "VOCABULARY"){
+            resetAggregation(false,false,false,false,true,true);
+            secondVocabularySelect.closest("div").slideDown("fast");
+            secondCategorySelect.closest("div").slideUp("fast");
+        } else if(value === "CATEGORY") {
+            resetAggregation(false,false,false,false,false,true);
+            secondVocabularySelect.closest("div").slideDown("fast");
+            secondCategorySelect.closest("div").slideDown("fast");
+        }  else if(value === "DAY") {
+            if(secondAggregationTypeSelect.val()==="MONTH"){
+                resetAggregation(true,false,false,false,false,false);
+            }
+            secondVocabularySelect.closest("div").slideUp("fast");
+            secondCategorySelect.closest("div").slideUp("fast");
+        }  else {
+            secondVocabularySelect.closest("div").slideUp("fast");
+            secondCategorySelect.closest("div").slideUp("fast");
+        }
+    });
 
     //Chargements des categories en fonction du vocabulaire choisi
     vocabulariesSelect.on("change", function() {
