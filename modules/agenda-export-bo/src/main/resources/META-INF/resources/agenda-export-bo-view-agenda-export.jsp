@@ -132,7 +132,7 @@
 							<portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
 							<portlet:param name="returnURL" value="${agendaExportsURL}" />
 						</liferay-portlet:renderURL>
-						<liferay-ui:icon message="copy" url="${copyAgendaExportURL}" />
+						<liferay-ui:icon message="duplicate" url="${copyAgendaExportURL}" />
 						
 						<liferay-portlet:actionURL name="deleteAgendaExport"
 							var="deleteAgendaExportURL">

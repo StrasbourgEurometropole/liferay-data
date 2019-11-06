@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.agendaExport.displayContext;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.model.AssetVocabularyModel;
 import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
@@ -194,7 +195,7 @@ public class EditAgendaExportDisplayContext {
      * @return
      */
     public Map<String, String> getAggregationLevel() {
-        Map<String, String> orders = new HashMap<>();
+        Map<String, String> orders = new LinkedHashMap<>();
         orders.put("0", LanguageUtil.get(bundle, "eu.agenda.export.order.none"));
         orders.put("1", LanguageUtil.get(bundle, "eu.agenda.export.order.group"));
         orders.put("2", LanguageUtil.get(bundle, "eu.agenda.export.order.subGroup"));
@@ -207,7 +208,7 @@ public class EditAgendaExportDisplayContext {
      * @return
      */
     public Map<String, String> getAggregationTypes() {
-        Map<String, String> types = new HashMap<>();
+        Map<String, String> types = new LinkedHashMap<>();
         types.put("", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.none"));
         types.put("DAY", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.day"));
         types.put("MONTH", LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.month"));
@@ -287,7 +288,7 @@ public class EditAgendaExportDisplayContext {
 
     public Map<Long, String> getSavedEventCategories(String section) throws JSONException {
 
-        Map<Long, String> categories = new HashMap<>();
+        Map<Long, String> categories = new LinkedHashMap<>();
         Locale locale = _themeDisplay.getLocale();
         String id = getAggregationSavedValue(section, "VOCABULARY");
         if(id == null || id.equals("")) {
@@ -322,7 +323,7 @@ public class EditAgendaExportDisplayContext {
      */
     public Map<Long, String> getTemplateList() {
 
-        Map<Long, String> files = new HashMap<>();
+        Map<Long, String> files = new LinkedHashMap<>();
         Long groupId = _themeDisplay.getCompanyGroupId();
         DLFolder folder;
         List<DLFileEntry> fileEntries = new ArrayList<>();
@@ -357,12 +358,13 @@ public class EditAgendaExportDisplayContext {
      * @return
      */
     public List<AssetVocabulary> getEventVocabularies() {
-        List<AssetVocabulary> vocabularies = new ArrayList<>();
+        List<AssetVocabulary> vocabularies = new LinkedList<>();
         vocabularies.add(_assetVocabularyAccessor.getEventThemes());
         vocabularies.add(_assetVocabularyAccessor.getTerritories());
         vocabularies.add(_assetVocabularyAccessor.getEventPublics());
         vocabularies.add(_assetVocabularyAccessor.getEventTypes());
         vocabularies.add(_assetVocabularyAccessor.getPlaceTypes());
+        vocabularies.sort(Comparator.comparing(AssetVocabularyModel::getName));
         return vocabularies;
     }
 

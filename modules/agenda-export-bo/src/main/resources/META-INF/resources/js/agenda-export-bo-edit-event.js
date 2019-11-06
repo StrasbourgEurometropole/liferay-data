@@ -292,6 +292,29 @@ function validatePeriods(event) {
     var exportFormat = $('#'+ namespace +'exportFormat');
     var template = $('#'+ namespace +'template');
 
+    /** Demarrage de la page **/
+    var value = exportFormat.val();
+    if(value === "JSON") {
+        $('#'+ namespace +'template')[0].selectedIndex = 0;
+        template.closest("div").slideUp("fast");
+    }
+    else {
+        template.closest("div").slideDown("fast");
+    }
+
+    /**
+     * Montre les selects qui n'ont pas de valeur au chargement de la page
+     */
+     var hideEmptySelects = function() {
+        $(".aggregationFields select").each(function() {
+            var value = $(this).find(":selected").val();
+            if(value == "") {
+                $(this).closest("div").hide();
+            }
+        })
+     };
+     hideEmptySelects();
+
     /**
      * Reactivation du bouton submit au bout de X secondes
      */
@@ -328,25 +351,9 @@ function validatePeriods(event) {
           }
      }
 
-    /** Demarrage de la page **/
-
-    /**
-     * Montre les selects qui n'ont pas de valeur au chargement de la page
-     */
-     var hideEmptySelects = function() {
-        $(".aggregationFields select").each(function() {
-            var value = $(this).find(":selected").val();
-            if(value == "") {
-                $(this).closest("div").hide();
-            }
-        })
-     };
-     hideEmptySelects();
-
     //Affichage des templates
     exportFormat.on("change", function() {
         var value = $(this).val();
-
         if(value === "JSON") {
             $('#'+ namespace +'template')[0].selectedIndex = 0;
             template.closest("div").slideUp("fast");

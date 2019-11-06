@@ -272,7 +272,7 @@ public class Exporter {
             //get Right name for places
             Long placeId = event.getPlaceId();
             Place place = null;
-            if(placeId != null) {
+            if(placeId != null && placeId != 0) {
                 place = PlaceLocalServiceUtil.getPlace(placeId);
             }
             eventDTO.addPlace(event, place);
@@ -490,8 +490,8 @@ public class Exporter {
                 value = category.getName();
 
                 for(EventCategoryDTO categoryDTO : event.getCategories()) {
-                    if(categoryDTO.getName().equals(value) || categoryDTO.isChild(value)) {
-                        values.add(category.getName());
+                    if(categoryDTO.isChild(value)) {
+                        values.add(categoryDTO.getName());
                     }
                 }
 
