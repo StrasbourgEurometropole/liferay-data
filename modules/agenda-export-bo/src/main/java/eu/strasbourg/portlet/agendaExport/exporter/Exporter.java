@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -12,10 +12,14 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.portlet.agendaExport.dto.*;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.docx4j.Docx4J;
@@ -264,6 +268,16 @@ public class Exporter {
             }
 
             eventDTO.addVocabulariesDTO(vocabularyDTOS);
+
+            //get Right name for places
+            Long placeId = event.getPlaceId();
+            Place place = null;
+            if(placeId != null) {
+                place = PlaceLocalServiceUtil.getPlace(placeId);
+            }
+            eventDTO.addPlace(event, place);
+
+
             DTOList.add(eventDTO);
         }
 
@@ -472,7 +486,7 @@ public class Exporter {
                     break;
                 }
 
-                AssetCategory category = AssetCategoryServiceUtil.getCategory(Long.parseLong(value));
+                AssetCategory category = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(value));
                 value = category.getName();
 
                 for(EventCategoryDTO categoryDTO : event.getCategories()) {

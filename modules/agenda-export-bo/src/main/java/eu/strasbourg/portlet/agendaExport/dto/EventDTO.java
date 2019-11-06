@@ -10,6 +10,7 @@ import eu.strasbourg.portlet.agendaExport.XMLAdapter.DateAdapter;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.Manifestation;
+import eu.strasbourg.service.place.model.Place;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -117,7 +118,6 @@ public class EventDTO {
         addManifestations(event.getManifestations());
         addPeriods(event.getEventPeriods());
         setFirstAndLastDate();
-        addPlace(event);
         addContact(event);
         addConcert(event);
         addPrice(event);
@@ -299,22 +299,41 @@ public class EventDTO {
         }
     }
 
-    public void addPlace(Event event) {
-        this.place = new EventPlaceDTO(
-            event.getPlaceName(this.locale),
-            event.getPlaceStreetNumber(),
-            event.getPlaceName(this.locale),
-            event.getPlaceZipCode(),
-            event.getCity(this.locale),
-            event.getPlaceCountry(),
-            event.getAccess(this.locale),
-            event.getAccess(this.locale),
-            event.getAccessForBlind(),
-            event.getAccessForWheelchair(),
-            event.getAccessForDeaf(),
-            event.getAccessForElder(),
-            event.getAccessForDeficient()
-        );
+    public void addPlace(Event event, Place place) {
+
+        if(place == null ) {
+            this.place = new EventPlaceDTO(
+                event.getPlaceName(this.locale),
+                event.getPlaceStreetNumber(),
+                event.getPlaceName(this.locale),
+                event.getPlaceZipCode(),
+                event.getCity(this.locale),
+                event.getPlaceCountry(),
+                event.getAccess(this.locale),
+                event.getAccessForDisabled(this.locale),
+                event.getAccessForBlind(),
+                event.getAccessForWheelchair(),
+                event.getAccessForDeaf(),
+                event.getAccessForElder(),
+                event.getAccessForDeficient()
+            );
+        } else {
+            this.place = new EventPlaceDTO(
+                place.getName(),
+                place.getAddressStreet(),
+                event.getPlaceName(this.locale),
+                place.getAddressZipCode(),
+                place.getCity(locale),
+                place.getAddressCountry(),
+                place.getAccess(locale),
+                place.getAccessForDisabled(locale),
+                place.getAccessForBlind(),
+                place.getAccessForWheelchair(),
+                place.getAccessForDeaf(),
+                place.getAccessForElder(),
+                place.getAccessForDeficient()
+            );
+        }
     }
 
     public void addContact(Event event) {

@@ -141,7 +141,7 @@
 							<portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' url="#"/>
+							<liferay-ui:icon message="delete" url="${deleteAgendaExportURL}"/>
 						</c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
@@ -228,12 +228,6 @@
 					'<portlet:namespace />allRowIds');
 
 			submitForm(form, '${unpublishSelectionURL}');
-		}
-	}
-
-	function <portlet:namespace />deleteEntity() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
-			window.location = '${deleteAgendaExportURL}';
 		}
 	}
 </aui:script>
