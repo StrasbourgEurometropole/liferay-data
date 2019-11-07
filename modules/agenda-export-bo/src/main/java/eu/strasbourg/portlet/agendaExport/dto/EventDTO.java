@@ -1,9 +1,11 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateDeserializer;
 import eu.strasbourg.portlet.agendaExport.JSONAdapter.LocalDateSerializer;
 import eu.strasbourg.portlet.agendaExport.XMLAdapter.DateAdapter;
@@ -69,7 +71,8 @@ public class EventDTO {
     @XmlElement(name = "booking")
     private EventBookingDTO booking;
 
-    @XmlTransient
+    @XmlElementWrapper(name = "periods")
+    @XmlElement(name = "period")
     private List<PeriodDTO> periods;
 
     @XmlElement(name = "period")
@@ -140,7 +143,12 @@ public class EventDTO {
     }
 
     public String getDescription() {
-        return description;
+
+        if(description == null) {
+            description = "";
+        }
+
+        return HtmlUtil.stripHtml(description);
     }
 
     public void setDescription(String description) {
@@ -163,6 +171,7 @@ public class EventDTO {
         this.periods = periods;
     }
 
+    @JsonIgnore
     public PeriodDTO getPeriod() {
         return period;
     }

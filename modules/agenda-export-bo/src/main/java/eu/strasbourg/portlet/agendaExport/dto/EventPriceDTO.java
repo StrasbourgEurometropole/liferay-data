@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.liferay.portal.kernel.util.HtmlUtil;
+
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "price")
@@ -9,8 +11,7 @@ public class EventPriceDTO {
     @XmlElement(name = "isFree")
     private int isFree;
 
-//    @XmlElement(name = "priceDetail")
-    @XmlTransient
+    @XmlElement(name = "priceDetail")
     private String priceDetail;
 
     public EventPriceDTO() {
@@ -30,7 +31,10 @@ public class EventPriceDTO {
     }
 
     public String getPriceDetail() {
-        return priceDetail;
+        if(priceDetail == null) {
+            priceDetail = "";
+        }
+        return HtmlUtil.stripHtml(priceDetail);
     }
 
     public void setPriceDetail(String priceDetail) {

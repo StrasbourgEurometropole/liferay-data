@@ -375,6 +375,7 @@ function validatePeriods(event) {
             resetAggregation(false,false,false,true,true,true);
             firstVocabularySelect.closest("div").hide();
             firstCategorySelect.closest("div").hide();
+            firstAggregationTypeSelect.closest("div").show();
             firstAggregationBlock.slideDown("fast");
             secondAggregationBlock.slideUp("fast");
         } else if(value === "2") {
@@ -382,6 +383,8 @@ function validatePeriods(event) {
             firstCategorySelect.closest("div").hide();
             secondVocabularySelect.closest("div").hide();
             secondCategorySelect.closest("div").hide();
+            firstAggregationTypeSelect.closest("div").show();
+            secondAggregationTypeSelect.closest("div").show();
             firstAggregationBlock.slideDown("fast");
             secondAggregationBlock.slideDown("fast");
         }

@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetVocabularyModel;
 import com.liferay.asset.kernel.service.AssetCategoryServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryModel;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
@@ -14,6 +15,7 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -32,6 +34,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EditAgendaExportDisplayContext {
 
@@ -336,7 +340,8 @@ public class EditAgendaExportDisplayContext {
         try {
 
             folder = DLFolderLocalServiceUtil.getFolder(groupId, 0, DOCUMENT_LIBRARY_FOLDER);
-            fileEntries = DLFileEntryLocalServiceUtil.getFileEntries(groupId, folder.getFolderId());
+            fileEntries = new ArrayList<>(DLFileEntryLocalServiceUtil.getFileEntries(groupId, folder.getFolderId()));
+            fileEntries.sort(Comparator.comparing(DLFileEntryModel::getFileName, String::compareToIgnoreCase));
 
         } catch (PortalException e) {
             e.printStackTrace();
@@ -355,7 +360,6 @@ public class EditAgendaExportDisplayContext {
         }
 
         return files;
-
     }
 
     /**
