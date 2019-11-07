@@ -61,7 +61,7 @@
                             <h3>${participationMost.title}</h3>
 
                             <div class="pro-meta-footer">
-                                <span class="pro-comments"><strong>${participationMost.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                                <span class="pro-comments"><strong>${participationMost.getNbApprovedComments()}</strong> Commentaire(s)</span>
                                 <div class="pro-avis">
                                     <span class="pro-like"><span class="icon-ico-like"></span> ${participationMost.nbLikes}</span>
                                     <span class="pro-dislike"><span class="icon-ico-like"></span> ${participationMost.nbDislikes}</span>
@@ -80,7 +80,7 @@
                             </div>
                             <h3>${participationLess.title}</h3>
                             <div class="pro-meta-footer">
-                                <span class="pro-comments"><strong>${participationLess.getNbApprovedComments()}</strong>Commentaire(s)</span>
+                                <span class="pro-comments"><strong>${participationLess.getNbApprovedComments()}</strong> Commentaire(s)</span>
                                 <div class="pro-avis">
                                     <span class="pro-like"><span class="icon-ico-like"></span> ${participationLess.nbLikes}</span>
                                     <span class="pro-dislike"><span class="icon-ico-like"></span> ${participationLess.nbDislikes}</span>

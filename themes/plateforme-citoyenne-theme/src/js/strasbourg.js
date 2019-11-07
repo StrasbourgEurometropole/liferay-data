@@ -20498,6 +20498,12 @@ $('.pro-remove').on('click',function(){
 
     $(this).parents('.pro-group').find('select').prop('selectedIndex', 0).selectric('refresh');
 });
+$('.radio > label').append('<span></span>');
+$('.checkbox-default').append('<span></span>');
+
+
+
+$('.radio, .checkbox-default').parents('.lfr-ddm-form-field-container').addClass('first-label-hide');
 $('[data-frmval]').each(function () {
     this.setAttribute('placeholder', this.getAttribute('data-frmval'));
     if (this.value === this.getAttribute('data-frmval')) {

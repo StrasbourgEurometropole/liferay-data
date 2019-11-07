@@ -23,9 +23,13 @@
 		&:before {
 			content: none;
 		}
-		& + p {
+		& + div {
 			margin-bottom: 15px;
 		}
+	}
+
+	.tab-pane {
+		margin-top: 40px;
 	}
 }
 
@@ -35,10 +39,320 @@
 		margin-bottom: 30px;
 	}
 
-	form{
+	form {
 		margin-bottom: 80px;
-		@include mobile{
+		@include mobile {
 			margin-bottom: 40px;
+		}
+
+		h1 {
+			display: none;
+		}
+
+		.required-warning {
+			@include ft($f_txt, 1em, 400, $c_grey, 1.25em);
+			font-style: italic;
+		}
+
+		.clearfix {
+			margin-top: 15px;
+			overflow: visible;
+		}
+
+		.liferay-ddm-form-field-paragraph {
+			margin-top: 30px;
+			> label {
+				@include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+				position: relative;
+				display: block;
+				margin: 10px 0 5px 0;
+				text-transform: none;
+				&:before {
+					content: none;
+				}
+				& + p {
+					margin-bottom: 15px;
+				}
+			}
+		}
+
+		.lfr-ddm-form-field-container {
+			margin-top: 5px;
+		}
+
+		.icon-asterisk {
+			display: inline-block;
+			&:after {
+				content: '*';
+				color: #ff0000;
+				position: relative;
+				margin: 0 2px;
+				top: -1px;
+			}
+		}
+
+		.control-label {
+			@include ft($f_txt, 0.875em, 400, #4c4c4c, 1.571em);
+			position: relative;
+			display: block;
+			text-align: left;
+			clear: both;
+			user-select: none;
+			margin-bottom: 5px;
+			span {
+				color: #ff0000;
+			}
+		}
+
+		input[type="text"], textarea {
+			@include ft($f_txt, 0.875em, 400, $c_dark, 20px);
+			@extend %appearance;
+			height: auto;
+			display: block;
+			padding: 9px 15px;
+			border: 1px solid #b2b2b2;
+			border-radius: 4px;
+			background: $c_white;
+			@include addTransition();
+			&:hover, &:focus {
+				border-color: $c_dark;
+				outline: none;
+				box-shadow: none;
+			}
+		}
+
+		textarea {
+			height: 130px !important;
+			resize: none;
+		}
+
+		/* STYLE FOR CHECHBOX */
+		.checkbox-default {
+			position: relative;
+			input {
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				opacity: 0;
+				margin: 0;
+				&:checked {
+					& + span {
+						&:after {
+							opacity: 1;
+							transform: scale(1);
+						}
+					}
+				}
+			}
+
+			span {
+				&:before {
+					content: '';
+					position: absolute;
+					float: left;
+					margin-right: 10px;
+					transform: none;
+					text-align: left;
+					width: 20px;
+					height: 20px;
+					border: 1px solid #a6a6a6;
+					border-radius: 2px;
+					background: #fff;
+					cursor: pointer;
+					left: 0;
+					top: 0;
+				}
+				&:after {
+					content: "\e91a";
+					@include font();
+					text-shadow: 1px 1px 0 $c_white, 0px -2px 0 $c_white;
+					font-size: 16px;
+					position: absolute;
+					left: 5px;
+					top: 0;
+					transform: translateY(-50%);
+					transform: translate3d(0, -50%, 0);
+					cursor: pointer;
+					color: $c_txt;
+					transition: all .2s;
+					background: none;
+					opacity: 0;
+					transform: scale(0);
+					@include addTransitionCurve();
+				}
+			}
+		}
+
+		.checkbox-multiple-options {
+			margin: 0;
+		}
+
+		.radio, .checkbox {
+			margin: 0;
+		}
+
+		.first-label-hide {
+			margin-top: 20px;
+			margin-bottom: 5px;
+			.form-group {
+				> label {
+					display: none;
+				}
+			}
+		}
+
+		.liferay-ddm-form-field-checkbox-multiple, .liferay-ddm-form-field-radio-multiple {
+			> label {
+				display: none;
+			}
+		}
+
+		.checkbox-inline, .radio-inline {
+			@include ft($f_txt, 0.813em, 400, $c_dark, 1.571em);
+			margin: 0 40px 10px 0;
+			user-select: none;
+			padding: 0 0 0 30px;
+			&:hover {
+				text-decoration: underline;
+			}
+			@include mobile {
+				display: block;
+			}
+		}
+
+		.radio {
+
+			input {
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				opacity: 0;
+				margin: 0;
+				&:checked {
+					& + span {
+						&:after {
+							background: $c_sub;
+							border-radius: 50px;
+							content: " ";
+							height: 10px;
+							left: 2px;
+							position: absolute;
+							top: 2px;
+							width: 10px;
+						}
+					}
+				}
+			}
+
+			span {
+				position: absolute;
+				left: 0;
+				top: 2px;
+				background-color: $c_white;
+				border: 1px solid $c_sub;
+				border-radius: 50px;
+				display: inline-block;
+				float: left;
+				margin-right: 7px;
+				padding: 7px;
+			}
+		}
+
+		.input-select-wrapper {
+			margin-bottom: 10px;
+		}
+
+		.selectric-wrapper {
+
+			&:hover {
+				.selectric {
+					border-color: $c_dark;
+				}
+			}
+
+			.selectric {
+				border: 1px solid #b2b2b2;
+				border-radius: 4px;
+				background: none;
+				@include addTransition();
+				.label {
+					@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
+					position: relative;
+					display: block;
+					text-align: left;
+					padding: 10px 35px 10px 15px;
+					margin: 0;
+					&:after {
+						content: "\e930";
+						@include font();
+						position: absolute;
+						top: 50%;
+						right: 10px;
+						font-size: 20px;
+						margin-top: -10px;
+					}
+				}
+				.button {
+					display: none;
+				}
+			}
+
+			.selectric-items {
+				top: calc(100% + 5px);
+				border-radius: 4px;
+				border-color: #B2B2B2;
+				background: $c_white;
+				ul {
+					font-size: 1em;
+					margin: 0;
+					li {
+						@include ft($f_txt, 0.875em, 400, $c_txt, 1.429em);
+						padding: 8px 15px;
+						&:before {
+							content: none;
+						}
+						&:hover {
+							background: $c_light;
+						}
+						&.selected, &.highlighted {
+							background: #E5E5E5;
+						}
+					}
+				}
+			}
+		}
+
+		.lfr-ddm-form-pagination-controls {
+			text-align: center;
+		}
+
+		button[type="submit"] {
+			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
+			@extend %appearance;
+			padding: 14px 20px;
+			text-align: center;
+			background: $c_main;
+			border-radius: 4px;
+			display: inline-block;
+			text-transform: uppercase;
+			width: 300px;
+			margin: 40px auto 0;
+			float: none !important;
+			@include addTransition();
+			@include mobile {
+				width: 100%;
+				margin: 30px auto 10px;
+			}
+			&:hover, &:focus {
+				background: $c_dark;
+				color: $c_main;
+			}
 		}
 	}
 
@@ -47,6 +361,8 @@
 		border: none;
 		padding: 0;
 		button {
+			margin: 0 !important;
+			right: 0 !important;
 			&:hover, &:focus {
 				background: $c_dark;
 				border-color: $c_dark;
@@ -55,13 +371,10 @@
 	}
 }
 
-
 // Listing des Propositions
 // ==========================================================================
 .pro-wrapper-propositions {
 	padding-bottom: 30px;
-	margin-top: 40px;
-
 
 	.pro-title-propositions {
 		@include ft($f_hx, 3.750em, 700, $c_dark, normal);
@@ -74,7 +387,7 @@
 		@include tablet_portrait {
 			font-size: 2.5em;
 		}
-		@include mobile{
+		@include mobile {
 			font-size: 2em;
 		}
 		&:before {
@@ -95,7 +408,7 @@
 				width: 10px;
 				height: 30px;
 			}
-			@include mobile{
+			@include mobile {
 				left: -15px;
 				width: 5px;
 				height: 30px;
@@ -129,14 +442,14 @@
 		padding: 27px 25px;
 		margin-bottom: 40px;
 		margin-top: 25px;
-		&.pro-item-response-highlight{
+		&.pro-item-response-highlight {
 			.pro-bloc-texte {
 				> * {
 					color: #b0b0b0;
-					strong{
+					strong {
 						color: #b0b0b0;
 					}
-					span{
+					span {
 						position: relative;
 						z-index: 10;
 						display: inline;
@@ -247,8 +560,6 @@
 	}
 
 }
-
-
 
 // Barre latérale - Les chiffres
 // ==========================================================================
