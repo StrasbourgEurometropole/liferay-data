@@ -28,6 +28,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
         property= {
                 "com.liferay.portlet.instanceable=false",
                 "com.liferay.portlet.footer-portlet-javascript=/js/agenda-export-bo-main.js",
+                "com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
                 "com.liferay.portlet.header-portlet-css=/css/agenda-export-bo-main.css",
                 "com.liferay.portlet.single-page-application=false",
                 "javax.portlet.init-param.template-path=/",

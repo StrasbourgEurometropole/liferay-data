@@ -33,10 +33,8 @@ public class EventDTO {
     @XmlElement(name = "subtitle")
     private String subtitle;
 
-//    @XmlElement(name = "description")
-    @XmlTransient
+    @XmlElement(name = "description")
     private String description;
-
 
     @XmlElement(name = "firstStartDate")
     @XmlJavaTypeAdapter(DateAdapter.class)

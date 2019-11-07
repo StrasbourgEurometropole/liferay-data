@@ -289,7 +289,6 @@
 <liferay-util:html-bottom>
     <!-- Include Choices CSS -->
 	<link rel="stylesheet" href="/o/agendaexportbo/css/vendors/choices.min.css">
-	<link rel="stylesheet" href="/o/agendaexportbo/css/vendors/daterangepicker.css">
 	<!-- Include Choices JavaScript -->
 	<script>
 		define._amd = define.amd;
