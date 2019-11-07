@@ -44,8 +44,12 @@ import java.util.List;
 import java.util.Map;
 
 import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.AgendaExportLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the agenda export local service.
@@ -107,7 +111,15 @@ public class AgendaExportLocalServiceImpl
 
 		agendaExport.setUuid(uuid);
 
-		agendaExport.setStatus(WorkflowConstants.STATUS_DRAFT);
+		//Clone periods
+		List<AgendaExportPeriod> periodsToCopy = AgendaExportPeriodLocalServiceUtil.getByAgendaExportId(agendaToCopy.getAgendaExportId());
+		for(AgendaExportPeriod period : periodsToCopy) {
+			AgendaExportPeriod agendaExportPeriod = AgendaExportPeriodLocalServiceUtil.createAgendaExportPeriod();
+			agendaExportPeriod.setStartDate(period.getStartDate());
+			agendaExportPeriod.setEndDate(period.getEndDate());
+			agendaExportPeriod.setAgendaExportId(agendaExport.getAgendaExportId());
+			AgendaExportPeriodLocalServiceUtil.addAgendaExportPeriod(agendaExportPeriod);
+		}
 
 		return agendaExport;
 	}
@@ -339,5 +351,4 @@ public class AgendaExportLocalServiceImpl
 
 		return agendaExportPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-	
 }

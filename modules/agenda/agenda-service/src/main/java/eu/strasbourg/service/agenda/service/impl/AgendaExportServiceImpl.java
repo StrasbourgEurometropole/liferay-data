@@ -26,6 +26,7 @@ import eu.strasbourg.service.agenda.service.base.AgendaExportServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,6 +60,12 @@ public class AgendaExportServiceImpl extends AgendaExportServiceBaseImpl {
 		AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getAssetVocabulary(vocabularyId);
 		List<AssetCategory> parentCategories = AssetVocabularyHelper.getParentCategory(vocabulary.getCategories());
 		Locale locale = LocaleUtil.fromLanguageId(localeId);
+		parentCategories.sort(
+			Comparator.comparing(
+				AssetCategory::getName,
+				String.CASE_INSENSITIVE_ORDER
+			)
+		);
 
 		JSONArray result = JSONFactoryUtil.createJSONArray();
 		for (AssetCategory category : parentCategories) {
