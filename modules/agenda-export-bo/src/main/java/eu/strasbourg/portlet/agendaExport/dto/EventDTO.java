@@ -104,6 +104,13 @@ public class EventDTO {
         this.title = event.getTitle(locale);
         this.subtitle = event.getSubtitle(locale);
         this.description = event.getDescription(locale);
+
+        if(this.description == null) {
+            this.description = "";
+        }
+
+        this.description = HtmlUtil.stripHtml(description).replaceAll("<br/>", "");
+
         this.image = event.getImageURL();
         this.imageCopyright = event.getImageCopyright(locale);
 

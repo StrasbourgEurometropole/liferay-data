@@ -20,6 +20,11 @@ public class EventPriceDTO {
     public EventPriceDTO(int isFree, String priceDetail) {
         this.isFree = isFree;
         this.priceDetail = priceDetail;
+
+        if(this.priceDetail == null) {
+            this.priceDetail = "";
+        }
+        this.priceDetail = HtmlUtil.stripHtml(priceDetail).replaceAll("<br/>", "");
     }
 
     public int getIsFree() {
