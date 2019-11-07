@@ -148,7 +148,7 @@ public class EventDTO {
             description = "";
         }
 
-        return HtmlUtil.stripHtml(description);
+        return HtmlUtil.stripHtml(description).replaceAll("<br/>", "");
     }
 
     public void setDescription(String description) {

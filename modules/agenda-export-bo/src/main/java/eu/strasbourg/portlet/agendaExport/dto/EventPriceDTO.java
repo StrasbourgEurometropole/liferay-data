@@ -34,7 +34,7 @@ public class EventPriceDTO {
         if(priceDetail == null) {
             priceDetail = "";
         }
-        return HtmlUtil.stripHtml(priceDetail);
+        return HtmlUtil.stripHtml(priceDetail).replaceAll("<br/>", "");
     }
 
     public void setPriceDetail(String priceDetail) {
