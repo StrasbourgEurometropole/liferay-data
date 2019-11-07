@@ -10,11 +10,16 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
+import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import eu.strasbourg.service.agenda.service.AgendaExportLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -32,6 +37,14 @@ public class DeleteAgendaExportActionCommand implements MVCActionCommand{
 
 		try {
 			long agendaExportId = ParamUtil.getLong(request, "agendaExportId");
+
+			//Remove periods
+			AgendaExport agendaExport = _agendaExportLocalService.getAgendaExport(agendaExportId);
+			List<AgendaExportPeriod> periods = agendaExport.getAgendaExportPeriods();
+			for(AgendaExportPeriod period : periods) {
+				_agendaExportPeriodLocalService.deleteAgendaExportPeriod(period);
+			}
+
 			_agendaExportLocalService.removeAgendaExport(agendaExportId);
 		} catch (PortalException e) {
 			_log.error(e);
@@ -46,6 +59,14 @@ public class DeleteAgendaExportActionCommand implements MVCActionCommand{
 			AgendaExportLocalService agendaExportLocalService) {
 
 		_agendaExportLocalService = agendaExportLocalService;
+	}
+
+	private AgendaExportPeriodLocalService _agendaExportPeriodLocalService;
+
+	@Reference(unbind = "-")
+	protected void setAgendaExportPeriodLocalService(AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+
+		_agendaExportPeriodLocalService = agendaExportPeriodLocalService;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

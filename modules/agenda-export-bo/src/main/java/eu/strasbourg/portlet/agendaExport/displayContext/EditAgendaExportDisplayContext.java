@@ -310,10 +310,15 @@ public class EditAgendaExportDisplayContext {
 
         //load parent categories
         List<AssetCategory> parentCategories = AssetVocabularyHelper.getParentCategory(vocabulary.getCategories());
+        parentCategories.sort(
+            Comparator.comparing(
+                AssetCategory::getName,
+                String.CASE_INSENSITIVE_ORDER
+            )
+        );
         for(AssetCategory category : parentCategories) {
             categories.put(category.getCategoryId(), category.getTitle(locale));
         }
-
         return categories;
     }
 
