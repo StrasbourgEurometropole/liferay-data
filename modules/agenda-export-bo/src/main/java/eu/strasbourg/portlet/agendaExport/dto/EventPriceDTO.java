@@ -2,7 +2,10 @@ package eu.strasbourg.portlet.agendaExport.dto;
 
 import com.liferay.portal.kernel.util.HtmlUtil;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "price")
 @XmlAccessorType(XmlAccessType.FIELD)

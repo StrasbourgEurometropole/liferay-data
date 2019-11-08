@@ -80,14 +80,13 @@ public class Exporter {
             DLFileEntry file = filters.getFile();
             if(file != null) {
 
-//                res.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
                 res.setProperty("content-type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
                 res.setProperty("content-disposition", "attachment; filename="+file.getFileName());
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
 
                 BindingHandler.getHyperlinkResolver().setHyperlinkStyle("Hyperlink");
-                Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
+                Docx4J.bind(wordMLPackage, xmlContent, Docx4J.FLAG_BIND_INSERT_XML);
                 Save saver = new Save(wordMLPackage);
                 saver.save(os);
             }
@@ -121,7 +120,6 @@ public class Exporter {
             String json = mapper.writeValueAsString(data);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
-//            res.setContentType("text/json");
             res.setProperty("content-type", "text/json");
             res.setProperty("content-disposition", "attachment; filename=content.json");
             os.write(b);
@@ -156,9 +154,11 @@ public class Exporter {
         long groupId = group.getGroupId();
 
         Hits hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId,
-                themeDisplay.getCompanyGroupId(), true, "", true, "dates_Number_sortable", filters.getStartDate(0), filters.getEndDate(0), categoriesRechercheIds,
-                new ArrayList<Long[]>(), StringUtil.split(""), false, themeDisplay.getLocale(), 0,
-                5000, "modified_sortable", true);
+            themeDisplay.getCompanyGroupId(), true, "",
+            true, "dates_Number_sortable", filters.getStartDate(0),
+            filters.getEndDate(0), categoriesRechercheIds, new ArrayList<Long[]>(), StringUtil.split(""),
+            false, themeDisplay.getLocale(), 0,
+            5000, "modified_sortable", true);
 
         List<Event> events = new ArrayList<>();
         for (Document document : hits.getDocs()) {
@@ -483,6 +483,10 @@ public class Exporter {
             case "CATEGORY":
 
                 if(event.getCategories() == null) {
+                    break;
+                }
+
+                if(value == "") {
                     break;
                 }
 
