@@ -83,7 +83,7 @@ public class Exporter {
             if(file != null) {
 
                 res.setProperty("content-type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
-                res.setProperty("content-disposition", "attachment; filename="+filters.getTitle());
+                res.setProperty("content-disposition", "attachment; filename="+filters.getTitle()+".docx");
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
 
