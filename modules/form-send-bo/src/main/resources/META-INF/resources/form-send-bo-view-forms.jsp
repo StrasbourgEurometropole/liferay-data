@@ -45,6 +45,7 @@
 	<aui:form method="post" name="fm">
 		<liferay-ui:search-container id="formsSearchContainer"
 			searchContainer="${dc.searchContainer}">
+
 			<liferay-ui:search-container-results results="${dc.forms}" />
 
 			<liferay-ui:search-container-row
@@ -83,3 +84,9 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
+
+<style>
+    .lfr-checkbox-column{
+        display:none;
+    }
+</style>

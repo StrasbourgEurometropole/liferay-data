@@ -17,7 +17,7 @@
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entite --%>
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="formSendsSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="false" searchContainerId="formSendsSearchContainer">
 		<%-- Composant : partie filtres et selection --%>
 		<liferay-frontend:management-bar-filters>
 			<liferay-frontend:management-bar-sort
@@ -67,3 +67,9 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
+
+<style>
+    .lfr-checkbox-column{
+        display:none;
+    }
+</style>
