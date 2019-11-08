@@ -95,6 +95,11 @@ public class FormSendConfigurationAction
             setPreference(request, "fieldsSelected", fieldsSelectedString);
             setPreference(request, "newLibs", newLibsString);
 
+            // Template à afficher
+            String template = ParamUtil.getString(request, "template",
+                    "general");
+            setPreference(request, "template", template);
+
         }
         super.processAction(portletConfig, request, response);
     }
@@ -193,6 +198,10 @@ public class FormSendConfigurationAction
             }
             request.setAttribute("fieldsSelected", fieldsSelectedString);
             request.setAttribute("newLibs", newLibsString);
+
+            // Template à afficher
+            String template = ParamUtil.getString(request, "template", configuration.template());
+            request.setAttribute("template", template);
 
         } catch (ConfigurationException e) {
             _log.error(e);

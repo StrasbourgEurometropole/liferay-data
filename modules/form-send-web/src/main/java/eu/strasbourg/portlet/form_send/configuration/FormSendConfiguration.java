@@ -25,4 +25,7 @@ public interface FormSendConfiguration {
     @Meta.AD(name = "newLibs", required = false)
     public String newLibs();
 
+    @Meta.AD(name = "template", required = false)
+    public String template();
+
 }

@@ -18,4 +18,5 @@ dependencies {
 
 	compile project (':modules:utils')
 	compile project (':modules:place:place-api')
+	compile project (':modules:form-send-record-field:form-send-record-field-api')
 }

@@ -50,6 +50,20 @@
             </aui:fieldset>
         </c:forEach>
 
+            <!-- Affichage -->
+            <aui:fieldset collapsed="true" collapsible="true"
+                label="display">
+                <!-- Template d'affichage -->
+                <aui:select name="template">
+                    <aui:option value="general" selected="${template eq 'general'}">
+                        <liferay-ui:message key="general" />
+                    </aui:option>
+                    <aui:option value="placIt" selected="${template eq 'placIt'}">
+                        <liferay-ui:message key="placIt" />
+                    </aui:option>
+                </aui:select>
+            </aui:fieldset>
+
 
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

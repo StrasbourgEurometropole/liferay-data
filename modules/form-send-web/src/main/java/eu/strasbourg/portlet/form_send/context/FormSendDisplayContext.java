@@ -1,26 +1,38 @@
 package eu.strasbourg.portlet.form_send.context;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.dynamic.data.lists.model.DDLRecord;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.form_send.configuration.FormSendConfiguration;
 import eu.strasbourg.portlet.form_send.formulaire.Champ;
 import eu.strasbourg.portlet.form_send.formulaire.Formulaire;
 import eu.strasbourg.portlet.form_send.formulaire.Option;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.Pager;
 
@@ -113,33 +125,41 @@ public class FormSendDisplayContext {
         return this.records;
     }
 
-    // récupère les valeurs d'un formulaire envoyé (liste de nom/valeur)
-    public List<Map<String, String>> getRecordFields(long recordDDMStorageId, Locale locale) {
-        List<Map<String, String>> recordFields = new ArrayList<Map<String, String>>();
+    // récupère les valeurs d'un formulaire envoyé (liste de instanceId/name/valeur)
+    public List<String[]> getRecordFields(long recordDDMStorageId, Locale locale) {
+        List<String[]> recordFields = new ArrayList<String[]>();
+        // récupère les infos du contenu du formulaire envoyé
         DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordDDMStorageId);
         if(Validator.isNotNull(content)){
+
+            // récupère le contenu du formulaire envoyé
             String jsonString = content.getData();
             if(Validator.isNotNull(jsonString)){
                 try {
+                    // récupère les infos de tous les champs du formualaire
                     JSONArray jsonArray = JSONFactoryUtil.createJSONObject(jsonString).getJSONArray("fieldValues");
                     for (Object jsonObject : jsonArray) {
+
+                        // récupère les infos du champs
+                        // instanceId
+                        // name -> nom du champs
+                        // value -> saisie utilisateur (n'est pas renseigné pour les paragraphes)
                         JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                        Map<String, String> mapField = new HashMap<String, String>();
-                        String value = "";
+                        JSONObject jsonField = JSONFactoryUtil.createJSONObject();
+                        String[] field = {json.getString("instanceId"),json.getString("name"),""};
                         if(!json.isNull("value"))
-                            value = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
-                        else{
-                            // si c'est un format de texte, on récupère le text
-                            if(Validator.isNotNull(this.getForm())){
-                                if(Validator.isNotNull(this.formulaire.getField(json.getString("name"))) &&
+                            field[2] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
+                        else {
+                            // si c'est un format de texte(paragraphe), on récupère le nom + la valeur
+                            if (Validator.isNotNull(this.getForm())) {
+                                if (Validator.isNotNull(this.formulaire.getField(json.getString("name"))) &&
                                         Validator.isNotNull(this.formulaire.getField(json.getString("name")).getType()) &&
-                                        this.formulaire.getField(json.getString("name")).getType().equals("paragraph")){
-                                    value = this.formulaire.getField(json.getString("name")).getText();
+                                        this.formulaire.getField(json.getString("name")).getType().equals("paragraph")) {
+                                    field[2] = this.formulaire.getField(json.getString("name")).getText();
                                 }
                             }
                         }
-                        mapField.put(json.getString("name"), value);
-                        recordFields.add(mapField);
+                        recordFields.add(field);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -193,6 +213,73 @@ public class FormSendDisplayContext {
         }
 
         return label.substring(0, 1).toUpperCase() + label.substring(1);
+    }
+
+    // récupère le formSendRecordField (qui contient les réponses et le lien avec les signalements en lien avec la réponse à une question du formulaire)
+    public FormSendRecordField getFormSendRecordField(long contentId, String instanceId) {
+        FormSendRecordField formSendRecordField = null;
+        List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentAndInstanceId(contentId, instanceId);
+        if(formSendRecordFieldList.size() > 0){
+            formSendRecordField = formSendRecordFieldList.get(0);
+        }
+
+        if(Validator.isNull(formSendRecordField)){
+            // si le formSendRecordField n'existe pas on le créer
+            try {
+                ServiceContext sc = ServiceContextFactory.getInstance(this.request);
+                formSendRecordField = FormSendRecordFieldLocalServiceUtil.createFormSendRecordField(sc);
+                formSendRecordField.setContentId(contentId);
+                formSendRecordField.setInstanceId(instanceId);
+                FormSendRecordFieldLocalServiceUtil.updateFormSendRecordField(formSendRecordField);
+            } catch (PortalException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return formSendRecordField;
+    }
+
+    //récupère l'utilisateur
+    public User getUser(long userId){
+        User user = null;
+        try {
+            user =  UserLocalServiceUtil.getUser(userId);
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    // Recuperation des informations de l'utilisateur
+    public PublikUser getPublikUser() {
+
+        PublikUser publikUser = null;
+
+        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(request);
+        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+        String publikUserId = SessionParamUtil.getString(originalRequest, "publik_internal_id");
+        if(Validator.isNotNull(publikUserId))
+            publikUser = PublikUserLocalServiceUtil.getByPublikUserId(publikUserId);
+
+        return publikUser;
+    }
+
+    // Vérifie si l'utilisateur est banni
+    public Boolean isUserBanned(){
+        PublikUser publikUser = this.getPublikUser();
+        if (Validator.isNotNull(publikUser))
+            return publikUser.isBanned();
+        else
+            return false;
+    }
+
+    // Vérifi si l'utilisateur a signé le pact
+    public Boolean hasUserSigned(){
+        PublikUser publikUser = this.getPublikUser();
+        if (Validator.isNotNull(publikUser))
+            return Validator.isNotNull(publikUser.getPactSignature()) ? true : false;
+        else
+            return false;
     }
 
     // vérifie si le select est multiple ou pas
@@ -292,5 +379,21 @@ public class FormSendDisplayContext {
      */
     public String getShortDate(Date date, Locale locale) {
         return DateHelper.displayShortDate(date, locale);
+    }
+
+    // récupère le nombre de réponses de la ville pour le formulaire
+    public int getNbReponsesVille() {
+        Criterion idCriterion = RestrictionsFactoryUtil.ne("response", "");
+        DynamicQuery formSendRecordFieldQuery = FormSendRecordFieldLocalServiceUtil.dynamicQuery().add(idCriterion);
+        List<FormSendRecordField> listFormSendRecordField = FormSendRecordFieldLocalServiceUtil.dynamicQuery(formSendRecordFieldQuery);
+        return listFormSendRecordField.size();
+    }
+
+
+    // Récupération des catégories
+    public List<AssetCategory> getCategories(){
+        AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
+        long groupId = themeDisplay.getLayout().getGroupId();
+        return assetVocabularyAccessor.getCategoriesSignalement(groupId).getCategories();
     }
 }
