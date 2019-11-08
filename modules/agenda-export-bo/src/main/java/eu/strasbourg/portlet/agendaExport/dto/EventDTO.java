@@ -81,7 +81,7 @@ public class EventDTO {
     @XmlElement(name = "manifestation")
     private List<ManifestationDTO> manifestations;
 
-    @XmlElementWrapper(name = "parentVocabularies")
+    @XmlElementWrapper(name = "vocabularies")
     @XmlElement(name = "vocabulary")
     private List<EventVocabularyDTO> vocabularies;
 

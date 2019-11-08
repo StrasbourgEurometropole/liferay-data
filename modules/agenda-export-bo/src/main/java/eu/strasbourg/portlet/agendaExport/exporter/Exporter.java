@@ -328,9 +328,9 @@ public class Exporter {
         for(EventDTO eventDTO : eventDTOS) {
 
             //Rajout des vocabulaires
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventThemes());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getTerritories());
             eventDTO.addVocabulary(_assetVocabularyAccessor.getEventPublics());
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getTerritories());
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventThemes());
             eventDTO.addVocabulary(_assetVocabularyAccessor.getEventTypes());
             eventDTO.addVocabulary(_assetVocabularyAccessor.getPlaceTypes());
 
