@@ -10,11 +10,8 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.agendaExport.dto.EventFiltersDTO;
 import eu.strasbourg.portlet.agendaExport.exporter.Exporter;
-import eu.strasbourg.service.agenda.service.AgendaExportLocalService;
-import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
@@ -43,12 +40,6 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
     private ResourceBundle bundle = ResourceBundleUtil.getBundle(
         "content.Language", this.getClass().getClassLoader()
     );
-
-    private AssetVocabularyAccessor _assetVocabularyAccessor;
-    @Reference(unbind = "-")
-    protected void setAssetVocabularyAccessor(AssetVocabularyAccessor assetVocabularyAccessor) {
-        _assetVocabularyAccessor = assetVocabularyAccessor;
-    }
 
     @Override
     public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
@@ -101,7 +92,6 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 valueResolver(secondAggregationType, secondAggregationVocabulary, secondAggregationCategory)
             );
 
-            Exporter._assetVocabularyAccessor = _assetVocabularyAccessor;
             if(exportFormat.toUpperCase().equals("DOCX")){
                 if(filters.getFile() != null) {
                     Exporter.exportDOCX(

@@ -320,6 +320,11 @@ public class Exporter {
     }
 
     private static void sortCategoriesByVocabularies(List<EventDTO> eventDTOS) throws PortalException {
+
+        if(_assetVocabularyAccessor == null) {
+            _assetVocabularyAccessor = new AssetVocabularyAccessor();
+        }
+
         for(EventDTO eventDTO : eventDTOS) {
 
             //Rajout des vocabulaires
