@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.agendaExport.dto;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +47,14 @@ public class EventVocabularyDTO {
         }
 
         categories.add(new EventCategoryDTO(name));
+    }
+
+    public void addCategory(AssetCategory category) {
+
+        if(categories == null) {
+            categories = new ArrayList<>();
+        }
+
+        categories.add(new EventCategoryDTO(category.getName()));
     }
 }

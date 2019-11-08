@@ -81,12 +81,11 @@ public class EventDTO {
     @XmlElement(name = "manifestation")
     private List<ManifestationDTO> manifestations;
 
-    @XmlElementWrapper(name = "vocabularies")
+    @XmlElementWrapper(name = "parentVocabularies")
     @XmlElement(name = "vocabulary")
     private List<EventVocabularyDTO> vocabularies;
 
-    @XmlElementWrapper(name = "categories")
-    @XmlElement(name = "category")
+    @XmlTransient
     private List<EventCategoryDTO> categories;
 
     @XmlElementWrapper(name = "tags")
@@ -396,6 +395,17 @@ public class EventDTO {
         }
     }
 
+    public void addVocabulary(AssetVocabulary vocabulary) {
+
+        if(this.vocabularies == null) {
+            this.vocabularies = new ArrayList<>();
+        }
+
+        EventVocabularyDTO vocabularyDTO = new EventVocabularyDTO();
+        vocabularyDTO.setName(vocabulary.getName());
+        this.vocabularies.add(vocabularyDTO);
+    }
+
     public void addVocabulariesDTO(List<EventVocabularyDTO> vocabularies) {
 
         if(this.vocabularies == null) {
@@ -403,6 +413,20 @@ public class EventDTO {
         }
 
         this.vocabularies.addAll(vocabularies);
+    }
+
+    public EventVocabularyDTO getVocabularyByName(String vocabularyName) {
+        if(this.vocabularies == null) {
+            return null;
+        }
+
+        for(EventVocabularyDTO vocabulary : this.vocabularies) {
+            if(vocabulary.getName().equals(vocabularyName)) {
+                return vocabulary;
+            }
+        }
+
+        return null;
     }
 
     /**

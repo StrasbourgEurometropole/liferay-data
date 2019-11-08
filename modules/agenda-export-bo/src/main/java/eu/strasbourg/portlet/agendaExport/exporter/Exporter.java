@@ -20,6 +20,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.SearchHelper;
 import org.docx4j.Docx4J;
@@ -47,9 +48,9 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Exporter {
 
+    public static AssetVocabularyAccessor _assetVocabularyAccessor;
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     private static DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-01'T'00:00:00");
-
 
     public static OutputStream exportDOCX(
         ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
@@ -62,7 +63,8 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
-            loadCategoriesInfo(eventDTOs);
+            loadParentCategoriesInfo(eventDTOs);
+            sortCategoriesByVocabularies(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
                 themeDisplay, filters, eventDTOs, Integer.parseInt(filters.getGroupDepth())
             );
@@ -81,7 +83,7 @@ public class Exporter {
             if(file != null) {
 
                 res.setProperty("content-type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
-                res.setProperty("content-disposition", "attachment; filename="+file.getFileName());
+                res.setProperty("content-disposition", "attachment; filename="+filters.getTitle());
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
 
@@ -108,7 +110,8 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
-            loadCategoriesInfo(eventDTOs);
+            loadParentCategoriesInfo(eventDTOs);
+            sortCategoriesByVocabularies(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
                 themeDisplay, filters, eventDTOs, Integer.parseInt(filters.getGroupDepth())
             );
@@ -182,6 +185,7 @@ public class Exporter {
         switch(level) {
             case 0:
                 //insert events
+                events = sortEventsByDate(events);
                 exportAgendaDTO.setEvents(events);
                 break;
             case 1:
@@ -252,22 +256,22 @@ public class Exporter {
             EventDTO eventDTO = new EventDTO(event, filters, themeDisplay.getLocale());
 
             //Load vocabularies
-            List<EventVocabularyDTO> vocabularyDTOS = new ArrayList<>();
-            for(AssetCategory category : event.getCategories()) {
-
-                AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
-                EventVocabularyDTO vocabularyDTO = getVocabularyInList(vocabularyDTOS, vocabulary.getName());
-
-                if(vocabularyDTO == null) {
-                    EventVocabularyDTO newVocabularyDTO = new EventVocabularyDTO(vocabulary.getName());
-                    newVocabularyDTO.addCategory(category.getName());
-                    vocabularyDTOS.add(newVocabularyDTO);
-                } else {
-                    vocabularyDTO.addCategory(category.getName());
-                }
-            }
-
-            eventDTO.addVocabulariesDTO(vocabularyDTOS);
+//            List<EventVocabularyDTO> vocabularyDTOS = new ArrayList<>();
+//            for(AssetCategory category : event.getCategories()) {
+//
+//                AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
+//                EventVocabularyDTO vocabularyDTO = getVocabularyInList(vocabularyDTOS, vocabulary.getName());
+//
+//                if(vocabularyDTO == null) {
+//                    EventVocabularyDTO newVocabularyDTO = new EventVocabularyDTO(vocabulary.getName());
+//                    newVocabularyDTO.addCategory(category.getName());
+//                    vocabularyDTOS.add(newVocabularyDTO);
+//                } else {
+//                    vocabularyDTO.addCategory(category.getName());
+//                }
+//            }
+//
+//            eventDTO.addVocabulariesDTO(vocabularyDTOS);
 
             //get Right name for places
             Long placeId = event.getPlaceId();
@@ -299,9 +303,7 @@ public class Exporter {
         return null;
     }
 
-
-    private static void loadCategoriesInfo(List<EventDTO> eventDTOS) throws PortalException {
-
+    private static void loadParentCategoriesInfo(List<EventDTO> eventDTOS) throws PortalException {
         for(EventDTO eventDTO : eventDTOS) {
 
             //Load parent categories and vocabulary
@@ -313,6 +315,28 @@ public class Exporter {
 
                 categoryDTO.addParentCategories(categories, vocabulary);
                 categoryDTO.addVocabulary(vocabulary);
+            }
+        }
+    }
+
+    private static void sortCategoriesByVocabularies(List<EventDTO> eventDTOS) throws PortalException {
+        for(EventDTO eventDTO : eventDTOS) {
+
+            //Rajout des vocabulaires
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventThemes());
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getTerritories());
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventPublics());
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventTypes());
+            eventDTO.addVocabulary(_assetVocabularyAccessor.getPlaceTypes());
+
+            for(EventCategoryDTO categoryDTO : eventDTO.getCategories()) {
+                AssetVocabulary vocabulary =
+                        AssetVocabularyLocalServiceUtil.getVocabulary(categoryDTO.getVocabularyId());
+
+                EventVocabularyDTO vocabularyDTO = eventDTO.getVocabularyByName(vocabulary.getName());
+                if(vocabularyDTO != null) {
+                    vocabularyDTO.addCategory(categoryDTO.getName());
+                }
             }
         }
     }
@@ -451,10 +475,10 @@ public class Exporter {
                         LocalDate date = startDate.plusDays(i);
 
                         for(PeriodDTO filterPeriod : filters.getPeriods()) {
-//                            if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
+                            if(filterPeriod.getStartDate().getMonth().equals(date.getMonth())) {
                                 LocalDateTime ldt = date.atStartOfDay();
                                 values.add(ldt.format(monthDateFormatter));
-//                            }
+                            }
                         }
                     }
                 }
@@ -544,6 +568,25 @@ public class Exporter {
         events.addAll(unsortedEvents);
         return events;
     }
+
+    /**
+     * Tri les groupes par dates croissantes
+     * @param events
+     * @return
+     */
+    private static List<EventDTO> sortEventsByDate(List<EventDTO> events) {
+
+        events.sort(
+            (g1,g2) -> {
+                LocalDate ltd1 = g1.getFirstStartDate();
+                LocalDate ltd2 = g2.getFirstStartDate();
+                return ltd1.compareTo(ltd2);
+            }
+        );
+
+        return events;
+    }
+
 
     /**
      * Tri les groupes par dates croissantes
