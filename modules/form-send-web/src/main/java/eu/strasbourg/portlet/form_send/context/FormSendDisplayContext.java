@@ -24,12 +24,15 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.form_send.configuration.FormSendConfiguration;
 import eu.strasbourg.portlet.form_send.formulaire.Champ;
 import eu.strasbourg.portlet.form_send.formulaire.Formulaire;
 import eu.strasbourg.portlet.form_send.formulaire.Option;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
@@ -125,7 +128,7 @@ public class FormSendDisplayContext {
         return this.records;
     }
 
-    // récupère les valeurs d'un formulaire envoyé (liste de instanceId/name/valeur)
+    // récupère les réponses à chaques questions d'un formulaire envoyé (liste de instanceId/name/valeur)
     public List<String[]> getRecordFields(long recordDDMStorageId, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
         // récupère les infos du contenu du formulaire envoyé
@@ -389,11 +392,22 @@ public class FormSendDisplayContext {
         return listFormSendRecordField.size();
     }
 
-
     // Récupération des catégories
     public List<AssetCategory> getCategories(){
         AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
         long groupId = themeDisplay.getLayout().getGroupId();
         return assetVocabularyAccessor.getCategoriesSignalement(groupId).getCategories();
+    }
+
+    // Vérifi si la réponse doit être affichée
+    public Boolean isToShow(long formSendRecordFieldId){
+        Boolean isToShow = true;
+        //Récupère les signalements s'il y en a
+        List<FormSendRecordFieldSignalement> signalements = FormSendRecordFieldSignalementLocalServiceUtil.findByFormSendRecordFieldId(formSendRecordFieldId);
+        //Ne garde que ceux qui n'ont pas de signalements approuvé
+        if(signalements.size() > 0 && signalements.stream().anyMatch(s -> s.getStatus() == WorkflowConstants.STATUS_APPROVED)){
+            isToShow = false;
+        }
+        return isToShow;
     }
 }

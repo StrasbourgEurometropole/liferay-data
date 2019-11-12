@@ -261,11 +261,17 @@ public interface FormSendRecordFieldLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
-	* Retourne tous les formSendRecordField d'un asset entry
+	* Retourne tous les formSendRecordField par contentIKd et instanceId
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<FormSendRecordField> getByContentAndInstanceId(long contentId,
 		java.lang.String instanceId);
+
+	/**
+	* Retourne tous les formSendRecordField par contentId
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<FormSendRecordField> getByContentId(long contentId);
 
 	/**
 	* Retourne tous les formSendRecordField d'un groupe

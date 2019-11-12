@@ -90,7 +90,7 @@ public class FormSendPortlet extends MVCPortlet {
 		// Initialisation du signalement
 		FormSendRecordFieldSignalement signalement = FormSendRecordFieldSignalementLocalServiceUtil.createFormSendRecordFieldSignalement(sc);
 
-		// Ajout des inforamtions du signalement
+		// Ajout des informations du signalement
 		signalement.setPublikId(publikUserId);
 		signalement.setFormSendRecordFieldId(entityId);
 		signalement.setStatus(WorkflowConstants.STATUS_DENIED);

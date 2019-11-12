@@ -21,11 +21,13 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
-import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the FormSendRecordField service. Represents a row in the &quot;SendFormRecordField_FormSendRecordField&quot; database table, with each column mapped to a property of this class.
@@ -141,20 +143,20 @@ public class FormSendRecordFieldImpl extends FormSendRecordFieldBaseImpl {
 
 
 	/**
-	 * méthode qui renvoie la liste des signalements d'un commentaire.
+	 * méthode qui renvoie la liste des signalements d'une réponse.
 	 * @return la liste des signalements
 	 */
-//	public List<Signalement> findSignalements(){
-//		return SignalementLocalServiceUtil.findByFormSendRecordFieldId(getFormSendRecordFieldId());
-//	}
+	public List<FormSendRecordFieldSignalement> findSignalements(){
+		return FormSendRecordFieldSignalementLocalServiceUtil.findByFormSendRecordFieldId(getFormSendRecordFieldId());
+	}
 
 	/**
 	 * méthode qui renvoie le nombre de signalement pour un commentaire.
 	 * @return le nombre de signalement en int.
 	 */
-//	public int getCountSignalements(){
-//		List<Signalement> signalements = findSignalements();
-//		List<Signalement> resultList = signalements.stream().filter(signalement -> signalement.getStatus()==0).collect(Collectors.toList());
-//		return resultList.size();
-//	}
+	public int getCountSignalements(){
+		List<FormSendRecordFieldSignalement> signalements = findSignalements();
+		List<FormSendRecordFieldSignalement> resultList = signalements.stream().filter(signalement -> signalement.getStatus()==0).collect(Collectors.toList());
+		return resultList.size();
+	}
 }

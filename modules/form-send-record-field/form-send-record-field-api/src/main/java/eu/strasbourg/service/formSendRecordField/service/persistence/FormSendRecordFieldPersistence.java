@@ -652,6 +652,138 @@ public interface FormSendRecordFieldPersistence extends BasePersistence<FormSend
 	public int countByAssetEntryId(long assetEntryId, int status);
 
 	/**
+	* Returns all the form send record fields where contentId = &#63;.
+	*
+	* @param contentId the content ID
+	* @return the matching form send record fields
+	*/
+	public java.util.List<FormSendRecordField> findByContentId(long contentId);
+
+	/**
+	* Returns a range of all the form send record fields where contentId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FormSendRecordFieldModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param contentId the content ID
+	* @param start the lower bound of the range of form send record fields
+	* @param end the upper bound of the range of form send record fields (not inclusive)
+	* @return the range of matching form send record fields
+	*/
+	public java.util.List<FormSendRecordField> findByContentId(long contentId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the form send record fields where contentId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FormSendRecordFieldModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param contentId the content ID
+	* @param start the lower bound of the range of form send record fields
+	* @param end the upper bound of the range of form send record fields (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching form send record fields
+	*/
+	public java.util.List<FormSendRecordField> findByContentId(long contentId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the form send record fields where contentId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FormSendRecordFieldModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param contentId the content ID
+	* @param start the lower bound of the range of form send record fields
+	* @param end the upper bound of the range of form send record fields (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching form send record fields
+	*/
+	public java.util.List<FormSendRecordField> findByContentId(long contentId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first form send record field in the ordered set where contentId = &#63;.
+	*
+	* @param contentId the content ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching form send record field
+	* @throws NoSuchFormSendRecordFieldException if a matching form send record field could not be found
+	*/
+	public FormSendRecordField findByContentId_First(long contentId,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator)
+		throws NoSuchFormSendRecordFieldException;
+
+	/**
+	* Returns the first form send record field in the ordered set where contentId = &#63;.
+	*
+	* @param contentId the content ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching form send record field, or <code>null</code> if a matching form send record field could not be found
+	*/
+	public FormSendRecordField fetchByContentId_First(long contentId,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator);
+
+	/**
+	* Returns the last form send record field in the ordered set where contentId = &#63;.
+	*
+	* @param contentId the content ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching form send record field
+	* @throws NoSuchFormSendRecordFieldException if a matching form send record field could not be found
+	*/
+	public FormSendRecordField findByContentId_Last(long contentId,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator)
+		throws NoSuchFormSendRecordFieldException;
+
+	/**
+	* Returns the last form send record field in the ordered set where contentId = &#63;.
+	*
+	* @param contentId the content ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching form send record field, or <code>null</code> if a matching form send record field could not be found
+	*/
+	public FormSendRecordField fetchByContentId_Last(long contentId,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator);
+
+	/**
+	* Returns the form send record fields before and after the current form send record field in the ordered set where contentId = &#63;.
+	*
+	* @param formSendRecordFieldId the primary key of the current form send record field
+	* @param contentId the content ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next form send record field
+	* @throws NoSuchFormSendRecordFieldException if a form send record field with the primary key could not be found
+	*/
+	public FormSendRecordField[] findByContentId_PrevAndNext(
+		long formSendRecordFieldId, long contentId,
+		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordField> orderByComparator)
+		throws NoSuchFormSendRecordFieldException;
+
+	/**
+	* Removes all the form send record fields where contentId = &#63; from the database.
+	*
+	* @param contentId the content ID
+	*/
+	public void removeByContentId(long contentId);
+
+	/**
+	* Returns the number of form send record fields where contentId = &#63;.
+	*
+	* @param contentId the content ID
+	* @return the number of matching form send record fields
+	*/
+	public int countByContentId(long contentId);
+
+	/**
 	* Returns all the form send record fields where contentId = &#63; and instanceId = &#63;.
 	*
 	* @param contentId the content ID

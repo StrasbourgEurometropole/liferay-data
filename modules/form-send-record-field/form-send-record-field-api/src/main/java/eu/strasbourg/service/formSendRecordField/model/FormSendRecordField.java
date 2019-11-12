@@ -81,4 +81,18 @@ public interface FormSendRecordField extends FormSendRecordFieldModel,
 	* @see eu.strasbourg.service.like.model.LikeType
 	*/
 	public int getNbDislikes();
+
+	/**
+	* méthode qui renvoie la liste des signalements d'une réponse.
+	*
+	* @return la liste des signalements
+	*/
+	public java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement> findSignalements();
+
+	/**
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	public int getCountSignalements();
 }

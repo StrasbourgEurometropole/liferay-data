@@ -88,11 +88,6 @@ public class FormSendRecordFieldSignalementLocalServiceImpl
 
 		signalement.setStatusDate(sc.getModifiedDate());
 
-		if (sc.getWorkflowAction()== WorkflowConstants.ACTION_PUBLISH){
-			signalement.setStatus(WorkflowConstants.STATUS_APPROVED);
-		}else {
-			signalement.setStatus(WorkflowConstants.STATUS_DRAFT);
-		}
 		signalement = formSendRecordFieldSignalementLocalService.updateFormSendRecordFieldSignalement(signalement);
 
 		if (signalement.isApproved()){

@@ -16,15 +16,11 @@ package eu.strasbourg.service.formSendRecordField.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
-import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
-import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
 import java.util.List;
 import java.util.Locale;
@@ -52,5 +48,50 @@ public class FormSendRecordFieldSignalementImpl
 	 * Never reference this class directly. All methods that expect a form send record field signalement model instance should use the {@link eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement} interface instead.
 	 */
 	public FormSendRecordFieldSignalementImpl() {
+	}
+
+	/**
+	 * Retourne l'utilisateur auteur du signalement
+	 */
+	@Override
+	public PublikUser getSignalementAuthor() {
+		return PublikUserLocalServiceUtil.getByPublikUserId(this.getPublikId());
+	}
+
+	/**
+	 * Retourne le nom de l'auteur du signalement
+	 */
+	@Override
+	public String getSignalementAuthorLabel() {
+		PublikUser signalementAuthor = this.getSignalementAuthor();
+
+		if (signalementAuthor != null) {
+			return signalementAuthor.getFirstName() + " " + signalementAuthor.getLastName();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategoriesByAssetEntry() {
+		return AssetCategoryLocalServiceUtil
+				.getAssetEntryAssetCategories(this.getSignalementId());
+	}
+
+	public String getCategorieName(){
+		String result = "";
+		try {
+			List<AssetCategory> assetCategories = getCategoriesByAssetEntry();
+			result = assetCategories.stream()
+					.map(assetCategory -> assetCategory.getTitle(Locale.FRANCE))
+					.collect(Collectors.joining(" - "));
+		}catch (NullPointerException e){
+			_log.error("pas de categories pour le signalement : "+this.getSignalementId());
+		}
+		return result;
 	}
 }

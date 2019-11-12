@@ -43,6 +43,9 @@
             <finder-column name="assetEntryId" />
             <finder-column name="status" />
         </finder>
+        <finder name="ContentId" return-type="Collection">
+            <finder-column name="contentId" />
+        </finder>
         <finder name="ContentAndInstanceId" return-type="Collection">
             <finder-column name="contentId" />
             <finder-column name="instanceId" />

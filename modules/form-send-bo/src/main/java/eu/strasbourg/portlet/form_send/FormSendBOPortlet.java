@@ -8,9 +8,13 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.form_send.context.EditFormSendDisplayContext;
 import eu.strasbourg.portlet.form_send.context.ViewFormDisplayContext;
 import eu.strasbourg.portlet.form_send.context.ViewFormSendDisplayContext;
+import eu.strasbourg.portlet.form_send.context.ViewReportingDisplayContext;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -18,9 +22,8 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
-import java.util.function.Supplier;
 
 /**
  * @author angelique.champougny
@@ -56,7 +59,7 @@ public class FormSendBOPortlet extends MVCPortlet {
 			portletDisplay.setURLBack(returnURL);
 		}
 
-		//si on est sur la page des proposition u de signalement, on récupère le recordSetId
+		//si on est sur la page des proposition du de signalement, on récupère le recordSetId
 		long recordSetId = ParamUtil.getLong(renderRequest,"recordSetId");
 		renderRequest.setAttribute("recordSetId", recordSetId);
 
@@ -71,16 +74,38 @@ public class FormSendBOPortlet extends MVCPortlet {
 		if (cmd.equals("editFormSend")){
 			EditFormSendDisplayContext dc = new EditFormSendDisplayContext(renderRequest,renderResponse);
 			renderRequest.setAttribute("dc",dc);
-//		} else if (tab.equals("viewReportings")){
-//			viewReportingDisplayContext dc = new viewReportingDisplayContext(renderRequest, renderResponse);
-//			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("hideResponse")){
+			long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
+			displayResponse(false, formSendRecordFieldId);
+			ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("showResponse")){
+			long formSendRecordFieldId = ParamUtil.getLong(renderRequest,"formSendRecordFieldId");
+			displayResponse(true, formSendRecordFieldId);
+			ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("viewFormSends")){
-				ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse);
+			ViewFormSendDisplayContext dc = new ViewFormSendDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("viewReportings")){
+			ViewReportingDisplayContext dc = new ViewReportingDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else {
 			ViewFormDisplayContext dc = new ViewFormDisplayContext(renderRequest,renderResponse);
 			renderRequest.setAttribute("dc",dc);
 		}
 		super.render(renderRequest, renderResponse);
+	}
+
+	private Boolean displayResponse(boolean showResponse, long formSendRecordFieldId){
+		// récupère tous les signalements qui ont cette réponse
+		List<FormSendRecordFieldSignalement> signalements = FormSendRecordFieldSignalementLocalServiceUtil.findByFormSendRecordFieldId(formSendRecordFieldId);
+
+		// pour chaque signalement, modifier leurs status par celui correspondant (4 -> afficher la réponse, 0 -> cacher la réponse)
+		for (FormSendRecordFieldSignalement signalement : signalements) {
+			signalement.setStatus(showResponse ? WorkflowConstants.STATUS_DENIED : WorkflowConstants.STATUS_APPROVED);
+			FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(signalement);
+		}
+		return true;
 	}
 }

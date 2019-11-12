@@ -306,13 +306,22 @@ public class FormSendRecordFieldLocalServiceWrapper
 	}
 
 	/**
-	* Retourne tous les formSendRecordField d'un asset entry
+	* Retourne tous les formSendRecordField par contentIKd et instanceId
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField> getByContentAndInstanceId(
 		long contentId, java.lang.String instanceId) {
 		return _formSendRecordFieldLocalService.getByContentAndInstanceId(contentId,
 			instanceId);
+	}
+
+	/**
+	* Retourne tous les formSendRecordField par contentId
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField> getByContentId(
+		long contentId) {
+		return _formSendRecordFieldLocalService.getByContentId(contentId);
 	}
 
 	/**

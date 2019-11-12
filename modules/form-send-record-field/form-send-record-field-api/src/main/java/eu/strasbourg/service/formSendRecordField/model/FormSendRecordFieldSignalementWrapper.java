@@ -283,6 +283,14 @@ public class FormSendRecordFieldSignalementWrapper
 		return new FormSendRecordFieldSignalementWrapper(_formSendRecordFieldSignalement.toUnescapedModel());
 	}
 
+	/**
+	* Retourne l'utilisateur auteur du signalement
+	*/
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
+		return _formSendRecordFieldSignalement.getSignalementAuthor();
+	}
+
 	@Override
 	public int compareTo(
 		eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
@@ -314,6 +322,11 @@ public class FormSendRecordFieldSignalementWrapper
 		return new FormSendRecordFieldSignalementWrapper((FormSendRecordFieldSignalement)_formSendRecordFieldSignalement.clone());
 	}
 
+	@Override
+	public java.lang.String getCategorieName() {
+		return _formSendRecordFieldSignalement.getCategorieName();
+	}
+
 	/**
 	* Returns the publik ID of this form send record field signalement.
 	*
@@ -322,6 +335,14 @@ public class FormSendRecordFieldSignalementWrapper
 	@Override
 	public java.lang.String getPublikId() {
 		return _formSendRecordFieldSignalement.getPublikId();
+	}
+
+	/**
+	* Retourne le nom de l'auteur du signalement
+	*/
+	@Override
+	public java.lang.String getSignalementAuthorLabel() {
+		return _formSendRecordFieldSignalement.getSignalementAuthorLabel();
 	}
 
 	/**
@@ -412,6 +433,15 @@ public class FormSendRecordFieldSignalementWrapper
 	@Override
 	public Date getStatusDate() {
 		return _formSendRecordFieldSignalement.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry() {
+		return _formSendRecordFieldSignalement.getCategoriesByAssetEntry();
 	}
 
 	/**

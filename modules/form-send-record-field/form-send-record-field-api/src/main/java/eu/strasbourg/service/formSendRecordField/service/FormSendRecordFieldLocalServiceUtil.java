@@ -286,11 +286,19 @@ public class FormSendRecordFieldLocalServiceUtil {
 	}
 
 	/**
-	* Retourne tous les formSendRecordField d'un asset entry
+	* Retourne tous les formSendRecordField par contentIKd et instanceId
 	*/
 	public static java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField> getByContentAndInstanceId(
 		long contentId, java.lang.String instanceId) {
 		return getService().getByContentAndInstanceId(contentId, instanceId);
+	}
+
+	/**
+	* Retourne tous les formSendRecordField par contentId
+	*/
+	public static java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField> getByContentId(
+		long contentId) {
+		return getService().getByContentId(contentId);
 	}
 
 	/**

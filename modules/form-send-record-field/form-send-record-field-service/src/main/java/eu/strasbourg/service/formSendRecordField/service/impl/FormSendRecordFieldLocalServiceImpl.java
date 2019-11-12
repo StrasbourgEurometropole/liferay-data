@@ -64,12 +64,21 @@ public class FormSendRecordFieldLocalServiceImpl
 	public List<FormSendRecordField> getByGroupId(long groupId) {
 		return this.formSendRecordFieldPersistence.findByGroupId(groupId);
 	}
+
 	/**
-	 * Retourne tous les formSendRecordField d'un asset entry
+	 * Retourne tous les formSendRecordField par contentIKd et instanceId
 	 */
 	@Override
 	public List<FormSendRecordField> getByContentAndInstanceId(long contentId, String instanceId) {
 		return this.formSendRecordFieldPersistence.findByContentAndInstanceId(contentId, instanceId);
+	}
+
+	/**
+	 * Retourne tous les formSendRecordField par contentId
+	 */
+	@Override
+	public List<FormSendRecordField> getByContentId(long contentId) {
+		return this.formSendRecordFieldPersistence.findByContentId(contentId);
 	}
 
 	/**

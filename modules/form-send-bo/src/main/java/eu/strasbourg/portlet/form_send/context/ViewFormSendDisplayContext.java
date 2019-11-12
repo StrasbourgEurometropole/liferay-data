@@ -42,6 +42,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
         this._response = response;
     }
 
+    // Récupère les formulaires envoyés du formulaire choisi
     public List<DDLRecord> getAllFormSends() {
         if (this._allFormSends == null) {
             List<DDLRecord> recordList = DDLRecordLocalServiceUtil.getDDLRecords(-1,-1);

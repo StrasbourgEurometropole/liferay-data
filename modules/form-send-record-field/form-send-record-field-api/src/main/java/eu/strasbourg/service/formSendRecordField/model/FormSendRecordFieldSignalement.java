@@ -56,4 +56,22 @@ public interface FormSendRecordFieldSignalement
 				return FormSendRecordFieldSignalement.class;
 			}
 		};
+
+	/**
+	* Retourne l'utilisateur auteur du signalement
+	*/
+	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor();
+
+	/**
+	* Retourne le nom de l'auteur du signalement
+	*/
+	public java.lang.String getSignalementAuthorLabel();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via
+	* l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry();
+
+	public java.lang.String getCategorieName();
 }

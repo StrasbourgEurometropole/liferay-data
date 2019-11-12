@@ -317,6 +317,16 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
+	* méthode qui renvoie le nombre de signalement pour un commentaire.
+	*
+	* @return le nombre de signalement en int.
+	*/
+	@Override
+	public int getCountSignalements() {
+		return _formSendRecordField.getCountSignalements();
+	}
+
+	/**
 	* Retourne le nombre de dislikes de l'entité
 	*
 	* @see eu.strasbourg.service.like.model.LikeType
@@ -479,6 +489,16 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	@Override
 	public Date getStatusDate() {
 		return _formSendRecordField.getStatusDate();
+	}
+
+	/**
+	* méthode qui renvoie la liste des signalements d'une réponse.
+	*
+	* @return la liste des signalements
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement> findSignalements() {
+		return _formSendRecordField.findSignalements();
 	}
 
 	/**
