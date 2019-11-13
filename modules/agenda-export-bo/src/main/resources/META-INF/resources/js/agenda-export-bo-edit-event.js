@@ -321,7 +321,6 @@ function validatePeriods(event) {
     submitBtn.on('click', function() {
         var button = this;
         setTimeout(function(){
-            console.log(button);
             $(button).prop("disabled", false);
             $(button).css("opacity", "");
         }, 3000);
