@@ -101,6 +101,7 @@
                <aui:input name="tags" type="assetTags" />
            </aui:fieldset>
 
+            <%--
            <aui:fieldset collapsible="true" label="eu.agenda.export.languages">
                 <aui:select name="language" label="detail-target-site">
                     <c:forEach var="language" items="${dc.languageList}">
@@ -113,6 +114,7 @@
                     </c:forEach>
                 </aui:select>
            </aui:fieldset>
+           --%>
 
             <aui:fieldset collapsible="true" label="eu.agenda.export.format.title">
 

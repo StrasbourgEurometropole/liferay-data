@@ -124,7 +124,7 @@ public class Exporter {
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
             res.setProperty("content-type", "text/json");
-            res.setProperty("content-disposition", "attachment; filename=content.json");
+            res.setProperty("content-disposition", "attachment; filename="+filters.getTitle()+".json");
             os.write(b);
 
         } catch (Exception e) {
@@ -254,24 +254,6 @@ public class Exporter {
         List<EventDTO> DTOList = new ArrayList<>();
         for(Event event : events) {
             EventDTO eventDTO = new EventDTO(event, filters, themeDisplay.getLocale());
-
-            //Load vocabularies
-//            List<EventVocabularyDTO> vocabularyDTOS = new ArrayList<>();
-//            for(AssetCategory category : event.getCategories()) {
-//
-//                AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.getVocabulary(category.getVocabularyId());
-//                EventVocabularyDTO vocabularyDTO = getVocabularyInList(vocabularyDTOS, vocabulary.getName());
-//
-//                if(vocabularyDTO == null) {
-//                    EventVocabularyDTO newVocabularyDTO = new EventVocabularyDTO(vocabulary.getName());
-//                    newVocabularyDTO.addCategory(category.getName());
-//                    vocabularyDTOS.add(newVocabularyDTO);
-//                } else {
-//                    vocabularyDTO.addCategory(category.getName());
-//                }
-//            }
-//
-//            eventDTO.addVocabulariesDTO(vocabularyDTOS);
 
             //get Right name for places
             Long placeId = event.getPlaceId();
