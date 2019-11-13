@@ -37,7 +37,7 @@ public class MairieStateSOAPClient {
 			Node dataNode = dataNodes.item(i);
 			String dataName = dataNode.getLocalName();
 			switch (dataName) {
-			case "estimatedAvgWaitingTime":
+			case "realAvgWaitingTime":
 				String data = dataNode.getTextContent();
 				if (data.equals("-")) {
 					waitingTime = 0;

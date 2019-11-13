@@ -192,8 +192,8 @@
                     			lienFavori += '</a>';
                     			formated_info = lienFavori;
                             } else if (info_to_display == "opened"){
-                                if(feature.properties[info_to_display]["url"] !== undefined){
-                                    formated_info = '<a href=' + feature.properties[info_to_display]["url"] + '>' + Liferay.Language.get("eu.see-times") + '</a>';
+                                if(feature.properties[info_to_display]["url"] !== undefined && feature.properties[info_to_display]["url"] != ""){
+                                    formated_info = '<a href="' + feature.properties[info_to_display]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>';
                                 }else{
                                     formated_info = feature.properties[info_to_display];
                                 }
@@ -222,10 +222,12 @@
                         var id = addFavoriteElement.data('id');
                         var type = addFavoriteElement.data('type');
                         var i;
-                        for (i = 0; i < window.userFavorites.length; i++) {
-                            if(window.userFavorites[i].typeId == type && window.userFavorites[i].entityId == id){
-                                isFavorite = true;
-                                break;
+                        if(window.userFavorites != undefined){
+                            for (i = 0; i < window.userFavorites.length; i++) {
+                                if(window.userFavorites[i].typeId == type && window.userFavorites[i].entityId == id){
+                                    isFavorite = true;
+                                    break;
+                                }
                             }
                         }
                         if (isFavorite) {
