@@ -14,7 +14,7 @@
     </div>
 </div>
 
-
+<div class="pro-search-listing">
     <section class="container">
         <div class="row pro-listing-container" data-egalize=" > *">
             <div class="col-md-3 pro-bloc-facette">
@@ -64,3 +64,4 @@
             </div>
         </div>
     </div>
+</div>
