@@ -14,18 +14,23 @@
                 <div class="tab-content">
 
                     <!-- Propositions -->
-                    <div role="tabpanel" class="tab-pane fade pro-bloc-texte active in propositions">
-                        <div>${processor.processColumn("form", "")}</div>
-
-                        <!-- WRAPPER LISTING PROPOSITIONS -->
-                        <div class="pro-wrapper-propositions pro-bloc-texte">
-                            <div>${processor.processColumn("formulaires-envoyes", "")}</div>
+                    <div role="tabpanel" class="tab-pane fade pro-bloc-texte active in propositions portlet-layout row">
+                        <div id="numeric-form" class="col-md-12 portlet-column">
+                            ${processor.processColumn("numeric-form", "portlet-column-content")}
                         </div>
+                        
+						<!-- WRAPPER LISTING PROPOSITIONS -->
+                        <div id="formulaires-envoyes" class="pro-wrapper-propositions pro-bloc-texte col-md-12 portlet-column">
+                        	${processor.processColumn("formulaires-envoyes", "portlet-column-content")}
+                        </div>
+
                     </div>
 
                     <!-- Reçus -->
-                    <div role="tabpanel" class="tab-pane fade pro-bloc-texte recus">
-                        <div>${processor.processColumn("courriers", "")}</div>
+                    <div role="tabpanel" class="tab-pane fade pro-bloc-texte recus portlet-layout row">
+                        <div id="courriers" class="col-md-12 portlet-column">
+                            ${processor.processColumn("courriers", "portlet-column-content")}
+                        </div>
                     </div>
                 </div>
             </div>
