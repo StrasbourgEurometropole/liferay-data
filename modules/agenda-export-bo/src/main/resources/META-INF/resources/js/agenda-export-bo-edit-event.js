@@ -237,24 +237,28 @@ function validatePeriods(event) {
         period: {
             begin: "#"+namespace+"startDate0",
             end: "#"+namespace+"endDate0"
-        }
+        },
+        template: "#"+namespace+"template"
     };
 
     var messages = {
-        periods: "#required-period"
+        periods: "#required-period",
+        template: "#required-template"
     }
 
-    $(":submit").on('click', function(e) {
-       //champ période
-       var valid = true;
-       var begin = $(fields.period.begin).val();
-       var end = $(fields.period.end).val();
+    /**
+     * Validation des champs pour la période
+     */
+    var periodValidation = function(e, valid) {
+
+        var begin = $(fields.period.begin).val();
+        var end = $(fields.period.end).val();
 
         if((begin === undefined || begin === "") && (end === undefined || end === "")) {
             $(messages.periods).addClass("dynamic-required");
             $(messages.periods).show();
             $([document.documentElement, document.body]).animate({
-                scrollTop: $(messages.periods).offset().top - 200
+                scrollTop: $(fields.periods.begin).offset().top - 200
             }, 1000);
             valid = false;
         } else {
@@ -262,14 +266,46 @@ function validatePeriods(event) {
             $(messages.periods).hide();
         }
 
+        return valid;
+    }
+
+    /**
+     * Validation du champ template
+     */
+    var templateValidation = function(e, valid) {
+        var template = $(fields.template).val();
+
+        if(template === "0" || template === "0") {
+            $(messages.template).addClass("dynamic-required");
+            $(messages.template).show();
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $(fields.template).offset().top - 200
+            }, 1000);
+            valid = false;
+        } else {
+            $(messages.template).removeClass("dynamic-required");
+            $(messages.template).hide();
+        }
+
+        return valid;
+    }
+
+    /**
+     * Interception du form submit pour validation
+     */
+    $(":submit").on('click', function(e) {
+
+        var valid = true;
+        valid = periodValidation(e, valid);
+        valid = templateValidation(e, valid);
+
         if(!valid) {
             e.preventDefault();
             e.stopPropagation();
         } else {
-           return true
+            return true
         }
     });
-
 })(jQuery);
 
 (function($) {

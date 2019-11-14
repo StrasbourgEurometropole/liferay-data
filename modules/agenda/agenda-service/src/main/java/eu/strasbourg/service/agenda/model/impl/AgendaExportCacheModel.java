@@ -100,8 +100,8 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		sb.append(language);
 		sb.append(", exportFormat=");
 		sb.append(exportFormat);
-		sb.append(", template=");
-		sb.append(template);
+		sb.append(", templateId=");
+		sb.append(templateId);
 		sb.append(", eventCategories=");
 		sb.append(eventCategories);
 		sb.append(", aggregations=");
@@ -193,12 +193,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			agendaExportImpl.setExportFormat(exportFormat);
 		}
 
-		if (template == null) {
-			agendaExportImpl.setTemplate(StringPool.BLANK);
-		}
-		else {
-			agendaExportImpl.setTemplate(template);
-		}
+		agendaExportImpl.setTemplateId(templateId);
 
 		if (eventCategories == null) {
 			agendaExportImpl.setEventCategories(StringPool.BLANK);
@@ -243,7 +238,8 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 		title = objectInput.readUTF();
 		language = objectInput.readUTF();
 		exportFormat = objectInput.readUTF();
-		template = objectInput.readUTF();
+
+		templateId = objectInput.readLong();
 		eventCategories = objectInput.readUTF();
 		aggregations = objectInput.readUTF();
 	}
@@ -311,12 +307,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 			objectOutput.writeUTF(exportFormat);
 		}
 
-		if (template == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(template);
-		}
+		objectOutput.writeLong(templateId);
 
 		if (eventCategories == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -349,7 +340,7 @@ public class AgendaExportCacheModel implements CacheModel<AgendaExport>,
 	public String title;
 	public String language;
 	public String exportFormat;
-	public String template;
+	public long templateId;
 	public String eventCategories;
 	public String aggregations;
 }

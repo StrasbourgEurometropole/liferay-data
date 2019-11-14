@@ -32,7 +32,7 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="language" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="exportFormat" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="template" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="templateId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="eventCategories" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="aggregations" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 	</class>

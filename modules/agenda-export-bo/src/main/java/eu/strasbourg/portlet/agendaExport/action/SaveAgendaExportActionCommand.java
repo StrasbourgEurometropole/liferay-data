@@ -94,8 +94,8 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				agendaExport.setExportFormat(formatExport);
 
 				/** Template d'export **/
-				String template = ParamUtil.getString(request, "template");
-				agendaExport.setTemplate(template);
+				Long template = ParamUtil.getLong(request, "template");
+				agendaExport.setTemplateId(template);
 
 				/** Aggregation **/
 				isValid = this.saveAggregations(request, agendaExport);
