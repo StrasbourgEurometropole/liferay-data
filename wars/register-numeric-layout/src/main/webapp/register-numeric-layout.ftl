@@ -15,7 +15,7 @@
 
                     <!-- Propositions -->
                     <div role="tabpanel" class="tab-pane fade pro-bloc-texte active in propositions portlet-layout row">
-                        <div id="numeric-form" class="col-md-12 portlet-column">
+                        <div id="numeric-form" class="pro-wrapper-numeric-form col-md-12 portlet-column">
                             ${processor.processColumn("numeric-form", "portlet-column-content")}
                         </div>
                         
