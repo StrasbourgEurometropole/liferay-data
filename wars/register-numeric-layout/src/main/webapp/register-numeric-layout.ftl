@@ -36,7 +36,9 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div>${processor.processColumn("en-chiffres", "")}</div>
+            <div id="en-chiffres" class="col-md-12 portlet-column">
+                ${processor.processColumn("en-chiffres", "portlet-column-content")}
+            </div>
         </div>
     </div>
 </div>
