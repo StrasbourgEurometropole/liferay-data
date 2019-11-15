@@ -212,6 +212,12 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		aggregations.put("first", firstAggregation);
 		aggregations.put("second", secondAggregation);
 
+		//Vérification que les catégories ont une valeur
+		if((firstAggregationVocabulary.equals("CATEGORY") && firstAggregationCategory.equals("0")) ||
+			secondAggregationVocabulary.equals("CATEGORY") && secondAggregationCategory.equals("0")) {
+			return false;
+		}
+
 		agendaExport.setAggregations(aggregations.toString());
 		return true;
 	}

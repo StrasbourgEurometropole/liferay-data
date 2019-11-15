@@ -202,6 +202,9 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div id="required-first-category" style="display:none">
+                             <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
+                         </div>
                     </div>
                 </div>
 
@@ -249,6 +252,9 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div id="required-second-category" style="display:none">
+                             <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
+                         </div>
                     </div>
                 </div>
             </aui:fieldset>
