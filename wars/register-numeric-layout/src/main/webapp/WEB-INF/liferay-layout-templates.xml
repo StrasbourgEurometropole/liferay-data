@@ -3,7 +3,7 @@
 
 <layout-templates>
 	<custom>
-		<layout-template id="register-numeric-layout" name="register-numeric-layout">
+		<layout-template id="register-numeric-layout" name="registre numérique">
 			<template-path>/register-numeric-layout.ftl</template-path>
 			<thumbnail-path>/register-numeric-layout.png</thumbnail-path>
 		</layout-template>
