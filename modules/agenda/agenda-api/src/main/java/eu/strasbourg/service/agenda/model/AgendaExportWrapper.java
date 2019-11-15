@@ -76,7 +76,7 @@ public class AgendaExportWrapper implements AgendaExport,
 		attributes.put("title", getTitle());
 		attributes.put("language", getLanguage());
 		attributes.put("exportFormat", getExportFormat());
-		attributes.put("template", getTemplate());
+		attributes.put("templateId", getTemplateId());
 		attributes.put("eventCategories", getEventCategories());
 		attributes.put("aggregations", getAggregations());
 
@@ -181,10 +181,10 @@ public class AgendaExportWrapper implements AgendaExport,
 			setExportFormat(exportFormat);
 		}
 
-		String template = (String)attributes.get("template");
+		Long templateId = (Long)attributes.get("templateId");
 
-		if (template != null) {
-			setTemplate(template);
+		if (templateId != null) {
+			setTemplateId(templateId);
 		}
 
 		String eventCategories = (String)attributes.get("eventCategories");
@@ -420,16 +420,6 @@ public class AgendaExportWrapper implements AgendaExport,
 	}
 
 	/**
-	* Returns the template of this agenda export.
-	*
-	* @return the template of this agenda export
-	*/
-	@Override
-	public java.lang.String getTemplate() {
-		return _agendaExport.getTemplate();
-	}
-
-	/**
 	* Returns the title of this agenda export.
 	*
 	* @return the title of this agenda export
@@ -660,6 +650,16 @@ public class AgendaExportWrapper implements AgendaExport,
 	}
 
 	/**
+	* Returns the template ID of this agenda export.
+	*
+	* @return the template ID of this agenda export
+	*/
+	@Override
+	public long getTemplateId() {
+		return _agendaExport.getTemplateId();
+	}
+
+	/**
 	* Returns the user ID of this agenda export.
 	*
 	* @return the user ID of this agenda export
@@ -879,13 +879,13 @@ public class AgendaExportWrapper implements AgendaExport,
 	}
 
 	/**
-	* Sets the template of this agenda export.
+	* Sets the template ID of this agenda export.
 	*
-	* @param template the template of this agenda export
+	* @param templateId the template ID of this agenda export
 	*/
 	@Override
-	public void setTemplate(java.lang.String template) {
-		_agendaExport.setTemplate(template);
+	public void setTemplateId(long templateId) {
+		_agendaExport.setTemplateId(templateId);
 	}
 
 	/**

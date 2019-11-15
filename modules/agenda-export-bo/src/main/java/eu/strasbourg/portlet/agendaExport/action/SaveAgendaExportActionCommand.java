@@ -94,8 +94,8 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 				agendaExport.setExportFormat(formatExport);
 
 				/** Template d'export **/
-				String template = ParamUtil.getString(request, "template");
-				agendaExport.setTemplate(template);
+				Long template = ParamUtil.getLong(request, "template");
+				agendaExport.setTemplateId(template);
 
 				/** Aggregation **/
 				isValid = this.saveAggregations(request, agendaExport);
@@ -211,6 +211,12 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		aggregations.put("level", aggregationLevel);
 		aggregations.put("first", firstAggregation);
 		aggregations.put("second", secondAggregation);
+
+		//Vérification que les catégories ont une valeur
+		if((firstAggregationVocabulary.equals("CATEGORY") && firstAggregationCategory.equals("0")) ||
+			secondAggregationVocabulary.equals("CATEGORY") && secondAggregationCategory.equals("0")) {
+			return false;
+		}
 
 		agendaExport.setAggregations(aggregations.toString());
 		return true;

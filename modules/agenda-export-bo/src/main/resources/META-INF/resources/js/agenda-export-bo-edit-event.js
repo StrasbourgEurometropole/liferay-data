@@ -219,7 +219,6 @@ function validatePeriods(event) {
                 data:data,
                 on: {
                     success: function(data) {
-                        console.log(data);
                         $('#result').html(data);
                     }
                 }
@@ -237,24 +236,42 @@ function validatePeriods(event) {
         period: {
             begin: "#"+namespace+"startDate0",
             end: "#"+namespace+"endDate0"
+        },
+        template: "#"+namespace+"template",
+        aggregationTypes: {
+            first: '#'+ namespace +'firstAggregationType',
+            second: '#'+ namespace +'secondAggregationType'
+        },
+        categories: {
+            first: '#'+ namespace +'firstAggregationCategory',
+            second: '#'+ namespace +'secondAggregationCategory'
         }
     };
 
     var messages = {
-        periods: "#required-period"
+        periods: "#required-period",
+        template: "#required-template",
+        aggregations: {
+            categories: {
+                first: "#required-first-category",
+                second: "#required-second-category"
+            }
+        }
     }
 
-    $(":submit").on('click', function(e) {
-       //champ période
-       var valid = true;
-       var begin = $(fields.period.begin).val();
-       var end = $(fields.period.end).val();
+    /**
+     * Validation des champs pour la période
+     */
+    var periodValidation = function(e, valid) {
+
+        var begin = $(fields.period.begin).val();
+        var end = $(fields.period.end).val();
 
         if((begin === undefined || begin === "") && (end === undefined || end === "")) {
             $(messages.periods).addClass("dynamic-required");
             $(messages.periods).show();
             $([document.documentElement, document.body]).animate({
-                scrollTop: $(messages.periods).offset().top - 200
+                scrollTop: $(fields.periods.begin).offset().top - 200
             }, 1000);
             valid = false;
         } else {
@@ -262,14 +279,77 @@ function validatePeriods(event) {
             $(messages.periods).hide();
         }
 
+        return valid;
+    }
+
+    /**
+     * Validation du champ template
+     */
+    var templateValidation = function(e, valid) {
+        var template = $(fields.template).val();
+
+        if(template === "0" || template === "0") {
+            $(messages.template).addClass("dynamic-required");
+            $(messages.template).show();
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $(fields.template).offset().top - 200
+            }, 1000);
+            valid = false;
+        } else {
+            $(messages.template).removeClass("dynamic-required");
+            $(messages.template).hide();
+        }
+
+        return valid;
+    }
+
+    /**
+     * Vérifie que les champs categories ne sont pas vides à la soumission du formulaire
+     */
+    var categoriesValidation = function(e, valid) {
+        var firstType = $(fields.aggregationTypes.first).val();
+        var secondType = $(fields.aggregationTypes.second).val();
+        var firstCategory = $(fields.categories.first).val();
+        var secondCategory = $(fields.categories.second).val();
+
+        if(firstType === "CATEGORY" && firstCategory === "") {
+            $(messages.aggregations.categories.first).addClass("dynamic-required");
+            $(messages.aggregations.categories.first).show();
+            valid = false;
+        } else {
+            $(messages.aggregations.categories.first).removeClass("dynamic-required");
+            $(messages.aggregations.categories.first).hide();
+        }
+
+        if(secondType === "CATEGORY" && secondCategory === "") {
+            $(messages.aggregations.categories.second).addClass("dynamic-required");
+            $(messages.aggregations.categories.second).show();
+            valid = false;
+        } else {
+            $(messages.aggregations.categories.second).removeClass("dynamic-required");
+            $(messages.aggregations.categories.second).hide();
+        }
+
+        return valid;
+    }
+
+    /**
+     * Interception du form submit pour validation
+     */
+    $(":submit").on('click', function(e) {
+
+        var valid = true;
+        valid = periodValidation(e, valid);
+        valid = templateValidation(e, valid);
+        valid = categoriesValidation(e, valid);
+
         if(!valid) {
             e.preventDefault();
             e.stopPropagation();
         } else {
-           return true
+            return true
         }
     });
-
 })(jQuery);
 
 (function($) {
@@ -321,7 +401,6 @@ function validatePeriods(event) {
     submitBtn.on('click', function() {
         var button = this;
         setTimeout(function(){
-            console.log(button);
             $(button).prop("disabled", false);
             $(button).css("opacity", "");
         }, 3000);
@@ -401,6 +480,12 @@ function validatePeriods(event) {
             resetAggregation(false,false,true,false,false,false);
             firstVocabularySelect.closest("div").slideDown("fast");
             firstCategorySelect.closest("div").slideDown("fast");
+
+            if(firstCategorySelect.closest("div").find("span.icon-asterisk").length === 0) {
+                firstCategorySelect.closest("div").find("label").append(
+                    '<span class="icon-asterisk text-warning"></span>'
+                );
+            }
         }  else if(value === "DAY") {
             if(secondAggregationTypeSelect.val()==="MONTH"){
                 resetAggregation(false,false,false,true,false,false);
@@ -424,6 +509,12 @@ function validatePeriods(event) {
             resetAggregation(false,false,false,false,false,true);
             secondVocabularySelect.closest("div").slideDown("fast");
             secondCategorySelect.closest("div").slideDown("fast");
+
+            if(secondCategorySelect.closest("div").find("span.icon-asterisk").length === 0) {
+                secondCategorySelect.closest("div").find("label").append(
+                    '<span class="icon-asterisk text-warning"></span>'
+                );
+            }
         }  else if(value === "DAY") {
             if(secondAggregationTypeSelect.val()==="MONTH"){
                 resetAggregation(true,false,false,false,false,false);

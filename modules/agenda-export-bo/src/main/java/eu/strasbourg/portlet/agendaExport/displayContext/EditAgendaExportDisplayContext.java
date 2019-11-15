@@ -344,19 +344,41 @@ public class EditAgendaExportDisplayContext {
             e.printStackTrace();
         }
 
+        //Default value
+        if(files.isEmpty() || this.isTemplateInList(fileEntries)) {
+            files.put(
+                new Long(0), LanguageUtil.get(bundle, "eu.agenda.export.none")
+            );
+            _agendaExport.setTemplateId(0);
+        }
+
+        //Fill map
         for(DLFileEntry file : fileEntries) {
-            if(!file.isInTrash()) {
+            if (!file.isInTrash()) {
                 files.put(file.getFileEntryId(), file.getFileName().replace(".docx", ""));
             }
         }
 
-        if(files.isEmpty()) {
-            files.put(
-                new Long(0), LanguageUtil.get(bundle, "eu.agenda.export.aggregation.value.none")
-            );
+        return files;
+    }
+
+    /**
+     * Vérifie que le template sauvegardé dans _exportAgenda est bien présent dans la liste
+     * @return boolean
+     */
+    private boolean isTemplateInList(List<DLFileEntry> fileEntries) {
+
+        if(fileEntries == null) {
+            return false;
         }
 
-        return files;
+        for(DLFileEntry fileEntry : fileEntries) {
+            if(_agendaExport.getTemplateId() == fileEntry.getFileEntryId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
