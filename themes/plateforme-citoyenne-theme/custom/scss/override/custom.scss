@@ -174,4 +174,17 @@
         }
     }
 }
+
 // Fin du style pour les formulaires
+
+//  Style pour le signalement
+
+.pro-wrapper-registre form#form-signalements {
+    margin-bottom: 0;
+
+    button[type="submit"]:hover, button[type="submit"]:focus{
+        border: 2px solid #ffed00;
+    }
+}
+
+// Fin du style pour le signalement
