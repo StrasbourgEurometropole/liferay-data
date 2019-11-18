@@ -188,3 +188,49 @@
 }
 
 // Fin du style pour le signalement
+
+// Style pour la pagination
+
+.pro-wrapper-registre .pro-pagination {
+
+    ul li:before{
+        content: none;
+    }
+
+    .selectric-wrapper {
+
+        .selectric{
+            border: none;
+
+            .label{
+                font-family: $f_hx;
+                font-size: .938em;
+                line-height: 1.6em;
+                padding: 0;
+
+                &:after{
+                    content: '';
+                    top: auto;
+                    right: 0;
+                }
+            }
+        }
+
+        .selectric-items{    
+            top: 110%;
+            border: none;
+            
+            ul{
+                font-size: 12px;
+
+                li{                    
+                    font-family: $f_hx;
+                    font-size: .938em;
+                    line-height: 1.6em;
+                }
+            }
+        }
+    }
+}
+
+// Fin style pour la pagination
