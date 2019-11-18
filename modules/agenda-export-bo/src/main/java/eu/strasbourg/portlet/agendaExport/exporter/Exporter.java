@@ -41,6 +41,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -197,13 +198,17 @@ public class Exporter {
                 );
 
                 //sort groups
-                if(filters.getAggregationFilter(1).getType().equals("DAY")) {
+                if(filters.getAggregationFilter(1).getType().equals("DAY")
+                    || filters.getAggregationFilter(1).getType().equals("MONTH")
+                ) {
                     groups = sortGroupsByDate(groups);
+                } else {
+                    groups = sortGroupsByAlphaOrder(groups);
+                }
 
-                    //sort events
-                    for(EventGroupDTO group : groups) {
-                        group.setEvents(sortEventsByHours(group.getEvents()));
-                    }
+                //sort events
+                for(EventGroupDTO group : groups) {
+                    group.setEvents(sortEventsByHours(group.getEvents()));
                 }
 
                 exportAgendaDTO.setGroups(groups);
@@ -222,14 +227,18 @@ public class Exporter {
                 );
 
                 //sort groups
-                if(filters.getAggregationFilter(1).getType().equals("DAY")) {
+                if(filters.getAggregationFilter(1).getType().equals("DAY")
+                    || filters.getAggregationFilter(1).getType().equals("MONTH")
+                ) {
                     mainGroups = sortGroupsByDate(mainGroups);
+                } else {
+                    mainGroups = sortGroupsByAlphaOrder(mainGroups);
+                }
 
-                    //sort events
-                    for(EventGroupDTO group : mainGroups) {
-                        for(EventGroupDTO subgroup : group.getSubgoups()) {
-                            subgroup.setEvents(sortEventsByHours(subgroup.getEvents()));
-                        }
+                //sort events
+                for(EventGroupDTO group : mainGroups) {
+                    for(EventGroupDTO subgroup : group.getSubgoups()) {
+                        subgroup.setEvents(sortEventsByHours(subgroup.getEvents()));
                     }
                 }
 
@@ -401,6 +410,7 @@ public class Exporter {
                 }
             }
 
+            subGroups = sortGroupsByAlphaOrder(subGroups);
             group.setSubgoups(subGroups);
             group.clearEvents();
 
@@ -588,6 +598,20 @@ public class Exporter {
                 LocalDateTime ltd2 = LocalDateTime.parse(g2.getValue());
                 return ltd1.compareTo(ltd2);
             }
+        );
+
+        return groups;
+    }
+
+    /**
+     * Tri les groupes par ordre alphabetique croissantes
+     * @param groups
+     * @return
+     */
+    private static List<EventGroupDTO> sortGroupsByAlphaOrder(List<EventGroupDTO> groups) {
+
+        groups.sort(
+            Comparator.comparing(EventGroupDTO::getValue, String.CASE_INSENSITIVE_ORDER)
         );
 
         return groups;
