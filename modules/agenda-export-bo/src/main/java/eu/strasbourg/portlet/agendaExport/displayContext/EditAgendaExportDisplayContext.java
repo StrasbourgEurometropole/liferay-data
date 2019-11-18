@@ -349,7 +349,9 @@ public class EditAgendaExportDisplayContext {
             files.put(
                 new Long(0), LanguageUtil.get(bundle, "eu.agenda.export.none")
             );
-            _agendaExport.setTemplateId(0);
+            if(_agendaExport != null) {
+                _agendaExport.setTemplateId(0);
+            }
         }
 
         //Fill map
