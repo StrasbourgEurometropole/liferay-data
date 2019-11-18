@@ -9,7 +9,16 @@
 </aside>
 
 <script>
-$("#valContributions").text(parseInt($("#nbContributions").val()) + parseInt($("#nbContributionsCourrier").val()));
-$("#valReponses").text(parseInt($("#nbReponses").val()) + parseInt($("#nbReponsesCourrier").val()));
-$("#valReponsesVille").text(parseInt($("#nbReponsesVille").val()) + parseInt($("#nbReponsesVilleCourrier").val()));
+    $("#valContributions").text(
+        ($("#nbContributions").length > 0 ? parseInt($("#nbContributions").val()) : 0) + 
+        ($("#nbContributionsCourrier").length > 0 ? parseInt($("#nbContributionsCourrier").val()) : 0 )
+    );
+    $("#valReponses").text(
+        ($("#nbReponses").length > 0 ? parseInt($("#nbReponses").val()) : 0) + 
+        ($("#nbReponsesCourrier").length > 0 ? parseInt($("#nbReponsesCourrier").val()) : 0)
+    );
+    $("#valReponsesVille").text(
+        ($("#nbReponsesVille").length > 0 ? parseInt($("#nbReponsesVille").val()) : 0) + 
+        ($("#nbReponsesVilleCourrier").length > 0 ? parseInt($("#nbReponsesVilleCourrier").val()) : 0)
+    );
 </script>
