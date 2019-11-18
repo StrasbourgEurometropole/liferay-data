@@ -345,7 +345,7 @@ public class EditAgendaExportDisplayContext {
         }
 
         //Default value
-        if(files.isEmpty() || this.isTemplateInList(fileEntries)) {
+        if(fileEntries.isEmpty() || !this.isTemplateInList(fileEntries)) {
             files.put(
                 new Long(0), LanguageUtil.get(bundle, "eu.agenda.export.none")
             );
@@ -370,12 +370,12 @@ public class EditAgendaExportDisplayContext {
      */
     private boolean isTemplateInList(List<DLFileEntry> fileEntries) {
 
-        if(fileEntries == null) {
+        if(fileEntries == null || _agendaExport == null) {
             return false;
         }
 
         for(DLFileEntry fileEntry : fileEntries) {
-            if(_agendaExport.getTemplateId() == fileEntry.getFileEntryId()) {
+            if(!fileEntry.isInTrash() && _agendaExport.getTemplateId() == fileEntry.getFileEntryId()) {
                 return true;
             }
         }
