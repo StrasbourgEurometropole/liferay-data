@@ -34,7 +34,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
     private RenderResponse _response;
     private List<DDLRecord> _allFormSends;
     private List<DDLRecord> _formSends;
-    private Map<String, String> _texteAreaFields;
+    private Map<String, String[]> _texteAreaFields;
 
     public ViewFormSendDisplayContext(RenderRequest request, RenderResponse response) {
         super(DDLRecord.class, request, response);
@@ -88,10 +88,12 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
     // récupère les valeurs d'un formulaire envoyé (nom du champ, valeur du champ)
     public List<String[]> getRecordFields(long recordDDMStorageId, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
+        // récupère tous les champs qui devront être affichés
+        Map<String, String[]> texteAreaFields = getTexteAreaFields();
+
         // récupère les infos du contenu du formulaire envoyé
         DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordDDMStorageId);
         if(Validator.isNotNull(content)){
-
             // récupère le contenu du formulaire envoyé
             String jsonString = content.getData();
             if(Validator.isNotNull(jsonString)){
@@ -102,12 +104,17 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
                         // récupère les infos du champs
                         JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
                         // on ne garde que les type text
-                        if(Validator.isNotNull(getTexteAreaFields().get(json.getString("name")))) {
-                            String[] field = {getTexteAreaFields().get(json.getString("name")),
-                                    json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />")};
-                            recordFields.add(field);
+                        if(Validator.isNotNull(texteAreaFields.get(json.getString("name")))) {
+                            // remplace la réponse "" par la réponse réelle
+                            texteAreaFields.get(json.getString("name"))[1] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
                         }
                     }
+
+                    // transform la map en list
+                    if(Validator.isNotNull(texteAreaFields)) {
+                        recordFields = new ArrayList<String[]>(texteAreaFields.values());
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -142,11 +149,11 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
         return this._searchContainer;
     }
 
-    // récupère les champ texte area qui devront être affiché (nom, valeur)
-    private Map<String, String> getTexteAreaFields() {
+    // récupère les champ texte area qui devront être affiché (nom, {valeur,reponse:""})
+    private Map<String, String[]> getTexteAreaFields() {
 
         if(this._texteAreaFields == null) {
-            Map<String, String> texteAreaFields = new HashMap<String, String>();
+            Map<String, String[]> texteAreaFields = new LinkedHashMap<String, String[]>();
             //récupère le formulaire
             long recordSetId = ParamUtil.getLong(_request, "recordSetId");
             DDLRecordSet recordSet = DDLRecordSetLocalServiceUtil.fetchDDLRecordSet(recordSetId);
@@ -162,11 +169,11 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
                         // récupère le type de champs
                         JSONObject jsonField = JSONFactoryUtil.createJSONObject(json.toString());
                         String type = jsonField.getString("type");
-                        String style = jsonField.getString("displayStyle");
 
-                        // ne garde que les textearea
-                        if (Validator.isNotNull(type) && type.equals("text") && Validator.isNotNull(style) && style.equals("multiline")) {
-                            texteAreaFields.put(jsonField.getString("name"), jsonField.getJSONObject("label").getString(Locale.FRANCE.toString()));
+                        // ne garde que les text
+                        if (Validator.isNotNull(type) && type.equals("text")) {
+                            texteAreaFields.put(jsonField.getString("name"),
+                                    new String[]{jsonField.getJSONObject("label").getString(Locale.FRANCE.toString()), ""});
                         }
                     }
                 } catch (PortalException e) {
@@ -175,6 +182,11 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
             }
 
             this._texteAreaFields = texteAreaFields;
+        }else{
+            // initialise toutes les réponses à ""
+            for (String[] value : _texteAreaFields.values()){
+                value[1] = "";
+            }
         }
         return this._texteAreaFields;
     }
