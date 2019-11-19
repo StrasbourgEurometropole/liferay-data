@@ -15,7 +15,7 @@
     <c:if test="${dc.searchContainer.total gt 0}">
         <!-- Liste des résultats -->
         <c:set var="fieldsToShow" value="${dc.fieldsToShow}" />
-        <aui:form method="post" name="fm">
+        <aui:form method="post" name="fm" cssClass="pro-page-registre">
             <liferay-ui:search-container id="entriesSearchContainer"
                         searchContainer="${dc.searchContainer}">
                 <c:forEach items="${dc.paginatedResults}" var="record">
@@ -29,6 +29,7 @@
                                     <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.getDDMStorageId(),recordField[0])}" />
                                     <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
                                         <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
+                                        <p>${dc.getTip(recordField[1], locale)}</p>
                                         <div class="pro-item-response pro-item-response-highlight">
                                             <div class="pro-bloc-texte">
                                                 <p>
