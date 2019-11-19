@@ -218,6 +218,18 @@ public class FormSendDisplayContext {
         return label.substring(0, 1).toUpperCase() + label.substring(1);
     }
 
+    // récupère le tip d'un champ
+    public String getTip(String name, Locale locale) {
+        String tip = "";
+        if(Validator.isNotNull(this.getForm())) {
+            Champ champ = this.formulaire.getField(name);
+            if (Validator.isNotNull(champ))
+                tip = champ.getTip(locale);
+        }
+
+        return tip;
+    }
+
     // récupère le formSendRecordField (qui contient les réponses et le lien avec les signalements en lien avec la réponse à une question du formulaire)
     public FormSendRecordField getFormSendRecordField(long contentId, String instanceId) {
         FormSendRecordField formSendRecordField = null;
