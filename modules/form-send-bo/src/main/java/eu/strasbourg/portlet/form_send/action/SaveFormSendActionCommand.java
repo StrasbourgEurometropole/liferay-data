@@ -67,15 +67,13 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
                                     if (Validator.isNotNull(formSendRecordField)){
                                         // récupère la réponse si elle existe
                                         String reponse = ParamUtil.getString(actionRequest,"rep-ville_" + formSendRecordField.getFormSendRecordFieldId());
-                                        if(Validator.isNotNull(reponse)){
-                                            // vérifi que la réponse est nouvelle
-                                            if(!reponse.equals(formSendRecordField.getResponse())){
-                                                formSendRecordField.setModifiedDate(new Date());
-                                                formSendRecordField.setResponseUserId(themeDisplay.getUserId());
-                                                formSendRecordField.setResponse(reponse);
+                                        // vérifi que la réponse est nouvelle
+                                        if(!reponse.equals(formSendRecordField.getResponse())){
+                                            formSendRecordField.setModifiedDate(new Date());
+                                            formSendRecordField.setResponseUserId(themeDisplay.getUserId());
+                                            formSendRecordField.setResponse(reponse);
 
-                                                _formSendRecordFieldLocalService.updateFormSendRecordField(formSendRecordField);
-                                            }
+                                            _formSendRecordFieldLocalService.updateFormSendRecordField(formSendRecordField);
                                         }
                                     }
                                 }
