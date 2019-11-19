@@ -42,6 +42,7 @@
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editFormSendURL">
 					<portlet:param name="cmd" value="editFormSend" />
+                    <portlet:param name="recordSetId" value="${recordSetId}" />
 					<portlet:param name="recordId" value="${ddlRecord.recordId}" />
 					<portlet:param name="returnURL" value="${viewFormSendsURL}" />
 					<portlet:param name="mvcPath" value="/form-send-bo-edit-form-send.jsp" />

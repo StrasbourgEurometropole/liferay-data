@@ -2,7 +2,9 @@
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveFormSend" varImpl="saveFormSendURL">
+    <portlet:param name="tab" value="viewFormSends" />
     <portlet:param name="cmd" value="saveFormSend" />
+    <portlet:param name="recordSetId" value="${recordSetId}" />
 </liferay-portlet:actionURL>
 
 
