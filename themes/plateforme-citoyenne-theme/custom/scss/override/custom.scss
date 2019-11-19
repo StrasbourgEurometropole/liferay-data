@@ -1,6 +1,5 @@
 
 // Style pour les formulaires
-
 .pro-bloc-texte{
     .pro-wrapper-numeric-form {
         .portlet-forms {
@@ -53,8 +52,23 @@
                             color: $c_txt;
                             line-height: 1.6em;
                         }
+                        
+                        .liferay-ddm-form-field-checkbox-multiple>label{
+                            display: inline-block;
+                            font-family: $f_hx;
+                            font-size: 1.25em;
+                            font-weight: 700;
+                            line-height: 1.625em;
+                            margin-top: 10px;
+                            text-transform: none;
+                        }
 
-                        .checkbox-default{
+                        .checkbox input[type="checkbox"]{
+                            position: relative;
+                            margin-right: 10px;
+                        }
+
+                        .liferay-ddm-form-field-checkbox, .checkbox-default{
                             margin-top: 20px;
                             margin-bottom: 15px;
 
@@ -174,11 +188,9 @@
         }
     }
 }
-
 // Fin du style pour les formulaires
 
 //  Style pour le signalement
-
 .pro-wrapper-registre form#form-signalements {
     margin-bottom: 0;
 
@@ -186,11 +198,9 @@
         border: 2px solid #ffed00;
     }
 }
-
 // Fin du style pour le signalement
 
 // Style pour la pagination
-
 .pro-wrapper-registre .pro-pagination {
 
     ul li:before{
@@ -232,5 +242,4 @@
         }
     }
 }
-
 // Fin style pour la pagination
