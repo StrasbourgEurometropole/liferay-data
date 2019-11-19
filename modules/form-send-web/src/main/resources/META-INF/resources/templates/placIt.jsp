@@ -92,7 +92,7 @@
                 <!-- Pagination -->
                 <c:if test="${dc.pager.lastPage > 1}">
                     <div class="pro-pagination">
-                        <div class="container">
+                        <div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-4 pull-left">
                                     <form method="get">
