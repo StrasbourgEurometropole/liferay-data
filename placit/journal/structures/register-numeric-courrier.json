@@ -23,7 +23,7 @@
             "localizable": true,
             "name": "Date",
             "readOnly": false,
-            "repeatable": true,
+            "repeatable": false,
             "required": true,
             "showLabel": true,
             "type": "ddm-date",

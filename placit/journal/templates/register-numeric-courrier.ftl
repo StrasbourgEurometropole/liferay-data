@@ -1,4 +1,4 @@
-<div class="pro-page-registre">
+<div class="pro-page-registre" data-contribution="1">
     <div class="pro-wrapper-propositions pro-bloc-texte">
         <h2 class="pro-title-propositions">Reçus par mail/courrier</h2>
         <#if !Date.getSiblings()?has_content>
@@ -33,6 +33,19 @@
                                     <#if question.ReponseVille.getData()?has_content>
                                         <#assign nbResponsesVille = nbResponsesVille + 1>
                                         <div class="pro-footer-response">
+                                            <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService") />
+                                            <#assign userId =.vars['reserved-article-author-id'].data />
+                                            <#assign user = UserLocalService.getUser(userId?number) />
+                                            
+                                            <div class="pro-author">
+                                                <figure role="group">
+                                                    <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation">
+                                                </figure>
+                                                <div class="pro-meta-txt">
+                                                    <p>Réponse publiée par :</p>
+                                                    <p><strong>${user.getFullName()}</strong></p>
+                                                </div>
+                                            </div>
                                             <div class="pro-txt">
                                                 <p>${question.ReponseVille.getData()}</p>
                                             </div>
@@ -43,10 +56,9 @@
                         </#if>
                     </div>
                 </#if>
-            </#list>
-            <input type="hidden" id="nbContributionsCourrier" value="${Date.getSiblings()?size}" />
-            <input type="hidden" id="nbReponsesCourrier" value="${nbResponses}" />
-            <input type="hidden" id="nbReponsesVilleCourrier" value="${nbResponsesVille}" />
+            </#list> 
+            <input type="hidden" id="nbReponsesCourrier_${randomNamespace}" value="${nbResponses}" />
+            <input type="hidden" id="nbReponsesVilleCourrier_${randomNamespace}" value="${nbResponsesVille}" />
         </#if>
     </div>
 </div>
