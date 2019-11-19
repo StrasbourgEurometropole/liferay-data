@@ -152,16 +152,6 @@ public class FormSendDisplayContext {
                         String[] field = {json.getString("instanceId"),json.getString("name"),""};
                         if(!json.isNull("value"))
                             field[2] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
-                        else {
-                            // si c'est un format de texte(paragraphe), on récupère le nom + la valeur
-                            if (Validator.isNotNull(this.getForm())) {
-                                if (Validator.isNotNull(this.formulaire.getField(json.getString("name"))) &&
-                                        Validator.isNotNull(this.formulaire.getField(json.getString("name")).getType()) &&
-                                        this.formulaire.getField(json.getString("name")).getType().equals("paragraph")) {
-                                    field[2] = this.formulaire.getField(json.getString("name")).getText();
-                                }
-                            }
-                        }
                         recordFields.add(field);
                     }
                 } catch (JSONException e) {
