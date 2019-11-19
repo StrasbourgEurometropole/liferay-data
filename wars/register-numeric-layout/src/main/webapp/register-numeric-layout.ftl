@@ -28,8 +28,13 @@
 
                     <!-- Reçus -->
                     <div role="tabpanel" class="tab-pane fade pro-bloc-texte recus portlet-layout row">
-                        <div id="courriers" class="col-md-12 portlet-column">
-                            ${processor.processColumn("courriers", "portlet-column-content")}
+                        <div class="pro-page-registre">
+                            <div class="pro-wrapper-propositions pro-bloc-texte">
+                                <h2 class="pro-title-propositions">Reçus par mail/courrier</h2>
+                                <div id="courriers" class="col-md-12 portlet-column">
+                                    ${processor.processColumn("courriers", "portlet-column-content")}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
