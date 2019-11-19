@@ -16,8 +16,7 @@
                     <div class="pro-item-proposition">
                         <span class="pro-published">
                             <time datetime="${dateUtil.getDate(Date_DateObj, "yyyy-MM-dd", locale)}">
-                                Le ${dateUtil.getDate(Date_DateObj, "dd MMM yyyy", locale)} | 
-                                <span>${dateUtil.getDate(Date_DateObj, "HH:mm", locale)}</span>
+                                Le ${dateUtil.getDate(Date_DateObj, "dd MMM yyyy", locale)}
                             </time>
                         </span>
                         <#if cur_Date.TitreQuestion.getSiblings()?has_content>
