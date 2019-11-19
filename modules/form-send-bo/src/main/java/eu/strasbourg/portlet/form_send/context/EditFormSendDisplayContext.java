@@ -63,13 +63,13 @@ public class EditFormSendDisplayContext{
                             for (Object jsonObject : jsonArray) {
                                 // récupère les infos du champs
                                 JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                                // on ne garde que les type textarea qui sont renseignés
-                                if(Validator.isNotNull(getTexteAreaFields().get(json.getString("name")))
+                                // on ne garde que les types text qui sont renseignés
+                                if(Validator.isNotNull(getTexteFields().get(json.getString("name")))
                                         && Validator.isNotNull(json.getJSONObject("value").getString(locale.toString()))) {
 
                                     // récupère la réponse de la ville
                                     FormSendRecordField formSendRecordField = this.getFormSendRecordField(content.getContentId(), json.getString("instanceId"));
-                                    String[] field = {getTexteAreaFields().get(json.getString("name")),
+                                    String[] field = {getTexteFields().get(json.getString("name")),
                                             json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />"),
                                             ""+formSendRecordField.getFormSendRecordFieldId(), formSendRecordField.getResponse()};
                                     _recordFields.add(field);
@@ -99,8 +99,8 @@ public class EditFormSendDisplayContext{
         return _record;
     }
 
-    // récupère les champ texte area qui devront être affiché (nom, valeur)
-    private Map<String, String> getTexteAreaFields() {
+    // récupère les champ texte qui devront être affiché (nom, valeur)
+    private Map<String, String> getTexteFields() {
         if(this._texteAreaFields == null) {
             Map<String, String> texteAreaFields = new HashMap<String, String>();
             // récupère le formulaire envoyé
@@ -121,10 +121,9 @@ public class EditFormSendDisplayContext{
                                 // récupère le type de champs
                                 JSONObject jsonField = JSONFactoryUtil.createJSONObject(json.toString());
                                 String type = jsonField.getString("type");
-                                String style = jsonField.getString("displayStyle");
 
                                 // ne garde que les textearea
-                                if (Validator.isNotNull(type) && type.equals("text") && Validator.isNotNull(style) && style.equals("multiline")) {
+                                if (Validator.isNotNull(type) && type.equals("text")) {
                                     texteAreaFields.put(jsonField.getString("name"), jsonField.getJSONObject("label").getString(Locale.FRANCE.toString()));
                                 }
                             }

@@ -89,7 +89,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
     public List<String[]> getRecordFields(long recordDDMStorageId, Locale locale) {
         List<String[]> recordFields = new ArrayList<String[]>();
         // récupère tous les champs qui devront être affichés
-        Map<String, String[]> texteAreaFields = getTexteAreaFields();
+        Map<String, String[]> texteFields = getTexteFields();
 
         // récupère les infos du contenu du formulaire envoyé
         DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(recordDDMStorageId);
@@ -104,15 +104,15 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
                         // récupère les infos du champs
                         JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
                         // on ne garde que les type text
-                        if(Validator.isNotNull(texteAreaFields.get(json.getString("name")))) {
+                        if(Validator.isNotNull(texteFields.get(json.getString("name")))) {
                             // remplace la réponse "" par la réponse réelle
-                            texteAreaFields.get(json.getString("name"))[1] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
+                            texteFields.get(json.getString("name"))[1] = json.getJSONObject("value").getString(locale.toString()).replaceAll("(\r\n|\n)", "<br />");
                         }
                     }
 
                     // transform la map en list
-                    if(Validator.isNotNull(texteAreaFields)) {
-                        recordFields = new ArrayList<String[]>(texteAreaFields.values());
+                    if(Validator.isNotNull(texteFields)) {
+                        recordFields = new ArrayList<String[]>(texteFields.values());
                     }
 
                 } catch (JSONException e) {
@@ -149,8 +149,8 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDLRe
         return this._searchContainer;
     }
 
-    // récupère les champ texte area qui devront être affiché (nom, {valeur,reponse:""})
-    private Map<String, String[]> getTexteAreaFields() {
+    // récupère les champ text qui devront être affiché (nom, {valeur,reponse:""})
+    private Map<String, String[]> getTexteFields() {
 
         if(this._texteAreaFields == null) {
             Map<String, String[]> texteAreaFields = new LinkedHashMap<String, String[]>();
