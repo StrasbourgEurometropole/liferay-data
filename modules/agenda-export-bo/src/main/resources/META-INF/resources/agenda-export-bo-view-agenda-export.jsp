@@ -20,7 +20,7 @@
 
 
 <%-- Composant : barre de filtres et de gestion des entite --%>
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="agendaExportsSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="false" searchContainerId="agendaExportsSearchContainer">
 
 		<%-- Composant : partie filtres et selection --%>
 		<liferay-frontend:management-bar-filters>
@@ -39,25 +39,6 @@
 				portletURL="${agendaExportsURL}" />
 		</liferay-frontend:management-bar-filters>
 
-		<%-- Composant : partie gestion (affichee apres une selection) --%>
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-						icon="check" label="publish" />
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-						icon="times" label="unpublish" />
-				</c:if>
-			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
-		
 </liferay-frontend:management-bar>
 
 
@@ -65,7 +46,6 @@
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="agendaExportsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 			<liferay-ui:search-container-results results="${dc.agendaExports}" />
@@ -99,6 +79,7 @@
 					href="${editAgendaExportURL}" name="userName" truncate="true" orderable="true"
 					value="${agendaExport.userName}" />
 
+                <%-- Colonne : titre --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 														 href="${editAgendaExportURL}" name="title" truncate="true" orderable="true"
 														 value="${agendaExport.titleCurrentValue}" />
@@ -121,7 +102,7 @@
 
 					    <liferay-ui:icon message="eu.agenda.export.export" url="${exportAgendaExportURL}" />
 
-						<c:if test="${dc.hasPermission('EDIT_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('EDIT_AGENDA_EXPORT') and dc.canEditAdminContent(agendaExport.agendaExportId) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editAgendaExportURL}" />
 						</c:if>
 						
@@ -140,7 +121,7 @@
 							<portlet:param name="tab" value="agendaExports" />
 							<portlet:param name="agendaExportId" value="${agendaExport.agendaExportId}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+						<c:if test="${dc.hasPermission('DELETE_AGENDA_EXPORT') and dc.canEditAdminContent(agendaExport.agendaExportId) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteAgendaExportURL}"/>
 						</c:if>
 					</liferay-ui:icon-menu>
@@ -161,73 +142,3 @@
 			url="${addAgendaExportsURL}" />
 	</liferay-frontend:add-menu>
 </c:if>
-
-<%-- URL : definit le lien vers l'action de suppression --%>
-<liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
-	<portlet:param name="tab" value="agendaExports" />
-	<portlet:param name="cmd" value="delete" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:actionURL>
-
-<%-- URL : definit le lien vers l'action de publication --%>
-<liferay-portlet:actionURL name="selectionAction" var="publishSelectionURL">
-	<portlet:param name="tab" value="agendaExports" />
-	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:actionURL>
-
-<%-- URL : definit le lien vers l'action de depublication --%>
-<liferay-portlet:actionURL name="selectionAction" var="unpublishSelectionURL">
-	<portlet:param name="tab" value="agendaExports" />
-	<portlet:param name="cmd" value="unpublish" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:actionURL>
-
-
-<%-- Script : permet l'affichage des alertes de validation d'action --%>
-<aui:script>
-	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${deleteSelectionURL}');
-		}
-	}
-	function <portlet:namespace />publishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${publishSelectionURL}');
-		}
-	}
-	function <portlet:namespace />unpublishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${unpublishSelectionURL}');
-		}
-	}
-</aui:script>

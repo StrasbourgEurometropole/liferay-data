@@ -263,7 +263,7 @@
 
 		<aui:button-row>
             <c:if test="${toExport ne true}">
-                <c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                <c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and dc.canEditAdminContent(agendaExport.agendaExportId) and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                     <aui:input type="hidden" name="workflowAction" value="" />
                     <c:if test="${dc.workflowEnabled}">
                         <aui:button cssClass="btn-lg" type="submit" value="save" />
@@ -275,7 +275,7 @@
                                 value="save-as-draft" />
                     </c:if>
                 </c:if>
-                <c:if test="${not empty agendaExport and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                <c:if test="${not empty agendaExport and dc.canEditAdminContent(agendaExport.agendaExportId) and dc.hasPermission('DELETE_AGENDA_EXPORT') and dc.canEditAdminContent(agendaExport.agendaExportId) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                     <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
                         value="delete" />
                 </c:if>
