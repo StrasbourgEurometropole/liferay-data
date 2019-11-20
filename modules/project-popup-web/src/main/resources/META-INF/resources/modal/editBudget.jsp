@@ -32,9 +32,8 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="quartiers"><liferay-ui:message key="modal.editbudget.information.territoire"/></label>
+                            <label for="quartiers"><liferay-ui:message key="modal.editbudget.information.territoire"/> <strong class="required" aria-required="true">*</strong></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected><liferay-ui:message key="modal.editbudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -319,3 +318,10 @@
         return result;
     }
 </script>
+
+<style>
+    label .required{
+        color: red;
+        font-size:1em;
+    }
+</style>
