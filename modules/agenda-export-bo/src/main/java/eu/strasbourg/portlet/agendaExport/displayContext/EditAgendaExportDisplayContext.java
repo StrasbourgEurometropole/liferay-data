@@ -441,7 +441,7 @@ public class EditAgendaExportDisplayContext {
             return _themeDisplay.getPermissionChecker().isOmniadmin();
         }
 
-        return false;
+        return true;
     }
 
     public boolean isAdministrator(User user){

@@ -41,8 +41,6 @@
 
 </liferay-frontend:management-bar>
 
-
-
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
