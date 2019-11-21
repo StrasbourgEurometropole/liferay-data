@@ -128,7 +128,7 @@ public class PeriodDTO {
 
     public boolean scheduleHasValidFormat() {
 
-        String stringPattern = "([01]\\d|2[0-3])H([0-5]\\d)?-([01]\\d|2[0-3])H([0-5]\\d)?";
+        String stringPattern = "([1-9]|([01]\\d|2[0-3]))H([0-5]\\d)?-([1-9]|([01]\\d|2[0-3]))H([0-5]\\d)?";
         Pattern pattern = Pattern.compile(stringPattern);
         Matcher matcher;
 
@@ -162,10 +162,22 @@ public class PeriodDTO {
      */
     public LocalTime scheduleToLocalTime() {
         if(this.scheduleHasValidFormat()) {
+
+            Matcher matcher;
+
             String schedule = this.getFormattedSchedule().replace("H", ":").split("-")[0];
 
-            if(schedule.length() == 3) {
+            if(schedule.length() == 3 || schedule.substring(schedule.length() - 1).equals(":")) {
                 schedule += "00";
+            }
+
+            String stringPattern = "([1-9]:\\d\\d)";
+            Pattern pattern = Pattern.compile(stringPattern);
+            matcher = pattern.matcher(schedule);
+
+            //Si on est dans le cas x:00, on rajoute un 0
+            if(matcher.matches()) {
+                schedule = "0" + schedule;
             }
 
             return LocalTime.parse(schedule);
