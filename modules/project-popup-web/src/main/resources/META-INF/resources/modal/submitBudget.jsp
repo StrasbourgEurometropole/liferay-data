@@ -28,9 +28,9 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/> <strong class="required" aria-required="true">*</strong></label>
+                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected></option>
+                                <option value="0" selected><liferay-ui:message key="modal.submitbudget.information.territoire.town"/></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -355,7 +355,6 @@
     function validateForm()
     {
         var result = true;
-        var quartierValue = $("#"+namespace+"quartier").val();
         var budgettitle = $("#"+namespace+"budgettitle").val();
         var budgetsummary = $("#"+namespace+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
@@ -368,11 +367,6 @@
         var cnil = $("#submit-budget-cnil").is(":checked");
         var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-
-        if (quartierValue==0){
-            $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
@@ -430,10 +424,3 @@
         return result;
     }
 </script>
-
-<style>
-    label .required{
-        color: red;
-        font-size:1em;
-    }
-</style>
