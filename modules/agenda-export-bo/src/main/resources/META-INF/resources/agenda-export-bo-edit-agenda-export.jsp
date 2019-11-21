@@ -133,12 +133,16 @@
                    <c:forEach var="template" items="${dc.templateList}">
                        <aui:option
                            value="${template.key}"
-                           selected="${template eq dc.agendaExport.template ? true : false}"
+                           selected="${template.key eq dc.agendaExport.templateId ? true : false}"
                        >
                            ${template.value}
                        </aui:option>
                    </c:forEach>
+                   <aui:validator name="required" errorMessage="this-field-is-required" />
                 </aui:select>
+                <div id="required-template" style="display:none">
+                    <span><liferay-ui:message key="eu.agenda.export.template.required" /><span>
+                </div>
             </aui:fieldset>
 
             <aui:fieldset collapsible="true" label="eu.agenda.export.format.configurations">
@@ -198,6 +202,9 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div id="required-first-category" style="display:none">
+                             <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
+                         </div>
                     </div>
                 </div>
 
@@ -245,6 +252,9 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div id="required-second-category" style="display:none">
+                             <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
+                         </div>
                     </div>
                 </div>
             </aui:fieldset>

@@ -20,9 +20,7 @@
 		</field>
 		<field name="language" type="String" />
 		<field name="exportFormat" type="String" />
-		<field name="template" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field name="templateId" type="long" />
 		<field name="eventCategories" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

@@ -97,7 +97,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			{ "title", Types.VARCHAR },
 			{ "language", Types.VARCHAR },
 			{ "exportFormat", Types.VARCHAR },
-			{ "template", Types.VARCHAR },
+			{ "templateId", Types.BIGINT },
 			{ "eventCategories", Types.CLOB },
 			{ "aggregations", Types.CLOB }
 		};
@@ -120,12 +120,12 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("language", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("exportFormat", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("template", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("templateId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("eventCategories", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("aggregations", Types.CLOB);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null,exportFormat VARCHAR(75) null,template VARCHAR(400) null,eventCategories TEXT null,aggregations TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table agenda_AgendaExport (uuid_ VARCHAR(75) null,agendaExportId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,language VARCHAR(75) null,exportFormat VARCHAR(75) null,templateId LONG,eventCategories TEXT null,aggregations TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table agenda_AgendaExport";
 	public static final String ORDER_BY_JPQL = " ORDER BY agendaExport.agendaExportId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY agenda_AgendaExport.agendaExportId ASC";
@@ -176,7 +176,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		model.setTitle(soapModel.getTitle());
 		model.setLanguage(soapModel.getLanguage());
 		model.setExportFormat(soapModel.getExportFormat());
-		model.setTemplate(soapModel.getTemplate());
+		model.setTemplateId(soapModel.getTemplateId());
 		model.setEventCategories(soapModel.getEventCategories());
 		model.setAggregations(soapModel.getAggregations());
 
@@ -259,7 +259,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		attributes.put("title", getTitle());
 		attributes.put("language", getLanguage());
 		attributes.put("exportFormat", getExportFormat());
-		attributes.put("template", getTemplate());
+		attributes.put("templateId", getTemplateId());
 		attributes.put("eventCategories", getEventCategories());
 		attributes.put("aggregations", getAggregations());
 
@@ -367,10 +367,10 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			setExportFormat(exportFormat);
 		}
 
-		String template = (String)attributes.get("template");
+		Long templateId = (Long)attributes.get("templateId");
 
-		if (template != null) {
-			setTemplate(template);
+		if (templateId != null) {
+			setTemplateId(templateId);
 		}
 
 		String eventCategories = (String)attributes.get("eventCategories");
@@ -759,18 +759,13 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 
 	@JSON
 	@Override
-	public String getTemplate() {
-		if (_template == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _template;
-		}
+	public long getTemplateId() {
+		return _templateId;
 	}
 
 	@Override
-	public void setTemplate(String template) {
-		_template = template;
+	public void setTemplateId(long templateId) {
+		_templateId = templateId;
 	}
 
 	@JSON
@@ -999,7 +994,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		agendaExportImpl.setTitle(getTitle());
 		agendaExportImpl.setLanguage(getLanguage());
 		agendaExportImpl.setExportFormat(getExportFormat());
-		agendaExportImpl.setTemplate(getTemplate());
+		agendaExportImpl.setTemplateId(getTemplateId());
 		agendaExportImpl.setEventCategories(getEventCategories());
 		agendaExportImpl.setAggregations(getAggregations());
 
@@ -1183,13 +1178,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 			agendaExportCacheModel.exportFormat = null;
 		}
 
-		agendaExportCacheModel.template = getTemplate();
-
-		String template = agendaExportCacheModel.template;
-
-		if ((template != null) && (template.length() == 0)) {
-			agendaExportCacheModel.template = null;
-		}
+		agendaExportCacheModel.templateId = getTemplateId();
 
 		agendaExportCacheModel.eventCategories = getEventCategories();
 
@@ -1246,8 +1235,8 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		sb.append(getLanguage());
 		sb.append(", exportFormat=");
 		sb.append(getExportFormat());
-		sb.append(", template=");
-		sb.append(getTemplate());
+		sb.append(", templateId=");
+		sb.append(getTemplateId());
 		sb.append(", eventCategories=");
 		sb.append(getEventCategories());
 		sb.append(", aggregations=");
@@ -1330,8 +1319,8 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 		sb.append(getExportFormat());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>template</column-name><column-value><![CDATA[");
-		sb.append(getTemplate());
+			"<column><column-name>templateId</column-name><column-value><![CDATA[");
+		sb.append(getTemplateId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>eventCategories</column-name><column-value><![CDATA[");
@@ -1376,7 +1365,7 @@ public class AgendaExportModelImpl extends BaseModelImpl<AgendaExport>
 	private String _titleCurrentLanguageId;
 	private String _language;
 	private String _exportFormat;
-	private String _template;
+	private long _templateId;
 	private String _eventCategories;
 	private String _aggregations;
 	private long _columnBitmask;

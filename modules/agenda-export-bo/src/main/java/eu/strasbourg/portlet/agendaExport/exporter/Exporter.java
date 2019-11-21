@@ -82,8 +82,8 @@ public class Exporter {
             DLFileEntry file = filters.getFile();
             if(file != null) {
 
-                res.setProperty("content-type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml");
-                res.setProperty("content-disposition", "attachment; filename="+filters.getTitle()+".docx");
+                res.setProperty("content-type", "application/force-download");
+                res.setProperty("content-disposition", "attachment; filename=\""+filters.getTitle()+".docx\"");
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
 
@@ -123,8 +123,8 @@ public class Exporter {
             String json = mapper.writeValueAsString(data);
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
-            res.setProperty("content-type", "text/json");
-            res.setProperty("content-disposition", "attachment; filename="+filters.getTitle()+".json");
+            res.setProperty("content-type", "application/force-download");
+            res.setProperty("content-disposition", "attachment; filename=\""+filters.getTitle()+".json\"");
             os.write(b);
 
         } catch (Exception e) {
