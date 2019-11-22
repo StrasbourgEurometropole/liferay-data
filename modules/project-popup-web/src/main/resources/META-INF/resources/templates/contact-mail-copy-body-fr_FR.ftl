@@ -77,22 +77,23 @@
 </center>
 
 
-<p class="MsoNormal"><span style="color:#1F497D"><o:p>&nbsp;</o:p></span></p>
-<p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">L’équipe de la Mission participation est susceptible de vous contacter pour approfondir certains éléments de votre projet.
-<o:p></o:p></span></p>
-<p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">Vous disposez d’un droit d’accès et de rectification des données qui vous concernent.
-<b><span style="color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-textfill-fill-alpha:100.0%">Veuillez consulter notre
-<a href="https://www.strasbourg.eu/donnees-personnelles"><span style="color:#1F4E79;mso-style-textfill-fill-color:#1F4E79;mso-style-textfill-fill-alpha:100.0%">Politique de gestion des données à caractère personnel</span></a>
-</span></b><o:p></o:p></span></p>
-<p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">Pour exercer vos droits d’accès, de rectification, d’opposition et de limitation du traitement, adressez-vous à la Mission participation citoyenne à l’adresse
-</span><a href="mailto:participer@strasbourg.eu"><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:windowtext">participer@strasbourg.eu</span></a><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">, ou au délégué
- à la protection des données, &nbsp;par e-mail à l’adresse </span><a href="mailto:dpo@strasbourg.eu"><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:windowtext">dpo@strasbourg.eu</span></a><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">.
-<o:p></o:p></span></p>
-<p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">En cas de conflit, vous disposez du droit d’introduire une réclamation auprès de la CNIL.<o:p></o:p></span></p>
-<p class="MsoNormal"><span style="font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:#1F497D"><o:p>&nbsp;</o:p></span></p>
-</div>
-</div>
-<br><br>
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><span style="color:black"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Vous recevez ce courriel car vous avez soumis un projet de Budget participatif sur la plateforme
+ participer.strasbourg.eu ou via un formulaire papier.<o:p></o:p></span></i></p>
+<div style="background:yellow">
+<i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Conformément au Règlement (UE) 2016/679 du 27 avril 2016 (Règlement Général sur la Protection des Données ou RGPD) et à la Loi n°78-17 du 6 janvier 1978 modifiée (Loi Informatique
+ et Libertés), vous disposez d’un droit d’accès, de rectification, d’effacement, de portabilité et de limitation des traitements. Le traitement de vos données personnelles repose sur votre consentement. Vous pouvez le retirer à tout moment.<o:p></o:p></span></i></p>
+<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"><o:p>&nbsp;</o:p></span></i></p>
+<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Pour exercer vos droits, vous pouvez vous adresser par courrier postal à la Délégation à la protection des données, Ville et Eurométropole de Strasbourg, 1 parc de l’Etoile,
+ 67076 Strasbourg Cedex ou par courriel à </span></i><span class="MsoHyperlink"><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif"><a href="mailto:dpo@strasbourg.eu">dpo@strasbourg.eu</a></span></i></span><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"><o:p></o:p></span></i></p>
+<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"><o:p>&nbsp;</o:p></span></i></p>
+<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Si vous estimez, après nous avoir contactés, que vos droits «&nbsp;Informatique et Libertés&nbsp;» ne sont pas respectés, vous pouvez adresser une réclamation à la Commission Nationale
+ de l’Informatique et des Libertés (CNIL). <o:p></o:p></span></i></p>
+ </div>
 
 <div style="font-size:8pt; line-height:10pt; font-family: 'Calibri','Arial','sans-serif'; background-color:#D5EAFF; border:1px dotted #003333; padding:.6em; ">
 

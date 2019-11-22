@@ -285,7 +285,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			StringWriter bodyWriter = new StringWriter();
 			bodyTemplate.process(context, bodyWriter);
 			
-			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitBudget.mail.information");
+			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitbudget.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
