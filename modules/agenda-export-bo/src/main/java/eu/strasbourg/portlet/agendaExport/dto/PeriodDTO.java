@@ -122,18 +122,34 @@ public class PeriodDTO {
             return "";
         }
 
-        formatted = schedule.replace(" ", "").toUpperCase();
+        formatted = schedule.replace(" ", "").toLowerCase();
         return formatted;
     }
 
-    public boolean scheduleHasValidFormat() {
-
-        String stringPattern = "([1-9]|([01]\\d|2[0-3]))H([0-5]\\d)?-([1-9]|([01]\\d|2[0-3]))H([0-5]\\d)?";
+    private Matcher getRegexMatcherOnFormattedSchedule() {
+        String stringPattern = "([1-9]|([01]\\d|2[0-3]))h([0-5]\\d)?";
         Pattern pattern = Pattern.compile(stringPattern);
-        Matcher matcher;
+        return pattern.matcher(this.getFormattedSchedule());
+    }
 
-        matcher = pattern.matcher(this.getFormattedSchedule());
-        return matcher.matches();
+    public boolean scheduleHasValidFormat() {
+        Matcher matcher = getRegexMatcherOnFormattedSchedule();
+        return matcher.find();
+    }
+
+    /**
+     * Renvoit la sous chaine qui respecte la regex
+     * @return String
+     */
+    public String getMatchedScheduleFromString() {
+
+        Matcher match = getRegexMatcherOnFormattedSchedule();
+
+        if(match.find()) {
+            return match.group(0);
+        }
+
+        return "";
     }
 
     /**
@@ -157,33 +173,30 @@ public class PeriodDTO {
     }
 
     /**
-     * Convertis le schedule à une localTime
+     * Convertis le schedule vers une instance localTime
      * @return
      */
     public LocalTime scheduleToLocalTime() {
+
         if(this.scheduleHasValidFormat()) {
+            String schedule = getMatchedScheduleFromString().toLowerCase();
 
-            Matcher matcher;
+            if(schedule != "") {
 
-            String schedule = this.getFormattedSchedule().replace("H", ":").split("-")[0];
+                String[] splitted = schedule.split("h");
 
-            if(schedule.length() == 3 || schedule.substring(schedule.length() - 1).equals(":")) {
-                schedule += "00";
+                //Rajout d'un zéro au début si nécessaire
+                if(splitted[0].length() == 1) { schedule = "0" + schedule; }
+
+                //Rajout de deux zéro à la fin si nécessaire
+                if(splitted.length < 2) { schedule += "00"; }
+
+                schedule = schedule.replace("h", ":");
+                return LocalTime.parse(schedule);
             }
-
-            String stringPattern = "([1-9]:\\d\\d)";
-            Pattern pattern = Pattern.compile(stringPattern);
-            matcher = pattern.matcher(schedule);
-
-            //Si on est dans le cas x:00, on rajoute un 0
-            if(matcher.matches()) {
-                schedule = "0" + schedule;
-            }
-
-            return LocalTime.parse(schedule);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
