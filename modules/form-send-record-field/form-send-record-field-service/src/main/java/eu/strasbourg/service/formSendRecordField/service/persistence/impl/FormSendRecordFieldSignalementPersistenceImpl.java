@@ -2035,6 +2035,570 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "formSendRecordFieldSignalement.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID = new FinderPath(FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
+			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
+			FormSendRecordFieldSignalementImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID =
+		new FinderPath(FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
+			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
+			FormSendRecordFieldSignalementImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
+			new String[] { String.class.getName() },
+			FormSendRecordFieldSignalementModelImpl.PUBLIKID_COLUMN_BITMASK |
+			FormSendRecordFieldSignalementModelImpl.CREATEDATE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
+			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
+			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByPublikId", new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the form send record field signalements where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the matching form send record field signalements
+	 */
+	@Override
+	public List<FormSendRecordFieldSignalement> findByPublikId(String publikId) {
+		return findByPublikId(publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
+	}
+
+	/**
+	 * Returns a range of all the form send record field signalements where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FormSendRecordFieldSignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of form send record field signalements
+	 * @param end the upper bound of the range of form send record field signalements (not inclusive)
+	 * @return the range of matching form send record field signalements
+	 */
+	@Override
+	public List<FormSendRecordFieldSignalement> findByPublikId(
+		String publikId, int start, int end) {
+		return findByPublikId(publikId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the form send record field signalements where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FormSendRecordFieldSignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of form send record field signalements
+	 * @param end the upper bound of the range of form send record field signalements (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching form send record field signalements
+	 */
+	@Override
+	public List<FormSendRecordFieldSignalement> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator) {
+		return findByPublikId(publikId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the form send record field signalements where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FormSendRecordFieldSignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of form send record field signalements
+	 * @param end the upper bound of the range of form send record field signalements (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching form send record field signalements
+	 */
+	@Override
+	public List<FormSendRecordFieldSignalement> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID;
+			finderArgs = new Object[] { publikId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID;
+			finderArgs = new Object[] { publikId, start, end, orderByComparator };
+		}
+
+		List<FormSendRecordFieldSignalement> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<FormSendRecordFieldSignalement>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (FormSendRecordFieldSignalement formSendRecordFieldSignalement : list) {
+					if (!Objects.equals(publikId,
+								formSendRecordFieldSignalement.getPublikId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT_WHERE);
+
+			boolean bindPublikId = false;
+
+			if (publikId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
+			}
+			else if (publikId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(FormSendRecordFieldSignalementModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikId) {
+					qPos.add(publikId);
+				}
+
+				if (!pagination) {
+					list = (List<FormSendRecordFieldSignalement>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<FormSendRecordFieldSignalement>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first form send record field signalement in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching form send record field signalement
+	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 */
+	@Override
+	public FormSendRecordFieldSignalement findByPublikId_First(
+		String publikId,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
+		throws NoSuchSignalementException {
+		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByPublikId_First(publikId,
+				orderByComparator);
+
+		if (formSendRecordFieldSignalement != null) {
+			return formSendRecordFieldSignalement;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publikId=");
+		msg.append(publikId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchSignalementException(msg.toString());
+	}
+
+	/**
+	 * Returns the first form send record field signalement in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching form send record field signalement, or <code>null</code> if a matching form send record field signalement could not be found
+	 */
+	@Override
+	public FormSendRecordFieldSignalement fetchByPublikId_First(
+		String publikId,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator) {
+		List<FormSendRecordFieldSignalement> list = findByPublikId(publikId, 0,
+				1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last form send record field signalement in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching form send record field signalement
+	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 */
+	@Override
+	public FormSendRecordFieldSignalement findByPublikId_Last(String publikId,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
+		throws NoSuchSignalementException {
+		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByPublikId_Last(publikId,
+				orderByComparator);
+
+		if (formSendRecordFieldSignalement != null) {
+			return formSendRecordFieldSignalement;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publikId=");
+		msg.append(publikId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchSignalementException(msg.toString());
+	}
+
+	/**
+	 * Returns the last form send record field signalement in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching form send record field signalement, or <code>null</code> if a matching form send record field signalement could not be found
+	 */
+	@Override
+	public FormSendRecordFieldSignalement fetchByPublikId_Last(
+		String publikId,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator) {
+		int count = countByPublikId(publikId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<FormSendRecordFieldSignalement> list = findByPublikId(publikId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the form send record field signalements before and after the current form send record field signalement in the ordered set where publikId = &#63;.
+	 *
+	 * @param signalementId the primary key of the current form send record field signalement
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next form send record field signalement
+	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 */
+	@Override
+	public FormSendRecordFieldSignalement[] findByPublikId_PrevAndNext(
+		long signalementId, String publikId,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
+		throws NoSuchSignalementException {
+		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByPrimaryKey(signalementId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			FormSendRecordFieldSignalement[] array = new FormSendRecordFieldSignalementImpl[3];
+
+			array[0] = getByPublikId_PrevAndNext(session,
+					formSendRecordFieldSignalement, publikId,
+					orderByComparator, true);
+
+			array[1] = formSendRecordFieldSignalement;
+
+			array[2] = getByPublikId_PrevAndNext(session,
+					formSendRecordFieldSignalement, publikId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected FormSendRecordFieldSignalement getByPublikId_PrevAndNext(
+		Session session,
+		FormSendRecordFieldSignalement formSendRecordFieldSignalement,
+		String publikId,
+		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT_WHERE);
+
+		boolean bindPublikId = false;
+
+		if (publikId == null) {
+			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
+		}
+		else if (publikId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+		}
+		else {
+			bindPublikId = true;
+
+			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(FormSendRecordFieldSignalementModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPublikId) {
+			qPos.add(publikId);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(formSendRecordFieldSignalement);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<FormSendRecordFieldSignalement> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the form send record field signalements where publikId = &#63; from the database.
+	 *
+	 * @param publikId the publik ID
+	 */
+	@Override
+	public void removeByPublikId(String publikId) {
+		for (FormSendRecordFieldSignalement formSendRecordFieldSignalement : findByPublikId(
+				publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(formSendRecordFieldSignalement);
+		}
+	}
+
+	/**
+	 * Returns the number of form send record field signalements where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the number of matching form send record field signalements
+	 */
+	@Override
+	public int countByPublikId(String publikId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
+
+		Object[] finderArgs = new Object[] { publikId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_FORMSENDRECORDFIELDSIGNALEMENT_WHERE);
+
+			boolean bindPublikId = false;
+
+			if (publikId == null) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
+			}
+			else if (publikId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikId) {
+					qPos.add(publikId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "formSendRecordFieldSignalement.publikId IS NULL";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "formSendRecordFieldSignalement.publikId = ?";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(formSendRecordFieldSignalement.publikId IS NULL OR formSendRecordFieldSignalement.publikId = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_FORMSENDRECORDFIELDID =
 		new FinderPath(FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
 			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
@@ -2925,6 +3489,14 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				args);
 
 			args = new Object[] {
+					formSendRecordFieldSignalementModelImpl.getPublikId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+				args);
+
+			args = new Object[] {
 					formSendRecordFieldSignalementModelImpl.getFormSendRecordFieldId()
 				};
 
@@ -2995,6 +3567,25 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
+
+			if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						formSendRecordFieldSignalementModelImpl.getOriginalPublikId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
+					args);
+
+				args = new Object[] {
+						formSendRecordFieldSignalementModelImpl.getPublikId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
 					args);
 			}
 

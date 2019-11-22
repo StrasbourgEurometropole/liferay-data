@@ -104,6 +104,9 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
 		<finder name="CommentId" return-type="Collection">
 			<finder-column name="commentId" />
 		</finder>

@@ -251,6 +251,13 @@ public interface FormSendRecordFieldSignalementLocalService
 	public List<FormSendRecordFieldSignalement> getByGroupId(long groupId);
 
 	/**
+	* Retourne tous les signalementsd'une réponse à un formulaire d'un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<FormSendRecordFieldSignalement> getByPublikId(
+		java.lang.String publikId);
+
+	/**
 	* Returns a range of all the form send record field signalements.
 	*
 	* <p>

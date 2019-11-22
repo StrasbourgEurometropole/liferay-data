@@ -503,6 +503,138 @@ public interface SignalementPersistence extends BasePersistence<Signalement> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns all the signalements where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the matching signalements
+	*/
+	public java.util.List<Signalement> findByPublikId(java.lang.String publikId);
+
+	/**
+	* Returns a range of all the signalements where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of signalements
+	* @param end the upper bound of the range of signalements (not inclusive)
+	* @return the range of matching signalements
+	*/
+	public java.util.List<Signalement> findByPublikId(
+		java.lang.String publikId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the signalements where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of signalements
+	* @param end the upper bound of the range of signalements (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching signalements
+	*/
+	public java.util.List<Signalement> findByPublikId(
+		java.lang.String publikId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the signalements where publikId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SignalementModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param publikId the publik ID
+	* @param start the lower bound of the range of signalements
+	* @param end the upper bound of the range of signalements (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching signalements
+	*/
+	public java.util.List<Signalement> findByPublikId(
+		java.lang.String publikId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first signalement in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching signalement
+	* @throws NoSuchSignalementException if a matching signalement could not be found
+	*/
+	public Signalement findByPublikId_First(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator)
+		throws NoSuchSignalementException;
+
+	/**
+	* Returns the first signalement in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching signalement, or <code>null</code> if a matching signalement could not be found
+	*/
+	public Signalement fetchByPublikId_First(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator);
+
+	/**
+	* Returns the last signalement in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching signalement
+	* @throws NoSuchSignalementException if a matching signalement could not be found
+	*/
+	public Signalement findByPublikId_Last(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator)
+		throws NoSuchSignalementException;
+
+	/**
+	* Returns the last signalement in the ordered set where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching signalement, or <code>null</code> if a matching signalement could not be found
+	*/
+	public Signalement fetchByPublikId_Last(java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator);
+
+	/**
+	* Returns the signalements before and after the current signalement in the ordered set where publikId = &#63;.
+	*
+	* @param signalementId the primary key of the current signalement
+	* @param publikId the publik ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next signalement
+	* @throws NoSuchSignalementException if a signalement with the primary key could not be found
+	*/
+	public Signalement[] findByPublikId_PrevAndNext(long signalementId,
+		java.lang.String publikId,
+		com.liferay.portal.kernel.util.OrderByComparator<Signalement> orderByComparator)
+		throws NoSuchSignalementException;
+
+	/**
+	* Removes all the signalements where publikId = &#63; from the database.
+	*
+	* @param publikId the publik ID
+	*/
+	public void removeByPublikId(java.lang.String publikId);
+
+	/**
+	* Returns the number of signalements where publikId = &#63;.
+	*
+	* @param publikId the publik ID
+	* @return the number of matching signalements
+	*/
+	public int countByPublikId(java.lang.String publikId);
+
+	/**
 	* Returns all the signalements where commentId = &#63;.
 	*
 	* @param commentId the comment ID

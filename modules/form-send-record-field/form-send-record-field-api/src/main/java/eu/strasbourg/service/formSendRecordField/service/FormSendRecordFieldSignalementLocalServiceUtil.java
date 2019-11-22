@@ -280,6 +280,14 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les signalementsd'une réponse à un formulaire d'un utilisateur
+	*/
+	public static java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement> getByPublikId(
+		java.lang.String publikId) {
+		return getService().getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the form send record field signalements.
 	*
 	* <p>

@@ -89,6 +89,9 @@
         <finder name="GroupId" return-type="Collection">
             <finder-column name="groupId" />
         </finder>
+        <finder name="PublikId" return-type="Collection">
+            <finder-column name="publikId" />
+        </finder>
         <finder name="FormSendRecordFieldId" return-type="Collection">
             <finder-column name="formSendRecordFieldId" />
         </finder>

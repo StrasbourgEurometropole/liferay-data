@@ -54,6 +54,15 @@ public class FormSendRecordFieldSignalementLocalServiceImpl
 	}
 
 	/**
+	 * Retourne tous les signalementsd'une réponse à un formulaire d'un utilisateur
+	 */
+	@Override
+	public List<FormSendRecordFieldSignalement> getByPublikId(String publikId) {
+
+		return this.formSendRecordFieldSignalementPersistence.findByPublikId(publikId);
+	}
+
+	/**
 	 * Permet de creer un signalement sans le persister.
 	 * @param sc le serviceContext
 	 * @return le signalement.

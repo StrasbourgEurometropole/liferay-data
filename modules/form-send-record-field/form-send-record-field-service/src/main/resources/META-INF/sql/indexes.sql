@@ -6,5 +6,6 @@ create unique index IX_E022AB37 on FormSendRecordField_FormSendRecordField (uuid
 
 create index IX_FE1E1D62 on FormSendRecordField_FormSendRecordFieldSignalement (formSendRecordFieldId);
 create index IX_DC15AFC4 on FormSendRecordField_FormSendRecordFieldSignalement (groupId);
+create index IX_CD5CFB86 on FormSendRecordField_FormSendRecordFieldSignalement (publikId[$COLUMN_LENGTH:75$]);
 create index IX_4572241A on FormSendRecordField_FormSendRecordFieldSignalement (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_BD88E91C on FormSendRecordField_FormSendRecordFieldSignalement (uuid_[$COLUMN_LENGTH:75$], groupId);

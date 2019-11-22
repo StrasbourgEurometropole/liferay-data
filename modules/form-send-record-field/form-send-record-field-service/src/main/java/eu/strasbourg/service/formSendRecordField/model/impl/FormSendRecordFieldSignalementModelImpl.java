@@ -128,8 +128,9 @@ public class FormSendRecordFieldSignalementModelImpl extends BaseModelImpl<FormS
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long FORMSENDRECORDFIELDID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
+	public static final long PUBLIKID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -588,7 +589,17 @@ public class FormSendRecordFieldSignalementModelImpl extends BaseModelImpl<FormS
 
 	@Override
 	public void setPublikId(String publikId) {
+		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
+
+		if (_originalPublikId == null) {
+			_originalPublikId = _publikId;
+		}
+
 		_publikId = publikId;
+	}
+
+	public String getOriginalPublikId() {
+		return GetterUtil.getString(_originalPublikId);
 	}
 
 	@Override
@@ -800,6 +811,8 @@ public class FormSendRecordFieldSignalementModelImpl extends BaseModelImpl<FormS
 		formSendRecordFieldSignalementModelImpl._originalFormSendRecordFieldId = formSendRecordFieldSignalementModelImpl._formSendRecordFieldId;
 
 		formSendRecordFieldSignalementModelImpl._setOriginalFormSendRecordFieldId = false;
+
+		formSendRecordFieldSignalementModelImpl._originalPublikId = formSendRecordFieldSignalementModelImpl._publikId;
 
 		formSendRecordFieldSignalementModelImpl._columnBitmask = 0;
 	}
@@ -1019,6 +1032,7 @@ public class FormSendRecordFieldSignalementModelImpl extends BaseModelImpl<FormS
 	private long _originalFormSendRecordFieldId;
 	private boolean _setOriginalFormSendRecordFieldId;
 	private String _publikId;
+	private String _originalPublikId;
 	private long _columnBitmask;
 	private FormSendRecordFieldSignalement _escapedModel;
 }
