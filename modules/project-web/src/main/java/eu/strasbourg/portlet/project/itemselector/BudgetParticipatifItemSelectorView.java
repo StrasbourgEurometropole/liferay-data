@@ -1,9 +1,12 @@
 package eu.strasbourg.portlet.project.itemselector;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.portlet.PortletURL;
 import javax.servlet.RequestDispatcher;
@@ -101,9 +104,14 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 			.getString(servletRequest.getParameter("keywords"));
 
 		List<BudgetParticipatif> budgetsParticipatifs = BudgetParticipatifLocalServiceUtil.findByKeyword(keywords,
-			themeDisplay.getScopeGroupId(), (delta * cur) - delta,
-			(delta * cur));
+			themeDisplay.getScopeGroupId(), (delta * cur) - delta, (delta * cur));
 
+		budgetsParticipatifs = new ArrayList(budgetsParticipatifs);
+		budgetsParticipatifs = budgetsParticipatifs.stream()
+				.sorted(Comparator.comparing((BudgetParticipatif o) -> o.getAssetEntry().getModifiedDate()).reversed())
+				.collect(Collectors.toList());
+		
+		
 		long budgetsParticipatifsCount = BudgetParticipatifLocalServiceUtil.findByKeywordCount(
 			keywords, themeDisplay.getScopeGroupId());
 

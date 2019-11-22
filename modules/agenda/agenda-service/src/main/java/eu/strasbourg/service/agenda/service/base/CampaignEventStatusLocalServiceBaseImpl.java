@@ -43,6 +43,8 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
@@ -324,6 +326,82 @@ public abstract class CampaignEventStatusLocalServiceBaseImpl
 	public CampaignEventStatus updateCampaignEventStatus(
 		CampaignEventStatus campaignEventStatus) {
 		return campaignEventStatusPersistence.update(campaignEventStatus);
+	}
+
+	/**
+	 * Returns the agenda export local service.
+	 *
+	 * @return the agenda export local service
+	 */
+	public eu.strasbourg.service.agenda.service.AgendaExportLocalService getAgendaExportLocalService() {
+		return agendaExportLocalService;
+	}
+
+	/**
+	 * Sets the agenda export local service.
+	 *
+	 * @param agendaExportLocalService the agenda export local service
+	 */
+	public void setAgendaExportLocalService(
+		eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService) {
+		this.agendaExportLocalService = agendaExportLocalService;
+	}
+
+	/**
+	 * Returns the agenda export persistence.
+	 *
+	 * @return the agenda export persistence
+	 */
+	public AgendaExportPersistence getAgendaExportPersistence() {
+		return agendaExportPersistence;
+	}
+
+	/**
+	 * Sets the agenda export persistence.
+	 *
+	 * @param agendaExportPersistence the agenda export persistence
+	 */
+	public void setAgendaExportPersistence(
+		AgendaExportPersistence agendaExportPersistence) {
+		this.agendaExportPersistence = agendaExportPersistence;
+	}
+
+	/**
+	 * Returns the agenda export period local service.
+	 *
+	 * @return the agenda export period local service
+	 */
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService getAgendaExportPeriodLocalService() {
+		return agendaExportPeriodLocalService;
+	}
+
+	/**
+	 * Sets the agenda export period local service.
+	 *
+	 * @param agendaExportPeriodLocalService the agenda export period local service
+	 */
+	public void setAgendaExportPeriodLocalService(
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+		this.agendaExportPeriodLocalService = agendaExportPeriodLocalService;
+	}
+
+	/**
+	 * Returns the agenda export period persistence.
+	 *
+	 * @return the agenda export period persistence
+	 */
+	public AgendaExportPeriodPersistence getAgendaExportPeriodPersistence() {
+		return agendaExportPeriodPersistence;
+	}
+
+	/**
+	 * Sets the agenda export period persistence.
+	 *
+	 * @param agendaExportPeriodPersistence the agenda export period persistence
+	 */
+	public void setAgendaExportPeriodPersistence(
+		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
+		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
 	}
 
 	/**
@@ -867,6 +945,14 @@ public abstract class CampaignEventStatusLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportLocalService.class)
+	protected eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService;
+	@BeanReference(type = AgendaExportPersistence.class)
+	protected AgendaExportPersistence agendaExportPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class)
+	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService;
+	@BeanReference(type = AgendaExportPeriodPersistence.class)
+	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
 	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
 	@BeanReference(type = CampaignPersistence.class)

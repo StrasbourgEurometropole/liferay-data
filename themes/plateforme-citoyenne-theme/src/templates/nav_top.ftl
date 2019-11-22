@@ -90,18 +90,19 @@
                             </#if>
                             <li class="${li_css_class}">
                                 <#if !item.hasChildren()>
-                                    <a href="${item.getURL()}" title="${item.getName()}">
+                                    <a href="${item.getURL()}" title="${item.getName()}" <#if item.isSelected()>class="active"</#if>>
                                         ${item.getName()}
                                     </a>
                                 <#else>
-                                    <a href="javascript:void(0)" class="dropdown-toggle" title="${item.getName()}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                     <#assign a_css_class = item.isSelected()?then("active dropdown-toggle","dropdown-toggle") />
+                                    <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         ${item.getName()} <span class="caret"></span>
                                     </a>
                                 </#if>
                                 <#if item.hasChildren()>
                                     <ul class="dropdown-menu">
                                         <#list item.getChildren() as subItem>
-                                            <li><a href="${subItem.getURL()}"  title="${subItem.getName()}">${subItem.getName()}</a></li>
+                                            <li><a href="${subItem.getURL()}"  title="${subItem.getName()}" <#if item.isSelected()>class="active"</#if>>${subItem.getName()}</a></li>
                                         </#list>
                                     </ul>
                                 </#if>

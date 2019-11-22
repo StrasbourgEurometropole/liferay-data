@@ -31,6 +31,8 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -1188,5 +1190,4 @@ public class EventImpl extends EventBaseImpl {
 		
 		return sessionsJSON;
 	}
-
 }

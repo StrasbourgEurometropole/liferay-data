@@ -97,35 +97,37 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
 
         // Validation de la requete
-        if (!validate(request)) {
-        	_log.error("Demande de signature non valide de la petition d'asset ID '" +
-            							this.entryId +
-            							"' par l'utilisateur a publik ID '" + 
-            							this.publikId);
-        }
+        if (validate(request)) {
         
-        // Sauvegarde des infos utilisateur
-        String saveInfo = ParamUtil.getString(request, "saveinfo");
-        if (saveInfo.equals("save-info")) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String dateNaiss = sdf.format(this.birthday);
-            PublikApiClient.setAllUserDetails(
-            		this.publikId, 
-            		this.user.getLastName(), 
-            		this.address, 
-            		"" + this.postalcode, 
-            		this.city, 
-            		dateNaiss, 
-            		this.phone,
-            		this.mobile
-            );
+	        // Sauvegarde des infos utilisateur
+	        String saveInfo = ParamUtil.getString(request, "saveinfo");
+	        if (saveInfo.equals("save-info")) {
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	            String dateNaiss = sdf.format(this.birthday);
+	            PublikApiClient.setAllUserDetails(
+	            		this.publikId, 
+	            		this.user.getLastName(), 
+	            		this.address, 
+	            		"" + this.postalcode, 
+	            		this.city, 
+	            		dateNaiss, 
+	            		this.phone,
+	            		this.mobile
+	            );
+	        }
+	
+	        try {
+				this.signPetition(request);
+			} catch (PortalException e) {
+				_log.error("Erreur lors de la signature de la petition " + this.petition.getPetitionId() + " : ", e);
+			}
         }
-
-        try {
-			this.signPetition(request);
-		} catch (PortalException e) {
-			_log.error("Erreur lors de la signature de la petition " + this.petition.getPetitionId() + " : ", e);
-		}
+        else {
+        	_log.error("Demande de signature non valide de la petition d'asset ID '" +
+					this.entryId +
+					"' par l'utilisateur a publik ID '" + 
+					this.publikId);
+        }
 
         try {
             response.sendRedirect(redirectURL);

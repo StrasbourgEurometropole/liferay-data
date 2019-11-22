@@ -138,7 +138,7 @@
 							<liferay-ui:icon message="edit" url="${editBudgetParticipatifURL}" />
 						</c:if>
 						
-						<liferay-portlet:resourceURL id="exportBudgetSupportsXlsx" var="exportBudgetSupportsXlsxURL">
+						<liferay-portlet:resourceURL id="exportBudgetSupportsXlsx" var="exportBudgetSupportsXlsxURL" copyCurrentRenderParameters="false">
 							<portlet:param name="budgetParticipatifId" value="${budgetParticipatif.budgetParticipatifId}" />
 						</liferay-portlet:resourceURL>
 						<liferay-ui:icon message="export-xlsx-budget-participatifs" url="${exportBudgetSupportsXlsxURL}" />

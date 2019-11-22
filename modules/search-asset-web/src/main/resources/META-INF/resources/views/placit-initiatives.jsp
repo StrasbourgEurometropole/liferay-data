@@ -15,11 +15,7 @@
 			        </span>
 	            </div>
 	            
-	             <div class="pro-inside-affine-search">
-
-                </div>
-	            
-	            <div class="pro-wrapper-sort" style="padding-top:30px;">
+	            <div class="pro-wrapper-sort">
 	            	<c:choose>
 	                    <c:when test='${isUserloggedIn && hasUserPactSign && !isUserBanned}'>
 	                        <a id="buttonSubmitInitiative" href="" class="pro-btn-yellow" data-toggle="modal" data-target="#modalSubmitInitiative">
@@ -38,6 +34,9 @@
 	                    </c:when>
 	                </c:choose>
 	            </div>
+	            
+	            <!-- Affiner votre recherche - Tablette portrait + Mobile -->
+                <div class="pro-inside-affine-search"></div>
 	
 	            <div class="row pro-wrapper-listing-general">
                     <div class="col-xs-12">
