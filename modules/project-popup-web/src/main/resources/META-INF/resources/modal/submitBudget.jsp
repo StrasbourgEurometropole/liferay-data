@@ -24,6 +24,7 @@
                         <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
+                    	<aui:input id="budgetdescription" name="description" type="hidden"/>
                         <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
@@ -219,6 +220,7 @@
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
+            $("#"+namespace+"budgetdescription").val(budgetDescriptionValue);
             var budgetSummaryValue = $("#"+namespace+"budgetsummary").val(); 
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
@@ -249,7 +251,7 @@
                         dataType: 'json',
                         data:{
                             <portlet:namespace/>title:budgetTitleValue,
-                            <portlet:namespace/>squiredescription:budgetDescriptionValue,
+                            <portlet:namespace/>description:budgetDescriptionValue,
                             <portlet:namespace/>summary:budgetSummaryValue,
                             <portlet:namespace/>address:addressValue,
                             <portlet:namespace/>city:cityValue,
@@ -315,6 +317,7 @@
     {
         $("#"+namespace+"budgettitle").val("");
         $("#"+namespace+"budgetsummary").val("");
+        $("#"+namespace+"budgetdescription").val("");
         $("#"+namespace+"budgetlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();

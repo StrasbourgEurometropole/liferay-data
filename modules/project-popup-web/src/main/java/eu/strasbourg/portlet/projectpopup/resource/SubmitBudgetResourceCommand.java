@@ -84,7 +84,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String BUDGETTITLE = "title";
     private static final String BUDGETSUMMARY = "summary";
-    private static final String BUDGETDESCRIPTION = "squiredescription";
+    private static final String SQUIREDESCRIPTION = "description";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -106,7 +106,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private String video;
     private String title;
     private String summary;
-    private String description;
+    private String squiredescription;
     private String lieu;
     private long projectId;
     private long quartierId;
@@ -142,7 +142,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
         this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
         this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
-        this.description = ParamUtil.getString(request, BUDGETDESCRIPTION);
+        this.squiredescription = ParamUtil.getString(request, SQUIREDESCRIPTION);
         this.projectId = ParamUtil.getLong(request, PROJECT);
         this.quartierId = ParamUtil.getLong(request, QUARTIER);
         this.themeId = ParamUtil.getLong(request, THEME);
@@ -224,7 +224,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
             budgetParticipatif.setTitle(this.title);
             budgetParticipatif.setSummary(this.summary);
-            budgetParticipatif.setDescription(this.description);
+            budgetParticipatif.setDescription(this.squiredescription);
             budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
             budgetParticipatif.setCitoyenLastname(this.user.getLastName());
             budgetParticipatif.setCitoyenAdresse(this.address);
@@ -275,7 +275,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			context.put("headerImage", headerImage.toString());
 			context.put("footerImage", btnImage.toString());
 			context.put("Title", this.title);
-			context.put("Message", this.description);
+			context.put("Message", this.squiredescription);
 			
 		  	Configuration configuration = new Configuration(Configuration.getVersion());
 			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
@@ -411,7 +411,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         }
 
         // description
-        if (Validator.isNull(HtmlUtil.stripHtml(this.description))) {
+        if (Validator.isNull(HtmlUtil.stripHtml(this.squiredescription))) {
         	this.message = "Description non valide";
             return false;
         }
