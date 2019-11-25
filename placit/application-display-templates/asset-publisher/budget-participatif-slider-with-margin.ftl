@@ -12,13 +12,32 @@
         <#assign homeURL = "/" />
     </#if>
 
+
+<#assign BudgetPhaseLocalService = serviceLocator.findService("eu.strasbourg.service.project.service.BudgetPhaseLocalService")/>
+<#assign activePhase = BudgetPhaseLocalService.getActivePhase(themeDisplay.scopeGroupId) />  
+
+
+<#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
+<#assign assets = AssetEntryService.getAssetCategoryAssetEntries(activePhase.getPhaseCategory().getCategoryId())  />
+
+<#-- Récupération de la page de listing de BP qui correspond à la phase active. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
+<#list assets as ass>
+    <#if ass.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(ass.getClassPK())/>
+        <#assign pageListing = abc.getFriendlyURL()/>
+        <#break>
+    </#if>
+</#list>
+<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
+
     <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
         <div class="container">
 
             <div class="col-lg-10 col-lg-offset-1">
                 <h2>Les projets citoyens</h2>
                 <div class="pro-wrapper">
-                    <a href="${homeURL}projets-budget-participatif" class="pro-btn">Voir tous les projets</a>
+                    <a href="${homeURL2}${pageListing}" class="pro-btn">Voir tous les projets</a>
                 </div>
             </div>
 
