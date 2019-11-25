@@ -4,11 +4,11 @@
 <#assign imageUrl = ""/>
 <!-- 1ère image au dessus de l'adresse -->
 <#if entry.imagesURLs?first?has_content>
-    <#assign imageUrl = entry.imagesURLs?first />
+    <#assign imageUrl = themeDisplay.getPortalURL() + entry.imagesURLs?first?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 <!-- bannière -->
 <#if !imageUrl?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL />
+    <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
 <#-- Liste des infos a partager -->

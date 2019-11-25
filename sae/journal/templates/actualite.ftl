@@ -4,7 +4,7 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if illustration.getData()?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + illustration.getData() />
+    <#assign imageUrl = themeDisplay.getPortalURL() + illustration.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
 <#-- Liste des infos a partager -->

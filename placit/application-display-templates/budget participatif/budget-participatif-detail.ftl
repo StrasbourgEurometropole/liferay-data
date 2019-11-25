@@ -50,7 +50,7 @@
 <#assign videoURL = entry.videoUrl />
 <#assign imageURL = entry.getImageURL() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL />
+<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 
 <#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
 <#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>

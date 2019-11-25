@@ -9,7 +9,7 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if image.getData()?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + image.getData() />
+    <#assign imageUrl = themeDisplay.getPortalURL() + image.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
 <#-- Liste des infos a partager -->
