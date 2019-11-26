@@ -47,7 +47,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Exporter {
 
-    public static AssetVocabularyAccessor _assetVocabularyAccessor;
+    private static AssetVocabularyAccessor assetVocabularyAccessor;
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     private static DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-01'T'00:00:00");
 
@@ -316,18 +316,18 @@ public class Exporter {
 
     private static void sortCategoriesByVocabularies(List<EventDTO> eventDTOS) throws PortalException {
 
-        if(_assetVocabularyAccessor == null) {
-            _assetVocabularyAccessor = new AssetVocabularyAccessor();
+        if(assetVocabularyAccessor == null) {
+            assetVocabularyAccessor = new AssetVocabularyAccessor();
         }
 
         for(EventDTO eventDTO : eventDTOS) {
 
             //Rajout des vocabulaires
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventPublics());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getTerritories());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventThemes());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventTypes());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getPlaceTypes());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getEventPublics());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getTerritories());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getEventThemes());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getEventTypes());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getPlaceTypes());
 
             for(EventCategoryDTO categoryDTO : eventDTO.getCategories()) {
                 AssetVocabulary vocabulary =
