@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -27,6 +28,7 @@ import org.docx4j.Docx4J;
 import org.docx4j.model.datastorage.BindingHandler;
 import org.docx4j.openpackaging.io3.Save;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.osgi.service.http.runtime.dto.FilterDTO;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
@@ -40,10 +42,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -54,7 +53,8 @@ public class Exporter {
     private static DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-01'T'00:00:00");
 
     public static OutputStream exportDOCX(
-        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+        ResourceRequest req, ResourceResponse res, ResourceBundle bundle,
+        OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
 
@@ -83,8 +83,12 @@ public class Exporter {
             DLFileEntry file = filters.getFile();
             if(file != null) {
 
+                String filename = "";
+                DateTimeFormatter dateFormatterFilename = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                PeriodDTO firstPeriod = filters.getFirstPeriod();
+
                 res.setProperty("content-type", "application/force-download");
-                res.setProperty("content-disposition", "attachment; filename=\""+filters.getTitle()+".docx\"");
+                res.setProperty("content-disposition", "attachment; filename=\""+createFilename(bundle, filters)+".docx\"");
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
 
@@ -102,7 +106,8 @@ public class Exporter {
     }
 
     public static OutputStream exportJSON(
-        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+        ResourceRequest req, ResourceResponse res, ResourceBundle bundle,
+        OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
         try {
@@ -125,7 +130,7 @@ public class Exporter {
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
             res.setProperty("content-type", "application/force-download");
-            res.setProperty("content-disposition", "attachment; filename=\""+filters.getTitle()+".json\"");
+            res.setProperty("content-disposition", "attachment; filename=\""+createFilename(bundle, filters)+".json\"");
             os.write(b);
 
         } catch (Exception e) {
@@ -654,5 +659,35 @@ public class Exporter {
         groups.add(group);
         return group;
 
+    }
+
+    /**
+     * Créé le nom du fichier
+     * Le format de sortie change en fonction de la période
+     * @param bundle
+     * @param filters
+     * @return
+     */
+    private static String createFilename(ResourceBundle bundle, EventFiltersDTO filters) {
+        String filename;
+        DateTimeFormatter dateFormatterFilename = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        PeriodDTO firstPeriod = filters.getFirstPeriod();
+
+        //Construction du nom du fichier
+        if(firstPeriod != null) {
+            if(firstPeriod.getStartDate().equals(firstPeriod.getEndDate())) {
+                filename = filters.getTitle() + " " + dateFormatterFilename.format(firstPeriod.getStartDate());
+            } else {
+                filename =
+                    filters.getTitle() + " " +
+                    dateFormatterFilename.format(firstPeriod.getStartDate()) +
+                    " " + LanguageUtil.get(bundle, "eu.agenda.export.period.middle") + " " +
+                    dateFormatterFilename.format(firstPeriod.getEndDate());
+            }
+        } else {
+            filename = filters.getTitle();
+        }
+
+        return filename;
     }
 }

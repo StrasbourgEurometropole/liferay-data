@@ -95,13 +95,13 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             if(exportFormat.toUpperCase().equals("DOCX")){
                 if(filters.getFile() != null) {
                     Exporter.exportDOCX(
-                            resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
+                            resourceRequest, resourceResponse, bundle, os, themeDisplay, filters, sortedCategories
                     );
                 }
             }
             else if(exportFormat.toUpperCase().equals("JSON")){
                 Exporter.exportJSON(
-                    resourceRequest, resourceResponse, os, themeDisplay, filters, sortedCategories
+                    resourceRequest, resourceResponse , bundle, os, themeDisplay, filters, sortedCategories
                 );
             }
 

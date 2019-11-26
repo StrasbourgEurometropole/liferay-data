@@ -16,6 +16,10 @@ public class EventFiltersDTO {
     @XmlElement(name = "title")
     private String title;
 
+    /**
+     * Actuellement on ne stocke qu'une seule période
+     * On utilise déjà une liste pour simplifier une future évolution
+     */
     @XmlElementWrapper(name = "periods")
     @XmlElement(name = "period")
     private List<PeriodDTO> periods;
@@ -208,5 +212,18 @@ public class EventFiltersDTO {
         }
 
         return null;
+    }
+
+    /**
+     * Renvoit la première période de la liste des périodes
+     * @return
+     */
+    public PeriodDTO getFirstPeriod() {
+
+        if(this.getPeriods() == null) {
+            return null;
+        }
+
+        return this.getPeriods().get(0);
     }
 }
