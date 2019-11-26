@@ -28,7 +28,6 @@ import org.docx4j.Docx4J;
 import org.docx4j.model.datastorage.BindingHandler;
 import org.docx4j.openpackaging.io3.Save;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.osgi.service.http.runtime.dto.FilterDTO;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
