@@ -438,7 +438,7 @@ public class Exporter {
                 for(PeriodDTO period : event.getPeriods()) {
 
                     LocalDate startDate = period.getStartDate();
-                    LocalDate endDate = period.getStartDate();
+                    LocalDate endDate = period.getEndDate();
 
                     //get the days number between these dates
                     long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
@@ -461,7 +461,7 @@ public class Exporter {
                 for(PeriodDTO period : event.getPeriods()) {
 
                     LocalDate startDate = period.getStartDate();
-                    LocalDate endDate = period.getStartDate();
+                    LocalDate endDate = period.getEndDate();
 
                     //get the days number between these dates
                     long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
