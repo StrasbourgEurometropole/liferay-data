@@ -128,12 +128,22 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.base");
 	}
 
+	public static String getPublikApiSynchronization() { return PropsUtil.get("eu.strasbourg.publik.url.api.synchronization");	}
+
 	public static String getPublikApiOrigin() {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.origin");
 	}
 
 	public static String getPublikApiKey() {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.key");
+	}
+
+	public static String getPublikUserAnonymisationMails() {
+		return PropsUtil.get("eu.strasbourg.publik.mail");
+	}
+
+	public static String getAnonymUserId() {
+		return PropsUtil.get("eu.strasbourg.publik.anonym.user.id");
 	}
 
 	public static String getInternalSecret() {

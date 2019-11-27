@@ -14,13 +14,13 @@
 
 package eu.strasbourg.service.notification.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.model.NotificationChannel;
+import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.service.base.UserNotificationChannelLocalServiceBaseImpl;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of the user notification channel local service.
@@ -43,6 +43,14 @@ public class UserNotificationChannelLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil} to access the user notification channel local service.
 	 */
+
+	/**
+	 * Retourne la liste des statuts de notification pour un utilisateur
+	 */
+	@Override
+	public List<UserNotificationChannel> getByPublikUserId(String publikUserId) {
+		return this.userNotificationChannelPersistence.findByPublikUserId(publikUserId);
+	}
 
 	/**
 	 * Retourne la liste des types de notifications auxquels l'utilisateur est

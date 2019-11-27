@@ -14,28 +14,47 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import com.liferay.portal.kernel.dao.orm.Disjunction;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.favorite.model.Favorite;
+import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
+import eu.strasbourg.service.notification.model.UserNotificationType;
+import eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
+import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
+import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.*;
+import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -132,8 +151,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Rechercher des utilisateurs Publik directement via l'outil de persistance
 	 * sans pagination
-	 * @param start Debut de l'index de recherche pour la pagination
-	 * @param end Fin de l'index de recherche pour la pagination
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -158,7 +175,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * avec recherche et pagination
 	 * @param start Debut de l'index de recherche pour la pagination
 	 * @param end Fin de l'index de recherche pour la pagination
-	 * @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	 * @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -195,9 +212,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Rechercher tous les utilisateurs Publik directement via l'outil de persistance
 	 * avec recherche mais sans pagination
-	 * @param start Debut de l'index de recherche pour la pagination
-	 * @param end Fin de l'index de recherche pour la pagination
-	 * @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	 * @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -270,6 +285,308 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	public long getCountUserHasSignedPacte(){
 		List<PublikUser> publikUserList = getUserHasSignedPacte();
 		return publikUserList.size();
+	}
+
+	/**
+	 * Anonymise l'utilisateur pour placit
+	 * suppression de la signature du pacte,
+	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
+	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
+	 * @return
+	 */
+	@Override
+	public void anonymisedUserPlacit(PublikUser anonymUser, PublikUser publikUser) {
+
+		// Anonymisation des informations utilisateur dans publikuser
+		publikUser.setPactSignature(null);
+		publikUser.setPactDisplay(false);
+		PublikUserLocalServiceUtil.updatePublikUser(publikUser);
+
+		// Anonymisation des informations utilisateur dans projets suivis
+		List<ProjectFollowed> projectsFollowed = ProjectFollowedLocalServiceUtil
+				.getByPublikId(publikUser.getPublikId());
+		if (!projectsFollowed.isEmpty()) {
+			for (ProjectFollowed projectFollowed : projectsFollowed) {
+				projectFollowed.setPublikUserId(anonymUser.getPublikId());
+				// Mise à jour en base
+				ProjectFollowedLocalServiceUtil.updateProjectFollowed(projectFollowed);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans participation à des
+		// évènements
+		List<EventParticipation> eventParticipations = EventParticipationLocalServiceUtil
+				.getByPublikUser(publikUser.getPublikId());
+		if (!eventParticipations.isEmpty()) {
+			for (EventParticipation eventParticipation : eventParticipations) {
+				eventParticipation.setPublikUserId(anonymUser.getPublikId());
+				// Mise à jour en base
+				EventParticipationLocalServiceUtil.updateEventParticipation(eventParticipation);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans pétition
+		List<Petition> petitions = PetitionLocalServiceUtil.getByPublikUserID(publikUser.getPublikId());
+		if (!petitions.isEmpty()) {
+			for (Petition petition : petitions) {
+				petition.setPetitionnaireFirstname(anonymUser.getFirstName());
+				petition.setPetitionnaireLastname(anonymUser.getLastName());
+				petition.setPetitionnaireAdresse("");
+				petition.setPetitionnairePostalCode(0);
+				petition.setPetitionnaireCity("");
+				petition.setPetitionnaireBirthday(null);
+				petition.setPetitionnairePhone("");
+				petition.setPetitionnaireEmail(anonymUser.getEmail());
+				petition.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				PetitionLocalServiceUtil.updatePetition(petition);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les signatures des pétitions
+		List<Signataire> signataires = SignataireLocalServiceUtil
+				.getSignataireByPublikId(publikUser.getPublikId());
+		if (!signataires.isEmpty()) {
+			for (Signataire signataire : signataires) {
+				signataire.setSignataireFirstname(anonymUser.getFirstName());
+				signataire.setSignataireName(anonymUser.getLastName());
+				signataire.setAddress("");
+				signataire.setPostalCode(0);
+				signataire.setCity("");
+				signataire.setBirthday(null);
+				signataire.setPhone("");
+				signataire.setMobilePhone("");
+				signataire.setMail(anonymUser.getEmail());
+				signataire.setPublikUserId(anonymUser.getPublikId());
+				// Mise à jour en base
+				SignataireLocalServiceUtil.updateSignataire(signataire);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les budgets participatifs
+		List<BudgetParticipatif> budgetParticipatifs = BudgetParticipatifLocalServiceUtil.
+				getByPublikUserID(publikUser.getPublikId());
+		if (!budgetParticipatifs.isEmpty()) {
+			for (BudgetParticipatif budgetParticipatif : budgetParticipatifs) {
+				budgetParticipatif.setCitoyenFirstname(anonymUser.getFirstName());
+				budgetParticipatif.setCitoyenLastname(anonymUser.getLastName());
+				budgetParticipatif.setCitoyenAdresse("");
+				budgetParticipatif.setCitoyenPostalCode(0);
+				budgetParticipatif.setCitoyenCity("");
+				budgetParticipatif.setCitoyenBirthday(null);
+				budgetParticipatif.setCitoyenPhone("");
+				budgetParticipatif.setCitoyenMobile("");
+				budgetParticipatif.setCitoyenEmail(anonymUser.getEmail());
+				budgetParticipatif.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les soutiens des budget participatif
+		List<BudgetSupport> budgetSupports = BudgetSupportLocalServiceUtil.
+				getBudgetSupportByPublikId(publikUser.getPublikId());
+		if (!budgetSupports.isEmpty()) {
+			for (BudgetSupport budgetSupport : budgetSupports) {
+				budgetSupport.setCitoyenFirstname(anonymUser.getFirstName());
+				budgetSupport.setCitoyenLastName(anonymUser.getLastName());
+				budgetSupport.setCitoyenAddress("");
+				budgetSupport.setCitoyenPostalCode(0);
+				budgetSupport.setCitoyenCity("");
+				budgetSupport.setCitoyenBirthday(null);
+				budgetSupport.setCitoyenPhone("");
+				budgetSupport.setCitoyenMobilePhone("");
+				budgetSupport.setCitoyenMail(anonymUser.getEmail());
+				budgetSupport.setPublikUserId(anonymUser.getPublikId());
+				// Mise à jour en base
+				BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les initiatives
+		List<Initiative> initiatives = InitiativeLocalServiceUtil.
+				getByPublikUserID(publikUser.getPublikId());
+		if (!initiatives.isEmpty()) {
+			for (Initiative initiative : initiatives) {
+				initiative.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				InitiativeLocalServiceUtil.updateInitiative(initiative);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les aides aux initiatives
+		List<InitiativeHelp> helps = InitiativeHelpLocalServiceUtil.
+				getByPublikUserId(publikUser.getPublikId());
+		if (!helps.isEmpty()) {
+			for (InitiativeHelp help : helps) {
+				help.setPublikUserId(anonymUser.getPublikId());
+				// Mise à jour en base
+				InitiativeHelpLocalServiceUtil.updateInitiativeHelp(help);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les commentaires
+		List<Comment> comments = CommentLocalServiceUtil.getByPublikId(publikUser.getPublikId());
+		if (!comments.isEmpty()) {
+			for (Comment comment : comments) {
+				comment.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				CommentLocalServiceUtil.updateComment(comment);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les likes/dislikes
+		List<Like> likes = LikeLocalServiceUtil.getByPublikUser(publikUser.getPublikId());
+		if (!likes.isEmpty()) {
+			for (Like like : likes) {
+				like.setPublikUserId(anonymUser.getPublikId());
+				// Mise à jour en base
+				try {
+					LikeLocalServiceUtil.updateLike(like);
+				}catch (Exception e){
+					System.out.println(e.getMessage());
+				}
+			}
+		}
+	}
+
+	/**
+	 * Anonymise les utilisateurs supprimés
+	 */
+	@Override
+	public void anonymizedUsers() {
+
+		// Récupère tous les publikUser
+		List<PublikUser> publikUsers = PublikUserLocalServiceUtil.getAllPublikUsers();
+
+		JSONArray publikUserIds = JSONFactoryUtil.createJSONArray();
+		for (PublikUser publikUser : publikUsers) {
+			if(Validator.isNotNull(publikUser.getPublikId())){
+				publikUserIds.put(publikUser.getPublikId());
+			}
+		}
+
+		JSONObject usersDeleted = PublikApiClient.getUsersDeleted(publikUserIds);
+
+		String resultat = "";
+		String message = "";
+		// vérifi si il y a eu une erreur
+		if(Validator.isNotNull(usersDeleted.get("errors"))){
+			resultat = "ERREUR";
+			message = usersDeleted.getString("errors");
+		}else{
+			// on vérifi le nombre de résultats
+			JSONArray publikUsersToAnonymized = usersDeleted.getJSONArray("unknown_uuids");
+			if(publikUsersToAnonymized.length() > (publikUsers.size() * 0.01)){
+				resultat = "ERREUR";
+				message = "L'API retourne plus de 1% d'utilisateurs &agrave; supprimer";
+			}else{
+				if(publikUsersToAnonymized.length() == 0){
+					message = "Aucun compte supprim&eacute;";
+				}else{
+					// récupération de l'utilisateur anonyme
+					long anonymUserId = Long.parseLong(StrasbourgPropsUtil.getAnonymUserId());
+					if (Validator.isNull(anonymUserId)) {
+						resultat = "ERREUR";
+						message += "Id utilisateur anonyme non renseign&eacute";
+					}else {
+						PublikUser anonymUser = PublikUserLocalServiceUtil.fetchPublikUser(anonymUserId);
+						if (Validator.isNull(anonymUser)) {
+							resultat = "ERREUR";
+							message += "Utilisateur anonyme introuvable";
+						} else {
+							// on anonymise
+							int nbAnonymisation = 0;
+							for (int i = 0; i < publikUsersToAnonymized.length(); i++) {
+								String publikIUserId = publikUsersToAnonymized.getJSONObject(i).toString();
+								PublikUser publikUser = PublikUserLocalServiceUtil.getByPublikUserId(publikIUserId);
+								if (publikUser != null) {
+									//anonymise les données placit
+									anonymisedUserPlacit(anonymUser, publikUser);
+									// supprime les liens pour les tables favorite, userInterest et UserNotification...
+
+									// Suppression des favoris de l'utilisateur
+									List<Favorite> favorites = FavoriteLocalServiceUtil.
+											getByPublikUser(publikUser.getPublikId());
+									if (!favorites.isEmpty()) {
+										for (Favorite favorite : favorites) {
+											// Suppression
+											FavoriteLocalServiceUtil.deleteFavorite(favorite);
+										}
+									}
+
+									// Suppression des centres d'intérêts de l'utilisateur
+									List<UserInterest> userInterests = UserInterestLocalServiceUtil.
+											getByPublikUserId(publikUser.getPublikId());
+									if (!userInterests.isEmpty()) {
+										for (UserInterest userInterest : userInterests) {
+											// Suppression
+											UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
+										}
+									}
+
+									// Suppression des statuts de notifications de l'utilisateur
+									List<UserNotificationStatus> userNotificationStatus = UserNotificationStatusLocalServiceUtil.
+											getByPublikUserId(publikUser.getPublikId());
+									if (!userNotificationStatus.isEmpty()) {
+										for (UserNotificationStatus userNotifStatus : userNotificationStatus) {
+											// Suppression
+											UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(userNotifStatus);
+										}
+									}
+
+									// Suppression des types de notifications de l'utilisateur
+									List<UserNotificationType> userNotificationTypes = UserNotificationTypeLocalServiceUtil.
+											getByPublikUserId(publikUser.getPublikId());
+									if (!userNotificationTypes.isEmpty()) {
+										for (UserNotificationType userNotificationType : userNotificationTypes) {
+											// Suppression
+											UserNotificationTypeLocalServiceUtil.deleteUserNotificationType(userNotificationType);
+										}
+									}
+
+									// Suppression des chaines de notifications de l'utilisateur
+									List<UserNotificationChannel> userNotificationChannels = UserNotificationChannelLocalServiceUtil.
+											getByPublikUserId(publikUser.getPublikId());
+									if (!userNotificationChannels.isEmpty()) {
+										for (UserNotificationChannel userNotificationChannel : userNotificationChannels) {
+											// Suppression
+											UserNotificationChannelLocalServiceUtil.deleteUserNotificationChannel(userNotificationChannel);
+										}
+									}
+									nbAnonymisation++;
+
+								} else {
+									message += "publikUser " + publikIUserId + " introuvable <br>";
+								}
+
+							}
+							message += "Nombre de compte utilisateur supprim&eacute;s : " + publikUsersToAnonymized.length()
+									+ "<br>Nombre d'utilisateur nanonymis&eacute;s : " + nbAnonymisation;
+						}
+					}
+				}
+			}
+
+		}
+
+		// envoi du mail
+		String environment = StrasbourgPropsUtil.getEnvironment();
+		String titre = environment + " Journal d'anonymisation des utilisateurs";
+		String dateImport = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		String heureImport = new SimpleDateFormat("HH:mm").format(new Date());
+		String corps = "R&eacute;alis&eacute; le " + dateImport + " &agrave; " + heureImport + "<br><br>";
+		if (resultat.equals("ERREUR")) {
+			corps += "L'anonymisation des utilisateurs n'a pas &eacute;t&eacute; effectu&eacute;e.<br> "
+					+ message;
+		} else {
+			corps += "L'anonymisation des utilisateurs a &eacute;t&eacute; effectu&eacute;e avec succ&egrave;s.<br> "
+					+ message;
+		}
+
+		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
+
+		MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mailAddresses, titre, corps);
 	}
 
 }
