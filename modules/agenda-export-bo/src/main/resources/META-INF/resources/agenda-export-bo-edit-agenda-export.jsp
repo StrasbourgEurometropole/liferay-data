@@ -161,7 +161,7 @@
                 <%-- First level Aggregation --%>
 
                 <div id="firstAggregationBlock" class="aggregationFields">
-                    <aui:select id="firstAggregationType" name="firstAggregationType" label="eu.agenda.export.aggregation.types.first">
+                    <aui:select id="firstAggregationType" name="firstAggregationType" cssClass="aggregation-type" label="eu.agenda.export.aggregation.types.first">
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                 value="${type.key}"
@@ -202,6 +202,15 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div>
+                            <aui:input
+                                type="checkbox"
+                                name="firstCategoryFilter"
+                                cssClass="category-checkboxes"
+                                label="eu.agenda.export.aggregation.category.check"
+                                checked="true" >
+                            </aui:input>
+                        </div>
                         <div id="required-first-category" style="display:none">
                              <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
                          </div>
@@ -211,7 +220,7 @@
                 <%-- Second level Aggregation --%>
 
                 <div id="secondAggregationBlock" class="aggregationFields">
-                    <aui:select id="secondAggregationType" name="secondAggregationType" label="eu.agenda.export.aggregation.types.second">
+                    <aui:select id="secondAggregationType" name="secondAggregationType" cssClass="aggregation-type" label="eu.agenda.export.aggregation.types.second">
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                value="${type.key}"
@@ -252,6 +261,15 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div>
+                            <aui:input
+                                type="checkbox"
+                                name="secondCategoryFilter"
+                                cssClass="category-checkboxes"
+                                label="eu.agenda.export.aggregation.category.check"
+                                checked="true" >
+                            </aui:input>
+                        </div>
                         <div id="required-second-category" style="display:none">
                              <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
                          </div>

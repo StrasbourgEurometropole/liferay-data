@@ -69,9 +69,11 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             String firstAggregationType = ParamUtil.getString(resourceRequest, "firstAggregationType");
             String firstAggregationVocabulary = ParamUtil.getString(resourceRequest, "firstAggregationVocabulary");
             String firstAggregationCategory = ParamUtil.getString(resourceRequest, "firstAggregationCategory");
+            boolean firstCategoryFilter = ParamUtil.getBoolean(resourceRequest, "firstCategoryFilter");
             String secondAggregationType = ParamUtil.getString(resourceRequest, "secondAggregationType");
             String secondAggregationVocabulary = ParamUtil.getString(resourceRequest, "secondAggregationVocabulary");
             String secondAggregationCategory = ParamUtil.getString(resourceRequest, "secondAggregationCategory");
+            boolean secondCategoryFilter = ParamUtil.getBoolean(resourceRequest, "secondCategoryFilter");
 
             /** Asset categories **/
             List<Long[]> sortedCategories = sortCategoriesForSearch(vocabularies);
@@ -91,6 +93,8 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 secondAggregationType,
                 valueResolver(secondAggregationType, secondAggregationVocabulary, secondAggregationCategory)
             );
+            filters.setFirstCategoryFilter(firstCategoryFilter);
+            filters.setSecondCategoryFilter(secondCategoryFilter);
 
             if(exportFormat.toUpperCase().equals("DOCX")){
                 if(filters.getFile() != null) {

@@ -63,6 +63,7 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            loadChildrenCategoriesForFilters(filters);
             loadParentCategoriesInfo(eventDTOs);
             sortCategoriesByVocabularies(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
@@ -115,6 +116,7 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            loadChildrenCategoriesForFilters(filters);
             loadParentCategoriesInfo(eventDTOs);
             sortCategoriesByVocabularies(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
@@ -275,8 +277,6 @@ public class Exporter {
                 place = PlaceLocalServiceUtil.getPlace(placeId);
             }
             eventDTO.addPlace(event, place);
-
-
             DTOList.add(eventDTO);
         }
 
@@ -298,10 +298,15 @@ public class Exporter {
         return null;
     }
 
+    /**
+     * Récupère les ancêtres des catégories (catégorie parente et/ou vocabulaire parent)
+     * @param eventDTOS
+     * @throws PortalException
+     */
     private static void loadParentCategoriesInfo(List<EventDTO> eventDTOS) throws PortalException {
         for(EventDTO eventDTO : eventDTOS) {
 
-            //Load parent categories and vocabulary
+            //Charge les vocabulaires et catégories parents
             for(EventCategoryDTO categoryDTO : eventDTO.getCategories()) {
                 AssetVocabulary vocabulary =
                     AssetVocabularyLocalServiceUtil.getVocabulary(categoryDTO.getVocabularyId());
@@ -311,6 +316,26 @@ public class Exporter {
                 categoryDTO.addParentCategories(categories, vocabulary);
                 categoryDTO.addVocabulary(vocabulary);
             }
+        }
+    }
+
+    /**
+     * Charge les catégories enfantes de chaque catégories des filtres
+     * @param filters
+     */
+    private static void loadChildrenCategoriesForFilters(EventFiltersDTO filters) {
+
+        if(filters.getCategories() == null) {
+            return;
+        }
+
+        //charge les catégorie enfantes des filtres
+        for(EventCategoryDTO categoryDTO : filters.getCategories()) {
+            List<AssetCategory> childrenCategories =
+                AssetCategoryLocalServiceUtil.getChildCategories(categoryDTO.getCategoryId());
+
+            filters.addAcceptedAssetCategory(categoryDTO);
+            filters.addAcceptedAssetCategories(childrenCategories);
         }
     }
 
@@ -360,7 +385,10 @@ public class Exporter {
 
         for(EventDTO event : events) {
 
-            values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
+            values = getValues(
+                event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(),
+                filters, filters.isFirstCategoryFilter()
+            );
 
             //for each values, get or create the group and add the event in this group
             for(String value : values) {
@@ -402,7 +430,10 @@ public class Exporter {
             List<EventDTO> events = group.getEvents();
             for(EventDTO event : events) {
 
-                values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
+                values = getValues(
+                    event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(),
+                    filters, filters.isSecondCategoryFilter()
+                );
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
@@ -434,7 +465,9 @@ public class Exporter {
      * @param filters
      * @return
      */
-    private static List<String> getValues(EventDTO event, String filterType, String value, EventFiltersDTO filters) throws PortalException {
+    private static List<String> getValues(
+        EventDTO event, String filterType, String value, EventFiltersDTO filters, boolean categoryFilter
+    ) throws PortalException {
 
         List<String> values = new ArrayList<>();
         switch(filterType.toUpperCase()) {
@@ -445,7 +478,7 @@ public class Exporter {
                     LocalDate endDate = period.getEndDate();
 
                     //get the days number between these dates
-                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
+                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate) + 1;
 
                     //Create the groups associated to these days
                     for(int i = 0; i < days; i++) {
@@ -468,7 +501,7 @@ public class Exporter {
                     LocalDate endDate = period.getEndDate();
 
                     //get the days number between these dates
-                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
+                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate) + 1;
 
                     //Create the groups associated to these days
                     for(int i = 0; i < days; i++) {
@@ -519,7 +552,11 @@ public class Exporter {
                 value = category.getName();
 
                 for(EventCategoryDTO categoryDTO : event.getCategories()) {
-                    if(categoryDTO.isChild(value)) {
+                    if(
+                        (!categoryFilter && categoryDTO.isChild(value)) ||
+                        (categoryFilter && categoryDTO.isChild(value) && filters.isInAcceptedCategories(categoryDTO))
+                    )
+                    {
                         values.add(categoryDTO.getName());
                     }
                 }

@@ -383,17 +383,30 @@ function validatePeriods(event) {
     }
 
     /**
-     * Montre les selects qui n'ont pas de valeur au chargement de la page
+     * Cache les selects qui n'ont pas de valeur au chargement de la page
      */
-     var hideEmptySelects = function() {
+    var hideEmptySelects = function() {
         $(".aggregationFields select").each(function() {
             var value = $(this).find(":selected").val();
             if(value == "") {
                 $(this).closest("div").hide();
             }
         })
-     };
-     hideEmptySelects();
+    };
+    hideEmptySelects();
+
+    /**
+     * Affichage ou non des checboxes au demarrage de la page
+     */
+    var filterCheckboxes = function() {
+        $(".category-checkboxes").each(function() {
+            var value = $(this).closest(".aggregationFields").find(".aggregation-type").val();
+            if(value !== "CATEGORY") {
+                $(this).closest("div").hide();
+            }
+        });
+    }
+    filterCheckboxes();
 
     /**
      * Reactivation du bouton submit au bout de X secondes
@@ -476,10 +489,12 @@ function validatePeriods(event) {
             resetAggregation(false,true,true,false,false,false);
             firstVocabularySelect.closest("div").slideDown("fast");
             firstCategorySelect.closest("div").slideUp("fast");
+            firstCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").hide();
         } else if(value === "CATEGORY") {
             resetAggregation(false,false,true,false,false,false);
             firstVocabularySelect.closest("div").slideDown("fast");
             firstCategorySelect.closest("div").slideDown("fast");
+            firstCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").show();
 
             if(firstCategorySelect.closest("div").find("span.icon-asterisk").length === 0) {
                 firstCategorySelect.closest("div").find("label").append(
@@ -492,9 +507,11 @@ function validatePeriods(event) {
             }
             firstVocabularySelect.closest("div").slideUp("fast");
             firstCategorySelect.closest("div").slideUp("fast");
+            firstCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").hide();
         }  else {
             firstVocabularySelect.closest("div").slideUp("fast");
             firstCategorySelect.closest("div").slideUp("fast");
+            firstCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").hide();
         }
     });
 
@@ -505,10 +522,12 @@ function validatePeriods(event) {
             resetAggregation(false,false,false,false,true,true);
             secondVocabularySelect.closest("div").slideDown("fast");
             secondCategorySelect.closest("div").slideUp("fast");
+            secondCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").hide();
         } else if(value === "CATEGORY") {
             resetAggregation(false,false,false,false,false,true);
             secondVocabularySelect.closest("div").slideDown("fast");
             secondCategorySelect.closest("div").slideDown("fast");
+            secondCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").show();
 
             if(secondCategorySelect.closest("div").find("span.icon-asterisk").length === 0) {
                 secondCategorySelect.closest("div").find("label").append(
@@ -521,9 +540,11 @@ function validatePeriods(event) {
             }
             secondVocabularySelect.closest("div").slideUp("fast");
             secondCategorySelect.closest("div").slideUp("fast");
+            secondCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").hide();
         }  else {
             secondVocabularySelect.closest("div").slideUp("fast");
             secondCategorySelect.closest("div").slideUp("fast");
+            secondCategorySelect.closest(".wrapper").find(".category-checkboxes").closest("div").hide();
         }
     });
 
