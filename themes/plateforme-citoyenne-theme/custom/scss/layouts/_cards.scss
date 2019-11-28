@@ -546,8 +546,8 @@
 			float: left;
 			margin-right: 8px;
 			span {
-				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
-				background: $c_main;
+				@include ft($f_hx, 0.875em, 700, $c_white, normal);
+				background: $c_dark;
 				border-radius: 4px;
 				text-transform: uppercase;
 				display: block;
@@ -1887,8 +1887,8 @@
 			margin-right: 8px;
 			margin-bottom: 10px;
 			span {
-				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
-				background: $c_main;
+				@include ft($f_hx, 0.875em, 700, $c_white, normal);
+				background: $c_dark;
 				border-radius: 4px;
 				text-transform: uppercase;
 				display: block;
@@ -2116,8 +2116,8 @@
 			float: left;
 			margin-right: 8px;
 			span {
-				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
-				background: $c_main;
+				@include ft($f_hx, 0.875em, 700, $c_white, normal);
+				background: $c_dark;
 				border-radius: 4px;
 				text-transform: uppercase;
 				display: block;
@@ -2319,13 +2319,10 @@
 
 	.pro-encart-coeur {
 		position: absolute;
-		top: 90px;
+		top: 60px;
 		right: 0;
 		background: $c_main;
 		display: none;
-		@include tablet_landscape {
-			top: 60px;
-		}
 		@include mobile {
 			top: 20px;
 		}
@@ -2553,7 +2550,7 @@
 			margin-right: 8px;
 			span {
 				@include ft($f_hx, 0.875em, 700, $c_txt, normal);
-				background: $c_main;
+				background: $c_dark;
 				border-radius: 4px;
 				text-transform: uppercase;
 				display: block;

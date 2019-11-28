@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -40,20 +41,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Exporter {
 
-    public static AssetVocabularyAccessor _assetVocabularyAccessor;
+    private static AssetVocabularyAccessor assetVocabularyAccessor;
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     private static DateTimeFormatter monthDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-01'T'00:00:00");
 
     public static OutputStream exportDOCX(
-        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+        ResourceRequest req, ResourceResponse res, ResourceBundle bundle,
+        OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
 
@@ -63,6 +63,7 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            loadChildrenCategoriesForFilters(filters);
             loadParentCategoriesInfo(eventDTOs);
             sortCategoriesByVocabularies(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
@@ -82,8 +83,12 @@ public class Exporter {
             DLFileEntry file = filters.getFile();
             if(file != null) {
 
+                String filename = "";
+                DateTimeFormatter dateFormatterFilename = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                PeriodDTO firstPeriod = filters.getFirstPeriod();
+
                 res.setProperty("content-type", "application/force-download");
-                res.setProperty("content-disposition", "attachment; filename=\""+filters.getTitle()+".docx\"");
+                res.setProperty("content-disposition", "attachment; filename=\""+createFilename(bundle, filters)+".docx\"");
 
                 wordMLPackage = Docx4J.load(file.getContentStream());
 
@@ -101,7 +106,8 @@ public class Exporter {
     }
 
     public static OutputStream exportJSON(
-        ResourceRequest req, ResourceResponse res, OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
+        ResourceRequest req, ResourceResponse res, ResourceBundle bundle,
+        OutputStream os, ThemeDisplay themeDisplay, EventFiltersDTO filters,
         List<Long[]> sortedCategories
     ) {
         try {
@@ -110,6 +116,7 @@ public class Exporter {
 
             /** Create and fill DTO objects **/
             List<EventDTO> eventDTOs = createEventDTOList(events, filters, themeDisplay);
+            loadChildrenCategoriesForFilters(filters);
             loadParentCategoriesInfo(eventDTOs);
             sortCategoriesByVocabularies(eventDTOs);
             ExportAgendaDTO data = sortDTOObjects(
@@ -124,7 +131,7 @@ public class Exporter {
             byte[] b = json.getBytes(StandardCharsets.UTF_8);
 
             res.setProperty("content-type", "application/force-download");
-            res.setProperty("content-disposition", "attachment; filename=\""+filters.getTitle()+".json\"");
+            res.setProperty("content-disposition", "attachment; filename=\""+createFilename(bundle, filters)+".json\"");
             os.write(b);
 
         } catch (Exception e) {
@@ -197,13 +204,17 @@ public class Exporter {
                 );
 
                 //sort groups
-                if(filters.getAggregationFilter(1).getType().equals("DAY")) {
+                if(filters.getAggregationFilter(1).getType().equals("DAY")
+                    || filters.getAggregationFilter(1).getType().equals("MONTH")
+                ) {
                     groups = sortGroupsByDate(groups);
+                } else {
+                    groups = sortGroupsByAlphaOrder(groups);
+                }
 
-                    //sort events
-                    for(EventGroupDTO group : groups) {
-                        group.setEvents(sortEventsByHours(group.getEvents()));
-                    }
+                //sort events
+                for(EventGroupDTO group : groups) {
+                    group.setEvents(sortEventsByHours(group.getEvents()));
                 }
 
                 exportAgendaDTO.setGroups(groups);
@@ -222,14 +233,18 @@ public class Exporter {
                 );
 
                 //sort groups
-                if(filters.getAggregationFilter(1).getType().equals("DAY")) {
+                if(filters.getAggregationFilter(1).getType().equals("DAY")
+                    || filters.getAggregationFilter(1).getType().equals("MONTH")
+                ) {
                     mainGroups = sortGroupsByDate(mainGroups);
+                } else {
+                    mainGroups = sortGroupsByAlphaOrder(mainGroups);
+                }
 
-                    //sort events
-                    for(EventGroupDTO group : mainGroups) {
-                        for(EventGroupDTO subgroup : group.getSubgoups()) {
-                            subgroup.setEvents(sortEventsByHours(subgroup.getEvents()));
-                        }
+                //sort events
+                for(EventGroupDTO group : mainGroups) {
+                    for(EventGroupDTO subgroup : group.getSubgoups()) {
+                        subgroup.setEvents(sortEventsByHours(subgroup.getEvents()));
                     }
                 }
 
@@ -262,8 +277,6 @@ public class Exporter {
                 place = PlaceLocalServiceUtil.getPlace(placeId);
             }
             eventDTO.addPlace(event, place);
-
-
             DTOList.add(eventDTO);
         }
 
@@ -285,10 +298,15 @@ public class Exporter {
         return null;
     }
 
+    /**
+     * Récupère les ancêtres des catégories (catégorie parente et/ou vocabulaire parent)
+     * @param eventDTOS
+     * @throws PortalException
+     */
     private static void loadParentCategoriesInfo(List<EventDTO> eventDTOS) throws PortalException {
         for(EventDTO eventDTO : eventDTOS) {
 
-            //Load parent categories and vocabulary
+            //Charge les vocabulaires et catégories parents
             for(EventCategoryDTO categoryDTO : eventDTO.getCategories()) {
                 AssetVocabulary vocabulary =
                     AssetVocabularyLocalServiceUtil.getVocabulary(categoryDTO.getVocabularyId());
@@ -301,20 +319,40 @@ public class Exporter {
         }
     }
 
+    /**
+     * Charge les catégories enfantes de chaque catégories des filtres
+     * @param filters
+     */
+    private static void loadChildrenCategoriesForFilters(EventFiltersDTO filters) {
+
+        if(filters.getCategories() == null) {
+            return;
+        }
+
+        //charge les catégorie enfantes des filtres
+        for(EventCategoryDTO categoryDTO : filters.getCategories()) {
+            List<AssetCategory> childrenCategories =
+                AssetCategoryLocalServiceUtil.getChildCategories(categoryDTO.getCategoryId());
+
+            filters.addAcceptedAssetCategory(categoryDTO);
+            filters.addAcceptedAssetCategories(childrenCategories);
+        }
+    }
+
     private static void sortCategoriesByVocabularies(List<EventDTO> eventDTOS) throws PortalException {
 
-        if(_assetVocabularyAccessor == null) {
-            _assetVocabularyAccessor = new AssetVocabularyAccessor();
+        if(assetVocabularyAccessor == null) {
+            assetVocabularyAccessor = new AssetVocabularyAccessor();
         }
 
         for(EventDTO eventDTO : eventDTOS) {
 
             //Rajout des vocabulaires
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventPublics());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getTerritories());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventThemes());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getEventTypes());
-            eventDTO.addVocabulary(_assetVocabularyAccessor.getPlaceTypes());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getEventPublics());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getTerritories());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getEventThemes());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getEventTypes());
+            eventDTO.addVocabulary(assetVocabularyAccessor.getPlaceTypes());
 
             for(EventCategoryDTO categoryDTO : eventDTO.getCategories()) {
                 AssetVocabulary vocabulary =
@@ -347,7 +385,10 @@ public class Exporter {
 
         for(EventDTO event : events) {
 
-            values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
+            values = getValues(
+                event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(),
+                filters, filters.isFirstCategoryFilter()
+            );
 
             //for each values, get or create the group and add the event in this group
             for(String value : values) {
@@ -389,7 +430,10 @@ public class Exporter {
             List<EventDTO> events = group.getEvents();
             for(EventDTO event : events) {
 
-                values = getValues(event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(), filters);
+                values = getValues(
+                    event, aggregationFilterDTO.getType(), aggregationFilterDTO.getValue(),
+                    filters, filters.isSecondCategoryFilter()
+                );
 
                 //for each values, get or create the group and add the event in this group
                 for (String value : values) {
@@ -401,6 +445,7 @@ public class Exporter {
                 }
             }
 
+            subGroups = sortGroupsByAlphaOrder(subGroups);
             group.setSubgoups(subGroups);
             group.clearEvents();
 
@@ -420,7 +465,9 @@ public class Exporter {
      * @param filters
      * @return
      */
-    private static List<String> getValues(EventDTO event, String filterType, String value, EventFiltersDTO filters) throws PortalException {
+    private static List<String> getValues(
+        EventDTO event, String filterType, String value, EventFiltersDTO filters, boolean categoryFilter
+    ) throws PortalException {
 
         List<String> values = new ArrayList<>();
         switch(filterType.toUpperCase()) {
@@ -428,10 +475,10 @@ public class Exporter {
                 for(PeriodDTO period : event.getPeriods()) {
 
                     LocalDate startDate = period.getStartDate();
-                    LocalDate endDate = period.getStartDate();
+                    LocalDate endDate = period.getEndDate();
 
                     //get the days number between these dates
-                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
+                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate) + 1;
 
                     //Create the groups associated to these days
                     for(int i = 0; i < days; i++) {
@@ -451,10 +498,10 @@ public class Exporter {
                 for(PeriodDTO period : event.getPeriods()) {
 
                     LocalDate startDate = period.getStartDate();
-                    LocalDate endDate = period.getStartDate();
+                    LocalDate endDate = period.getEndDate();
 
                     //get the days number between these dates
-                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate);
+                    long days = DAYS.between(startDate, endDate) == 0 ? 1 : DAYS.between(startDate, endDate) + 1;
 
                     //Create the groups associated to these days
                     for(int i = 0; i < days; i++) {
@@ -505,7 +552,11 @@ public class Exporter {
                 value = category.getName();
 
                 for(EventCategoryDTO categoryDTO : event.getCategories()) {
-                    if(categoryDTO.isChild(value)) {
+                    if(
+                        (!categoryFilter && categoryDTO.isChild(value)) ||
+                        (categoryFilter && categoryDTO.isChild(value) && filters.isInAcceptedCategories(categoryDTO))
+                    )
+                    {
                         values.add(categoryDTO.getName());
                     }
                 }
@@ -594,6 +645,20 @@ public class Exporter {
     }
 
     /**
+     * Tri les groupes par ordre alphabetique croissantes
+     * @param groups
+     * @return
+     */
+    private static List<EventGroupDTO> sortGroupsByAlphaOrder(List<EventGroupDTO> groups) {
+
+        groups.sort(
+            Comparator.comparing(EventGroupDTO::getValue, String.CASE_INSENSITIVE_ORDER)
+        );
+
+        return groups;
+    }
+
+    /**
      * Est ce que la date est entre les 2 bornes temporelles ?
      * @param startDate
      * @param testDate
@@ -630,5 +695,35 @@ public class Exporter {
         groups.add(group);
         return group;
 
+    }
+
+    /**
+     * Créé le nom du fichier
+     * Le format de sortie change en fonction de la période
+     * @param bundle
+     * @param filters
+     * @return
+     */
+    private static String createFilename(ResourceBundle bundle, EventFiltersDTO filters) {
+        String filename;
+        DateTimeFormatter dateFormatterFilename = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        PeriodDTO firstPeriod = filters.getFirstPeriod();
+
+        //Construction du nom du fichier
+        if(firstPeriod != null) {
+            if(firstPeriod.getStartDate().equals(firstPeriod.getEndDate())) {
+                filename = filters.getTitle() + " " + dateFormatterFilename.format(firstPeriod.getStartDate());
+            } else {
+                filename =
+                    filters.getTitle() + " " +
+                    dateFormatterFilename.format(firstPeriod.getStartDate()) +
+                    " " + LanguageUtil.get(bundle, "eu.agenda.export.period.middle") + " " +
+                    dateFormatterFilename.format(firstPeriod.getEndDate());
+            }
+        } else {
+            filename = filters.getTitle();
+        }
+
+        return filename;
     }
 }

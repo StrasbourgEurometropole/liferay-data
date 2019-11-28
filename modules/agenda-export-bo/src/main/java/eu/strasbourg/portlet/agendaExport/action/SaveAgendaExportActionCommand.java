@@ -195,18 +195,22 @@ public class SaveAgendaExportActionCommand implements MVCActionCommand{
 		String firstAggregationType = ParamUtil.getString(request, "firstAggregationType");
 		String firstAggregationVocabulary = ParamUtil.getString(request, "firstAggregationVocabulary");
 		String firstAggregationCategory = ParamUtil.getString(request, "firstAggregationCategory");
+		boolean firstCategoryFilter = ParamUtil.getBoolean(request, "firstCategoryFilter");
 		String secondAggregationType = ParamUtil.getString(request, "secondAggregationType");
 		String secondAggregationVocabulary = ParamUtil.getString(request, "secondAggregationVocabulary");
 		String secondAggregationCategory = ParamUtil.getString(request, "secondAggregationCategory");
+		boolean secondCategoryFilter = ParamUtil.getBoolean(request, "secondCategoryFilter");
 
 		//remplissage des objets
 		firstAggregation.put("type", firstAggregationType);
 		firstAggregation.put("vocabulary", firstAggregationVocabulary);
 		firstAggregation.put("category", firstAggregationCategory);
+		firstAggregation.put("categoryfilter", firstCategoryFilter);
 
 		secondAggregation.put("type", secondAggregationType);
 		secondAggregation.put("vocabulary", secondAggregationVocabulary);
 		secondAggregation.put("category", secondAggregationCategory);
+		secondAggregation.put("categoryfilter", secondCategoryFilter);
 
 		aggregations.put("level", aggregationLevel);
 		aggregations.put("first", firstAggregation);

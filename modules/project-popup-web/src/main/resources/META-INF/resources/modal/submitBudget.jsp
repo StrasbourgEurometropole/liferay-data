@@ -24,13 +24,14 @@
                         <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
+                    	<aui:input id="budgetdescription" name="description" type="hidden"/>
                         <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/></label>
+                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/> <strong class="required" aria-required="true">*</strong></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected><liferay-ui:message key="modal.submitbudget.information.territoire.town"/></option>
+                                <option value="0" selected></option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -219,6 +220,7 @@
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
+            $("#"+namespace+"budgetdescription").val(budgetDescriptionValue);
             var budgetSummaryValue = $("#"+namespace+"budgetsummary").val(); 
             var addressValue = $("#"+namespace+"address").val();
             var cityValue = $("#"+namespace+"city").val();
@@ -249,7 +251,7 @@
                         dataType: 'json',
                         data:{
                             <portlet:namespace/>title:budgetTitleValue,
-                            <portlet:namespace/>squiredescription:budgetDescriptionValue,
+                            <portlet:namespace/>description:budgetDescriptionValue,
                             <portlet:namespace/>summary:budgetSummaryValue,
                             <portlet:namespace/>address:addressValue,
                             <portlet:namespace/>city:cityValue,
@@ -315,6 +317,7 @@
     {
         $("#"+namespace+"budgettitle").val("");
         $("#"+namespace+"budgetsummary").val("");
+        $("#"+namespace+"budgetdescription").val("");
         $("#"+namespace+"budgetlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
         $("#"+namespace+"project").selectric();
@@ -355,6 +358,7 @@
     function validateForm()
     {
         var result = true;
+        var quartierValue = $("#"+namespace+"quartier").val();
         var budgettitle = $("#"+namespace+"budgettitle").val();
         var budgetsummary = $("#"+namespace+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
@@ -367,6 +371,11 @@
         var cnil = $("#submit-budget-cnil").is(":checked");
         var photo = $("#"+namespace+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
+
+        if (quartierValue==0){
+            $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
@@ -424,3 +433,10 @@
         return result;
     }
 </script>
+
+<style>
+    label .required{
+        color: red;
+        font-size:1em;
+    }
+</style>
