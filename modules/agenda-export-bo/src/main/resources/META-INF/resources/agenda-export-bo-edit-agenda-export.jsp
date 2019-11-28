@@ -161,7 +161,7 @@
                 <%-- First level Aggregation --%>
 
                 <div id="firstAggregationBlock" class="aggregationFields">
-                    <aui:select id="firstAggregationType" name="firstAggregationType" label="eu.agenda.export.aggregation.types.first">
+                    <aui:select id="firstAggregationType" name="firstAggregationType" cssClass="aggregation-type" label="eu.agenda.export.aggregation.types.first">
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                 value="${type.key}"
@@ -202,6 +202,15 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div>
+                            <aui:input
+                                type="checkbox"
+                                name="firstCategoryFilter"
+                                cssClass="category-checkboxes"
+                                label="eu.agenda.export.aggregation.category.check"
+                                checked="${dc.getAggregationCategoryFilter('first')}" >
+                            </aui:input>
+                        </div>
                         <div id="required-first-category" style="display:none">
                              <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
                          </div>
@@ -211,7 +220,7 @@
                 <%-- Second level Aggregation --%>
 
                 <div id="secondAggregationBlock" class="aggregationFields">
-                    <aui:select id="secondAggregationType" name="secondAggregationType" label="eu.agenda.export.aggregation.types.second">
+                    <aui:select id="secondAggregationType" name="secondAggregationType" cssClass="aggregation-type" label="eu.agenda.export.aggregation.types.second">
                         <c:forEach var="type" items="${dc.aggregationTypes}">
                            <aui:option
                                value="${type.key}"
@@ -252,6 +261,15 @@
                                </aui:option>
                             </c:forEach>
                         </aui:select>
+                        <div>
+                            <aui:input
+                                type="checkbox"
+                                name="secondCategoryFilter"
+                                cssClass="category-checkboxes"
+                                label="eu.agenda.export.aggregation.category.check"
+                                checked="${dc.getAggregationCategoryFilter('second')}" >
+                            </aui:input>
+                        </div>
                         <div id="required-second-category" style="display:none">
                              <span><liferay-ui:message key="eu.agenda.export.category.required" /><span>
                          </div>
@@ -263,7 +281,7 @@
 
 		<aui:button-row>
             <c:if test="${toExport ne true}">
-                <c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                <c:if test="${(dc.hasPermission('ADD_AGENDA_EXPORT') and empty agendaExport or dc.hasPermission('EDIT_AGENDA_EXPORT') and dc.canEditAdminContent(agendaExport.agendaExportId) and not empty agendaExport) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                     <aui:input type="hidden" name="workflowAction" value="" />
                     <c:if test="${dc.workflowEnabled}">
                         <aui:button cssClass="btn-lg" type="submit" value="save" />
@@ -275,7 +293,7 @@
                                 value="save-as-draft" />
                     </c:if>
                 </c:if>
-                <c:if test="${not empty agendaExport and dc.hasPermission('DELETE_AGENDA_EXPORT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                <c:if test="${not empty agendaExport and dc.canEditAdminContent(agendaExport.agendaExportId) and dc.hasPermission('DELETE_AGENDA_EXPORT') and dc.canEditAdminContent(agendaExport.agendaExportId) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                     <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
                         value="delete" />
                 </c:if>

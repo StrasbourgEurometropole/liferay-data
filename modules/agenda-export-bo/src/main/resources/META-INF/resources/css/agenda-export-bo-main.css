@@ -153,4 +153,7 @@ span[id $= "displayTime"]{
     margin-bottom: 10px;
 }
 
-
+/** On n'affiche pas les checboxes de la page view **/
+.lfr-checkbox-column > input {
+    display: none;
+}
