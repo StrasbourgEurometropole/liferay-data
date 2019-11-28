@@ -208,7 +208,7 @@
                                 name="firstCategoryFilter"
                                 cssClass="category-checkboxes"
                                 label="eu.agenda.export.aggregation.category.check"
-                                checked="true" >
+                                checked="${dc.getAggregationCategoryFilter('first')}" >
                             </aui:input>
                         </div>
                         <div id="required-first-category" style="display:none">
@@ -267,7 +267,7 @@
                                 name="secondCategoryFilter"
                                 cssClass="category-checkboxes"
                                 label="eu.agenda.export.aggregation.category.check"
-                                checked="true" >
+                                checked="${dc.getAggregationCategoryFilter('second')}" >
                             </aui:input>
                         </div>
                         <div id="required-second-category" style="display:none">

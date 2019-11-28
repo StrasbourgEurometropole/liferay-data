@@ -257,7 +257,8 @@ public class EditAgendaExportDisplayContext {
         if(
             type.toUpperCase().equals("TYPE") ||
             type.toUpperCase().equals("VOCABULARY") ||
-            type.toUpperCase().equals("CATEGORY")
+            type.toUpperCase().equals("CATEGORY") ||
+            type.toUpperCase().equals("CATEGORYFILTER")
         ) {
             Object value = sectionObject.get(type.toLowerCase());
             if(value != null) {
@@ -266,6 +267,17 @@ public class EditAgendaExportDisplayContext {
         }
 
         return null;
+    }
+
+    public String getAggregationCategoryFilter(String section) throws JSONException {
+
+        String result = this.getAggregationSavedValue(section, "CATEGORYFILTER");
+
+        if(result == null) {
+            return "true";
+        }
+
+        return result;
     }
 
     public String getAggregationCategoryName(String section) throws JSONException {
