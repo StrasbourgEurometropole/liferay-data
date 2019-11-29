@@ -27,9 +27,18 @@
                                 <c:set var="type" value="${dc.getFieldType(recordField[1])}" />
                                 <c:if test="${type.equals('text')}">
                                     <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.getDDMStorageId(),recordField[0])}" />
+                                    <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
+                                    <p>${dc.getTip(recordField[1], locale)}</p>
+                                    <c:if test="${! dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
+                                        <div class="pro-item-response pro-item-response-highlight">
+                                            <div class="pro-bloc-texte">
+                                                <p>
+                                                    ${dc.texteModeration}
+                                                </p>
+                                            </div>
+                                        </DIV>
+                                    </c:if>
                                     <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
-                                        <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
-                                        <p>${dc.getTip(recordField[1], locale)}</p>
                                         <div class="pro-item-response pro-item-response-highlight">
                                             <div class="pro-bloc-texte">
                                                 <p>

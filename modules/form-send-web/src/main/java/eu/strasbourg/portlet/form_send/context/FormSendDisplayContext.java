@@ -412,4 +412,15 @@ public class FormSendDisplayContext {
         }
         return isToShow;
     }
+
+    public String getTexteModeration(){
+        String message = "";
+        if(Validator.isNotNull(this.configuration) && Validator.isNotNull(configuration.message())) {
+            message = configuration.message();
+        }else{
+            message = "La r&eacute;ponse a &eacute;t&eacute; mod&eacute;r&eacute;e.";
+        }
+
+        return message;
+    }
 }

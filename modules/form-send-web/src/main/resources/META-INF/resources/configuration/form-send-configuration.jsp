@@ -23,6 +23,10 @@
 			<aui:input name="nbEntries" value="${nbEntries}" type="text" label="Nombre d'entr&eacute;es par page" />
 		</aui:fieldset>
 
+		<aui:fieldset>
+			<aui:input name="message" value="${message}" type="text" label="Message de mod&eacute;ration" />
+		</aui:fieldset>
+
         <aui:select name="recordSetId" inlineField="true">
             <c:forEach var="form" items="${formulaireList}">
                 <aui:option value="${form.recordSetId}"

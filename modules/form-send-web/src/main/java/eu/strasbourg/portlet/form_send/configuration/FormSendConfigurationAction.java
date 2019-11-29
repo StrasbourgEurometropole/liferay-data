@@ -66,6 +66,10 @@ public class FormSendConfigurationAction
             String nbEntries = ParamUtil.getString(request, "nbEntries");
             setPreference(request, "nbEntries", nbEntries);
 
+            // Message de modération
+            String message = ParamUtil.getString(request, "message");
+            setPreference(request, "message", message);
+
             // Formulaire sélectionnés
             String recordSetId = ParamUtil.getString(request, "recordSetId");
             setPreference(request, "recordSetId", recordSetId);
@@ -144,6 +148,17 @@ public class FormSendConfigurationAction
                 }
             }
             request.setAttribute("nbEntries", nbEntries);
+
+            // Message de modération
+            String message;
+            String messageParam = ParamUtil.getString(request,
+                    "message");
+            if (Validator.isNotNull(messageParam)) {
+                message = messageParam;
+            } else {
+                message = configuration.message();
+            }
+            request.setAttribute("message", message);
 
             // Formulaires disponibles
             List<Formulaire> formulaireList = new ArrayList<Formulaire>();
