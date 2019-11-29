@@ -233,8 +233,8 @@
                                         // Parcours des horraires
                                         var destinations = '';
                                         json.forEach(function(visit, i) {
-                                            // On affiche que les 5 premiers resultats
-                                            if (i > 12) return false;
+                                            // On affiche que les 12 premiers resultats
+                                            if (i >= 12) return false;
 
                                             // Formatage de l'heure
                                             var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
@@ -276,7 +276,7 @@
                                                     destinations +
                                                 '</div>' +
                                             '<a class="jspArrow jspArrowDown ' + ((Object.keys(json).length <= 4)?'jspDisabled':'') + '" data-scroll-id="scroll-pane-map"></a>');
-                                        $('.scroll-pane').jScrollPane({arrowButtonSpeed: 200});
+                                        $('.scroll-pane').jScrollPane({arrowButtonSpeed: 140});
                                     } else {
                                         $(destinationList).append(
                                             '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
