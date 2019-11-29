@@ -1,22 +1,10 @@
 package eu.strasbourg.service.poi.impl;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
-import eu.strasbourg.service.gtfs.model.Arret;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -24,31 +12,29 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.agenda.model.Event;
-import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.OccupationState;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.models.Pair;
+import org.osgi.service.component.annotations.Component;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Benjamin Bini
