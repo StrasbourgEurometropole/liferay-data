@@ -23,8 +23,8 @@ jQuery(function() {
 				var endDateAlert = $(namespaceAUI + "endDateAlert" + index).val();
 				var alertLigneAndDirection = $(
 						namespaceAUI + "alertLigneAndDirection" + index).val();
-				var alertPerturbation = $(
-						namespaceAUI + "alertPerturbation" + index).val();
+				var alertPerturbation =
+						$( "input[id^='" + namespace + "alertPerturbation" + index + "']" ).val();
 				if(startDateAlert == ""){
 					if (endDateAlert != "" || alertLigneAndDirection != "" || alertPerturbation != "") {
 						$('.alert-start-date', $(alertLabel).parent()).show();
