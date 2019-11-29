@@ -181,7 +181,6 @@
   </script>
 
   <script type="text/javascript" src="/o/monstrasbourg-theme/js/strasbourg.js"></script>
-  <script type="text/javascript" src="/o/monstrasbourg-theme/js/jquery.jscrollpane.js"></script>
 
   <@liferay_util["include"] page=body_bottom_include />
 
