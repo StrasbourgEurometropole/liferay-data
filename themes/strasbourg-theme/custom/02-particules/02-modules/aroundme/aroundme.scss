@@ -644,13 +644,16 @@
             */
         }
         &-alert{
-            height: 22px;
-            width: 22px;
+            height: 21px;
+            width: 21px;
             position: absolute;
             top: 0;
             right: 0;
             transform: translate(50%, -50%);
-            background-image: url( svg-bg-uri($svg-filled-close, red) );
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-alert, red) );
         }
     }
 
@@ -772,6 +775,47 @@
             padding-top: 10px;
             padding-bottom: 10px;
             display: flex;
+
+            .infowindow__contenu:not(:empty){
+                width: 100%;
+
+                .scroll-pane{
+                    max-height: 140px;  
+                }  
+                @extend %jscrollpane;           
+
+                .popup-content-tram-list .row{
+                    height: 30px;
+                    margin-bottom: 5px;
+                }
+
+                .no-visit-found {
+                    text-align: center;
+                }
+
+                .loading {
+                    height: 180px
+                }
+
+                .loading-circle, .loading-circle:after{
+                    position: absolute;
+                    width: 95px;
+                    height: 95px;
+                    border: 15px solid #00B1EB;
+                    border-top-color: transparent;
+                    border-radius: 50%;
+                }
+
+                .loading-circle {
+                    top: 50%;
+                    left: 50%;
+                    animation: chargement 1s linear infinite;
+                }
+
+                .loading-circle:after {
+                    transform: rotate(90deg);
+                }
+            }
         }
         &__bottom{
             border-top: solid 1px #dddddd;
@@ -863,6 +907,17 @@
                 overflow: hidden;          
                 border-color: $core-color;
                 background-color: $core-color;
+
+                &.alert-arret span.flexbox:before {
+                    content: '';
+                    width: 21px;
+                    height: 21px;
+                    background-size: contain;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-right: 12px;
+                    background-image: url( svg-bg-uri($svg-alert, $error) );
+                }
 
                 .flexbox{    
                     display: flex;
