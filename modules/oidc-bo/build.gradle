@@ -18,4 +18,5 @@ dependencies {
 	compile project (':modules:utils')
 	compile project (':modules:oidc:oidc-api')
 	compile project (':modules:office-exporter')
+	compile project (':modules:form-send-record-field:form-send-record-field-api')
 }
