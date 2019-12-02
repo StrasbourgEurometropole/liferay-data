@@ -273,6 +273,14 @@ public class SignalementLocalServiceUtil {
 	}
 
 	/**
+	* Retourne tous les signalements d'un utilisateur
+	*/
+	public static java.util.List<eu.strasbourg.service.comment.model.Signalement> getByPublikId(
+		java.lang.String publikId) {
+		return getService().getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the signalements.
 	*
 	* <p>

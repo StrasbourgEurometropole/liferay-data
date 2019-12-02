@@ -291,6 +291,15 @@ public class SignalementLocalServiceWrapper implements SignalementLocalService,
 	}
 
 	/**
+	* Retourne tous les signalements d'un utilisateur
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement> getByPublikId(
+		java.lang.String publikId) {
+		return _signalementLocalService.getByPublikId(publikId);
+	}
+
+	/**
 	* Returns a range of all the signalements.
 	*
 	* <p>

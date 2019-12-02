@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.formSendRecordField.model.FormSendRecordField">
+		<field name="uuid" type="String" />
+		<field name="formSendRecordFieldId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="response" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="assetEntryId" type="long" />
+		<field name="contentId" type="long" />
+		<field name="instanceId" type="String" />
+		<field name="responseUserId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement">
+		<field name="uuid" type="String" />
+		<field name="signalementId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="formSendRecordFieldId" type="long" />
+		<field name="publikId" type="String" />
+	</model>
+</model-hints>

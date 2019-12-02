@@ -91,20 +91,20 @@ public class Pager {
 	public void setLastPage(int lastPage) {
 		this.lastPage = lastPage;
 	}
-	
+
 	/**
 	 * Retourne la liste des PagerItem à afficher, soit des chiffres correspondant à des numéros de pages, soit des séparateurs "..."
 	 */
 	public List<PagerItem> getPages() {
 		List<PagerItem> pagerItems = new ArrayList<PagerItem>();
 		List<Integer> pages = new ArrayList<Integer>();
-		
+
 		for (int i = 1; i <= this.lastPage; i++) {
 			if (i == 1 || i == this.lastPage || isPageCloseToCurrentPage(i)) {
 				pages.add(i);
 			}
 		}
-		
+
 		int previousPage = -1;
 		for (int i = 0; i < pages.size(); i++) {
 			int page = pages.get(i);
@@ -115,9 +115,21 @@ public class Pager {
 					pagerItems.add(new PagerItem(0, "..."));
 				}
 			}
-			
+
 			pagerItems.add(new PagerItem(page, String.valueOf(page)));
 			previousPage = page;
+		}
+		return pagerItems;
+	}
+
+	/**
+	 * Retourne la liste des PagerItem à afficher
+	 */
+	public List<PagerItem> getAllPages() {
+		List<PagerItem> pagerItems = new ArrayList<PagerItem>();
+
+		for (int page = 1; page <= this.lastPage; page++) {
+			pagerItems.add(new PagerItem(page, String.valueOf(page)));
 		}
 		return pagerItems;
 	}
