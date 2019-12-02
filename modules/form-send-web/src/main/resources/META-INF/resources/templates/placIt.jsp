@@ -29,17 +29,15 @@
                                     <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.getDDMStorageId(),recordField[0])}" />
                                     <span class="pro-title-question" id="rep_${formSendRecordField.formSendRecordFieldId}">${dc.getLabel(recordField[1], locale)}</span>
                                     <p>${dc.getTip(recordField[1], locale)}</p>
-                                    <c:if test="${! dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
-                                        <div class="pro-item-response pro-item-response-highlight">
+                                    <div class="pro-item-response pro-item-response-highlight">
+                                        <c:if test="${! dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
                                             <div class="pro-bloc-texte">
                                                 <p>
                                                     ${dc.texteModeration}
                                                 </p>
                                             </div>
-                                        </DIV>
-                                    </c:if>
-                                    <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
-                                        <div class="pro-item-response pro-item-response-highlight">
+                                        </c:if>
+                                        <c:if test="${dc.isToShow(formSendRecordField.formSendRecordFieldId)}" >
                                             <div class="pro-bloc-texte">
                                                 <p>
                                                     ${fn:toUpperCase(fn:substring(recordField[2], 0, 1))}${fn:toLowerCase(fn:substring(recordField[2], 1,fn:length(recordField[2])))}
@@ -70,28 +68,28 @@
                                                     </div>
                                                 </c:if>
                                             </div>
-                                            <div class="pro-footer-response">
-                                                <c:if test="${empty formSendRecordField || empty formSendRecordField.response}">
-                                                    <span class="pro-waiting-response"><span class="icon-ico-waiting"></span>En attente de r&eacute;ponse</span>
-                                                </c:if>
-                                                <c:if test="${not empty formSendRecordField && not empty formSendRecordField.response}">
-                                                    <c:set var="user" value="${dc.getUser(formSendRecordField.responseUserId)}" />
-                                                    <div class="pro-author">
-                                                        <figure role="group">
-                                                            <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation">
-                                                        </figure>
-                                                        <div class="pro-meta-txt">
-                                                            <p>R&eacute;ponse publi&eacute;e par :</p>
-                                                            <p><strong>${user.getFullName()}</strong></p>
-                                                        </div>
+                                        </c:if>
+                                        <div class="pro-footer-response">
+                                            <c:if test="${empty formSendRecordField || empty formSendRecordField.response}">
+                                                <span class="pro-waiting-response"><span class="icon-ico-waiting"></span>En attente de r&eacute;ponse</span>
+                                            </c:if>
+                                            <c:if test="${not empty formSendRecordField && not empty formSendRecordField.response}">
+                                                <c:set var="user" value="${dc.getUser(formSendRecordField.responseUserId)}" />
+                                                <div class="pro-author">
+                                                    <figure role="group">
+                                                        <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image participation">
+                                                    </figure>
+                                                    <div class="pro-meta-txt">
+                                                        <p>R&eacute;ponse publi&eacute;e par :</p>
+                                                        <p><strong>${user.getFullName()}</strong></p>
                                                     </div>
-                                                    <div class="pro-txt">
-                                                        <p>${formSendRecordField.response}</p>
-                                                    </div>
-                                                </c:if>
-                                            </div>
+                                                </div>
+                                                <div class="pro-txt">
+                                                    <p>${formSendRecordField.response}</p>
+                                                </div>
+                                            </c:if>
                                         </div>
-                                    </c:if>
+                                    </div>
                                 </c:if>
                             </c:if>
                         </c:forEach>
