@@ -65,12 +65,9 @@
                 <!-- Ancre vers la zone d'alerte -->
                 <#assign alerts = entry.alertsActives />
                 <#if alerts?size != 0>
-                    <div class="alert">
-                        <div class="picto"></div>
-                        <a href="#alert" title="<@liferay_ui.message key='eu.see-perturbation' />" class="ancrage-alerte" onClick="$('#alert button').click();">
-                            <@liferay_ui.message key="eu.see-perturbation" />
-                        </a>
-                    </div>
+                    <a href="#alert" title="<@liferay_ui.message key='eu.see-perturbation' />" class="ancrage-alerte" onClick="$('#alert button').click();">
+                        <@liferay_ui.message key="eu.see-perturbation" />
+                    </a>
                 </#if>
                 
                 <!-- Prochains passages -->
@@ -172,46 +169,3 @@
         </div>  
     </main>
 </div>
-
-<style>
-    .ancrage-alerte:before{
-        background-image: url("o/mapweb/images/travaux.png") );        
-    }
-
-    .lfr-alert-container {
-        position: static;
-        padding: 40px;
-        margin-bottom: 25px;
-        background: #EF5350;
-    }
-    
-    .lfr-alert-container .lfr-alert-wrapper {
-        margin-bottom: 0;
-        padding: 0;
-        height: auto !important;
-    }
-    
-    .lfr-alert-container .lfr-alert-wrapper + .lfr-alert-wrapper {
-        margin-top: 15px;
-    }
-    
-    .lfr-alert-container .alert-danger {
-        background: none;
-        border: none;
-        margin: 0;
-        padding: 0;
-        color: white;
-        line-height: 25px
-    }
-    
-    .lfr-alert-container .alert-danger button,
-    .lfr-alert-container .alert-danger .lead {
-        display: none;
-    }
-
-    @media only screen and (max-width: 767px){
-        #aroundme .aroundme__ui__group {
-            height: calc(100% - 20px); 
-        }
-    }
-</style>
