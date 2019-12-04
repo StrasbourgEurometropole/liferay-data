@@ -84,9 +84,10 @@
 			<!-- Alertes -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="alerts">
-				
+
+				<c:set value="${dc.arret.alerts}" var="alerts" />
                 <div id="alert-fields">
-                    <c:if test="${empty dc.arret.alerts}">
+                    <c:if test="${empty alerts}">
                         <div class="lfr-form-row lfr-form-row-inline">
                             <div class="row-fields">
                                 <liferay-util:include page="/includes/alert-row.jsp" servletContext="<%=application %>">
@@ -94,28 +95,56 @@
                                 </liferay-util:include>
                             </div>
                         </div>
-                    </c:if>
 
-                    <c:forEach items="${dc.arret.alerts}" var="alert" varStatus="status">
                         <div class="lfr-form-row lfr-form-row-inline">
                             <div class="row-fields">
-                                <fmt:formatDate value="${alert.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
-                                <fmt:formatDate value="${alert.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
                                 <liferay-util:include page="/includes/alert-row.jsp" servletContext="<%=application %>">
-                                    <liferay-util:param name="index" value="${status.count}" />
-                                    <liferay-util:param name="startDate" value="${formattedStartDate}" />
-                                    <liferay-util:param name="endDate" value="${formattedEndDate}" />
-                                    <liferay-util:param name="ligneAndDirection" value="${alert.ligneAndDirection}" />
-                                    <liferay-util:param name="perturbation" value="${alert.perturbation}" />
+                                    <liferay-util:param name="index" value="2" />
                                 </liferay-util:include>
                             </div>
                         </div>
-                    </c:forEach>
-                    <c:if test="${empty dc.arret.alerts}">
-                        <aui:input type="hidden" name="alertsIndexes" value="1" />
                     </c:if>
-                    <c:if test="${not empty dc.arret.alerts}">
-                        <aui:input type="hidden" name="alertsIndexes" value="${dc.getDefaultIndexes(fn:length(dc.arret.alerts))}" />
+                    <c:if test="${!empty alerts}">
+				        <c:set value="${alerts.get(0)}" var="alert1" />
+                        <div class="lfr-form-row lfr-form-row-inline">
+                            <div class="row-fields">
+                                <fmt:formatDate value="${alert1.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+                                <fmt:formatDate value="${alert1.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
+                                <liferay-util:include page="/includes/alert-row.jsp" servletContext="<%=application %>">
+                                    <liferay-util:param name="index" value="1" />
+                                    <liferay-util:param name="startDate" value="${formattedStartDate}" />
+                                    <liferay-util:param name="endDate" value="${formattedEndDate}" />
+                                    <liferay-util:param name="ligneAndDirection" value="${alert1.ligneAndDirection}" />
+                                    <liferay-util:param name="perturbation" value="${alert1.perturbation}" />
+                                </liferay-util:include>
+                            </div>
+                        </div>
+
+                        <c:if test="${alerts.size() == 1}">
+                            <div class="lfr-form-row lfr-form-row-inline">
+                                <div class="row-fields">
+                                    <liferay-util:include page="/includes/alert-row.jsp" servletContext="<%=application %>">
+                                        <liferay-util:param name="index" value="2" />
+                                    </liferay-util:include>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${alerts.size() > 1}">
+                            <c:set value="${alerts.get(1)}" var="alert2" />
+                            <div class="lfr-form-row lfr-form-row-inline">
+                                <div class="row-fields">
+                                    <fmt:formatDate value="${alert2.startDate}" pattern="yyyy-MM-dd" type="date" var="formattedStartDate"/>
+                                    <fmt:formatDate value="${alert2.endDate}" pattern="yyyy-MM-dd" type="date" var="formattedEndDate"/>
+                                    <liferay-util:include page="/includes/alert-row.jsp" servletContext="<%=application %>">
+                                        <liferay-util:param name="index" value="2" />
+                                        <liferay-util:param name="startDate" value="${formattedStartDate}" />
+                                        <liferay-util:param name="endDate" value="${formattedEndDate}" />
+                                        <liferay-util:param name="ligneAndDirection" value="${alert2.ligneAndDirection}" />
+                                        <liferay-util:param name="perturbation" value="${alert2.perturbation}" />
+                                    </liferay-util:include>
+                                </div>
+                            </div>
+                        </c:if>
                     </c:if>
                 </div>
 					
@@ -141,12 +170,6 @@
 
 	</aui:form>
 </div>
-
-<liferay-util:html-top>
-	<script>
-	var getalertRowJSPURL = '${alertRowURL}';
-	</script>
-</liferay-util:html-top>
 <liferay-util:html-bottom>
 	<script
 		src="/o/gtfsbo/js/gtfs-bo-edit-arret.js"

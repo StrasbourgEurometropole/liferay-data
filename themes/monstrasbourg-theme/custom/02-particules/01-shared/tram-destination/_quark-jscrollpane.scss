@@ -129,12 +129,12 @@
 
 		&.jspArrowUp:not(.jspDisabled):after{
 			margin-top: -30px;
-			background-image: url( svg-bg-uri($svg-arrow-up, $second-color) );
+			background-image: url( svg-bg-uri($svg-arrow-up, $text-basis-color) );
 		}
 		
 		&.jspArrowDown:not(.jspDisabled):after{
 			margin-top: -18px;
-			background-image: url( svg-bg-uri($svg-arrow-down, $second-color) );
+			background-image: url( svg-bg-uri($svg-arrow-down, $text-basis-color) );
 		}
 	} 
 

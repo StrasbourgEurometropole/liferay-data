@@ -1,6 +1,4 @@
 .lfr-form-row {
-    width: 40%;
-    display: inline-block;
     margin: 20px;
     border: 1px solid #ccc;
 }
@@ -20,7 +18,7 @@
 }
 
 .alert-label {
-	margin-bottom: 10px;
+	margin-bottom: 105px;
 }
 
 .alert{

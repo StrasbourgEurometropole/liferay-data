@@ -70,10 +70,8 @@ public class SaveArretActionCommand implements MVCActionCommand {
 				}
 
 				// Ajout des alertes liées à l'arrêt
-				String alertsIndexes = ParamUtil.getString(request, "alertsIndexes");
-				for (String alertsIndex : alertsIndexes.split(",")) {
-					if (Validator.isNotNull(alertsIndex)
-							&& Validator.isNotNull(
+				for (int alertsIndex = 1 ; alertsIndex <= 2; alertsIndex++)
+					if (Validator.isNotNull(
 							ParamUtil.getString(request, "startDateAlert" + alertsIndex))
 							&& Validator.isNotNull(
 							ParamUtil.getString(request, "endDateAlert" + alertsIndex))
@@ -104,12 +102,9 @@ public class SaveArretActionCommand implements MVCActionCommand {
 
 				this._arretLocalService.updateArret(arret, sc);
 
+			} catch (PortalException e) {
+				_log.error(e);
 			}
-		} catch (
-
-		PortalException e) {
-			_log.error(e);
-		}
 
 		return true;
 	}

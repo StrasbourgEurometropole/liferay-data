@@ -32,17 +32,6 @@ public class EditArretDisplayContext {
 		return _arret;
 	}
 
-	public String getDefaultIndexes(int length) {
-		String indexes = "";
-		for (int i = 1; i <= length; i++) {
-			if (Validator.isNotNull(indexes)) {
-				indexes += ",";
-			}
-			indexes += i;
-		}
-		return indexes;
-	}
-
 	public Locale[] getAvailableLocales() {
 		Set<Locale> availableLocalesSet = LanguageUtil.getSupportedLocales();
 		Locale[] availableLocales = availableLocalesSet

@@ -647,9 +647,8 @@
             height: 21px;
             width: 21px;
             position: absolute;
-            top: 0;
-            right: 0;
-            transform: translate(50%, -50%);
+            top: -10px;
+            right: -10px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -779,11 +778,13 @@
             .infowindow__contenu:not(:empty){
                 width: 100%;
 
+                @extend %jscrollpane;
                 .scroll-pane{
-                    max-height: 140px;  
-                } 
-
-                @extend %jscrollpane;           
+                    max-height: 140px; 
+                    .tram-destination .tram-destination-name {
+                        padding: 0 5px 0 8px;
+                    }
+                }         
 
                 .popup-content-tram-list .row{
                     height: 30px;

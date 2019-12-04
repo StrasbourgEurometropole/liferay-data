@@ -47,16 +47,18 @@
         } 
     }
 
-    //Alert       
-    .alert {
-        display: flex;
+    //Alert   
+    .ancrage-alerte{
+        @extend %atom-link-rte;display: flex;
         align-items: center;
 
-        .picto{
-            height: 21px;
-            width: 21px;  
+        &:before{
+            content: '';
+            display: inline-block;
+            height: 40px;
+            width: 40px;  
             margin-right: 10px;       
-            background-size: contain;
+            background-size: 30px;
             background-position: center;
             background-repeat: no-repeat;
             background-image: url( svg-bg-uri($svg-alert, $error) );
