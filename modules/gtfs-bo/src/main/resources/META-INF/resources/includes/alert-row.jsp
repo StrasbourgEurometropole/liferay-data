@@ -1,6 +1,9 @@
 <%@ include file="/gtfs-bo-init.jsp"%>
 						
-<div class="alert-label" id="${param.index}"><label><liferay-ui:message key="alert" /> ${param.index}</label></div>
+<div class="alert-label" id="${param.index}">
+    <label><liferay-ui:message key="alert" /> ${param.index}</label>
+    <aui:button onClick="dropAlert(${param.index});" value="drop-alert" />
+</div>
 
 <aui:input type="date" name="startDateAlert${param.index}" label="start-date-alert" value="${param.startDate}" />
 <div class="alert-start-date" style="display: none">

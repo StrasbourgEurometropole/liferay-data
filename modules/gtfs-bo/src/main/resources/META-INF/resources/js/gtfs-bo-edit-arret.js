@@ -1,7 +1,8 @@
 // Champs conditionnelles
+var namespace = "_eu_strasbourg_portlet_gtfs_GTFSBOPortlet_";
+var namespaceAUI = "#" + namespace;
+
 jQuery(function() {
-	var namespace = "_eu_strasbourg_portlet_gtfs_GTFSBOPortlet_";
-	var namespaceAUI = "#" + namespace;
 
 	$(":submit").on('click', function(e) {
 		setAlertValidators(e);
@@ -19,20 +20,23 @@ jQuery(function() {
             var alertLigneAndDirection = $(
                     namespaceAUI + "alertLigneAndDirection" + index).val();
             var alertPerturbation =
-                    $( "input[id^='" + namespace + "alertPerturbation" + index + "']" ).val();
+                    CKEDITOR.instances[namespace + "alertPerturbation" + index].getData();
             if(startDateAlert == ""){
                 if (endDateAlert != "" || alertLigneAndDirection != "" || alertPerturbation != "") {
                     $('.alert-start-date', $(alertLabel).parent()).show();
-                    if (endDateAlert != "") {
-                    $('.alert-end-date', $(alertLabel).parent()).show();
+                    if (endDateAlert == "") {
+                        $('.alert-end-date', $(alertLabel).parent()).show();
                     }
-                    if (alertLigneAndDirection != "") {
+                    if (alertLigneAndDirection == "") {
                         $('.alert-ligne-and-direction', $(alertLabel).parent()).show();
                     }
-                    if (alertPerturbation != "") {
+                    if (alertPerturbation == "") {
                         $('.alert-perturbation', $(alertLabel).parent()).show();
                     }
-                    allValidated = false;
+                    if(allValidated){
+                        $('html,body').animate({scrollTop: $(alertLabel).offset().top - 100}, 'slow');
+                        allValidated = false;
+                    }
                 }else{
                     $('.alert-start-date', $(alertLabel).parent()).hide();
                     $('.alert-end-date', $(alertLabel).parent()).hide();
@@ -42,27 +46,39 @@ jQuery(function() {
             }else{
                 if (endDateAlert == "") {
                     $('.alert-end-date', $(alertLabel).parent()).show();
-                    allValidated = false;
+                    if(allValidated){
+                        $('html,body').animate({scrollTop: $(alertLabel).offset().top - 100}, 'slow');
+                        allValidated = false;
+                    }
                 }else{
                     $('.alert-end-date', $(alertLabel).parent()).hide();
 
                     // on vérifie que la date de début soit <= à la date de fin
                     if(!comparDatesYMD(startDateAlert, endDateAlert)){
                         $('.alert-incorrect-date', $(alertLabel).parent()).show();
-                        allValidated = false;
+                        if(allValidated){
+                            $('html,body').animate({scrollTop: $(alertLabel).offset().top - 100}, 'slow');
+                            allValidated = false;
+                        }
                     }else{
                         $('.alert-incorrect-date', $(alertLabel).parent()).hide();
                     }
                 }
                 if (alertLigneAndDirection == "") {
                     $('.alert-ligne-and-direction', $(alertLabel).parent()).show();
-                    allValidated = false;
+                    if(allValidated){
+                        $('html,body').animate({scrollTop: $(alertLabel).offset().top - 100}, 'slow');
+                        allValidated = false;
+                    }
                 }else{
                     $('.alert-ligne-and-direction', $(alertLabel).parent()).hide();
                 }
                 if (alertPerturbation == "") {
                     $('.alert-perturbation', $(alertLabel).parent()).show();
-                    allValidated = false;
+                    if(allValidated){
+                        $('html,body').animate({scrollTop: $(alertLabel).offset().top - 100}, 'slow');
+                        allValidated = false;
+                    }
                 }else{
                     $('.alert-perturbation', $(alertLabel).parent()).hide();
                 }
@@ -75,3 +91,11 @@ jQuery(function() {
 	}
 
 });
+
+function dropAlert(index) {
+    $(namespaceAUI + "startDateAlert" + index).val("");
+    $(namespaceAUI + "endDateAlert" + index).val("");
+    $(namespaceAUI + "alertLigneAndDirection" + index).val("");
+    CKEDITOR.instances[namespace + "alertPerturbation" + index].setData("");
+
+}
