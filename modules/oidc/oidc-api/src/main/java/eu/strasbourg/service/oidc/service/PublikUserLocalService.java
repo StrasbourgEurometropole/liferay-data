@@ -325,9 +325,4 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*/
 	public void anonymisedUserPlacit(PublikUser anonymUser,
 		PublikUser publikUser);
-
-	/**
-	* Anonymise les utilisateurs supprimés
-	*/
-	public void anonymizedUsers();
 }

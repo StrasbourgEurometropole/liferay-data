@@ -375,13 +375,6 @@ public class PublikUserLocalServiceUtil {
 		getService().anonymisedUserPlacit(anonymUser, publikUser);
 	}
 
-	/**
-	* Anonymise les utilisateurs supprimés
-	*/
-	public static void anonymizedUsers() {
-		getService().anonymizedUsers();
-	}
-
 	public static PublikUserLocalService getService() {
 		return _serviceTracker.getService();
 	}

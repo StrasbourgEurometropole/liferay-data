@@ -401,14 +401,6 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 		_publikUserLocalService.anonymisedUserPlacit(anonymUser, publikUser);
 	}
 
-	/**
-	* Anonymise les utilisateurs supprimés
-	*/
-	@Override
-	public void anonymizedUsers() {
-		_publikUserLocalService.anonymizedUsers();
-	}
-
 	@Override
 	public PublikUserLocalService getWrappedService() {
 		return _publikUserLocalService;

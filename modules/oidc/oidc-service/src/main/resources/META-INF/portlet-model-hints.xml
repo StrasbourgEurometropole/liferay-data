@@ -1,6 +1,32 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.oidc.model.AnonymisationHistoric">
+		<field name="uuid" type="String" />
+		<field name="anonymisationHistoricId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="result" type="int" />
+		<field name="operations" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorStackTrace" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="startDate" type="Date" />
+		<field name="finishDate" type="Date" />
+	</model>
 	<model name="eu.strasbourg.service.oidc.model.PublikUser">
 		<field name="uuid" type="String" />
 		<field name="publikUserLiferayId" type="long" />
