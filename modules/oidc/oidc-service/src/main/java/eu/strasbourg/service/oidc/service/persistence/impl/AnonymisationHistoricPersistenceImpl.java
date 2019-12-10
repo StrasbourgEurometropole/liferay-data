@@ -2446,6 +2446,7 @@ public class AnonymisationHistoricPersistenceImpl extends BasePersistenceImpl<An
 		anonymisationHistoricImpl.setUserName(anonymisationHistoric.getUserName());
 		anonymisationHistoricImpl.setCreateDate(anonymisationHistoric.getCreateDate());
 		anonymisationHistoricImpl.setModifiedDate(anonymisationHistoric.getModifiedDate());
+		anonymisationHistoricImpl.setLastPublishDate(anonymisationHistoric.getLastPublishDate());
 		anonymisationHistoricImpl.setStatus(anonymisationHistoric.getStatus());
 		anonymisationHistoricImpl.setStatusByUserId(anonymisationHistoric.getStatusByUserId());
 		anonymisationHistoricImpl.setStatusByUserName(anonymisationHistoric.getStatusByUserName());

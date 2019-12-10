@@ -7,6 +7,7 @@ create table publik_AnonymisationHistoric (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
+	lastPublishDate DATE null,
 	status INTEGER,
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,

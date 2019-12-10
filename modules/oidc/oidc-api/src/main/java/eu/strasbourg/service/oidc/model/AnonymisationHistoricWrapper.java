@@ -69,6 +69,7 @@ public class AnonymisationHistoricWrapper implements AnonymisationHistoric,
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -132,6 +133,12 @@ public class AnonymisationHistoricWrapper implements AnonymisationHistoric,
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -480,6 +487,16 @@ public class AnonymisationHistoricWrapper implements AnonymisationHistoric,
 	}
 
 	/**
+	* Returns the last publish date of this anonymisation historic.
+	*
+	* @return the last publish date of this anonymisation historic
+	*/
+	@Override
+	public Date getLastPublishDate() {
+		return _anonymisationHistoric.getLastPublishDate();
+	}
+
+	/**
 	* Returns the modified date of this anonymisation historic.
 	*
 	* @return the modified date of this anonymisation historic
@@ -690,6 +707,16 @@ public class AnonymisationHistoricWrapper implements AnonymisationHistoric,
 	@Override
 	public void setGroupId(long groupId) {
 		_anonymisationHistoric.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the last publish date of this anonymisation historic.
+	*
+	* @param lastPublishDate the last publish date of this anonymisation historic
+	*/
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_anonymisationHistoric.setLastPublishDate(lastPublishDate);
 	}
 
 	/**

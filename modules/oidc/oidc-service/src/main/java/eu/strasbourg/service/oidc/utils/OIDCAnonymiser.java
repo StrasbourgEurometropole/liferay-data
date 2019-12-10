@@ -92,16 +92,16 @@ public class OIDCAnonymiser {
                 JSONArray publikUsersToAnonymized = usersDeleted.getJSONArray("unknown_uuids");
                 if(publikUsersToAnonymized.length() > (publikUsers.size() * 0.01)){
                     resultat = "ERREUR";
-                    message = "L'API retourne plus de 1% d'utilisateurs à supprimer";
+                    message = "L'API retourne plus de 1% d'utilisateurs &agrave; supprimer";
                 }else{
                     if(publikUsersToAnonymized.length() == 0){
-                        this.anonymisationHistoric.addNewOperation("Aucun compte utilisateur supprimé");
+                        this.anonymisationHistoric.addNewOperation("Aucun compte utilisateur supprim&eacute;");
                     }else{
                         // récupération de l'utilisateur anonyme
                         long anonymUserId = Long.parseLong(StrasbourgPropsUtil.getAnonymUserId());
                         if (Validator.isNull(anonymUserId)) {
                             resultat = "ERREUR";
-                            message += "Id utilisateur anonyme non renseigné";
+                            message += "Id utilisateur anonyme non renseign&eacute;";
                         }else {
                             PublikUser anonymUser = PublikUserLocalServiceUtil.fetchPublikUser(anonymUserId);
                             if (Validator.isNull(anonymUser)) {
@@ -109,7 +109,7 @@ public class OIDCAnonymiser {
                                 message += "Utilisateur anonyme introuvable";
                             } else {
                                 // on anonymise
-                                this.anonymisationHistoric.addNewOperation("Nombre de compte utilisateur supprimés : " + publikUsersToAnonymized.length());
+                                this.anonymisationHistoric.addNewOperation("Nombre de compte utilisateur supprim&eacute;s : " + publikUsersToAnonymized.length());
                                 for (int i = 0; i < publikUsersToAnonymized.length(); i++) {
                                     String publikIUserId = publikUsersToAnonymized.getJSONObject(i).toString();
                                     PublikUser publikUser = PublikUserLocalServiceUtil.getByPublikUserId(publikIUserId);
@@ -168,7 +168,7 @@ public class OIDCAnonymiser {
                                             }
                                         }
                                         nbAnonymisation++;
-                                        this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " anonymisé");
+                                        this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " anonymis&eacute;");
 
                                     } else {
                                         this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " introuvable");
@@ -181,17 +181,17 @@ public class OIDCAnonymiser {
             }
 
             if(resultat.equals("ERREUR")) {
-                this.anonymisationHistoric.setErrorDescription("Probleme survenu lors de la récupération des données");
+                this.anonymisationHistoric.setErrorDescription("Probleme survenu lors de la r&eacute;cup&eacute;ration des donn&eacute;es");
                 this.anonymisationHistoric.setErrorStackTrace(message);
                 this.anonymisationHistoric.setResult(0);
                 log.error(message);
             }else {
-                this.anonymisationHistoric.addNewOperation("############### Anonymisation terminée ###############");
-                this.anonymisationHistoric.addNewOperation("Nombre d'utilisateur anonymisés : " + nbAnonymisation);
+                this.anonymisationHistoric.addNewOperation("############### Anonymisation termin&eacute;e ###############");
+                this.anonymisationHistoric.addNewOperation("Nombre d'utilisateur anonymis&eacute;s : " + nbAnonymisation);
 
                 Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
                 long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
-                this.anonymisationHistoric.addNewOperation("Anonymisation effectuée en  " + processTime + " secondes.");
+                this.anonymisationHistoric.addNewOperation("Anonymisation effectu&eacute;e en  " + processTime + " secondes.");
 
                 // Succes de l'anonymisation
                 this.anonymisationHistoric.setResult(1);

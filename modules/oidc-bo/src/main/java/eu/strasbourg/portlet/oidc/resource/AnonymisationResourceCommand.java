@@ -36,13 +36,13 @@ public class AnonymisationResourceCommand implements MVCResourceCommand {
 			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
 
 			// Creation de l'entree d'historique d'anonymisation
-			AnonymisationHistoric anonymisationHistoric = AnonymisationHistoricLocalServiceUtil.createAnonymisationHistoric(sc);
+			AnonymisationHistoric anonymisationHistoric = _anonymisationHistoricLocalService.createAnonymisationHistoric(sc);
 
 			// Effectue l'anonymisation
 			this._anonymisationHistoricLocalService.doAnonymisation(sc, anonymisationHistoric);
 
 			// Sauvegarde de l'entree
-			AnonymisationHistoricLocalServiceUtil.updateAnonymisationHistoric(anonymisationHistoric, sc);
+			_anonymisationHistoricLocalService.updateAnonymisationHistoric(anonymisationHistoric, sc);
 
 			// Envoie du mail de rapport
 			anonymisationHistoric.sendMail();

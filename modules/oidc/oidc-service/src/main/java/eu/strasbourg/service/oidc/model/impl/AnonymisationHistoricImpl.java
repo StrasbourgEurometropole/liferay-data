@@ -83,7 +83,7 @@ public class AnonymisationHistoricImpl extends AnonymisationHistoricBaseImpl {
 	 */
 	@Override
 	public String getResultLabel() {
-		return this.getResult() == 1 ? "Succes" : "Echec";
+		return this.getResult() == 1 ? "Succ&egrave;s" : "Echec";
 	}
 
 	/**

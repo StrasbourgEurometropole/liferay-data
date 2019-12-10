@@ -17,7 +17,7 @@
 		<aui:input name="anonymisationHistoricId" type="hidden" />
 
 		<%-- Groupe de champs : Generalites --%>
-		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="anonymisation-${dc.anonymisationHistoric.resultLabel}">
+		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="anonymisation - ${dc.anonymisationHistoric.resultLabel}">
 
 			<%-- Champ : Date debut --%>
 			<aui:input name="startDate" required="false" disabled="true" />

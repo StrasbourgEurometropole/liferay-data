@@ -77,6 +77,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "lastPublishDate", Types.TIMESTAMP },
 			{ "status", Types.INTEGER },
 			{ "statusByUserId", Types.BIGINT },
 			{ "statusByUserName", Types.VARCHAR },
@@ -99,6 +100,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastPublishDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
@@ -111,7 +113,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		TABLE_COLUMNS_MAP.put("finishDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table publik_AnonymisationHistoric (uuid_ VARCHAR(75) null,anonymisationHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null,startDate DATE null,finishDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table publik_AnonymisationHistoric (uuid_ VARCHAR(75) null,anonymisationHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null,startDate DATE null,finishDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table publik_AnonymisationHistoric";
 	public static final String ORDER_BY_JPQL = " ORDER BY anonymisationHistoric.anonymisationHistoricId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY publik_AnonymisationHistoric.anonymisationHistoricId DESC";
@@ -179,6 +181,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("lastPublishDate", getLastPublishDate());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -245,6 +248,12 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Date lastPublishDate = (Date)attributes.get("lastPublishDate");
+
+		if (lastPublishDate != null) {
+			setLastPublishDate(lastPublishDate);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -452,6 +461,16 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		_setModifiedDate = true;
 
 		_modifiedDate = modifiedDate;
+	}
+
+	@Override
+	public Date getLastPublishDate() {
+		return _lastPublishDate;
+	}
+
+	@Override
+	public void setLastPublishDate(Date lastPublishDate) {
+		_lastPublishDate = lastPublishDate;
 	}
 
 	@Override
@@ -715,6 +734,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		anonymisationHistoricImpl.setUserName(getUserName());
 		anonymisationHistoricImpl.setCreateDate(getCreateDate());
 		anonymisationHistoricImpl.setModifiedDate(getModifiedDate());
+		anonymisationHistoricImpl.setLastPublishDate(getLastPublishDate());
 		anonymisationHistoricImpl.setStatus(getStatus());
 		anonymisationHistoricImpl.setStatusByUserId(getStatusByUserId());
 		anonymisationHistoricImpl.setStatusByUserName(getStatusByUserName());
@@ -856,6 +876,15 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 			anonymisationHistoricCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		Date lastPublishDate = getLastPublishDate();
+
+		if (lastPublishDate != null) {
+			anonymisationHistoricCacheModel.lastPublishDate = lastPublishDate.getTime();
+		}
+		else {
+			anonymisationHistoricCacheModel.lastPublishDate = Long.MIN_VALUE;
+		}
+
 		anonymisationHistoricCacheModel.status = getStatus();
 
 		anonymisationHistoricCacheModel.statusByUserId = getStatusByUserId();
@@ -926,7 +955,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -944,6 +973,8 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", lastPublishDate=");
+		sb.append(getLastPublishDate());
 		sb.append(", status=");
 		sb.append(getStatus());
 		sb.append(", statusByUserId=");
@@ -971,7 +1002,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.oidc.model.AnonymisationHistoric");
@@ -1008,6 +1039,10 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 		sb.append(
 			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
 		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>lastPublishDate</column-name><column-value><![CDATA[");
+		sb.append(getLastPublishDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>status</column-name><column-value><![CDATA[");
@@ -1073,6 +1108,7 @@ public class AnonymisationHistoricModelImpl extends BaseModelImpl<AnonymisationH
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private Date _lastPublishDate;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;

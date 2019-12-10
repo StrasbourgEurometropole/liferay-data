@@ -66,7 +66,7 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -84,6 +84,8 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", statusByUserId=");
@@ -144,6 +146,14 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		}
 		else {
 			anonymisationHistoricImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
+		if (lastPublishDate == Long.MIN_VALUE) {
+			anonymisationHistoricImpl.setLastPublishDate(null);
+		}
+		else {
+			anonymisationHistoricImpl.setLastPublishDate(new Date(
+					lastPublishDate));
 		}
 
 		anonymisationHistoricImpl.setStatus(status);
@@ -219,6 +229,7 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		lastPublishDate = objectInput.readLong();
 
 		status = objectInput.readInt();
 
@@ -261,6 +272,7 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+		objectOutput.writeLong(lastPublishDate);
 
 		objectOutput.writeInt(status);
 
@@ -310,6 +322,7 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long lastPublishDate;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;
