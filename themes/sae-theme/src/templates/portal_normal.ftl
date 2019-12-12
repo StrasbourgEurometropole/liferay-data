@@ -61,7 +61,6 @@
     </#if> 
     
     <#assign openGraph = {
-      "twitter:card":"summary",
       "og:type":"website",
       "og:locale":"${locale}",
       "og:url":"${currentUrlOG}",
@@ -79,6 +78,7 @@
         </#list>
     </#if>
     
+    <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
       <#assign valueOG = openGraph[keyOG]> 
       <#if keyOG == "og:description" >

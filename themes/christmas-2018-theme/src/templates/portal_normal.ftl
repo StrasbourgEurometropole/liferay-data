@@ -57,7 +57,6 @@
     </#if> 
     
     <#assign openGraph = {
-      "twitter:card":"summary",
       "og:type":"website",
       "og:locale":"${locale}",
       "og:url":"${currentUrlOG}",
@@ -80,7 +79,7 @@
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
 
-    
+    <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
       <#assign valueOG = openGraph[keyOG]> 
       <#if keyOG == "og:description" >
