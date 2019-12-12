@@ -44,7 +44,7 @@
 
 				<%-- Colonne : Createur --%>
 				<liferay-ui:search-container-column-text name="user">
-					${importHistoric.statusByUserName}
+					${anonymisationHistoric.statusByUserName}
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>

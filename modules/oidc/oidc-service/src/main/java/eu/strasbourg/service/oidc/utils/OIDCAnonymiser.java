@@ -111,7 +111,7 @@ public class OIDCAnonymiser {
                                 // on anonymise
                                 this.anonymisationHistoric.addNewOperation("Nombre de compte utilisateur supprim&eacute;s : " + publikUsersToAnonymized.length());
                                 for (int i = 0; i < publikUsersToAnonymized.length(); i++) {
-                                    String publikIUserId = publikUsersToAnonymized.getJSONObject(i).toString();
+                                    String publikIUserId = publikUsersToAnonymized.get(i).toString();
                                     PublikUser publikUser = PublikUserLocalServiceUtil.getByPublikUserId(publikIUserId);
                                     if (publikUser != null) {
                                         //anonymise les données placit
@@ -167,8 +167,12 @@ public class OIDCAnonymiser {
                                                 UserNotificationChannelLocalServiceUtil.deleteUserNotificationChannel(userNotificationChannel);
                                             }
                                         }
+
+                                        // suppression du publikUser
+                                        PublikUserLocalServiceUtil.deletePublikUser(publikUser);
+
                                         nbAnonymisation++;
-                                        this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " anonymis&eacute;");
+                                        this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " (" + publikUser.getFirstName() + " " + publikUser.getLastName() + ") anonymis&eacute;");
 
                                     } else {
                                         this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " introuvable");
@@ -181,6 +185,7 @@ public class OIDCAnonymiser {
             }
 
             if(resultat.equals("ERREUR")) {
+                this.anonymisationHistoric.addNewOperation("############### Anonymisation termin&eacute;e ###############");
                 this.anonymisationHistoric.setErrorDescription("Probleme survenu lors de la r&eacute;cup&eacute;ration des donn&eacute;es");
                 this.anonymisationHistoric.setErrorStackTrace(message);
                 this.anonymisationHistoric.setResult(0);
