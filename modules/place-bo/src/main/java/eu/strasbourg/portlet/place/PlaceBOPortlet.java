@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.place.display.context.*;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -15,15 +16,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.portlet.place.display.context.EditPlaceDisplayContext;
-import eu.strasbourg.portlet.place.display.context.EditPriceDisplayContext;
-import eu.strasbourg.portlet.place.display.context.EditPublicHolidayDisplayContext;
-import eu.strasbourg.portlet.place.display.context.EditSubPlaceDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewPlacesDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewPricesDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewPublicHolidaysDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewSubPlacesDisplayContext;
 
 @Component(immediate = true, property = {
 		"com.liferay.portlet.instanceable=false",
@@ -75,6 +67,10 @@ public class PlaceBOPortlet extends MVCPortlet {
 			EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("editGoogle")) {
+			EditGoogleDisplayContext dc = new EditGoogleDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("prices")) {
 			ViewPricesDisplayContext dc = new ViewPricesDisplayContext(
 					renderRequest, renderResponse);
@@ -85,6 +81,10 @@ public class PlaceBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("subPlaces")) {
 			ViewSubPlacesDisplayContext dc = new ViewSubPlacesDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("google")) {
+			ViewGoogleDisplayContext dc = new ViewGoogleDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the places list page

@@ -266,4 +266,50 @@
 		</finder>
 		
 	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="GoogleMyBusinessHistoric" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="googleMyBusinessHistoricId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		<!-- Other fields -->
+		<column name="result" type="int" />
+		<column name="operations" type="String" />
+		<column name="errorDescription" type="String" />
+		<column name="errorStackTrace" type="String" />
+		<column name="startDate" type="Date" />
+		<column name="finishDate" type="Date" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="googleMyBusinessHistoricId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
 </service-builder>

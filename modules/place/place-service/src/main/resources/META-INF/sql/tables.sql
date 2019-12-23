@@ -1,3 +1,25 @@
+create table place_GoogleMyBusinessHistoric (
+	uuid_ VARCHAR(75) null,
+	googleMyBusinessHistoricId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	lastPublishDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	result INTEGER,
+	operations TEXT null,
+	errorDescription TEXT null,
+	errorStackTrace TEXT null,
+	startDate DATE null,
+	finishDate DATE null
+);
+
 create table place_Period (
 	uuid_ VARCHAR(75) null,
 	periodId LONG not null primary key,
