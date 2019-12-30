@@ -120,11 +120,11 @@ public class ProjectPopupPortlet extends MVCPortlet {
 
             // Récupération des info d'upload
             String nbFiles = configuration.nbFiles();
-            request.setAttribute("nbFiles", Integer.parseInt(nbFiles));
+            request.setAttribute("nbFiles", Integer.parseInt(nbFiles!=""?nbFiles:"3"));
             String typesFiles = configuration.typesFiles();
             request.setAttribute("typesFiles", typesFiles);
             String sizeFile = configuration.sizeFile();
-            request.setAttribute("sizeFile", sizeFile);
+            request.setAttribute("sizeFile", sizeFile!=""?sizeFile:"3");
 
         } catch (Exception e) {
             _log.error("erreur : ", e);

@@ -1084,6 +1084,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _budgetParticipatif.getFilesURLs();
+	}
+
+	/**
 	* Retourne la liste des lieux placit liés
 	*/
 	@Override

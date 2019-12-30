@@ -61,6 +61,7 @@ import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
@@ -679,6 +680,22 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	
     	return result;
     }
+
+	/**
+	 * Retourne la liste des URLs des documents
+	 */
+	@Override
+	public List<String> getFilesURLs() {
+		List<String> URLs = new ArrayList<String>();
+		for (String fileIdStr : this.getFilesIds().split(",")) {
+			Long fileId = GetterUtil.getLong(fileIdStr);
+			if (Validator.isNotNull(fileId)) {
+				String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+				URLs.add(fileURL);
+			}
+		}
+		return URLs;
+	}
     
     /**
      * Retourne la version JSON de l'entité

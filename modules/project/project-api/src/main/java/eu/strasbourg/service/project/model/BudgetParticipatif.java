@@ -273,6 +273,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public eu.strasbourg.service.project.model.BudgetParticipatif getParent();
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
 	* Retourne la version JSON de l'entité
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
