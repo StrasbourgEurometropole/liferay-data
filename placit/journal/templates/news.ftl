@@ -24,11 +24,20 @@
 <#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",articleResourcePK) >
 
+<#assign imageUrl = ""/>
+<!-- image -->
+<#if thumbnail.getData()?has_content>
+    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
+</#if>
 
-<@liferay_util["html-top"]>
-    <meta property="og:title" content="${title.getData()?html}" />
-    <meta property="og:url" content="${currentUrl}" />
-</@>
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${title.getData()?html}",
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)} 
 
 <article class="container pro-actu">
     <div class="col-md-10 col-md-offset-1 col-sm-12">
