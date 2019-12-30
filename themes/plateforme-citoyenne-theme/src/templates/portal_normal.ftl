@@ -10,20 +10,53 @@
 
 	<@liferay_util["include"] page=top_head_include />
 
-	<#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
-		<#assign openGraph = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>	
-		<#assign keys = openGraph?keys>
+    <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
-		<#list keys as key>
-			<meta property="${key}" content="${openGraph[key]}" />
-		</#list>
-	<#else>
-		<meta property="og:type"               content="website" />
-		<meta property="og:locale"               content="fr_FR" />
-		<meta property="og:title"              content="${the_title_OG}" />
-		<meta property="og:description"        content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_description')}" />
-		<meta property="og:image"              content="${themeDisplay.siteGroup.expandoBridge.getAttribute('opengraph_default_image')}" />
-	</#if>
+    <#assign descriptionOG = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}' />
+    <#if !descriptionOG?has_content>
+      <#assign descriptionOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_description")}' />
+    </#if> 
+
+    <#assign imageOG = '${layout.expandoBridge.getAttribute("image")}' />
+    <#if !imageOG?has_content>
+      <#assign imageOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_image")}' />
+    </#if> 
+    <#if imageOG?has_content && !imageOG?contains('http')>
+      <#assign imageOG = '${themeDisplay.getPortalURL()}${imageOG}' />
+    </#if> 
+    
+    <#assign openGraph = {
+      "twitter:card":"summary",
+      "og:type":"website",
+      "og:locale":"${locale}",
+      "og:url":"${currentUrlOG}",
+      "og:title":"${the_title_OG}",
+      "og:description":'${descriptionOG}',
+      "og:image":"${imageOG}",
+      "og:image:width":"620",
+      "og:image:height":"400"
+    } />
+
+    <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
+        <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
+        <#list openGraphCustom?keys as keyOG>  
+          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
+        </#list>
+    </#if>
+    
+    <#list openGraph?keys as keyOG>
+      <#assign valueOG = openGraph[keyOG]> 
+      <#if keyOG == "og:description" >
+        <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
+      </#if>
+      <#if keyOG == "og:description" && valueOG?has_content >
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG?contains("og:image") && openGraph["og:image"]?has_content>
+          <meta property="${keyOG}" content="${valueOG}" />
+      <#elseif keyOG != "og:description" && !keyOG?contains("og:image")>
+          <meta property="${keyOG}" content="${valueOG}" />
+      </#if>
+    </#list>
 
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.css">
