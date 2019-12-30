@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -15,6 +16,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -53,11 +55,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -112,6 +110,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private long quartierId;
     private long themeId;
     private String message;
+    private File[] files;
 
     /**
      * le log
@@ -239,6 +238,9 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenPhone(this.phone);
             budgetParticipatif.setPublikId(this.publikID);
             budgetParticipatif = uploadFile(budgetParticipatif, request);
+            // lancement de l'update pour récupérer la phase active qui permettra a'enregistrer le fichier dans le bon dossier
+            budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
+            budgetParticipatif = uploadFiles(budgetParticipatif, request);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
             AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
             if (assetEntry == null)
@@ -355,6 +357,104 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         }
     }
 
+    /**
+     * Recuperer les fichiers uploadés par l'utilisateur.
+     *
+     * @param budgetParticipatif le budget participatif correspondant.
+     * @param request            la request
+     * @return le budgetParticipatif avec les fichiers
+     * @throws IOException
+     * @throws PortalException
+     */
+    private BudgetParticipatif uploadFiles(BudgetParticipatif budgetParticipatif, ResourceRequest request) throws IOException, PortalException {
+
+        // Recuperation du contexte de la requete
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+
+        // Verification du nombre de fichiers
+        if (validateNbFiles(request)) {
+
+            // Verification de l'extention des fichier
+            if (validateFileExtensions(request)) {
+
+                // Vérification de la taille des fichiers
+                if(validateFileSizes(request)){
+
+                    // Vérification que le(s) fichier(s) est/sont clean
+                    if(antiVirusVerif(request)){
+                        String filesIds = "";
+
+                        for (File file : files) {
+
+                            // Verification de la bonne recuperation du contenu du fichier
+                            if (file != null && file.exists()) {
+                                byte[] imageBytes = FileUtil.getBytes(file);
+
+                                // Dossier a la racine
+                                DLFolder folderParent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                                        "budget participatif");
+                                // Dossier d'upload de l'entite
+                                DLFolder folderUpload = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
+                                        folderParent.getFolderId(),
+                                        "uploads");
+
+                                // Dossier nom de la phase
+                                long repositoryId = DLFolderConstants.getDataRepositoryId(themeDisplay.getScopeGroupId(), DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+                                Folder folderPhase;
+                                try {
+                                    folderPhase = DLAppServiceUtil.getFolder(repositoryId,
+                                            folderUpload.getFolderId(),
+                                            budgetParticipatif.getPhase().getTitle());
+                                }catch(Exception e) {
+                                    folderPhase = DLAppServiceUtil.addFolder(repositoryId,
+                                            folderUpload.getFolderId(), budgetParticipatif.getPhase().getTitle(),
+                                            "", sc);
+                                }
+
+                                // Dossier d'upload de l'entite (nom du projet)
+                                Folder folder;
+                                try {
+                                    folder = DLAppServiceUtil.getFolder(repositoryId,
+                                            folderPhase.getFolderId(),
+                                            budgetParticipatif.getTitle());
+                                }catch(Exception e) {
+                                    folder = DLAppServiceUtil.addFolder(repositoryId,folderPhase.getFolderId()
+                                            ,budgetParticipatif.getTitle(),
+                                            "", sc);
+                                }
+
+                                // Ajout du fichier
+                                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                                        sc.getUserId(), folder.getRepositoryId(),
+                                        folder.getFolderId(), file.getName(),
+                                        MimeTypesUtil.getContentType(file),
+                                        file.getName(), title,
+                                        "", imageBytes, sc);
+                                // Lien de l'image a l'entite
+                                if(Validator.isNotNull(filesIds)){
+                                    filesIds += ",";
+                                }
+                                filesIds += fileEntry.getFileEntryId();
+
+                                _log.info("Document budget participatif uploade : [" + file + "]");
+
+                            }
+                        }
+                        budgetParticipatif.setFilesIds(filesIds);
+                    }
+                }
+                return budgetParticipatif;
+            } else {
+                throw new PortalException("Trop de fichiers");
+            }
+        } else {
+            throw new PortalException("Trop de fichiers");
+        }
+    }
+
     private boolean validateFileName(ResourceRequest request) throws PortalException {
         boolean result = true;
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
@@ -362,6 +462,64 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         if (fileName != null && !fileName.isEmpty()) {
             String type = fileName.substring(fileName.lastIndexOf("."));
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
+        }
+        return result;
+    }
+
+    private boolean validateNbFiles(ResourceRequest request) throws PortalException {
+        boolean result = true;
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        this.files = uploadRequest.getFiles("budgetFile");
+        if (this.files.length > 0) {
+            long nbFileMax = ParamUtil.getLong(request, "nbFileMax");
+            if (this.files.length > nbFileMax) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    private boolean validateFileExtensions(ResourceRequest request) throws PortalException {
+        boolean result = true;
+        String[] typesFiles = ParamUtil.getString(request, "typesFiles").split(",");
+        for (File file : this.files) {
+            if (file != null) {
+                String fileName = file.getName();
+                if (fileName != null && !fileName.isEmpty()) {
+                    String type = fileName.substring(fileName.lastIndexOf(".") + 1);
+                    if (!Arrays.stream(typesFiles).anyMatch(type::equals)) {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private boolean validateFileSizes(ResourceRequest request) throws PortalException {
+        boolean result = true;
+        long fileSizeMax = ParamUtil.getLong(request, "sizeFile");
+        for (File file : this.files) {
+            if (file != null) {
+                long fileSize = file.length() / (1024 * 1024);
+                if(fileSize > fileSizeMax){
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    private boolean antiVirusVerif(ResourceRequest request) throws PortalException {
+        boolean result = true;
+        for (File file : this.files) {
+            if (file != null) {
+                // vérifi que le fichier est clean
+                result = true;
+                break;
+            }
         }
         return result;
     }
@@ -441,15 +599,39 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         }
 
         try {
-			if (!validateFileName(request)) {
-				this.message = "Nom du fichier de l'image non valide";
-			    return false;
-			}
-		} catch (PortalException e) {
-			_log.error(e);
-			this.message = "Erreur lors de la lecture de du fichier de l'image";
-		    return false;
-		}
+            if (!validateFileName(request)) {
+                this.message = "Nom du fichier de l'image non valide";
+                return false;
+            }
+        } catch (PortalException e) {
+            _log.error(e);
+            this.message = "Erreur lors de la lecture de du fichier de l'image";
+            return false;
+        }
+
+        try {
+            if (!validateNbFiles(request)) {
+                this.message = "Trop de fichiers";
+                return false;
+            }else{
+                if (!validateFileExtensions(request)) {
+                    this.message = "Fichier(s) non valide(s)";
+                    return false;
+                }else{
+                    if (!validateFileSizes(request)) {
+                        this.message = "Fichier(s) trop lourd(s)";
+                        return false;
+                    }else if (!antiVirusVerif(request)) {
+                        this.message = "Fichier(s) v&eacute;rol&eacute;(s)";
+                        return false;
+                    }
+                }
+            }
+        } catch (PortalException e) {
+            _log.error(e);
+            this.message = "Erreur lors de la lecture du/des fichier(s)";
+            return false;
+        }
 
         return true;
     }

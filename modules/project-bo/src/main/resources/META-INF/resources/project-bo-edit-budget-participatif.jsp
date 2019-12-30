@@ -173,6 +173,15 @@
 					type="eu.strasbourg.service.project.model.BudgetPhase"
 					multiple="false" />	
 			</aui:fieldset>
+
+			<%-- Groupe de champs : Documents --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="documents">
+
+				<%-- Champ : Selection des documents --%>
+				<strasbourg-picker:file label="eu.documents" name="filesIds"
+					required="false" multiple="true" value="${dc.budgetParticipatif.filesIds}" />
+
+			</aui:fieldset>
 			
 			<%-- Groupe de champs : vocabulaire --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="label-vocabulary">

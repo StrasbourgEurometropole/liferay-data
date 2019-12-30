@@ -257,6 +257,14 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Phase
             Long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
             budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
+
+			// ---------------------------------------------------------------
+			// -------------------------- DOCUMENTS --------------------------
+			// ---------------------------------------------------------------
+
+			// Documents associés
+			String filesIds = ParamUtil.getString(request, "filesIds");
+			budgetParticipatif.setFilesIds(filesIds);
             
             
             // ---------------------------------------------------------------

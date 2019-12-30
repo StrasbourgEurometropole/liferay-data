@@ -15,7 +15,7 @@
             </div>
 
             <aui:form name="uploadForm" enctype="multipart/form-data">
-                <div class="pro-wrapper">
+                <div id="uploadDiv" class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
                         <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
@@ -76,6 +76,19 @@
                             <aui:input id="budgetVideo" name="budgetVideo" label="modal.submitbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
+                    <c:if test="${nbFiles gt 0}">
+                        <label for="projets"><liferay-ui:message key="modal.submitbudget.information.sizeFile-x" arguments="${sizeFile}"/></label>
+                        <div class="pro-row">
+                            <div class="form-group form-two-tiers">
+                                <span class="browsePicture input-group-btn">
+                                    <aui:input name="budgetFile" type="file" label="modal.submitbudget.information.file"
+                                        cssClass="btn btn-default btn-choose upload-file">
+                                        <aui:validator name="acceptFiles">'${typesFiles}'</aui:validator>
+                                    </aui:input>
+                                </span>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.user"/></h4>
@@ -201,6 +214,9 @@
 	var saved_dateNaiss = "${formattedDate}";
 	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
 	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
+	var saved_nbFiles = "${nbFiles}";
+	var saved_typesFiles = "${typesFiles}";
+	var saved_sizeFile = "${sizeFile}";
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');
@@ -236,6 +252,9 @@
             var lastNameValue = $("#"+namespace+"username").val();
             var photoValue = $("#"+namespace+"budgetPhoto").val();
             var videoValue = $("#"+namespace+"budgetVideo").val();
+            var nbFileMaxValue = saved_nbFiles;
+            var typesFilesValue = saved_typesFiles;
+            var sizeFileValue = saved_sizeFile;
             var firstNameValue = $("#"+namespace+"firstname").val();
             var emailValue = $("#"+namespace+"mail").val();
             AUI().use('aui-io-request', function(A) {
@@ -264,6 +283,9 @@
                             <portlet:namespace />theme:themeValue,
                             <portlet:namespace />photo:photoValue,
                             <portlet:namespace />video:videoValue,
+                            <portlet:namespace />nbFileMax:nbFileMaxValue,
+                            <portlet:namespace />typesFiles:typesFilesValue,
+                            <portlet:namespace />sizeFile:sizeFileValue,
                             <portlet:namespace />budgetLieux:budgetlieuxValue,
                             <portlet:namespace />saveinfo:saveInfoValue,
                             <portlet:namespace />lastname:lastNameValue,
@@ -313,6 +335,69 @@
         $('#modalErrorBudget').modal('hide');
     });
 
+    function gestionSelect(){
+        // ajoute un sélecteur s'il y a lieu
+        if($(".upload-file").length < saved_nbFiles
+            && $(".upload-file").length == $("#uploadDiv .deleteFile").length){
+            selector =
+                '<div class="pro-row"> ' +
+                    '<div class="form-group form-two-tiers"> ' +
+                        '<span class="browsePicture input-group-btn"> ' +
+                            '<div class="form-group input-text-wrapper"> ' +
+                                '<label class="control-label" for="'+namespace+'budgetFile"> Ajouter un document </label> ' +
+                                '<input class="field btn btn-default btn-choose upload-file form-control" id="'+namespace+'budgetFile" ' +
+                                    'name="'+namespace+'budgetFile" type="file" value="" aria-describedby="'+namespace+'budgetFileHelper" /> ' +
+                            '</div> ' +
+                        '</span> ' +
+                    '</div> ' +
+                '</div>'
+            ;
+            $("#uploadDiv").append(selector);
+        }
+
+        // gestion de la sélection d'un fichier
+        inputs = $(".upload-file");
+        inputs.each(function(){
+            this.addEventListener('change', function (event) {
+                selectFile(this, event);
+            });
+        });
+    };
+
+    function deleteFile(elt, e){
+        // supprime le fichier
+        $(elt).closest(".pro-row").remove();
+        e.preventDefault();
+
+        //gestion des sélecteurs
+        gestionSelect();
+    };
+
+    function selectFile(elt, e){
+        if($(elt).val() != ""){
+            // ajout de la croix s'il y a lieu
+            if($(elt).parent().find(".deleteFile").length == 0){
+                $(elt).parent().append("<div class='deleteFile'></div>");
+            }
+            // gestion des suppressions
+            btnsDeleteFiles = $(".deleteFile");
+            btnsDeleteFiles.each(function(){
+                this.addEventListener('click', function (event) {
+                    deleteFile(this, event);
+                });
+            });
+
+            // Gestions des sélecteurs
+            gestionSelect();
+        }else{
+            // supprime le fichier
+            deleteFile(elt,e);
+        }
+    };
+
+    // Gestions des sélecteurs
+    gestionSelect();
+
     function resetValues()
     {
         $("#"+namespace+"budgettitle").val("");
@@ -333,6 +418,16 @@
         $("#"+namespace+"address").val(saved_address);
         $("#"+namespace+"budgetPhoto").val("");
         $("#"+namespace+"budgetVideo").val("");
+        var count = 0;
+        $(".upload-file").each(function(){
+            // on ne garde que le premier sélecteur
+            if(count == 0){
+                $(this).val("");
+                count++;
+            }else{
+                $(this).closest(".pro-row").remove();
+            }
+        });
         $("#"+namespace+"postalcode").val(saved_zipCode);
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
@@ -370,6 +465,7 @@
         var legalage = $("#submit-budget-legalage").is(":checked");
         var cnil = $("#submit-budget-cnil").is(":checked");
         var photo = $("#"+namespace+"budgetPhoto").val();
+        var files = $(".upload-file");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (quartierValue==0){
@@ -380,10 +476,21 @@
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+                $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
             }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
         }
+
+        files.each(function(){
+            var file = $(this).val();
+            if (file!=null && file!==""){
+                var ext = file.split(".").pop().toLowerCase();
+                if(saved_typesFiles.indexOf(ext) == -1) {
+                    $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
+                    result = false;
+                }else $(this).css({ "box-shadow" : "" });
+            }
+        });
 
         if (budgettitle===null || budgettitle===""){
             $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });

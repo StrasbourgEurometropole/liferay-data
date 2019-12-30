@@ -118,6 +118,14 @@ public class ProjectPopupPortlet extends MVCPortlet {
             boolean isSignedIn = themeDisplay.isSignedIn();
             request.setAttribute("isSignedIn", isSignedIn);
 
+            // Récupération des info d'upload
+            String nbFiles = configuration.nbFiles();
+            request.setAttribute("nbFiles", Integer.parseInt(nbFiles));
+            String typesFiles = configuration.typesFiles();
+            request.setAttribute("typesFiles", typesFiles);
+            String sizeFile = configuration.sizeFile();
+            request.setAttribute("sizeFile", sizeFile);
+
         } catch (Exception e) {
             _log.error("erreur : ", e);
         }
