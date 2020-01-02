@@ -15,16 +15,16 @@
     <#assign descriptionOG = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}' />
     <#if !descriptionOG?has_content>
       <#assign descriptionOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_description")}' />
-    </#if> 
+    </#if>
 
     <#assign imageOG = '${layout.expandoBridge.getAttribute("image")}' />
     <#if !imageOG?has_content>
       <#assign imageOG = '${themeDisplay.siteGroup.expandoBridge.getAttribute("opengraph_default_image")}' />
-    </#if> 
+    </#if>
     <#if imageOG?has_content && !imageOG?contains('http')>
       <#assign imageOG = '${themeDisplay.getPortalURL()}${imageOG}' />
-    </#if> 
-    
+    </#if>
+
     <#assign openGraph = {
       "twitter:card":"summary",
       "og:type":"website",
@@ -38,16 +38,21 @@
     } />
 
     <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
-        <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
-        <#list openGraphCustom?keys as keyOG>  
-          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
+        <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>
+        <#list openGraphCustom?keys as keyOG>
+          <#if openGraphCustom[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraphCustom[keyOG]} >
+          </#if>
+          <#if !openGraphCustom[keyOG]?has_content && openGraph[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraph[keyOG]} >
+          </#if>
         </#list>
     </#if>
-    
+
     <#list openGraph?keys as keyOG>
-      <#assign valueOG = openGraph[keyOG]> 
+      <#assign valueOG = openGraph[keyOG]>
       <#if keyOG == "og:description" >
-        <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') > 
+        <#assign valueOG = valueOG[0..*300] + (valueOG?length > 300)?then('...','') >
       </#if>
       <#if keyOG == "og:description" && valueOG?has_content >
           <meta property="${keyOG}" content="${valueOG}" />
