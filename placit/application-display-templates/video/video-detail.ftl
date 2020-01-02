@@ -26,7 +26,6 @@
 <#assign openGraph = {
 "og:title":"${entry.getTitle(locale)?html}",
 "og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
-"og:video": '${entry.getEmbedURL(site, videoURL)}',
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
