@@ -267,7 +267,8 @@ create table project_ProjectTimeline (
 	dateFormat VARCHAR(75) null,
 	title VARCHAR(400) null,
 	link VARCHAR(400) null,
-	projectId LONG
+	projectId LONG,
+	budgetParticipatifId LONG
 );
 
 create table project_Signataire (

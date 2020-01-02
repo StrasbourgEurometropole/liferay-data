@@ -2,11 +2,9 @@ package eu.strasbourg.portlet.project.action;
 
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,6 +14,8 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -257,6 +257,48 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Phase
             Long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
             budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
+
+			// ---------------------------------------------------------------
+			// -------------------------- TIMELINE ---------------------------
+			// ---------------------------------------------------------------
+
+			// Suppression des anciennes entrées de timeline
+			List<ProjectTimeline> oldTimelines = budgetParticipatif.getBudgetParticipatifTimelines();
+			for (ProjectTimeline projectTimeline : oldTimelines) {
+				_projectTimelineLocalService.deleteProjectTimeline(projectTimeline);
+			}
+			// Ajout des nouvelles
+			String timelineIndexesString = ParamUtil.getString(request, "budgetParticipatifTimelineIndexes");
+			for (String timelineIndex : timelineIndexesString.split(",")) {
+				DateFormat paramDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				if (Validator.isNotNull(timelineIndex)
+						&& Validator.isNotNull(ParamUtil.getString(request, "date" + timelineIndex))) {
+
+					// Spacing
+					Integer spacing = ParamUtil.getInteger(request, "spacing" + timelineIndex);
+
+					// Date
+					Date date = ParamUtil.getDate(request, "date" + timelineIndex, paramDateFormat);
+
+					// Titre
+					String timelineTitle = ParamUtil.getString(request, "title" + timelineIndex);
+
+					// Lien
+					String link = ParamUtil.getString(request, "link" + timelineIndex);
+
+					// Format de date
+					String dateFormat = ParamUtil.getString(request, "dateFormat" + timelineIndex);
+
+					ProjectTimeline projectTimeline = _projectTimelineLocalService.createProjectTimeline();
+					projectTimeline.setDate(date);
+					projectTimeline.setSpacing(spacing);
+					projectTimeline.setTitle(timelineTitle);
+					projectTimeline.setLink(link);
+					projectTimeline.setBudgetParticipatifId(budgetParticipatif.getBudgetParticipatifId());
+					projectTimeline.setDateFormat(dateFormat);
+					this._projectTimelineLocalService.updateProjectTimeline(projectTimeline);
+				}
+			}
             
             
             // ---------------------------------------------------------------
@@ -338,7 +380,14 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 		
 		return isValid;
 	}
-	
+
+	private ProjectTimelineLocalService _projectTimelineLocalService;
+
+	@Reference(unbind = "-")
+	protected void setProjectTimelineLocalService(ProjectTimelineLocalService projectTimelineLocalService) {
+		_projectTimelineLocalService = projectTimelineLocalService;
+	}
+
 	private BudgetParticipatifLocalService _budgetLocalService;
 	
 	@Reference(unbind = "-")

@@ -202,6 +202,13 @@ public interface ProjectTimelineLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne les timeLine d'un budget participatif
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ProjectTimeline> getByBudgetParticipatifId(
+		long budgetParticipatifId);
+
+	/**
 	* Retourne les périodes d'un événement
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

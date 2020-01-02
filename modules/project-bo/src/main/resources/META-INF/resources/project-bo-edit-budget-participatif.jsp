@@ -215,6 +215,48 @@
 
 			</aui:fieldset>
 
+			<%-- Groupe de champs : Timeline --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="timeline">
+
+				<div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
+
+				<%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
+				<div id="timeline-fields">
+
+					<c:if test="${empty dc.budgetParticipatif.budgetParticipatifTimelines}">
+						<div class="lfr-form-row lfr-form-row-inline row-timeline">
+							<div class="row-fields">
+								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="0" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:if>
+
+					<c:forEach items="${dc.budgetParticipatif.budgetParticipatifTimelines}" var="budgetParticipatifTimeline" varStatus="status">
+ 						<div class="lfr-form-row lfr-form-row-inline row-timeline">
+							<div class="row-fields">
+								<fmt:formatDate value="${budgetParticipatifTimeline.date}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
+								<liferay-util:include page="/includes/timeline-row.jsp" servletContext="<%=application %>">
+									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="startDay" value="${budgetParticipatifTimeline.startDay}" />
+									<liferay-util:param name="date" value="${formattedDate}" />
+									<liferay-util:param name="title" value="${budgetParticipatifTimeline.title}" />
+									<liferay-util:param name="link" value="${budgetParticipatifTimeline.link}" />
+									<liferay-util:param name="spacing" value="${budgetParticipatifTimeline.spacing}" />
+								</liferay-util:include>
+							</div>
+						</div>
+					</c:forEach>
+
+					<%-- Variable : Definit les variables de gestion et de retour du selecteur
+					(voir "autofields" dans le .js de l'edit de l'entite)  --%>
+					<aui:input type="hidden" name="timelineIndexes" value="${dc.defaultTimelineIndexes}" />
+
+				</div>
+
+			</aui:fieldset>
+
 		</aui:fieldset-group>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
@@ -250,10 +292,15 @@
 	<liferay-portlet:param name="mvcPath" value="/includes/placit-place-row.jsp" />
 </liferay-portlet:actionURL>
 
+<liferay-portlet:actionURL name="getBudgetParticipatifTimelineRow" varImpl="timelineRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+	<liferay-portlet:param name="mvcPath" value="/includes/timeline-row.jsp" />
+</liferay-portlet:actionURL>
+
 <liferay-util:html-top>
 	<script>
 		var editBudgetParticipatif = true;
 		var getBudgetParticipatifPlaceRowURL = '${placeRowURL}';
+		var getBudgetParticipatifTimelineRowJSPURL = '${timelineRowURL}';
 	</script>
 </liferay-util:html-top>
 
