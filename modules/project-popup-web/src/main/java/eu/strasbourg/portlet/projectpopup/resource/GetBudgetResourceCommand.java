@@ -1,30 +1,30 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
-import javax.portlet.PortletException;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
-
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletException;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author romain.vergnais
@@ -72,8 +72,22 @@ public class GetBudgetResourceCommand implements MVCResourceCommand {
 		    jsonResponse.put("projectId", bp.getProjectCategory() != null ? bp.getProjectCategory().getCategoryId() : 0);
 		    jsonResponse.put("themeId", bp.getThematicCategory() != null ? bp.getThematicCategory().getCategoryId() : 0);
 		    jsonResponse.put("hasImage", bp.getImageId() != 0 ? true : false);
-		    jsonResponse.put("videoURL", bp.getVideoUrl());
-		    
+			jsonResponse.put("videoURL", bp.getVideoUrl());
+
+			//récupération des noms de fichiers
+			JSONArray jsonFiles = JSONFactoryUtil.createJSONArray();
+
+			String[] fileIds = bp.getFilesIds().split(",");
+			for (String fileId : fileIds) {
+				DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(Long.parseLong(fileId));
+				JSONObject jsonFile = JSONFactoryUtil.createJSONObject();
+				jsonFile.put("name", file.getFileName());
+				jsonFile.put("id", file.getFileEntryId());
+				jsonFiles.put(jsonFile);
+			}
+
+			jsonResponse.put("documents", jsonFiles);
+
 			// Recuperation de l'élément d'écriture de la réponse
 		    PrintWriter writer = null;
 		    try {
