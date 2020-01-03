@@ -244,13 +244,14 @@
 }
 // Fin style pour la pagination
 
-// Style pour la sélection de fichiers dans la soumission d'un budget participatif
+// Style pour la sélection d'image et de documents dans la soumission d'un budget participatif
 .pro-bloc-pcs-form .input-group-btn {
-    .upload-file {
+    .upload-image, .upload-file {
         padding-right: 35px;
+        border-radius: 4px;
     }
     
-    .deleteFile {
+    .deleteImage, .deleteFile {
         font-family: 'icomoon' !important; 
         float: right;
         margin-top: -28px;
@@ -262,12 +263,12 @@
         }
     }
 
-    .help-block + .deleteFile{
+    .help-block + .deleteImage, .help-block + .deleteFile{
         margin-top: calc(-1em - 43px);
     }
 
-    .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
+    .btn:hover ~ .deleteImage, .btn:focus ~ .deleteImage, .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
         color: $c_main;
     }
 } 
-// Fin style pour la pagination
+// Fin style pour la sélection d'images et de documents dans la soumission d'un budget participatif

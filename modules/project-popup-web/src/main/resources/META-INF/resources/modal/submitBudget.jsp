@@ -65,7 +65,7 @@
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
                                 <aui:input name="budgetPhoto" type="file" label="modal.submitbudget.information.picture"
-                                    cssClass="btn btn-default btn-choose">
+                                    cssClass="btn btn-default btn-choose upload-image">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
                             </span>
@@ -395,13 +395,34 @@
         }
     };
 
-    // Gestions des sélecteurs
+    // Gestions des sélecteurs de documents
     gestionSelect();
+
+
+
+    // gestion de la sélection d'une image
+    $(".upload-image")[0].addEventListener('change', function (event) {
+        if($(this).val() != ""){
+            // ajout de la croix s'il y a lieu
+            if($(this).parent().find(".deleteImage").length == 0){
+                $(this).parent().append("<div class='deleteImage'></div>");
+            }
+            // gestion des suppressions
+            $(".deleteImage")[0].addEventListener('click', function (event) {
+                $("#"+namespace+"budgetPhoto").val("");
+                $(".deleteImage").remove();
+            });
+        }else{
+            $(".deleteImage").remove();
+        }
+    });
 
     function resetValues()
     {
         $("#"+namespace+"budgettitle").val("");
+        $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
         $("#"+namespace+"budgetsummary").val("");
+        $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
         $("#"+namespace+"budgetdescription").val("");
         $("#"+namespace+"budgetlieux").val("");
         $("#"+namespace+"project option[value='0']").prop('selected', true);
@@ -415,20 +436,20 @@
         $("#submit-budget-legalage").prop("checked", false);
         $("#submit-budget-cnil").prop("checked", false);
         $("#"+namespace+"city").val(saved_city);
+        $("#"+namespace+"city").css({ "box-shadow" : "" });
         $("#"+namespace+"address").val(saved_address);
+        $("#"+namespace+"address").css({ "box-shadow" : "" });
         $("#"+namespace+"budgetPhoto").val("");
+        $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
         $("#"+namespace+"budgetVideo").val("");
-        var count = 0;
+        // on supprime les sélecteurs de document
         $(".upload-file").each(function(){
-            // on ne garde que le premier sélecteur
-            if(count == 0){
-                $(this).val("");
-                count++;
-            }else{
-                $(this).closest(".pro-row").remove();
-            }
+            $(this).closest(".pro-row").remove();
         });
+        //on ajoute un sélecteur de document
+        gestionSelect();
         $("#"+namespace+"postalcode").val(saved_zipCode);
+        $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
         $("#"+namespace+"phone").val(saved_phone);
         $("#"+namespace+"mobile").val(saved_mobile);
         $("#"+namespace+"birthday").val(saved_dateNaiss);
@@ -436,6 +457,9 @@
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;
     	editor.setHTML('');
+        $(iframe).css({ "box-shadow" : "" });
+
+    	$("#sendalert").addClass("hidden");
     }
 
     function checkValues(){

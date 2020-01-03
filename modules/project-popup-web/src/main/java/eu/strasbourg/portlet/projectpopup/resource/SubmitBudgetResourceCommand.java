@@ -110,6 +110,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private long quartierId;
     private long themeId;
     private String message;
+    private String[] fileNames;
     private File[] files;
 
     /**
@@ -240,7 +241,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif = uploadFile(budgetParticipatif, request);
             // lancement de l'update pour récupérer la phase active qui permettra a'enregistrer le fichier dans le bon dossier
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
-            budgetParticipatif = uploadFiles(budgetParticipatif, request);
+            budgetParticipatif = uploadDocuments(budgetParticipatif, request);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
             AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
             if (assetEntry == null)
@@ -366,7 +367,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
      * @throws IOException
      * @throws PortalException
      */
-    private BudgetParticipatif uploadFiles(BudgetParticipatif budgetParticipatif, ResourceRequest request) throws IOException, PortalException {
+    private BudgetParticipatif uploadDocuments(BudgetParticipatif budgetParticipatif, ResourceRequest request) throws IOException, PortalException {
 
         // Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -386,6 +387,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     if(antiVirusVerif(request)){
                         String filesIds = "";
 
+                        int numFile = 0;
                         for (File file : files) {
 
                             // Verification de la bonne recuperation du contenu du fichier
@@ -426,12 +428,15 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                                             "", sc);
                                 }
 
+                                //récupère le nom du fichier envoyé
+                                String name = this.fileNames[numFile];
+
                                 // Ajout du fichier
                                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
                                         sc.getUserId(), folder.getRepositoryId(),
-                                        folder.getFolderId(), file.getName(),
+                                        folder.getFolderId(), name,
                                         MimeTypesUtil.getContentType(file),
-                                        file.getName(), title,
+                                        name, title,
                                         "", imageBytes, sc);
                                 // Lien de l'image a l'entite
                                 if(Validator.isNotNull(filesIds)){
@@ -442,13 +447,18 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                                 _log.info("Document budget participatif uploade : [" + file + "]");
 
                             }
+                            numFile++;
                         }
                         budgetParticipatif.setFilesIds(filesIds);
+                        return budgetParticipatif;
+                    }else{
+                        throw new PortalException("Fichier(s) suspect(s) d&eacute;tect&eacute;(s)");
                     }
+                }else{
+                    throw new PortalException("Fichier(s) trop volumineux (maximum autoris&eacute; : " + ParamUtil.getLong(request, "sizeFile") + "Mo");
                 }
-                return budgetParticipatif;
             } else {
-                throw new PortalException("Trop de fichiers");
+                throw new PortalException("Extension(s) de fichier(s) non valide(s)");
             }
         } else {
             throw new PortalException("Trop de fichiers");
@@ -481,16 +491,15 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
     private boolean validateFileExtensions(ResourceRequest request) throws PortalException {
         boolean result = true;
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        this.fileNames = uploadRequest.getFileNames("budgetFile");
         String[] typesFiles = ParamUtil.getString(request, "typesFiles").split(",");
-        for (File file : this.files) {
-            if (file != null) {
-                String fileName = file.getName();
-                if (fileName != null && !fileName.isEmpty()) {
-                    String type = fileName.substring(fileName.lastIndexOf(".") + 1);
-                    if (!Arrays.stream(typesFiles).anyMatch(type::equals)) {
-                        result = false;
-                        break;
-                    }
+        for (String fileName : this.fileNames) {
+            if (fileName != null && !fileName.isEmpty()) {
+                String type = fileName.substring(fileName.lastIndexOf(".") + 1);
+                if (!Arrays.stream(typesFiles).anyMatch(type.toLowerCase()::equals)) {
+                    result = false;
+                    break;
                 }
             }
         }
@@ -615,14 +624,14 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 return false;
             }else{
                 if (!validateFileExtensions(request)) {
-                    this.message = "Fichier(s) non valide(s)";
+                    this.message = "Extension(s) de fichier(s) non valide(s)";
                     return false;
                 }else{
                     if (!validateFileSizes(request)) {
-                        this.message = "Fichier(s) trop lourd(s)";
+                        this.message = "\"Fichier(s) trop volumineux (maximum autoris&eacute; : " + ParamUtil.getLong(request, "sizeFile") + "Mo";
                         return false;
                     }else if (!antiVirusVerif(request)) {
-                        this.message = "Fichier(s) v&eacute;rol&eacute;(s)";
+                        this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
                         return false;
                     }
                 }

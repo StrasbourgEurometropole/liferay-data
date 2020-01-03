@@ -67,8 +67,8 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
 
             // Types de fichiers autorisés
             String typesFiles = ParamUtil.getString(request,"typesFiles");
-            request.setAttribute("typesFiles",typesFiles);
-            setPreference(request,"typesFiles",typesFiles);
+            request.setAttribute("typesFiles",typesFiles.toLowerCase());
+            setPreference(request,"typesFiles",typesFiles.toLowerCase());
         }
         super.processAction(portletConfig, request, response);
     }

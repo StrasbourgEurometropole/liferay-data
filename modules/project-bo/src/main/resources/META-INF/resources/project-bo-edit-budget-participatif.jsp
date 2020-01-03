@@ -175,7 +175,7 @@
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Documents --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="documents">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="user-files">
 
 				<%-- Champ : Selection des documents --%>
 				<strasbourg-picker:file label="eu.documents" name="filesIds"

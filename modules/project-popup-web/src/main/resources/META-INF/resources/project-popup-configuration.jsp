@@ -63,8 +63,8 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="upload-file">
 
-                <aui:input type="number" name="nbFiles" value="${hasConfig?nbFiles:3}" label="nbFiles" max="10" />
-                <aui:input type="number" name="sizeFile" value="${hasConfig?sizeFile:3}" label="sizeFile" max="10" />
+                <aui:input type="number" name="nbFiles" value="${hasConfig?nbFiles:3}" label="nbFiles" max="10" min="0"/>
+                <aui:input type="number" name="sizeFile" value="${hasConfig?sizeFile:3}" label="sizeFile" max="10" min="0"/>
                 <aui:input type="text" name="typesFiles" value="${typesFiles}" label="typesFiles" />
 
 			</aui:fieldset>
