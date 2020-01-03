@@ -198,9 +198,12 @@
 	                        	
 	                        	if(data.hasImage) {
 	                        		$("#budgetPhotoID").hide();
+	                        		$("#editPhotoID").show();
+	                        		$("#budgetPhotoMessageID").show();
 	                        	}else {
 	                        		$("#editPhotoID").hide();
 	                        		$("#budgetPhotoMessageID").hide();
+	                        		$("#budgetPhotoID").show();
 	                        	}
                         }
                      }
