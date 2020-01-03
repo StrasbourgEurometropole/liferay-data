@@ -628,7 +628,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     return false;
                 }else{
                     if (!validateFileSizes(request)) {
-                        this.message = "\"Fichier(s) trop volumineux (maximum autoris&eacute; : " + ParamUtil.getLong(request, "sizeFile") + "Mo";
+                        this.message = "Fichier(s) trop volumineux (maximum autoris&eacute; : " + ParamUtil.getLong(request, "sizeFile") + "Mo";
                         return false;
                     }else if (!antiVirusVerif(request)) {
                         this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";

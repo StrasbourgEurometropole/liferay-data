@@ -88,6 +88,10 @@
                             <aui:input id="budgetVideo" name="budgetVideo" label="modal.editbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
+                    <div class="pro-row">
+                        <div class="form-group budgetDocuments">
+                        </div>
+                    </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -158,11 +162,72 @@
 <script type="text/javascript">
 
 	var namespaceEditBudget = "<portlet:namespace />";
+	var saved_nbFiles = "${nbFiles}";
+	var saved_typesFiles = "${typesFiles}";
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
     });
+
+    function deleteFileEditBudget(elt, e){
+        // supprime le fichier
+        $(elt).closest(".documentSelected").remove();
+
+        e.preventDefault();
+
+        //gestion des sélecteurs
+        gestionSelectEditBudget();
+    };
+
+    function selectFileEditBudget(elt, e){
+        if($(elt).val() != ""){
+            // ajout de la croix s'il y a lieu
+            if($(elt).parent().find(".deleteFile").length == 0){
+                $(elt).parent().append("<div class='deleteFile'></div>");
+            }
+
+            // Gestions des sélecteurs
+            gestionSelectEditBudget();
+        }else{
+            // supprime le fichier
+            deleteFileSeEditBudget(elt,e);
+        }
+    };
+
+    function gestionSelectEditBudget(){
+        // gestion des suppressions
+        btnsDeleteFiles = $(".deleteFile");
+        btnsDeleteFiles.each(function(){
+            this.addEventListener('click', function (event) {
+                deleteFileEditBudget(this, event);
+            });
+        });
+
+        // ajoute un sélecteur s'il y a lieu
+        if($(".upload-file").length < saved_nbFiles
+            && $(".upload-file").length == $(".deleteFile").length){
+            selector =
+                '<div class="documentSelected"> ' +
+                    '<span class="browsePicture input-group-btn"> ' +
+                        '<div class="form-group input-text-wrapper"> ' +
+                            '<input class="field btn btn-default btn-choose upload-file form-control download" id="'+namespaceEditBudget+'budgetFile" ' +
+                                'name="'+namespaceEditBudget+'budgetFile" type="file" value="" aria-describedby="'+namespaceEditBudget+'budgetFileHelper" /> ' +
+                        '</div> ' +
+                    '</span> ' +
+                '</div> '
+            ;
+            $(".budgetDocuments").append(selector);
+        }
+
+        // gestion de la sélection d'un fichier
+        inputs = $(".upload-file.download");
+        inputs.each(function(){
+            this.addEventListener('change', function (event) {
+                selectFileEditBudget(this, event);
+            });
+        });
+    };
     
     
     /*
@@ -170,7 +235,7 @@
 	*/
 	$(document).on("click", "[href='#showModalEditBudget']", function(event) {
 		event.preventDefault();
-		resetValues();
+		resetValuesEditBudget();
 		var entryId = $("#"+namespaceEditBudget+"entryId").val();
 		
 		AUI().use('aui-io-request', function(A) {
@@ -183,28 +248,53 @@
                     },
                     on: {
                     	success: function(e) {
-	                        	var data = this.get('responseData');
-	                        	
-	                        	$("#"+namespaceEditBudget+"budgettitle").val(data.title);
-	                        	var iframe = $('.Squire-UI').next('iframe').first()[0];
-	                        	var editor = iframe.contentWindow.editor;
-	                        	editor.setHTML(data.description);
-	                        	$("#"+namespaceEditBudget+"budgetsummary").val(data.summary);
-	                        	$("#"+namespaceEditBudget+"quartier").val(data.quartier).change().selectric('refresh');
-	                        	$("#"+namespaceEditBudget+"budgetlieux").val(data.placeText);
-	                        	$("#"+namespaceEditBudget+"project").val(data.projectId).change().selectric('refresh');
-	                        	$("#"+namespaceEditBudget+"theme").val(data.themeId).change().selectric('refresh');
-	                        	$("#"+namespaceEditBudget+"budgetVideo").val(data.videoURL);
-	                        	
-	                        	if(data.hasImage) {
-	                        		$("#budgetPhotoID").hide();
-	                        		$("#editPhotoID").show();
-	                        		$("#budgetPhotoMessageID").show();
-	                        	}else {
-	                        		$("#editPhotoID").hide();
-	                        		$("#budgetPhotoMessageID").hide();
-	                        		$("#budgetPhotoID").show();
-	                        	}
+                            var data = this.get('responseData');
+
+                            $("#"+namespaceEditBudget+"budgettitle").val(data.title);
+                            var iframe = $('.Squire-UI').next('iframe').first()[0];
+                            var editor = iframe.contentWindow.editor;
+                            editor.setHTML(data.description);
+                            $("#"+namespaceEditBudget+"budgetsummary").val(data.summary);
+                            $("#"+namespaceEditBudget+"quartier").val(data.quartier).change().selectric('refresh');
+                            $("#"+namespaceEditBudget+"budgetlieux").val(data.placeText);
+                            $("#"+namespaceEditBudget+"project").val(data.projectId).change().selectric('refresh');
+                            $("#"+namespaceEditBudget+"theme").val(data.themeId).change().selectric('refresh');
+                            $("#"+namespaceEditBudget+"budgetVideo").val(data.videoURL);
+
+                            if(data.hasImage) {
+                                $("#budgetPhotoID").hide();
+                                $("#editPhotoID").show();
+                                $("#budgetPhotoMessageID").show();
+                            }else {
+                                $("#editPhotoID").hide();
+                                $("#budgetPhotoMessageID").hide();
+                                $("#budgetPhotoID").show();
+                            }
+
+                            //on initialise les documents
+                            $('.budgetDocuments').html("");
+                            var documentHTML = "";
+                            // on affiche les documents si il peut y en avoir
+                            if(saved_nbFiles > 0){
+                                documentHTML = '<label class="control-label"> Documents existants </label> ';
+                            }
+                            if(data.documents.length > 0) {
+                                // on affiche les documents
+                                $.each(data.documents, function(index, elt){
+                                    documentHTML +=
+                                        '<div class="documentSelected">' +
+                                            '<input id="'+namespaceEditBudget+'budgetFileId" ' +
+                                            'name="'+namespaceEditBudget+'budgetFileId" type="hidden" value="'+  elt.id  +'" /> ' +
+                                            '<input class="field upload-file form-control" id="'+namespaceEditBudget+'budgetFile" ' +
+                                            'name="'+namespaceEditBudget+'budgetFile" type="text" value="'+  elt.name  +'" /> ' +
+                                            '<div class="deleteFile"></div>' +
+                                        '</div>';
+                                });
+                            }
+                            $(".budgetDocuments").append(documentHTML);
+
+                            // gestion des sélecteurs/documents
+                            gestionSelectEditBudget();
                         }
                      }
                 });
@@ -223,7 +313,7 @@
 	*/
     $("#sendBudget").click(function(event){
         event.preventDefault();
-        var response = validateForm();
+        var response = validateFormEditBudget();
         if (response){
         	var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;
@@ -250,29 +340,15 @@
         $('#modalErrorBudget').modal('hide');
     });
 
-    function resetValues()
+    function resetValuesEditBudget()
     {
-        $("#"+namespaceEditBudget+"budgettitle").val("");
-        $("#"+namespaceEditBudget+"budgetsummary").val("");
         $("#"+namespaceEditBudget+"budgetdescription").val("");
-        $("#"+namespaceEditBudget+"budgetlieux").val("");
-        $("#"+namespaceEditBudget+"project option[value='0']").prop('selected', true);
-        $("#"+namespaceEditBudget+"project").selectric();
-        $("#"+namespaceEditBudget+"quartier option[value='0']").prop('selected', true);
-        $("#"+namespaceEditBudget+"quartier").selectric();
-        $("#"+namespaceEditBudget+"theme option[value='0']").prop('selected', true);
-        $("#"+namespaceEditBudget+"theme").selectric();
+        $("#"+namespaceEditBudget+"budgetPhoto").val("");
         $("#edit-budget-legalage").prop("checked", false);
         $("#edit-budget-cnil").prop("checked", false);
-        $("#"+namespaceEditBudget+"budgetPhoto").val("");
-        $("#"+namespaceEditBudget+"budgetVideo").val("");
-        
-        var iframe = $('.Squire-UI').next('iframe').first()[0];
-    	var editor = iframe.contentWindow.editor;
-    	editor.setHTML('');
     }
 
-    function validateForm()
+    function validateFormEditBudget()
     {
         var result = true;
         var budgettitle = $("#"+namespaceEditBudget+"budgettitle").val();
@@ -284,6 +360,7 @@
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         var legalage = $("#edit-budget-legalage").is(":checked");
         var cnil = $("#edit-budget-cnil").is(":checked");
+        var files = $(".upload-file.download");
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
@@ -307,6 +384,17 @@
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $(iframe).css({ "box-shadow" : "" });
+
+        files.each(function(){
+            var file = $(this).val();
+            if (file!=null && file!==""){
+                var ext = file.split(".").pop().toLowerCase();
+                if(saved_typesFiles.indexOf(ext) == -1) {
+                    $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
+                    result = false;
+                }else $(this).css({ "box-shadow" : "" });
+            }
+        });
 
         if (!legalage)
             result = false;
