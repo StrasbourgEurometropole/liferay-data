@@ -157,7 +157,7 @@
 
 <script type="text/javascript">
 
-	var namespace = "<portlet:namespace />";
+	var namespaceEditBudget = "<portlet:namespace />";
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');
@@ -171,7 +171,7 @@
 	$(document).on("click", "[href='#showModalEditBudget']", function(event) {
 		event.preventDefault();
 		resetValues();
-		var entryId = $("#"+namespace+"entryId").val();
+		var entryId = $("#"+namespaceEditBudget+"entryId").val();
 		
 		AUI().use('aui-io-request', function(A) {
             try {
@@ -185,16 +185,16 @@
                     	success: function(e) {
 	                        	var data = this.get('responseData');
 	                        	
-	                        	$("#"+namespace+"budgettitle").val(data.title);
+	                        	$("#"+namespaceEditBudget+"budgettitle").val(data.title);
 	                        	var iframe = $('.Squire-UI').next('iframe').first()[0];
 	                        	var editor = iframe.contentWindow.editor;
 	                        	editor.setHTML(data.description);
-	                        	$("#"+namespace+"budgetsummary").val(data.summary);
-	                        	$("#"+namespace+"quartier").val(data.quartier).change().selectric('refresh');
-	                        	$("#"+namespace+"budgetlieux").val(data.placeText);
-	                        	$("#"+namespace+"project").val(data.projectId).change().selectric('refresh');
-	                        	$("#"+namespace+"theme").val(data.themeId).change().selectric('refresh');
-	                        	$("#"+namespace+"budgetVideo").val(data.videoURL);
+	                        	$("#"+namespaceEditBudget+"budgetsummary").val(data.summary);
+	                        	$("#"+namespaceEditBudget+"quartier").val(data.quartier).change().selectric('refresh');
+	                        	$("#"+namespaceEditBudget+"budgetlieux").val(data.placeText);
+	                        	$("#"+namespaceEditBudget+"project").val(data.projectId).change().selectric('refresh');
+	                        	$("#"+namespaceEditBudget+"theme").val(data.themeId).change().selectric('refresh');
+	                        	$("#"+namespaceEditBudget+"budgetVideo").val(data.videoURL);
 	                        	
 	                        	if(data.hasImage) {
 	                        		$("#budgetPhotoID").hide();
@@ -224,7 +224,7 @@
         if (response){
         	var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;
-        	$("#"+namespace+"budgetdescription").val(editor.getHTML());
+        	$("#"+namespaceEditBudget+"budgetdescription").val(editor.getHTML());
         	$("#uploadForm").submit();
         }
     });
@@ -232,8 +232,8 @@
     /*
 	* Lors du click sur le bouton de pour modifier ou supprimer la photo
 	*/
-    $("#"+namespace+"editPhoto").click(function(event){
-    	$("#"+namespace+"deletePhoto").val("true");
+    $("#"+namespaceEditBudget+"editPhoto").click(function(event){
+    	$("#"+namespaceEditBudget+"deletePhoto").val("true");
     	$("#editPhotoID").hide();
     	$("#budgetPhotoID").show();
     });
@@ -249,20 +249,20 @@
 
     function resetValues()
     {
-        $("#"+namespace+"budgettitle").val("");
-        $("#"+namespace+"budgetsummary").val("");
-        $("#"+namespace+"budgetdescription").val("");
-        $("#"+namespace+"budgetlieux").val("");
-        $("#"+namespace+"project option[value='0']").prop('selected', true);
-        $("#"+namespace+"project").selectric();
-        $("#"+namespace+"quartier option[value='0']").prop('selected', true);
-        $("#"+namespace+"quartier").selectric();
-        $("#"+namespace+"theme option[value='0']").prop('selected', true);
-        $("#"+namespace+"theme").selectric();
+        $("#"+namespaceEditBudget+"budgettitle").val("");
+        $("#"+namespaceEditBudget+"budgetsummary").val("");
+        $("#"+namespaceEditBudget+"budgetdescription").val("");
+        $("#"+namespaceEditBudget+"budgetlieux").val("");
+        $("#"+namespaceEditBudget+"project option[value='0']").prop('selected', true);
+        $("#"+namespaceEditBudget+"project").selectric();
+        $("#"+namespaceEditBudget+"quartier option[value='0']").prop('selected', true);
+        $("#"+namespaceEditBudget+"quartier").selectric();
+        $("#"+namespaceEditBudget+"theme option[value='0']").prop('selected', true);
+        $("#"+namespaceEditBudget+"theme").selectric();
         $("#edit-budget-legalage").prop("checked", false);
         $("#edit-budget-cnil").prop("checked", false);
-        $("#"+namespace+"budgetPhoto").val("");
-        $("#"+namespace+"budgetVideo").val("");
+        $("#"+namespaceEditBudget+"budgetPhoto").val("");
+        $("#"+namespaceEditBudget+"budgetVideo").val("");
         
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;
@@ -272,12 +272,12 @@
     function validateForm()
     {
         var result = true;
-        var budgettitle = $("#"+namespace+"budgettitle").val();
-        var budgetsummary = $("#"+namespace+"budgetsummary").val();
+        var budgettitle = $("#"+namespaceEditBudget+"budgettitle").val();
+        var budgetsummary = $("#"+namespaceEditBudget+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;       	
         var budgetdescription = editor.getHTML();
-        var photo = $("#"+namespace+"budgetPhoto").val();
+        var photo = $("#"+namespaceEditBudget+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         var legalage = $("#edit-budget-legalage").is(":checked");
         var cnil = $("#edit-budget-cnil").is(":checked");
@@ -285,20 +285,20 @@
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceEditBudget+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
-            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+            }else $("#"+namespaceEditBudget+"budgetPhoto").css({ "box-shadow" : "" });
         }
 
         if (budgettitle===null || budgettitle===""){
-            $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceEditBudget+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
+        }else $("#"+namespaceEditBudget+"budgettitle").css({ "box-shadow" : "" });
         
         if (budgetsummary===null || budgetsummary===""){
-            $("#"+namespace+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceEditBudget+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
+        }else $("#"+namespaceEditBudget+"budgetsummary").css({ "box-shadow" : "" });
 
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });

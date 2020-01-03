@@ -207,7 +207,7 @@
 
 <script type="text/javascript">
 
-	var namespace = "<portlet:namespace />";
+	var namespaceSubmitBudget = "<portlet:namespace />";
 	var saved_address = "${userConnected.get('address')}";
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
@@ -232,31 +232,31 @@
         event.preventDefault();
         var response = validateForm();
         if (response){
-            var budgetTitleValue = $("#"+namespace+"budgettitle").val();           
+            var budgetTitleValue = $("#"+namespaceSubmitBudget+"budgettitle").val();
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
-            $("#"+namespace+"budgetdescription").val(budgetDescriptionValue);
-            var budgetSummaryValue = $("#"+namespace+"budgetsummary").val(); 
-            var addressValue = $("#"+namespace+"address").val();
-            var cityValue = $("#"+namespace+"city").val();
-            var postalcodeValue = $("#"+namespace+"postalcode").val();
-            var birthdayValue = $("#"+namespace+"birthday").val();
-            var phoneValue = $("#"+namespace+"phone").val();
-            var mobileValue = $("#"+namespace+"mobile").val();
-            var projectValue = $("#"+namespace+"project").val();
-            var quartierValue = $("#"+namespace+"quartier").val();
-            var themeValue = $("#"+namespace+"theme").val();
-            var budgetlieuxValue = $("#"+namespace+"budgetlieux").val();
+            $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
+            var budgetSummaryValue = $("#"+namespaceSubmitBudget+"budgetsummary").val();
+            var addressValue = $("#"+namespaceSubmitBudget+"address").val();
+            var cityValue = $("#"+namespaceSubmitBudget+"city").val();
+            var postalcodeValue = $("#"+namespaceSubmitBudget+"postalcode").val();
+            var birthdayValue = $("#"+namespaceSubmitBudget+"birthday").val();
+            var phoneValue = $("#"+namespaceSubmitBudget+"phone").val();
+            var mobileValue = $("#"+namespaceSubmitBudget+"mobile").val();
+            var projectValue = $("#"+namespaceSubmitBudget+"project").val();
+            var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
+            var themeValue = $("#"+namespaceSubmitBudget+"theme").val();
+            var budgetlieuxValue = $("#"+namespaceSubmitBudget+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
-            var lastNameValue = $("#"+namespace+"username").val();
-            var photoValue = $("#"+namespace+"budgetPhoto").val();
-            var videoValue = $("#"+namespace+"budgetVideo").val();
+            var lastNameValue = $("#"+namespaceSubmitBudget+"username").val();
+            var photoValue = $("#"+namespaceSubmitBudget+"budgetPhoto").val();
+            var videoValue = $("#"+namespaceSubmitBudget+"budgetVideo").val();
             var nbFileMaxValue = saved_nbFiles;
             var typesFilesValue = saved_typesFiles;
             var sizeFileValue = saved_sizeFile;
-            var firstNameValue = $("#"+namespace+"firstname").val();
-            var emailValue = $("#"+namespace+"mail").val();
+            var firstNameValue = $("#"+namespaceSubmitBudget+"firstname").val();
+            var emailValue = $("#"+namespaceSubmitBudget+"mail").val();
             AUI().use('aui-io-request', function(A) {
                 var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 try {
@@ -300,13 +300,13 @@
                                     $('#modalBudget').modal('hide');
                                     if(data.savedInfo){
                                         saved_dateNaiss = birthdayValue;
-                                        saved_city = $("#"+namespace+"city").val();
-                                        saved_address = $("#"+namespace+"address").val();
-                                        saved_zipCode = $("#"+namespace+"postalcode").val();
-                                        if($("#"+namespace+"phone").val() != "")
-                                            saved_phone = $("#"+namespace+"phone").val();
-                                        if($("#"+namespace+"mobile").val() != "")
-                                            saved_mobile = $("#"+namespace+"mobile").val();
+                                        saved_city = $("#"+namespaceSubmitBudget+"city").val();
+                                        saved_address = $("#"+namespaceSubmitBudget+"address").val();
+                                        saved_zipCode = $("#"+namespaceSubmitBudget+"postalcode").val();
+                                        if($("#"+namespaceSubmitBudget+"phone").val() != "")
+                                            saved_phone = $("#"+namespaceSubmitBudget+"phone").val();
+                                        if($("#"+namespaceSubmitBudget+"mobile").val() != "")
+                                            saved_mobile = $("#"+namespaceSubmitBudget+"mobile").val();
                                     }
                                     $('#modalConfirmerBudget').modal('show');
                                     resetValues();
@@ -344,9 +344,9 @@
                     '<div class="form-group form-two-tiers"> ' +
                         '<span class="browsePicture input-group-btn"> ' +
                             '<div class="form-group input-text-wrapper"> ' +
-                                '<label class="control-label" for="'+namespace+'budgetFile"> Ajouter un document </label> ' +
-                                '<input class="field btn btn-default btn-choose upload-file form-control" id="'+namespace+'budgetFile" ' +
-                                    'name="'+namespace+'budgetFile" type="file" value="" aria-describedby="'+namespace+'budgetFileHelper" /> ' +
+                                '<label class="control-label" for="'+namespaceSubmitBudget+'budgetFile"> Ajouter un document </label> ' +
+                                '<input class="field btn btn-default btn-choose upload-file form-control" id="'+namespaceSubmitBudget+'budgetFile" ' +
+                                    'name="'+namespaceSubmitBudget+'budgetFile" type="file" value="" aria-describedby="'+namespaceSubmitBudget+'budgetFileHelper" /> ' +
                             '</div> ' +
                         '</span> ' +
                     '</div> ' +
@@ -409,7 +409,7 @@
             }
             // gestion des suppressions
             $(".deleteImage")[0].addEventListener('click', function (event) {
-                $("#"+namespace+"budgetPhoto").val("");
+                $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
                 $(".deleteImage").remove();
             });
         }else{
@@ -419,40 +419,40 @@
 
     function resetValues()
     {
-        $("#"+namespace+"budgettitle").val("");
-        $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
-        $("#"+namespace+"budgetsummary").val("");
-        $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
-        $("#"+namespace+"budgetdescription").val("");
-        $("#"+namespace+"budgetlieux").val("");
-        $("#"+namespace+"project option[value='0']").prop('selected', true);
-        $("#"+namespace+"project").selectric();
-        $("#"+namespace+"quartier option[value='0']").prop('selected', true);
-        $("#"+namespace+"quartier").selectric();
-        $("#"+namespace+"theme option[value='0']").prop('selected', true);
-        $("#"+namespace+"theme").selectric();
+        $("#"+namespaceSubmitBudget+"budgettitle").val("");
+        $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetsummary").val("");
+        $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetdescription").val("");
+        $("#"+namespaceSubmitBudget+"budgetlieux").val("");
+        $("#"+namespaceSubmitBudget+"project option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitBudget+"project").selectric();
+        $("#"+namespaceSubmitBudget+"quartier option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitBudget+"quartier").selectric();
+        $("#"+namespaceSubmitBudget+"theme option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitBudget+"theme").selectric();
         $('#checkboxSaveInfo #save-info').prop('checked', false);
         $('#checkboxSaveInfo').hide();
         $("#submit-budget-legalage").prop("checked", false);
         $("#submit-budget-cnil").prop("checked", false);
-        $("#"+namespace+"city").val(saved_city);
-        $("#"+namespace+"city").css({ "box-shadow" : "" });
-        $("#"+namespace+"address").val(saved_address);
-        $("#"+namespace+"address").css({ "box-shadow" : "" });
-        $("#"+namespace+"budgetPhoto").val("");
-        $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
-        $("#"+namespace+"budgetVideo").val("");
+        $("#"+namespaceSubmitBudget+"city").val(saved_city);
+        $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"address").val(saved_address);
+        $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
+        $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetVideo").val("");
         // on supprime les sélecteurs de document
         $(".upload-file").each(function(){
             $(this).closest(".pro-row").remove();
         });
         //on ajoute un sélecteur de document
         gestionSelect();
-        $("#"+namespace+"postalcode").val(saved_zipCode);
-        $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
-        $("#"+namespace+"phone").val(saved_phone);
-        $("#"+namespace+"mobile").val(saved_mobile);
-        $("#"+namespace+"birthday").val(saved_dateNaiss);
+        $("#"+namespaceSubmitBudget+"postalcode").val(saved_zipCode);
+        $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"phone").val(saved_phone);
+        $("#"+namespaceSubmitBudget+"mobile").val(saved_mobile);
+        $("#"+namespaceSubmitBudget+"birthday").val(saved_dateNaiss);
         
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;
@@ -463,9 +463,9 @@
     }
 
     function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
-        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile) {
+        if($("#"+namespaceSubmitBudget+"birthday").val() != saved_dateNaiss || $("#"+namespaceSubmitBudget+"address").val() != saved_address ||
+        $("#"+namespaceSubmitBudget+"city").val() != saved_city || $("#"+namespaceSubmitBudget+"postalcode").val() != saved_zipCode ||
+        $("#"+namespaceSubmitBudget+"phone").val() != saved_phone || $("#"+namespaceSubmitBudget+"mobile").val() != saved_mobile) {
             $('#checkboxSaveInfo #save-info').prop('checked', true);
             $('#checkboxSaveInfo').show();
         }else{
@@ -477,32 +477,32 @@
     function validateForm()
     {
         var result = true;
-        var quartierValue = $("#"+namespace+"quartier").val();
-        var budgettitle = $("#"+namespace+"budgettitle").val();
-        var budgetsummary = $("#"+namespace+"budgetsummary").val();
+        var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
+        var budgettitle = $("#"+namespaceSubmitBudget+"budgettitle").val();
+        var budgetsummary = $("#"+namespaceSubmitBudget+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;       	
         var budgetdescription = editor.getHTML();
-        var city = $("#"+namespace+"city").val();
-        var address = $("#"+namespace+"address").val();
-        var postalcode = $("#"+namespace+"postalcode").val();
+        var city = $("#"+namespaceSubmitBudget+"city").val();
+        var address = $("#"+namespaceSubmitBudget+"address").val();
+        var postalcode = $("#"+namespaceSubmitBudget+"postalcode").val();
         var legalage = $("#submit-budget-legalage").is(":checked");
         var cnil = $("#submit-budget-cnil").is(":checked");
-        var photo = $("#"+namespace+"budgetPhoto").val();
+        var photo = $("#"+namespaceSubmitBudget+"budgetPhoto").val();
         var files = $(".upload-file");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (quartierValue==0){
-            $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-                $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+                $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
-            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+            }else $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
         }
 
         files.each(function(){
@@ -517,14 +517,14 @@
         });
 
         if (budgettitle===null || budgettitle===""){
-            $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
         
         if (budgetsummary===null || budgetsummary===""){
-            $("#"+namespace+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "" });
              
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -532,24 +532,24 @@
         }else $(iframe).css({ "box-shadow" : "" });
 
         if (city===null || city===""){
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
 
         if (address===null || address===""){
-            $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"address").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
 
         if (postalcode===null || postalcode===""){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else if(!regex.test(postalcode)){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
         }
-        else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+        else $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "" });
 
         if (!legalage)
             result = false;
