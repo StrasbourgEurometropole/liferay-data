@@ -1072,8 +1072,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	/**
 	* Retourne X suggestions max pour un BP
 	*
-	* @param request la requete
-	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de bp.
 	*/
 	@Override

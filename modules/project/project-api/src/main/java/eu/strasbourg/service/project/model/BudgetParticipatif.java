@@ -258,8 +258,6 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	/**
 	* Retourne X suggestions max pour un BP
 	*
-	* @param request la requete
-	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de bp.
 	*/
 	public java.util.List<BudgetParticipatif> getChilds();
@@ -272,14 +270,14 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public BudgetParticipatif getParent();
 
 	/**
-	* Retourne la liste des entrées timelines du projet
-	*/
-	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines();
-
-	/**
 	* Retourne la liste des URLs des documents
 	*/
 	public java.util.List<java.lang.String> getFilesURLs();
+
+	/**
+	* Retourne la liste des entrées timelines du projet
+	*/
+	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines();
 
 	/**
 	* Retourne la version JSON de l'entité
