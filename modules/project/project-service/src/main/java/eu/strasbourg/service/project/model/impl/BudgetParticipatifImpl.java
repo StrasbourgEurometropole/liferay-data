@@ -71,14 +71,8 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.constants.PhaseState;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.BudgetSupport;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
-import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -651,8 +645,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     /**
      * Retourne X suggestions max pour un BP
      *
-     * @param request la requete
-     * @param nbSuggestions le nombre de suggestions.
      * @return la liste de bp.
      */
     @Override
@@ -695,6 +687,15 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			}
 		}
 		return URLs;
+    }
+
+    /**
+	 * Retourne la liste des entrées timelines du projet
+	 */
+	@Override
+	public List<ProjectTimeline> getBudgetParticipatifTimelines() {
+		List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil.getByBudgetParticipatifId(this.getBudgetParticipatifId());
+		return projectTimelines;
 	}
     
     /**
@@ -705,6 +706,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         // Initialisation des variables tempons et resultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		JSONArray jsonBPTimelines = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         jsonBudget.put("id", this.getBudgetParticipatifId());
@@ -740,6 +742,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
             jsonPlacitPlaces.put(placitPlace.toJSON());
         }
         jsonBudget.put("placitPlaces", jsonPlacitPlaces);
+
+		// Timeline
+		for (ProjectTimeline projectTimeline : this.getBudgetParticipatifTimelines()) {
+			jsonBPTimelines.put(projectTimeline.toJSON());
+		}
+		jsonBudget.put("BPTimelines", jsonBPTimelines);
 
         // Liste des Ids des catégories Thématiques
         JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());

@@ -158,6 +158,7 @@
 
 		<!-- Links with other entities -->
 		<column name="projectId" type="long"></column>
+		<column name="budgetParticipatifId" type="long"></column>
 
 		<!-- Order -->
 		<order by="asc">
@@ -167,6 +168,9 @@
 		<!-- Finder methods -->
 		<finder name="ProjectId" return-type="Collection">
 			<finder-column name="projectId" />
+		</finder>
+		<finder name="BudgetParticipatifId" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
 		</finder>
 
 	</entity>

@@ -597,6 +597,533 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 	}
 
 	private static final String _FINDER_COLUMN_PROJECTID_PROJECTID_2 = "projectTimeline.projectId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID =
+		new FinderPath(ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
+			ProjectTimelineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByBudgetParticipatifId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID =
+		new FinderPath(ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
+			ProjectTimelineImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByBudgetParticipatifId",
+			new String[] { Long.class.getName() },
+			ProjectTimelineModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK |
+			ProjectTimelineModelImpl.DATE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIFID = new FinderPath(ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByBudgetParticipatifId", new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @return the matching project timelines
+	 */
+	@Override
+	public List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId) {
+		return findByBudgetParticipatifId(budgetParticipatifId,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @return the range of matching project timelines
+	 */
+	@Override
+	public List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId, int start, int end) {
+		return findByBudgetParticipatifId(budgetParticipatifId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching project timelines
+	 */
+	@Override
+	public List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId, int start, int end,
+		OrderByComparator<ProjectTimeline> orderByComparator) {
+		return findByBudgetParticipatifId(budgetParticipatifId, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param start the lower bound of the range of project timelines
+	 * @param end the upper bound of the range of project timelines (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching project timelines
+	 */
+	@Override
+	public List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId, int start, int end,
+		OrderByComparator<ProjectTimeline> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID;
+			finderArgs = new Object[] { budgetParticipatifId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID;
+			finderArgs = new Object[] {
+					budgetParticipatifId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<ProjectTimeline> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<ProjectTimeline>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ProjectTimeline projectTimeline : list) {
+					if ((budgetParticipatifId != projectTimeline.getBudgetParticipatifId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_PROJECTTIMELINE_WHERE);
+
+			query.append(_FINDER_COLUMN_BUDGETPARTICIPATIFID_BUDGETPARTICIPATIFID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(ProjectTimelineModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(budgetParticipatifId);
+
+				if (!pagination) {
+					list = (List<ProjectTimeline>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<ProjectTimeline>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project timeline
+	 * @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	 */
+	@Override
+	public ProjectTimeline findByBudgetParticipatifId_First(
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator)
+		throws NoSuchProjectTimelineException {
+		ProjectTimeline projectTimeline = fetchByBudgetParticipatifId_First(budgetParticipatifId,
+				orderByComparator);
+
+		if (projectTimeline != null) {
+			return projectTimeline;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("budgetParticipatifId=");
+		msg.append(budgetParticipatifId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchProjectTimelineException(msg.toString());
+	}
+
+	/**
+	 * Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	 */
+	@Override
+	public ProjectTimeline fetchByBudgetParticipatifId_First(
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator) {
+		List<ProjectTimeline> list = findByBudgetParticipatifId(budgetParticipatifId,
+				0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project timeline
+	 * @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	 */
+	@Override
+	public ProjectTimeline findByBudgetParticipatifId_Last(
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator)
+		throws NoSuchProjectTimelineException {
+		ProjectTimeline projectTimeline = fetchByBudgetParticipatifId_Last(budgetParticipatifId,
+				orderByComparator);
+
+		if (projectTimeline != null) {
+			return projectTimeline;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("budgetParticipatifId=");
+		msg.append(budgetParticipatifId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchProjectTimelineException(msg.toString());
+	}
+
+	/**
+	 * Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	 */
+	@Override
+	public ProjectTimeline fetchByBudgetParticipatifId_Last(
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator) {
+		int count = countByBudgetParticipatifId(budgetParticipatifId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ProjectTimeline> list = findByBudgetParticipatifId(budgetParticipatifId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the project timelines before and after the current project timeline in the ordered set where budgetParticipatifId = &#63;.
+	 *
+	 * @param projectTimelineId the primary key of the current project timeline
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next project timeline
+	 * @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
+	 */
+	@Override
+	public ProjectTimeline[] findByBudgetParticipatifId_PrevAndNext(
+		long projectTimelineId, long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator)
+		throws NoSuchProjectTimelineException {
+		ProjectTimeline projectTimeline = findByPrimaryKey(projectTimelineId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ProjectTimeline[] array = new ProjectTimelineImpl[3];
+
+			array[0] = getByBudgetParticipatifId_PrevAndNext(session,
+					projectTimeline, budgetParticipatifId, orderByComparator,
+					true);
+
+			array[1] = projectTimeline;
+
+			array[2] = getByBudgetParticipatifId_PrevAndNext(session,
+					projectTimeline, budgetParticipatifId, orderByComparator,
+					false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ProjectTimeline getByBudgetParticipatifId_PrevAndNext(
+		Session session, ProjectTimeline projectTimeline,
+		long budgetParticipatifId,
+		OrderByComparator<ProjectTimeline> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_PROJECTTIMELINE_WHERE);
+
+		query.append(_FINDER_COLUMN_BUDGETPARTICIPATIFID_BUDGETPARTICIPATIFID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ProjectTimelineModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(budgetParticipatifId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(projectTimeline);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<ProjectTimeline> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the project timelines where budgetParticipatifId = &#63; from the database.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 */
+	@Override
+	public void removeByBudgetParticipatifId(long budgetParticipatifId) {
+		for (ProjectTimeline projectTimeline : findByBudgetParticipatifId(
+				budgetParticipatifId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(projectTimeline);
+		}
+	}
+
+	/**
+	 * Returns the number of project timelines where budgetParticipatifId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @return the number of matching project timelines
+	 */
+	@Override
+	public int countByBudgetParticipatifId(long budgetParticipatifId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIFID;
+
+		Object[] finderArgs = new Object[] { budgetParticipatifId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PROJECTTIMELINE_WHERE);
+
+			query.append(_FINDER_COLUMN_BUDGETPARTICIPATIFID_BUDGETPARTICIPATIFID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(budgetParticipatifId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_BUDGETPARTICIPATIFID_BUDGETPARTICIPATIFID_2 =
+		"projectTimeline.budgetParticipatifId = ?";
 
 	public ProjectTimelinePersistenceImpl() {
 		setModelClass(ProjectTimeline.class);
@@ -838,6 +1365,15 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID,
 				args);
 
+			args = new Object[] {
+					projectTimelineModelImpl.getBudgetParticipatifId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIFID,
+				args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -858,6 +1394,27 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_PROJECTID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID,
+					args);
+			}
+
+			if ((projectTimelineModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						projectTimelineModelImpl.getOriginalBudgetParticipatifId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIFID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID,
+					args);
+
+				args = new Object[] {
+						projectTimelineModelImpl.getBudgetParticipatifId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_BUDGETPARTICIPATIFID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_BUDGETPARTICIPATIFID,
 					args);
 			}
 		}
@@ -889,6 +1446,7 @@ public class ProjectTimelinePersistenceImpl extends BasePersistenceImpl<ProjectT
 		projectTimelineImpl.setTitle(projectTimeline.getTitle());
 		projectTimelineImpl.setLink(projectTimeline.getLink());
 		projectTimelineImpl.setProjectId(projectTimeline.getProjectId());
+		projectTimelineImpl.setBudgetParticipatifId(projectTimeline.getBudgetParticipatifId());
 
 		return projectTimelineImpl;
 	}

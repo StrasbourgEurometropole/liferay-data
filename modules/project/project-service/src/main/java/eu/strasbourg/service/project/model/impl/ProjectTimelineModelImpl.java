@@ -75,7 +75,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			{ "dateFormat", Types.VARCHAR },
 			{ "title", Types.VARCHAR },
 			{ "link", Types.VARCHAR },
-			{ "projectId", Types.BIGINT }
+			{ "projectId", Types.BIGINT },
+			{ "budgetParticipatifId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -88,9 +89,10 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("link", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("projectId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,spacing INTEGER,date_ DATE null,dateFormat VARCHAR(75) null,title VARCHAR(400) null,link VARCHAR(400) null,projectId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_ProjectTimeline (projectTimelineId LONG not null primary key,startDay INTEGER,spacing INTEGER,date_ DATE null,dateFormat VARCHAR(75) null,title VARCHAR(400) null,link VARCHAR(400) null,projectId LONG,budgetParticipatifId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_ProjectTimeline";
 	public static final String ORDER_BY_JPQL = " ORDER BY projectTimeline.date ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_ProjectTimeline.date_ ASC";
@@ -106,8 +108,9 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(eu.strasbourg.service.project.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
 			true);
-	public static final long PROJECTID_COLUMN_BITMASK = 1L;
-	public static final long DATE_COLUMN_BITMASK = 2L;
+	public static final long BUDGETPARTICIPATIFID_COLUMN_BITMASK = 1L;
+	public static final long PROJECTID_COLUMN_BITMASK = 2L;
+	public static final long DATE_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -130,6 +133,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		model.setTitle(soapModel.getTitle());
 		model.setLink(soapModel.getLink());
 		model.setProjectId(soapModel.getProjectId());
+		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
 
 		return model;
 	}
@@ -203,6 +207,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		attributes.put("title", getTitle());
 		attributes.put("link", getLink());
 		attributes.put("projectId", getProjectId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -258,6 +263,12 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		if (projectId != null) {
 			setProjectId(projectId);
+		}
+
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
+
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
 		}
 	}
 
@@ -378,6 +389,29 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		return _originalProjectId;
 	}
 
+	@JSON
+	@Override
+	public long getBudgetParticipatifId() {
+		return _budgetParticipatifId;
+	}
+
+	@Override
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_columnBitmask |= BUDGETPARTICIPATIFID_COLUMN_BITMASK;
+
+		if (!_setOriginalBudgetParticipatifId) {
+			_setOriginalBudgetParticipatifId = true;
+
+			_originalBudgetParticipatifId = _budgetParticipatifId;
+		}
+
+		_budgetParticipatifId = budgetParticipatifId;
+	}
+
+	public long getOriginalBudgetParticipatifId() {
+		return _originalBudgetParticipatifId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -417,6 +451,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		projectTimelineImpl.setTitle(getTitle());
 		projectTimelineImpl.setLink(getLink());
 		projectTimelineImpl.setProjectId(getProjectId());
+		projectTimelineImpl.setBudgetParticipatifId(getBudgetParticipatifId());
 
 		projectTimelineImpl.resetOriginalValues();
 
@@ -481,6 +516,10 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		projectTimelineModelImpl._setOriginalProjectId = false;
 
+		projectTimelineModelImpl._originalBudgetParticipatifId = projectTimelineModelImpl._budgetParticipatifId;
+
+		projectTimelineModelImpl._setOriginalBudgetParticipatifId = false;
+
 		projectTimelineModelImpl._columnBitmask = 0;
 	}
 
@@ -529,12 +568,14 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 		projectTimelineCacheModel.projectId = getProjectId();
 
+		projectTimelineCacheModel.budgetParticipatifId = getBudgetParticipatifId();
+
 		return projectTimelineCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{projectTimelineId=");
 		sb.append(getProjectTimelineId());
@@ -552,6 +593,8 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 		sb.append(getLink());
 		sb.append(", projectId=");
 		sb.append(getProjectId());
+		sb.append(", budgetParticipatifId=");
+		sb.append(getBudgetParticipatifId());
 		sb.append("}");
 
 		return sb.toString();
@@ -559,7 +602,7 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.ProjectTimeline");
@@ -597,6 +640,10 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 			"<column><column-name>projectId</column-name><column-value><![CDATA[");
 		sb.append(getProjectId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>budgetParticipatifId</column-name><column-value><![CDATA[");
+		sb.append(getBudgetParticipatifId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -617,6 +664,9 @@ public class ProjectTimelineModelImpl extends BaseModelImpl<ProjectTimeline>
 	private long _projectId;
 	private long _originalProjectId;
 	private boolean _setOriginalProjectId;
+	private long _budgetParticipatifId;
+	private long _originalBudgetParticipatifId;
+	private boolean _setOriginalBudgetParticipatifId;
 	private long _columnBitmask;
 	private ProjectTimeline _escapedModel;
 }
