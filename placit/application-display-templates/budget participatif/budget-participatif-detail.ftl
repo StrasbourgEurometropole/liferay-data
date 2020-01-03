@@ -49,12 +49,6 @@
 <#-- L'entité peut être modifiée -->
 <#assign isEditable = entry.isEditable() />
 
-<#-- Récupération des liens médias de l'entité -->
-<#assign videoURL = entry.videoUrl />
-<#assign imageURL = entry.getImageURL() />
-<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<#assign imageFullURL = themeDisplay.getPortalURL() + imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
-
 <#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
 <#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
 <#assign assets = AssetEntryService.getAssetCategoryAssetEntries(entry.getPhaseCategory().getCategoryId())  />
@@ -68,14 +62,17 @@
     </#if>
 </#list>
 
+<#assign imageUrlOG = ""/>
+<!-- vignette -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrlOG=themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
+</#if>
+
 <#-- Liste des infos a partager -->
-<#assign openGraph = {"og:title":"${entry.title}",
+<#assign openGraph = {
+"og:title":"${entry.title?html}",
 "og:description":'${entry.description?replace("<[^>]*>", "", "r")?html}', 
-"og:url":"${currentUrl}",
-"og:type":"article",
-"og:image":"${imageFullURL}",
-"og:image:width":"450",
-"og:image:height":"298"
+"og:image":"${imageUrlOG}"
 } />
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}

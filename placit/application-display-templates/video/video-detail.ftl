@@ -16,6 +16,21 @@
 <!-- Recuperation du nombre de vue de la vidéo -->
 <#assign nbViews = entry.getNbViews(site,videoId) />
 
+<#assign imageUrl = ""/>
+<!-- vignette -->
+<#if entry.imageURL?has_content>
+    <#assign imageUrl=themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
+</#if>
+
+<#-- Liste des infos a partager -->
+<#assign openGraph = {
+"og:title":"${entry.getTitle(locale)?html}",
+"og:description":'${entry.getDescription(locale)?replace("<[^>]*>", "", "r")?html}', 
+"og:image":"${imageUrl}"
+} />
+<#-- partage de la configuration open graph dans la request -->
+${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
+
 <main id="content">
     <header>
         <div class="container pro-homepage-video">
