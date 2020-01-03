@@ -77,9 +77,90 @@
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
+<#assign timelines = entry.budgetParticipatifTimelines>
+
+<#if timelines?first??>
+  <#assign firstTimeLine = timelines?first>
+  <#assign lastTimeLine = timelines?last>
+</#if>
 
 <div class="pro-page-detail pro-page-detail-initiative">
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->
+    
+    <header>
+
+        <div class="fit-cover"></div>
+
+        <#if timelines?size gt 0>
+            <!-- Start slider timeline wrapper -->
+            <div class="container pro-slider-timeline">
+
+                <!-- Navigation - Input range / S'il y a par exemple 5 éléments alors inscrire la value est égale à 3. -->
+                <div class="pro-navigation">
+                    <div class="pro-extreme-date">
+                        <span>Début</span>
+                        <span class="pro-datetime">${firstTimeLine.getDate()?string[firstTimeLine.getFreeMarkerFormatDate()]}</span>
+                    </div>
+                    <div class="pro-slidecontainer">
+                        <input type="range" min="1" max="${timelines?size}" value="${timelines?size - 2}" class="slider" id="myRange">
+                    </div>
+                    <div class="pro-extreme-date">
+                        <span>Fin</span>
+                        <span class="pro-datetime">${lastTimeLine.getDate()?string[lastTimeLine.getFreeMarkerFormatDate()]}</span>
+                    </div>
+                    <span>Navigation</span>
+                </div>
+
+                <div class="owl-carousel owl-timeline">
+
+                    <#list timelines as timeline>
+                        <div class="pro-item">
+                            <div class="pro-small-jalon">
+                                <#switch timeline.getFreeMarkerFormatDate()>
+                                    <#case "dd/MM/yyyy">
+                                        <span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
+                                        <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+                                        <#break>
+                                    <#case "MM/yyyy">
+                                        <span class="pro-day-month">${timeline.getDate()?string["MMMM"]}</span>
+                                        <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+                                        <#break>
+                                    <#case "yyyy">
+                                        <span class="pro-day-month"></span>
+                                        <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+                                        <#break>
+                                </#switch>
+                            </div>
+                            <a href="${timeline.getLink()}" class="pro-jalon-hover">
+                                <div class="pro-wrapper-date">
+                                    <div>
+                                        <#switch timeline.getFreeMarkerFormatDate()>
+                                            <#case "dd/MM/yyyy">
+                                                <span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
+                                                <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+                                                <#break>
+                                            <#case "MM/yyyy">
+                                                <span class="pro-day-month">${timeline.getDate()?string["MMMM"]}</span>
+                                                <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+                                                <#break>
+                                            <#case "yyyy">
+                                                <span class="pro-day-month"></span>
+                                                <span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
+                                                <#break>			                      
+                                        </#switch>
+                                    </div>
+                                </div>
+                                <div class="pro-txt-jalon">
+                                    <p>${timeline.getTitle()}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </#list>
+
+                </div>
+            </div>
+        </#if>
+    </header>
 
     <div class="container">
 
