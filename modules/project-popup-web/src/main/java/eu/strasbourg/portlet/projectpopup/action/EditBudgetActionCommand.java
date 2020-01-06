@@ -13,9 +13,11 @@ import java.util.stream.Collectors;
 import javax.portlet.*;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
 import org.osgi.service.component.annotations.Component;
 
@@ -442,11 +444,18 @@ public class EditBudgetActionCommand implements MVCActionCommand {
 
     private boolean antiVirusVerif() throws PortalException {
         boolean result = true;
+        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
         for (File file : this.files) {
             if (file != null) {
-                // vérifi que le fichier est clean
-                result = true;
-                break;
+                try {
+                    // vérifi que le fichier est clean
+                    Scanner.scan(file);
+                } catch (AntivirusScannerException e) {
+                    this.message = "Virus détecté";
+                    result = false;
+                    _log.error(e);
+                    break;
+                }
             }
         }
         return result;
