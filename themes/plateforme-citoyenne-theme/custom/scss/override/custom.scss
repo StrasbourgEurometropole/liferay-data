@@ -278,11 +278,15 @@
     .documentSelected{
         width: 100%;
         margin-bottom: 10px;
+
+        .browsePicture{
+            padding-top: 0;
+
+            .form-group{
+                margin-bottom: 0;
+            }
+        }
     }  
-    
-    .documentSelected:nth-last-child(2){
-        margin-bottom: -6px;
-    }
 
     .deleteFile {
         font-family: 'icomoon' !important; 

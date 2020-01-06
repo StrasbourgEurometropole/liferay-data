@@ -203,7 +203,7 @@
 	/*
 	* Reinitialise le formulaire avec les informations les plus fraiches
 	*/
-	function resetValues() {
+	function resetValuesGiveBudgetSupport() {
 		// Champs informations utilisateur
 		$("#"+namespaceGiveBudgetSupport+"supportBirthday").val(saved_dateNaiss);
         $("#"+namespaceGiveBudgetSupport+"supportAddress").val(saved_address);
@@ -252,7 +252,7 @@
 	/*
 	* Verifie la conformite des elements avant l'envoie du formulaire
 	*/
-	function validateForm() {
+	function validateFormGiveBudgetSupport() {
 		// Valeur de retour "juste" par defaut
         var isValid = true;
 
@@ -321,7 +321,7 @@
 	*/
 	function sendSupport() {
 		// Verification du formulaire
-        var isValid = validateForm();
+        var isValid = validateFormGiveBudgetSupport();
         
         if (isValid) {
         	// Recuperation des informations
@@ -391,7 +391,7 @@
                                 	// Affichage dans tous les cas du boutons de retrait
                                 	$("[href='#RemoveSupport']").show();
                                 }
-                                resetValues();
+                                resetValuesGiveBudgetSupport();
                              	// Modal de confirmation de succes
                                 $('#modalConfirmSupport').modal('show');
                             }
@@ -452,7 +452,7 @@
 	                           	$("[href='#Support']").show();
 							}
                         	
-                           resetValues();
+                           resetValuesGiveBudgetSupport();
                         	
                         	// Modal de confirmation de succes
 							$('#modalConfirmSupport').modal('show');
@@ -485,7 +485,7 @@
 	*/
 	$(document).on("click", "[href='#Support']", function(event) {
 		event.preventDefault();
-		resetValues();
+		resetValuesGiveBudgetSupport();
 		
 		/** (08/03/2019) on n'affiche plus la popup pour le premier vote
 		// Si il y'a deja eu un vote de l'utilisateur, pas de formulaire

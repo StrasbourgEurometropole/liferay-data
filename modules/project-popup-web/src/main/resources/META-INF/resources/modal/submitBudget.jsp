@@ -104,19 +104,19 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValuesSubmitBudget();" onChange="checkValuesSubmitBudget();"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValuesSubmitBudget();"/>
                             </div>
                         </div>
                     </div>
@@ -125,10 +125,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
@@ -225,12 +225,12 @@
     });
     
     $('#buttonDeposer').click(function(event){
-        resetValues();
+        resetValuesSubmitBudget();
     });
 
     $("#sendBudget").click(function(event){
         event.preventDefault();
-        var response = validateForm();
+        var response = validateFormSubmitBudget();
         if (response){
             var budgetTitleValue = $("#"+namespaceSubmitBudget+"budgettitle").val();
             var iframe = $('.Squire-UI').next('iframe').first()[0];
@@ -309,7 +309,7 @@
                                             saved_mobile = $("#"+namespaceSubmitBudget+"mobile").val();
                                     }
                                     $('#modalConfirmerBudget').modal('show');
-                                    resetValues();
+                                    resetValuesSubmitBudget();
                                 }else{
                                     $("#modalErrorBudget h4").text(data.message);
                                     $('#modalErrorBudget').modal('show');
@@ -335,7 +335,7 @@
         $('#modalErrorBudget').modal('hide');
     });
 
-    function gestionSelect(){
+    function gestionSelectSubmitBudget(){
         // ajoute un sélecteur s'il y a lieu
         if($(".upload-file").length < saved_nbFiles
             && $(".upload-file").length == $("#uploadDiv .deleteFile").length){
@@ -359,21 +359,21 @@
         inputs = $(".upload-file");
         inputs.each(function(){
             this.addEventListener('change', function (event) {
-                selectFile(this, event);
+                selectFileSubmitBudget(this, event);
             });
         });
     };
 
-    function deleteFile(elt, e){
+    function deleteFileSubmitBudget(elt, e){
         // supprime le fichier
         $(elt).closest(".pro-row").remove();
         e.preventDefault();
 
         //gestion des sélecteurs
-        gestionSelect();
+        gestionSelectSubmitBudget();
     };
 
-    function selectFile(elt, e){
+    function selectFileSubmitBudget(elt, e){
         if($(elt).val() != ""){
             // ajout de la croix s'il y a lieu
             if($(elt).parent().find(".deleteFile").length == 0){
@@ -383,20 +383,20 @@
             btnsDeleteFiles = $(".deleteFile");
             btnsDeleteFiles.each(function(){
                 this.addEventListener('click', function (event) {
-                    deleteFile(this, event);
+                    deleteFileSubmitBudget(this, event);
                 });
             });
 
             // Gestions des sélecteurs
-            gestionSelect();
+            gestionSelectSubmitBudget();
         }else{
             // supprime le fichier
-            deleteFile(elt,e);
+            deleteFileSubmitBudget(elt,e);
         }
     };
 
     // Gestions des sélecteurs de documents
-    gestionSelect();
+    gestionSelectSubmitBudget();
 
 
 
@@ -417,7 +417,7 @@
         }
     });
 
-    function resetValues()
+    function resetValuesSubmitBudget()
     {
         $("#"+namespaceSubmitBudget+"budgettitle").val("");
         $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
@@ -447,7 +447,7 @@
             $(this).closest(".pro-row").remove();
         });
         //on ajoute un sélecteur de document
-        gestionSelect();
+        gestionSelectSubmitBudget();
         $("#"+namespaceSubmitBudget+"postalcode").val(saved_zipCode);
         $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "" });
         $("#"+namespaceSubmitBudget+"phone").val(saved_phone);
@@ -462,7 +462,7 @@
     	$("#sendalert").addClass("hidden");
     }
 
-    function checkValues(){
+    function checkValuesSubmitBudget(){
         if($("#"+namespaceSubmitBudget+"birthday").val() != saved_dateNaiss || $("#"+namespaceSubmitBudget+"address").val() != saved_address ||
         $("#"+namespaceSubmitBudget+"city").val() != saved_city || $("#"+namespaceSubmitBudget+"postalcode").val() != saved_zipCode ||
         $("#"+namespaceSubmitBudget+"phone").val() != saved_phone || $("#"+namespaceSubmitBudget+"mobile").val() != saved_mobile) {
@@ -474,7 +474,7 @@
         }
     }
 
-    function validateForm()
+    function validateFormSubmitBudget()
     {
         var result = true;
         var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();

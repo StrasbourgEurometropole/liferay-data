@@ -75,19 +75,19 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValuesSubmitPetition();" onChange="checkValuesSubmitPetition();"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input id="address" name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();"/>
+                            <aui:input id="address" name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesSubmitPetition();"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" maxlength="256" onInput="checkValues();"/>
+                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" maxlength="256" onInput="checkValuesSubmitPetition();"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" maxlength="5" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValues();"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" maxlength="5" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValuesSubmitPetition();"/>
                             </div>
                         </div>
                     </div>
@@ -96,10 +96,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" maxlength="20" onInput="checkValues();"/>
+                            <aui:input id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" maxlength="20" onInput="checkValuesSubmitPetition();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValues();"/>
+                            <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValuesSubmitPetition();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo">
@@ -197,14 +197,14 @@
         $('#checkboxSaveInfo').hide();
 		
         $('#buttonDeposer').click(function(event){
-            resetValues();
+            resetValuesSubmitPetition();
         });
     });
 
     $("#sendPetition").click(function(event){
         event.preventDefault();
 
-        var response = validateForm();
+        var response = validateFormSubmitPetition();
         if (response){
             var petitionTitleValue = $("#"+namespaceSubmitPetition+"petitiontitle").val();
             var petitionDescriptionValue = $("#"+namespaceSubmitPetition+"petitiondescription").val();
@@ -266,7 +266,7 @@
                                 $("#modalErrorPetition h4").text(data.message);
                                 $('#modalErrorPetition').modal('show');
                             }
-                            resetValues();
+                            resetValuesSubmitPetition();
                         }
                     }
                 });
@@ -282,7 +282,7 @@
         $('#modalErrorPetition').modal('hide');
     });
 
-    function resetValues()
+    function resetValuesSubmitPetition()
     {
         $("#"+namespaceSubmitPetition+"petitiontitle").val("");
         $("#"+namespaceSubmitPetition+"petitiondescription").val("");
@@ -318,7 +318,7 @@
         return age;
     }
 
-    function checkValues(){
+    function checkValuesSubmitPetition(){
         if($("#"+namespaceSubmitPetition+"birthday").val() != saved_dateNaiss || $("#"+namespaceSubmitPetition+"address").val() != saved_address ||
         $("#"+namespaceSubmitPetition+"city").val() != saved_city || $("#"+namespaceSubmitPetition+"postalcode").val() != saved_zipCode ||
         $("#"+namespaceSubmitPetition+"phone").val() != saved_phone || $("#"+namespaceSubmitPetition+"mobile").val() != saved_mobile){
@@ -330,7 +330,7 @@
         }
     }
 
-    function validateForm(){
+    function validateFormSubmitPetition(){
         var result = true;
         var petitiontitle = $("#"+namespaceSubmitPetition+"petitiontitle").val();
         var petitiondescription = $("#"+namespaceSubmitPetition+"petitiondescription").val();
