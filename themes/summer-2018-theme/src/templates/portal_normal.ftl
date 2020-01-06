@@ -37,7 +37,6 @@
     </#if> 
     
     <#assign openGraph = {
-      "twitter:card":"summary",
       "og:type":"website",
       "og:locale":"${locale}",
       "og:url":"${currentUrlOG}",
@@ -51,10 +50,16 @@
     <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
         <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
         <#list openGraphCustom?keys as keyOG>  
-          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
+          <#if openGraphCustom[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraphCustom[keyOG]} >
+          </#if>
+          <#if !openGraphCustom[keyOG]?has_content && openGraph[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraph[keyOG]} >
+          </#if>
         </#list>
     </#if>
     
+    <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
       <#assign valueOG = openGraph[keyOG]> 
       <#if keyOG == "og:description" >
