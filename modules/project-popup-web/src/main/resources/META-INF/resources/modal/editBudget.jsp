@@ -88,9 +88,7 @@
                             <aui:input id="budgetVideo" name="budgetVideo" label="modal.editbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
-                    <div class="pro-row">
-                        <div class="form-group budgetDocuments">
-                        </div>
+                    <div class="form-group budgetDocuments">
                     </div>
                 </div>
                 <div class="pro-optin form-checkbox">
@@ -276,7 +274,7 @@
                             var documentHTML = "";
                             // on affiche les documents si il peut y en avoir
                             if(saved_nbFiles > 0){
-                                documentHTML = '<label class="control-label"> Documents existants </label> ';
+                                documentHTML = '<label class="control-label">Documents</label> ';
                             }
                             if(data.documents.length > 0) {
                                 // on affiche les documents
