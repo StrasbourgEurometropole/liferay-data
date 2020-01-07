@@ -345,8 +345,9 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folderPhase.getFolderId(),
                                             budgetParticipatif.getTitle());
                                 }catch(Exception e) {
-                                    folder = DLAppServiceUtil.addFolder(repositoryId,folderPhase.getFolderId()
-                                            ,budgetParticipatif.getTitle(),
+                                    folder = DLAppLocalServiceUtil.addFolder(
+                                            sc.getUserId(), repositoryId,
+                                            folderPhase.getFolderId(), budgetParticipatif.getTitle(),
                                             "", sc);
                                 }
 
@@ -375,7 +376,8 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                         throw new PortalException("Fichier(s) suspect(s) d&eacute;tect&eacute;(s)");
                     }
                 }else{
-                    throw new PortalException("Fichier(s) trop volumineux (maximum autoris&eacute; : " + ParamUtil.getLong(request, "sizeFile") + "Mo");
+                    throw new PortalException("Fichier(s) trop volumineux (maximum autoris&eacute; : "
+                            + ParamUtil.getLong(request, "sizeFile") + "Mo)");
                 }
             } else {
                 throw new PortalException("Extension(s) de fichier(s) non valide(s)");
@@ -444,20 +446,20 @@ public class EditBudgetActionCommand implements MVCActionCommand {
 
     private boolean antiVirusVerif() throws PortalException {
         boolean result = true;
-        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
-        for (File file : this.files) {
-            if (file != null) {
-                try {
-                    // vérifi que le fichier est clean
-                    Scanner.scan(file);
-                } catch (AntivirusScannerException e) {
-                    this.message = "Virus détecté";
-                    result = false;
-                    _log.error(e);
-                    break;
-                }
-            }
-        }
+//        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
+//        for (File file : this.files) {
+//            if (file != null) {
+//                try {
+//                    // vérifi que le fichier est clean
+//                    Scanner.scan(file);
+//                } catch (AntivirusScannerException e) {
+//                    this.message = "Virus détecté";
+//                    result = false;
+//                    _log.error(e);
+//                    break;
+//                }
+//            }
+//        }
         return result;
     }
 	
@@ -530,7 +532,8 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                     return false;
                 }else{
                     if (!validateFileSizes()) {
-                        this.message = "Fichier(s) trop volumineux (maximum autoris&eacute; : " + ParamUtil.getLong(request, "sizeFile") + "Mo";
+                        this.message = "Fichier(s) trop volumineux (maximum autoris&eacute; : "
+                                + ParamUtil.getLong(request, "sizeFile") + "Mo)";
                         return false;
                     }else if (!antiVirusVerif()) {
                         this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
