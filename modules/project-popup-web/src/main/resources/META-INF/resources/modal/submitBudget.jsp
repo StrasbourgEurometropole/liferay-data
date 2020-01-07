@@ -411,9 +411,11 @@
             $(".deleteImage")[0].addEventListener('click', function (event) {
                 $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
                 $(".deleteImage").remove();
+                $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
             });
         }else{
             $(".deleteImage").remove();
+            $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
         }
     });
 
@@ -512,7 +514,9 @@
                 if(saved_typesFiles.indexOf(ext) == -1) {
                     $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
                     result = false;
-                }else $(this).css({ "box-shadow" : "" });
+                }else{
+                    $(this).css({ "box-shadow" : "" });
+                }
             }
         });
 

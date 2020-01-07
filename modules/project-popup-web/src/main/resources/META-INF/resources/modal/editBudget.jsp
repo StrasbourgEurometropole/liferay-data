@@ -284,7 +284,7 @@
                                             '<input id="'+namespaceEditBudget+'budgetFileId" ' +
                                             'name="'+namespaceEditBudget+'budgetFileId" type="hidden" value="'+  elt.id  +'" /> ' +
                                             '<input class="field upload-file form-control" id="'+namespaceEditBudget+'budgetFile" ' +
-                                            'name="'+namespaceEditBudget+'budgetFile" type="text" value="'+  elt.name  +'" /> ' +
+                                            'name="'+namespaceEditBudget+'budgetFile" type="text" value="'+  elt.name  +'" readonly="true" /> ' +
                                             '<div class="deleteFile"></div>' +
                                         '</div>';
                                 });
