@@ -420,8 +420,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                                             folderUpload.getFolderId(),
                                             budgetParticipatif.getPhase().getTitle());
                                 }catch(Exception e) {
-                                    folderPhase = DLAppServiceUtil.addFolder(repositoryId,
-                                            folderUpload.getFolderId(), budgetParticipatif.getPhase().getTitle(),
+                                    folderPhase = DLAppLocalServiceUtil.addFolder(
+                                            sc.getUserId(), repositoryId,
+                                            folderUpload.getFolderId(),
+                                            budgetParticipatif.getPhase().getTitle(),
                                             "", sc);
                                 }
 
@@ -481,7 +483,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName("budgetPhoto");
         if (fileName != null && !fileName.isEmpty()) {
-            String type = fileName.substring(fileName.lastIndexOf("."));
+            String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
         }
         return result;
@@ -534,20 +536,20 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
     private boolean antiVirusVerif(ResourceRequest request) throws PortalException {
         boolean result = true;
-//        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
-//        for (File file : this.files) {
-//            if (file != null) {
-//            	try {
-//            		// vérifi que le fichier est clean
-//                	Scanner.scan(file);
-//				} catch (AntivirusScannerException e) {
-//		            this.message = "Virus détecté";
-//		            result = false;
-//		            _log.error(e);
-//		            break;
-//				}
-//            }
-//        }
+        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
+        for (File file : this.files) {
+            if (file != null) {
+            	try {
+            		// vérifi que le fichier est clean
+                	Scanner.scan(file);
+				} catch (AntivirusScannerException e) {
+		            this.message = "Virus détecté";
+		            result = false;
+		            _log.error(e);
+		            break;
+				}
+            }
+        }
         return result;
     }
 

@@ -333,7 +333,8 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folderUpload.getFolderId(),
                                             budgetParticipatif.getPhase().getTitle());
                                 }catch(Exception e) {
-                                    folderPhase = DLAppServiceUtil.addFolder(repositoryId,
+                                    folderPhase = DLAppLocalServiceUtil.addFolder(
+                                            sc.getUserId(), repositoryId,
                                             folderUpload.getFolderId(), budgetParticipatif.getPhase().getTitle(),
                                             "", sc);
                                 }
