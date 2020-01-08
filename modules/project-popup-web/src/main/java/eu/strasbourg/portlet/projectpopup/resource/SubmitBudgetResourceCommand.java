@@ -208,6 +208,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             if (this.themeId != 0) {
                 identifiants.add(themeId);
             }
+
             long[] ids = new long[identifiants.size()];
             for (int i = 0; i < identifiants.size(); i++) {
                 ids[i] = identifiants.get(i);
@@ -232,8 +233,26 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             budgetParticipatif.setCitoyenPhone(this.phone);
             budgetParticipatif.setPublikId(this.publikID);
             budgetParticipatif = uploadFile(budgetParticipatif, request);
-            // lancement de l'update pour récupérer la phase active qui permettra a'enregistrer le fichier dans le bon dossier
-            budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
+
+            // Récpère la phase active (si elle existe)
+            long groupId = sc.getThemeDisplay().getLayout().getGroupId();
+            BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+            if (budgetPhaseActive != null) {
+                budgetParticipatif.setBudgetPhaseId(budgetPhaseActive.getBudgetPhaseId());
+                AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+
+                //Recuperation des categories id déjà passés dans le service context
+                ids = sc.getAssetCategoryIds();
+
+                //On ajoute la catégorie "Phase du budget participatif" de la phase active au BP dans la liste existante
+                List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+                idsLong.add(phaseCat.getCategoryId());
+
+                //Affecte la categorie "Phase du budget participatif" de la phase active au BP
+                //La categorie est ajoutee dans le service context car le BP n'est pas encore cree
+                sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+            }
+
             budgetParticipatif = uploadDocuments(budgetParticipatif, request);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
             AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
@@ -428,12 +447,18 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                                 String name = this.fileNames[numFile];
 
                                 // Ajout du fichier
-                                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                                        sc.getUserId(), folder.getRepositoryId(),
-                                        folder.getFolderId(), name,
-                                        MimeTypesUtil.getContentType(file),
-                                        name, title,
-                                        "", imageBytes, sc);
+                                FileEntry fileEntry;
+                                try {
+                                    fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                                            sc.getUserId(), folder.getRepositoryId(),
+                                            folder.getFolderId(), name,
+                                            MimeTypesUtil.getContentType(file),
+                                            name, title,
+                                            "", imageBytes, sc);
+                                }catch(Exception e) {
+                                    fileEntry = DLAppLocalServiceUtil.getFileEntry(
+                                            themeDisplay.getScopeGroupId(), folder.getFolderId(), name);
+                                }
                                 // Lien de l'image a l'entite
                                 if(Validator.isNotNull(filesIds)){
                                     filesIds += ",";
