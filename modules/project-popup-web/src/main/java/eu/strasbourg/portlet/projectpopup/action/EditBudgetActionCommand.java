@@ -351,12 +351,18 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                 String name = this.fileNames[numFile];
 
                                 // Ajout du fichier
-                                FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                                        sc.getUserId(), folder.getRepositoryId(),
-                                        folder.getFolderId(), name,
-                                        MimeTypesUtil.getContentType(file),
-                                        name, title,
-                                        "", imageBytes, sc);
+                                FileEntry fileEntry;
+                                try {
+                                    fileEntry = DLAppLocalServiceUtil.addFileEntry(
+                                            sc.getUserId(), folder.getRepositoryId(),
+                                            folder.getFolderId(), name,
+                                            MimeTypesUtil.getContentType(file),
+                                            name, title,
+                                            "", imageBytes, sc);
+                                }catch(Exception e) {
+                                    fileEntry = DLAppLocalServiceUtil.getFileEntry(
+                                            themeDisplay.getScopeGroupId(), folder.getFolderId(), name);
+                                }
                                 // Lien de l'image a l'entite
                                 if(Validator.isNotNull(filesIds)){
                                     filesIds += ",";
