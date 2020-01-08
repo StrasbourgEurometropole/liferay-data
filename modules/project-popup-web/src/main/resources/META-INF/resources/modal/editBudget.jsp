@@ -6,6 +6,22 @@
 <portlet:actionURL name="editBudget" var="editBudgetURL">
 	<portlet:param name="redirectURL" value="${redirectURL}"/>
 </portlet:actionURL>
+<liferay-ui:error key="user" message="modal.editbudget.error.user-unknow" />
+<liferay-ui:error key="banned" message="modal.editbudget.error.user-banned" />
+<liferay-ui:error key="pact" message="modal.editbudget.error.pact" />
+<liferay-ui:error key="phase" message="modal.editbudget.error.phase" />
+<liferay-ui:error key="title" message="modal.editbudget.error.title" />
+<liferay-ui:error key="summary" message="modal.editbudget.error.summary" />
+<liferay-ui:error key="description" message="modal.editbudget.error.description" />
+<liferay-ui:error key="image" message="modal.editbudget.error.image" />
+<liferay-ui:error key="too-much" message="modal.editbudget.error.too-much" />
+<liferay-ui:error key="extension" message="modal.editbudget.error.extension" />
+<liferay-ui:error key="big" message="modal.editbudget.error.big-x"/>
+<liferay-ui:error key="unable-to-scan-file-for-viruses" message="modal.editbudget.error.unable-to-scan" />
+<liferay-ui:error key="a-virus-was-detected-in-the-file" message="modal.editbudget.error.virus-detected" />
+<liferay-ui:error key="an-unexpected-error-occurred-while-scanning-for-viruses" message="modal.editbudget.error.virus-error" />
+<liferay-ui:error key="read" message="modal.editbudget.error.read" />
+
 
 <!-- MODIFIER UN BUDGET -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalEditBudget" tabindex="-1" role="dialog" aria-labelledby="modalEditBudget"
@@ -112,7 +128,7 @@
                 <input type="hidden" id="<portlet:namespace />deletePhoto" name="<portlet:namespace />deletePhoto" value="false"/>
                 <input type="hidden" id="<portlet:namespace />entryId" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div class="pro-form-submit">
-                    <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.editbudget.submit"/></button>
+                    <button id="sendBudget" type="button" class="btn btn-default"><liferay-ui:message key="modal.editbudget.submit"/></button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -120,53 +136,12 @@
 </div><!-- /.modal -->
 
 
-<!-- CONFIRMATION MODIFICATION BUDGET -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='confirm-budget'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='submit-budget-ok'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- ERREUR MODIFICATION BUDGET -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorBudget" tabindex="-1" role="dialog" aria-labelledby="modalErrorBudget">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='error-budget'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
 
 	var namespaceEditBudget = "<portlet:namespace />";
 	var saved_nbFiles = "${nbFiles}";
 	var saved_typesFiles = "${typesFiles}";
 
-    $(document).ready(function(){
-        $('#modalConfirmerBudget').modal('hide');
-        $('#modalErrorBudget').modal('hide');
-    });
 
     function deleteFileEditBudget(elt, e){
         // supprime le fichier
@@ -296,7 +271,7 @@
                         }
                      }
                 });
-                
+
             }
             catch(error) {
                 if(!(error instanceof TypeError)){
@@ -310,7 +285,6 @@
 	* Lors du click sur le bouton de validation du formulaire
 	*/
     $("#sendBudget").click(function(event){
-        event.preventDefault();
         var response = validateFormEditBudget();
         if (response){
         	var iframe = $('.Squire-UI').next('iframe').first()[0];
@@ -327,15 +301,6 @@
     	$("#"+namespaceEditBudget+"deletePhoto").val("true");
     	$("#editPhotoID").hide();
     	$("#budgetPhotoID").show();
-    });
-    
-
-    $('#modalConfirmerBudget #buttonConfirm').click(function(event){
-        $('#modalConfirmerBudget').modal('hide');
-    });
-
-    $('#modalErrorBudget #buttonConfirm').click(function(event){
-        $('#modalErrorBudget').modal('hide');
     });
 
     function resetValuesEditBudget()

@@ -1,11 +1,11 @@
 package eu.strasbourg.utils.api;
 
-import java.util.Locale;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
-import aQute.bnd.annotation.ProviderType;
+import java.io.File;
+import java.util.Locale;
 
 /**
  * Classe de service qui peut être utilisée dans les templates L'implémentation
@@ -32,5 +32,7 @@ public interface FileEntryHelperService {
 	public String getFileThumbnail(long fileEntryId, ThemeDisplay themeDisplay);
 
 	public DLFileEntry getFileEntryByRelativeURL(String url);
+
+	public String scanFile(File file);
 
 }

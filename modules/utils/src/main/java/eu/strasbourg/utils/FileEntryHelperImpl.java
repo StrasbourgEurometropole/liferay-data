@@ -1,5 +1,6 @@
 package eu.strasbourg.utils;
 
+import java.io.File;
 import java.util.Locale;
 
 import org.osgi.service.component.annotations.Component;
@@ -60,6 +61,11 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	public String getStructureFieldValue(Long fileEntryId, String fieldName,
 		Locale locale) {
 		return FileEntryHelper.getStructureFieldValue(fileEntryId, fieldName, locale);
+	}
+
+	@Override
+	public String scanFile(File file) {
+		return FileEntryHelper.scanFile(file);
 	}
 
 }

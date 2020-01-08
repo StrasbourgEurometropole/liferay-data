@@ -1,26 +1,5 @@
 package eu.strasbourg.portlet.projectpopup.action;
 
-import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
-import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.*;
-import javax.servlet.http.HttpServletRequest;
-
-import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
-import com.liferay.document.library.kernel.service.DLAppServiceUtil;
-import com.liferay.portal.kernel.module.configuration.ConfigurationException;
-import com.liferay.portal.kernel.repository.model.Folder;
-import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
-import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -30,26 +9,23 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
-import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
+import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -57,9 +33,25 @@ import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
+import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_URL_PARAM;
 
 /**
  * @author romain.vergnais
@@ -97,7 +89,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
     private long quartierId;
     private long themeId;
     private long entryId;
-    private String message;
+    private String messageKey;
     private String nbFiles = "0";
     private String typesFiles = "";
     private String sizeFile = "0";
@@ -145,6 +137,9 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         if (validate(request)) {
             // Envoi de la demande de modification du budget
             result = editBudget(request);
+        }else{
+            SessionErrors.add(request, this.messageKey);
+            return false;
         }
         
         try {
@@ -447,17 +442,12 @@ public class EditBudgetActionCommand implements MVCActionCommand {
 
     private boolean antiVirusVerif() throws PortalException {
         boolean result = true;
-        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
         for (File file : this.files) {
             if (file != null) {
-                try {
-                    // vérifi que le fichier est clean
-                    Scanner.scan(file);
-                } catch (AntivirusScannerException e) {
-                    this.message = "Virus détecté";
-                    result = false;
-                    _log.error(e);
-                    break;
+                String error = FileEntryHelper.scanFile(file);
+                if (Validator.isNotNull(error)) {
+                    this.messageKey = error;
+                    return false;
                 }
             }
         }
@@ -474,16 +464,16 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         
         // utilisateur 
         if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
+            this.messageKey = "user";
             return false;
         } else {
         	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         	
         	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez modifier ce projet";
+        		this.messageKey = "banned";
         		return false;
         	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour soumettre un projet";
+        		this.messageKey = "pact";
         		return false;
         	}
         }
@@ -492,59 +482,57 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getScopeGroupId());
         if (activePhase != null) {
         	if (!activePhase.isInDepositPeriod()) {
-        		this.message = "Nous ne sommes pas en phase de depot";
+        		this.messageKey = "phase";
                 return false;
         	}
         } else {
-        	this.message = "Nous ne sommes pas en phase de depot";
+        	this.messageKey = "phase";
             return false;
         }
         
         // title
         if (Validator.isNull(this.title)) {
-        	this.message = "Titre non valide";
+        	this.messageKey = "title";
             return false;
         }
         
         // Resume
         if (Validator.isNull(this.summary)) {
-        	this.message = "Resume non valide";
+        	this.messageKey = "summary";
             return false;
         }
 
         // description
         if (Validator.isNull(HtmlUtil.stripHtml(this.description))) {
-        	this.message = "Description non valide";
+        	this.messageKey = "description";
             return false;
         }
 
         if (!validateFileName(request)) {
-			this.message = "Nom du fichier de l'image non valide";
+			this.messageKey = "image";
 		    return false;
 		}
 
         try {
             if (!validateNbFiles(request)) {
-                this.message = "Trop de fichiers";
+                this.messageKey = "too-much";
                 return false;
             }else{
                 if (!validateFileExtensions(request)) {
-                    this.message = "Extension(s) de fichier(s) non valide(s)";
+                    this.messageKey = "extension";
                     return false;
                 }else{
                     if (!validateFileSizes()) {
-                        this.message = "Fichier(s) trop volumineux (maximum autoris&eacute; : "
-                                + ParamUtil.getLong(request, "sizeFile") + "Mo)";
+                        this.messageKey = "big";
                         return false;
                     }else if (!antiVirusVerif()) {
-                        this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
                         return false;
                     }
                 }
             }
         } catch (PortalException e) {
             _log.error(e);
-            this.message = "Erreur lors de la lecture du/des fichier(s)";
+            this.messageKey = "read";
             return false;
         }
 
