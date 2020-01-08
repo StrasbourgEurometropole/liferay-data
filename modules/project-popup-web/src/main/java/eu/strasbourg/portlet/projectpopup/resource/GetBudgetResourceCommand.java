@@ -47,46 +47,55 @@ public class GetBudgetResourceCommand implements MVCResourceCommand {
 		
 		// Recuperation de l'id de l'entité
         this.entryID = ParamUtil.getLong(request, "entryId");
-        
+
+		// Retour des informations de la requete en JSON
+		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
         try {
         	// Recuperation du budget participatif à modifier
         	AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
-			BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
-        
-		    // Retour des informations de la requete en JSON
-		    JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-		    jsonResponse.put("title", bp.getTitle());
-		    jsonResponse.put("description", bp.getDescription());
-		    jsonResponse.put("summary", bp.getSummary());
-		    
-		    //Récupération de la liste des quartiers
-		    List<AssetCategory> districts = bp.getDistrictCategories();
-		    //Si le bp est pour toute la ville (plus de 1 quartier), selectionne 'la ville entière'
-	        int idstrictId = districts.size() == 1 ? (int)districts.get(0).getCategoryId() : 0 ;
-		    
-	        jsonResponse.put("quartier", idstrictId);
-		    jsonResponse.put("placeText", bp.getPlaceTextArea());
-		    
-		    if(bp.getProjectCategory() != null)
-		    
-		    jsonResponse.put("projectId", bp.getProjectCategory() != null ? bp.getProjectCategory().getCategoryId() : 0);
-		    jsonResponse.put("themeId", bp.getThematicCategory() != null ? bp.getThematicCategory().getCategoryId() : 0);
-		    jsonResponse.put("hasImage", bp.getImageId() != 0 ? true : false);
-			jsonResponse.put("videoURL", bp.getVideoUrl());
+        	if(assetEntry != null) {
+				BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
 
-			//récupération des noms de fichiers
-			JSONArray jsonFiles = JSONFactoryUtil.createJSONArray();
+				if(bp != null) {
+					jsonResponse.put("title", bp.getTitle());
+					jsonResponse.put("description", bp.getDescription());
+					jsonResponse.put("summary", bp.getSummary());
 
-			String[] fileIds = bp.getFilesIds().split(",");
-			for (String fileId : fileIds) {
-				DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(Long.parseLong(fileId));
-				JSONObject jsonFile = JSONFactoryUtil.createJSONObject();
-				jsonFile.put("name", file.getFileName());
-				jsonFile.put("id", file.getFileEntryId());
-				jsonFiles.put(jsonFile);
+					//Récupération de la liste des quartiers
+					List<AssetCategory> districts = bp.getDistrictCategories();
+					//Si le bp est pour toute la ville (plus de 1 quartier), selectionne 'la ville entière'
+					int idstrictId = districts.size() == 1 ? (int) districts.get(0).getCategoryId() : 0;
+
+					jsonResponse.put("quartier", idstrictId);
+					jsonResponse.put("placeText", bp.getPlaceTextArea());
+
+					if (bp.getProjectCategory() != null)
+						jsonResponse.put("projectId", bp.getProjectCategory() != null ? bp.getProjectCategory().getCategoryId() : 0);
+
+					if (bp.getThematicCategory() != null)
+						jsonResponse.put("themeId", bp.getThematicCategory() != null ? bp.getThematicCategory().getCategoryId() : 0);
+
+					jsonResponse.put("hasImage", bp.getImageId() != 0 ? true : false);
+					jsonResponse.put("videoURL", bp.getVideoUrl());
+
+					//récupération des noms de fichiers
+					JSONArray jsonFiles = JSONFactoryUtil.createJSONArray();
+
+					String[] fileIds = bp.getFilesIds().split(",");
+					for (String fileId : fileIds) {
+						if(!fileId.equals("")) {
+							DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(Long.parseLong(fileId));
+							JSONObject jsonFile = JSONFactoryUtil.createJSONObject();
+							jsonFile.put("name", file.getFileName());
+							jsonFile.put("id", file.getFileEntryId());
+							jsonFiles.put(jsonFile);
+						}
+					}
+
+					jsonResponse.put("documents", jsonFiles);
+				}
 			}
-
-			jsonResponse.put("documents", jsonFiles);
 
 			// Recuperation de l'élément d'écriture de la réponse
 		    PrintWriter writer = null;

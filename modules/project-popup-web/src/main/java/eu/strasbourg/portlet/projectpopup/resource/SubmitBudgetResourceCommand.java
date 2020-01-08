@@ -1,33 +1,8 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
-import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
-import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPublikID;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.mail.internet.InternetAddress;
-import javax.portlet.PortletException;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -46,17 +21,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -64,11 +30,29 @@ import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.osgi.service.component.annotations.Component;
+
+import javax.mail.internet.InternetAddress;
+import javax.portlet.PortletException;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
+import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPublikID;
 
 /**
  * @author alexandre.quere
@@ -393,7 +377,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 if(validateFileSizes(request)){
 
                     // Vérification que le(s) fichier(s) est/sont clean
-                    if(antiVirusVerif(request)){
+                    if(antiVirusVerif()){
                         String filesIds = "";
 
                         int numFile = 0;
@@ -534,20 +518,25 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean antiVirusVerif(ResourceRequest request) throws PortalException {
+    private boolean antiVirusVerif() throws PortalException {
         boolean result = true;
-        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
         for (File file : this.files) {
             if (file != null) {
-            	try {
-            		// vérifi que le fichier est clean
-                	Scanner.scan(file);
-				} catch (AntivirusScannerException e) {
-		            this.message = "Virus détecté";
-		            result = false;
-		            _log.error(e);
-		            break;
-				}
+                String error = FileEntryHelper.scanFile(file);
+                if (Validator.isNotNull(error)) {
+                    switch (error){
+                        case "unable-to-scan-file-for-viruses":
+                            this.message = "Le scanner de fichier n'a pas pu &ecirc;tre ex&eacute;ctut&eacute;";
+                            break;
+                        case "a-virus-was-detected-in-the-file":
+                            this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
+                            break;
+                        default:
+                            this.message = "Erreur lors de l'ex&eacute;cution du l'antivirus";
+                            break;
+                    }
+                    return false;
+                }
             }
         }
         return result;
@@ -651,8 +640,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                         this.message = "Fichier(s) trop volumineux (maximum autoris&eacute; : "
                                 + ParamUtil.getLong(request, "sizeFile") + "Mo)";
                         return false;
-                    }else if (!antiVirusVerif(request)) {
-                        this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
+                    }else if (!antiVirusVerif()) {
                         return false;
                     }
                 }
