@@ -20,12 +20,20 @@ import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServi
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Classe permettant d'effectuer l'anonymisation des utilisateurs
@@ -108,6 +116,17 @@ public class OIDCAnonymiser {
                                 resultat = "ERREUR";
                                 message += "Utilisateur anonyme introuvable";
                             } else {
+                                // récupère la première phase active qui est en période de vote s'il y en a
+                                Date today = new Date();
+                                BudgetPhase phaseActive = BudgetPhaseLocalServiceUtil.getBudgetPhases(-1,-1).stream()
+                                        .filter(p -> p.getIsActive())
+                                        .filter(p -> !p.getBeginVoteDate().after(today))
+                                        .filter(p -> !p.getEndVoteDate().before(today))
+                                        .findFirst().get();
+                                if(phaseActive != null)
+                                    this.anonymisationHistoric.addNewOperation("Nous sommes en p&eacute;riode de vote pour la phase " +
+                                            phaseActive.getTitle() +
+                                            ". Les utilisateurs ayant vot&eeacutes lors de celle-ci ne seront pas anonymis&eacute;s.");
                                 // on anonymise
                                 this.anonymisationHistoric.addNewOperation("Nombre de compte utilisateur supprim&eacute;s : " + publikUsersToAnonymized.length());
                                 for (int i = 0; i < publikUsersToAnonymized.length(); i++) {
@@ -115,65 +134,78 @@ public class OIDCAnonymiser {
                                     PublikUser publikUser = PublikUserLocalServiceUtil.getByPublikUserId(publikIUserId);
                                     if (publikUser != null) {
                                         //anonymise les données placit
-                                        PublikUserLocalServiceUtil.anonymisedUserPlacit(anonymUser, publikUser);
-                                        // supprime les liens pour les tables favorite, userInterest et UserNotification...
-
-                                        // Suppression des favoris de l'utilisateur
-                                        List<Favorite> favorites = FavoriteLocalServiceUtil.
-                                                getByPublikUser(publikUser.getPublikId());
-                                        if (!favorites.isEmpty()) {
-                                            for (Favorite favorite : favorites) {
-                                                // Suppression
-                                                FavoriteLocalServiceUtil.deleteFavorite(favorite);
-                                            }
+                                        Boolean anonymisedUser = true;
+                                        if(phaseActive != null){
+                                            // on vérifi si l'utilisateur a voté sur cette phase
+                                            List<BudgetParticipatif> budgetsSupported = BudgetParticipatifLocalServiceUtil.getBudgetSupportedByPublikUserInPhase(publikIUserId, phaseActive.getBudgetPhaseId());
+                                            if(budgetsSupported.size() > 0)
+                                                anonymisedUser = false;
                                         }
+                                        if(anonymisedUser) {
+                                            PublikUserLocalServiceUtil.anonymisedUserPlacit(anonymUser, publikUser);
 
-                                        // Suppression des centres d'intérêts de l'utilisateur
-                                        List<UserInterest> userInterests = UserInterestLocalServiceUtil.
-                                                getByPublikUserId(publikUser.getPublikId());
-                                        if (!userInterests.isEmpty()) {
-                                            for (UserInterest userInterest : userInterests) {
-                                                // Suppression
-                                                UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
+                                            // supprime les liens pour les tables favorite, userInterest et UserNotification...
+                                            // Suppression des favoris de l'utilisateur
+                                            List<Favorite> favorites = FavoriteLocalServiceUtil.
+                                                    getByPublikUser(publikUser.getPublikId());
+                                            if (!favorites.isEmpty()) {
+                                                for (Favorite favorite : favorites) {
+                                                    // Suppression
+                                                    FavoriteLocalServiceUtil.deleteFavorite(favorite);
+                                                }
                                             }
-                                        }
 
-                                        // Suppression des statuts de notifications de l'utilisateur
-                                        List<UserNotificationStatus> userNotificationStatus = UserNotificationStatusLocalServiceUtil.
-                                                getByPublikUserId(publikUser.getPublikId());
-                                        if (!userNotificationStatus.isEmpty()) {
-                                            for (UserNotificationStatus userNotifStatus : userNotificationStatus) {
-                                                // Suppression
-                                                UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(userNotifStatus);
+                                            // Suppression des centres d'intérêts de l'utilisateur
+                                            List<UserInterest> userInterests = UserInterestLocalServiceUtil.
+                                                    getByPublikUserId(publikUser.getPublikId());
+                                            if (!userInterests.isEmpty()) {
+                                                for (UserInterest userInterest : userInterests) {
+                                                    // Suppression
+                                                    UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
+                                                }
                                             }
-                                        }
 
-                                        // Suppression des types de notifications de l'utilisateur
-                                        List<UserNotificationType> userNotificationTypes = UserNotificationTypeLocalServiceUtil.
-                                                getByPublikUserId(publikUser.getPublikId());
-                                        if (!userNotificationTypes.isEmpty()) {
-                                            for (UserNotificationType userNotificationType : userNotificationTypes) {
-                                                // Suppression
-                                                UserNotificationTypeLocalServiceUtil.deleteUserNotificationType(userNotificationType);
+                                            // Suppression des statuts de notifications de l'utilisateur
+                                            List<UserNotificationStatus> userNotificationStatus = UserNotificationStatusLocalServiceUtil.
+                                                    getByPublikUserId(publikUser.getPublikId());
+                                            if (!userNotificationStatus.isEmpty()) {
+                                                for (UserNotificationStatus userNotifStatus : userNotificationStatus) {
+                                                    // Suppression
+                                                    UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(userNotifStatus);
+                                                }
                                             }
-                                        }
 
-                                        // Suppression des chaines de notifications de l'utilisateur
-                                        List<UserNotificationChannel> userNotificationChannels = UserNotificationChannelLocalServiceUtil.
-                                                getByPublikUserId(publikUser.getPublikId());
-                                        if (!userNotificationChannels.isEmpty()) {
-                                            for (UserNotificationChannel userNotificationChannel : userNotificationChannels) {
-                                                // Suppression
-                                                UserNotificationChannelLocalServiceUtil.deleteUserNotificationChannel(userNotificationChannel);
+                                            // Suppression des types de notifications de l'utilisateur
+                                            List<UserNotificationType> userNotificationTypes = UserNotificationTypeLocalServiceUtil.
+                                                    getByPublikUserId(publikUser.getPublikId());
+                                            if (!userNotificationTypes.isEmpty()) {
+                                                for (UserNotificationType userNotificationType : userNotificationTypes) {
+                                                    // Suppression
+                                                    UserNotificationTypeLocalServiceUtil.deleteUserNotificationType(userNotificationType);
+                                                }
                                             }
+
+                                            // Suppression des chaines de notifications de l'utilisateur
+                                            List<UserNotificationChannel> userNotificationChannels = UserNotificationChannelLocalServiceUtil.
+                                                    getByPublikUserId(publikUser.getPublikId());
+                                            if (!userNotificationChannels.isEmpty()) {
+                                                for (UserNotificationChannel userNotificationChannel : userNotificationChannels) {
+                                                    // Suppression
+                                                    UserNotificationChannelLocalServiceUtil.deleteUserNotificationChannel(userNotificationChannel);
+                                                }
+                                            }
+
+                                            // suppression du publikUser
+                                            PublikUserLocalServiceUtil.deletePublikUser(publikUser);
+
+                                            nbAnonymisation++;
+                                            this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId +
+                                                    " (" + publikUser.getFirstName() + " " + publikUser.getLastName() + ") anonymis&eacute;");
+                                        }else{
+                                            this.anonymisationHistoric.addNewOperation("L'utilisateur "+ publikIUserId +
+                                                    " (" + publikUser.getFirstName() + " " + publikUser.getLastName() +
+                                                    ") ne peut pas &ecirc;tre anonymis&eacute; car il a vot&eacute; lors de cette phase.");
                                         }
-
-                                        // suppression du publikUser
-                                        PublikUserLocalServiceUtil.deletePublikUser(publikUser);
-
-                                        nbAnonymisation++;
-                                        this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " (" + publikUser.getFirstName() + " " + publikUser.getLastName() + ") anonymis&eacute;");
-
                                     } else {
                                         this.anonymisationHistoric.addNewOperation("publikUser " + publikIUserId + " introuvable");
                                     }
