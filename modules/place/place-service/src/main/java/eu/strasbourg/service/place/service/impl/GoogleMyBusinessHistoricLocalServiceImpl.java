@@ -94,7 +94,7 @@ public class GoogleMyBusinessHistoricLocalServiceImpl
 
 	/**
 	 * Met à jour une entree google mybusiness et l'enregistre en base de données
-	 * @throws IOException
+	 * @throws PortalException
 	 */
 	@Override
 	public GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(GoogleMyBusinessHistoric googleMyBusinessHistoric, ServiceContext sc) throws PortalException {

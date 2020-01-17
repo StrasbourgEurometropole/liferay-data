@@ -253,6 +253,10 @@ public class StrasbourgPropsUtil {
 	public static String getRodrigueAPIURL() {
 		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
 	}
-	
 
+	public static String getGMBClientId() {return PropsUtil.get("eu.strasbourg.google.synchronized.id_client");}
+
+	public static String getGMBSecretCode() {return PropsUtil.get("eu.strasbourg.google.synchronized.code_secret");}
+
+	public static String getGMBAccessTokenURL() {return PropsUtil.get("eu.strasbourg.google.access-token-url");}
 }
