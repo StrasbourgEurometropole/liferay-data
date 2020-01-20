@@ -1699,55 +1699,63 @@ public class PlaceImpl extends PlaceBaseImpl {
         if(!this.getContenuTooltipCarto(locale).isEmpty()){
             properties.put("contenu", this.getContenuTooltipCarto(locale));
         }else {
-            // récupère les horaires en cours
-            GregorianCalendar now = new GregorianCalendar();
-            List<PlaceSchedule> currentSchedules = this.getPlaceSchedule(now, locale);
-            if (currentSchedules.size() > 0) {
-                PlaceSchedule currentSchedule = currentSchedules.get(0);
-                String schedule = "";
-                String opened = "";
-                if (currentSchedule.isAlwaysOpen()) {
-                    schedule = LanguageUtil.get(locale, "open-all-time");
-                    opened =  LanguageUtil.get(locale, "open-period");
-                } else if (this.isOpenNow()) {
-                    opened = LanguageUtil.get(locale, "open-period");
-                    for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
-                        if (schedule.length() > 0) {
-                            schedule += "<br>";
+            if(this.getHasURLSchedule()){
+                // Il n'a pas d'horaires mais un lien
+                JSONObject urlPeriodJSON = JSONFactoryUtil.createJSONObject();
+                urlPeriodJSON.put("url", this.getScheduleLinkURL(locale));
+                properties.put("opened",urlPeriodJSON );
+            }else {
+                // Il a des horaires
+                // récupère les horaires en cours
+                GregorianCalendar now = new GregorianCalendar();
+                List<PlaceSchedule> currentSchedules = this.getPlaceSchedule(now, locale);
+                if (currentSchedules.size() > 0) {
+                    PlaceSchedule currentSchedule = currentSchedules.get(0);
+                    String schedule = "";
+                    String opened = "";
+                    if (currentSchedule.isAlwaysOpen()) {
+                        schedule = LanguageUtil.get(locale, "open-all-time");
+                        opened = LanguageUtil.get(locale, "open-period");
+                    } else if (this.isOpenNow()) {
+                        opened = LanguageUtil.get(locale, "open-period");
+                        for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
+                            if (schedule.length() > 0) {
+                                schedule += "<br>";
+                            }
+                            String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                            String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                            schedule += startString + " - " + endString;
                         }
-                        String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                        String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                        schedule += startString + " - " + endString;
-                    }
-                } else {
-                    opened = LanguageUtil.get(locale, "closed-period");
-                    // on récupère le prochain horaire d'ouverture
-                    PlaceSchedule nextOpening = this.getNextScheduleOpening(now, 2, locale);
-                    if (nextOpening == null) {
-                        opened = LanguageUtil.get(locale, "closed-now");
-                        schedule += "";
                     } else {
-                        Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
-                        String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                        String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                        schedule += LanguageUtil.get(locale, "reopening") + " ";
-                        int diff = nextOpening.getStartDate().compareTo(now.getTime());
-                        if (diff > 0) {
-                            now.add(GregorianCalendar.DAY_OF_YEAR, 1);
-                            if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
-                                schedule += LanguageUtil.get(locale, "tomorrow") + " ";
-                            } else {
-                                schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
+                        opened = LanguageUtil.get(locale, "closed-period");
+                        // on récupère le prochain horaire d'ouverture
+                        PlaceSchedule nextOpening = this.getNextScheduleOpening(now, 2, locale);
+                        if (nextOpening == null) {
+                            opened = LanguageUtil.get(locale, "closed-now");
+                            schedule += "";
+                        } else {
+                            Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
+                            String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                            String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
+                            schedule += LanguageUtil.get(locale, "reopening") + " ";
+                            int diff = nextOpening.getStartDate().compareTo(now.getTime());
+                            if (diff > 0) {
+                                now.add(GregorianCalendar.DAY_OF_YEAR, 1);
+                                if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
+                                    schedule += LanguageUtil.get(locale, "tomorrow") + " ";
+                                } else {
+                                    schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
+                                }
+                            }
+                            schedule += LanguageUtil.get(locale, "at") + " " + startString;
+                            if (diff == 0) {
+                                schedule += " " + LanguageUtil.get(locale, "up-to") + " " + endString;
                             }
                         }
-                        schedule += LanguageUtil.get(locale, "at") + " " + startString;
-                        if (diff == 0) {
-                            schedule += " " + LanguageUtil.get(locale, "up-to") +" " + endString;
-                        }
                     }
+                    properties.put("opened", opened);
+                    properties.put("schedules", schedule);
                 }
-                properties.put("opened", opened);
-                properties.put("schedules", schedule);
             }
         }
 
