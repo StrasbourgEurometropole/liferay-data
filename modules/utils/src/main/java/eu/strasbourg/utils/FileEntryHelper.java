@@ -1,11 +1,13 @@
 package eu.strasbourg.utils;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.util.DLUtil;
@@ -19,6 +21,7 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portlet.documentlibrary.antivirus.ClamAntivirusScannerImpl;
 import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 
 /**
@@ -215,6 +218,28 @@ public class FileEntryHelper {
 		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	/**
+	 * @param file  fichier a scnner
+	 * @return l'erreur si il y en a :
+	 *    unable-to-scan-file-for-viruses
+	 *    a-virus-was-detected-in-the-file
+	 *    an-unexpected-error-occurred-while-scanning-for-viruses
+	 */
+	public static String scanFile(File file) {
+		String error = "";
+        ClamAntivirusScannerImpl Scanner = new ClamAntivirusScannerImpl();
+		try {
+			// vérifi que le fichier est clean
+			Scanner.scan(file);
+		} catch (AntivirusScannerException e) {
+			_log.error(file.getName() + " -> " + e.getMessageKey());
+			error = e.getMessageKey();
+			_log.error(e);
+		}
+
+		return error;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());

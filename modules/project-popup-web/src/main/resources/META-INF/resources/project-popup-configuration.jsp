@@ -59,6 +59,16 @@
                 <aui:input type="checkbox" name="disable" value="${disable}" label="disable" />
 			</aui:fieldset>
 
+			<!-- Upload de fichiers -->
+			<aui:fieldset collapsed="true" collapsible="true"
+				label="upload-file">
+
+                <aui:input type="number" name="nbFiles" value="${hasConfig?nbFiles:3}" label="nbFiles" max="10" min="0"/>
+                <aui:input type="number" name="sizeFile" value="${hasConfig?sizeFile:3}" label="sizeFile" max="10" min="0"/>
+                <aui:input type="text" name="typesFiles" value="${typesFiles}" label="typesFiles" />
+
+			</aui:fieldset>
+
 		</aui:fieldset-group>
 
 		<aui:button-row>

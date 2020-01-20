@@ -19,6 +19,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.LayoutHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -111,6 +112,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	private static final String DETAIL_VIDEO_URL = "detail-video/-/entity/id/";
 	private static final String NEWS_TAG_NAME = "actualite";
+	private static final String ARTICLES_TAG_NAME = "article";
 	
 	private DynamicSearchAssetConfiguration configuration;
 	
@@ -511,7 +513,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				// Vérification de la véracité d'un JournalArticle de type actualité
 				for (String nameToTest : tagNames) {
-					if (collator.compare(nameToTest, NEWS_TAG_NAME) == 0) {
+					if (collator.compare(nameToTest, NEWS_TAG_NAME) == 0 || collator.compare(nameToTest, ARTICLES_TAG_NAME) == 0) {
 						containsNewsTagName = true;
 					}
 				}
@@ -532,7 +534,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					);
 					jsonArticle.put(
 						ATTRIBUTE_LINK,
-						this.getHomeURL(request) + "-/" + journalArticle.getUrlTitle()
+						LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay)
 					);
 					jsonArticle.put(
 						ATTRIBUTE_TITLE,

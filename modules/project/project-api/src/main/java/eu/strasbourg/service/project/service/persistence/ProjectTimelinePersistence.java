@@ -174,6 +174,143 @@ public interface ProjectTimelinePersistence extends BasePersistence<ProjectTimel
 	public int countByProjectId(long projectId);
 
 	/**
+	* Returns all the project timelines where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @return the matching project timelines
+	*/
+	public java.util.List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId);
+
+	/**
+	* Returns a range of all the project timelines where budgetParticipatifId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param start the lower bound of the range of project timelines
+	* @param end the upper bound of the range of project timelines (not inclusive)
+	* @return the range of matching project timelines
+	*/
+	public java.util.List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param start the lower bound of the range of project timelines
+	* @param end the upper bound of the range of project timelines (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching project timelines
+	*/
+	public java.util.List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the project timelines where budgetParticipatifId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param start the lower bound of the range of project timelines
+	* @param end the upper bound of the range of project timelines (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching project timelines
+	*/
+	public java.util.List<ProjectTimeline> findByBudgetParticipatifId(
+		long budgetParticipatifId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching project timeline
+	* @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	*/
+	public ProjectTimeline findByBudgetParticipatifId_First(
+		long budgetParticipatifId,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator)
+		throws NoSuchProjectTimelineException;
+
+	/**
+	* Returns the first project timeline in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	*/
+	public ProjectTimeline fetchByBudgetParticipatifId_First(
+		long budgetParticipatifId,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator);
+
+	/**
+	* Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching project timeline
+	* @throws NoSuchProjectTimelineException if a matching project timeline could not be found
+	*/
+	public ProjectTimeline findByBudgetParticipatifId_Last(
+		long budgetParticipatifId,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator)
+		throws NoSuchProjectTimelineException;
+
+	/**
+	* Returns the last project timeline in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching project timeline, or <code>null</code> if a matching project timeline could not be found
+	*/
+	public ProjectTimeline fetchByBudgetParticipatifId_Last(
+		long budgetParticipatifId,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator);
+
+	/**
+	* Returns the project timelines before and after the current project timeline in the ordered set where budgetParticipatifId = &#63;.
+	*
+	* @param projectTimelineId the primary key of the current project timeline
+	* @param budgetParticipatifId the budget participatif ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next project timeline
+	* @throws NoSuchProjectTimelineException if a project timeline with the primary key could not be found
+	*/
+	public ProjectTimeline[] findByBudgetParticipatifId_PrevAndNext(
+		long projectTimelineId, long budgetParticipatifId,
+		com.liferay.portal.kernel.util.OrderByComparator<ProjectTimeline> orderByComparator)
+		throws NoSuchProjectTimelineException;
+
+	/**
+	* Removes all the project timelines where budgetParticipatifId = &#63; from the database.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	*/
+	public void removeByBudgetParticipatifId(long budgetParticipatifId);
+
+	/**
+	* Returns the number of project timelines where budgetParticipatifId = &#63;.
+	*
+	* @param budgetParticipatifId the budget participatif ID
+	* @return the number of matching project timelines
+	*/
+	public int countByBudgetParticipatifId(long budgetParticipatifId);
+
+	/**
 	* Caches the project timeline in the entity cache if it is enabled.
 	*
 	* @param projectTimeline the project timeline

@@ -177,6 +177,20 @@ public interface ProjectTimelineModel extends BaseModel<ProjectTimeline> {
 	 */
 	public void setProjectId(long projectId);
 
+	/**
+	 * Returns the budget participatif ID of this project timeline.
+	 *
+	 * @return the budget participatif ID of this project timeline
+	 */
+	public long getBudgetParticipatifId();
+
+	/**
+	 * Sets the budget participatif ID of this project timeline.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID of this project timeline
+	 */
+	public void setBudgetParticipatifId(long budgetParticipatifId);
+
 	@Override
 	public boolean isNew();
 

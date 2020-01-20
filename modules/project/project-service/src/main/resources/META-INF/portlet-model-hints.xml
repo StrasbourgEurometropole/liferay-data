@@ -355,6 +355,7 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="projectId" type="long" />
+		<field name="budgetParticipatifId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Signataire">
 		<field name="uuid" type="String" />

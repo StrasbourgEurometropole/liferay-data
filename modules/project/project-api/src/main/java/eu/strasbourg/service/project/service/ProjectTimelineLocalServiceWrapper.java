@@ -232,6 +232,15 @@ public class ProjectTimelineLocalServiceWrapper
 	}
 
 	/**
+	* Retourne les timeLine d'un budget participatif
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getByBudgetParticipatifId(
+		long budgetParticipatifId) {
+		return _projectTimelineLocalService.getByBudgetParticipatifId(budgetParticipatifId);
+	}
+
+	/**
 	* Retourne les périodes d'un événement
 	*/
 	@Override

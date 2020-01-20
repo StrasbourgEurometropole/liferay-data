@@ -296,6 +296,7 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="budgetParticipatifId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.SignataireImpl" table="project_Signataire">
 		<id name="signataireId" type="long">

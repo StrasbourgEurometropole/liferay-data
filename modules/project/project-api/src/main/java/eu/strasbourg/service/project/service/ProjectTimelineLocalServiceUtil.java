@@ -220,6 +220,14 @@ public class ProjectTimelineLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les timeLine d'un budget participatif
+	*/
+	public static java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getByBudgetParticipatifId(
+		long budgetParticipatifId) {
+		return getService().getByBudgetParticipatifId(budgetParticipatifId);
+	}
+
+	/**
 	* Retourne les périodes d'un événement
 	*/
 	public static java.util.List<eu.strasbourg.service.project.model.ProjectTimeline> getByProjectId(

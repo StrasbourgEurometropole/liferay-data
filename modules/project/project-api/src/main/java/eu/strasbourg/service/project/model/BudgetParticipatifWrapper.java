@@ -326,6 +326,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		}
 	}
 
+	@Override
+	public BudgetPhase getPhase() {
+		return _budgetParticipatif.getPhase();
+	}
+
 	/**
 	* Returns the has copyright of this budget participatif.
 	*
@@ -598,11 +603,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif toUnescapedModel() {
 		return new BudgetParticipatifWrapper(_budgetParticipatif.toUnescapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetPhase getPhase() {
-		return _budgetParticipatif.getPhase();
 	}
 
 	@Override
@@ -1052,6 +1052,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la liste des entrées timelines du projet
+	*/
+	@Override
+	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines() {
+		return _budgetParticipatif.getBudgetParticipatifTimelines();
+	}
+
+	/**
 	* retourne les catégories
 	*
 	* @return
@@ -1064,8 +1072,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	/**
 	* Retourne X suggestions max pour un BP
 	*
-	* @param request la requete
-	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de bp.
 	*/
 	@Override
@@ -1084,10 +1090,18 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _budgetParticipatif.getFilesURLs();
+	}
+
+	/**
 	* Retourne la liste des lieux placit liés
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return _budgetParticipatif.getPlacitPlaces();
 	}
 
@@ -1112,7 +1126,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	* @return Liste des soutiens
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports() {
+	public java.util.List<BudgetSupport> getSupports() {
 		return _budgetParticipatif.getSupports();
 	}
 
