@@ -1,5 +1,17 @@
 package eu.strasbourg.service.poi.impl;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import eu.strasbourg.service.place.model.Period;
+import org.osgi.service.component.annotations.Component;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;

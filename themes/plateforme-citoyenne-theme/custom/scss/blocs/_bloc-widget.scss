@@ -1,11 +1,7 @@
 .pro-widget-participation {
 	padding: 0 0 0 30px;
 	margin-bottom: 35px;
-	&:after {
-		content: '';
-		display: block;
-		clear: both;
-	}
+	@include clearfix();
 	@include tablet_portrait {
 		margin-top: 35px;
 		padding: 0;
@@ -44,7 +40,12 @@
 			@include addTransition();
 		}
 		.pro-meta {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 100%;
 			margin-bottom: 5px;
+			text-align: left;
 			> * {
 				&:first-child {
 					padding-left: 0;
@@ -52,6 +53,9 @@
 				position: relative;
 				font-size: $s_small;
 				line-height: normal;
+				display: inline-block;
+				vertical-align: middle;
+				float: none;
 				&:after {
 					height: 12px;
 					right: -1px;
@@ -68,11 +72,7 @@
 
 		.pro-meta-footer {
 			position: relative;
-			&:after {
-				content: '';
-				display: block;
-				clear: both;
-			}
+			@include clearfix();
 
 			.pro-comments {
 				float: left;

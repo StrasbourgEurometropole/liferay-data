@@ -39,14 +39,15 @@
                 </a>
             </div>
         </c:if>
-        <c:if test="${dc.hasInterest() and not empty dc.entries}">
+        <c:set value="${dc.entries}" var="entries" />
+        <c:if test="${dc.hasInterest() and not empty entries}">
             <script type="text/javascript">
                 <c:set var="newsCount" value="0"/>
                 <c:set var="editionCount" value="0"/>
                 <c:set var="eventCount" value="0"/>
                 var mega_source = [];
                 mega_source.push([
-                    <c:forEach var="curEntry" items="${dc.entries}" varStatus="loopStatus">
+                    <c:forEach var="curEntry" items="${entries}" varStatus="loopStatus">
                         <c:if test="${curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
                             <c:if test="${not empty curEntry and not empty curEntry.getAssetRenderer() and not empty curEntry.getAssetRenderer().getArticle() }">
                                 <c:set var="article" value="${curEntry.getAssetRenderer().getArticle()}"/>

@@ -209,12 +209,12 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 
 			boolean subjectPublicHolidays = ParamUtil.getBoolean(request, "subjectPublicHolidays");
 			place.setSubjectToPublicHoliday(subjectPublicHolidays);
-			
-			// On récupère les périodes du lieu pour suppression
-			List<Long> periodsToKeep = new ArrayList<Long>();
-			
-			
-			// suppression des slots du lieu
+
+			boolean hasScheduleURL = ParamUtil.getBoolean(request, "hasURLSchedule");
+			place.setHasURLSchedule(hasScheduleURL);
+
+
+			// Suppression des slots du lieu
 			List<Period> periods = place.getPeriods();
 			for (Period period : periods) {
 				List<Slot> slots = period.getSlots();
@@ -223,88 +223,185 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 				}
 			}
 
-			// --------------------- Périodes & horaires ---------------------
+			// On récupère les périodes du lieu à ne pas supprimer
+			// on ne peut pas supprimer les périodes directement à cause des sous-lieux
+			// car il ne faut pas perdre l'id des périodes que l'on garde pour les sous-lieux
+			List<Long> periodsToKeep = new ArrayList<Long>();
 
-			// Ajout des période liées au lieu
-			String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
-			if (Validator.isNotNull(periodsIndexes)) {
-				for (String periodIndex : periodsIndexes.split(",")) {
-					if (Validator.isNotNull(periodIndex)
-							&& Validator.isNotNull(ParamUtil.getString(request, "namePeriod" + periodIndex))) {
-						long periodId = ParamUtil.getLong(request, "periodId" + periodIndex);
-						Map<Locale, String> namePeriod = LocalizationUtil.getLocalizationMap(request,
-								"namePeriod" + periodIndex);
-						Map<Locale, String> periodLabel = LocalizationUtil.getLocalizationMap(request,
-								"periodLabel" + periodIndex);
-						Map<Locale, String> periodURL = LocalizationUtil.getLocalizationMap(request,
-								"periodURL" + periodIndex);
-						boolean defaultPeriod = ParamUtil.getBoolean(request, "defaultPeriod" + periodIndex);
-						Date startDatePeriod = ParamUtil.getDate(request, "startDatePeriod" + periodIndex,
-								new SimpleDateFormat("yyyy-MM-dd"));
-						Date endDatePeriod = ParamUtil.getDate(request, "endDatePeriod" + periodIndex,
-								new SimpleDateFormat("yyyy-MM-dd"));
-						boolean alwaysOpen = ParamUtil.getBoolean(request, "alwaysOpen" + periodIndex);
-						Long RTGreenThreshold = ParamUtil.getLong(request, "RTGreenThreshold" + periodIndex);
-						Long RTOrangeThreshold = ParamUtil.getLong(request, "RTOrangeThreshold" + periodIndex);
-						Long RTRedThreshold = ParamUtil.getLong(request, "RTRedThreshold" + periodIndex);
-						Long RTMaxThreshold = ParamUtil.getLong(request, "RTMaxThreshold" + periodIndex);
-						
-						// on ajoute cette période à la liste des périodes à garder
-						periodsToKeep.add(periodId);
+			// Suppression des fermetures exceptionnelles liées au lieu
+			List<ScheduleException> oldSchedulesExceptions = place.getScheduleExceptions();
+			for (ScheduleException scheduleException : oldSchedulesExceptions) {
+				_scheduleExceptionLocalService.deleteScheduleException(scheduleException);
+			}
 
-						Period period;
-						if(periodId != 0){
-							period = _periodLocalService.fetchPeriod(periodId);
-						}else{
-							period = _periodLocalService.createPeriod(sc);
-						}
-						period.setNameMap(namePeriod);
-						period.setLinkLabelMap(periodLabel);
-						period.setLinkURLMap(periodURL);
-						period.setDefaultPeriod(defaultPeriod);
-						if (!period.getDefaultPeriod()) {
-							period.setStartDate(startDatePeriod);
-							period.setEndDate(endDatePeriod);
-						}
-						period.setAlwaysOpen(alwaysOpen);
-						period.setPlaceId(place.getPlaceId());
+			Map<Locale, String> scheduleLinkName = LocalizationUtil.getLocalizationMap("", true);
+			Map<Locale, String> scheduleLinkURL = LocalizationUtil.getLocalizationMap("", true);
+			if(hasScheduleURL){
+				scheduleLinkName = LocalizationUtil.getLocalizationMap(request,
+						"scheduleLinkName");
+				scheduleLinkURL = LocalizationUtil.getLocalizationMap(request,
+						"scheduleLinkURL");
+				place.setScheduleLinkNameMap(scheduleLinkName);
+				place.setScheduleLinkURLMap(scheduleLinkURL);
+			}else{
+				place.setScheduleLinkNameMap(scheduleLinkName);
+				place.setScheduleLinkURLMap(scheduleLinkURL);
 
-						// ---------------------- Fréquentation
-						// ----------------------
-						if (place.isEnabled()) {
-							period.setRTGreenThreshold(RTGreenThreshold);
-							period.setRTOrangeThreshold(RTOrangeThreshold);
-							period.setRTRedThreshold(RTRedThreshold);
-							period.setRTMaxThreshold(RTMaxThreshold);
-						}
-						this._periodLocalService.updatePeriod(period);
+				// --------------------- Périodes & horaires ---------------------
 
-						if (!period.getAlwaysOpen()) {
-							// Ajout des slots liées à la période
-							for (int jour = 0; jour < 7; jour++) {
-								String slotsIndexes = ParamUtil.getString(request,
-										"slotsIndexes" + periodIndex + "-" + jour);
-								if (Validator.isNotNull(slotsIndexes)) {
-									for (String slotIndex : slotsIndexes.split(",")) {
-										String startHour = ParamUtil.getString(request,
-												"startHour" + periodIndex + "-" + jour + "-" + slotIndex);
-										String endHour = ParamUtil.getString(request,
-												"endHour" + periodIndex + "-" + jour + "-" + slotIndex);
-										Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
-												"comment" + periodIndex + "-" + jour + "-" + slotIndex);
-										Slot slot = _slotLocalService.createSlot(sc);
-										slot.setDayOfWeek(jour);
-										slot.setStartHour(startHour);
-										slot.setEndHour(endHour);
-										slot.setCommentMap(comment);
-										slot.setPeriodId(period.getPeriodId());
-										slot.setSubPlaceId(0);
-										this._slotLocalService.updateSlot(slot);
+				// Ajout des période liées au lieu
+				String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
+				if (Validator.isNotNull(periodsIndexes)) {
+					for (String periodIndex : periodsIndexes.split(",")) {
+						if (Validator.isNotNull(periodIndex)
+								&& Validator.isNotNull(ParamUtil.getString(request, "namePeriod" + periodIndex))) {
+							long periodId = ParamUtil.getLong(request, "periodId" + periodIndex);
+							Map<Locale, String> namePeriod = LocalizationUtil.getLocalizationMap(request,
+									"namePeriod" + periodIndex);
+							boolean defaultPeriod = ParamUtil.getBoolean(request, "defaultPeriod" + periodIndex);
+							Date startDatePeriod = ParamUtil.getDate(request, "startDatePeriod" + periodIndex,
+									new SimpleDateFormat("yyyy-MM-dd"));
+							Date endDatePeriod = ParamUtil.getDate(request, "endDatePeriod" + periodIndex,
+									new SimpleDateFormat("yyyy-MM-dd"));
+							boolean alwaysOpen = ParamUtil.getBoolean(request, "alwaysOpen" + periodIndex);
+							Long RTGreenThreshold = ParamUtil.getLong(request, "RTGreenThreshold" + periodIndex);
+							Long RTOrangeThreshold = ParamUtil.getLong(request, "RTOrangeThreshold" + periodIndex);
+							Long RTRedThreshold = ParamUtil.getLong(request, "RTRedThreshold" + periodIndex);
+							Long RTMaxThreshold = ParamUtil.getLong(request, "RTMaxThreshold" + periodIndex);
 
+							// on ajoute cette période à la liste des périodes à garder
+							periodsToKeep.add(periodId);
+
+							Period period;
+							if(periodId != 0){
+								period = _periodLocalService.fetchPeriod(periodId);
+							}else{
+								period = _periodLocalService.createPeriod(sc);
+							}
+							period.setNameMap(namePeriod);
+							period.setDefaultPeriod(defaultPeriod);
+							if (!period.getDefaultPeriod()) {
+								period.setStartDate(startDatePeriod);
+								period.setEndDate(endDatePeriod);
+							}
+							period.setAlwaysOpen(alwaysOpen);
+							period.setPlaceId(place.getPlaceId());
+
+							// ---------------------- Fréquentation
+							// ----------------------
+							if (place.isEnabled()) {
+								period.setRTGreenThreshold(RTGreenThreshold);
+								period.setRTOrangeThreshold(RTOrangeThreshold);
+								period.setRTRedThreshold(RTRedThreshold);
+								period.setRTMaxThreshold(RTMaxThreshold);
+							}
+							this._periodLocalService.updatePeriod(period);
+
+							if (!period.getAlwaysOpen()) {
+								// Ajout des slots liées à la période
+								for (int jour = 0; jour < 7; jour++) {
+									String slotsIndexes = ParamUtil.getString(request,
+											"slotsIndexes" + periodIndex + "-" + jour);
+									if (Validator.isNotNull(slotsIndexes)) {
+										for (String slotIndex : slotsIndexes.split(",")) {
+											String startHour = ParamUtil.getString(request,
+													"startHour" + periodIndex + "-" + jour + "-" + slotIndex);
+											String endHour = ParamUtil.getString(request,
+													"endHour" + periodIndex + "-" + jour + "-" + slotIndex);
+											Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
+													"comment" + periodIndex + "-" + jour + "-" + slotIndex);
+											Slot slot = _slotLocalService.createSlot(sc);
+											slot.setDayOfWeek(jour);
+											slot.setStartHour(startHour);
+											slot.setEndHour(endHour);
+											slot.setCommentMap(comment);
+											slot.setPeriodId(period.getPeriodId());
+											slot.setSubPlaceId(0);
+											this._slotLocalService.updateSlot(slot);
+
+										}
 									}
 								}
 							}
 						}
+
+					}
+				}
+
+
+				// ----------------- Fermetures exceptionnelles ------------------
+
+				// Ajout des fermetures exceptionnelles liées au lieu
+				String shedulesExceptionsIndexes = ParamUtil.getString(request, "shedulesExceptionsIndexes");
+				for (String shedulesExceptionsIndex : shedulesExceptionsIndexes.split(",")) {
+					if (Validator.isNotNull(shedulesExceptionsIndex)
+							&& Validator.isNotNull(
+							ParamUtil.getString(request, "scheduleExceptionDescription" + shedulesExceptionsIndex))
+							&& Validator.isNotNull(
+							ParamUtil.getString(request, "startDateScheduleException" + shedulesExceptionsIndex))
+							&& Validator.isNotNull(
+							ParamUtil.getString(request, "endDateScheduleException" + shedulesExceptionsIndex))) {
+						String startTime1 = ParamUtil.getString(request, "startHour1_" + shedulesExceptionsIndex);
+						String endTime1 = ParamUtil.getString(request, "endHour1_" + shedulesExceptionsIndex);
+						String startTime2 = ParamUtil.getString(request, "startHour2_" + shedulesExceptionsIndex);
+						String endTime2 = ParamUtil.getString(request, "endHour2_" + shedulesExceptionsIndex);
+						String startTime3 = ParamUtil.getString(request, "startHour3_" + shedulesExceptionsIndex);
+						String endTime3 = ParamUtil.getString(request, "endHour3_" + shedulesExceptionsIndex);
+						String startTime4 = ParamUtil.getString(request, "startHour4_" + shedulesExceptionsIndex);
+						String endTime4 = ParamUtil.getString(request, "endHour4_" + shedulesExceptionsIndex);
+						String startTime5 = ParamUtil.getString(request, "startHour5_" + shedulesExceptionsIndex);
+						String endTime5 = ParamUtil.getString(request, "endHour5_" + shedulesExceptionsIndex);
+						Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
+								"scheduleExceptionDescription" + shedulesExceptionsIndex);
+						Date startDate = ParamUtil.getDate(request, "startDateScheduleException" + shedulesExceptionsIndex,
+								new SimpleDateFormat("yyyy-MM-dd"));
+						Date endDate = ParamUtil.getDate(request, "endDateScheduleException" + shedulesExceptionsIndex,
+								new SimpleDateFormat("yyyy-MM-dd"));
+						boolean closed = ParamUtil.getBoolean(request, "closed" + shedulesExceptionsIndex);
+
+						Map<Locale, String> firstComment = LocalizationUtil.getLocalizationMap(request,
+								"firstComment" + shedulesExceptionsIndex);
+						Map<Locale, String> secondComment = LocalizationUtil.getLocalizationMap(request,
+								"secondComment" + shedulesExceptionsIndex);
+						Map<Locale, String> thirdComment = LocalizationUtil.getLocalizationMap(request,
+								"thirdComment" + shedulesExceptionsIndex);
+						Map<Locale, String> fourthComment = LocalizationUtil.getLocalizationMap(request,
+								"fourthComment" + shedulesExceptionsIndex);
+						Map<Locale, String> fifthComment = LocalizationUtil.getLocalizationMap(request,
+								"fifthComment" + shedulesExceptionsIndex);
+
+						ScheduleException scheduleException = _scheduleExceptionLocalService.createScheduleException(sc);
+						scheduleException.setCommentMap(comment);
+						scheduleException.setFirstCommentMap(firstComment);
+						scheduleException.setSecondCommentMap(secondComment);
+						scheduleException.setThirdCommentMap(thirdComment);
+						scheduleException.setFourthCommentMap(fourthComment);
+						scheduleException.setFifthCommentMap(fifthComment);
+						scheduleException.setStartDate(startDate);
+						scheduleException.setEndDate(endDate);
+						scheduleException.setClosed(closed);
+						if (!scheduleException.getClosed()) {
+							String[] openingTimes = new String[0];
+							if (startTime1.length() == 5 || endTime1.length() == 5) {
+								openingTimes = ArrayUtil.append(openingTimes, startTime1 + "-" + endTime1);
+							}
+							if (startTime2.length() == 5 || endTime2.length() == 5) {
+								openingTimes = ArrayUtil.append(openingTimes, startTime2 + "-" + endTime2);
+							}
+							if (startTime3.length() == 5 || endTime3.length() == 5) {
+								openingTimes = ArrayUtil.append(openingTimes, startTime3 + "-" + endTime3);
+							}
+							if (startTime4.length() == 5 || endTime4.length() == 5) {
+								openingTimes = ArrayUtil.append(openingTimes, startTime4 + "-" + endTime4);
+							}
+							if (startTime5.length() == 5 || endTime5.length() == 5) {
+								openingTimes = ArrayUtil.append(openingTimes, startTime5 + "-" + endTime5);
+							}
+							String openingTimesString = StringUtil.merge(openingTimes, ";");
+							scheduleException.setOpeningTimes(openingTimesString);
+						}
+						scheduleException.setPlaceId(place.getPlaceId());
+						this._scheduleExceptionLocalService.updateScheduleException(scheduleException);
 					}
 
 				}
@@ -322,89 +419,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			Map<Locale, String> exceptionalSchedule = LocalizationUtil.getLocalizationMap(request,
 					"exceptionalSchedule");
 			place.setExceptionalScheduleMap(exceptionalSchedule);
-
-			// ----------------- Fermetures exceptionnelles ------------------
-
-			// Suppression des fermetures exceptionnelles liées au lieu
-			List<ScheduleException> oldSchedulesExceptions = place.getScheduleExceptions();
-			for (ScheduleException scheduleException : oldSchedulesExceptions) {
-				_scheduleExceptionLocalService.deleteScheduleException(scheduleException);
-			}
-
-			// Ajout des fermetures exceptionnelles liées au lieu
-			String shedulesExceptionsIndexes = ParamUtil.getString(request, "shedulesExceptionsIndexes");
-			for (String shedulesExceptionsIndex : shedulesExceptionsIndexes.split(",")) {
-				if (Validator.isNotNull(shedulesExceptionsIndex)
-						&& Validator.isNotNull(
-								ParamUtil.getString(request, "scheduleExceptionDescription" + shedulesExceptionsIndex))
-						&& Validator.isNotNull(
-								ParamUtil.getString(request, "startDateScheduleException" + shedulesExceptionsIndex))
-						&& Validator.isNotNull(
-								ParamUtil.getString(request, "endDateScheduleException" + shedulesExceptionsIndex))) {
-					String startTime1 = ParamUtil.getString(request, "startHour1_" + shedulesExceptionsIndex);
-					String endTime1 = ParamUtil.getString(request, "endHour1_" + shedulesExceptionsIndex);
-					String startTime2 = ParamUtil.getString(request, "startHour2_" + shedulesExceptionsIndex);
-					String endTime2 = ParamUtil.getString(request, "endHour2_" + shedulesExceptionsIndex);
-					String startTime3 = ParamUtil.getString(request, "startHour3_" + shedulesExceptionsIndex);
-					String endTime3 = ParamUtil.getString(request, "endHour3_" + shedulesExceptionsIndex);
-					String startTime4 = ParamUtil.getString(request, "startHour4_" + shedulesExceptionsIndex);
-					String endTime4 = ParamUtil.getString(request, "endHour4_" + shedulesExceptionsIndex);
-					String startTime5 = ParamUtil.getString(request, "startHour5_" + shedulesExceptionsIndex);
-					String endTime5 = ParamUtil.getString(request, "endHour5_" + shedulesExceptionsIndex);
-					Map<Locale, String> comment = LocalizationUtil.getLocalizationMap(request,
-							"scheduleExceptionDescription" + shedulesExceptionsIndex);
-					Date startDate = ParamUtil.getDate(request, "startDateScheduleException" + shedulesExceptionsIndex,
-							new SimpleDateFormat("yyyy-MM-dd"));
-					Date endDate = ParamUtil.getDate(request, "endDateScheduleException" + shedulesExceptionsIndex,
-							new SimpleDateFormat("yyyy-MM-dd"));
-					boolean closed = ParamUtil.getBoolean(request, "closed" + shedulesExceptionsIndex);
-
-					Map<Locale, String> firstComment = LocalizationUtil.getLocalizationMap(request,
-							"firstComment" + shedulesExceptionsIndex);
-					Map<Locale, String> secondComment = LocalizationUtil.getLocalizationMap(request,
-							"secondComment" + shedulesExceptionsIndex);
-					Map<Locale, String> thirdComment = LocalizationUtil.getLocalizationMap(request,
-							"thirdComment" + shedulesExceptionsIndex);
-					Map<Locale, String> fourthComment = LocalizationUtil.getLocalizationMap(request,
-							"fourthComment" + shedulesExceptionsIndex);
-					Map<Locale, String> fifthComment = LocalizationUtil.getLocalizationMap(request,
-							"fifthComment" + shedulesExceptionsIndex);
-					
-					ScheduleException scheduleException = _scheduleExceptionLocalService.createScheduleException(sc);
-					scheduleException.setCommentMap(comment);
-					scheduleException.setFirstCommentMap(firstComment);
-					scheduleException.setSecondCommentMap(secondComment);
-					scheduleException.setThirdCommentMap(thirdComment);
-					scheduleException.setFourthCommentMap(fourthComment);
-					scheduleException.setFifthCommentMap(fifthComment);
-					scheduleException.setStartDate(startDate);
-					scheduleException.setEndDate(endDate);
-					scheduleException.setClosed(closed);
-					if (!scheduleException.getClosed()) {
-						String[] openingTimes = new String[0];
-						if (startTime1.length() == 5 || endTime1.length() == 5) {
-							openingTimes = ArrayUtil.append(openingTimes, startTime1 + "-" + endTime1);
-						}
-						if (startTime2.length() == 5 || endTime2.length() == 5) {
-							openingTimes = ArrayUtil.append(openingTimes, startTime2 + "-" + endTime2);
-						}
-						if (startTime3.length() == 5 || endTime3.length() == 5) {
-							openingTimes = ArrayUtil.append(openingTimes, startTime3 + "-" + endTime3);
-						}
-						if (startTime4.length() == 5 || endTime4.length() == 5) {
-							openingTimes = ArrayUtil.append(openingTimes, startTime4 + "-" + endTime4);
-						}
-						if (startTime5.length() == 5 || endTime5.length() == 5) {
-							openingTimes = ArrayUtil.append(openingTimes, startTime5 + "-" + endTime5);
-						}
-						String openingTimesString = StringUtil.merge(openingTimes, ";");
-						scheduleException.setOpeningTimes(openingTimesString);
-					}
-					scheduleException.setPlaceId(place.getPlaceId());
-					this._scheduleExceptionLocalService.updateScheduleException(scheduleException);
-				}
-
-			}
 
 			// ----------------------------------------------------------------
 			// ----------------- INFORMATIONS COMPLEMENTAIRES -----------------

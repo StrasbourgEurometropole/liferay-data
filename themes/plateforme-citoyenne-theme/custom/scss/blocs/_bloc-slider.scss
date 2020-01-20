@@ -127,9 +127,10 @@
 				border-color: $c_txt;
 				border: none;
 				box-shadow: none;
-				transform: translateY(-50%);
-				width: 45px;
-				height: 45px;
+				width: 44px;
+				height: 44px;
+				transform: none;
+				margin-top: -22px;
 				@include addTransition();
 				span {
 					font-size: 40px;
@@ -161,7 +162,7 @@
 				top: 150px;
 				span {
 					text-align: right;
-					right: -3px;
+					right: 0;
 				}
 			}
 		}
@@ -186,6 +187,26 @@
 		}
 		.owl-cards {
 			padding-left: 0;
+			&:not(.owl-loaded){
+				.item{
+					display: none;
+					&:first-child{
+						display: inline-block;
+					}
+				}
+			}
+
+			.item{
+				width: 435px !important;
+				@include mobile {
+					width: 300px !important;
+					height: auto;
+				}
+				@include mobile_small {
+					width: 260px !important;
+				}
+			}
+
 			.owl-item {
 				width: 435px !important;
 				@include mobile {
@@ -255,6 +276,26 @@
 		}
 		.owl-cards {
 			padding-left: 0;
+			&:not(.owl-loaded){
+				.item{
+					display: none;
+					&:first-child{
+						display: inline-block;
+					}
+				}
+			}
+
+			.item{
+				width: 435px !important;
+				@include mobile {
+					width: 300px !important;
+					height: auto;
+				}
+				@include mobile_small {
+					width: 260px !important;
+				}
+			}
+
 			.owl-item {
 				width: 435px !important;
 				@include mobile {

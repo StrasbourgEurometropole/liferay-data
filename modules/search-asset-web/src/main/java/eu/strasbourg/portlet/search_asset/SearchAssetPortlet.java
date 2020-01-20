@@ -2,7 +2,10 @@ package eu.strasbourg.portlet.search_asset;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -38,6 +41,8 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -138,13 +143,27 @@ public class SearchAssetPortlet extends MVCPortlet {
                     renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
 
                 } else if (className.equals(BUDGET)) {
-                    List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3);
-                    List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3);
-                    List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3);
-
-                    renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
-                    renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
-                    renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
+                	
+                	//Recuperation de la categorie "Phase du budget participatif" configuree
+                	AssetCategory phase = null;
+                	for (String id : Arrays.asList(this._configuration.prefilterCategoriesIds().replace(';',',').split(","))) {
+                		phase = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(id));
+                		if(AssetVocabularyLocalServiceUtil.getVocabulary(phase.getVocabularyId()).getName().equals(VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE))
+                			break;
+                		else
+                			phase = null;
+					}
+                	
+                	//On recupere les bp des classements seulement si une phase est configuree
+                	if(phase != null) {
+	                    List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3, phase);
+	                    List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3, phase);
+	                    List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3, phase);
+	                    
+	                    renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
+	                    renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
+	                    renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
+                	}
 
                 } else if (className.equals(INITIATIVE)) {
                     List<Initiative> initiativesMostLiked = _initiativeLocalService.getMostLiked(groupId, 3);

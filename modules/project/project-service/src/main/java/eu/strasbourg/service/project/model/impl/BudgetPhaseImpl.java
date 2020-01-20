@@ -22,8 +22,10 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.project.constants.PhaseState;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 /**
  * The extended model implementation for the BudgetPhase service. Represents a row in the &quot;project_BudgetPhase&quot; database table, with each column mapped to a property of this class.
@@ -67,6 +69,20 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 	}
 	
 	/**
+	 * Retourne la categorie "Phase du budget participatif" de la phase
+	 */
+	@Override
+	public AssetCategory getPhaseCategory() {
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.PLACIT_BUDGET_PARTICIPATIF_PHASE);
+        if (assetCategories.size() > 0) {
+        	return assetCategories.get(0);
+        } else {
+        	return null;
+        }
+	}
+	
+	/**
 	 * Renvoie si la phase est en période de dépot
 	 */
 	@Override
@@ -80,6 +96,8 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 			return false;
 		}
 	}
+	
+	
 	
 	/**
 	 * Renvoie si la phase est en période de vote
@@ -131,6 +149,36 @@ public class BudgetPhaseImpl extends BudgetPhaseBaseImpl {
 		}	
 	}
 	
-	
+	/**
+	 * La l'etat de la phase
+	 * @return
+	 */
+	@Override
+	public PhaseState getPhaseState() {
+		
+		if (this.getIsActive()) {
+			// Date du jour
+			Date dateNow = new Date();
+			
+			// Avant la periode de depot
+			if (dateNow.compareTo(this.getBeginDate()) <= 0) 
+				return PhaseState.BEFORE_BEGIN_DEPOSIT;
+			// Avant la date de fin de depot
+			else if (dateNow.compareTo(this.getEndDate()) <= 0) 
+				return PhaseState.BEFORE_END_DEPOSIT;
+			// Avant la periode de vote
+			else if (dateNow.compareTo(this.getBeginVoteDate()) <= 0) 
+				return PhaseState.BEFORE_BEGIN_VOTE;
+			// Avant la date de fin de vote
+			else if (dateNow.compareTo(this.getEndVoteDate()) <= 0) 
+				return PhaseState.BEFORE_END_VOTE;
+			// Apres l'ensemble des periodes
+			else 
+				return PhaseState.AFTER_VOTE;
+			
+		} else 
+			return PhaseState.NOT_ACTIVE;
+		
+	}
 	
 }

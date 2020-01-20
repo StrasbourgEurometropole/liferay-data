@@ -195,7 +195,11 @@
                     			lienFavori += '</a>';
                     			formated_info = lienFavori;
                             } else if (info_to_display == "opened"){
-                                formated_info = feature.properties[info_to_display];
+                                if(feature.properties[info_to_display]["url"] !== undefined && feature.properties[info_to_display]["url"] != ""){
+                                    formated_info = '<a href="' + feature.properties[info_to_display]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>';
+                                }else{
+                                    formated_info = feature.properties[info_to_display];
+                                }
                                 hasOpened = true;
                             } else if (info_to_display !="visual") {
                                 formated_info = feature.properties[info_to_display];
@@ -291,8 +295,8 @@
                         var isFavorite = false;
                         var id = addFavoriteElement.data('id');
                         var type = addFavoriteElement.data('type');
-                        if (window.userFavorites) {
-                            var i;
+                        var i;
+                        if(window.userFavorites != undefined){
                             for (i = 0; i < window.userFavorites.length; i++) {
                                 if(window.userFavorites[i].typeId == type && window.userFavorites[i].entityId == id){
                                     isFavorite = true;
@@ -425,10 +429,10 @@
                 });
                 return L.marker(latlng, { icon: markerIcon })
             }
-            
+
             // Retient le nombre de requêtes en cours pour l'icône de chargement
             var requestsInProgress = 0;
-            
+
             // Ajoute à la liste des markers ceux des favoris
             var addFavoriteMarkers = function(markers) {
                 requestsInProgress++;
@@ -483,7 +487,7 @@
                     }
                 );
             }
-            
+
             // Ajoute le traffic à la carte
             var addTraffic = function(markers) {
                 requestsInProgress++;
@@ -790,7 +794,7 @@
             }
         }
     });
-    
+
     /**
      * Recuperation des couleurs de lignes
      */
@@ -802,7 +806,7 @@
             	ligneColors = json;
             }
     );
-    
+
     /**
      * Cherche la ligne dans la liste des couleurs de lignes
      */
@@ -814,5 +818,5 @@
     	    }
     	}
     }
-    
+
 }(jQuery));

@@ -13,6 +13,24 @@
   max-width: 500px;
   font-size: 1.5em;
   font-family: Arial, sans-serif;
+
+  section {
+    min-height: 245px;
+    display: flex;
+
+    div {
+      margin: auto;
+    }
+  }
+}
+
+
+/* Formulaire d'acceptation des terme d'utilisation */
+#portlet_terms-of-use + form {
+  margin: 100px auto 200px auto;
+  max-width: 95vw;
+  font-size: 1.5em;
+  font-family: Arial, sans-serif;
 }
 
 

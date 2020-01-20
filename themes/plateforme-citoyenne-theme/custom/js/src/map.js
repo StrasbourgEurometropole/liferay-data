@@ -325,7 +325,7 @@ function callbackCarteInteractive(macarte) {
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
         '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
-        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' + 
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
         '</div></div>' +
         '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cette initiative</p>' +
         '</div></a></div>', markerInitiative, 247);
@@ -384,7 +384,7 @@ th_maps.onLoad(function () {
     });
 
     th_maps.addMarkerIcon('budget', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-budgetparticipatif.png',
         scaledSize: new google.maps.Size(75, 95)
     });
 

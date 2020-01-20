@@ -23,7 +23,8 @@ public enum ParticiperCategories {
     BP_IN_PROGRESS("En cours de realisation"),
     BP_REALIZED("Realise"),
     BP_SUSPENDED("Suspendu"),
-    BP_CANCELLED("Annule");
+    BP_CANCELLED("Annule"),
+	BP_MERGED("Fusionne");
 
     private String name;
 

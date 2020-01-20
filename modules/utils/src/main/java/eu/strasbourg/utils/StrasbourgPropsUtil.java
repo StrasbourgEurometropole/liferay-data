@@ -233,24 +233,24 @@ public class StrasbourgPropsUtil {
 	public static String getDashboardURL() {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
-	
+
 	public static String getGTFSPath() {
 		return PropsUtil.get("eu.strasbourg.gtfs.files.path");
 	}
-	
+
 	public static String getGTFSImportReportMail() {
 		return PropsUtil.get("eu.strasbourg.gtfs.import.report.mail");
 	}
-	
+
 	public static String getCTSServiceRealTimeURL() {
 		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.url");
 	}
-	
+
 	public static String getCTSServiceRealTimeToken() {
 		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.token");
 	}
 
-	public static String getParticperName() {
+	public static String getParticiperName() {
 		return PropsUtil.get("eu.strasbourg.participer.name");
 	}
 

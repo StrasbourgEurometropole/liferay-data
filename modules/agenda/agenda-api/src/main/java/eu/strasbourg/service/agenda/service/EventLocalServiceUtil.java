@@ -336,6 +336,13 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les évènements triés par prochaine date de représentation
+	*/
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findByNextHappening() {
+		return getService().findByNextHappening();
+	}
+
+	/**
 	* Lance une recherche par placeSIGId
 	*/
 	public static java.util.List<eu.strasbourg.service.agenda.model.Event> findByPlaceSIGId(

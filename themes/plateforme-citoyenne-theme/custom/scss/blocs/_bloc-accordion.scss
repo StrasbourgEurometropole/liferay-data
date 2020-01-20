@@ -1,12 +1,8 @@
 .pro-bloc-accordion {
 	margin: 50px 0 130px 0;
+	@include clearfix();
 	@include mobile {
 		margin: 100px 0 60px 0;
-	}
-	&:after {
-		content: '';
-		display: block;
-		clear: both;
 	}
 
 	> * {
@@ -132,6 +128,53 @@
 			p {
 				@include ft($f_txt, 1em, 400, #606060, 1.5em);
 				margin-bottom: 10px;
+			}
+
+			ul {
+				padding: 0;
+				margin-bottom: 10px;
+				list-style-type: none;
+				@include clearfix();
+				li {
+					@include ft($f_txt, 1em, 400, #606060, 1.5em);
+					padding-left: 22px;
+					&:before {
+						content: "";
+						position: absolute;
+						left: 0;
+						top: 11px;
+						width: 13px;
+						height: 4px;
+						background: #606060;
+					}
+					a {
+						color: $c_txt;
+						text-decoration: underline;
+						@include addTransition();
+						&:hover, &:focus {
+							color: $c_grey;
+						}
+					}
+				}
+			}
+
+			ol {
+				padding: 0;
+				margin-bottom: 10px;
+				list-style-type: decimal;
+				@include clearfix();
+				li {
+					@include ft($f_txt, 1em, 400, #606060, 1.5em);
+					margin-left: 15px;
+					a {
+						color: $c_txt;
+						text-decoration: underline;
+						@include addTransition();
+						&:hover, &:focus {
+							color: $c_grey;
+						}
+					}
+				}
 			}
 		}
 

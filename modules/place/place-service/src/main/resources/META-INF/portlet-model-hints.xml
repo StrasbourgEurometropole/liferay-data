@@ -8,8 +8,6 @@
 		<field name="defaultPeriod" type="Boolean" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
-		<field localized="true" name="linkLabel" type="String" />
-		<field localized="true" name="linkURL" type="String" />
 		<field name="alwaysOpen" type="Boolean" />
 		<field name="RTGreenThreshold" type="long">
 			<hint name="default-value">0</hint>
@@ -79,6 +77,9 @@
 		<field localized="true" name="contenuTooltipCarto" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="hasURLSchedule" type="boolean" />
+		<field localized="true" name="scheduleLinkName" type="String" />
+		<field localized="true" name="scheduleLinkURL" type="String" />
 		<field name="phone" type="String" />
 		<field name="mail" type="String" />
 		<field localized="true" name="siteURL" type="String">

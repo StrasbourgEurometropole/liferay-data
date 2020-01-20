@@ -66,6 +66,7 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 		attributes.put("title", getTitle());
 		attributes.put("link", getLink());
 		attributes.put("projectId", getProjectId());
+		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 
 		return attributes;
 	}
@@ -118,6 +119,12 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 
 		if (projectId != null) {
 			setProjectId(projectId);
+		}
+
+		Long budgetParticipatifId = (Long)attributes.get("budgetParticipatifId");
+
+		if (budgetParticipatifId != null) {
+			setBudgetParticipatifId(budgetParticipatifId);
 		}
 	}
 
@@ -266,6 +273,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	}
 
 	/**
+	* Returns the budget participatif ID of this project timeline.
+	*
+	* @return the budget participatif ID of this project timeline
+	*/
+	@Override
+	public long getBudgetParticipatifId() {
+		return _projectTimeline.getBudgetParticipatifId();
+	}
+
+	/**
 	* Returns the primary key of this project timeline.
 	*
 	* @return the primary key of this project timeline
@@ -298,6 +315,16 @@ public class ProjectTimelineWrapper implements ProjectTimeline,
 	@Override
 	public void persist() {
 		_projectTimeline.persist();
+	}
+
+	/**
+	* Sets the budget participatif ID of this project timeline.
+	*
+	* @param budgetParticipatifId the budget participatif ID of this project timeline
+	*/
+	@Override
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_projectTimeline.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	@Override

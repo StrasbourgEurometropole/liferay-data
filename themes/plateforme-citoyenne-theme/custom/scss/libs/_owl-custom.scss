@@ -54,12 +54,12 @@
 	.owl-item {
 		.item {
 			@include mobile {
-				height: 50vh;
+				height: 380px;
 			}
 			img {
 				object-fit: cover;
 				@include mobile {
-					height: 50vh;
+					height: 380px;
 				}
 			}
 			.caption {

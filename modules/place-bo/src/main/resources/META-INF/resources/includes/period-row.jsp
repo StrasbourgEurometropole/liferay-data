@@ -13,18 +13,6 @@ id="period${param.index}">
 	<aui:input name="namePeriod${param.index}" label="name-period" value="${param.name}" localized="true" type="text" disabled="${param.disabled}" />
 	<div class="place-period-name" style="display: none">
 		<liferay-ui:message key="this-field-is-required" />
-	</div>	
-				
-	<aui:input name="periodLabel${param.index}" label="period-label" value="${param.linkLabel}" localized="true" type="text" disabled="${param.disabled}" />
-	<div class="place-period-label" style="display: none">
-		<liferay-ui:message key="this-field-is-required" />
-	</div>
-				
-	<aui:input name="periodURL${param.index}" label="period-url" value="${param.linkURL}" localized="true" type="text" disabled="${param.disabled}" >
-	 	<aui:validator name="url"/>
-	</aui:input>
-	<div class="place-period-url" style="display: none">
-		<liferay-ui:message key="this-field-is-required" />
 	</div>
 				
 	<aui:input name="defaultPeriod${param.index}" label="default-period" type="toggle-switch" 

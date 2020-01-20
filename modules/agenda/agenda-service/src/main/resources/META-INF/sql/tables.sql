@@ -1,3 +1,33 @@
+create table agenda_AgendaExport (
+	uuid_ VARCHAR(75) null,
+	agendaExportId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	lastPublishDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title STRING null,
+	language VARCHAR(75) null,
+	exportFormat VARCHAR(75) null,
+	templateId LONG,
+	eventCategories TEXT null,
+	aggregations TEXT null
+);
+
+create table agenda_AgendaExportPeriod (
+	uuid_ VARCHAR(75) null,
+	agendaExportPeriodId LONG not null primary key,
+	startDate DATE null,
+	endDate DATE null,
+	agendaExportId LONG
+);
+
 create table agenda_Campaign (
 	uuid_ VARCHAR(75) null,
 	campaignId LONG not null primary key,

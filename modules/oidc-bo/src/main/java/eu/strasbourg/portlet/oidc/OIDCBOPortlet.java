@@ -8,6 +8,10 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -265,6 +269,26 @@ public class OIDCBOPortlet extends MVCPortlet {
 								like.setPublikUserId(anonymUser.getPublikId());
 								// Mise à jour en base
 								LikeLocalServiceUtil.updateLike(like);
+							}
+						}
+
+						// Anonymisation des informations utilisateur dans les signalements
+						List<Signalement> signalements = SignalementLocalServiceUtil.getByPublikId(publikUser.getPublikId());
+						if (!signalements.isEmpty()) {
+							for (Signalement signalement : signalements) {
+								signalement.setPublikId(anonymUser.getPublikId());
+								// Mise à jour en base
+								SignalementLocalServiceUtil.updateSignalement(signalement);
+							}
+						}
+
+						// Anonymisation des informations utilisateur dans les signalements de réponses à un formulaire
+						List<FormSendRecordFieldSignalement> formSendRecordFieldSignalements = FormSendRecordFieldSignalementLocalServiceUtil.getByPublikId(publikUser.getPublikId());
+						if (!signalements.isEmpty()) {
+							for (FormSendRecordFieldSignalement formSendRecordFieldSignalement : formSendRecordFieldSignalements) {
+								formSendRecordFieldSignalement.setPublikId(anonymUser.getPublikId());
+								// Mise à jour en base
+								FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(formSendRecordFieldSignalement);
 							}
 						}
 					} else

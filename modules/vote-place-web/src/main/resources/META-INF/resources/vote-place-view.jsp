@@ -137,12 +137,12 @@
                             <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                         </a>
                     </c:if>
-                    <c:if test="${felecResponse.returnCard eq 'O'}">
+                   <!-- <c:if test="${felecResponse.returnCard eq 'O'}">
                         <div class="error">
                             Votre carte d'&eacute;lecteur est disponible <a href="https://www.strasbourg.eu/lieu/-/entity/sig/462_SPC_38">&agrave; l'accueil du centre administratif</a>
                         </div>
                     </c:if>
-                    <!-- <div align="right">
+                     <div align="right">
                         <a href="" class="btn-square--bordered--core">
                             <span class="flexbox">
                                 <span class="btn-text">Localiser votre bureau de vote</span>

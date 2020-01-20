@@ -43,10 +43,13 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.model.ImportReport;
 import eu.strasbourg.service.agenda.service.ImportReportLocalService;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
+import eu.strasbourg.service.agenda.service.persistence.EventFinder;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
@@ -323,6 +326,82 @@ public abstract class ImportReportLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the agenda export local service.
+	 *
+	 * @return the agenda export local service
+	 */
+	public eu.strasbourg.service.agenda.service.AgendaExportLocalService getAgendaExportLocalService() {
+		return agendaExportLocalService;
+	}
+
+	/**
+	 * Sets the agenda export local service.
+	 *
+	 * @param agendaExportLocalService the agenda export local service
+	 */
+	public void setAgendaExportLocalService(
+		eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService) {
+		this.agendaExportLocalService = agendaExportLocalService;
+	}
+
+	/**
+	 * Returns the agenda export persistence.
+	 *
+	 * @return the agenda export persistence
+	 */
+	public AgendaExportPersistence getAgendaExportPersistence() {
+		return agendaExportPersistence;
+	}
+
+	/**
+	 * Sets the agenda export persistence.
+	 *
+	 * @param agendaExportPersistence the agenda export persistence
+	 */
+	public void setAgendaExportPersistence(
+		AgendaExportPersistence agendaExportPersistence) {
+		this.agendaExportPersistence = agendaExportPersistence;
+	}
+
+	/**
+	 * Returns the agenda export period local service.
+	 *
+	 * @return the agenda export period local service
+	 */
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService getAgendaExportPeriodLocalService() {
+		return agendaExportPeriodLocalService;
+	}
+
+	/**
+	 * Sets the agenda export period local service.
+	 *
+	 * @param agendaExportPeriodLocalService the agenda export period local service
+	 */
+	public void setAgendaExportPeriodLocalService(
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+		this.agendaExportPeriodLocalService = agendaExportPeriodLocalService;
+	}
+
+	/**
+	 * Returns the agenda export period persistence.
+	 *
+	 * @return the agenda export period persistence
+	 */
+	public AgendaExportPeriodPersistence getAgendaExportPeriodPersistence() {
+		return agendaExportPeriodPersistence;
+	}
+
+	/**
+	 * Sets the agenda export period persistence.
+	 *
+	 * @param agendaExportPeriodPersistence the agenda export period persistence
+	 */
+	public void setAgendaExportPeriodPersistence(
+		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
+		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
+	}
+
+	/**
 	 * Returns the campaign local service.
 	 *
 	 * @return the campaign local service
@@ -488,6 +567,24 @@ public abstract class ImportReportLocalServiceBaseImpl
 	 */
 	public void setEventPersistence(EventPersistence eventPersistence) {
 		this.eventPersistence = eventPersistence;
+	}
+
+	/**
+	 * Returns the event finder.
+	 *
+	 * @return the event finder
+	 */
+	public EventFinder getEventFinder() {
+		return eventFinder;
+	}
+
+	/**
+	 * Sets the event finder.
+	 *
+	 * @param eventFinder the event finder
+	 */
+	public void setEventFinder(EventFinder eventFinder) {
+		this.eventFinder = eventFinder;
 	}
 
 	/**
@@ -845,6 +942,14 @@ public abstract class ImportReportLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportLocalService.class)
+	protected eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService;
+	@BeanReference(type = AgendaExportPersistence.class)
+	protected AgendaExportPersistence agendaExportPersistence;
+	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class)
+	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService;
+	@BeanReference(type = AgendaExportPeriodPersistence.class)
+	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
 	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
 	@BeanReference(type = CampaignPersistence.class)
@@ -863,6 +968,8 @@ public abstract class ImportReportLocalServiceBaseImpl
 	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+	@BeanReference(type = EventFinder.class)
+	protected EventFinder eventFinder;
 	@BeanReference(type = eu.strasbourg.service.agenda.service.EventParticipationLocalService.class)
 	protected eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService;
 	@BeanReference(type = EventParticipationPersistence.class)

@@ -2,168 +2,159 @@
 --- MIXINS ---
 ------------------ */
 
-@mixin ft($family, $size, $weight, $color, $lineheight) // define font
+@mixin ft($family:"", $size:"", $weight:"", $color:"", $lineheight:"") // define font
 {
-  font-family: $family;
-  font-size: $size;
-  font-weight: $weight;
-  color: $color;
-  line-height: $lineheight;
+	@if $family != "" {
+		font-family: $family;
+	}
+	@if $size != "" {
+		font-size: $size;
+	}
+	@if $weight != "" {
+		font-weight: $weight;
+	}
+	@if $color != "" {
+		color: $color;
+	}
+	@if $lineheight != "" {
+		line-height: $lineheight;
+	}
 }
 
 @mixin btn($background, $color, $radius, $f_txt, $size) // define button
 {
-  position: relative;
-  display: inline-block;
-  margin: 0;
-  padding: 15px 50px;
-  border-radius: $radius+px;
-  background-color: $background;
-  @include ft($f_txt,$size,700,$color,$size+10);
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 15px 50px;
+	border-radius: $radius+px;
+	background-color: $background;
+	@include ft($f_txt, $size, 700, $color, $size+10);
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
 }
 
-@mixin absolute(){
-  width: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-  transform: translate(-50%,-50%);
+@mixin absolute() {
+	width: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+	transform: translate(-50%, -50%);
 }
 
-@mixin font(){
-  font-family: 'icomoon' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  vertical-align: middle;
+@mixin font() {
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 @mixin clearfix() {
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
+	&::after {
+		display: block;
+		content: "";
+		clear: both;
+	}
 }
 
+@mixin ellipsis($number:"",$lineheight:""){
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	@if $number != "" {
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: $number;
+	}
+	@if $lineheight != "" {
+		line-height: $lineheight;
+		max-height: $lineheight * $number;
+	}
+}
 
 // Mixin Breakpoints
 // ==========================================================================
-@mixin wide
-{
-  @media screen and (min-width: #{$breakpoint_wd})
-  {
-    @content;
-  }
-}
-@mixin desktop
-{
-  @content;
-}
-@mixin tablet_landscape
-{
-  @media screen and (max-width: #{$breakpoint_paysage})
-  {
-    @content;
-  }
-}
-@mixin tablet_portrait
-{
-  @media screen and (max-width: #{$breakpoint_portrait})
-  {
-    @content;
-  }
-}
-@mixin mobile
-{
-  @media screen and (max-width: #{$breakpoint_mo})
-  {
-    @content;
-  }
-}
-@mixin mobile_small
-{
-  @media screen and (max-width: #{$breakpoint_mo_small})
-  {
-    @content;
-  }
+@mixin wide {
+	@media screen and (min-width: #{$breakpoint_wd}) {
+		@content;
+	}
 }
 
+@mixin desktop {
+	@content;
+}
+
+@mixin tablet_landscape {
+	@media screen and (max-width: #{$breakpoint_paysage}) {
+		@content;
+	}
+}
+
+@mixin tablet_portrait {
+	@media screen and (max-width: #{$breakpoint_portrait}) {
+		@content;
+	}
+}
+
+@mixin mobile {
+	@media screen and (max-width: #{$breakpoint_mo}) {
+		@content;
+	}
+}
+
+@mixin mobile_small {
+	@media screen and (max-width: #{$breakpoint_mo_small}) {
+		@content;
+	}
+}
 
 // Mixin Transition effect
 // ==========================================================================
-@mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease){
-  $anim: $effect $duration $easeing;
-  transition: $anim;
+@mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease) {
+	$anim: $effect $duration $easeing;
+	transition: $anim;
 }
 
-@mixin addTransitionCurve($effect: all, $duration: 0.3s, $easeing:cubic-bezier(0.770, 0.000, 0.175, 1.000)){
-  $anim: $effect $duration $easeing;
-  transition: $anim;
-}
-
-%bgcover {
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-@mixin addsprite($name){
-
-  @include design-sprite($name);
-
-  @media
-  screen and (-webkit-min-device-pixel-ratio: 1.5),
-  screen and (-moz-min-device-pixel-ratio: 1.5),
-  screen and (min-device-pixel-ratio: 1.5) {
-    background-image: url('../img/design2x/#{$name}.png');
-    background-size: 100% 100%;
-    background-position: 0 0;
-  }
+@mixin addTransitionCurve($effect: all, $duration: 0.3s, $easeing:cubic-bezier(0.770, 0.000, 0.175, 1.000)) {
+	$anim: $effect $duration $easeing;
+	transition: $anim;
 }
 
 // Mixin Aspect-ratio pour les images
 // ==========================================================================
 @mixin aspect-ratio($width, $height, $add: 0px) {
-  position: relative;
-  overflow: hidden;
-  &:before {
-    display: block;
-    content: "";
-    width: 100%;
-    padding-bottom: $add;
-    padding-top: ($height / $width) * 100%;
-  }
-  > .content, > .wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+	position: relative;
+	overflow: hidden;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-bottom: $add;
+		padding-top: ($height / $width) * 100%;
+	}
+	> .content, > .wrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
 }
 
-
 @function calculateRem($size) {
-  $remSize: $size / 16px;
-  @return $remSize * 1rem;
+	$remSize: $size / 16px;
+	@return $remSize * 1rem;
 }
 
 @mixin font-size($size) {
-  font-size: $size;
-  font-size: calculateRem($size);
+	font-size: $size;
+	font-size: calculateRem($size);
 }

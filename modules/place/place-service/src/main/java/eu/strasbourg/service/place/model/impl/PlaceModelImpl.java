@@ -113,6 +113,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "displayEvents", Types.BOOLEAN },
 			{ "additionalInformation", Types.CLOB },
 			{ "contenuTooltipCarto", Types.CLOB },
+			{ "hasURLSchedule", Types.BOOLEAN },
+			{ "scheduleLinkName", Types.VARCHAR },
+			{ "scheduleLinkURL", Types.VARCHAR },
 			{ "phone", Types.VARCHAR },
 			{ "mail", Types.VARCHAR },
 			{ "siteURL", Types.VARCHAR },
@@ -179,6 +182,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("displayEvents", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("additionalInformation", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("contenuTooltipCarto", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("hasURLSchedule", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("scheduleLinkName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("scheduleLinkURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("phone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("siteURL", Types.VARCHAR);
@@ -210,7 +216,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -280,6 +286,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setDisplayEvents(soapModel.getDisplayEvents());
 		model.setAdditionalInformation(soapModel.getAdditionalInformation());
 		model.setContenuTooltipCarto(soapModel.getContenuTooltipCarto());
+		model.setHasURLSchedule(soapModel.getHasURLSchedule());
+		model.setScheduleLinkName(soapModel.getScheduleLinkName());
+		model.setScheduleLinkURL(soapModel.getScheduleLinkURL());
 		model.setPhone(soapModel.getPhone());
 		model.setMail(soapModel.getMail());
 		model.setSiteURL(soapModel.getSiteURL());
@@ -406,6 +415,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("displayEvents", getDisplayEvents());
 		attributes.put("additionalInformation", getAdditionalInformation());
 		attributes.put("contenuTooltipCarto", getContenuTooltipCarto());
+		attributes.put("hasURLSchedule", getHasURLSchedule());
+		attributes.put("scheduleLinkName", getScheduleLinkName());
+		attributes.put("scheduleLinkURL", getScheduleLinkURL());
 		attributes.put("phone", getPhone());
 		attributes.put("mail", getMail());
 		attributes.put("siteURL", getSiteURL());
@@ -646,6 +658,24 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if (contenuTooltipCarto != null) {
 			setContenuTooltipCarto(contenuTooltipCarto);
+		}
+
+		Boolean hasURLSchedule = (Boolean)attributes.get("hasURLSchedule");
+
+		if (hasURLSchedule != null) {
+			setHasURLSchedule(hasURLSchedule);
+		}
+
+		String scheduleLinkName = (String)attributes.get("scheduleLinkName");
+
+		if (scheduleLinkName != null) {
+			setScheduleLinkName(scheduleLinkName);
+		}
+
+		String scheduleLinkURL = (String)attributes.get("scheduleLinkURL");
+
+		if (scheduleLinkURL != null) {
+			setScheduleLinkURL(scheduleLinkURL);
 		}
 
 		String phone = (String)attributes.get("phone");
@@ -2022,6 +2052,231 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public boolean getHasURLSchedule() {
+		return _hasURLSchedule;
+	}
+
+	@JSON
+	@Override
+	public boolean isHasURLSchedule() {
+		return _hasURLSchedule;
+	}
+
+	@Override
+	public void setHasURLSchedule(boolean hasURLSchedule) {
+		_hasURLSchedule = hasURLSchedule;
+	}
+
+	@JSON
+	@Override
+	public String getScheduleLinkName() {
+		if (_scheduleLinkName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _scheduleLinkName;
+		}
+	}
+
+	@Override
+	public String getScheduleLinkName(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getScheduleLinkName(languageId);
+	}
+
+	@Override
+	public String getScheduleLinkName(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getScheduleLinkName(languageId, useDefault);
+	}
+
+	@Override
+	public String getScheduleLinkName(String languageId) {
+		return LocalizationUtil.getLocalization(getScheduleLinkName(),
+			languageId);
+	}
+
+	@Override
+	public String getScheduleLinkName(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getScheduleLinkName(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getScheduleLinkNameCurrentLanguageId() {
+		return _scheduleLinkNameCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getScheduleLinkNameCurrentValue() {
+		Locale locale = getLocale(_scheduleLinkNameCurrentLanguageId);
+
+		return getScheduleLinkName(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getScheduleLinkNameMap() {
+		return LocalizationUtil.getLocalizationMap(getScheduleLinkName());
+	}
+
+	@Override
+	public void setScheduleLinkName(String scheduleLinkName) {
+		_scheduleLinkName = scheduleLinkName;
+	}
+
+	@Override
+	public void setScheduleLinkName(String scheduleLinkName, Locale locale) {
+		setScheduleLinkName(scheduleLinkName, locale,
+			LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setScheduleLinkName(String scheduleLinkName, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(scheduleLinkName)) {
+			setScheduleLinkName(LocalizationUtil.updateLocalization(
+					getScheduleLinkName(), "ScheduleLinkName",
+					scheduleLinkName, languageId, defaultLanguageId));
+		}
+		else {
+			setScheduleLinkName(LocalizationUtil.removeLocalization(
+					getScheduleLinkName(), "ScheduleLinkName", languageId));
+		}
+	}
+
+	@Override
+	public void setScheduleLinkNameCurrentLanguageId(String languageId) {
+		_scheduleLinkNameCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setScheduleLinkNameMap(Map<Locale, String> scheduleLinkNameMap) {
+		setScheduleLinkNameMap(scheduleLinkNameMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setScheduleLinkNameMap(
+		Map<Locale, String> scheduleLinkNameMap, Locale defaultLocale) {
+		if (scheduleLinkNameMap == null) {
+			return;
+		}
+
+		setScheduleLinkName(LocalizationUtil.updateLocalization(
+				scheduleLinkNameMap, getScheduleLinkName(), "ScheduleLinkName",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getScheduleLinkURL() {
+		if (_scheduleLinkURL == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _scheduleLinkURL;
+		}
+	}
+
+	@Override
+	public String getScheduleLinkURL(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getScheduleLinkURL(languageId);
+	}
+
+	@Override
+	public String getScheduleLinkURL(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getScheduleLinkURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getScheduleLinkURL(String languageId) {
+		return LocalizationUtil.getLocalization(getScheduleLinkURL(), languageId);
+	}
+
+	@Override
+	public String getScheduleLinkURL(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(getScheduleLinkURL(),
+			languageId, useDefault);
+	}
+
+	@Override
+	public String getScheduleLinkURLCurrentLanguageId() {
+		return _scheduleLinkURLCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getScheduleLinkURLCurrentValue() {
+		Locale locale = getLocale(_scheduleLinkURLCurrentLanguageId);
+
+		return getScheduleLinkURL(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getScheduleLinkURLMap() {
+		return LocalizationUtil.getLocalizationMap(getScheduleLinkURL());
+	}
+
+	@Override
+	public void setScheduleLinkURL(String scheduleLinkURL) {
+		_scheduleLinkURL = scheduleLinkURL;
+	}
+
+	@Override
+	public void setScheduleLinkURL(String scheduleLinkURL, Locale locale) {
+		setScheduleLinkURL(scheduleLinkURL, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setScheduleLinkURL(String scheduleLinkURL, Locale locale,
+		Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(scheduleLinkURL)) {
+			setScheduleLinkURL(LocalizationUtil.updateLocalization(
+					getScheduleLinkURL(), "ScheduleLinkURL", scheduleLinkURL,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setScheduleLinkURL(LocalizationUtil.removeLocalization(
+					getScheduleLinkURL(), "ScheduleLinkURL", languageId));
+		}
+	}
+
+	@Override
+	public void setScheduleLinkURLCurrentLanguageId(String languageId) {
+		_scheduleLinkURLCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setScheduleLinkURLMap(Map<Locale, String> scheduleLinkURLMap) {
+		setScheduleLinkURLMap(scheduleLinkURLMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setScheduleLinkURLMap(Map<Locale, String> scheduleLinkURLMap,
+		Locale defaultLocale) {
+		if (scheduleLinkURLMap == null) {
+			return;
+		}
+
+		setScheduleLinkURL(LocalizationUtil.updateLocalization(
+				scheduleLinkURLMap, getScheduleLinkURL(), "ScheduleLinkURL",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public String getPhone() {
 		if (_phone == null) {
 			return StringPool.BLANK;
@@ -3213,6 +3468,28 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			}
 		}
 
+		Map<Locale, String> scheduleLinkNameMap = getScheduleLinkNameMap();
+
+		for (Map.Entry<Locale, String> entry : scheduleLinkNameMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> scheduleLinkURLMap = getScheduleLinkURLMap();
+
+		for (Map.Entry<Locale, String> entry : scheduleLinkURLMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> siteURLMap = getSiteURLMap();
 
 		for (Map.Entry<Locale, String> entry : siteURLMap.entrySet()) {
@@ -3401,6 +3678,28 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				defaultLocale, defaultLocale);
 		}
 
+		String scheduleLinkName = getScheduleLinkName(defaultLocale);
+
+		if (Validator.isNull(scheduleLinkName)) {
+			setScheduleLinkName(getScheduleLinkName(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setScheduleLinkName(getScheduleLinkName(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
+
+		String scheduleLinkURL = getScheduleLinkURL(defaultLocale);
+
+		if (Validator.isNull(scheduleLinkURL)) {
+			setScheduleLinkURL(getScheduleLinkURL(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setScheduleLinkURL(getScheduleLinkURL(defaultLocale),
+				defaultLocale, defaultLocale);
+		}
+
 		String siteURL = getSiteURL(defaultLocale);
 
 		if (Validator.isNull(siteURL)) {
@@ -3518,6 +3817,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setDisplayEvents(getDisplayEvents());
 		placeImpl.setAdditionalInformation(getAdditionalInformation());
 		placeImpl.setContenuTooltipCarto(getContenuTooltipCarto());
+		placeImpl.setHasURLSchedule(getHasURLSchedule());
+		placeImpl.setScheduleLinkName(getScheduleLinkName());
+		placeImpl.setScheduleLinkURL(getScheduleLinkURL());
 		placeImpl.setPhone(getPhone());
 		placeImpl.setMail(getMail());
 		placeImpl.setSiteURL(getSiteURL());
@@ -3861,6 +4163,24 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.contenuTooltipCarto = null;
 		}
 
+		placeCacheModel.hasURLSchedule = getHasURLSchedule();
+
+		placeCacheModel.scheduleLinkName = getScheduleLinkName();
+
+		String scheduleLinkName = placeCacheModel.scheduleLinkName;
+
+		if ((scheduleLinkName != null) && (scheduleLinkName.length() == 0)) {
+			placeCacheModel.scheduleLinkName = null;
+		}
+
+		placeCacheModel.scheduleLinkURL = getScheduleLinkURL();
+
+		String scheduleLinkURL = placeCacheModel.scheduleLinkURL;
+
+		if ((scheduleLinkURL != null) && (scheduleLinkURL.length() == 0)) {
+			placeCacheModel.scheduleLinkURL = null;
+		}
+
 		placeCacheModel.phone = getPhone();
 
 		String phone = placeCacheModel.phone;
@@ -4021,7 +4341,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(125);
+		StringBundler sb = new StringBundler(131);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -4089,6 +4409,12 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getAdditionalInformation());
 		sb.append(", contenuTooltipCarto=");
 		sb.append(getContenuTooltipCarto());
+		sb.append(", hasURLSchedule=");
+		sb.append(getHasURLSchedule());
+		sb.append(", scheduleLinkName=");
+		sb.append(getScheduleLinkName());
+		sb.append(", scheduleLinkURL=");
+		sb.append(getScheduleLinkURL());
 		sb.append(", phone=");
 		sb.append(getPhone());
 		sb.append(", mail=");
@@ -4154,7 +4480,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(190);
+		StringBundler sb = new StringBundler(199);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -4291,6 +4617,18 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(
 			"<column><column-name>contenuTooltipCarto</column-name><column-value><![CDATA[");
 		sb.append(getContenuTooltipCarto());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>hasURLSchedule</column-name><column-value><![CDATA[");
+		sb.append(getHasURLSchedule());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>scheduleLinkName</column-name><column-value><![CDATA[");
+		sb.append(getScheduleLinkName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>scheduleLinkURL</column-name><column-value><![CDATA[");
+		sb.append(getScheduleLinkURL());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>phone</column-name><column-value><![CDATA[");
@@ -4466,6 +4804,11 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _additionalInformationCurrentLanguageId;
 	private String _contenuTooltipCarto;
 	private String _contenuTooltipCartoCurrentLanguageId;
+	private boolean _hasURLSchedule;
+	private String _scheduleLinkName;
+	private String _scheduleLinkNameCurrentLanguageId;
+	private String _scheduleLinkURL;
+	private String _scheduleLinkURLCurrentLanguageId;
 	private String _phone;
 	private String _mail;
 	private String _siteURL;

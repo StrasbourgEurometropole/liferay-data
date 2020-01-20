@@ -115,9 +115,13 @@ public class StrasbourgPortletKeys {
 	public static final String PUBLIK_USER_WEB = "eu_strasbourg_portlet_publik_user_PublikUserPortlet";
 
 	public static final String FORM_SEND_WEB = "eu_strasbourg_portlet_form_send_FormSendPortlet";
+	public static final String FORM_SEND_BO = "eu_strasbourg_portlet_form_send_FormSendBOPortlet";
 
 	public static final String SLIDER_UNE_WEB = "eu_strasbourg_portlet_slider_une_SliderUnePortlet";
-	
+
 	public static final String GTFS_BO = "eu_strasbourg_portlet_gtfs_GTFSBOPortlet";
 	public static final String GTFS_WEB = "eu_strasbourg_portlet_gtfs_GTFSPortlet";
+}
+
+	public static final String AGENDA_EXPORT_BO = "eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet";
 }

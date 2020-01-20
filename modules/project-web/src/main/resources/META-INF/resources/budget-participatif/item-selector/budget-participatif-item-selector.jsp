@@ -52,7 +52,6 @@
 
 		<liferay-ui:search-iterator  />
 
-		<liferay-ui:search-paginator searchContainer="${searchContainer}"   />
 	</liferay-ui:search-container>
 </div>
 <aui:script>

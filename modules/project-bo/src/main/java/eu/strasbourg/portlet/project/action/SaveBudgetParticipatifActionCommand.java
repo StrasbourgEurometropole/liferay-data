@@ -1,8 +1,10 @@
 package eu.strasbourg.portlet.project.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,6 +14,8 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -39,7 +43,9 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 @Component(
 	immediate = true,
@@ -83,6 +89,10 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             String description = ParamUtil.getString(request, "description");
             budgetParticipatif.setDescription(description);
             
+            // Resume
+            String summary = ParamUtil.getString(request, "summary");
+            budgetParticipatif.setSummary(summary);
+            
             // Budget
             String budget = ParamUtil.getString(request, "budget");
             budgetParticipatif.setBudget(budget);
@@ -118,6 +128,31 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Citoyen : Mobile
             String mobile = ParamUtil.getString(request, "citoyenMobile");
             budgetParticipatif.setCitoyenMobile(mobile);
+            
+            // ---------------------------------------------------------------
+ 			// -------------------------- FUSION -----------------------------
+ 			// ---------------------------------------------------------------
+            
+            budgetParticipatif.setInTheNameOf(ParamUtil.getString(request, "inTheNameOf"));
+            
+            // Sélection du projet partent
+            budgetParticipatif.setParentId(ParamUtil.getLong(request, "budgetParentId"));
+            
+            //Si un projet parent est associé, le projet courant(Devenu fils) prend le statut "Fusionne"
+            if(ParamUtil.getLong(request, "budgetParentId") != 0) {
+            	long[] ids = sc.getAssetCategoryIds();
+            	List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+            	List<AssetCategory> categories = AssetVocabularyHelper.getVocabulary(VocabularyNames.BUDGET_PARTICIPATIF_STATUS, sc.getScopeGroupId()).getCategories();
+            	
+            	AssetCategory selectedBPStatus = categories.stream().filter(status -> idsLong.contains(status.getCategoryId())).findFirst().orElse(null);
+            	if(selectedBPStatus != null)
+            		idsLong.remove(idsLong.indexOf(selectedBPStatus.getCategoryId()));
+            	AssetCategory mergedBPStatus = categories.stream()
+            			.filter(status -> StringHelper.compareIgnoringAccentuation(status.getTitle(Locale.FRENCH), BP_MERGED.getName())).findFirst().orElse(null);
+            	
+            	idsLong.add(mergedBPStatus.getCategoryId());
+            	sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+            }
             
             // ---------------------------------------------------------------
  			// -------------------------- IMAGE / VIDEO ----------------------
@@ -222,11 +257,60 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Phase
             Long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
             budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
+
+			// ---------------------------------------------------------------
+			// -------------------------- DOCUMENTS --------------------------
+			// ---------------------------------------------------------------
+
+			// Documents associés
+			String filesIds = ParamUtil.getString(request, "filesIds");
+			budgetParticipatif.setFilesIds(filesIds);
+
+			// -------------------------- TIMELINE ---------------------------
+			// ---------------------------------------------------------------
+
+			// Suppression des anciennes entrées de timeline
+			List<ProjectTimeline> oldTimelines = budgetParticipatif.getBudgetParticipatifTimelines();
+			for (ProjectTimeline projectTimeline : oldTimelines) {
+				_projectTimelineLocalService.deleteProjectTimeline(projectTimeline);
+			}
+			// Ajout des nouvelles
+			String timelineIndexesString = ParamUtil.getString(request, "budgetParticipatifTimelineIndexes");
+			for (String timelineIndex : timelineIndexesString.split(",")) {
+				DateFormat paramDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				if (Validator.isNotNull(timelineIndex)
+						&& Validator.isNotNull(ParamUtil.getString(request, "date" + timelineIndex))) {
+
+					// Spacing
+					Integer spacing = ParamUtil.getInteger(request, "spacing" + timelineIndex);
+
+					// Date
+					Date date = ParamUtil.getDate(request, "date" + timelineIndex, paramDateFormat);
+
+					// Titre
+					String timelineTitle = ParamUtil.getString(request, "title" + timelineIndex);
+
+					// Lien
+					String link = ParamUtil.getString(request, "link" + timelineIndex);
+
+					// Format de date
+					String dateFormat = ParamUtil.getString(request, "dateFormat" + timelineIndex);
+
+					ProjectTimeline projectTimeline = _projectTimelineLocalService.createProjectTimeline();
+					projectTimeline.setDate(date);
+					projectTimeline.setSpacing(spacing);
+					projectTimeline.setTitle(timelineTitle);
+					projectTimeline.setLink(link);
+					projectTimeline.setBudgetParticipatifId(budgetParticipatif.getBudgetParticipatifId());
+					projectTimeline.setDateFormat(dateFormat);
+					this._projectTimelineLocalService.updateProjectTimeline(projectTimeline);
+				}
+			}
             
             
             // ---------------------------------------------------------------
- 			// ----------------------- Contrôle du statut --------------------
- 			// ---------------------------------------------------------------
+		// ----------------------- Contrôle du statut --------------------
+		// ---------------------------------------------------------------
             
             //Si le motif n'est pas rempli, on vérifie que le statut  n'est pas dans la liste suivante : : Non Recevable, Non faisable, Non retenu, Annulé, Suspendu
             if(Validator.isNull(motif))
@@ -303,7 +387,14 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 		
 		return isValid;
 	}
-	
+
+	private ProjectTimelineLocalService _projectTimelineLocalService;
+
+	@Reference(unbind = "-")
+	protected void setProjectTimelineLocalService(ProjectTimelineLocalService projectTimelineLocalService) {
+		_projectTimelineLocalService = projectTimelineLocalService;
+	}
+
 	private BudgetParticipatifLocalService _budgetLocalService;
 	
 	@Reference(unbind = "-")

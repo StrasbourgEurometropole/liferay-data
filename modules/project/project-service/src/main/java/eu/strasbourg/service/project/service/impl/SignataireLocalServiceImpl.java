@@ -23,6 +23,7 @@ import eu.strasbourg.service.project.service.base.SignataireLocalServiceBaseImpl
 
 import javax.portlet.PortletException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the signataire local service.
@@ -49,13 +50,13 @@ public class SignataireLocalServiceImpl extends SignataireLocalServiceBaseImpl {
 	public final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     /**
-     * méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+     * méthode permettant de récuperer les signataires par l'identifiant de la pétition. Ne prend pas les entree anonymes (Signatures papiers)
      * @param petitionId l'identifiant de la pétition.
      * @return la liste des signataires.
      */
     @Override
     public List<Signataire> getSignatairesByPetitionId(long petitionId) {
-        return signatairePersistence.findByPetition(petitionId);
+    	return signatairePersistence.findByPetition(petitionId).stream().filter(p -> !p.getSignataireName().equals("ENTREE ANONYME")).collect(Collectors.toList());
     }
 
     /**

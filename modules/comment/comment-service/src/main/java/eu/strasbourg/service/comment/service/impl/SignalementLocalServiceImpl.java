@@ -53,6 +53,15 @@ public class SignalementLocalServiceImpl extends SignalementLocalServiceBaseImpl
     }
 
 	/**
+	 * Retourne tous les signalements d'un utilisateur
+	 */
+	@Override
+	public List<Signalement> getByPublikId(String publikId) {
+
+		return this.signalementPersistence.findByPublikId(publikId);
+	}
+
+	/**
 	 * Permet de creer un signalement sans le persister.
 	 * @param sc le serviceContext
 	 * @return le signalement.

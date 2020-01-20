@@ -67,6 +67,9 @@ public class PlaceSoap implements Serializable {
 		soapModel.setDisplayEvents(model.getDisplayEvents());
 		soapModel.setAdditionalInformation(model.getAdditionalInformation());
 		soapModel.setContenuTooltipCarto(model.getContenuTooltipCarto());
+		soapModel.setHasURLSchedule(model.getHasURLSchedule());
+		soapModel.setScheduleLinkName(model.getScheduleLinkName());
+		soapModel.setScheduleLinkURL(model.getScheduleLinkURL());
 		soapModel.setPhone(model.getPhone());
 		soapModel.setMail(model.getMail());
 		soapModel.setSiteURL(model.getSiteURL());
@@ -420,6 +423,34 @@ public class PlaceSoap implements Serializable {
 		_contenuTooltipCarto = contenuTooltipCarto;
 	}
 
+	public boolean getHasURLSchedule() {
+		return _hasURLSchedule;
+	}
+
+	public boolean isHasURLSchedule() {
+		return _hasURLSchedule;
+	}
+
+	public void setHasURLSchedule(boolean hasURLSchedule) {
+		_hasURLSchedule = hasURLSchedule;
+	}
+
+	public String getScheduleLinkName() {
+		return _scheduleLinkName;
+	}
+
+	public void setScheduleLinkName(String scheduleLinkName) {
+		_scheduleLinkName = scheduleLinkName;
+	}
+
+	public String getScheduleLinkURL() {
+		return _scheduleLinkURL;
+	}
+
+	public void setScheduleLinkURL(String scheduleLinkURL) {
+		_scheduleLinkURL = scheduleLinkURL;
+	}
+
 	public String getPhone() {
 		return _phone;
 	}
@@ -685,6 +716,9 @@ public class PlaceSoap implements Serializable {
 	private boolean _displayEvents;
 	private String _additionalInformation;
 	private String _contenuTooltipCarto;
+	private boolean _hasURLSchedule;
+	private String _scheduleLinkName;
+	private String _scheduleLinkURL;
 	private String _phone;
 	private String _mail;
 	private String _siteURL;

@@ -348,7 +348,7 @@ public class MyDistrictDisplayContext {
         try {
             document = SAXReaderUtil.read(new StringReader(content));
             Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-            if (node.getText().length() > 0) {
+            if (node != null && node.getText().length() > 0) {
                 value = node.getText();
             }
         } catch (Exception ex) {
@@ -387,36 +387,16 @@ public class MyDistrictDisplayContext {
             List<AssetEntry> entries = new ArrayList<AssetEntry>();
             entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(district.getCategoryId()));
             List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-            Criterion idCriterion = RestrictionsFactoryUtil.in("eventId", classPks);
-            Criterion statusCriterion = RestrictionsFactoryUtil.eq("status", WorkflowConstants.STATUS_APPROVED);
-            DynamicQuery eventQuery = EventLocalServiceUtil.dynamicQuery().add(idCriterion).add(statusCriterion);
-            //eventQuery.setLimit(0, 12);
-            List<Event> listEvent = EventLocalServiceUtil.dynamicQuery(eventQuery);
-            List<AssetEntry> result = new ArrayList<AssetEntry>();
+            List<Event> listEvent = EventLocalServiceUtil.findByNextHappening();
+            listEvent = listEvent.stream().filter(e -> classPks.contains(e.getEventId())).collect(Collectors.toList());
 
-            for (Event event : listEvent) {
-                AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(),
-                        event.getPrimaryKey());
-                if (assetEntry != null) {
-                    int i = 0;
-                    int daysBeforeNextOpenDate = this.getDaysBetweenTodayAndNextOpenDate(event);
-                    while (i < result.size()) {
-                        int daysAfterPublication;
-                        Event event2 = EventLocalServiceUtil.fetchEvent(result.get(i).getClassPK());
-                        daysAfterPublication = this.getDaysBetweenTodayAndNextOpenDate(event2);
-                        if (daysBeforeNextOpenDate < daysAfterPublication) {
-                            result.add(i, assetEntry);
-                            break;
-                        }
-                        i++;
-                    }
-                    if (i == result.size()) {
-                        result.add(assetEntry);
-                    }
-                }
+            events = new ArrayList<AssetEntry>();
+            for (Event event: listEvent) {
+                if(events.size() < 12)
+                    events.add(entries.stream().filter(a -> a.getClassPK() == event.getEventId()).collect(Collectors.toList()).get(0));
+                else
+                    break;
             }
-
-            events = result.subList(0,(result.size() > 12)?12:result.size());
         }
         return events;
     }
@@ -426,10 +406,6 @@ public class MyDistrictDisplayContext {
         Pattern p = Pattern.compile("<[^>]*>");
         Matcher m = p.matcher(html);
         return m.replaceAll("");
-    }
-
-    private int getDaysBetweenTodayAndNextOpenDate(Event event) {
-        return (int) Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), event.getNextOpenDate()));
     }
 
     private int getDaysBetweenTodayAndPublicationDate(AssetEntry entry) {

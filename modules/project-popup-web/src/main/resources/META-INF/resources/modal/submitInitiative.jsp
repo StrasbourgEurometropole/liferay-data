@@ -97,8 +97,6 @@
                                     cssClass="btn btn-default btn-choose">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
-                                <!-- Permet de recuperer l'id de l'image postee par l'utilisateur -->
-                                <aui:input type="hidden" name="webImageId" />
                             </span>
                         </div>
                     </div>
@@ -137,7 +135,7 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValuesInitiative();" onChange="checkValuesInitiative();"/>
                         </div>
                         
                     </div>
@@ -147,7 +145,7 @@
                     
                     	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValuesInitiative();" />
                         </div>
                         
                         <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
@@ -155,12 +153,12 @@
                         
                         	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city"  maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city"  maxlength="256" onInput="checkValuesInitiative();" />
                             </div>
                             
                             <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode"  maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode"  maxlength="5" onInput="checkValuesInitiative();"/>
                             </div>
                             
                         </div>
@@ -177,12 +175,12 @@
                     
                     	<%-- Champ : Telephone --%>
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValuesInitiative();"/>
                         </div>
                         
                         <%-- Champ : Mobile --%>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesInitiative();"/>
                         </div>
                     </div>
                     
@@ -276,7 +274,7 @@
 <script type="text/javascript">
 	
 	// Variables tempons des informations utilisateur et contexte namespace
-	var namespace = "<portlet:namespace />";
+	var namespaceInitiative = "<portlet:namespace />";
 	var saved_address = "${userConnected.get('address')}";
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
@@ -288,7 +286,7 @@
 	* Lors du chargement de la page
 	*/
     $(document).ready(function(){
-    	resetValues();
+    	resetValuesInitiative();
         $("#<portlet:namespace />modalConfirm").modal('hide');
         $("#<portlet:namespace />modalError").modal('hide');
         $("#<portlet:namespace />checkboxSaveInfo").hide();
@@ -299,7 +297,7 @@
 	*/
     $("#<portlet:namespace />buttonSubmit").click(function(event){
         event.preventDefault();
-        var response = validateForm();
+        var response = validateFormInitiative();
         if (response){
             var title = $("#<portlet:namespace />title").val();
             var description = $("#<portlet:namespace />description").val();
@@ -370,7 +368,7 @@
                                             saved_mobile = $("#<portlet:namespace />mobile").val();
                                     }
                                     $("#<portlet:namespace />modalConfirm").modal('show');
-                                    resetValues();
+                                    resetValuesInitiative();
                                 }else{
                                     $("#<portlet:namespace />modalError h4").text(data.message);
                                     $("#<portlet:namespace />modalError").modal('show');
@@ -399,7 +397,7 @@
     /*
 	* Reinitialise le formulaire avec les informations les plus fraiches
 	*/
-    function resetValues(){
+    function resetValuesInitiative(){
     	// Champs entite
         $("#<portlet:namespace />title").val("");
         $("#<portlet:namespace />description").val("");
@@ -432,7 +430,7 @@
     /*
 	* Affiche la demande de sauvegarde des informations dans Publik
 	*/
-    function checkValues(){
+    function checkValuesInitiative(){
         if($("#<portlet:namespace />birthday").val() != saved_dateNaiss 
         		|| $("#<portlet:namespace />address").val() != saved_address 
         		|| $("#<portlet:namespace />city").val() != saved_city 
@@ -450,7 +448,7 @@
     /*
 	* Verifie la conformite des elements avant l'envoie du formulaire
 	*/
-    function validateForm()
+    function validateFormInitiative()
     {
         var result = true;
         

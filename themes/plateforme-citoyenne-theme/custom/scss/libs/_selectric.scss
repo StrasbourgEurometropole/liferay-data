@@ -173,6 +173,7 @@ $selectric-font-size:       12px !default;                                      
   .selectric-scroll {
     height: 100%;
     overflow: auto;
+	  -webkit-overflow-scrolling: touch;
   }
 
   .selectric-above & {
@@ -201,7 +202,7 @@ $selectric-font-size:       12px !default;                                      
     }
 
     &.highlighted {
-      background: #D0D0D0;
+      background: #E0E0E0;
       color: #444;
     }
 

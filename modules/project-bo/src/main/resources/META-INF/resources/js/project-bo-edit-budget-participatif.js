@@ -17,6 +17,16 @@ jQuery(function() {
 				url: getBudgetParticipatifPlaceRowURL
 			}).render();
 		}
+
+		if (!!document.getElementById('timeline-fields')) {
+			// Création de l'autofield sur les timelines
+			timelineAutoFields = new Liferay.AutoFields({
+				contentBox : '#timeline-fields',
+				fieldIndexes : namespace + 'budgetParticipatifTimelineIndexes',
+				namespace : namespace,
+				url : getBudgetParticipatifTimelineRowJSPURL
+			}).render();
+		}
 		
 	});
 	
@@ -80,5 +90,6 @@ jQuery(function() {
 //Soumission du formulaire
 function submitForm(event) {
 	placeAutoFields.save(event.target);
+	timelineAutoFields.save(event.target);
 	return true;
 }

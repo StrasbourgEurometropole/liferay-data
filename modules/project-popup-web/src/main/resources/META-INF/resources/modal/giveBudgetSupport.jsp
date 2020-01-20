@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     
-                    <!-- Champ : demande de la mise aÂ  jour des informations dans publik -->
+                    <!-- Champ : demande de la mise aÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
                             <input type="checkbox" name="<portlet:namespace />saveinfo" id="save-info" value="save-info">
@@ -190,7 +190,7 @@
 
 <script type="text/javascript">
 	
-	var namespace = "<portlet:namespace />";
+	var namespaceGiveBudgetSupport = "<portlet:namespace />";
 	
 	// Sauvegarde des informations de base de l'utilisateur courrant
 	var saved_dateNaiss = "${formattedDate}";
@@ -203,14 +203,14 @@
 	/*
 	* Reinitialise le formulaire avec les informations les plus fraiches
 	*/
-	function resetValues() {
+	function resetValuesGiveBudgetSupport() {
 		// Champs informations utilisateur
-		$("#"+namespace+"supportBirthday").val(saved_dateNaiss);
-        $("#"+namespace+"supportAddress").val(saved_address);
-        $("#"+namespace+"supportCity").val(saved_city);
-        $("#"+namespace+"supportPostalCode").val(saved_zipCode);
-        $("#"+namespace+"supportPhone").val(saved_phone);
-        $("#"+namespace+"supportMobile").val(saved_mobile);
+		$("#"+namespaceGiveBudgetSupport+"supportBirthday").val(saved_dateNaiss);
+        $("#"+namespaceGiveBudgetSupport+"supportAddress").val(saved_address);
+        $("#"+namespaceGiveBudgetSupport+"supportCity").val(saved_city);
+        $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val(saved_zipCode);
+        $("#"+namespaceGiveBudgetSupport+"supportPhone").val(saved_phone);
+        $("#"+namespaceGiveBudgetSupport+"supportMobile").val(saved_mobile);
         
         // Chebox de conditions et de sauvegade des informations
         $('#checkboxSupportSaveInfo #save-info').prop('checked', false);
@@ -223,9 +223,9 @@
 	* Affiche la demande de sauvegarde des informations dans Publik
 	*/
 	function checkSupportValues(){
-        if($("#"+namespace+"supportBirthday").val() != saved_dateNaiss || $("#"+namespace+"supportAddress").val() != saved_address 
-        		|| $("#"+namespace+"supportCity").val() != saved_city || $("#"+namespace+"supportPostalCode").val() != saved_zipCode
-        		|| $("#"+namespace+"supportPhone").val() != saved_phone || $("#"+namespace+"supportMobile").val() != saved_mobile){
+        if($("#"+namespaceGiveBudgetSupport+"supportBirthday").val() != saved_dateNaiss || $("#"+namespaceGiveBudgetSupport+"supportAddress").val() != saved_address
+        		|| $("#"+namespaceGiveBudgetSupport+"supportCity").val() != saved_city || $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val() != saved_zipCode
+        		|| $("#"+namespaceGiveBudgetSupport+"supportPhone").val() != saved_phone || $("#"+namespaceGiveBudgetSupport+"supportMobile").val() != saved_mobile){
             $('#checkboxSupportSaveInfo #save-info').prop('checked', true);
             $('#checkboxSupportSaveInfo').show();
         } else {
@@ -252,16 +252,16 @@
 	/*
 	* Verifie la conformite des elements avant l'envoie du formulaire
 	*/
-	function validateForm() {
+	function validateFormGiveBudgetSupport() {
 		// Valeur de retour "juste" par defaut
         var isValid = true;
 
 		// Recuperation des inforamtions du formulaire
-        var birthday = $("#"+namespace+"supportBirthday").val();
+        var birthday = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
         var age = getAge(birthday);
-        var city = $("#"+namespace+"supportCity").val();
-        var address = $("#"+namespace+"supportAddress").val();
-        var postalcode = $("#"+namespace+"supportPostalCode").val();
+        var city = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
+        var address = $("#"+namespaceGiveBudgetSupport+"supportAddress").val();
+        var postalcode = $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val();
         var legalAge = $("#giveSupportLegalAge").is(":checked");
         var condition1 = $("#giveBudgetSupportCondition1").is(":checked");
         
@@ -270,38 +270,38 @@
 
         // Champ : date de naissance
         if (birthday==null || birthday=="") {
-            $("#"+namespace+"supportBirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceGiveBudgetSupport+"supportBirthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#"+namespace+"supportBirthday").css({ "box-shadow" : "" });
+        } else $("#"+namespaceGiveBudgetSupport+"supportBirthday").css({ "box-shadow" : "" });
         
         if(age<16){
             $("#supportAlertLegalAge").removeClass("hidden");
-            $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceGiveBudgetSupport+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
         }
         else $("#supportAlertLegalAge").addClass("hidden");
 
      	// Champ : ville
         if (city==null || city=="") {
-            $("#"+namespace+"supportCity").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceGiveBudgetSupport+"supportCity").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#"+namespace+"supportCity").css({ "box-shadow" : "" });
+        } else $("#"+namespaceGiveBudgetSupport+"supportCity").css({ "box-shadow" : "" });
 
      	// Champ : adresse
         if (address==null || address=="") {
-            $("#"+namespace+"supportAddress").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceGiveBudgetSupport+"supportAddress").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
-        } else $("#"+namespace+"supportAddress").css({ "box-shadow" : "" });
+        } else $("#"+namespaceGiveBudgetSupport+"supportAddress").css({ "box-shadow" : "" });
 
      	// Champ : code postal
         if (postalcode==null || postalcode=="") {
-            $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceGiveBudgetSupport+"supportPostalCode").css({ "box-shadow" : "0 0 10px #CC0000" });
             isValid = false;
         } else if (!regex.test(postalcode)) {
-            $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceGiveBudgetSupport+"supportPostalCode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             isValid = false;
-        } else $("#"+namespace+"supportPostalCode").css({ "box-shadow" : "" });
+        } else $("#"+namespaceGiveBudgetSupport+"supportPostalCode").css({ "box-shadow" : "" });
 
         if (!legalAge)
         	isValid = false;
@@ -321,17 +321,17 @@
 	*/
 	function sendSupport() {
 		// Verification du formulaire
-        var isValid = validateForm();
+        var isValid = validateFormGiveBudgetSupport();
         
         if (isValid) {
         	// Recuperation des informations
-        	var entryId = $("#"+namespace+"entryId").val();
-            var birthdayValue = $("#"+namespace+"supportBirthday").val();
-            var addressValue = $("#"+namespace+"supportAddress").val();
-            var cityValue = $("#"+namespace+"supportCity").val();
-            var postalcodeValue = $("#"+namespace+"supportPostalCode").val();
-            var phoneValue = $("#"+namespace+"supportPhone").val();
-            var mobileValue = $("#"+namespace+"supportMobile").val();
+        	var entryId = $("#"+namespaceGiveBudgetSupport+"entryId").val();
+            var birthdayValue = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
+            var addressValue = $("#"+namespaceGiveBudgetSupport+"supportAddress").val();
+            var cityValue = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
+            var postalcodeValue = $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val();
+            var phoneValue = $("#"+namespaceGiveBudgetSupport+"supportPhone").val();
+            var mobileValue = $("#"+namespaceGiveBudgetSupport+"supportMobile").val();
             var saveInfoValue = $("#save-info").is(":checked");
             
             // Requete Ajax
@@ -362,25 +362,25 @@
                             	
                             	// Sauvegarde des nouvelles informations de l'utilisateur
                                 if (data.savedInfo) {
-                                    saved_dateNaiss = $("#"+namespace+"supportBirthday").val();
-                                    saved_city = $("#"+namespace+"supportCity").val();
-                                    saved_address = $("#"+namespace+"supportAddress").val();
-                                    saved_zipCode = $("#"+namespace+"supportPostalCode").val();
-                                    if($("#"+namespace+"supportPhone").val() != "")
-                                        saved_phone = $("#"+namespace+"supportPhone").val();
-                                    if($("#"+namespace+"supportMobile").val() != "")
-                                        saved_mobile = $("#"+namespace+"supportMobile").val();
+                                    saved_dateNaiss = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
+                                    saved_city = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
+                                    saved_address = $("#"+namespaceGiveBudgetSupport+"supportAddress").val();
+                                    saved_zipCode = $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val();
+                                    if($("#"+namespaceGiveBudgetSupport+"supportPhone").val() != "")
+                                        saved_phone = $("#"+namespaceGiveBudgetSupport+"supportPhone").val();
+                                    if($("#"+namespaceGiveBudgetSupport+"supportMobile").val() != "")
+                                        saved_mobile = $("#"+namespaceGiveBudgetSupport+"supportMobile").val();
                                 }
                             	
                              	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
                                 if (data.updatedSupportsInfo) {
                                 	// Modification des textes des labels et bouton
-                                	$('#nbUserSupports').text(5 - data.updatedSupportsInfo.nbUserSupports);
+                                	$('#nbUserSupports').text(data.updatedSupportsInfo.nbSupportForActivePhase - data.updatedSupportsInfo.nbUserSupports);
                                 	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
                                 	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
                                 	
                                 	// Cache du bouton si plus aucun vote disponible
-                                	if (data.updatedSupportsInfo.nbUserSupports >= 5) {
+                                	if (data.updatedSupportsInfo.nbUserSupports >= data.updatedSupportsInfo.nbSupportForActivePhase) {
                                 		$("[href='#Support']").hide();
                                 	}
                                 	
@@ -391,7 +391,7 @@
                                 	// Affichage dans tous les cas du boutons de retrait
                                 	$("[href='#RemoveSupport']").show();
                                 }
-                                resetValues();
+                                resetValuesGiveBudgetSupport();
                              	// Modal de confirmation de succes
                                 $('#modalConfirmSupport').modal('show');
                             }
@@ -415,7 +415,7 @@
 	function removeSupport() {
         
 		// Recuperation des informations
-		var entryId = $("#"+namespace+"entryId").val();
+		var entryId = $("#"+namespaceGiveBudgetSupport+"entryId").val();
        
 		// Requete Ajax
 		AUI().use('aui-io-request', function(A) {
@@ -435,7 +435,7 @@
                         	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
                            if (data.updatedSupportsInfo) {
 								// Modification des textes des labels et bouton
-	                           	$('#nbUserSupports').text(5 - data.updatedSupportsInfo.nbUserSupports);
+	                           	$('#nbUserSupports').text(data.updatedSupportsInfo.nbSupportForActivePhase - data.updatedSupportsInfo.nbUserSupports);
 	                           	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
 	                           	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
 	                           	
@@ -452,7 +452,7 @@
 	                           	$("[href='#Support']").show();
 							}
                         	
-                           resetValues();
+                           resetValuesGiveBudgetSupport();
                         	
                         	// Modal de confirmation de succes
 							$('#modalConfirmSupport').modal('show');
@@ -485,7 +485,7 @@
 	*/
 	$(document).on("click", "[href='#Support']", function(event) {
 		event.preventDefault();
-		resetValues();
+		resetValuesGiveBudgetSupport();
 		
 		/** (08/03/2019) on n'affiche plus la popup pour le premier vote
 		// Si il y'a deja eu un vote de l'utilisateur, pas de formulaire

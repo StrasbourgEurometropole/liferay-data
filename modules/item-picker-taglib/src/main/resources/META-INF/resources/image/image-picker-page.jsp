@@ -29,8 +29,16 @@
 	<div class="has-error">
 		<aui:input name="${name}" type="hidden" value="${value}">
 			<c:if test="${required}">
-				<aui:validator name="required"
-					errorMessage="this-field-is-required" />
+                <aui:validator name="required${name}" errorMessage="this-field-is-required">
+                    function (val, fieldNode, ruleValue) {
+                        var validated = true;
+                        if ($("#images-thumbnails-${name} img").length == 0) {
+                            $('html,body').animate({scrollTop: $("#images-thumbnails-${name}").parent().offset().top - 100}, 'slow');
+                            validated = false;
+                        }
+                        return validated;
+                    }
+                </aui:validator>
 			</c:if>
 		</aui:input>
 	</div>

@@ -244,6 +244,12 @@ public interface SignalementLocalService extends BaseLocalService,
 	public List<Signalement> getByGroupId(long groupId);
 
 	/**
+	* Retourne tous les signalements d'un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Signalement> getByPublikId(java.lang.String publikId);
+
+	/**
 	* Returns a range of all the signalements.
 	*
 	* <p>

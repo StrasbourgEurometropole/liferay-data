@@ -322,7 +322,7 @@ public class SignataireLocalServiceWrapper implements SignataireLocalService,
 	}
 
 	/**
-	* méthode permettant de récuperer les signataires par l'identifiant de la pétition.
+	* méthode permettant de récuperer les signataires par l'identifiant de la pétition. Ne prend pas les entree anonymes (Signatures papiers)
 	*
 	* @param petitionId l'identifiant de la pétition.
 	* @return la liste des signataires.

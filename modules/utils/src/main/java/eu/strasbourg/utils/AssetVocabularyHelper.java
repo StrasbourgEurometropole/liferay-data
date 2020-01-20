@@ -621,5 +621,21 @@ public class AssetVocabularyHelper {
 		return sortedCategories;
 	}
 
-		private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
+	/**
+	 * Renvoit la liste des categories ayant au moins 1 catégorie enfant
+	 * @param categories
+	 * @return
+	 */
+	public static List<AssetCategory> getParentCategory(List<AssetCategory> categories) {
+		List<AssetCategory> parentCategories = new ArrayList<>();
+		for(AssetCategory category : categories) {
+			if(getCategoriesWithChild(category).size() > 1) {
+				parentCategories.add(category);
+			}
+		}
+
+		return parentCategories;
+	}
+
+	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }

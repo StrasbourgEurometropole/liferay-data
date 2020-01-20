@@ -1184,6 +1184,166 @@ public class BudgetParticipatifUtil {
 	}
 
 	/**
+	* Returns all the budget participatifs where parentId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @return the matching budget participatifs
+	*/
+	public static List<BudgetParticipatif> findByParentId(long parentId) {
+		return getPersistence().findByParentId(parentId);
+	}
+
+	/**
+	* Returns a range of all the budget participatifs where parentId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetParticipatifModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentId the parent ID
+	* @param start the lower bound of the range of budget participatifs
+	* @param end the upper bound of the range of budget participatifs (not inclusive)
+	* @return the range of matching budget participatifs
+	*/
+	public static List<BudgetParticipatif> findByParentId(long parentId,
+		int start, int end) {
+		return getPersistence().findByParentId(parentId, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the budget participatifs where parentId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetParticipatifModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentId the parent ID
+	* @param start the lower bound of the range of budget participatifs
+	* @param end the upper bound of the range of budget participatifs (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching budget participatifs
+	*/
+	public static List<BudgetParticipatif> findByParentId(long parentId,
+		int start, int end,
+		OrderByComparator<BudgetParticipatif> orderByComparator) {
+		return getPersistence()
+				   .findByParentId(parentId, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the budget participatifs where parentId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link BudgetParticipatifModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param parentId the parent ID
+	* @param start the lower bound of the range of budget participatifs
+	* @param end the upper bound of the range of budget participatifs (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching budget participatifs
+	*/
+	public static List<BudgetParticipatif> findByParentId(long parentId,
+		int start, int end,
+		OrderByComparator<BudgetParticipatif> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByParentId(parentId, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first budget participatif in the ordered set where parentId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching budget participatif
+	* @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
+	*/
+	public static BudgetParticipatif findByParentId_First(long parentId,
+		OrderByComparator<BudgetParticipatif> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException {
+		return getPersistence().findByParentId_First(parentId, orderByComparator);
+	}
+
+	/**
+	* Returns the first budget participatif in the ordered set where parentId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
+	*/
+	public static BudgetParticipatif fetchByParentId_First(long parentId,
+		OrderByComparator<BudgetParticipatif> orderByComparator) {
+		return getPersistence()
+				   .fetchByParentId_First(parentId, orderByComparator);
+	}
+
+	/**
+	* Returns the last budget participatif in the ordered set where parentId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching budget participatif
+	* @throws NoSuchBudgetParticipatifException if a matching budget participatif could not be found
+	*/
+	public static BudgetParticipatif findByParentId_Last(long parentId,
+		OrderByComparator<BudgetParticipatif> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException {
+		return getPersistence().findByParentId_Last(parentId, orderByComparator);
+	}
+
+	/**
+	* Returns the last budget participatif in the ordered set where parentId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
+	*/
+	public static BudgetParticipatif fetchByParentId_Last(long parentId,
+		OrderByComparator<BudgetParticipatif> orderByComparator) {
+		return getPersistence().fetchByParentId_Last(parentId, orderByComparator);
+	}
+
+	/**
+	* Returns the budget participatifs before and after the current budget participatif in the ordered set where parentId = &#63;.
+	*
+	* @param budgetParticipatifId the primary key of the current budget participatif
+	* @param parentId the parent ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next budget participatif
+	* @throws NoSuchBudgetParticipatifException if a budget participatif with the primary key could not be found
+	*/
+	public static BudgetParticipatif[] findByParentId_PrevAndNext(
+		long budgetParticipatifId, long parentId,
+		OrderByComparator<BudgetParticipatif> orderByComparator)
+		throws eu.strasbourg.service.project.exception.NoSuchBudgetParticipatifException {
+		return getPersistence()
+				   .findByParentId_PrevAndNext(budgetParticipatifId, parentId,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the budget participatifs where parentId = &#63; from the database.
+	*
+	* @param parentId the parent ID
+	*/
+	public static void removeByParentId(long parentId) {
+		getPersistence().removeByParentId(parentId);
+	}
+
+	/**
+	* Returns the number of budget participatifs where parentId = &#63;.
+	*
+	* @param parentId the parent ID
+	* @return the number of matching budget participatifs
+	*/
+	public static int countByParentId(long parentId) {
+		return getPersistence().countByParentId(parentId);
+	}
+
+	/**
 	* Returns all the budget participatifs where isCrush = &#63; and status = &#63; and groupId = &#63;.
 	*
 	* @param isCrush the is crush
