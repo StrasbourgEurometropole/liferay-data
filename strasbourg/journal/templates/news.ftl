@@ -60,7 +60,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <a href="${homeURL}${(locale == 'fr_FR')?then('actualite','news')}?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
                             ${type.getTitle(locale)}
                         </a>
-                        <#sep>, </#sep>
+                        <#sep>,&nbsp;</#sep>
                 </#list>
             </p>
         </#if>
