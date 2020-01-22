@@ -40,6 +40,7 @@
 		<column name="mercatorY" type="String" />
 		<column name="RGF93X" type="String" />
 		<column name="RGF93Y" type="String" />
+		<column name="locationId" type="String" />
 		
 		<!-- Informations générales modifiables -->
 		<column name="alias" type="String" localized="true" />

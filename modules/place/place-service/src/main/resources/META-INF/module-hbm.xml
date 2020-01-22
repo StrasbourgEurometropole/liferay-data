@@ -76,6 +76,7 @@
 		<property name="mercatorY" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="RGF93X" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="RGF93Y" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="locationId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="alias_" name="alias" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="presentation" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="serviceAndActivities" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />

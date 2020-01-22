@@ -60,6 +60,7 @@ create table place_Place (
 	mercatorY VARCHAR(75) null,
 	RGF93X VARCHAR(75) null,
 	RGF93Y VARCHAR(75) null,
+	locationId VARCHAR(75) null,
 	alias_ STRING null,
 	presentation TEXT null,
 	serviceAndActivities TEXT null,

@@ -58,6 +58,7 @@ public class PlaceSoap implements Serializable {
 		soapModel.setMercatorY(model.getMercatorY());
 		soapModel.setRGF93X(model.getRGF93X());
 		soapModel.setRGF93Y(model.getRGF93Y());
+		soapModel.setLocationId(model.getLocationId());
 		soapModel.setAlias(model.getAlias());
 		soapModel.setPresentation(model.getPresentation());
 		soapModel.setServiceAndActivities(model.getServiceAndActivities());
@@ -341,6 +342,14 @@ public class PlaceSoap implements Serializable {
 
 	public void setRGF93Y(String RGF93Y) {
 		_RGF93Y = RGF93Y;
+	}
+
+	public String getLocationId() {
+		return _locationId;
+	}
+
+	public void setLocationId(String locationId) {
+		_locationId = locationId;
 	}
 
 	public String getAlias() {
@@ -707,6 +716,7 @@ public class PlaceSoap implements Serializable {
 	private String _mercatorY;
 	private String _RGF93X;
 	private String _RGF93Y;
+	private String _locationId;
 	private String _alias;
 	private String _presentation;
 	private String _serviceAndActivities;

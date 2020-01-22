@@ -113,6 +113,9 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String RGF93Y = ParamUtil.getString(request, "RGF93Y2");
 			place.setRGF93Y(RGF93Y);
 
+			String locationId = ParamUtil.getString(request, "locationId");
+			place.setLocationId(locationId);
+
 			// ---------------------------------------------------------------
 			// ------------------------- DESCRIPTION -------------------------
 			// ---------------------------------------------------------------

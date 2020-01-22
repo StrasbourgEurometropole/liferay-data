@@ -204,7 +204,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	* Met à jour une entree google mybusiness et l'enregistre en base de données
 	*
-	* @throws IOException
+	* @throws PortalException
 	*/
 	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(
 		eu.strasbourg.service.place.model.GoogleMyBusinessHistoric googleMyBusinessHistoric,

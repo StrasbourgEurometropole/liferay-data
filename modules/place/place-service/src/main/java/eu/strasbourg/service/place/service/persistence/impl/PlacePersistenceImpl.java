@@ -3702,6 +3702,7 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setMercatorY(place.getMercatorY());
 		placeImpl.setRGF93X(place.getRGF93X());
 		placeImpl.setRGF93Y(place.getRGF93Y());
+		placeImpl.setLocationId(place.getLocationId());
 		placeImpl.setAlias(place.getAlias());
 		placeImpl.setPresentation(place.getPresentation());
 		placeImpl.setServiceAndActivities(place.getServiceAndActivities());

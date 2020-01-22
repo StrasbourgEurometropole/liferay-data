@@ -207,7 +207,7 @@ public class GoogleMyBusinessHistoricLocalServiceWrapper
 	/**
 	* Met à jour une entree google mybusiness et l'enregistre en base de données
 	*
-	* @throws IOException
+	* @throws PortalException
 	*/
 	@Override
 	public eu.strasbourg.service.place.model.GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(

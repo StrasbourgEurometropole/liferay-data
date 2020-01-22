@@ -83,6 +83,7 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("mercatorY", getMercatorY());
 		attributes.put("RGF93X", getRGF93X());
 		attributes.put("RGF93Y", getRGF93Y());
+		attributes.put("locationId", getLocationId());
 		attributes.put("alias", getAlias());
 		attributes.put("presentation", getPresentation());
 		attributes.put("serviceAndActivities", getServiceAndActivities());
@@ -273,6 +274,12 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 		if (RGF93Y != null) {
 			setRGF93Y(RGF93Y);
+		}
+
+		String locationId = (String)attributes.get("locationId");
+
+		if (locationId != null) {
+			setLocationId(locationId);
 		}
 
 		String alias = (String)attributes.get("alias");
@@ -1812,6 +1819,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.lang.String getImageURL(java.lang.Long imageId) {
 		return _place.getImageURL(imageId);
+	}
+
+	/**
+	* Returns the location ID of this place.
+	*
+	* @return the location ID of this place
+	*/
+	@Override
+	public java.lang.String getLocationId() {
+		return _place.getLocationId();
 	}
 
 	/**
@@ -3837,6 +3854,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
 		_place.setLastPublishDate(lastPublishDate);
+	}
+
+	/**
+	* Sets the location ID of this place.
+	*
+	* @param locationId the location ID of this place
+	*/
+	@Override
+	public void setLocationId(java.lang.String locationId) {
+		_place.setLocationId(locationId);
 	}
 
 	/**

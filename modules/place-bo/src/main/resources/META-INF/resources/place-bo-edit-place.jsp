@@ -64,7 +64,15 @@
 						<aui:input name="addressCountry2" type="hidden" value="${dc.place.addressCountry}" />
 						
 						<aui:input name="addressCountry" disabled="true" />
-						
+
+						<c:if test="${not empty dc.place.locationId}">
+						    <aui:input name="locationId" disabled="true" />
+                        </c:if>
+
+						<c:if test="${empty dc.place.locationId}">
+						    <aui:input name="locationId" />
+                        </c:if>
+
 					</div>
 					
 					<div class="col-md-6">

@@ -83,6 +83,7 @@
 		<field name="mercatorY" type="String" />
 		<field name="RGF93X" type="String" />
 		<field name="RGF93Y" type="String" />
+		<field name="locationId" type="String" />
 		<field localized="true" name="alias" type="String" />
 		<field localized="true" name="presentation" type="String">
 			<hint-collection name="EDITOR" />

@@ -194,7 +194,7 @@ public interface GoogleMyBusinessHistoricLocalService extends BaseLocalService,
 	/**
 	* Met à jour une entree google mybusiness et l'enregistre en base de données
 	*
-	* @throws IOException
+	* @throws PortalException
 	*/
 	public GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(
 		GoogleMyBusinessHistoric googleMyBusinessHistoric, ServiceContext sc)

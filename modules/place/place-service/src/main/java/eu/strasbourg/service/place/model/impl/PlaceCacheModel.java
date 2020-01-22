@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(131);
+		StringBundler sb = new StringBundler(133);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -115,6 +115,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(RGF93X);
 		sb.append(", RGF93Y=");
 		sb.append(RGF93Y);
+		sb.append(", locationId=");
+		sb.append(locationId);
 		sb.append(", alias=");
 		sb.append(alias);
 		sb.append(", presentation=");
@@ -338,6 +340,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 		else {
 			placeImpl.setRGF93Y(RGF93Y);
+		}
+
+		if (locationId == null) {
+			placeImpl.setLocationId(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setLocationId(locationId);
 		}
 
 		if (alias == null) {
@@ -575,6 +584,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		mercatorY = objectInput.readUTF();
 		RGF93X = objectInput.readUTF();
 		RGF93Y = objectInput.readUTF();
+		locationId = objectInput.readUTF();
 		alias = objectInput.readUTF();
 		presentation = objectInput.readUTF();
 		serviceAndActivities = objectInput.readUTF();
@@ -751,6 +761,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 		else {
 			objectOutput.writeUTF(RGF93Y);
+		}
+
+		if (locationId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(locationId);
 		}
 
 		if (alias == null) {
@@ -980,6 +997,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String mercatorY;
 	public String RGF93X;
 	public String RGF93Y;
+	public String locationId;
 	public String alias;
 	public String presentation;
 	public String serviceAndActivities;
