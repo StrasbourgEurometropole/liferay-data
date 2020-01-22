@@ -89,7 +89,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     
     <header>
 
-        <div class="fit-cover"></div>
+        <div class="fit-cover">
+            <#if entry.imageTimelineURL?has_content>
+	            <img src="${entry.imageTimelineURL}" width="1600" height="200" style="opacity:${entry.opacityImage}">
+            </#if>
+        </div>
 
         <#if timelines?size gt 0>
             <!-- Start slider timeline wrapper -->
