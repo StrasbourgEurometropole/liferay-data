@@ -228,7 +228,7 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="timeline">
 
 				<%-- Champ : URL de l'image --%>
-                <strasbourg-picker:image label="image" name="imageTimeline" required="true"
+                <strasbourg-picker:image label="image" name="imageTimeline" required="false"
                 value="${dc.budgetParticipatif.imageTimeline}" global="false"/>
 
                 <%-- Champ : opacite de l'image --%>
