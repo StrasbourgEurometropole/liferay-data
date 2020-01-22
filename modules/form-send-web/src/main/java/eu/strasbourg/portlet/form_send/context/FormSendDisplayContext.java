@@ -126,10 +126,12 @@ public class FormSendDisplayContext {
             this.records = this.recordSet.getRecords();
         }
 
-        //trie par date antéchronologique
-        this.records = this.records.stream().sorted((r1, r2) -> r2.getCreateDate()
-                .compareTo(r1.getCreateDate()))
-                .collect(Collectors.toList());
+        if(Validator.isNull(this.configuration.defaultSort()) || this.configuration.defaultSort().equals("asc")){
+            //trie par date antéchronologique
+            this.records = this.records.stream().sorted((r1, r2) -> r2.getCreateDate()
+                    .compareTo(r1.getCreateDate()))
+                    .collect(Collectors.toList());
+        }
 
         return this.records;
     }
