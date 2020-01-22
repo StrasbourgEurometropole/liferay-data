@@ -109,7 +109,7 @@ public class GoogleMyBusinessHistoricImpl
 		// Properties de l'environnement courrant
 		String environment = StrasbourgPropsUtil.getEnvironment();
 		// Properties de l'adresse de reception
-		String mailAddresses = "" ;//StrasbourgPropsUtil.getPublikUserAnonymisationMails();
+		String mailAddresses = StrasbourgPropsUtil.getGMBEmail();
 
 		Map<String, Object> context = new HashMap<>();
 		context.put("googleMyBusinessHistoric", this);
