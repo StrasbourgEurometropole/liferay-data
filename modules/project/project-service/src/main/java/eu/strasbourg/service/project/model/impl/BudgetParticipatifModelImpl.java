@@ -105,6 +105,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			{ "citoyenBirthday", Types.TIMESTAMP },
 			{ "hasCopyright", Types.BOOLEAN },
 			{ "videoUrl", Types.VARCHAR },
+			{ "imageTimeline", Types.BIGINT },
+			{ "opacityImage", Types.DOUBLE },
 			{ "isCrush", Types.BOOLEAN },
 			{ "crushComment", Types.CLOB },
 			{ "publikId", Types.VARCHAR },
@@ -146,6 +148,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("citoyenBirthday", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("hasCopyright", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("videoUrl", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("imageTimeline", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("opacityImage", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("isCrush", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("crushComment", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
@@ -155,7 +159,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		TABLE_COLUMNS_MAP.put("parentId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG,parentId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,imageTimeline LONG,opacityImage DOUBLE,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(75) null,budgetPhaseId LONG,parentId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table project_BudgetParticipatif";
 	public static final String ORDER_BY_JPQL = " ORDER BY budgetParticipatif.modifiedDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY project_BudgetParticipatif.modifiedDate DESC";
@@ -224,6 +228,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		model.setCitoyenBirthday(soapModel.getCitoyenBirthday());
 		model.setHasCopyright(soapModel.getHasCopyright());
 		model.setVideoUrl(soapModel.getVideoUrl());
+		model.setImageTimeline(soapModel.getImageTimeline());
+		model.setOpacityImage(soapModel.getOpacityImage());
 		model.setIsCrush(soapModel.getIsCrush());
 		model.setCrushComment(soapModel.getCrushComment());
 		model.setPublikId(soapModel.getPublikId());
@@ -326,6 +332,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
+		attributes.put("imageTimeline", getImageTimeline());
+		attributes.put("opacityImage", getOpacityImage());
 		attributes.put("isCrush", getIsCrush());
 		attributes.put("crushComment", getCrushComment());
 		attributes.put("publikId", getPublikId());
@@ -520,6 +528,18 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 		if (videoUrl != null) {
 			setVideoUrl(videoUrl);
+		}
+
+		Long imageTimeline = (Long)attributes.get("imageTimeline");
+
+		if (imageTimeline != null) {
+			setImageTimeline(imageTimeline);
+		}
+
+		Double opacityImage = (Double)attributes.get("opacityImage");
+
+		if (opacityImage != null) {
+			setOpacityImage(opacityImage);
 		}
 
 		Boolean isCrush = (Boolean)attributes.get("isCrush");
@@ -1077,6 +1097,28 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@JSON
 	@Override
+	public long getImageTimeline() {
+		return _imageTimeline;
+	}
+
+	@Override
+	public void setImageTimeline(long imageTimeline) {
+		_imageTimeline = imageTimeline;
+	}
+
+	@JSON
+	@Override
+	public double getOpacityImage() {
+		return _opacityImage;
+	}
+
+	@Override
+	public void setOpacityImage(double opacityImage) {
+		_opacityImage = opacityImage;
+	}
+
+	@JSON
+	@Override
 	public boolean getIsCrush() {
 		return _isCrush;
 	}
@@ -1366,6 +1408,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		budgetParticipatifImpl.setCitoyenBirthday(getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(getHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(getVideoUrl());
+		budgetParticipatifImpl.setImageTimeline(getImageTimeline());
+		budgetParticipatifImpl.setOpacityImage(getOpacityImage());
 		budgetParticipatifImpl.setIsCrush(getIsCrush());
 		budgetParticipatifImpl.setCrushComment(getCrushComment());
 		budgetParticipatifImpl.setPublikId(getPublikId());
@@ -1669,6 +1713,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 			budgetParticipatifCacheModel.videoUrl = null;
 		}
 
+		budgetParticipatifCacheModel.imageTimeline = getImageTimeline();
+
+		budgetParticipatifCacheModel.opacityImage = getOpacityImage();
+
 		budgetParticipatifCacheModel.isCrush = getIsCrush();
 
 		budgetParticipatifCacheModel.crushComment = getCrushComment();
@@ -1706,7 +1754,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1768,6 +1816,10 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getHasCopyright());
 		sb.append(", videoUrl=");
 		sb.append(getVideoUrl());
+		sb.append(", imageTimeline=");
+		sb.append(getImageTimeline());
+		sb.append(", opacityImage=");
+		sb.append(getOpacityImage());
 		sb.append(", isCrush=");
 		sb.append(getIsCrush());
 		sb.append(", crushComment=");
@@ -1789,7 +1841,7 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(121);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.project.model.BudgetParticipatif");
@@ -1916,6 +1968,14 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 		sb.append(getVideoUrl());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>imageTimeline</column-name><column-value><![CDATA[");
+		sb.append(getImageTimeline());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>opacityImage</column-name><column-value><![CDATA[");
+		sb.append(getOpacityImage());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>isCrush</column-name><column-value><![CDATA[");
 		sb.append(getIsCrush());
 		sb.append("]]></column-value></column>");
@@ -1991,6 +2051,8 @@ public class BudgetParticipatifModelImpl extends BaseModelImpl<BudgetParticipati
 	private Date _citoyenBirthday;
 	private boolean _hasCopyright;
 	private String _videoUrl;
+	private long _imageTimeline;
+	private double _opacityImage;
 	private boolean _isCrush;
 	private boolean _originalIsCrush;
 	private boolean _setOriginalIsCrush;
