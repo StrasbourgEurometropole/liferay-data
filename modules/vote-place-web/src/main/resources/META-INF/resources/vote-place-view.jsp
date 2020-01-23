@@ -53,12 +53,7 @@
                         <c:choose>
                             <c:when test="${felecResponse.responseCode eq 9}">
                                 <!-- Requête trop vague -->
-                                Plusieurs &eacute;lecteurs r&eacute;pondent &agrave; ces crit&egrave;res, pr&eacute;cisez votre recherche.
-                            </c:when>
-                            <c:when test="${felecResponse.responseCode eq 4}">
-                                <!-- Radiation en cours -->
-                                Vous  &ecirc;tes en cours de radiation de la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.<br>
-                                La date d'effet de cette radiation est le ${felecResponse.applicationDate}.
+                                La recherche ne peut aboutir, vous pouvez prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
                             </c:when>
                             <c:otherwise>
                                 <!-- Electeur inconnu -->
@@ -95,18 +90,36 @@
                     <div class="main-response">
                         <c:choose>
                             <c:when test="${felecResponse.responseCode eq 2}">
+				                <!-- Electeur connu -->
                                 Vous &ecirc;tes bien inscrit sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.
+                                <div class="poll-address">
+                                    <div class="poll-number">Bureau de vote ${felecResponse.stationNumber}</div>
+                                    <div>
+                                        ${felecResponse.stationLabel}<br>
+                                        ${felecResponse.address1}<br>
+                                        <c:if test="${not empty felecResponse.address2}">${felecResponse.address2}<br></c:if>
+                                        ${felecResponse.address3}
+                                    </div>
+                                </div>
+                                <div>
+                                    <c:if test="${felecResponse.codeList.equals('E')}">
+                                        Remarque : vous ne pouvez voter qu'aux &eacute;lections europ&eacute;ennes.
+                                    </c:if>
+                                    <c:if test="${felecResponse.codeList.equals('M')}">
+                                        Remarque : vous ne pouvez voter qu'aux &eacute;lections municipales.
+                                    </c:if>
+                                    <c:if test="${felecResponse.codeList.equals('C')}">
+                                        Remarque : vous ne pouvez voter qu'aux &eacute;lections  municipales <strong>et</strong> europ&eacute;enne.
+                                    </c:if>
+                                </div>
                             </c:when>
                             <c:when test="${felecResponse.responseCode eq 3}">
                                 <!-- Modification en cours -->
-                                Vous &ecirc;tes bien inscrit sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.
-                                <div>Une modification de votre inscription est en cours et prendra effet au ${felecResponse.applicationDate}.</div>
-                                <div>A compter de cette date, vous pourrez voter au bureau de vote ${felecResponse.stationNumber}</div>
+                                Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lecions au 03.68.98.68.94.
                             </c:when>
                             <c:when test="${felecResponse.responseCode eq 5}">
                                 <!-- Inscription en cours -->
-                                Vous &ecirc;tes en cours d'inscription sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg. Votre inscription sera effective au ${felecResponse.applicationDate}.
-                                <div>A compter de cette date, vous pourrez voter au bureau de vote ${felecResponse.stationNumber}</div>
+                                Votre inscription est en cours, pour plus d'information vous pouvez prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
                             </c:when>
                         </c:choose>
                     </div>
@@ -117,18 +130,7 @@
                             Pour les &eacute;lections Pr&eacute;sidentielle, L&eacute;gislatives, R&eacute;f&eacute;rendum national et Europ&eacute;ennes, vous serez inviter &agrave; voter dans votre centre de vote.
                         </div>
                     </c:if>
-                    <div class="poll-address">
-                        <c:if test="${felecResponse.responseCode eq 2}">
-                            <div class="poll-number">Bureau de vote ${felecResponse.stationNumber}</div>
-                        </c:if>
-                        <div>
-                            ${felecResponse.stationLabel}<br>
-                            ${felecResponse.address1}<br>
-                            <c:if test="${not empty felecResponse.address2}">${felecResponse.address2}<br></c:if>
-                            ${felecResponse.address3}
-                        </div>
-                    </div>
-                    <c:if test="${office != null}">
+                    <c:if test="${office != null && felecResponse.responseCode eq 2}">
                         <a href="#" class="add-favorites"
                             data-type="1"
                             data-title="${office.getAlias(locale)}"
@@ -137,12 +139,12 @@
                             <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                         </a>
                     </c:if>
-                   <!-- <c:if test="${felecResponse.returnCard eq 'O'}">
+                    <!-- <c:if test="${felecResponse.returnCard eq 'O'}">
                         <div class="error">
                             Votre carte d'&eacute;lecteur est disponible <a href="https://www.strasbourg.eu/lieu/-/entity/sig/462_SPC_38">&agrave; l'accueil du centre administratif</a>
                         </div>
                     </c:if>
-                     <div align="right">
+                    <div align="right">
                         <a href="" class="btn-square--bordered--core">
                             <span class="flexbox">
                                 <span class="btn-text">Localiser votre bureau de vote</span>

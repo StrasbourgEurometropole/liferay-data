@@ -689,6 +689,14 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		return URLs;
     }
 
+	/**
+	 * Retourne l'URL de l'image de la timeline à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageTimelineURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageTimeline());
+	}
+
     /**
 	 * Retourne la liste des entrées timelines du projet
 	 */

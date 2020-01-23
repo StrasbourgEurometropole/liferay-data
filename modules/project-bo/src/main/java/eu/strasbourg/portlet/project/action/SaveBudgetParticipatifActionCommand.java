@@ -266,8 +266,17 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 			String filesIds = ParamUtil.getString(request, "filesIds");
 			budgetParticipatif.setFilesIds(filesIds);
 
+			// ---------------------------------------------------------------
 			// -------------------------- TIMELINE ---------------------------
 			// ---------------------------------------------------------------
+
+
+			Long imageTimeline = ParamUtil.getLong(request, "imageTimeline");
+			budgetParticipatif.setImageTimeline(imageTimeline);
+
+			// opacité de l'image
+			Double opacityImage = ParamUtil.getDouble(request, "opacityImage");
+			budgetParticipatif.setOpacityImage(opacityImage);
 
 			// Suppression des anciennes entrées de timeline
 			List<ProjectTimeline> oldTimelines = budgetParticipatif.getBudgetParticipatifTimelines();

@@ -275,6 +275,11 @@ public interface BudgetParticipatif extends BudgetParticipatifModel,
 	public java.util.List<java.lang.String> getFilesURLs();
 
 	/**
+	* Retourne l'URL de l'image de la timeline à partir de l'id du DLFileEntry
+	*/
+	public java.lang.String getImageTimelineURL();
+
+	/**
 	* Retourne la liste des entrées timelines du projet
 	*/
 	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines();
