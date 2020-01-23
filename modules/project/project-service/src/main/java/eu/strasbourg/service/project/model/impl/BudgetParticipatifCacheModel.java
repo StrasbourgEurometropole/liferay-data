@@ -66,7 +66,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(79);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -128,6 +128,10 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		sb.append(hasCopyright);
 		sb.append(", videoUrl=");
 		sb.append(videoUrl);
+		sb.append(", imageTimeline=");
+		sb.append(imageTimeline);
+		sb.append(", opacityImage=");
+		sb.append(opacityImage);
 		sb.append(", isCrush=");
 		sb.append(isCrush);
 		sb.append(", crushComment=");
@@ -317,6 +321,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setVideoUrl(videoUrl);
 		}
 
+		budgetParticipatifImpl.setImageTimeline(imageTimeline);
+		budgetParticipatifImpl.setOpacityImage(opacityImage);
 		budgetParticipatifImpl.setIsCrush(isCrush);
 
 		if (crushComment == null) {
@@ -390,6 +396,10 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 		hasCopyright = objectInput.readBoolean();
 		videoUrl = objectInput.readUTF();
+
+		imageTimeline = objectInput.readLong();
+
+		opacityImage = objectInput.readDouble();
 
 		isCrush = objectInput.readBoolean();
 		crushComment = objectInput.readUTF();
@@ -555,6 +565,10 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			objectOutput.writeUTF(videoUrl);
 		}
 
+		objectOutput.writeLong(imageTimeline);
+
+		objectOutput.writeDouble(opacityImage);
+
 		objectOutput.writeBoolean(isCrush);
 
 		if (crushComment == null) {
@@ -615,6 +629,8 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public long citoyenBirthday;
 	public boolean hasCopyright;
 	public String videoUrl;
+	public long imageTimeline;
+	public double opacityImage;
 	public boolean isCrush;
 	public String crushComment;
 	public String publikId;

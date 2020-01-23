@@ -104,6 +104,11 @@ public class FormSendConfigurationAction
                     "general");
             setPreference(request, "template", template);
 
+            // Tri par défaut
+            String defaultSort = ParamUtil.getString(request,
+                    "defaultSort");
+            setPreference(request, "defaultSort", defaultSort);
+
         }
         super.processAction(portletConfig, request, response);
     }
@@ -217,6 +222,10 @@ public class FormSendConfigurationAction
             // Template à afficher
             String template = ParamUtil.getString(request, "template", configuration.template());
             request.setAttribute("template", template);
+
+            // Tri par défaut
+            String defaultSort = configuration.defaultSort();
+            request.setAttribute("defaultSort", defaultSort);
 
         } catch (ConfigurationException e) {
             _log.error(e);

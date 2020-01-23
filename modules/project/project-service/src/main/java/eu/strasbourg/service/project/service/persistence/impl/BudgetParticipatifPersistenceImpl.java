@@ -5341,6 +5341,8 @@ public class BudgetParticipatifPersistenceImpl extends BasePersistenceImpl<Budge
 		budgetParticipatifImpl.setCitoyenBirthday(budgetParticipatif.getCitoyenBirthday());
 		budgetParticipatifImpl.setHasCopyright(budgetParticipatif.isHasCopyright());
 		budgetParticipatifImpl.setVideoUrl(budgetParticipatif.getVideoUrl());
+		budgetParticipatifImpl.setImageTimeline(budgetParticipatif.getImageTimeline());
+		budgetParticipatifImpl.setOpacityImage(budgetParticipatif.getOpacityImage());
 		budgetParticipatifImpl.setIsCrush(budgetParticipatif.isIsCrush());
 		budgetParticipatifImpl.setCrushComment(budgetParticipatif.getCrushComment());
 		budgetParticipatifImpl.setPublikId(budgetParticipatif.getPublikId());

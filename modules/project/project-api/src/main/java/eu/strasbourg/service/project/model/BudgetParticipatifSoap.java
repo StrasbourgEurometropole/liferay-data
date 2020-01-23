@@ -64,6 +64,8 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setCitoyenBirthday(model.getCitoyenBirthday());
 		soapModel.setHasCopyright(model.getHasCopyright());
 		soapModel.setVideoUrl(model.getVideoUrl());
+		soapModel.setImageTimeline(model.getImageTimeline());
+		soapModel.setOpacityImage(model.getOpacityImage());
 		soapModel.setIsCrush(model.getIsCrush());
 		soapModel.setCrushComment(model.getCrushComment());
 		soapModel.setPublikId(model.getPublikId());
@@ -370,6 +372,22 @@ public class BudgetParticipatifSoap implements Serializable {
 		_videoUrl = videoUrl;
 	}
 
+	public long getImageTimeline() {
+		return _imageTimeline;
+	}
+
+	public void setImageTimeline(long imageTimeline) {
+		_imageTimeline = imageTimeline;
+	}
+
+	public double getOpacityImage() {
+		return _opacityImage;
+	}
+
+	public void setOpacityImage(double opacityImage) {
+		_opacityImage = opacityImage;
+	}
+
 	public boolean getIsCrush() {
 		return _isCrush;
 	}
@@ -460,6 +478,8 @@ public class BudgetParticipatifSoap implements Serializable {
 	private Date _citoyenBirthday;
 	private boolean _hasCopyright;
 	private String _videoUrl;
+	private long _imageTimeline;
+	private double _opacityImage;
 	private boolean _isCrush;
 	private String _crushComment;
 	private String _publikId;

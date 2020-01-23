@@ -79,8 +79,8 @@
 	<!-- Résultats -->
 	<c:if test="${not empty felecResponse}">
 		<div class="felec-response rte">
-			<c:if test="${felecResponse.responseCode eq 1 or felecResponse.responseCode eq 0}">
-				<!-- Electeur inconnu -->
+			<c:if test="${felecResponse.responseCode eq 0 or felecResponse.responseCode eq 1 or felecResponse.responseCode eq 4}">
+				<!-- Electeur inconnu ou radiation en cours -->
 				<div class="main-response">
 					Nous n'avons pas trouv&eacute; d'&eacute;lecteur pour les crit&egrave;res suivants
 				</div>
@@ -88,14 +88,21 @@
 					<strong>${firstname} ${name}, n&eacute;(e) le ${birthdate} &agrave; ${birthplace}.</strong>
 				</div>
 				<div>
-					<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
+					<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">
+					    Inscrivez-vous en ligne en moins de 10 minutes
+                    </a>
+                    (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
 					<br><br>
-					<a href="https://www.service-public.fr/particuliers/vosdroits/N47" target="_blank" title="Consultez votre situation &eacute;lectorale (nouvelle fen&ecirc;tre)">Consultez votre situation &eacute;lectorale sur le site www.service-public.fr</a>
+					<a href="https://www.service-public.fr/particuliers/vosdroits/N47" target="_blank" title="Consultez votre situation &eacute;lectorale (nouvelle fen&ecirc;tre)">
+					    Consultez votre situation &eacute;lectorale sur le site www.service-public.fr
+                    </a>
 				</div>
 			</c:if>
 			<c:if test="${felecResponse.responseCode eq 2}">
 				<!-- Electeur connu -->
-				<div class="main-response">Vous &ecirc;tes bien inscrit sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg </div>
+				<div class="main-response">
+				    Vous &ecirc;tes bien inscrit sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg
+                </div>
 				<div class="poll-address">
 					<div class="poll-number">Bureau de vote ${felecResponse.stationNumber}</div>
 					<div>
@@ -105,6 +112,17 @@
 						${felecResponse.address3}
 					</div>
 				</div>
+                <div>
+                    <c:if test="${felecResponse.codeList.equals('E')}">
+                        Remarque : vous ne pouvez voter qu'aux &eacute;lections europ&eacute;ennes.
+                    </c:if>
+                    <c:if test="${felecResponse.codeList.equals('M')}">
+                        Remarque : vous ne pouvez voter qu'aux &eacute;lections municipales.
+                    </c:if>
+                    <c:if test="${felecResponse.codeList.equals('C')}">
+                        Remarque : vous ne pouvez voter qu'aux &eacute;lections  municipales <strong>et</strong> europ&eacute;enne.
+                    </c:if>
+                </div>
 				<c:if test="${not empty felecResponse.center}">
 					<div class="warning">
 						ATTENTION, vous &ecirc;tes inscrit dans le centre de vote suivant : ${felecResponse.centerCountry} - ${felecResponse.center}
@@ -116,21 +134,7 @@
 			<c:if test="${felecResponse.responseCode eq 3}">
 				<!-- Modification en cours -->
 				<div class="main-response">
-					Vous &ecirc;tes bien inscrit sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg
-				</div>
-				<div>
-					Une modification de votre inscription est en cours et prendra effet au ${felecResponse.applicationDate}.
-					<br>
-					A compter de cette date, vous pourrez voter au bureau de vote suivant.
-				</div>
-				<div class="poll-address">
-					<div class="poll-number">Bureau de vote ${felecResponse.stationNumber}</div>
-					<div>
-						${felecResponse.stationLabel}<br>
-						${felecResponse.address1}<br>
-						<c:if test="${not empty felecResponse.address2}">${felecResponse.address2}<br></c:if>
-						${felecResponse.address3}>
-					</div>
+					Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lecions au 03.68.98.68.94.
 				</div>
 				<c:if test="${not empty felecResponse.center}">
 					<div class="warning">
@@ -140,35 +144,11 @@
 					</div>
 				</c:if>
 			</c:if>
-			<c:if test="${felecResponse.responseCode eq 4}">
-				<!-- Radiation en cours -->
-				<div class="main-response">
-					Vous  &ecirc;tes en cours de radiation de la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg.
-				</div>
-				<div>
-					La date d'effet de cette radiation est le ${felecResponse.applicationDate}.
-					<div>
-						<a href="https://www.service-public.fr/particuliers/vosdroits/R16396" target="_blank" title="Inscrivez-vous en ligne (nouvelle fen&ecirc;tre)">Inscrivez-vous en ligne en moins de 10 minutes</a> (une photographie de bonne qualit&eacute; de chaque pi&egrave;ce justificative est accept&eacute;e).
-					</div>
-				</div>
-				<div class="warning">
-					<strong>Attention</strong> : vous devez vous inscrire avant le 31 d&eacute;cembre pour pouvoir voter l'ann&eacute;e suivante.
-				</div>
-			</c:if>
+			<!-- responseCode = 4 pris en compte avec le responseCode = 1 ou 0 -->
 			<c:if test="${felecResponse.responseCode eq 5}">
 				<!-- Inscription en cours -->
 				<div class="main-response">
-					Vous &ecirc;tes en cours d'inscription sur la liste &eacute;lectorale "${felecResponse.list}" de la Ville de Strasbourg
-				</div>
-				<div>
-					Votre inscription sera effective au ${felecResponse.applicationDate}.
-					A compter de cette date, vous pourrez voter au bureau de vote :
-				</div>
-				<div class="poll-address">
-					${felecResponse.stationLabel}<br>
-					${felecResponse.address1}<br>
-					<c:if test="${not empty felecResponse.address2}">${felecResponse.address2}<br></c:if>
-					${felecResponse.address3}
+					Votre inscription est en cours, pour plus d'information vous pouvez prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
 				</div>
 				<c:if test="${not empty felecResponse.center}">
 					<div class="warning">
@@ -181,7 +161,7 @@
 			<c:if test="${felecResponse.responseCode eq 9}">
 				<!-- Requête trop vague -->
 				<div class="main-response">
-					Plusieurs &eacute;lecteurs r&eacute;pondent &agrave; ces crit&egrave;res, pr&eacute;cisez votre recherche.
+					La recherche ne peut aboutir, vous pouvez prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
 				</div>
 			</c:if>
 		</div>

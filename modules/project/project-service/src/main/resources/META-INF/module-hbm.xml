@@ -47,6 +47,8 @@
 		<property name="citoyenBirthday" type="org.hibernate.type.TimestampType" />
 		<property name="hasCopyright" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageTimeline" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="opacityImage" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="isCrush" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="crushComment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />

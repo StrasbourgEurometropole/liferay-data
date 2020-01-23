@@ -69,11 +69,8 @@
                                                 </c:if>
                                             </div>
                                         </c:if>
-                                        <div class="pro-footer-response">
-                                            <c:if test="${empty formSendRecordField || empty formSendRecordField.response}">
-                                                <span class="pro-waiting-response"><span class="icon-ico-waiting"></span>En attente de r&eacute;ponse</span>
-                                            </c:if>
-                                            <c:if test="${not empty formSendRecordField && not empty formSendRecordField.response}">
+                                        <c:if test="${not empty formSendRecordField && not empty formSendRecordField.response}">
+                                            <div class="pro-footer-response">
                                                 <c:set var="user" value="${dc.getUser(formSendRecordField.responseUserId)}" />
                                                 <div class="pro-author">
                                                     <figure role="group">
@@ -87,8 +84,8 @@
                                                 <div class="pro-txt">
                                                     <p>${formSendRecordField.response}</p>
                                                 </div>
-                                            </c:if>
-                                        </div>
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </c:if>
                             </c:if>
