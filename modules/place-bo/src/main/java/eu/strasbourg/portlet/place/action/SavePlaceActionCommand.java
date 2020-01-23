@@ -113,9 +113,6 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			String RGF93Y = ParamUtil.getString(request, "RGF93Y2");
 			place.setRGF93Y(RGF93Y);
 
-			String locationId = ParamUtil.getString(request, "locationId");
-			place.setLocationId(locationId);
-
 			// ---------------------------------------------------------------
 			// ------------------------- DESCRIPTION -------------------------
 			// ---------------------------------------------------------------
@@ -440,6 +437,15 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 
 			String RTExternalId = ParamUtil.getString(request, "RTExternalId");
 			place.setRTExternalId(RTExternalId);
+
+			// ----------------------------------------------------------------
+			// ---------------------- GOOGLE MY BUSINESS ----------------------
+			// ----------------------------------------------------------------
+
+			String locationId = ParamUtil.getString(request, "locationId");
+			if(Validator.isNull(locationId))
+				locationId = ParamUtil.getString(request, "locationId2");
+			place.setLocationId(locationId);
 
 			// ----------------------------------------------------------------
 			// -------------------------- SOUS LIEUX --------------------------

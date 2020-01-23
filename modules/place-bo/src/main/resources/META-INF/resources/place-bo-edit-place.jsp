@@ -454,6 +454,8 @@
                 label="google-my-business" >
 
                 <c:if test="${not empty dc.place.locationId}">
+
+                    <aui:input name="locationId2" type="hidden" value="${dc.place.locationId}" />
                     <aui:input name="locationId" disabled="true" />
                 </c:if>
 
