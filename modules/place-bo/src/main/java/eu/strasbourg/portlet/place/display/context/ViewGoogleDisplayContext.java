@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
@@ -41,5 +42,12 @@ public class ViewGoogleDisplayContext  extends ViewListBaseDisplayContext<Google
             this._googleMyBusinessHistorics = results;
         }
         return this._googleMyBusinessHistorics;
+    }
+
+    /**
+     * @return True si on peut faire la synchronisation
+     */
+    public boolean canSynchronise() {
+        return Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated());
     }
 }

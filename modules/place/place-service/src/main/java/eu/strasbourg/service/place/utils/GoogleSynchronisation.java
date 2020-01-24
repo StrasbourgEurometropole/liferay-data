@@ -1,5 +1,6 @@
 package eu.strasbourg.service.place.utils;
 
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -15,11 +16,18 @@ import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.models.Pair;
 
+import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -62,15 +70,15 @@ public class GoogleSynchronisation {
         String message = "";
         int nbPlacesSynchronisated = 0;
 
-        // on récupère les lieux actifs
+        // on récupère les lieux actifs qui ont un location Id
         List<Place> places = PlaceLocalServiceUtil.getPlaces(-1,-1).stream()
-                .filter(p -> p.isApproved()).collect(Collectors.toList());
+                .filter(p -> p.isApproved() && Validator.isNotNull(p.getLocationId()))
+                .collect(Collectors.toList());
         if(places.size() == 0){
             this.googleMyBusinessHistoric.addNewOperation("Aucun lieux &agrave; synchroniser");
         }else{
             this.googleMyBusinessHistoric.addNewOperation("Nombre de lieux &agrave; synchroniser : " + places.size());
             // récupère l'accès token
-            this.googleMyBusinessHistoric.addNewOperation("R&eacute;cup&egrave;re l'access_token");
             JSONObject json = null;
             try {
                 json = getJSONAccesToken();
@@ -82,15 +90,25 @@ public class GoogleSynchronisation {
                     String accessToken = json.getString("access_token");
                     this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
                     for (Place place : places) {
-                        // on récupère les horaires du lieu
+                        // on récupère les horaires de la semaine du lieu
                         Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
                         if (schedules != null) {
-                            // Synchronise à google map
-                            nbPlacesSynchronisated++;
-                            this.googleMyBusinessHistoric.addNewOperation("lieu " + place.getAliasCurrentValue() + " synchronis&eacute;");
+                            // récupère le locationId du lieu
+                            String locationId = place.getLocationId();
 
-                        } else {
-                            this.googleMyBusinessHistoric.addNewOperation("lieu " + place.getAliasCurrentValue() + " sans horaires");
+                            // transforme le schedule en json
+                            JSONObject jsonSchedules = toJson(schedules);
+                            JSONObject jsonResult = getSynchronisationResult(locationId, accessToken, jsonSchedules);
+//                            if() {
+                                // Synchronise à google map
+                                nbPlacesSynchronisated++;
+                                this.googleMyBusinessHistoric.addNewOperation("lieu " + place.getAliasCurrentValue() + " synchronis&eacute;");
+//                            }else {
+//                                this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
+//                                this.googleMyBusinessHistoric.addNewOperation("le lieu ");
+//                            }
+                        }else{
+                            this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas d'horaires");
                         }
                     }
                 }
@@ -152,6 +170,128 @@ public class GoogleSynchronisation {
             conn.setRequestProperty("charset", "utf-8");
             jsonResponse = PasserelleHelper.readJson(conn);
         }
+        return jsonResponse;
+    }
+
+    public JSONObject toJson(Map<String, List<PlaceSchedule>> schedules) throws Exception{
+        JSONObject jsonLocation = JSONFactoryUtil.createJSONObject();
+
+        JSONObject jsonBusinessHours = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonPeriods = JSONFactoryUtil.createJSONArray();
+
+        JSONObject jsonSpecialHours = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonSpecialHourPeriods = JSONFactoryUtil.createJSONArray();
+
+        for (Map.Entry<String,  List<PlaceSchedule>> schedule : schedules.entrySet()) {
+            for (PlaceSchedule placeSchedule : schedule.getValue()) {
+                JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
+                // récupère le jour concerné
+                SimpleDateFormat formatter2 = new SimpleDateFormat("EEEE dd MMM yyyy", Locale.FRANCE);
+                Date date = formatter2.parse(schedule.getKey());
+                LocalDate dateLocale = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                // récupère les horaires
+                List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<Pair<LocalTime, LocalTime>>();
+                // vérifie si le lieu est ouvert 24h/24
+                if(placeSchedule.isAlwaysOpen()){
+                    LocalTime startTime = LocalTime.of(0,0);
+                    LocalTime endTime = LocalTime.of(24,0);
+                    openingTimes.add(Pair.of(startTime, endTime));
+                }else if(!placeSchedule.isClosed()){
+                    openingTimes = placeSchedule.getOpeningTimes();
+                }
+
+                // vérifi si c'est un jour férié
+                if(placeSchedule.isPublicHoliday()){
+                    JSONObject jsonDate = JSONFactoryUtil.createJSONObject();
+                    jsonDate.put("year", dateLocale.getYear());
+                    jsonDate.put("month", dateLocale.getMonth().getValue());
+                    jsonDate.put("day", dateLocale.getDayOfMonth());
+
+                    jsonPeriod.put("startDate", jsonDate);
+
+
+                    if(openingTimes.isEmpty()) {
+                        jsonPeriod.put("isClosed", true);
+                        jsonSpecialHourPeriods.put(jsonPeriod);
+                    }
+
+                    for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+                        jsonPeriod.put("openTime", openingTime.getFirst());
+                        jsonPeriod.put("closeTime", openingTime.getSecond());
+                        jsonPeriod.put("isClosed", false);
+                        jsonSpecialHourPeriods.put(jsonPeriod);
+                    }
+                }else {
+                    String day = dateLocale.getDayOfWeek().name();
+                    for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+                        jsonPeriod.put("openDay", day);
+                        jsonPeriod.put("openTime", openingTime.getFirst());
+                        jsonPeriod.put("closeDay", day);
+                        jsonPeriod.put("closeTime", openingTime.getSecond());
+                        jsonPeriods.put(jsonPeriod);
+                    }
+                }
+            }
+        }
+
+        jsonBusinessHours.put("periods", jsonPeriods);
+        jsonLocation.put("regularHours", jsonBusinessHours);
+
+        jsonBusinessHours.put("specialHourPeriods", jsonSpecialHourPeriods);
+        jsonLocation.put("specialHours", jsonSpecialHours);
+        return jsonLocation;
+    }
+
+    public JSONObject getSynchronisationResult(String locationId, String accessToken, JSONObject jsonSchedule) throws Exception{
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
+        // creée le json qui précise quel champs est modifié
+        JSONObject jsonMask = JSONFactoryUtil.createJSONObject();
+        jsonMask.put("mask", "regularHours");
+
+        String url = StrasbourgPropsUtil.getGMBUrl() + "/" + locationId;
+        URL u = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+        conn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+        conn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+
+        // Authentification
+        String encoded = Base64.getEncoder()
+                .encodeToString(accessToken.getBytes(StandardCharsets.UTF_8));
+        conn.setRequestProperty("Authorization", "Bearer " + encoded);
+
+        // Paramètres
+        StringBuilder postData = new StringBuilder();
+        Map<String, Object> params = new LinkedHashMap<String, Object>();
+        params.put("updateMask", jsonMask.toString());
+        params.put("validateOnly", "true");
+        params.put("attributeMask", jsonSchedule);
+
+        for (Map.Entry<String, Object> param : params.entrySet()) {
+            if (postData.length() != 0)
+                postData.append('&');
+            postData.append(URLEncoder.encode(param.getKey(), "UTF-8"));
+            postData.append('=');
+            postData.append(URLEncoder
+                    .encode(String.valueOf(param.getValue()), "UTF-8"));
+        }
+        byte[] postDataByte = postData.toString().getBytes(StandardCharsets.UTF_8);
+        conn.setDoOutput(true);
+        conn.setInstanceFollowRedirects(false);
+        conn.setUseCaches(false);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+        conn.setRequestProperty("Content-Type", ContentTypes.APPLICATION_JSON);
+        conn.setRequestProperty("charset", "utf-8");
+        conn.setRequestProperty("Content-Length", String.valueOf(postDataByte.length));
+        try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+            wr.write(postDataByte);
+        }
+
+        jsonResponse = PasserelleHelper.readJson(conn);
+
+
         return jsonResponse;
     }
 

@@ -44,21 +44,27 @@ public class StartSynchronizedActionCommand implements MVCActionCommand {
     public boolean processAction(ActionRequest request, ActionResponse response)
             throws PortletException {
         try {
-            // Changement du groupId du contexte de la requête pour effectuer les actions dans Global
-            ServiceContext sc = ServiceContextFactory.getInstance(request);
-            sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
+            //on vérifi qu'on a le droit de faire la synchronisation
+            //if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
+                // Changement du groupId du contexte de la requête pour effectuer les actions dans Global
+                ServiceContext sc = ServiceContextFactory.getInstance(request);
+                sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
 
-            // Creation de l'entree d'historique d'anonymisation
-            GoogleMyBusinessHistoric googleMyBusinessHistoric = _googleMyBusinessHistoricLocalService.createGoogleMyBusinessHistoric(sc);
+                // Creation de l'entree d'historique d'anonymisation
+                GoogleMyBusinessHistoric googleMyBusinessHistoric = _googleMyBusinessHistoricLocalService.createGoogleMyBusinessHistoric(sc);
 
-            // Effectue l'anonymisation
-            this._googleMyBusinessHistoricLocalService.doSynchronisation(sc, googleMyBusinessHistoric);
+                // Effectue l'anonymisation
+                this._googleMyBusinessHistoricLocalService.doSynchronisation(sc, googleMyBusinessHistoric);
 
-            // Sauvegarde de l'entree
-            _googleMyBusinessHistoricLocalService.updateGoogleMyBusinessHistoric(googleMyBusinessHistoric, sc);
+                // Sauvegarde de l'entree
+                _googleMyBusinessHistoricLocalService.updateGoogleMyBusinessHistoric(googleMyBusinessHistoric, sc);
 
-            // Envoie du mail de rapport
-            googleMyBusinessHistoric.sendMail();
+                // Envoie du mail de rapport
+                googleMyBusinessHistoric.sendMail();
+//            }else{
+//                SessionErrors.add(request, "no-synchronise");
+//                return false;
+//            }
 
         } catch (PortalException e) {
             _log.info(e);
