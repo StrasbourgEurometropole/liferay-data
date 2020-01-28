@@ -115,7 +115,7 @@
                             </c:when>
                             <c:when test="${felecResponse.responseCode eq 3}">
                                 <!-- Modification en cours -->
-                                Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lecions au 03.68.98.68.94.
+                                Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
                             </c:when>
                             <c:when test="${felecResponse.responseCode eq 5}">
                                 <!-- Inscription en cours -->

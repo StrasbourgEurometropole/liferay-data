@@ -134,7 +134,7 @@
 			<c:if test="${felecResponse.responseCode eq 3}">
 				<!-- Modification en cours -->
 				<div class="main-response">
-					Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lecions au 03.68.98.68.94.
+					Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
 				</div>
 				<c:if test="${not empty felecResponse.center}">
 					<div class="warning">
