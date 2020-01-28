@@ -112,10 +112,17 @@
                                         Remarque : vous ne pouvez voter qu'aux &eacute;lections  municipales <strong>et</strong> europ&eacute;enne.
                                     </c:if>
                                 </div>
+                                <c:if test="${not empty felecResponse.center}">
+                                    <div class="warning">
+                                        ATTENTION, vous &ecirc;tes inscrit dans le centre de vote suivant : ${felecResponse.centerCountry} - ${felecResponse.center}
+                                        <br>
+                                        Pour les &eacute;lections Pr&eacute;sidentielle, L&eacute;gislatives, R&eacute;f&eacute;rendum national et Europ&eacute;ennes, vous serez inviter &agrave; voter dans votre centre de vote.
+                                    </div>
+                                </c:if>
                             </c:when>
                             <c:when test="${felecResponse.responseCode eq 3}">
                                 <!-- Modification en cours -->
-                                Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lecions au 03.68.98.68.94.
+                                Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
                             </c:when>
                             <c:when test="${felecResponse.responseCode eq 5}">
                                 <!-- Inscription en cours -->
@@ -123,13 +130,6 @@
                             </c:when>
                         </c:choose>
                     </div>
-                    <c:if test="${not empty felecResponse.center}">
-                        <div class="warning">
-                            ATTENTION, vous &ecirc;tes inscrit dans le centre de vote suivant : ${felecResponse.centerCountry} - ${felecResponse.center}
-                            <br>
-                            Pour les &eacute;lections Pr&eacute;sidentielle, L&eacute;gislatives, R&eacute;f&eacute;rendum national et Europ&eacute;ennes, vous serez inviter &agrave; voter dans votre centre de vote.
-                        </div>
-                    </c:if>
                     <c:if test="${office != null && felecResponse.responseCode eq 2}">
                         <a href="#" class="add-favorites"
                             data-type="1"
