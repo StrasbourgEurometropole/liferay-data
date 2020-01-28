@@ -21,10 +21,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -45,7 +47,7 @@ public class StartSynchronizedActionCommand implements MVCActionCommand {
             throws PortletException {
         try {
             //on vérifi qu'on a le droit de faire la synchronisation
-            //if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
+            if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
                 // Changement du groupId du contexte de la requête pour effectuer les actions dans Global
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
                 sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
@@ -61,10 +63,10 @@ public class StartSynchronizedActionCommand implements MVCActionCommand {
 
                 // Envoie du mail de rapport
                 googleMyBusinessHistoric.sendMail();
-//            }else{
-//                SessionErrors.add(request, "no-synchronise");
-//                return false;
-//            }
+            }else{
+                SessionErrors.add(request, "no-synchronise");
+                return false;
+            }
 
         } catch (PortalException e) {
             _log.info(e);
