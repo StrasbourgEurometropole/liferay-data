@@ -136,13 +136,6 @@
 				<div class="main-response">
 					Une modification de votre inscription est en cours, merci de prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
 				</div>
-				<c:if test="${not empty felecResponse.center}">
-					<div class="warning">
-						ATTENTION, vous &ecirc;tes inscrit dans le centre de vote suivant : ${felecResponse.centerCountry} - ${felecResponse.center}
-						<br>
-						Pour les &eacute;lections Pr&eacute;sidentielle, L&eacute;gislatives, R&eacute;f&eacute;rendum national et Europ&eacute;ennes, vous devrez obligatoirement voter dans votre centre de vote.
-					</div>
-				</c:if>
 			</c:if>
 			<!-- responseCode = 4 pris en compte avec le responseCode = 1 ou 0 -->
 			<c:if test="${felecResponse.responseCode eq 5}">
@@ -150,13 +143,6 @@
 				<div class="main-response">
 					Votre inscription est en cours, pour plus d'information vous pouvez prendre contact avec le bureau des &eacute;lections au 03.68.98.68.94.
 				</div>
-				<c:if test="${not empty felecResponse.center}">
-					<div class="warning">
-						ATTENTION, vous &ecirc;tes inscrit dans le centre de vote suivant : ${felecResponse.centerCountry} - ${felecResponse.center}
-						<br>
-						Pour les &eacute;lections Pr&eacute;sidentielle, L&eacute;gislatives, R&eacute;f&eacute;rendum national et Europ&eacute;ennes, vous devrez obligatoirement voter dans votre centre de vote.
-					</div>
-				</c:if>
 			</c:if>
 			<c:if test="${felecResponse.responseCode eq 9}">
 				<!-- Requête trop vague -->
