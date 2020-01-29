@@ -86,16 +86,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="pro-page-detail pro-page-detail-initiative">
     <#-- <div class="pro-timer"><p>Il reste 10 jours, 14 heures et 18 minutes pour voter</p></div> -->
+    <#if timelines?size gt 0>
     
-    <header>
+        <header>
 
-        <div class="fit-cover">
-            <#if entry.imageTimelineURL?has_content>
-	            <img src="${entry.imageTimelineURL}" width="1600" height="200" style="opacity:${entry.opacityImage}">
-            </#if>
-        </div>
+            <div class="fit-cover">
+                <#if entry.imageTimelineURL?has_content>
+                    <img src="${entry.imageTimelineURL}" width="1600" height="200" style="opacity:${entry.opacityImage}">
+                </#if>
+            </div>
 
-        <#if timelines?size gt 0>
             <!-- Start slider timeline wrapper -->
             <div class="container pro-slider-timeline">
 
@@ -163,8 +163,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                 </div>
             </div>
-        </#if>
-    </header>
+        </header>
+    </#if>
 
     <div class="container">
 
