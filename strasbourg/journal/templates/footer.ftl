@@ -1,16 +1,5 @@
 <#setting locale = locale />
 <footer id="seu-footer">
-    <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
-    <div class="social-share">
-        <input class="toggle-input" id="toggle-input" type="checkbox" /> 
-        <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input"><span>Réseaux sociaux</span></label>
-        <ul class="network-list">
-        	<li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
-        	<li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a></li>
-        	<li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
-        	<li class="mail"><a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a></li>
-        </ul>
-    </div>
     <div class="seu-container">
         <div class="seu-col-top">
             <svg xmlns="http://www.w3.org/2000/svg" width="227"  viewBox="0 0 296.9 58.1" class="seu-logo-footer">
@@ -102,20 +91,3 @@
         </div>
     </div>
 </footer>
-
-<script type="text/javascript">
-    window.onload = function(){
-        var url = window.location.toString();
-        document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
-        document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-        document.getElementById("ShareMail").setAttribute("href","mailto:&body="+url);
-    }
-
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v3.1';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
