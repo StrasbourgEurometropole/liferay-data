@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService;
-import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.*;
 
 
@@ -39,20 +39,23 @@ public class SynchronisePlaceToGMB extends BaseSchedulerEntryMessageListener {
     @Override
     protected void doReceive(Message message) throws Exception {
         this._log.info("Start synchronise");
+        //on vérifi qu'on a le droit de faire la synchronisation
+        if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
+            // Creation du contexte de la requete pour effectuer les actions dans Global
+            ServiceContext sc = new ServiceContext();
 
-        // Creation du contexte de la requete pour effectuer les actions dans Global
-        ServiceContext sc = new ServiceContext();
-        // Creation de l'entree d'historique d'import
-        GoogleMyBusinessHistoric gmbHistoric = GoogleMyBusinessHistoricLocalServiceUtil.createGoogleMyBusinessHistoric(sc);
+            // Creation de l'entree d'historique de synchronisation
+            GoogleMyBusinessHistoric googleMyBusinessHistoric = this._gmbHistoricLocalService.createGoogleMyBusinessHistoric(sc);
 
-        // Effectue l'import
-        this._gmbHistoricLocalService.doSynchronisation(sc, gmbHistoric);
+            // Effectue la synchronisation
+            this._gmbHistoricLocalService.doSynchronisation(sc, googleMyBusinessHistoric);
 
-        // Sauvegarde de l'entree d'historique d'import
-        this._gmbHistoricLocalService.updateGoogleMyBusinessHistoric(gmbHistoric, sc);
+            // Sauvegarde de l'entree
+            this._gmbHistoricLocalService.updateGoogleMyBusinessHistoric(googleMyBusinessHistoric, sc);
 
-        // Envoie du mail de rapport
-        gmbHistoric.sendMail();
+            // Envoie du mail de rapport
+            googleMyBusinessHistoric.sendMail();
+        }
 
         this._log.info("Finish synchronise");
     }

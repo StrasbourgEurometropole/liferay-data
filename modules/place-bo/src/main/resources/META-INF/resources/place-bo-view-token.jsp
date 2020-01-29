@@ -21,4 +21,32 @@
 			<label><liferay-ui:message key="no-rules" /></label>
 		</c:otherwise>
 	</c:choose>
+
+    <aui:fieldset collapsed="true" collapsible="true" label="list-establishment">
+        <liferay-ui:message key="gmb-establishment" /><br><br>
+        <table class="table table-autofit table-heading-nowrap table-list">
+            <thead>
+                <tr>
+                    <th class="lfr-result-column content-column table-cell-content" >
+                        <span class="truncate-text"><liferay-ui:message key="name-place" /></span>
+                    </th>
+                    <th class="lfr-create-date-column content-column table-cell-content" >
+                        <span class="truncate-text"><liferay-ui:message key="gmb-location-id" /></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${dc.locationIds}" var="location">
+                    <tr >
+                        <td class="content-column table-cell-content lfr-result-column">
+                            <span class="truncate-text">${location.key}</span>
+                        </td>
+                        <td class="content-column table-cell-content lfr-create-date-column">
+                            <span class="truncate-text">${location.value}</span>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </aui:fieldset>
 </div>

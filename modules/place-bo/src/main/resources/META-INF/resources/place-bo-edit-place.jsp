@@ -453,14 +453,14 @@
             <aui:fieldset collapsed="false" collapsible="true"
                 label="google-my-business" >
 
-                <c:if test="${not empty dc.place.locationId}">
+                <c:if test="${not isAdmin}">
 
                     <aui:input name="locationId2" type="hidden" value="${dc.place.locationId}" />
-                    <aui:input name="locationId" disabled="true" />
+                    <aui:input name="locationId" disabled="true" helpMessage="help-location-id" />
                 </c:if>
 
-                <c:if test="${empty dc.place.locationId}">
-                    <aui:input name="locationId" />
+                <c:if test="${isAdmin}">
+                    <aui:input name="locationId" helpMessage="help-location-id" />
                 </c:if>
 
             </aui:fieldset>

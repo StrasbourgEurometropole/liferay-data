@@ -61,11 +61,11 @@
 			selected="${tab eq 'import'}" />
 	</aui:nav>
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${googleURL}" label="google-mybusiness"
+		<aui:nav-item href="${googleURL}" label="gmb-synchro"
 			selected="${tab eq 'google'}" />
 	</aui:nav>
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${tokenURL}" label="gestion-token"
+		<aui:nav-item href="${tokenURL}" label="gmb-config"
 			selected="${tab eq 'token'}" />
 	</aui:nav>
 

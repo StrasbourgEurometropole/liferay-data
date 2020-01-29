@@ -52,10 +52,10 @@ public class StartSynchronizedActionCommand implements MVCActionCommand {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
                 sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
 
-                // Creation de l'entree d'historique d'anonymisation
+                // Creation de l'entree d'historique de synchronisation
                 GoogleMyBusinessHistoric googleMyBusinessHistoric = _googleMyBusinessHistoricLocalService.createGoogleMyBusinessHistoric(sc);
 
-                // Effectue l'anonymisation
+                // Effectue la synchronisation
                 this._googleMyBusinessHistoricLocalService.doSynchronisation(sc, googleMyBusinessHistoric);
 
                 // Sauvegarde de l'entree
