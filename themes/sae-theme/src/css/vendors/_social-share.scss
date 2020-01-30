@@ -31,7 +31,7 @@
 	height: 50px;
 	display: block;
 	z-index: 130;
-	background: #8bc34a;
+	background: #00afea;
 	border-radius: 50%;
 	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20);
     margin-bottom: 0;
@@ -65,7 +65,7 @@
 
 	&:hover, &:focus {
 		cursor: pointer;
-		background: black;
+		background: #ff1744;
 		&:after {
 			color: white;
 		}
@@ -140,7 +140,7 @@
 		font-size: 0.938em;
 		@include addTransition();
 		&:hover, &:focus {
-			background: #8bc34a;
+			background: #ff1744;
 			&:before {
 				color: white !important;
 			}

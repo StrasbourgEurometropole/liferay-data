@@ -222,16 +222,26 @@
             </#if>
         </section>    
       </div>
-
+    
       <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
       <div class="social-share">
           <input class="toggle-input" id="toggle-input" type="checkbox" /> 
-          <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input"><span>Réseaux sociaux</span></label>
+          <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
+            <span>Réseaux sociaux</span>
+          </label>
           <ul class="network-list">
-            <li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
-            <li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a></li>
-            <li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
-            <li class="mail"><a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a></li>
+            <li class="facebook">
+              <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
+            </li>
+            <li class="twitter">
+              <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
+            </li>
+            <li class="linkedin">
+              <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>
+            </li>
+            <li class="mail">
+              <a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a>
+            </li>
           </ul>
       </div>
 
@@ -277,6 +287,7 @@
             var url = window.location.toString();
             document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
             document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
             document.getElementById("ShareMail").setAttribute("href","mailto:&body="+url);
         }
 
