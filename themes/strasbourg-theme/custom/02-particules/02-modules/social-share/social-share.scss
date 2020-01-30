@@ -42,7 +42,7 @@
 	height: 50px;
 	display: block;
 	z-index: 130;
-	background: $third-color;
+	background: $second-color;
 	border-radius: 50%;
 	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20);
 	@include addTransition();
@@ -69,13 +69,13 @@
 		height: 50px;
 		line-height: 50px;
 		left: -1px;
-		color: #505050;
+		color: $core-color;
 		@include addTransition();
 	}
 
 	&:hover, &:focus {
 		cursor: pointer;
-		background: black;
+		background: $core-color;
 		&:after {
 			color: white;
 		}
@@ -150,9 +150,9 @@
 		font-size: 0.938em;
 		@include addTransition();
 		&:hover, &:focus {
-			background: $third-color;
+			background: $second-color;
 			&:before {
-				color: #505050 !important;
+				color: $core-color !important;
 			}
 		}
 	}
