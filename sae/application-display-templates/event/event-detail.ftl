@@ -3,7 +3,7 @@
 
 <#assign imageUrl = ""/>
 <!-- image -->
-<#if !imageUrl?has_content>
+<#if imageUrl?has_content>
     <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
