@@ -88,7 +88,7 @@
 				cursor: pointer;
 				background: black;
 				&:after {
-					color: white;
+					color:  $c_main;
 				}
 			}
 		}
@@ -142,7 +142,7 @@
 		&:hover, &:focus {
 			background: $c_main;
 			&:before {
-				color: white !important;
+				color:  white !important;
 			}
 		}
 	}
@@ -181,7 +181,7 @@
 	.twitter {
 		a:before {
 			content: "\e901";
-			color: white;
+			color:  $c_main;
 		}
 	}
 
@@ -189,7 +189,7 @@
 	.facebook {
 		a:before {
 			content: "\e904";
-			color: white;
+			color:  $c_main;
 		}
 	}
 
@@ -197,7 +197,7 @@
 	.linkedin {
 		a:before {
 			content: "\e910";
-			color: white;
+			color:  $c_main;
 		}
 	}
 
@@ -205,7 +205,7 @@
 	.googleplus {
 		a:before {
 			content: "\e90f";
-			color: white;
+			color:  $c_main;
 		}
 	}
 
@@ -213,7 +213,7 @@
 	.mail {
 		a:before {
 			content: "\e911";
-			color: white;
+			color:  $c_main;
 		}
 	}
 }

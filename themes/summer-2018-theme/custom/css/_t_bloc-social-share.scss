@@ -86,7 +86,7 @@
 			color: red;
 			& + label {
 				cursor: pointer;
-				background: black;
+				background: $c_main;
 				&:after {
 					color: white;
 				}
@@ -133,14 +133,14 @@
 		height: 40px;
 		line-height: 40px;
 		border-radius: 50%;
-		background: black;
+		background: $c_main;
 		overflow: hidden;
 		text-indent: 120%;
 		text-decoration: none;
 		font-size: 0.938em;
 		@include addTransition();
 		&:hover, &:focus {
-			background: $c_main;
+			background: black;
 			&:before {
 				color: white !important;
 			}
