@@ -1,10 +1,19 @@
 package eu.strasbourg.service.social.impl.instagram;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONObject;
+import eu.strasbourg.service.social.impl.twitter.twemoji.Twemoji;
+import eu.strasbourg.utils.JSONHelper;
 import org.jinstagram.Instagram;
 import org.jinstagram.auth.model.Token;
 import org.jinstagram.entity.common.Caption;
@@ -26,74 +35,74 @@ public class InstagramClient {
 
 	public static List<SocialPost> getInstagramPosts(String clientId, String clientSecret, String token, int count) {
 
-		Object timelineFromCache = MultiVMPoolUtil.getPortalCache("instagram_cache").get(clientId);
-		Object lastTimelineUpdate = MultiVMPoolUtil.getPortalCache("instagram_cache").get(clientId + "_last_update");
+		Object timelineFromCache = MultiVMPoolUtil
+				.getPortalCache("instagram_cache").get(token);
+		Object lastTimelineUpdate = MultiVMPoolUtil
+				.getPortalCache("instagram_cache").get(token + "_last_update");
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
-			long timeBeforeNextUpdate = 100 - (now - ((Long) lastTimelineUpdate)) / 1000;
+			long timeBeforeNextUpdate = 100
+					- (now - ((Long) lastTimelineUpdate)) / 1000;
 			if (timeBeforeNextUpdate > 0) {
 				return (List<SocialPost>) timelineFromCache;
 			}
 		}
 
-		Token accessToken = new Token(token, clientSecret);
-		Instagram instagram = new Instagram(accessToken);
+		Object[] stringData = { token};
+		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media_type,username,media_url,caption,timestamp,permalink&limit=50";
+		apiURL = String.format(apiURL, stringData);
+
 		List<SocialPost> posts = new ArrayList<SocialPost>();
-
 		try {
-			/*
-			 * UserFeed userFeed = instagram.searchUser(username);
-			 * List<UserFeedData> users = userFeed.getUserList();
-			 * 
-			 * if (users.size() == 0) { return posts; }
-			 * 
-			 * String userId = users.get(0).getId(); MediaFeed mediaFeed =
-			 * instagram.getRecentMediaFeed(userId);
-			 * 
-			 */
+			JSONObject json = JSONHelper.readJsonFromURL(apiURL);
 
-			for (MediaFeedData mediaData : instagram.getUserRecentMedia().getData()) {
-				SocialPost socialPost = new SocialPost();
+			JSONArray jsonPostList = json.getJSONArray("data");
 
-				socialPost.setSocialMedia(SocialMedia.INSTAGRAM);
+			for (int i = 0; i < jsonPostList.length(); i++) {
+				JSONObject jsonPost = jsonPostList.getJSONObject(i);
+				// type de média
+				String type = jsonPost.getString("media_type");
+				if(type.equals("IMAGE")) {
 
-				// Username
-				socialPost.setUsername(mediaData.getUser().getUserName());
+					SocialPost post = new SocialPost();
+					post.setSocialMedia(SocialMedia.INSTAGRAM);
+					// Username
+					String username = jsonPost.getString("username");
+					post.setUsername(username);
 
-				// Image
-				Images images = mediaData.getImages();
-				ImageData image = images.getLowResolution();
-				if(image != null && (image.getImageHeight() <= 285 || image.getImageWidth() <= 285))
-					image = images.getStandardResolution();
-				socialPost.setImageURL(image.getImageUrl());
+					// Image
+					String imageURL = jsonPost.getString("media_url");
+					post.setImageURL(imageURL);
 
-				// Texte
-				Caption caption = mediaData.getCaption();
-				if (caption != null) {
-					socialPost.setContent(caption.getText());
-				}
+					// Texte
+					String caption = jsonPost.getString("caption");
+					post.setContent(Twemoji.parse(caption));
 
-				// Date
-				Date postDate = new Date(Long.parseLong(mediaData.getCreatedTime()) * 1000);
-				socialPost.setDate(postDate);
+					// Date
+					String formattedDate = jsonPost.getString("timestamp");
+					LocalDateTime dateTime = LocalDateTime.parse(formattedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"));
+					Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+					post.setDate(date);
 
-				// URL
-				socialPost.setUrl(mediaData.getLink());
+					// URL
+					String url = jsonPost.getString("permalink");
+					post.setUrl(url);
 
-				posts.add(socialPost);
-
-				if (posts.size() >= count) {
-					break;
+					posts.add(post);
 				}
 			}
-		} catch (InstagramException e) {
+		} catch (JSONException | IOException e) {
 			log.error(e);
 		}
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(clientId);
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(clientId + "_last_update");
-		MultiVMPoolUtil.getPortalCache("instagram_cache").put(clientId, (Serializable) posts);
-		MultiVMPoolUtil.getPortalCache("instagram_cache").put(clientId + "_last_update", new Date().getTime());
+		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(token);
+		MultiVMPoolUtil.getPortalCache("instagram_cache")
+				.remove(token + "_last_update");
+		MultiVMPoolUtil.getPortalCache("instagram_cache").put(token,
+				(Serializable) posts);
+		MultiVMPoolUtil.getPortalCache("instagram_cache")
+				.put(token + "_last_update", new Date().getTime());
+
 		return posts;
 	}
 
