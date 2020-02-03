@@ -16,7 +16,9 @@
 <liferay-ui:error key="image" message="modal.editbudget.error.image" />
 <liferay-ui:error key="too-much" message="modal.editbudget.error.too-much" />
 <liferay-ui:error key="extension" message="modal.editbudget.error.extension" />
-<liferay-ui:error key="big" message="modal.editbudget.error.big-x"/>
+<liferay-ui:error key="big" >
+    <liferay-ui:message key="modal.editbudget.error.big-x" arguments="${sizeFile}" />
+</liferay-ui:error>
 <liferay-ui:error key="unable-to-scan-file-for-viruses" message="modal.editbudget.error.unable-to-scan" />
 <liferay-ui:error key="a-virus-was-detected-in-the-file" message="modal.editbudget.error.virus-detected" />
 <liferay-ui:error key="an-unexpected-error-occurred-while-scanning-for-viruses" message="modal.editbudget.error.virus-error" />

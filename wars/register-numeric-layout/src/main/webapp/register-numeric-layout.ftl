@@ -18,7 +18,7 @@
                         <div id="numeric-form" class="pro-wrapper-numeric-form col-md-12 portlet-column">
                             ${processor.processColumn("numeric-form", "portlet-column-content")}
                         </div>
-                        
+
 						<!-- WRAPPER LISTING PROPOSITIONS -->
                         <div id="formulaires-envoyes" class="pro-wrapper-propositions pro-bloc-texte col-md-12 portlet-column">
                         	${processor.processColumn("formulaires-envoyes", "portlet-column-content")}
@@ -30,7 +30,6 @@
                     <div role="tabpanel" class="tab-pane fade pro-bloc-texte recus portlet-layout row">
                         <div class="pro-page-registre">
                             <div class="pro-wrapper-propositions pro-bloc-texte">
-                                <h2 class="pro-title-propositions">Reçus par mail/courrier</h2>
                                 <div id="courriers" class="col-md-12 portlet-column courriers-zone">
                                     ${processor.processColumn("courriers", "portlet-column-content")}
                                 </div>
