@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the FormSendRecordFieldSignalement service. Represents a row in the &quot;FormSendRecordField_FormSendRecordFieldSignalement&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the FormSendRecordFieldSignalement service. Represents a row in the &quot;formSendRecordField_FormSendRecordFieldSignalement&quot; database table, with each column mapped to a property of this class.
  *
  * @author Angélique Zunino
  * @see FormSendRecordFieldSignalementModel

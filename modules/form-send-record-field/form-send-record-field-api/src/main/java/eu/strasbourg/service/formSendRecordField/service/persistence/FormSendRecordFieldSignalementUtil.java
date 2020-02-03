@@ -191,12 +191,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByUuid_First(
 		java.lang.String uuid,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByUuid_First(uuid, orderByComparator);
 	}
 
@@ -219,12 +219,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByUuid_Last(
 		java.lang.String uuid,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByUuid_Last(uuid, orderByComparator);
 	}
 
@@ -248,12 +248,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement[] findByUuid_PrevAndNext(
 		long signalementId, java.lang.String uuid,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByUuid_PrevAndNext(signalementId, uuid,
 			orderByComparator);
@@ -279,16 +279,16 @@ public class FormSendRecordFieldSignalementUtil {
 	}
 
 	/**
-	* Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchSignalementException} if it could not be found.
+	* Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchFormSendRecordFieldSignalementException} if it could not be found.
 	*
 	* @param uuid the uuid
 	* @param groupId the group ID
 	* @return the matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByUUID_G(
 		java.lang.String uuid, long groupId)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByUUID_G(uuid, groupId);
 	}
 
@@ -326,7 +326,7 @@ public class FormSendRecordFieldSignalementUtil {
 	*/
 	public static FormSendRecordFieldSignalement removeByUUID_G(
 		java.lang.String uuid, long groupId)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().removeByUUID_G(uuid, groupId);
 	}
 
@@ -423,12 +423,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByUuid_C_First(
 		java.lang.String uuid, long companyId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByUuid_C_First(uuid, companyId, orderByComparator);
 	}
@@ -455,12 +455,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByUuid_C_Last(
 		java.lang.String uuid, long companyId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByUuid_C_Last(uuid, companyId, orderByComparator);
 	}
@@ -488,12 +488,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement[] findByUuid_C_PrevAndNext(
 		long signalementId, java.lang.String uuid, long companyId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByUuid_C_PrevAndNext(signalementId, uuid, companyId,
 			orderByComparator);
@@ -597,12 +597,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByGroupId_First(
 		long groupId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByGroupId_First(groupId, orderByComparator);
 	}
 
@@ -625,12 +625,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByGroupId_Last(
 		long groupId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByGroupId_Last(groupId, orderByComparator);
 	}
 
@@ -654,12 +654,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement[] findByGroupId_PrevAndNext(
 		long signalementId, long groupId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByGroupId_PrevAndNext(signalementId, groupId,
 			orderByComparator);
@@ -761,12 +761,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByPublikId_First(
 		java.lang.String publikId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByPublikId_First(publikId, orderByComparator);
 	}
 
@@ -790,12 +790,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByPublikId_Last(
 		java.lang.String publikId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByPublikId_Last(publikId, orderByComparator);
 	}
 
@@ -819,12 +819,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement[] findByPublikId_PrevAndNext(
 		long signalementId, java.lang.String publikId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByPublikId_PrevAndNext(signalementId, publikId,
 			orderByComparator);
@@ -930,12 +930,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param formSendRecordFieldId the form send record field ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByFormSendRecordFieldId_First(
 		long formSendRecordFieldId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByFormSendRecordFieldId_First(formSendRecordFieldId,
 			orderByComparator);
@@ -962,12 +962,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param formSendRecordFieldId the form send record field ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByFormSendRecordFieldId_Last(
 		long formSendRecordFieldId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByFormSendRecordFieldId_Last(formSendRecordFieldId,
 			orderByComparator);
@@ -995,12 +995,12 @@ public class FormSendRecordFieldSignalementUtil {
 	* @param formSendRecordFieldId the form send record field ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement[] findByFormSendRecordFieldId_PrevAndNext(
 		long signalementId, long formSendRecordFieldId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence()
 				   .findByFormSendRecordFieldId_PrevAndNext(signalementId,
 			formSendRecordFieldId, orderByComparator);
@@ -1061,10 +1061,10 @@ public class FormSendRecordFieldSignalementUtil {
 	*
 	* @param signalementId the primary key of the form send record field signalement
 	* @return the form send record field signalement that was removed
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement remove(long signalementId)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().remove(signalementId);
 	}
 
@@ -1074,15 +1074,15 @@ public class FormSendRecordFieldSignalementUtil {
 	}
 
 	/**
-	* Returns the form send record field signalement with the primary key or throws a {@link NoSuchSignalementException} if it could not be found.
+	* Returns the form send record field signalement with the primary key or throws a {@link NoSuchFormSendRecordFieldSignalementException} if it could not be found.
 	*
 	* @param signalementId the primary key of the form send record field signalement
 	* @return the form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public static FormSendRecordFieldSignalement findByPrimaryKey(
 		long signalementId)
-		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException {
+		throws eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException {
 		return getPersistence().findByPrimaryKey(signalementId);
 	}
 
