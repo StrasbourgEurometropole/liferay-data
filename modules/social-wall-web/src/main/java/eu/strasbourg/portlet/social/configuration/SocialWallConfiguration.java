@@ -16,11 +16,8 @@ public interface SocialWallConfiguration {
 	@Meta.AD(name="twitterAccount", required = false)
 	public String twitterAccount();
 
-	@Meta.AD(name="instagramClientId", required = false)
-	public String instagramClientId();
-	
-	@Meta.AD(name="instagramClientSecret", required = false)
-	public String instagramClientSecret();
+	@Meta.AD(name="instagramMediaId", required = false)
+	public String instagramMediaId();
 	
 	@Meta.AD(name="instagramToken", required = false)
 	public String instagramToken();

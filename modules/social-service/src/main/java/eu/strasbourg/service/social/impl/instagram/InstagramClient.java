@@ -33,7 +33,7 @@ public class InstagramClient {
 
 	private static Log log = LogFactoryUtil.getLog(InstagramClient.class);
 
-	public static List<SocialPost> getInstagramPosts(String clientId, String clientSecret, String token, int count) {
+	public static List<SocialPost> getInstagramPosts(String mediaId, String token, int count) {
 
 		Object timelineFromCache = MultiVMPoolUtil
 				.getPortalCache("instagram_cache").get(token);
@@ -48,8 +48,8 @@ public class InstagramClient {
 			}
 		}
 
-		Object[] stringData = { token};
-		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media_type,username,media_url,caption,timestamp,permalink&limit=50";
+		Object[] stringData = {token};
+		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media&limit=50";
 		apiURL = String.format(apiURL, stringData);
 
 		List<SocialPost> posts = new ArrayList<SocialPost>();
