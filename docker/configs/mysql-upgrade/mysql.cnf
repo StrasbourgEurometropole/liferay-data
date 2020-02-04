@@ -1,0 +1,2 @@
+[mysql]
+init-command='set autocommit=0'
