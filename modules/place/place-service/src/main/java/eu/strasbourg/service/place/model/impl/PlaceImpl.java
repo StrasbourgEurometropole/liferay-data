@@ -1196,6 +1196,12 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("facebookURL", JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
         }
 
+        // Instagram
+        if (Validator.isNotNull(this.getInstagramLabel())) {
+            jsonPlace.put("instagramName", JSONHelper.getJSONFromI18nMap(this.getInstagramLabelMap()));
+            jsonPlace.put("instagramURL", JSONHelper.getJSONFromI18nMap(this.getInstagramURLMap()));
+        }
+
         // Site
         if (Validator.isNotNull(this.getSiteLabel())) {
             jsonPlace.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getSiteLabelMap()));
@@ -1395,6 +1401,12 @@ public class PlaceImpl extends PlaceBaseImpl {
             properties.put("facebookURL", JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
         }
 
+        // Instagram
+        if (Validator.isNotNull(this.getInstagramLabel())) {
+            properties.put("instagramName", JSONHelper.getJSONFromI18nMap(this.getInstagramLabelMap()));
+            properties.put("instagramURL", JSONHelper.getJSONFromI18nMap(this.getInstagramURLMap()));
+        }
+
         // Site
         if (Validator.isNotNull(this.getSiteLabel())) {
             properties.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getSiteLabelMap()));
@@ -1529,6 +1541,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("rue", this.getAddressStreet());
         jsonPlace.put("illustration", this.getImageURL());
         jsonPlace.put("urlFacebook", this.getFacebookURL(Locale.FRANCE));
+        jsonPlace.put("urlInstagram", this.getInstagramURL(Locale.FRANCE));
         jsonPlace.put("ville", this.getCity(Locale.FRANCE));
 
         JSONObject coordinates = JSONFactoryUtil.createJSONObject();
@@ -1586,6 +1599,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         jsonPlace.put("horaireExceptionnel", this.getExceptionalSchedule(Locale.FRANCE));
         jsonPlace.put("nomFacebook", this.getFacebookLabel(Locale.FRANCE));
+        jsonPlace.put("nomInstagram", this.getInstagramLabel(Locale.FRANCE));
 
         // "urlGalerie" n'existe plus
         // "nomPeriode" ???

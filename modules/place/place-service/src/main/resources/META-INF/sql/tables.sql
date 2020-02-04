@@ -56,6 +56,8 @@ create table place_Place (
 	siteLabel STRING null,
 	facebookURL STRING null,
 	facebookLabel STRING null,
+	instagramURL STRING null,
+	instagramLabel STRING null,
 	accesMap STRING null,
 	access_ TEXT null,
 	accessForDisabled TEXT null,

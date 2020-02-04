@@ -200,7 +200,16 @@
 						<aui:input name="facebookURL">
 							<aui:validator name="url"/>
 							<aui:validator name="require" errorMessage="this-field-is-required" />
-						</aui:input>		
+						</aui:input>
+
+						<aui:input name="instagramLabel" >
+					        <aui:validator name="require" errorMessage="this-field-is-required" />
+						</aui:input>
+
+						<aui:input name="instagramURL">
+							<aui:validator name="url"/>
+							<aui:validator name="require" errorMessage="this-field-is-required" />
+						</aui:input>
 
 			</aui:fieldset>
 				
