@@ -902,6 +902,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <a href="${entry.getFacebookURL(locale)}" class="seu-external" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">${entry.getFacebookLabel(locale)}</a>
                             </p>
                         </#if>
+                        <#if entry.getInstagramLabel(locale)?has_content && entry.getInstagramURL(locale)?has_content>
+                            <p>
+                                <a href="${entry.getInstagramURL(locale)}" class="seu-external" title="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">${entry.getInstagramLabel(locale)}</a>
+                            </p>
+                        </#if>
                     </div>
                 </div>
             </div>
