@@ -1,5 +1,3 @@
-ARG LFR_ENV
-
 FROM openjdk:11.0.5-jdk
 
 ENV SOURCES_PATH=./sources
