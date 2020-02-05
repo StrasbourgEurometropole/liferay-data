@@ -4,3 +4,5 @@
 *.log
 *.7z
 *.zip
+*.aatf
+!images/mysql-upgrade/sources/pre-upgrade.sql

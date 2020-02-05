@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+
+  liferay-portal:
+    image: liferay-portal:${LFR_TAG}
+    volumes:
+      - ${DATA}/config/liferay-vanilla/portal-ext.properties:/liferay/portal-ext.properties:ro
+      - ${DATA}/config/liferay-vanilla/setenv.sh:/liferay/tomcat-9.0.17/bin/setenv.sh:ro
+      - ${DATA}/config/liferay-vanilla/osgi:/liferay/osgi/configs
+      - ${DATA}/liferay/deploy:/liferay/deploy
+      - ${DATA}/liferay/doclib:/data/liferay/document_library
+    ports:
+      - "8080:8080"
+    networks:
+      - liferay-network
+      - webgateway
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_net"
+        - "traefik.port=8080"
+        - "traefik.entryPoint=http"
+        - "traefik.backend=liferay-vanilla"
+        - "traefik.frontend.rule=Host:${FRONTEND}"
+
+networks:
+
+  liferay-network:
+    external: true
+    
+  webgateway:
+    external: true
+    name: traefik_net

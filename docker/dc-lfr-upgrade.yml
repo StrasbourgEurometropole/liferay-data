@@ -1,0 +1,38 @@
+version: '3.5'
+
+services:
+
+  mysql:
+    image: mysql-upgrade:${MYSQL_TAG}
+    environment:
+      - MYSQL_DATABASE=liferay-db
+      - MYSQL_USER=liferay
+      - MYSQL_PASSWORD=sully
+      - MYSQL_ROOT_PASSWORD=root
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_general_ci
+      - --max-allowed-packet=1024M
+    volumes:
+      - ./config/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+    networks:
+      - upgrade-preim-net
+
+  liferay-portal:
+    image: liferay-upgrade:preim
+    volumes:
+      - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/upgrade.log
+      - ./config/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
+      - ./config/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
+      - ./config/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+      - ./config/liferay-upgrade/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg:/liferay/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
+    command: "./db_upgrade.sh -j '-Xmx10G'"
+    networks:
+      - upgrade-preim-net
+
+
+networks:
+
+  upgrade-preim-net:
+    name: upgrade-preim-net
+    driver: bridge

@@ -1,6 +1,7 @@
+ARG LFR_ENV
+
 FROM openjdk:11.0.5-jdk
 
-ARG LFR_ENV
 ENV SOURCES_PATH=./sources
 ENV LIFERAY_HOME=/liferay
 ENV CATALINA_HOME=$LIFERAY_HOME/tomcat-9.0.17
@@ -19,7 +20,9 @@ RUN set -x \
     && rm -rf /tmp-liferay \
     && mkdir -p $LIFERAY_HOME/deploy \
     && mkdir -p /data/liferay/document_library \
-    && chmod 755 /data
+    && chmod 755 /data \
+    && mkdir -p $LIFERAY_HOME/osgi/modules \
+    && mkdir -p $LIFERAY_HOME/osgi/war
 
 #ENV LFR_FIX_PACK=liferay-fix-pack-dxp-1-7210.zip
 #COPY $SOURCES_PATH/$LFR_FIX_PACK $LIFERAY_HOME/patching-tool/patches/
@@ -28,8 +31,6 @@ RUN set -x \
 
 ENV MYSQL_CONNECTOR=mysql-connector-java-8.0.17.jar
 COPY $SOURCES_PATH/$MYSQL_CONNECTOR $CATALINA_HOME/lib/ext/mysql.jar
-
-COPY $SOURCES_PATH/license/$LFR_ENV/* $LIFERAY_HOME/data/
 
 COPY $SOURCES_PATH/run.sh $LIFERAY_HOME/run.sh
 RUN chmod 755 $LIFERAY_HOME/run.sh
