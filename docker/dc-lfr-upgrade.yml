@@ -19,7 +19,7 @@ services:
       - upgrade-preim-net
 
   liferay-portal:
-    image: liferay-upgrade:preim
+    image: liferay-portal:${LFR_TAG}
     volumes:
       - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/upgrade.log
       - ./config/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
