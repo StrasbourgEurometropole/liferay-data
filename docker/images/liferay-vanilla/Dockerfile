@@ -29,7 +29,7 @@ RUN set -x \
 #RUN $LIFERAY_HOME/patching-tool/patching-tool.sh install \
 #    && rm -rf $LIFERAY_HOME/osgi/state/*
 
-ENV MYSQL_CONNECTOR=mysql-connector-java-8.0.17.jar
+ENV MYSQL_CONNECTOR=mysql-connector-java-8.0.19.jar
 COPY $SOURCES_PATH/$MYSQL_CONNECTOR $CATALINA_HOME/lib/ext/mysql.jar
 
 COPY $SOURCES_PATH/run.sh $LIFERAY_HOME/run.sh
