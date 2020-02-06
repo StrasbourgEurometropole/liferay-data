@@ -15,12 +15,12 @@ public interface SocialWallConfiguration {
 	
 	@Meta.AD(name="twitterAccount", required = false)
 	public String twitterAccount();
-
-	@Meta.AD(name="instagramMediaId", required = false)
-	public String instagramMediaId();
 	
 	@Meta.AD(name="instagramToken", required = false)
 	public String instagramToken();
+
+	@Meta.AD(name="instagramCreateDate", required = false)
+	public String instagramCreateDate();
 	
 	@Meta.AD(name="dailymotionAccountId", required = false)
 	public String dailymotionAccountId();

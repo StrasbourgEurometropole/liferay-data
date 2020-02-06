@@ -26,8 +26,8 @@
                 </aui:fieldset>
 
                 <aui:fieldset id="instagram" label="instagram">
-                    <aui:input type="text" name="instagramMediaId" value="${instagramMediaId}" label="instagram-media-id" />
                     <aui:input type="text" name="instagramToken" value="${instagramToken}" label="instagram-token" />
+                    <aui:input type="text" name="instagramCreateDate" value="${instagramCreateDate}" label="instagram-create-date" />
                 </aui:fieldset>
 
                 <aui:fieldset id="dailymotion" label="dailymotion">

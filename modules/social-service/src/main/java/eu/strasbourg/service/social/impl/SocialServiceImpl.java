@@ -35,8 +35,8 @@ public class SocialServiceImpl implements SocialService {
 	}
 
 	@Override
-	public List<SocialPost> getInstagramPosts(String clientId, String token, int count) {
-		return InstagramClient.getInstagramPosts(clientId, token, count);
+	public List<SocialPost> getInstagramPosts(String token, String instagramCreateDate, int count) {
+		return InstagramClient.getInstagramPosts(token, instagramCreateDate, count);
 	}
 
 	@Override

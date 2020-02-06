@@ -41,12 +41,12 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 
 		String twitterAccount = ParamUtil.getString(actionRequest, "twitterAccount");
 		setPreference(actionRequest, "twitterAccount", twitterAccount);
-
-		String instagramMediaId = ParamUtil.getString(actionRequest, "instagramMediaId");
-		setPreference(actionRequest, "instagramMediaId", instagramMediaId);
 		
 		String instagramToken = ParamUtil.getString(actionRequest, "instagramToken");
 		setPreference(actionRequest, "instagramToken", instagramToken);
+
+		String instagramCreateDate = ParamUtil.getString(actionRequest, "instagramCreateDate");
+		setPreference(actionRequest, "instagramCreateDate", instagramCreateDate);
 
 		String dailymotionAccountId = ParamUtil.getString(actionRequest, "dailymotionAccountId");
 		setPreference(actionRequest, "dailymotionAccountId", dailymotionAccountId);
@@ -92,8 +92,8 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 				.getPortletInstanceConfiguration(SocialWallConfiguration.class);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
-			request.setAttribute("instagramMediaId", configuration.instagramMediaId());
 			request.setAttribute("instagramToken", configuration.instagramToken());
+			request.setAttribute("instagramCreateDate", configuration.instagramCreateDate());
 			request.setAttribute("dailymotionAccountId", configuration.dailymotionAccountId());
 			request.setAttribute("facebookToken", configuration.facebookToken());
 			request.setAttribute("postCount", configuration.postCount());
