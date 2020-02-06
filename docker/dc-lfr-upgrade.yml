@@ -14,7 +14,7 @@ services:
       - --collation-server=utf8_general_ci
       - --max-allowed-packet=1024M
     volumes:
-      - ./config/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./config/mysql-upgrade/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
     networks:
       - upgrade-preim-net
 
