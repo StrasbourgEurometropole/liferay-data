@@ -28,7 +28,7 @@ services:
       - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
       - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
       - ./configs/liferay-upgrade/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg:/liferay/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
-    command: "./db_upgrade.sh -j '-Xmx10G'"
+    command: "/liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh -j '-Xmx10G'"
     networks:
       - upgrade-preim-net
 
