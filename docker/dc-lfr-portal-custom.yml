@@ -5,9 +5,9 @@ services:
   liferay-portal:
     image: liferay-portal:${LFR_TAG}
     volumes:
-      - ${DATA}/config/liferay-custom/portal-ext.properties:/liferay/portal-ext.properties:ro
-      - ${DATA}/config/liferay-custom/setenv.sh:/liferay/tomcat-9.0.17/bin/setenv.sh:ro
-      - ${DATA}/config/liferay-custom/osgi:/liferay/osgi/configs
+      - ${DATA}/configs/liferay-custom/portal-ext.properties:/liferay/portal-ext.properties:ro
+      - ${DATA}/configs/liferay-custom/setenv.sh:/liferay/tomcat-9.0.17/bin/setenv.sh:ro
+      - ${DATA}/configs/liferay-custom/osgi:/liferay/osgi/configs
       - ${DATA}/liferay/deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
     ports:

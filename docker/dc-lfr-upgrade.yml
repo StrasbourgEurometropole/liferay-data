@@ -14,7 +14,7 @@ services:
       - --collation-server=utf8_general_ci
       - --max-allowed-packet=1024M
     volumes:
-      - ./config/mysql-upgrade/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./configs/mysql-upgrade/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
     networks:
       - upgrade-preim-net
 
@@ -22,10 +22,10 @@ services:
     image: liferay-portal:${LFR_TAG}
     volumes:
       - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/upgrade.log
-      - ./config/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
-      - ./config/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
-      - ./config/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
-      - ./config/liferay-upgrade/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg:/liferay/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
+      - ./configs/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
+      - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
+      - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+      - ./configs/liferay-upgrade/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg:/liferay/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
     command: "./db_upgrade.sh -j '-Xmx10G'"
     networks:
       - upgrade-preim-net

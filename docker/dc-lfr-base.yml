@@ -35,7 +35,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ${DATA}/config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ${DATA}/configs/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ${DATA}/esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
