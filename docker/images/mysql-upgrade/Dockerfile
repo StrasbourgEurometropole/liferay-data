@@ -2,9 +2,8 @@ FROM mysql:5.7
 
 ARG DUMP_FILE_NAME
 ENV SOURCES_PATH ./sources
-ENV DUMP $DUMP_FILE_NAME
 
 COPY $SOURCES_PATH/$DUMP /
 COPY $SOURCES_PATH/pre-upgrade.sql /
 
-RUN cat /pre-upgrade.sql >>  /docker-entrypoint-initdb.d/$DUMP
+RUN cat /pre-upgrade.sql >> /docker-entrypoint-initdb.d/$DUMP_FILE_NAME
