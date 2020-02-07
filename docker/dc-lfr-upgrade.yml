@@ -24,10 +24,10 @@ services:
     image: liferay-portal:${LFR_TAG}
     volumes:
       - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/logs/upgrade.log
+      - ./configs/liferay-upgrade/osgi:/liferay/osgi/configs
       - ./configs/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
       - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
       - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
-      - ./configs/liferay-upgrade/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg:/liferay/osgi/configs/com.liferay.portal.search.configuration.IndexStatusManagerConfiguration.cfg
     entrypoint:
       - /liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
       - -j
