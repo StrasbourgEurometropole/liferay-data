@@ -19,6 +19,9 @@ RUN set -x \
     && mkdir -p $LIFERAY_HOME/deploy \
     && mkdir -p /data/liferay/document_library \
     && chmod 755 /data \
+    && rm -rf $LIFERAY_HOME/osgi/state \
+    && rm -rf $CATALINA_HOME/temp/* \
+    && rm -rf $CATALINA_HOME/work/* \
     && mkdir -p $LIFERAY_HOME/osgi/modules \
     && mkdir -p $LIFERAY_HOME/osgi/war
 
