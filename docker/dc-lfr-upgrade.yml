@@ -23,7 +23,7 @@ services:
   liferay-portal:
     image: liferay-portal:${LFR_TAG}
     volumes:
-      - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/upgrade.log
+      - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/logs/upgrade.log
       - ./configs/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
       - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
       - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
