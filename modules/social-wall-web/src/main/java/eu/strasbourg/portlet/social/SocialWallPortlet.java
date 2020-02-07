@@ -66,7 +66,7 @@ public class SocialWallPortlet extends MVCPortlet {
 			String instagramToken = configuration.instagramToken();
 			String instagramCreateDate = configuration.instagramCreateDate();
 			if (Validator.isNotNull(instagramToken) && Validator.isNotNull(instagramCreateDate)) {
-				List<SocialPost> instagramPosts = socialService.getInstagramPosts(instagramToken, instagramCreateDate, postCount);
+				List<SocialPost> instagramPosts = socialService.getInstagramPosts(instagramToken, postCount);
 				allPosts.addAll(instagramPosts);
 			}
 

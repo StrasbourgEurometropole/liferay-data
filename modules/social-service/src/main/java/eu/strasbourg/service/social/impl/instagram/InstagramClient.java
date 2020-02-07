@@ -33,7 +33,7 @@ public class InstagramClient {
 
 	private static Log log = LogFactoryUtil.getLog(InstagramClient.class);
 
-	public static List<SocialPost> getInstagramPosts(String token, String instagramCreateDate, int count) {
+	public static List<SocialPost> getInstagramPosts(String token, int count) {
 
 		Object timelineFromCache = MultiVMPoolUtil
 				.getPortalCache("instagram_cache").get(token);
@@ -49,8 +49,8 @@ public class InstagramClient {
 			}
 		}
 
-		Object[] stringData = {token, count};
-		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media&limit=%s";
+		Object[] stringData = {token};
+		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media";
 		apiURL = String.format(apiURL, stringData);
 
 		List<SocialPost> posts = new ArrayList<SocialPost>();
@@ -59,7 +59,7 @@ public class InstagramClient {
 
 			JSONArray jsonMediaIdList = json.getJSONObject("media").getJSONArray("data");
 
-			for (int i = 0; i < jsonMediaIdList.length(); i++) {
+			for (int i = 0; i < count ; i++) {
 				JSONObject jsonMediaId = jsonMediaIdList.getJSONObject(i);
 
 				// Récupération du média
@@ -87,7 +87,7 @@ public class InstagramClient {
 
 				// Texte
 				String caption = jsonMedia.getString("caption");
-				post.setContent(Twemoji.parse(caption));
+				post.setContent(caption);
 
 				// Date
 				String formattedDate = jsonMedia.getString("timestamp");
