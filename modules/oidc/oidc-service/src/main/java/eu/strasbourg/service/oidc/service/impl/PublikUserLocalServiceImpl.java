@@ -27,8 +27,8 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-//import eu.strasbourg.service.interest.model.UserInterest;
-//import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
+import eu.strasbourg.service.interest.model.UserInterest;
+import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
 //import eu.strasbourg.service.notification.model.UserNotificationStatus;
 //import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -234,12 +234,12 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	@Override
 	public PublikUser removePublikUser(String publikUserId) {
 
-//		// Supprime le lien avec les intérêts
-//		List<UserInterest> userInterests = UserInterestLocalServiceUtil.getByPublikUserId(publikUserId);
-//		for (UserInterest userInterest : userInterests) {
-//			UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
-//		}
-//
+		// Supprime le lien avec les intérêts
+		List<UserInterest> userInterests = UserInterestLocalServiceUtil.getByPublikUserId(publikUserId);
+		for (UserInterest userInterest : userInterests) {
+			UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
+		}
+
 //		// Supprime le lien avec les notifications
 //		List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil.getByPublikUserId(publikUserId);
 //		for (UserNotificationStatus notification : notifications) {
