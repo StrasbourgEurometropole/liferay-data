@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.interest.model.Interest;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Interest in entity cache.
  *
  * @author BenjaminBini
- * @see Interest
  * @generated
  */
 @ProviderType
-public class InterestCacheModel implements CacheModel<Interest>, Externalizable {
+public class InterestCacheModel
+	implements CacheModel<Interest>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -109,7 +109,7 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		InterestImpl interestImpl = new InterestImpl();
 
 		if (uuid == null) {
-			interestImpl.setUuid(StringPool.BLANK);
+			interestImpl.setUuid("");
 		}
 		else {
 			interestImpl.setUuid(uuid);
@@ -121,7 +121,7 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		interestImpl.setUserId(userId);
 
 		if (userName == null) {
-			interestImpl.setUserName(StringPool.BLANK);
+			interestImpl.setUserName("");
 		}
 		else {
 			interestImpl.setUserName(userName);
@@ -152,7 +152,7 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		interestImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			interestImpl.setStatusByUserName(StringPool.BLANK);
+			interestImpl.setStatusByUserName("");
 		}
 		else {
 			interestImpl.setStatusByUserName(statusByUserName);
@@ -166,14 +166,14 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		}
 
 		if (title == null) {
-			interestImpl.setTitle(StringPool.BLANK);
+			interestImpl.setTitle("");
 		}
 		else {
 			interestImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			interestImpl.setDescription(StringPool.BLANK);
+			interestImpl.setDescription("");
 		}
 		else {
 			interestImpl.setDescription(description);
@@ -214,10 +214,9 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -232,7 +231,7 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -247,7 +246,7 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -256,14 +255,14 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
@@ -288,4 +287,5 @@ public class InterestCacheModel implements CacheModel<Interest>, Externalizable 
 	public String title;
 	public String description;
 	public long typeId;
+
 }

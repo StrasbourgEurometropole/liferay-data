@@ -23,14 +23,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.interest.service.http.InterestServiceSoap}.
+ * This class is used by SOAP remote services, specifically {
+ * @link eu.strasbourg.service.interest.service.http.InterestServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.interest.service.http.InterestServiceSoap
  * @generated
  */
 @ProviderType
 public class InterestSoap implements Serializable {
+
 	public static InterestSoap toSoapModel(Interest model) {
 		InterestSoap soapModel = new InterestSoap();
 
@@ -82,7 +83,8 @@ public class InterestSoap implements Serializable {
 	}
 
 	public static InterestSoap[] toSoapModels(List<Interest> models) {
-		List<InterestSoap> soapModels = new ArrayList<InterestSoap>(models.size());
+		List<InterestSoap> soapModels = new ArrayList<InterestSoap>(
+			models.size());
 
 		for (Interest model : models) {
 			soapModels.add(toSoapModel(model));
@@ -246,4 +248,5 @@ public class InterestSoap implements Serializable {
 	private String _title;
 	private String _description;
 	private long _typeId;
+
 }

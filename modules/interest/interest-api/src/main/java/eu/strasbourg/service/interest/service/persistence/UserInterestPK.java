@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import java.io.Serializable;
 
@@ -27,7 +26,9 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public class UserInterestPK implements Comparable<UserInterestPK>, Serializable {
+public class UserInterestPK
+	implements Comparable<UserInterestPK>, Serializable {
+
 	public long interestId;
 	public String publikUserId;
 
@@ -99,7 +100,8 @@ public class UserInterestPK implements Comparable<UserInterestPK>, Serializable 
 		UserInterestPK pk = (UserInterestPK)obj;
 
 		if ((interestId == pk.interestId) &&
-				(publikUserId.equals(pk.publikUserId))) {
+			publikUserId.equals(pk.publikUserId)) {
+
 			return true;
 		}
 		else {
@@ -119,22 +121,20 @@ public class UserInterestPK implements Comparable<UserInterestPK>, Serializable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(6);
 
-		sb.append(StringPool.OPEN_CURLY_BRACE);
+		sb.append("{");
 
-		sb.append("interestId");
-		sb.append(StringPool.EQUAL);
+		sb.append("interestId=");
+
 		sb.append(interestId);
+		sb.append(", publikUserId=");
 
-		sb.append(StringPool.COMMA);
-		sb.append(StringPool.SPACE);
-		sb.append("publikUserId");
-		sb.append(StringPool.EQUAL);
 		sb.append(publikUserId);
 
-		sb.append(StringPool.CLOSE_CURLY_BRACE);
+		sb.append("}");
 
 		return sb.toString();
 	}
+
 }

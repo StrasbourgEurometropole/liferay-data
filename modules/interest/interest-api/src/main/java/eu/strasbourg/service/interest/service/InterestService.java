@@ -34,48 +34,54 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see InterestServiceUtil
- * @see eu.strasbourg.service.interest.service.base.InterestServiceBaseImpl
- * @see eu.strasbourg.service.interest.service.impl.InterestServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=interest", "json.web.service.context.path=Interest"}, service = InterestService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=interest",
+		"json.web.service.context.path=Interest"
+	},
+	service = InterestService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface InterestService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link InterestServiceUtil} to access the interest remote service. Add custom service methods to {@link eu.strasbourg.service.interest.service.impl.InterestServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link InterestServiceUtil} to access the interest remote service. Add custom service methods to <code>eu.strasbourg.service.interest.service.impl.InterestServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Retourne la liste de tous les centres d'intérêt
-	*/
+	 * Retourne la liste de tous les centres d'intérêt
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInterests();
 
 	/**
-	* Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
-	* en paramètre
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
+	/**
+	 * Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
+	 * en paramètre
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserInterests(java.lang.String userId);
+	public JSONObject getUserInterests(String userId);
 
 	/**
-	* Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
-	* paramètre
-	*/
-	public JSONObject setUserInterests(java.lang.String userId,
-		java.lang.String interestIds);
+	 * Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
+	 * paramètre
+	 */
+	public JSONObject setUserInterests(String userId, String interestIds);
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
 }

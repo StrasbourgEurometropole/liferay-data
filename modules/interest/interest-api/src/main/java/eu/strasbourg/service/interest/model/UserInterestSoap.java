@@ -31,6 +31,7 @@ import java.util.List;
  */
 @ProviderType
 public class UserInterestSoap implements Serializable {
+
 	public static UserInterestSoap toSoapModel(UserInterest model) {
 		UserInterestSoap soapModel = new UserInterestSoap();
 
@@ -68,7 +69,8 @@ public class UserInterestSoap implements Serializable {
 	}
 
 	public static UserInterestSoap[] toSoapModels(List<UserInterest> models) {
-		List<UserInterestSoap> soapModels = new ArrayList<UserInterestSoap>(models.size());
+		List<UserInterestSoap> soapModels = new ArrayList<UserInterestSoap>(
+			models.size());
 
 		for (UserInterest model : models) {
 			soapModels.add(toSoapModel(model));
@@ -107,4 +109,5 @@ public class UserInterestSoap implements Serializable {
 
 	private long _interestId;
 	private String _publikUserId;
+
 }
