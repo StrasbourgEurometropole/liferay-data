@@ -3,19 +3,21 @@ dependencies {
 	compile group: "com.liferay.portal", name: "com.liferay.portal.impl"
 	compile group: "com.liferay", name: "com.liferay.journal.api"
 	compile group: "com.liferay", name: "com.liferay.frontend.taglib"
-	
+
 	compile group: "com.liferay", name: "com.liferay.item.selector.api"
 	compile group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
-	
+
 	compile group: "org.osgi", name: "org.osgi.compendium", version: "5.0.0"
 	compile group: "javax.portlet", name: "portlet-api"
 	compile group: "javax.servlet", name: "javax.servlet-api"
-	compile group: "javax.mail", name: "mail"
-	
+	compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+
 	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
 
+	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
+
 	compileInclude group: "com.auth0", name: "java-jwt", version: "3.3.0"
-	//compile project (':modules:oidc:oidc-api')
+	compile project (':modules:oidc:oidc-api')
 }
 
 

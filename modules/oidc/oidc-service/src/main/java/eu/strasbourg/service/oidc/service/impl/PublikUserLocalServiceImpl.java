@@ -27,10 +27,10 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import eu.strasbourg.service.interest.model.UserInterest;
-import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
-import eu.strasbourg.service.notification.model.UserNotificationStatus;
-import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
+//import eu.strasbourg.service.interest.model.UserInterest;
+//import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
+//import eu.strasbourg.service.notification.model.UserNotificationStatus;
+//import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
@@ -132,8 +132,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Rechercher des utilisateurs Publik directement via l'outil de persistance
 	 * sans pagination
-	 * @param start Debut de l'index de recherche pour la pagination
-	 * @param end Fin de l'index de recherche pour la pagination
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -158,7 +156,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * avec recherche et pagination
 	 * @param start Debut de l'index de recherche pour la pagination
 	 * @param end Fin de l'index de recherche pour la pagination
-	 * @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	 * @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -195,9 +193,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Rechercher tous les utilisateurs Publik directement via l'outil de persistance
 	 * avec recherche mais sans pagination
-	 * @param start Debut de l'index de recherche pour la pagination
-	 * @param end Fin de l'index de recherche pour la pagination
-	 * @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	 * @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -238,17 +234,17 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	@Override
 	public PublikUser removePublikUser(String publikUserId) {
 
-		// Supprime le lien avec les intérêts
-		List<UserInterest> userInterests = UserInterestLocalServiceUtil.getByPublikUserId(publikUserId);
-		for (UserInterest userInterest : userInterests) {
-			UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
-		}
-
-		// Supprime le lien avec les notifications
-		List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil.getByPublikUserId(publikUserId);
-		for (UserNotificationStatus notification : notifications) {
-			UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(notification);
-		}
+//		// Supprime le lien avec les intérêts
+//		List<UserInterest> userInterests = UserInterestLocalServiceUtil.getByPublikUserId(publikUserId);
+//		for (UserInterest userInterest : userInterests) {
+//			UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
+//		}
+//
+//		// Supprime le lien avec les notifications
+//		List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil.getByPublikUserId(publikUserId);
+//		for (UserNotificationStatus notification : notifications) {
+//			UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(notification);
+//		}
 
 		// Supprimé l'entité
 		PublikUser user = this.getByPublikUserId(publikUserId);

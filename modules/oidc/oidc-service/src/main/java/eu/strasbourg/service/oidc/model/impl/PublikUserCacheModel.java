@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing PublikUser in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see PublikUser
  * @generated
  */
 @ProviderType
-public class PublikUserCacheModel implements CacheModel<PublikUser>,
-	Externalizable {
+public class PublikUserCacheModel
+	implements CacheModel<PublikUser>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -114,7 +113,7 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		PublikUserImpl publikUserImpl = new PublikUserImpl();
 
 		if (uuid == null) {
-			publikUserImpl.setUuid(StringPool.BLANK);
+			publikUserImpl.setUuid("");
 		}
 		else {
 			publikUserImpl.setUuid(uuid);
@@ -139,56 +138,56 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		publikUserImpl.setUserId(userId);
 
 		if (userName == null) {
-			publikUserImpl.setUserName(StringPool.BLANK);
+			publikUserImpl.setUserName("");
 		}
 		else {
 			publikUserImpl.setUserName(userName);
 		}
 
 		if (publikId == null) {
-			publikUserImpl.setPublikId(StringPool.BLANK);
+			publikUserImpl.setPublikId("");
 		}
 		else {
 			publikUserImpl.setPublikId(publikId);
 		}
 
 		if (accessToken == null) {
-			publikUserImpl.setAccessToken(StringPool.BLANK);
+			publikUserImpl.setAccessToken("");
 		}
 		else {
 			publikUserImpl.setAccessToken(accessToken);
 		}
 
 		if (firstName == null) {
-			publikUserImpl.setFirstName(StringPool.BLANK);
+			publikUserImpl.setFirstName("");
 		}
 		else {
 			publikUserImpl.setFirstName(firstName);
 		}
 
 		if (lastName == null) {
-			publikUserImpl.setLastName(StringPool.BLANK);
+			publikUserImpl.setLastName("");
 		}
 		else {
 			publikUserImpl.setLastName(lastName);
 		}
 
 		if (email == null) {
-			publikUserImpl.setEmail(StringPool.BLANK);
+			publikUserImpl.setEmail("");
 		}
 		else {
 			publikUserImpl.setEmail(email);
 		}
 
 		if (mapConfig == null) {
-			publikUserImpl.setMapConfig(StringPool.BLANK);
+			publikUserImpl.setMapConfig("");
 		}
 		else {
 			publikUserImpl.setMapConfig(mapConfig);
 		}
 
 		if (displayConfig == null) {
-			publikUserImpl.setDisplayConfig(StringPool.BLANK);
+			publikUserImpl.setDisplayConfig("");
 		}
 		else {
 			publikUserImpl.setDisplayConfig(displayConfig);
@@ -209,14 +208,14 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		}
 
 		if (banishDescription == null) {
-			publikUserImpl.setBanishDescription(StringPool.BLANK);
+			publikUserImpl.setBanishDescription("");
 		}
 		else {
 			publikUserImpl.setBanishDescription(banishDescription);
 		}
 
 		if (imageURL == null) {
-			publikUserImpl.setImageURL(StringPool.BLANK);
+			publikUserImpl.setImageURL("");
 		}
 		else {
 			publikUserImpl.setImageURL(imageURL);
@@ -255,10 +254,9 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -271,56 +269,56 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
 		}
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
 		}
 
 		if (accessToken == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(accessToken);
 		}
 
 		if (firstName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(firstName);
 		}
 
 		if (lastName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(lastName);
 		}
 
 		if (email == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(email);
 		}
 
 		if (mapConfig == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mapConfig);
 		}
 
 		if (displayConfig == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(displayConfig);
@@ -330,14 +328,14 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 		objectOutput.writeLong(banishDate);
 
 		if (banishDescription == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(banishDescription);
 		}
 
 		if (imageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imageURL);
@@ -364,4 +362,5 @@ public class PublikUserCacheModel implements CacheModel<PublikUser>,
 	public String banishDescription;
 	public String imageURL;
 	public boolean pactDisplay;
+
 }
