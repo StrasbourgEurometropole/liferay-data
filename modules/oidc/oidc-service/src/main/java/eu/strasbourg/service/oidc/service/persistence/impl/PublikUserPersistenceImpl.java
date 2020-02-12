@@ -29,10 +29,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -46,6 +45,7 @@ import eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -65,51 +65,32 @@ import java.util.Set;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see PublikUserPersistence
- * @see eu.strasbourg.service.oidc.service.persistence.PublikUserUtil
  * @generated
  */
 @ProviderType
-public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
-	implements PublikUserPersistence {
+public class PublikUserPersistenceImpl
+	extends BasePersistenceImpl<PublikUser> implements PublikUserPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link PublikUserUtil} to access the publik user persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>PublikUserUtil</code> to access the publik user persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = PublikUserImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			PublikUserModelImpl.UUID_COLUMN_BITMASK |
-			PublikUserModelImpl.LASTNAME_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		PublikUserImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the publik users where uuid = &#63;.
@@ -126,7 +107,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Returns a range of all the publik users where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PublikUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PublikUserModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -143,7 +124,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Returns an ordered range of all the publik users where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PublikUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PublikUserModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -153,8 +134,10 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the ordered range of matching publik users
 	 */
 	@Override
-	public List<PublikUser> findByUuid(String uuid, int start, int end,
+	public List<PublikUser> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<PublikUser> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -162,7 +145,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Returns an ordered range of all the publik users where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PublikUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PublikUserModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -173,33 +156,38 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the ordered range of matching publik users
 	 */
 	@Override
-	public List<PublikUser> findByUuid(String uuid, int start, int end,
+	public List<PublikUser> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<PublikUser> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<PublikUser> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<PublikUser>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<PublikUser>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (PublikUser publikUser : list) {
-					if (!Objects.equals(uuid, publikUser.getUuid())) {
+					if (!uuid.equals(publikUser.getUuid())) {
 						list = null;
 
 						break;
@@ -212,8 +200,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -223,10 +211,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -236,11 +221,10 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PublikUserModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -260,16 +244,16 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 				}
 
 				if (!pagination) {
-					list = (List<PublikUser>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<PublikUser>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<PublikUser>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<PublikUser>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -298,9 +282,10 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @throws NoSuchPublikUserException if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser findByUuid_First(String uuid,
-		OrderByComparator<PublikUser> orderByComparator)
+	public PublikUser findByUuid_First(
+			String uuid, OrderByComparator<PublikUser> orderByComparator)
 		throws NoSuchPublikUserException {
+
 		PublikUser publikUser = fetchByUuid_First(uuid, orderByComparator);
 
 		if (publikUser != null) {
@@ -314,7 +299,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPublikUserException(msg.toString());
 	}
@@ -327,8 +312,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the first matching publik user, or <code>null</code> if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser fetchByUuid_First(String uuid,
-		OrderByComparator<PublikUser> orderByComparator) {
+	public PublikUser fetchByUuid_First(
+		String uuid, OrderByComparator<PublikUser> orderByComparator) {
+
 		List<PublikUser> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -347,9 +333,10 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @throws NoSuchPublikUserException if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser findByUuid_Last(String uuid,
-		OrderByComparator<PublikUser> orderByComparator)
+	public PublikUser findByUuid_Last(
+			String uuid, OrderByComparator<PublikUser> orderByComparator)
 		throws NoSuchPublikUserException {
+
 		PublikUser publikUser = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (publikUser != null) {
@@ -363,7 +350,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPublikUserException(msg.toString());
 	}
@@ -376,16 +363,17 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the last matching publik user, or <code>null</code> if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser fetchByUuid_Last(String uuid,
-		OrderByComparator<PublikUser> orderByComparator) {
+	public PublikUser fetchByUuid_Last(
+		String uuid, OrderByComparator<PublikUser> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<PublikUser> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<PublikUser> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -404,9 +392,13 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	 */
 	@Override
-	public PublikUser[] findByUuid_PrevAndNext(long publikUserLiferayId,
-		String uuid, OrderByComparator<PublikUser> orderByComparator)
+	public PublikUser[] findByUuid_PrevAndNext(
+			long publikUserLiferayId, String uuid,
+			OrderByComparator<PublikUser> orderByComparator)
 		throws NoSuchPublikUserException {
+
+		uuid = Objects.toString(uuid, "");
+
 		PublikUser publikUser = findByPrimaryKey(publikUserLiferayId);
 
 		Session session = null;
@@ -416,13 +408,13 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			PublikUser[] array = new PublikUserImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, publikUser, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, publikUser, uuid, orderByComparator, true);
 
 			array[1] = publikUser;
 
-			array[2] = getByUuid_PrevAndNext(session, publikUser, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, publikUser, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -434,14 +426,15 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		}
 	}
 
-	protected PublikUser getByUuid_PrevAndNext(Session session,
-		PublikUser publikUser, String uuid,
+	protected PublikUser getByUuid_PrevAndNext(
+		Session session, PublikUser publikUser, String uuid,
 		OrderByComparator<PublikUser> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -452,10 +445,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -465,7 +455,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -537,10 +528,10 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(publikUser);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(publikUser)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -561,8 +552,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (PublikUser publikUser : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (PublikUser publikUser :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(publikUser);
 		}
 	}
@@ -575,9 +567,11 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -588,10 +582,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -632,21 +623,17 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "publikUser.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "publikUser.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(publikUser.uuid IS NULL OR publikUser.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_PUBLIKID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByPublikId",
-			new String[] { String.class.getName() },
-			PublikUserModelImpl.PUBLIKID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"publikUser.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(publikUser.uuid IS NULL OR publikUser.uuid = '')";
+
+	private FinderPath _finderPathFetchByPublikId;
+	private FinderPath _finderPathCountByPublikId;
 
 	/**
-	 * Returns the publik user where publikId = &#63; or throws a {@link NoSuchPublikUserException} if it could not be found.
+	 * Returns the publik user where publikId = &#63; or throws a <code>NoSuchPublikUserException</code> if it could not be found.
 	 *
 	 * @param publikId the publik ID
 	 * @return the matching publik user
@@ -655,6 +642,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public PublikUser findByPublikId(String publikId)
 		throws NoSuchPublikUserException {
+
 		PublikUser publikUser = fetchByPublikId(publikId);
 
 		if (publikUser == null) {
@@ -665,7 +653,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			msg.append("publikId=");
 			msg.append(publikId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -696,14 +684,18 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the matching publik user, or <code>null</code> if a matching publik user could not be found
 	 */
 	@Override
-	public PublikUser fetchByPublikId(String publikId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { publikId };
+	public PublikUser fetchByPublikId(
+		String publikId, boolean retrieveFromCache) {
+
+		publikId = Objects.toString(publikId, "");
+
+		Object[] finderArgs = new Object[] {publikId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PUBLIKID,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByPublikId, finderArgs, this);
 		}
 
 		if (result instanceof PublikUser) {
@@ -721,10 +713,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			boolean bindPublikId = false;
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
+			if (publikId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
@@ -751,8 +740,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 				List<PublikUser> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByPublikId, finderArgs, list);
 				}
 				else {
 					PublikUser publikUser = list.get(0);
@@ -760,17 +749,11 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 					result = publikUser;
 
 					cacheResult(publikUser);
-
-					if ((publikUser.getPublikId() == null) ||
-							!publikUser.getPublikId().equals(publikId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID,
-							finderArgs, publikUser);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKID,
-					finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByPublikId, finderArgs);
 
 				throw processException(e);
 			}
@@ -796,6 +779,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public PublikUser removeByPublikId(String publikId)
 		throws NoSuchPublikUserException {
+
 		PublikUser publikUser = findByPublikId(publikId);
 
 		return remove(publikUser);
@@ -809,9 +793,11 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 */
 	@Override
 	public int countByPublikId(String publikId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
+		publikId = Objects.toString(publikId, "");
 
-		Object[] finderArgs = new Object[] { publikId };
+		FinderPath finderPath = _finderPathCountByPublikId;
+
+		Object[] finderArgs = new Object[] {publikId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -822,10 +808,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 			boolean bindPublikId = false;
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
+			if (publikId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
@@ -866,20 +849,24 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "publikUser.publikId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "publikUser.publikId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(publikUser.publikId IS NULL OR publikUser.publikId = '')";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 =
+		"publikUser.publikId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 =
+		"(publikUser.publikId IS NULL OR publikUser.publikId = '')";
 
 	public PublikUserPersistenceImpl() {
 		setModelClass(PublikUser.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -897,11 +884,13 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 */
 	@Override
 	public void cacheResult(PublikUser publikUser) {
-		entityCache.putResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserImpl.class, publikUser.getPrimaryKey(), publikUser);
+		entityCache.putResult(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
+			publikUser.getPrimaryKey(), publikUser);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID,
-			new Object[] { publikUser.getPublikId() }, publikUser);
+		finderCache.putResult(
+			_finderPathFetchByPublikId, new Object[] {publikUser.getPublikId()},
+			publikUser);
 
 		publikUser.resetOriginalValues();
 	}
@@ -915,8 +904,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	public void cacheResult(List<PublikUser> publikUsers) {
 		for (PublikUser publikUser : publikUsers) {
 			if (entityCache.getResult(
-						PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-						PublikUserImpl.class, publikUser.getPrimaryKey()) == null) {
+					PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+					PublikUserImpl.class, publikUser.getPrimaryKey()) == null) {
+
 				cacheResult(publikUser);
 			}
 			else {
@@ -929,7 +919,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Clears the cache for all publik users.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -945,13 +935,14 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Clears the cache for the publik user.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(PublikUser publikUser) {
-		entityCache.removeResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserImpl.class, publikUser.getPrimaryKey());
+		entityCache.removeResult(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
+			publikUser.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -965,8 +956,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (PublikUser publikUser : publikUsers) {
-			entityCache.removeResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-				PublikUserImpl.class, publikUser.getPrimaryKey());
+			entityCache.removeResult(
+				PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
+				publikUser.getPrimaryKey());
 
 			clearUniqueFindersCache((PublikUserModelImpl)publikUser, true);
 		}
@@ -974,31 +966,34 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 	protected void cacheUniqueFindersCache(
 		PublikUserModelImpl publikUserModelImpl) {
-		Object[] args = new Object[] { publikUserModelImpl.getPublikId() };
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_PUBLIKID, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKID, args,
-			publikUserModelImpl, false);
+		Object[] args = new Object[] {publikUserModelImpl.getPublikId()};
+
+		finderCache.putResult(
+			_finderPathCountByPublikId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByPublikId, args, publikUserModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		PublikUserModelImpl publikUserModelImpl, boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] { publikUserModelImpl.getPublikId() };
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKID, args);
+		if (clearCurrent) {
+			Object[] args = new Object[] {publikUserModelImpl.getPublikId()};
+
+			finderCache.removeResult(_finderPathCountByPublikId, args);
+			finderCache.removeResult(_finderPathFetchByPublikId, args);
 		}
 
 		if ((publikUserModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_PUBLIKID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					publikUserModelImpl.getOriginalPublikId()
-				};
+			 _finderPathFetchByPublikId.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKID, args);
+			Object[] args = new Object[] {
+				publikUserModelImpl.getOriginalPublikId()
+			};
+
+			finderCache.removeResult(_finderPathCountByPublikId, args);
+			finderCache.removeResult(_finderPathFetchByPublikId, args);
 		}
 	}
 
@@ -1032,6 +1027,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public PublikUser remove(long publikUserLiferayId)
 		throws NoSuchPublikUserException {
+
 		return remove((Serializable)publikUserLiferayId);
 	}
 
@@ -1045,21 +1041,22 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public PublikUser remove(Serializable primaryKey)
 		throws NoSuchPublikUserException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			PublikUser publikUser = (PublikUser)session.get(PublikUserImpl.class,
-					primaryKey);
+			PublikUser publikUser = (PublikUser)session.get(
+				PublikUserImpl.class, primaryKey);
 
 			if (publikUser == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchPublikUserException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchPublikUserException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(publikUser);
@@ -1077,16 +1074,14 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 	@Override
 	protected PublikUser removeImpl(PublikUser publikUser) {
-		publikUser = toUnwrappedModel(publikUser);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(publikUser)) {
-				publikUser = (PublikUser)session.get(PublikUserImpl.class,
-						publikUser.getPrimaryKeyObj());
+				publikUser = (PublikUser)session.get(
+					PublikUserImpl.class, publikUser.getPrimaryKeyObj());
 			}
 
 			if (publikUser != null) {
@@ -1109,11 +1104,26 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 	@Override
 	public PublikUser updateImpl(PublikUser publikUser) {
-		publikUser = toUnwrappedModel(publikUser);
-
 		boolean isNew = publikUser.isNew();
 
-		PublikUserModelImpl publikUserModelImpl = (PublikUserModelImpl)publikUser;
+		if (!(publikUser instanceof PublikUserModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(publikUser.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(publikUser);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in publikUser proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom PublikUser implementation " +
+					publikUser.getClass());
+		}
+
+		PublikUserModelImpl publikUserModelImpl =
+			(PublikUserModelImpl)publikUser;
 
 		if (Validator.isNull(publikUser.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -1121,7 +1131,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			publikUser.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -1169,40 +1180,41 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		if (!PublikUserModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { publikUserModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {publikUserModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((publikUserModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						publikUserModelImpl.getOriginalUuid()
-					};
+					publikUserModelImpl.getOriginalUuid()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] { publikUserModelImpl.getUuid() };
+				args = new Object[] {publikUserModelImpl.getUuid()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 		}
 
-		entityCache.putResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserImpl.class, publikUser.getPrimaryKey(), publikUser, false);
+		entityCache.putResult(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
+			publikUser.getPrimaryKey(), publikUser, false);
 
 		clearUniqueFindersCache(publikUserModelImpl, false);
 		cacheUniqueFindersCache(publikUserModelImpl);
@@ -1212,40 +1224,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		return publikUser;
 	}
 
-	protected PublikUser toUnwrappedModel(PublikUser publikUser) {
-		if (publikUser instanceof PublikUserImpl) {
-			return publikUser;
-		}
-
-		PublikUserImpl publikUserImpl = new PublikUserImpl();
-
-		publikUserImpl.setNew(publikUser.isNew());
-		publikUserImpl.setPrimaryKey(publikUser.getPrimaryKey());
-
-		publikUserImpl.setUuid(publikUser.getUuid());
-		publikUserImpl.setPublikUserLiferayId(publikUser.getPublikUserLiferayId());
-		publikUserImpl.setCreateDate(publikUser.getCreateDate());
-		publikUserImpl.setModifiedDate(publikUser.getModifiedDate());
-		publikUserImpl.setUserId(publikUser.getUserId());
-		publikUserImpl.setUserName(publikUser.getUserName());
-		publikUserImpl.setPublikId(publikUser.getPublikId());
-		publikUserImpl.setAccessToken(publikUser.getAccessToken());
-		publikUserImpl.setFirstName(publikUser.getFirstName());
-		publikUserImpl.setLastName(publikUser.getLastName());
-		publikUserImpl.setEmail(publikUser.getEmail());
-		publikUserImpl.setMapConfig(publikUser.getMapConfig());
-		publikUserImpl.setDisplayConfig(publikUser.getDisplayConfig());
-		publikUserImpl.setPactSignature(publikUser.getPactSignature());
-		publikUserImpl.setBanishDate(publikUser.getBanishDate());
-		publikUserImpl.setBanishDescription(publikUser.getBanishDescription());
-		publikUserImpl.setImageURL(publikUser.getImageURL());
-		publikUserImpl.setPactDisplay(publikUser.isPactDisplay());
-
-		return publikUserImpl;
-	}
-
 	/**
-	 * Returns the publik user with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the publik user with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the publik user
 	 * @return the publik user
@@ -1254,6 +1234,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public PublikUser findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchPublikUserException {
+
 		PublikUser publikUser = fetchByPrimaryKey(primaryKey);
 
 		if (publikUser == null) {
@@ -1261,15 +1242,15 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchPublikUserException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchPublikUserException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return publikUser;
 	}
 
 	/**
-	 * Returns the publik user with the primary key or throws a {@link NoSuchPublikUserException} if it could not be found.
+	 * Returns the publik user with the primary key or throws a <code>NoSuchPublikUserException</code> if it could not be found.
 	 *
 	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user
@@ -1278,6 +1259,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public PublikUser findByPrimaryKey(long publikUserLiferayId)
 		throws NoSuchPublikUserException {
+
 		return findByPrimaryKey((Serializable)publikUserLiferayId);
 	}
 
@@ -1289,8 +1271,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 */
 	@Override
 	public PublikUser fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-				PublikUserImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -1304,19 +1287,21 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			try {
 				session = openSession();
 
-				publikUser = (PublikUser)session.get(PublikUserImpl.class,
-						primaryKey);
+				publikUser = (PublikUser)session.get(
+					PublikUserImpl.class, primaryKey);
 
 				if (publikUser != null) {
 					cacheResult(publikUser);
 				}
 				else {
-					entityCache.putResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 						PublikUserImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 					PublikUserImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1343,11 +1328,13 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	@Override
 	public Map<Serializable, PublikUser> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, PublikUser> map = new HashMap<Serializable, PublikUser>();
+		Map<Serializable, PublikUser> map =
+			new HashMap<Serializable, PublikUser>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -1366,8 +1353,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-					PublikUserImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1387,20 +1375,20 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1420,7 +1408,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 					PublikUserImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1448,7 +1437,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Returns a range of all the publik users.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PublikUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PublikUserModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of publik users
@@ -1464,7 +1453,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Returns an ordered range of all the publik users.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PublikUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PublikUserModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of publik users
@@ -1473,8 +1462,9 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the ordered range of publik users
 	 */
 	@Override
-	public List<PublikUser> findAll(int start, int end,
-		OrderByComparator<PublikUser> orderByComparator) {
+	public List<PublikUser> findAll(
+		int start, int end, OrderByComparator<PublikUser> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1482,7 +1472,7 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Returns an ordered range of all the publik users.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PublikUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PublikUserModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of publik users
@@ -1492,29 +1482,31 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * @return the ordered range of publik users
 	 */
 	@Override
-	public List<PublikUser> findAll(int start, int end,
-		OrderByComparator<PublikUser> orderByComparator,
+	public List<PublikUser> findAll(
+		int start, int end, OrderByComparator<PublikUser> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<PublikUser> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<PublikUser>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<PublikUser>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1522,13 +1514,13 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PUBLIKUSER);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1548,16 +1540,16 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<PublikUser>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<PublikUser>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<PublikUser>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<PublikUser>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1595,8 +1587,8 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1608,12 +1600,12 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1639,6 +1631,58 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 	 * Initializes the publik user persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			PublikUserModelImpl.UUID_COLUMN_BITMASK |
+			PublikUserModelImpl.LASTNAME_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByPublikId = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublikId",
+			new String[] {String.class.getName()},
+			PublikUserModelImpl.PUBLIKID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikId = new FinderPath(
+			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
+			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -1650,18 +1694,37 @@ public class PublikUserPersistenceImpl extends BasePersistenceImpl<PublikUser>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_PUBLIKUSER = "SELECT publikUser FROM PublikUser publikUser";
-	private static final String _SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN = "SELECT publikUser FROM PublikUser publikUser WHERE publikUserLiferayId IN (";
-	private static final String _SQL_SELECT_PUBLIKUSER_WHERE = "SELECT publikUser FROM PublikUser publikUser WHERE ";
-	private static final String _SQL_COUNT_PUBLIKUSER = "SELECT COUNT(publikUser) FROM PublikUser publikUser";
-	private static final String _SQL_COUNT_PUBLIKUSER_WHERE = "SELECT COUNT(publikUser) FROM PublikUser publikUser WHERE ";
+
+	private static final String _SQL_SELECT_PUBLIKUSER =
+		"SELECT publikUser FROM PublikUser publikUser";
+
+	private static final String _SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN =
+		"SELECT publikUser FROM PublikUser publikUser WHERE publikUserLiferayId IN (";
+
+	private static final String _SQL_SELECT_PUBLIKUSER_WHERE =
+		"SELECT publikUser FROM PublikUser publikUser WHERE ";
+
+	private static final String _SQL_COUNT_PUBLIKUSER =
+		"SELECT COUNT(publikUser) FROM PublikUser publikUser";
+
+	private static final String _SQL_COUNT_PUBLIKUSER_WHERE =
+		"SELECT COUNT(publikUser) FROM PublikUser publikUser WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "publikUser.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No PublikUser exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No PublikUser exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(PublikUserPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No PublikUser exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No PublikUser exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PublikUserPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

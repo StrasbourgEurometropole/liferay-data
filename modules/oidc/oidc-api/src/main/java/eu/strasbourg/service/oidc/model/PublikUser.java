@@ -25,20 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see PublikUserModel
- * @see eu.strasbourg.service.oidc.model.impl.PublikUserImpl
- * @see eu.strasbourg.service.oidc.model.impl.PublikUserModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.oidc.model.impl.PublikUserImpl")
 @ProviderType
-public interface PublikUser extends PublikUserModel, PersistedModel {
+public interface PublikUser extends PersistedModel, PublikUserModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.oidc.model.impl.PublikUserImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.oidc.model.impl.PublikUserImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<PublikUser, Long> PUBLIK_USER_LIFERAY_ID_ACCESSOR =
-		new Accessor<PublikUser, Long>() {
+	public static final Accessor<PublikUser, Long>
+		PUBLIK_USER_LIFERAY_ID_ACCESSOR = new Accessor<PublikUser, Long>() {
+
 			@Override
 			public Long get(PublikUser publikUser) {
 				return publikUser.getPublikUserLiferayId();
@@ -53,15 +53,17 @@ public interface PublikUser extends PublikUserModel, PersistedModel {
 			public Class<PublikUser> getTypeClass() {
 				return PublikUser.class;
 			}
+
 		};
 
 	/**
-	* L'utilisateur est-il en perdiode de bannissement ?
-	*/
+	 * L'utilisateur est-il en perdiode de bannissement ?
+	 */
 	public boolean isBanned();
 
 	/**
-	* Retourne l'image de profil ou le substitut
-	*/
-	public java.lang.String getImageURLOrSurrogate();
+	 * Retourne l'image de profil ou le substitut
+	 */
+	public String getImageURLOrSurrogate();
+
 }

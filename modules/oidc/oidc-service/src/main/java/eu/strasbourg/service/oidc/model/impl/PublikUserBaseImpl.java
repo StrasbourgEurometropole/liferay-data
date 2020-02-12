@@ -32,12 +32,13 @@ import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class PublikUserBaseImpl extends PublikUserModelImpl
-	implements PublikUser {
+public abstract class PublikUserBaseImpl
+	extends PublikUserModelImpl implements PublikUser {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a publik user model instance should use the {@link PublikUser} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a publik user model instance should use the <code>PublikUser</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class PublikUserBaseImpl extends PublikUserModelImpl
 			PublikUserLocalServiceUtil.updatePublikUser(this);
 		}
 	}
+
 }
