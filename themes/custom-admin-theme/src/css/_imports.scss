@@ -2,8 +2,10 @@
 
 @import "mixins";
 
-@import "clay/atlas-variables";
+@import "aui/lexicon/atlas-variables";
 
-@import "clay/atlas";
-// Adds mixins removed by Bootstrap4
-@import "compat/mixins";
+@import "aui/lexicon/bootstrap/mixins";
+
+@import "aui/lexicon/lexicon-base/mixins";
+
+@import "aui/lexicon/atlas-theme/mixins";
