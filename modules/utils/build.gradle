@@ -14,8 +14,10 @@ dependencies {
 	
 	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
 
+	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
+
 	compileInclude group: "com.auth0", name: "java-jwt", version: "3.3.0"
-	//compile project (':modules:oidc:oidc-api')
+//	compile project (':modules:oidc:oidc-api')
 }
 
 
