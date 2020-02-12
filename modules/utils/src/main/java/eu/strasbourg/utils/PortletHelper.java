@@ -2,6 +2,7 @@ package eu.strasbourg.utils;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -14,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-//import eu.strasbourg.service.oidc.model.PublikUser;
-//import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
 public class PortletHelper {
 
@@ -58,18 +59,18 @@ public class PortletHelper {
 			// Portlets à ne pas afficher et à afficher
 			List<String> hiddenPortlets = new ArrayList<String>();
 			List<String> shownPortlets = new ArrayList<String>();
-//			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-//
-//			try {
-//				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
-//				JSONArray hiddenPortletsJsonArray = json.getJSONArray("hiddenPortlets");
-//				JSONArray shownPortletsJsonArray = json.getJSONArray("shownPortlets");
-//				if (hiddenPortletsJsonArray != null) {
-//					hiddenPortletsJsonArray.forEach(t -> hiddenPortlets.add((String) t));
-//				}
-//				if (shownPortletsJsonArray != null) {
-//					shownPortletsJsonArray.forEach(t -> shownPortlets.add((String) t));
-//				}
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+
+			try {
+				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+				JSONArray hiddenPortletsJsonArray = json.getJSONArray("hiddenPortlets");
+				JSONArray shownPortletsJsonArray = json.getJSONArray("shownPortlets");
+				if (hiddenPortletsJsonArray != null) {
+					hiddenPortletsJsonArray.forEach(t -> hiddenPortlets.add((String) t));
+				}
+				if (shownPortletsJsonArray != null) {
+					shownPortletsJsonArray.forEach(t -> shownPortlets.add((String) t));
+				}
 				if (shownPortlets.contains(portletId)) {
 					return true;
 				} else if (hiddenPortlets.contains(portletId)) {
@@ -77,10 +78,10 @@ public class PortletHelper {
 				} else {
 					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//				return true;
-//			}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return true;
+			}
 		} else {
         	return true;
 		}
@@ -112,18 +113,18 @@ public class PortletHelper {
 			// Portlets à repliés et dépliés
 			List<String> foldenPortlets = new ArrayList<String>();
 			List<String> unfoldenPortlets = new ArrayList<String>();
-//			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-//
-//			try {
-//				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
-//				JSONArray foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
-//				JSONArray unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
-//				if (foldenPortletsJsonArray != null) {
-//					foldenPortletsJsonArray.forEach(t -> foldenPortlets.add((String) t));
-//				}
-//				if (unfoldenPortletsJsonArray != null) {
-//					unfoldenPortletsJsonArray.forEach(t -> unfoldenPortlets.add((String) t));
-//				}
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+
+			try {
+				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+				JSONArray foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
+				JSONArray unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
+				if (foldenPortletsJsonArray != null) {
+					foldenPortletsJsonArray.forEach(t -> foldenPortlets.add((String) t));
+				}
+				if (unfoldenPortletsJsonArray != null) {
+					unfoldenPortletsJsonArray.forEach(t -> unfoldenPortlets.add((String) t));
+				}
 				if (foldenPortlets.contains(portletId)) {
 					return true;
 				} else if (unfoldenPortlets.contains(portletId)) {
@@ -131,10 +132,10 @@ public class PortletHelper {
 				} else {
 					return result;
 				}
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//				return result;
-//			}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return result;
+			}
 		} else {
 			return result;
 		}
@@ -189,28 +190,28 @@ public class PortletHelper {
 		String internalId = SessionParamUtil.getString(request, "publik_internal_id");
 		
 		if (internalId != null && !internalId.equals("")) {
-//			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-//			try {
-//				// JSON initialisation
-//				String userConfigString = user.getDisplayConfig();
-//				if (Validator.isNull(userConfigString)) {
-//					userConfigString = "{\"hiddenPortlets\":[], \"shownPortlets\":[]}";
-//				}
-//
-//				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+			PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+			try {
+				// JSON initialisation
+				String userConfigString = user.getDisplayConfig();
+				if (Validator.isNull(userConfigString)) {
+					userConfigString = "{\"hiddenPortlets\":[], \"shownPortlets\":[]}";
+				}
+
+				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
 				JSONArray hiddenPortletsJsonArray;
-//				if (json.has("hiddenPortlets")) {
-//					hiddenPortletsJsonArray = json.getJSONArray("hiddenPortlets");
-//				}  else {
+				if (json.has("hiddenPortlets")) {
+					hiddenPortletsJsonArray = json.getJSONArray("hiddenPortlets");
+				}  else {
 					hiddenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
-//				}
+				}
 
 				JSONArray shownPortletsJsonArray;
-//				if (json.has("shownPortlets")) {
-//					shownPortletsJsonArray = json.getJSONArray("shownPortlets");
-//				} else {
+				if (json.has("shownPortlets")) {
+					shownPortletsJsonArray = json.getJSONArray("shownPortlets");
+				} else {
 					shownPortletsJsonArray = JSONFactoryUtil.createJSONArray();
-//				}
+				}
 
 				List<String> hiddenPortletIds = new ArrayList<String>(); 
 				hiddenPortletsJsonArray.forEach(a -> hiddenPortletIds.add((String)a));
@@ -240,15 +241,15 @@ public class PortletHelper {
 				JSONArray newShownPortletJsonArray = JSONFactoryUtil.createJSONArray();
 				shownPortletIds.forEach(a -> newShownPortletJsonArray.put(a));
 				
-//				// Enregistrement des préférences utilisateur.
-//				json.put("hiddenPortlets", newHiddenPortletJsonArray);
-//				json.put("shownPortlets", newShownPortletJsonArray);
-//
-//				user.setDisplayConfig(json.toJSONString());
-//				PublikUserLocalServiceUtil.updatePublikUser(user);
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
+				// Enregistrement des préférences utilisateur.
+				json.put("hiddenPortlets", newHiddenPortletJsonArray);
+				json.put("shownPortlets", newShownPortletJsonArray);
+
+				user.setDisplayConfig(json.toJSONString());
+				PublikUserLocalServiceUtil.updatePublikUser(user);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -266,28 +267,28 @@ public class PortletHelper {
         String internalId = SessionParamUtil.getString(request, "publik_internal_id");
 
         if (internalId != null && !internalId.equals("")) {
-//            PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-//            try {
-//                // JSON initialisation
-//                String userConfigString = user.getDisplayConfig();
-//                if (Validator.isNull(userConfigString)) {
-//                    userConfigString = "{\"foldenPortlets\":[], \"unfoldenPortlets\":[]}";
-//                }
+            PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
+            try {
+                // JSON initialisation
+                String userConfigString = user.getDisplayConfig();
+                if (Validator.isNull(userConfigString)) {
+                    userConfigString = "{\"foldenPortlets\":[], \"unfoldenPortlets\":[]}";
+                }
 
-//                JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
+                JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
                 JSONArray foldenPortletsJsonArray;
-//                if (json.has("foldenPortlets")) {
-//                    foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
-//                }  else {
+                if (json.has("foldenPortlets")) {
+                    foldenPortletsJsonArray = json.getJSONArray("foldenPortlets");
+                }  else {
                     foldenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
-//                }
+                }
 
                 JSONArray unfoldenPortletsJsonArray;
-//                if (json.has("unfoldenPortlets")) {
-//                    unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
-//                } else {
+                if (json.has("unfoldenPortlets")) {
+                    unfoldenPortletsJsonArray = json.getJSONArray("unfoldenPortlets");
+                } else {
                     unfoldenPortletsJsonArray = JSONFactoryUtil.createJSONArray();
-//                }
+                }
 
                 List<String> foldenPortletIds = new ArrayList<String>();
                 foldenPortletsJsonArray.forEach(a -> foldenPortletIds.add((String)a));
@@ -317,15 +318,15 @@ public class PortletHelper {
                 JSONArray newUnfoldenPortletJsonArray = JSONFactoryUtil.createJSONArray();
                 unfoldenPortletIds.forEach(a -> newUnfoldenPortletJsonArray.put(a));
 
-//                // Enregistrement des préférences utilisateur.
-//                json.put("foldenPortlets", newFoldenPortletJsonArray);
-//                json.put("unfoldenPortlets", newUnfoldenPortletJsonArray);
-//
-//                user.setDisplayConfig(json.toJSONString());
-//                PublikUserLocalServiceUtil.updatePublikUser(user);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+                // Enregistrement des préférences utilisateur.
+                json.put("foldenPortlets", newFoldenPortletJsonArray);
+                json.put("unfoldenPortlets", newUnfoldenPortletJsonArray);
+
+                user.setDisplayConfig(json.toJSONString());
+                PublikUserLocalServiceUtil.updatePublikUser(user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 	}
 }
