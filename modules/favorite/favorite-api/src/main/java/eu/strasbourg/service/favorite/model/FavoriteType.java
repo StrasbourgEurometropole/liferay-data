@@ -25,7 +25,7 @@ public enum FavoriteType {
 	NEWS(6, "NEWS", JournalArticle.class),
 	ARTICLE(7, "ARTICLE", JournalArticle.class), 
 	PROCEDURE(8, "PROCEDURE", String.class),
-	PAGE(9, "PAGE", Layout.class);
+	PAGE(9, "PAGE", Layout.class),
 //	ACTIVITY(10, "ACTIVITY", Activity.class),
 //	COURSE(11, "COURSE", ActivityCourse.class),
 //	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
