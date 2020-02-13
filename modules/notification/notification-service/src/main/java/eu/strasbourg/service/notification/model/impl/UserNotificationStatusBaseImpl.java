@@ -34,18 +34,22 @@ import eu.strasbourg.service.notification.service.UserNotificationStatusLocalSer
 @ProviderType
 public abstract class UserNotificationStatusBaseImpl
 	extends UserNotificationStatusModelImpl implements UserNotificationStatus {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a user notification status model instance should use the {@link UserNotificationStatus} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a user notification status model instance should use the <code>UserNotificationStatus</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			UserNotificationStatusLocalServiceUtil.addUserNotificationStatus(this);
+			UserNotificationStatusLocalServiceUtil.addUserNotificationStatus(
+				this);
 		}
 		else {
-			UserNotificationStatusLocalServiceUtil.updateUserNotificationStatus(this);
+			UserNotificationStatusLocalServiceUtil.updateUserNotificationStatus(
+				this);
 		}
 	}
+
 }

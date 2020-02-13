@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
 
 import java.io.Serializable;
@@ -207,7 +206,7 @@ public class PublikUserUtil {
 	 */
 	public static PublikUser findByUuid_First(
 			String uuid, OrderByComparator<PublikUser> orderByComparator)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().findByUuid_First(uuid, orderByComparator);
 	}
@@ -235,7 +234,7 @@ public class PublikUserUtil {
 	 */
 	public static PublikUser findByUuid_Last(
 			String uuid, OrderByComparator<PublikUser> orderByComparator)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().findByUuid_Last(uuid, orderByComparator);
 	}
@@ -265,7 +264,7 @@ public class PublikUserUtil {
 	public static PublikUser[] findByUuid_PrevAndNext(
 			long publikUserLiferayId, String uuid,
 			OrderByComparator<PublikUser> orderByComparator)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().findByUuid_PrevAndNext(
 			publikUserLiferayId, uuid, orderByComparator);
@@ -298,7 +297,7 @@ public class PublikUserUtil {
 	 * @throws NoSuchPublikUserException if a matching publik user could not be found
 	 */
 	public static PublikUser findByPublikId(String publikId)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().findByPublikId(publikId);
 	}
@@ -333,7 +332,7 @@ public class PublikUserUtil {
 	 * @return the publik user that was removed
 	 */
 	public static PublikUser removeByPublikId(String publikId)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().removeByPublikId(publikId);
 	}
@@ -384,7 +383,7 @@ public class PublikUserUtil {
 	 * @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	 */
 	public static PublikUser remove(long publikUserLiferayId)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().remove(publikUserLiferayId);
 	}
@@ -401,7 +400,7 @@ public class PublikUserUtil {
 	 * @throws NoSuchPublikUserException if a publik user with the primary key could not be found
 	 */
 	public static PublikUser findByPrimaryKey(long publikUserLiferayId)
-		throws NoSuchPublikUserException {
+		throws eu.strasbourg.service.oidc.exception.NoSuchPublikUserException {
 
 		return getPersistence().findByPrimaryKey(publikUserLiferayId);
 	}

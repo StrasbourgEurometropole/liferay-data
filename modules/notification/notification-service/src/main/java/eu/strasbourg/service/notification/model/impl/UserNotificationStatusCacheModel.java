@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
@@ -33,12 +32,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing UserNotificationStatus in entity cache.
  *
  * @author BenjaminBini
- * @see UserNotificationStatus
  * @generated
  */
 @ProviderType
-public class UserNotificationStatusCacheModel implements CacheModel<UserNotificationStatus>,
-	Externalizable {
+public class UserNotificationStatusCacheModel
+	implements CacheModel<UserNotificationStatus>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -49,10 +48,12 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 			return false;
 		}
 
-		UserNotificationStatusCacheModel userNotificationStatusCacheModel = (UserNotificationStatusCacheModel)obj;
+		UserNotificationStatusCacheModel userNotificationStatusCacheModel =
+			(UserNotificationStatusCacheModel)obj;
 
 		if (userNotificationStatusPK.equals(
-					userNotificationStatusCacheModel.userNotificationStatusPK)) {
+				userNotificationStatusCacheModel.userNotificationStatusPK)) {
+
 			return true;
 		}
 
@@ -81,12 +82,13 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 
 	@Override
 	public UserNotificationStatus toEntityModel() {
-		UserNotificationStatusImpl userNotificationStatusImpl = new UserNotificationStatusImpl();
+		UserNotificationStatusImpl userNotificationStatusImpl =
+			new UserNotificationStatusImpl();
 
 		userNotificationStatusImpl.setNotificationId(notificationId);
 
 		if (publikUserId == null) {
-			userNotificationStatusImpl.setPublikUserId(StringPool.BLANK);
+			userNotificationStatusImpl.setPublikUserId("");
 		}
 		else {
 			userNotificationStatusImpl.setPublikUserId(publikUserId);
@@ -106,17 +108,16 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 
 		read = objectInput.readBoolean();
 
-		userNotificationStatusPK = new UserNotificationStatusPK(notificationId,
-				publikUserId);
+		userNotificationStatusPK = new UserNotificationStatusPK(
+			notificationId, publikUserId);
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(notificationId);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -129,4 +130,5 @@ public class UserNotificationStatusCacheModel implements CacheModel<UserNotifica
 	public String publikUserId;
 	public boolean read;
 	public transient UserNotificationStatusPK userNotificationStatusPK;
+
 }

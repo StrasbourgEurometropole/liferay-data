@@ -25,59 +25,69 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see UserNotificationStatusModel
- * @see eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl
- * @see eu.strasbourg.service.notification.model.impl.UserNotificationStatusModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl"
+)
 @ProviderType
-public interface UserNotificationStatus extends UserNotificationStatusModel,
-	PersistedModel {
+public interface UserNotificationStatus
+	extends PersistedModel, UserNotificationStatusModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<UserNotificationStatus, Long> NOTIFICATION_ID_ACCESSOR =
-		new Accessor<UserNotificationStatus, Long>() {
-			@Override
-			public Long get(UserNotificationStatus userNotificationStatus) {
-				return userNotificationStatus.getNotificationId();
-			}
+	public static final Accessor<UserNotificationStatus, Long>
+		NOTIFICATION_ID_ACCESSOR =
+			new Accessor<UserNotificationStatus, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(UserNotificationStatus userNotificationStatus) {
+					return userNotificationStatus.getNotificationId();
+				}
 
-			@Override
-			public Class<UserNotificationStatus> getTypeClass() {
-				return UserNotificationStatus.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
 
-	public static final Accessor<UserNotificationStatus, String> PUBLIK_USER_ID_ACCESSOR =
-		new Accessor<UserNotificationStatus, String>() {
-			@Override
-			public String get(UserNotificationStatus userNotificationStatus) {
-				return userNotificationStatus.getPublikUserId();
-			}
+				@Override
+				public Class<UserNotificationStatus> getTypeClass() {
+					return UserNotificationStatus.class;
+				}
 
-			@Override
-			public Class<String> getAttributeClass() {
-				return String.class;
-			}
+			};
+	public static final Accessor<UserNotificationStatus, String>
+		PUBLIK_USER_ID_ACCESSOR =
+			new Accessor<UserNotificationStatus, String>() {
 
-			@Override
-			public Class<UserNotificationStatus> getTypeClass() {
-				return UserNotificationStatus.class;
-			}
-		};
+				@Override
+				public String get(
+					UserNotificationStatus userNotificationStatus) {
+
+					return userNotificationStatus.getPublikUserId();
+				}
+
+				@Override
+				public Class<String> getAttributeClass() {
+					return String.class;
+				}
+
+				@Override
+				public Class<UserNotificationStatus> getTypeClass() {
+					return UserNotificationStatus.class;
+				}
+
+			};
 
 	/**
-	* Retourne la version JSON de l'objet
-	*/
+	 * Retourne la version JSON de l'objet
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
-	public eu.strasbourg.service.notification.model.Notification getNotification();
+	public eu.strasbourg.service.notification.model.Notification
+		getNotification();
+
 }

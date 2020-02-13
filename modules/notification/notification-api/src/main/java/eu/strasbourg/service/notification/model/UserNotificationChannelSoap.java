@@ -31,9 +31,12 @@ import java.util.List;
  */
 @ProviderType
 public class UserNotificationChannelSoap implements Serializable {
+
 	public static UserNotificationChannelSoap toSoapModel(
 		UserNotificationChannel model) {
-		UserNotificationChannelSoap soapModel = new UserNotificationChannelSoap();
+
+		UserNotificationChannelSoap soapModel =
+			new UserNotificationChannelSoap();
 
 		soapModel.setPublikUserId(model.getPublikUserId());
 		soapModel.setChannelId(model.getChannelId());
@@ -43,7 +46,9 @@ public class UserNotificationChannelSoap implements Serializable {
 
 	public static UserNotificationChannelSoap[] toSoapModels(
 		UserNotificationChannel[] models) {
-		UserNotificationChannelSoap[] soapModels = new UserNotificationChannelSoap[models.length];
+
+		UserNotificationChannelSoap[] soapModels =
+			new UserNotificationChannelSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -54,10 +59,13 @@ public class UserNotificationChannelSoap implements Serializable {
 
 	public static UserNotificationChannelSoap[][] toSoapModels(
 		UserNotificationChannel[][] models) {
+
 		UserNotificationChannelSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new UserNotificationChannelSoap[models.length][models[0].length];
+			soapModels =
+				new UserNotificationChannelSoap
+					[models.length][models[0].length];
 		}
 		else {
 			soapModels = new UserNotificationChannelSoap[0][0];
@@ -72,13 +80,16 @@ public class UserNotificationChannelSoap implements Serializable {
 
 	public static UserNotificationChannelSoap[] toSoapModels(
 		List<UserNotificationChannel> models) {
-		List<UserNotificationChannelSoap> soapModels = new ArrayList<UserNotificationChannelSoap>(models.size());
+
+		List<UserNotificationChannelSoap> soapModels =
+			new ArrayList<UserNotificationChannelSoap>(models.size());
 
 		for (UserNotificationChannel model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new UserNotificationChannelSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new UserNotificationChannelSoap[soapModels.size()]);
 	}
 
 	public UserNotificationChannelSoap() {
@@ -111,4 +122,5 @@ public class UserNotificationChannelSoap implements Serializable {
 
 	private String _publikUserId;
 	private long _channelId;
+
 }

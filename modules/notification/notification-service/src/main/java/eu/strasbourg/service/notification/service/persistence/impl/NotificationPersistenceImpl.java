@@ -28,7 +28,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.exception.NoSuchNotificationException;
@@ -58,49 +57,32 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see NotificationPersistence
- * @see eu.strasbourg.service.notification.service.persistence.NotificationUtil
  * @generated
  */
 @ProviderType
-public class NotificationPersistenceImpl extends BasePersistenceImpl<Notification>
+public class NotificationPersistenceImpl
+	extends BasePersistenceImpl<Notification>
 	implements NotificationPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link NotificationUtil} to access the notification persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>NotificationUtil</code> to access the notification persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = NotificationImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS =
-		new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublicationDateAndStatus",
-			new String[] {
-				Date.class.getName(), Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS =
-		new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"countByPublicationDateAndStatus",
-			new String[] { Date.class.getName(), Integer.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		NotificationImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByPublicationDateAndStatus;
+	private FinderPath _finderPathWithPaginationCountByPublicationDateAndStatus;
 
 	/**
 	 * Returns all the notifications where publicationDate &lt; &#63; and status = &#63;.
@@ -112,15 +94,17 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public List<Notification> findByPublicationDateAndStatus(
 		Date publicationDate, int status) {
-		return findByPublicationDateAndStatus(publicationDate, status,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
 	}
 
 	/**
 	 * Returns a range of all the notifications where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -132,15 +116,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public List<Notification> findByPublicationDateAndStatus(
 		Date publicationDate, int status, int start, int end) {
-		return findByPublicationDateAndStatus(publicationDate, status, start,
-			end, null);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, start, end, null);
 	}
 
 	/**
 	 * Returns an ordered range of all the notifications where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -154,15 +139,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public List<Notification> findByPublicationDateAndStatus(
 		Date publicationDate, int status, int start, int end,
 		OrderByComparator<Notification> orderByComparator) {
-		return findByPublicationDateAndStatus(publicationDate, status, start,
-			end, orderByComparator, true);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the notifications where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -178,28 +164,28 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		Date publicationDate, int status, int start, int end,
 		OrderByComparator<Notification> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS;
+		finderPath = _finderPathWithPaginationFindByPublicationDateAndStatus;
 		finderArgs = new Object[] {
-				publicationDate, status,
-				
-				start, end, orderByComparator
-			};
+			_getTime(publicationDate), status, start, end, orderByComparator
+		};
 
 		List<Notification> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Notification>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Notification>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Notification notification : list) {
-					if ((publicationDate.getTime() <= notification.getPublicationDate()
-																	  .getTime()) ||
-							(status != notification.getStatus())) {
+					if ((publicationDate.getTime() <=
+							notification.getPublicationDate().getTime()) ||
+						(status != notification.getStatus())) {
+
 						list = null;
 
 						break;
@@ -212,8 +198,8 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -224,22 +210,23 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			boolean bindPublicationDate = false;
 
 			if (publicationDate == null) {
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 			}
 			else {
 				bindPublicationDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(NotificationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -261,16 +248,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 				qPos.add(status);
 
 				if (!pagination) {
-					list = (List<Notification>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Notification>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -301,11 +288,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification findByPublicationDateAndStatus_First(
-		Date publicationDate, int status,
-		OrderByComparator<Notification> orderByComparator)
+			Date publicationDate, int status,
+			OrderByComparator<Notification> orderByComparator)
 		throws NoSuchNotificationException {
-		Notification notification = fetchByPublicationDateAndStatus_First(publicationDate,
-				status, orderByComparator);
+
+		Notification notification = fetchByPublicationDateAndStatus_First(
+			publicationDate, status, orderByComparator);
 
 		if (notification != null) {
 			return notification;
@@ -321,7 +309,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchNotificationException(msg.toString());
 	}
@@ -338,8 +326,9 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public Notification fetchByPublicationDateAndStatus_First(
 		Date publicationDate, int status,
 		OrderByComparator<Notification> orderByComparator) {
-		List<Notification> list = findByPublicationDateAndStatus(publicationDate,
-				status, 0, 1, orderByComparator);
+
+		List<Notification> list = findByPublicationDateAndStatus(
+			publicationDate, status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -359,11 +348,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification findByPublicationDateAndStatus_Last(
-		Date publicationDate, int status,
-		OrderByComparator<Notification> orderByComparator)
+			Date publicationDate, int status,
+			OrderByComparator<Notification> orderByComparator)
 		throws NoSuchNotificationException {
-		Notification notification = fetchByPublicationDateAndStatus_Last(publicationDate,
-				status, orderByComparator);
+
+		Notification notification = fetchByPublicationDateAndStatus_Last(
+			publicationDate, status, orderByComparator);
 
 		if (notification != null) {
 			return notification;
@@ -379,7 +369,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchNotificationException(msg.toString());
 	}
@@ -396,14 +386,15 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public Notification fetchByPublicationDateAndStatus_Last(
 		Date publicationDate, int status,
 		OrderByComparator<Notification> orderByComparator) {
+
 		int count = countByPublicationDateAndStatus(publicationDate, status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Notification> list = findByPublicationDateAndStatus(publicationDate,
-				status, count - 1, count, orderByComparator);
+		List<Notification> list = findByPublicationDateAndStatus(
+			publicationDate, status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -424,9 +415,10 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification[] findByPublicationDateAndStatus_PrevAndNext(
-		long notificationId, Date publicationDate, int status,
-		OrderByComparator<Notification> orderByComparator)
+			long notificationId, Date publicationDate, int status,
+			OrderByComparator<Notification> orderByComparator)
 		throws NoSuchNotificationException {
+
 		Notification notification = findByPrimaryKey(notificationId);
 
 		Session session = null;
@@ -436,15 +428,15 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 			Notification[] array = new NotificationImpl[3];
 
-			array[0] = getByPublicationDateAndStatus_PrevAndNext(session,
-					notification, publicationDate, status, orderByComparator,
-					true);
+			array[0] = getByPublicationDateAndStatus_PrevAndNext(
+				session, notification, publicationDate, status,
+				orderByComparator, true);
 
 			array[1] = notification;
 
-			array[2] = getByPublicationDateAndStatus_PrevAndNext(session,
-					notification, publicationDate, status, orderByComparator,
-					false);
+			array[2] = getByPublicationDateAndStatus_PrevAndNext(
+				session, notification, publicationDate, status,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -460,11 +452,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		Session session, Notification notification, Date publicationDate,
 		int status, OrderByComparator<Notification> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -476,18 +469,21 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		boolean bindPublicationDate = false;
 
 		if (publicationDate == null) {
-			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 		}
 		else {
 			bindPublicationDate = true;
 
-			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -561,10 +557,10 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		qPos.add(status);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(notification);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(notification)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -585,11 +581,14 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * @param status the status
 	 */
 	@Override
-	public void removeByPublicationDateAndStatus(Date publicationDate,
-		int status) {
-		for (Notification notification : findByPublicationDateAndStatus(
-				publicationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+	public void removeByPublicationDateAndStatus(
+		Date publicationDate, int status) {
+
+		for (Notification notification :
+				findByPublicationDateAndStatus(
+					publicationDate, status, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
 			remove(notification);
 		}
 	}
@@ -602,10 +601,13 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * @return the number of matching notifications
 	 */
 	@Override
-	public int countByPublicationDateAndStatus(Date publicationDate, int status) {
-		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS;
+	public int countByPublicationDateAndStatus(
+		Date publicationDate, int status) {
 
-		Object[] finderArgs = new Object[] { publicationDate, status };
+		FinderPath finderPath =
+			_finderPathWithPaginationCountByPublicationDateAndStatus;
+
+		Object[] finderArgs = new Object[] {_getTime(publicationDate), status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -617,12 +619,14 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			boolean bindPublicationDate = false;
 
 			if (publicationDate == null) {
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 			}
 			else {
 				bindPublicationDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
@@ -661,29 +665,20 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
-		"notification.publicationDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
-		"notification.publicationDate < ? AND ";
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
-		"notification.status = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_EXPIRATIONDATEANDSTATUS =
-		new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByExpirationDateAndStatus",
-			new String[] {
-				Date.class.getName(), Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_EXPIRATIONDATEANDSTATUS =
-		new FinderPath(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"countByExpirationDateAndStatus",
-			new String[] { Date.class.getName(), Integer.class.getName() });
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
+			"notification.publicationDate IS NULL AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
+			"notification.publicationDate < ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
+			"notification.status = ?";
+
+	private FinderPath _finderPathWithPaginationFindByExpirationDateAndStatus;
+	private FinderPath _finderPathWithPaginationCountByExpirationDateAndStatus;
 
 	/**
 	 * Returns all the notifications where expirationDate &lt; &#63; and status = &#63;.
@@ -695,15 +690,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public List<Notification> findByExpirationDateAndStatus(
 		Date expirationDate, int status) {
-		return findByExpirationDateAndStatus(expirationDate, status,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		return findByExpirationDateAndStatus(
+			expirationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the notifications where expirationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param expirationDate the expiration date
@@ -715,15 +711,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public List<Notification> findByExpirationDateAndStatus(
 		Date expirationDate, int status, int start, int end) {
-		return findByExpirationDateAndStatus(expirationDate, status, start,
-			end, null);
+
+		return findByExpirationDateAndStatus(
+			expirationDate, status, start, end, null);
 	}
 
 	/**
 	 * Returns an ordered range of all the notifications where expirationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param expirationDate the expiration date
@@ -737,15 +734,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public List<Notification> findByExpirationDateAndStatus(
 		Date expirationDate, int status, int start, int end,
 		OrderByComparator<Notification> orderByComparator) {
-		return findByExpirationDateAndStatus(expirationDate, status, start,
-			end, orderByComparator, true);
+
+		return findByExpirationDateAndStatus(
+			expirationDate, status, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the notifications where expirationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param expirationDate the expiration date
@@ -761,28 +759,28 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		Date expirationDate, int status, int start, int end,
 		OrderByComparator<Notification> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_EXPIRATIONDATEANDSTATUS;
+		finderPath = _finderPathWithPaginationFindByExpirationDateAndStatus;
 		finderArgs = new Object[] {
-				expirationDate, status,
-				
-				start, end, orderByComparator
-			};
+			_getTime(expirationDate), status, start, end, orderByComparator
+		};
 
 		List<Notification> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Notification>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Notification>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Notification notification : list) {
-					if ((expirationDate.getTime() <= notification.getExpirationDate()
-																	 .getTime()) ||
-							(status != notification.getStatus())) {
+					if ((expirationDate.getTime() <=
+							notification.getExpirationDate().getTime()) ||
+						(status != notification.getStatus())) {
+
 						list = null;
 
 						break;
@@ -795,8 +793,8 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -807,22 +805,23 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_STATUS_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(NotificationModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -844,16 +843,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 				qPos.add(status);
 
 				if (!pagination) {
-					list = (List<Notification>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Notification>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -884,11 +883,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification findByExpirationDateAndStatus_First(
-		Date expirationDate, int status,
-		OrderByComparator<Notification> orderByComparator)
+			Date expirationDate, int status,
+			OrderByComparator<Notification> orderByComparator)
 		throws NoSuchNotificationException {
-		Notification notification = fetchByExpirationDateAndStatus_First(expirationDate,
-				status, orderByComparator);
+
+		Notification notification = fetchByExpirationDateAndStatus_First(
+			expirationDate, status, orderByComparator);
 
 		if (notification != null) {
 			return notification;
@@ -904,7 +904,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchNotificationException(msg.toString());
 	}
@@ -921,8 +921,9 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public Notification fetchByExpirationDateAndStatus_First(
 		Date expirationDate, int status,
 		OrderByComparator<Notification> orderByComparator) {
-		List<Notification> list = findByExpirationDateAndStatus(expirationDate,
-				status, 0, 1, orderByComparator);
+
+		List<Notification> list = findByExpirationDateAndStatus(
+			expirationDate, status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -942,11 +943,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification findByExpirationDateAndStatus_Last(
-		Date expirationDate, int status,
-		OrderByComparator<Notification> orderByComparator)
+			Date expirationDate, int status,
+			OrderByComparator<Notification> orderByComparator)
 		throws NoSuchNotificationException {
-		Notification notification = fetchByExpirationDateAndStatus_Last(expirationDate,
-				status, orderByComparator);
+
+		Notification notification = fetchByExpirationDateAndStatus_Last(
+			expirationDate, status, orderByComparator);
 
 		if (notification != null) {
 			return notification;
@@ -962,7 +964,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchNotificationException(msg.toString());
 	}
@@ -979,14 +981,15 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public Notification fetchByExpirationDateAndStatus_Last(
 		Date expirationDate, int status,
 		OrderByComparator<Notification> orderByComparator) {
+
 		int count = countByExpirationDateAndStatus(expirationDate, status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Notification> list = findByExpirationDateAndStatus(expirationDate,
-				status, count - 1, count, orderByComparator);
+		List<Notification> list = findByExpirationDateAndStatus(
+			expirationDate, status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1007,9 +1010,10 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification[] findByExpirationDateAndStatus_PrevAndNext(
-		long notificationId, Date expirationDate, int status,
-		OrderByComparator<Notification> orderByComparator)
+			long notificationId, Date expirationDate, int status,
+			OrderByComparator<Notification> orderByComparator)
 		throws NoSuchNotificationException {
+
 		Notification notification = findByPrimaryKey(notificationId);
 
 		Session session = null;
@@ -1019,15 +1023,15 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 			Notification[] array = new NotificationImpl[3];
 
-			array[0] = getByExpirationDateAndStatus_PrevAndNext(session,
-					notification, expirationDate, status, orderByComparator,
-					true);
+			array[0] = getByExpirationDateAndStatus_PrevAndNext(
+				session, notification, expirationDate, status,
+				orderByComparator, true);
 
 			array[1] = notification;
 
-			array[2] = getByExpirationDateAndStatus_PrevAndNext(session,
-					notification, expirationDate, status, orderByComparator,
-					false);
+			array[2] = getByExpirationDateAndStatus_PrevAndNext(
+				session, notification, expirationDate, status,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -1043,11 +1047,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		Session session, Notification notification, Date expirationDate,
 		int status, OrderByComparator<Notification> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1059,18 +1064,21 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		boolean bindExpirationDate = false;
 
 		if (expirationDate == null) {
-			query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1);
+			query.append(
+				_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1);
 		}
 		else {
 			bindExpirationDate = true;
 
-			query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2);
+			query.append(
+				_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_STATUS_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1144,10 +1152,10 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		qPos.add(status);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(notification);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(notification)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1168,10 +1176,14 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * @param status the status
 	 */
 	@Override
-	public void removeByExpirationDateAndStatus(Date expirationDate, int status) {
-		for (Notification notification : findByExpirationDateAndStatus(
-				expirationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+	public void removeByExpirationDateAndStatus(
+		Date expirationDate, int status) {
+
+		for (Notification notification :
+				findByExpirationDateAndStatus(
+					expirationDate, status, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
 			remove(notification);
 		}
 	}
@@ -1185,9 +1197,10 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public int countByExpirationDateAndStatus(Date expirationDate, int status) {
-		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_EXPIRATIONDATEANDSTATUS;
+		FinderPath finderPath =
+			_finderPathWithPaginationCountByExpirationDateAndStatus;
 
-		Object[] finderArgs = new Object[] { expirationDate, status };
+		Object[] finderArgs = new Object[] {_getTime(expirationDate), status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1199,12 +1212,14 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			boolean bindExpirationDate = false;
 
 			if (expirationDate == null) {
-				query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1);
 			}
 			else {
 				bindExpirationDate = true;
 
-				query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_STATUS_2);
@@ -1243,11 +1258,17 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1 =
-		"notification.expirationDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2 =
-		"notification.expirationDate < ? AND ";
-	private static final String _FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_STATUS_2 = "notification.status = ?";
+	private static final String
+		_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_1 =
+			"notification.expirationDate IS NULL AND ";
+
+	private static final String
+		_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_EXPIRATIONDATE_2 =
+			"notification.expirationDate < ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_EXPIRATIONDATEANDSTATUS_STATUS_2 =
+			"notification.status = ?";
 
 	public NotificationPersistenceImpl() {
 		setModelClass(Notification.class);
@@ -1260,8 +1281,9 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public void cacheResult(Notification notification) {
-		entityCache.putResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationImpl.class, notification.getPrimaryKey(), notification);
+		entityCache.putResult(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
+			notification.getPrimaryKey(), notification);
 
 		notification.resetOriginalValues();
 	}
@@ -1275,8 +1297,10 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	public void cacheResult(List<Notification> notifications) {
 		for (Notification notification : notifications) {
 			if (entityCache.getResult(
-						NotificationModelImpl.ENTITY_CACHE_ENABLED,
-						NotificationImpl.class, notification.getPrimaryKey()) == null) {
+					NotificationModelImpl.ENTITY_CACHE_ENABLED,
+					NotificationImpl.class, notification.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(notification);
 			}
 			else {
@@ -1289,7 +1313,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * Clears the cache for all notifications.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1305,13 +1329,14 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * Clears the cache for the notification.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Notification notification) {
-		entityCache.removeResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationImpl.class, notification.getPrimaryKey());
+		entityCache.removeResult(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
+			notification.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -1323,7 +1348,8 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Notification notification : notifications) {
-			entityCache.removeResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				NotificationModelImpl.ENTITY_CACHE_ENABLED,
 				NotificationImpl.class, notification.getPrimaryKey());
 		}
 	}
@@ -1354,6 +1380,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public Notification remove(long notificationId)
 		throws NoSuchNotificationException {
+
 		return remove((Serializable)notificationId);
 	}
 
@@ -1367,21 +1394,22 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public Notification remove(Serializable primaryKey)
 		throws NoSuchNotificationException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Notification notification = (Notification)session.get(NotificationImpl.class,
-					primaryKey);
+			Notification notification = (Notification)session.get(
+				NotificationImpl.class, primaryKey);
 
 			if (notification == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchNotificationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchNotificationException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(notification);
@@ -1399,16 +1427,14 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 	@Override
 	protected Notification removeImpl(Notification notification) {
-		notification = toUnwrappedModel(notification);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(notification)) {
-				notification = (Notification)session.get(NotificationImpl.class,
-						notification.getPrimaryKeyObj());
+				notification = (Notification)session.get(
+					NotificationImpl.class, notification.getPrimaryKeyObj());
 			}
 
 			if (notification != null) {
@@ -1431,8 +1457,6 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 	@Override
 	public Notification updateImpl(Notification notification) {
-		notification = toUnwrappedModel(notification);
-
 		boolean isNew = notification.isNew();
 
 		Session session = null;
@@ -1461,49 +1485,23 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		if (!NotificationModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+		else if (isNew) {
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
 
-		entityCache.putResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-			NotificationImpl.class, notification.getPrimaryKey(), notification,
-			false);
+		entityCache.putResult(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
+			notification.getPrimaryKey(), notification, false);
 
 		notification.resetOriginalValues();
 
 		return notification;
 	}
 
-	protected Notification toUnwrappedModel(Notification notification) {
-		if (notification instanceof NotificationImpl) {
-			return notification;
-		}
-
-		NotificationImpl notificationImpl = new NotificationImpl();
-
-		notificationImpl.setNew(notification.isNew());
-		notificationImpl.setPrimaryKey(notification.getPrimaryKey());
-
-		notificationImpl.setNotificationId(notification.getNotificationId());
-		notificationImpl.setTitle(notification.getTitle());
-		notificationImpl.setDescription(notification.getDescription());
-		notificationImpl.setUrl(notification.getUrl());
-		notificationImpl.setAutomatic(notification.isAutomatic());
-		notificationImpl.setSingleUser(notification.isSingleUser());
-		notificationImpl.setSingleUserId(notification.getSingleUserId());
-		notificationImpl.setPublicationDate(notification.getPublicationDate());
-		notificationImpl.setExpirationDate(notification.getExpirationDate());
-		notificationImpl.setStatus(notification.getStatus());
-		notificationImpl.setTypeId(notification.getTypeId());
-
-		return notificationImpl;
-	}
-
 	/**
-	 * Returns the notification with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the notification with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the notification
 	 * @return the notification
@@ -1512,6 +1510,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public Notification findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchNotificationException {
+
 		Notification notification = fetchByPrimaryKey(primaryKey);
 
 		if (notification == null) {
@@ -1519,15 +1518,15 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchNotificationException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchNotificationException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return notification;
 	}
 
 	/**
-	 * Returns the notification with the primary key or throws a {@link NoSuchNotificationException} if it could not be found.
+	 * Returns the notification with the primary key or throws a <code>NoSuchNotificationException</code> if it could not be found.
 	 *
 	 * @param notificationId the primary key of the notification
 	 * @return the notification
@@ -1536,6 +1535,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public Notification findByPrimaryKey(long notificationId)
 		throws NoSuchNotificationException {
+
 		return findByPrimaryKey((Serializable)notificationId);
 	}
 
@@ -1547,8 +1547,9 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public Notification fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-				NotificationImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED, NotificationImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -1562,19 +1563,21 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			try {
 				session = openSession();
 
-				notification = (Notification)session.get(NotificationImpl.class,
-						primaryKey);
+				notification = (Notification)session.get(
+					NotificationImpl.class, primaryKey);
 
 				if (notification != null) {
 					cacheResult(notification);
 				}
 				else {
-					entityCache.putResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						NotificationModelImpl.ENTITY_CACHE_ENABLED,
 						NotificationImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					NotificationModelImpl.ENTITY_CACHE_ENABLED,
 					NotificationImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1601,11 +1604,13 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	@Override
 	public Map<Serializable, Notification> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, Notification> map = new HashMap<Serializable, Notification>();
+		Map<Serializable, Notification> map =
+			new HashMap<Serializable, Notification>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -1624,8 +1629,9 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
-					NotificationImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				NotificationModelImpl.ENTITY_CACHE_ENABLED,
+				NotificationImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1645,20 +1651,20 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_NOTIFICATION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1678,7 +1684,8 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(NotificationModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					NotificationModelImpl.ENTITY_CACHE_ENABLED,
 					NotificationImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1706,7 +1713,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * Returns a range of all the notifications.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of notifications
@@ -1722,7 +1729,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * Returns an ordered range of all the notifications.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of notifications
@@ -1731,8 +1738,9 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * @return the ordered range of notifications
 	 */
 	@Override
-	public List<Notification> findAll(int start, int end,
-		OrderByComparator<Notification> orderByComparator) {
+	public List<Notification> findAll(
+		int start, int end, OrderByComparator<Notification> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1740,7 +1748,7 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * Returns an ordered range of all the notifications.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link NotificationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>NotificationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of notifications
@@ -1750,29 +1758,31 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * @return the ordered range of notifications
 	 */
 	@Override
-	public List<Notification> findAll(int start, int end,
-		OrderByComparator<Notification> orderByComparator,
+	public List<Notification> findAll(
+		int start, int end, OrderByComparator<Notification> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Notification> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Notification>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Notification>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1780,13 +1790,13 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_NOTIFICATION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1806,16 +1816,16 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Notification>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Notification>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Notification>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1853,8 +1863,8 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1866,12 +1876,12 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1892,6 +1902,61 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 	 * Initializes the notification persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByPublicationDateAndStatus =
+			new FinderPath(
+				NotificationModelImpl.ENTITY_CACHE_ENABLED,
+				NotificationModelImpl.FINDER_CACHE_ENABLED,
+				NotificationImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByPublicationDateAndStatus",
+				new String[] {
+					Date.class.getName(), Integer.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithPaginationCountByPublicationDateAndStatus =
+			new FinderPath(
+				NotificationModelImpl.ENTITY_CACHE_ENABLED,
+				NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countByPublicationDateAndStatus",
+				new String[] {Date.class.getName(), Integer.class.getName()});
+
+		_finderPathWithPaginationFindByExpirationDateAndStatus = new FinderPath(
+			NotificationModelImpl.ENTITY_CACHE_ENABLED,
+			NotificationModelImpl.FINDER_CACHE_ENABLED, NotificationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByExpirationDateAndStatus",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithPaginationCountByExpirationDateAndStatus =
+			new FinderPath(
+				NotificationModelImpl.ENTITY_CACHE_ENABLED,
+				NotificationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countByExpirationDateAndStatus",
+				new String[] {Date.class.getName(), Integer.class.getName()});
 	}
 
 	public void destroy() {
@@ -1903,15 +1968,42 @@ public class NotificationPersistenceImpl extends BasePersistenceImpl<Notificatio
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_NOTIFICATION = "SELECT notification FROM Notification notification";
-	private static final String _SQL_SELECT_NOTIFICATION_WHERE_PKS_IN = "SELECT notification FROM Notification notification WHERE notificationId IN (";
-	private static final String _SQL_SELECT_NOTIFICATION_WHERE = "SELECT notification FROM Notification notification WHERE ";
-	private static final String _SQL_COUNT_NOTIFICATION = "SELECT COUNT(notification) FROM Notification notification";
-	private static final String _SQL_COUNT_NOTIFICATION_WHERE = "SELECT COUNT(notification) FROM Notification notification WHERE ";
+
+	private Long _getTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		return date.getTime();
+	}
+
+	private static final String _SQL_SELECT_NOTIFICATION =
+		"SELECT notification FROM Notification notification";
+
+	private static final String _SQL_SELECT_NOTIFICATION_WHERE_PKS_IN =
+		"SELECT notification FROM Notification notification WHERE notificationId IN (";
+
+	private static final String _SQL_SELECT_NOTIFICATION_WHERE =
+		"SELECT notification FROM Notification notification WHERE ";
+
+	private static final String _SQL_COUNT_NOTIFICATION =
+		"SELECT COUNT(notification) FROM Notification notification";
+
+	private static final String _SQL_COUNT_NOTIFICATION_WHERE =
+		"SELECT COUNT(notification) FROM Notification notification WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "notification.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Notification exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Notification exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(NotificationPersistenceImpl.class);
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Notification exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Notification exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		NotificationPersistenceImpl.class);
+
 }

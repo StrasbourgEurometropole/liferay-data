@@ -23,14 +23,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.notification.service.http.NotificationServiceSoap}.
+ * This class is used by SOAP remote services, specifically {
+ * @link eu.strasbourg.service.notification.service.http.NotificationServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.notification.service.http.NotificationServiceSoap
  * @generated
  */
 @ProviderType
 public class NotificationSoap implements Serializable {
+
 	public static NotificationSoap toSoapModel(Notification model) {
 		NotificationSoap soapModel = new NotificationSoap();
 
@@ -38,8 +39,8 @@ public class NotificationSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setUrl(model.getUrl());
-		soapModel.setAutomatic(model.getAutomatic());
-		soapModel.setSingleUser(model.getSingleUser());
+		soapModel.setAutomatic(model.isAutomatic());
+		soapModel.setSingleUser(model.isSingleUser());
 		soapModel.setSingleUserId(model.getSingleUserId());
 		soapModel.setPublicationDate(model.getPublicationDate());
 		soapModel.setExpirationDate(model.getExpirationDate());
@@ -77,7 +78,8 @@ public class NotificationSoap implements Serializable {
 	}
 
 	public static NotificationSoap[] toSoapModels(List<Notification> models) {
-		List<NotificationSoap> soapModels = new ArrayList<NotificationSoap>(models.size());
+		List<NotificationSoap> soapModels = new ArrayList<NotificationSoap>(
+			models.size());
 
 		for (Notification model : models) {
 			soapModels.add(toSoapModel(model));
@@ -204,4 +206,5 @@ public class NotificationSoap implements Serializable {
 	private Date _expirationDate;
 	private int _status;
 	private long _typeId;
+
 }

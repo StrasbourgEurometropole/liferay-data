@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link NotificationServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>NotificationServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.notification.model.NotificationSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.notification.model.Notification}, that is translated to a
- * {@link eu.strasbourg.service.notification.model.NotificationSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.notification.model.NotificationSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.notification.model.Notification</code>, that is translated to a
+ * <code>eu.strasbourg.service.notification.model.NotificationSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,18 +60,18 @@ import java.rmi.RemoteException;
  *
  * @author BenjaminBini
  * @see NotificationServiceHttp
- * @see eu.strasbourg.service.notification.model.NotificationSoap
- * @see NotificationServiceUtil
  * @generated
  */
 @ProviderType
 public class NotificationServiceSoap {
+
 	/**
-	* Retourne la liste des types de notifications
-	*/
-	public static java.lang.String getTypes() throws RemoteException {
+	 * Retourne la liste des types de notifications
+	 */
+	public static String getTypes() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getTypes();
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				NotificationServiceUtil.getTypes();
 
 			return returnValue.toString();
 		}
@@ -82,11 +83,12 @@ public class NotificationServiceSoap {
 	}
 
 	/**
-	* Retourne la liste des canaux de notifications
-	*/
-	public static java.lang.String getChannels() throws RemoteException {
+	 * Retourne la liste des canaux de notifications
+	 */
+	public static String getChannels() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getChannels();
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				NotificationServiceUtil.getChannels();
 
 			return returnValue.toString();
 		}
@@ -98,13 +100,32 @@ public class NotificationServiceSoap {
 	}
 
 	/**
-	* Retourne la liste des types et des canaux de communication d'un
-	* utilisateur
-	*/
-	public static java.lang.String getUserSettings(java.lang.String userId)
+	 * Retourne la liste des types et des canaux de communication d'un
+	 * utilisateur
+	 */
+	public static String getUserSettings(String userId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				NotificationServiceUtil.getUserSettings(userId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Retourne la liste des notifications d'un utilisateur
+	 */
+	public static String getUserNotifications(String userId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getUserSettings(userId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				NotificationServiceUtil.getUserNotifications(userId);
 
 			return returnValue.toString();
 		}
@@ -116,12 +137,17 @@ public class NotificationServiceSoap {
 	}
 
 	/**
-	* Retourne la liste des notifications d'un utilisateur
-	*/
-	public static java.lang.String getUserNotifications(java.lang.String userId)
+	 * Modification des abonnements et des canaux de communication d'un
+	 * utilisateur
+	 */
+	public static String setUserSettings(
+			String userId, String typeIds, String channelIds)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.getUserNotifications(userId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				NotificationServiceUtil.setUserSettings(
+					userId, typeIds, channelIds);
 
 			return returnValue.toString();
 		}
@@ -133,36 +159,18 @@ public class NotificationServiceSoap {
 	}
 
 	/**
-	* Modification des abonnements et des canaux de communication d'un
-	* utilisateur
-	*/
-	public static java.lang.String setUserSettings(java.lang.String userId,
-		java.lang.String typeIds, java.lang.String channelIds)
+	 * Envoie une notification à un utilisateur
+	 */
+	public static String addNotification(
+			String userId, boolean isGlobal, String title, String description,
+			String url, String publicationDate, String expirationDate,
+			String typeId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.setUserSettings(userId,
-					typeIds, channelIds);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	* Envoie une notification à un utilisateur
-	*/
-	public static java.lang.String addNotification(java.lang.String userId,
-		boolean isGlobal, java.lang.String title, java.lang.String description,
-		java.lang.String url, java.lang.String publicationDate,
-		java.lang.String expirationDate, java.lang.String typeId)
-		throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = NotificationServiceUtil.addNotification(userId,
-					isGlobal, title, description, url, publicationDate,
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				NotificationServiceUtil.addNotification(
+					userId, isGlobal, title, description, url, publicationDate,
 					expirationDate, typeId);
 
 			return returnValue.toString();
@@ -174,5 +182,7 @@ public class NotificationServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(NotificationServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		NotificationServiceSoap.class);
+
 }

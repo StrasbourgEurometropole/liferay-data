@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
@@ -33,12 +32,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing UserNotificationChannel in entity cache.
  *
  * @author BenjaminBini
- * @see UserNotificationChannel
  * @generated
  */
 @ProviderType
-public class UserNotificationChannelCacheModel implements CacheModel<UserNotificationChannel>,
-	Externalizable {
+public class UserNotificationChannelCacheModel
+	implements CacheModel<UserNotificationChannel>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -49,10 +48,12 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 			return false;
 		}
 
-		UserNotificationChannelCacheModel userNotificationChannelCacheModel = (UserNotificationChannelCacheModel)obj;
+		UserNotificationChannelCacheModel userNotificationChannelCacheModel =
+			(UserNotificationChannelCacheModel)obj;
 
 		if (userNotificationChannelPK.equals(
-					userNotificationChannelCacheModel.userNotificationChannelPK)) {
+				userNotificationChannelCacheModel.userNotificationChannelPK)) {
+
 			return true;
 		}
 
@@ -79,10 +80,11 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 
 	@Override
 	public UserNotificationChannel toEntityModel() {
-		UserNotificationChannelImpl userNotificationChannelImpl = new UserNotificationChannelImpl();
+		UserNotificationChannelImpl userNotificationChannelImpl =
+			new UserNotificationChannelImpl();
 
 		if (publikUserId == null) {
-			userNotificationChannelImpl.setPublikUserId(StringPool.BLANK);
+			userNotificationChannelImpl.setPublikUserId("");
 		}
 		else {
 			userNotificationChannelImpl.setPublikUserId(publikUserId);
@@ -101,15 +103,14 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 
 		channelId = objectInput.readLong();
 
-		userNotificationChannelPK = new UserNotificationChannelPK(publikUserId,
-				channelId);
+		userNotificationChannelPK = new UserNotificationChannelPK(
+			publikUserId, channelId);
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -121,4 +122,5 @@ public class UserNotificationChannelCacheModel implements CacheModel<UserNotific
 	public String publikUserId;
 	public long channelId;
 	public transient UserNotificationChannelPK userNotificationChannelPK;
+
 }

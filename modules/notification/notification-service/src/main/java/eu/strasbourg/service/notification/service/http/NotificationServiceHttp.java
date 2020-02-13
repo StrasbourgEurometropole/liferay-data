@@ -27,10 +27,11 @@ import eu.strasbourg.service.notification.service.NotificationServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link NotificationServiceUtil} service utility. The
+ * <code>NotificationServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,18 +50,19 @@ import eu.strasbourg.service.notification.service.NotificationServiceUtil;
  *
  * @author BenjaminBini
  * @see NotificationServiceSoap
- * @see HttpPrincipal
- * @see NotificationServiceUtil
  * @generated
  */
 @ProviderType
 public class NotificationServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject getTypes(
-		HttpPrincipal httpPrincipal)
+			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
-					"getTypes", _getTypesParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				NotificationServiceUtil.class, "getTypes",
+				_getTypesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -70,11 +72,15 @@ public class NotificationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -88,9 +94,11 @@ public class NotificationServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getChannels(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
-					"getChannels", _getChannelsParameterTypes1);
+			MethodKey methodKey = new MethodKey(
+				NotificationServiceUtil.class, "getChannels",
+				_getChannelsParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -100,7 +108,8 @@ public class NotificationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -113,10 +122,12 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserSettings(
-		HttpPrincipal httpPrincipal, java.lang.String userId) {
+		HttpPrincipal httpPrincipal, String userId) {
+
 		try {
-			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
-					"getUserSettings", _getUserSettingsParameterTypes2);
+			MethodKey methodKey = new MethodKey(
+				NotificationServiceUtil.class, "getUserSettings",
+				_getUserSettingsParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
 
@@ -126,7 +137,8 @@ public class NotificationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -138,11 +150,13 @@ public class NotificationServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getUserNotifications(
-		HttpPrincipal httpPrincipal, java.lang.String userId) {
+	public static com.liferay.portal.kernel.json.JSONObject
+		getUserNotifications(HttpPrincipal httpPrincipal, String userId) {
+
 		try {
-			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
-					"getUserNotifications", _getUserNotificationsParameterTypes3);
+			MethodKey methodKey = new MethodKey(
+				NotificationServiceUtil.class, "getUserNotifications",
+				_getUserNotificationsParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
 
@@ -152,7 +166,8 @@ public class NotificationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -165,14 +180,16 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject setUserSettings(
-		HttpPrincipal httpPrincipal, java.lang.String userId,
-		java.lang.String typeIds, java.lang.String channelIds) {
-		try {
-			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
-					"setUserSettings", _setUserSettingsParameterTypes4);
+		HttpPrincipal httpPrincipal, String userId, String typeIds,
+		String channelIds) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					typeIds, channelIds);
+		try {
+			MethodKey methodKey = new MethodKey(
+				NotificationServiceUtil.class, "setUserSettings",
+				_setUserSettingsParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, userId, typeIds, channelIds);
 
 			Object returnObj = null;
 
@@ -180,7 +197,8 @@ public class NotificationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -193,17 +211,18 @@ public class NotificationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject addNotification(
-		HttpPrincipal httpPrincipal, java.lang.String userId, boolean isGlobal,
-		java.lang.String title, java.lang.String description,
-		java.lang.String url, java.lang.String publicationDate,
-		java.lang.String expirationDate, java.lang.String typeId) {
-		try {
-			MethodKey methodKey = new MethodKey(NotificationServiceUtil.class,
-					"addNotification", _addNotificationParameterTypes5);
+		HttpPrincipal httpPrincipal, String userId, boolean isGlobal,
+		String title, String description, String url, String publicationDate,
+		String expirationDate, String typeId) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					isGlobal, title, description, url, publicationDate,
-					expirationDate, typeId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				NotificationServiceUtil.class, "addNotification",
+				_addNotificationParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, userId, isGlobal, title, description, url,
+				publicationDate, expirationDate, typeId);
 
 			Object returnObj = null;
 
@@ -211,7 +230,8 @@ public class NotificationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -223,23 +243,23 @@ public class NotificationServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(NotificationServiceHttp.class);
-	private static final Class<?>[] _getTypesParameterTypes0 = new Class[] {  };
-	private static final Class<?>[] _getChannelsParameterTypes1 = new Class[] {  };
-	private static final Class<?>[] _getUserSettingsParameterTypes2 = new Class[] {
-			java.lang.String.class
+	private static Log _log = LogFactoryUtil.getLog(
+		NotificationServiceHttp.class);
+
+	private static final Class<?>[] _getTypesParameterTypes0 = new Class[] {};
+	private static final Class<?>[] _getChannelsParameterTypes1 = new Class[] {
+		
+	};
+	private static final Class<?>[] _getUserSettingsParameterTypes2 =
+		new Class[] {String.class};
+	private static final Class<?>[] _getUserNotificationsParameterTypes3 =
+		new Class[] {String.class};
+	private static final Class<?>[] _setUserSettingsParameterTypes4 =
+		new Class[] {String.class, String.class, String.class};
+	private static final Class<?>[] _addNotificationParameterTypes5 =
+		new Class[] {
+			String.class, boolean.class, String.class, String.class,
+			String.class, String.class, String.class, String.class
 		};
-	private static final Class<?>[] _getUserNotificationsParameterTypes3 = new Class[] {
-			java.lang.String.class
-		};
-	private static final Class<?>[] _setUserSettingsParameterTypes4 = new Class[] {
-			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class
-		};
-	private static final Class<?>[] _addNotificationParameterTypes5 = new Class[] {
-			java.lang.String.class, boolean.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class
-		};
+
 }

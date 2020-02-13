@@ -31,20 +31,24 @@ import java.util.List;
  */
 @ProviderType
 public class UserNotificationStatusSoap implements Serializable {
+
 	public static UserNotificationStatusSoap toSoapModel(
 		UserNotificationStatus model) {
+
 		UserNotificationStatusSoap soapModel = new UserNotificationStatusSoap();
 
 		soapModel.setNotificationId(model.getNotificationId());
 		soapModel.setPublikUserId(model.getPublikUserId());
-		soapModel.setRead(model.getRead());
+		soapModel.setRead(model.isRead());
 
 		return soapModel;
 	}
 
 	public static UserNotificationStatusSoap[] toSoapModels(
 		UserNotificationStatus[] models) {
-		UserNotificationStatusSoap[] soapModels = new UserNotificationStatusSoap[models.length];
+
+		UserNotificationStatusSoap[] soapModels =
+			new UserNotificationStatusSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -55,10 +59,12 @@ public class UserNotificationStatusSoap implements Serializable {
 
 	public static UserNotificationStatusSoap[][] toSoapModels(
 		UserNotificationStatus[][] models) {
+
 		UserNotificationStatusSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new UserNotificationStatusSoap[models.length][models[0].length];
+			soapModels =
+				new UserNotificationStatusSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new UserNotificationStatusSoap[0][0];
@@ -73,13 +79,16 @@ public class UserNotificationStatusSoap implements Serializable {
 
 	public static UserNotificationStatusSoap[] toSoapModels(
 		List<UserNotificationStatus> models) {
-		List<UserNotificationStatusSoap> soapModels = new ArrayList<UserNotificationStatusSoap>(models.size());
+
+		List<UserNotificationStatusSoap> soapModels =
+			new ArrayList<UserNotificationStatusSoap>(models.size());
 
 		for (UserNotificationStatus model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new UserNotificationStatusSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new UserNotificationStatusSoap[soapModels.size()]);
 	}
 
 	public UserNotificationStatusSoap() {
@@ -125,4 +134,5 @@ public class UserNotificationStatusSoap implements Serializable {
 	private long _notificationId;
 	private String _publikUserId;
 	private boolean _read;
+
 }

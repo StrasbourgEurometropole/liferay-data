@@ -33,19 +33,24 @@ import eu.strasbourg.service.notification.service.UserNotificationChannelLocalSe
  */
 @ProviderType
 public abstract class UserNotificationChannelBaseImpl
-	extends UserNotificationChannelModelImpl implements UserNotificationChannel {
+	extends UserNotificationChannelModelImpl
+	implements UserNotificationChannel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a user notification channel model instance should use the {@link UserNotificationChannel} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a user notification channel model instance should use the <code>UserNotificationChannel</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			UserNotificationChannelLocalServiceUtil.addUserNotificationChannel(this);
+			UserNotificationChannelLocalServiceUtil.addUserNotificationChannel(
+				this);
 		}
 		else {
-			UserNotificationChannelLocalServiceUtil.updateUserNotificationChannel(this);
+			UserNotificationChannelLocalServiceUtil.
+				updateUserNotificationChannel(this);
 		}
 	}
+
 }

@@ -6,7 +6,7 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "javax.portlet", name: "portlet-api"
 	compileOnly project(":modules:interest:interest-api")
-//	compileOnly project(":modules:notification:notification-api")
+	compileOnly project(":modules:notification:notification-api")
 	compileOnly project(":modules:oidc:oidc-api")
 }
 

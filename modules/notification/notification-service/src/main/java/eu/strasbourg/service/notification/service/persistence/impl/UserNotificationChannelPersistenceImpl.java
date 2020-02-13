@@ -27,8 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException;
@@ -39,6 +40,8 @@ import eu.strasbourg.service.notification.service.persistence.UserNotificationCh
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,56 +58,33 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see UserNotificationChannelPersistence
- * @see eu.strasbourg.service.notification.service.persistence.UserNotificationChannelUtil
  * @generated
  */
 @ProviderType
-public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<UserNotificationChannel>
+public class UserNotificationChannelPersistenceImpl
+	extends BasePersistenceImpl<UserNotificationChannel>
 	implements UserNotificationChannelPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link UserNotificationChannelUtil} to access the user notification channel persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>UserNotificationChannelUtil</code> to access the user notification channel persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = UserNotificationChannelImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { String.class.getName() },
-			UserNotificationChannelModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		UserNotificationChannelImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByPublikUserId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikUserId;
+	private FinderPath _finderPathCountByPublikUserId;
 
 	/**
 	 * Returns all the user notification channels where publikUserId = &#63;.
@@ -113,16 +93,18 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByPublikUserId(String publikUserId) {
-		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public List<UserNotificationChannel> findByPublikUserId(
+		String publikUserId) {
+
+		return findByPublikUserId(
+			publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the user notification channels where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -133,6 +115,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public List<UserNotificationChannel> findByPublikUserId(
 		String publikUserId, int start, int end) {
+
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
 
@@ -140,7 +123,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Returns an ordered range of all the user notification channels where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -153,15 +136,16 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	public List<UserNotificationChannel> findByPublikUserId(
 		String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
-		return findByPublikUserId(publikUserId, start, end, orderByComparator,
-			true);
+
+		return findByPublikUserId(
+			publikUserId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the user notification channels where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -176,35 +160,38 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		String publikUserId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean retrieveFromCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID;
-			finderArgs = new Object[] { publikUserId };
+			finderPath = _finderPathWithoutPaginationFindByPublikUserId;
+			finderArgs = new Object[] {publikUserId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID;
+			finderPath = _finderPathWithPaginationFindByPublikUserId;
 			finderArgs = new Object[] {
-					publikUserId,
-					
-					start, end, orderByComparator
-				};
+				publikUserId, start, end, orderByComparator
+			};
 		}
 
 		List<UserNotificationChannel> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<UserNotificationChannel>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<UserNotificationChannel>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (UserNotificationChannel userNotificationChannel : list) {
-					if (!Objects.equals(publikUserId,
-								userNotificationChannel.getPublikUserId())) {
+					if (!publikUserId.equals(
+							userNotificationChannel.getPublikUserId())) {
+
 						list = null;
 
 						break;
@@ -217,8 +204,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -228,10 +215,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -241,11 +225,10 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(UserNotificationChannelModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -265,16 +248,16 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 				}
 
 				if (!pagination) {
-					list = (List<UserNotificationChannel>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<UserNotificationChannel>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<UserNotificationChannel>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<UserNotificationChannel>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -304,11 +287,12 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel findByPublikUserId_First(
-		String publikUserId,
-		OrderByComparator<UserNotificationChannel> orderByComparator)
+			String publikUserId,
+			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = fetchByPublikUserId_First(publikUserId,
-				orderByComparator);
+
+		UserNotificationChannel userNotificationChannel =
+			fetchByPublikUserId_First(publikUserId, orderByComparator);
 
 		if (userNotificationChannel != null) {
 			return userNotificationChannel;
@@ -321,7 +305,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchUserNotificationChannelException(msg.toString());
 	}
@@ -337,8 +321,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	public UserNotificationChannel fetchByPublikUserId_First(
 		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
-		List<UserNotificationChannel> list = findByPublikUserId(publikUserId,
-				0, 1, orderByComparator);
+
+		List<UserNotificationChannel> list = findByPublikUserId(
+			publikUserId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -357,11 +342,12 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel findByPublikUserId_Last(
-		String publikUserId,
-		OrderByComparator<UserNotificationChannel> orderByComparator)
+			String publikUserId,
+			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = fetchByPublikUserId_Last(publikUserId,
-				orderByComparator);
+
+		UserNotificationChannel userNotificationChannel =
+			fetchByPublikUserId_Last(publikUserId, orderByComparator);
 
 		if (userNotificationChannel != null) {
 			return userNotificationChannel;
@@ -374,7 +360,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchUserNotificationChannelException(msg.toString());
 	}
@@ -390,14 +376,15 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	public UserNotificationChannel fetchByPublikUserId_Last(
 		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
+
 		int count = countByPublikUserId(publikUserId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<UserNotificationChannel> list = findByPublikUserId(publikUserId,
-				count - 1, count, orderByComparator);
+		List<UserNotificationChannel> list = findByPublikUserId(
+			publikUserId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -417,28 +404,33 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel[] findByPublikUserId_PrevAndNext(
-		UserNotificationChannelPK userNotificationChannelPK,
-		String publikUserId,
-		OrderByComparator<UserNotificationChannel> orderByComparator)
+			UserNotificationChannelPK userNotificationChannelPK,
+			String publikUserId,
+			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = findByPrimaryKey(userNotificationChannelPK);
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		UserNotificationChannel userNotificationChannel = findByPrimaryKey(
+			userNotificationChannelPK);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			UserNotificationChannel[] array = new UserNotificationChannelImpl[3];
+			UserNotificationChannel[] array =
+				new UserNotificationChannelImpl[3];
 
-			array[0] = getByPublikUserId_PrevAndNext(session,
-					userNotificationChannel, publikUserId, orderByComparator,
-					true);
+			array[0] = getByPublikUserId_PrevAndNext(
+				session, userNotificationChannel, publikUserId,
+				orderByComparator, true);
 
 			array[1] = userNotificationChannel;
 
-			array[2] = getByPublikUserId_PrevAndNext(session,
-					userNotificationChannel, publikUserId, orderByComparator,
-					false);
+			array[2] = getByPublikUserId_PrevAndNext(
+				session, userNotificationChannel, publikUserId,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -455,11 +447,12 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		String publikUserId,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -470,10 +463,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 		boolean bindPublikUserId = false;
 
-		if (publikUserId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-		}
-		else if (publikUserId.equals(StringPool.BLANK)) {
+		if (publikUserId.isEmpty()) {
 			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 		}
 		else {
@@ -483,7 +473,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -555,10 +546,11 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(userNotificationChannel);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						userNotificationChannel)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -579,8 +571,10 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public void removeByPublikUserId(String publikUserId) {
-		for (UserNotificationChannel userNotificationChannel : findByPublikUserId(
-				publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (UserNotificationChannel userNotificationChannel :
+				findByPublikUserId(
+					publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(userNotificationChannel);
 		}
 	}
@@ -593,9 +587,11 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public int countByPublikUserId(String publikUserId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
+		publikUserId = Objects.toString(publikUserId, "");
 
-		Object[] finderArgs = new Object[] { publikUserId };
+		FinderPath finderPath = _finderPathCountByPublikUserId;
+
+		Object[] finderArgs = new Object[] {publikUserId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -606,10 +602,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -650,31 +643,15 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "userNotificationChannel.id.publikUserId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "userNotificationChannel.id.publikUserId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(userNotificationChannel.id.publikUserId IS NULL OR userNotificationChannel.id.publikUserId = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CHANNELID =
-		new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByChannelId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CHANNELID =
-		new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByChannelId",
-			new String[] { Long.class.getName() },
-			UserNotificationChannelModelImpl.CHANNELID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_CHANNELID = new FinderPath(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByChannelId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 =
+		"userNotificationChannel.id.publikUserId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 =
+		"(userNotificationChannel.id.publikUserId IS NULL OR userNotificationChannel.id.publikUserId = '')";
+
+	private FinderPath _finderPathWithPaginationFindByChannelId;
+	private FinderPath _finderPathWithoutPaginationFindByChannelId;
+	private FinderPath _finderPathCountByChannelId;
 
 	/**
 	 * Returns all the user notification channels where channelId = &#63;.
@@ -684,15 +661,15 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public List<UserNotificationChannel> findByChannelId(long channelId) {
-		return findByChannelId(channelId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findByChannelId(
+			channelId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the user notification channels where channelId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param channelId the channel ID
@@ -701,8 +678,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the range of matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByChannelId(long channelId,
-		int start, int end) {
+	public List<UserNotificationChannel> findByChannelId(
+		long channelId, int start, int end) {
+
 		return findByChannelId(channelId, start, end, null);
 	}
 
@@ -710,7 +688,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Returns an ordered range of all the user notification channels where channelId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param channelId the channel ID
@@ -720,9 +698,10 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the ordered range of matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByChannelId(long channelId,
-		int start, int end,
+	public List<UserNotificationChannel> findByChannelId(
+		long channelId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
+
 		return findByChannelId(channelId, start, end, orderByComparator, true);
 	}
 
@@ -730,7 +709,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Returns an ordered range of all the user notification channels where channelId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param channelId the channel ID
@@ -741,30 +720,34 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the ordered range of matching user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findByChannelId(long channelId,
-		int start, int end,
+	public List<UserNotificationChannel> findByChannelId(
+		long channelId, int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CHANNELID;
-			finderArgs = new Object[] { channelId };
+			finderPath = _finderPathWithoutPaginationFindByChannelId;
+			finderArgs = new Object[] {channelId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CHANNELID;
-			finderArgs = new Object[] { channelId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByChannelId;
+			finderArgs = new Object[] {
+				channelId, start, end, orderByComparator
+			};
 		}
 
 		List<UserNotificationChannel> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<UserNotificationChannel>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<UserNotificationChannel>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (UserNotificationChannel userNotificationChannel : list) {
@@ -781,8 +764,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -793,11 +776,10 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			query.append(_FINDER_COLUMN_CHANNELID_CHANNELID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(UserNotificationChannelModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -815,16 +797,16 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 				qPos.add(channelId);
 
 				if (!pagination) {
-					list = (List<UserNotificationChannel>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<UserNotificationChannel>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<UserNotificationChannel>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<UserNotificationChannel>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -853,11 +835,13 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel findByChannelId_First(long channelId,
-		OrderByComparator<UserNotificationChannel> orderByComparator)
+	public UserNotificationChannel findByChannelId_First(
+			long channelId,
+			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = fetchByChannelId_First(channelId,
-				orderByComparator);
+
+		UserNotificationChannel userNotificationChannel =
+			fetchByChannelId_First(channelId, orderByComparator);
 
 		if (userNotificationChannel != null) {
 			return userNotificationChannel;
@@ -870,7 +854,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		msg.append("channelId=");
 		msg.append(channelId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchUserNotificationChannelException(msg.toString());
 	}
@@ -883,10 +867,12 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the first matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel fetchByChannelId_First(long channelId,
+	public UserNotificationChannel fetchByChannelId_First(
+		long channelId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
-		List<UserNotificationChannel> list = findByChannelId(channelId, 0, 1,
-				orderByComparator);
+
+		List<UserNotificationChannel> list = findByChannelId(
+			channelId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -904,11 +890,13 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @throws NoSuchUserNotificationChannelException if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel findByChannelId_Last(long channelId,
-		OrderByComparator<UserNotificationChannel> orderByComparator)
+	public UserNotificationChannel findByChannelId_Last(
+			long channelId,
+			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = fetchByChannelId_Last(channelId,
-				orderByComparator);
+
+		UserNotificationChannel userNotificationChannel = fetchByChannelId_Last(
+			channelId, orderByComparator);
 
 		if (userNotificationChannel != null) {
 			return userNotificationChannel;
@@ -921,7 +909,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		msg.append("channelId=");
 		msg.append(channelId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchUserNotificationChannelException(msg.toString());
 	}
@@ -934,16 +922,18 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the last matching user notification channel, or <code>null</code> if a matching user notification channel could not be found
 	 */
 	@Override
-	public UserNotificationChannel fetchByChannelId_Last(long channelId,
+	public UserNotificationChannel fetchByChannelId_Last(
+		long channelId,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
+
 		int count = countByChannelId(channelId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<UserNotificationChannel> list = findByChannelId(channelId,
-				count - 1, count, orderByComparator);
+		List<UserNotificationChannel> list = findByChannelId(
+			channelId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -963,25 +953,30 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel[] findByChannelId_PrevAndNext(
-		UserNotificationChannelPK userNotificationChannelPK, long channelId,
-		OrderByComparator<UserNotificationChannel> orderByComparator)
+			UserNotificationChannelPK userNotificationChannelPK, long channelId,
+			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = findByPrimaryKey(userNotificationChannelPK);
+
+		UserNotificationChannel userNotificationChannel = findByPrimaryKey(
+			userNotificationChannelPK);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			UserNotificationChannel[] array = new UserNotificationChannelImpl[3];
+			UserNotificationChannel[] array =
+				new UserNotificationChannelImpl[3];
 
-			array[0] = getByChannelId_PrevAndNext(session,
-					userNotificationChannel, channelId, orderByComparator, true);
+			array[0] = getByChannelId_PrevAndNext(
+				session, userNotificationChannel, channelId, orderByComparator,
+				true);
 
 			array[1] = userNotificationChannel;
 
-			array[2] = getByChannelId_PrevAndNext(session,
-					userNotificationChannel, channelId, orderByComparator, false);
+			array[2] = getByChannelId_PrevAndNext(
+				session, userNotificationChannel, channelId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -998,11 +993,12 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		long channelId,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1014,7 +1010,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		query.append(_FINDER_COLUMN_CHANNELID_CHANNELID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1084,10 +1081,11 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		qPos.add(channelId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(userNotificationChannel);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						userNotificationChannel)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1108,8 +1106,10 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public void removeByChannelId(long channelId) {
-		for (UserNotificationChannel userNotificationChannel : findByChannelId(
-				channelId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (UserNotificationChannel userNotificationChannel :
+				findByChannelId(
+					channelId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(userNotificationChannel);
 		}
 	}
@@ -1122,9 +1122,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public int countByChannelId(long channelId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_CHANNELID;
+		FinderPath finderPath = _finderPathCountByChannelId;
 
-		Object[] finderArgs = new Object[] { channelId };
+		Object[] finderArgs = new Object[] {channelId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1165,7 +1165,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CHANNELID_CHANNELID_2 = "userNotificationChannel.id.channelId = ?";
+	private static final String _FINDER_COLUMN_CHANNELID_CHANNELID_2 =
+		"userNotificationChannel.id.channelId = ?";
 
 	public UserNotificationChannelPersistenceImpl() {
 		setModelClass(UserNotificationChannel.class);
@@ -1178,7 +1179,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public void cacheResult(UserNotificationChannel userNotificationChannel) {
-		entityCache.putResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationChannelImpl.class,
 			userNotificationChannel.getPrimaryKey(), userNotificationChannel);
 
@@ -1193,11 +1195,15 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public void cacheResult(
 		List<UserNotificationChannel> userNotificationChannels) {
-		for (UserNotificationChannel userNotificationChannel : userNotificationChannels) {
+
+		for (UserNotificationChannel userNotificationChannel :
+				userNotificationChannels) {
+
 			if (entityCache.getResult(
-						UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-						UserNotificationChannelImpl.class,
-						userNotificationChannel.getPrimaryKey()) == null) {
+					UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+					UserNotificationChannelImpl.class,
+					userNotificationChannel.getPrimaryKey()) == null) {
+
 				cacheResult(userNotificationChannel);
 			}
 			else {
@@ -1210,7 +1216,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Clears the cache for all user notification channels.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1226,12 +1232,13 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Clears the cache for the user notification channel.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(UserNotificationChannel userNotificationChannel) {
-		entityCache.removeResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationChannelImpl.class,
 			userNotificationChannel.getPrimaryKey());
 
@@ -1242,11 +1249,15 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public void clearCache(
 		List<UserNotificationChannel> userNotificationChannels) {
+
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		for (UserNotificationChannel userNotificationChannel : userNotificationChannels) {
-			entityCache.removeResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+		for (UserNotificationChannel userNotificationChannel :
+				userNotificationChannels) {
+
+			entityCache.removeResult(
+				UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 				UserNotificationChannelImpl.class,
 				userNotificationChannel.getPrimaryKey());
 		}
@@ -1261,7 +1272,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public UserNotificationChannel create(
 		UserNotificationChannelPK userNotificationChannelPK) {
-		UserNotificationChannel userNotificationChannel = new UserNotificationChannelImpl();
+
+		UserNotificationChannel userNotificationChannel =
+			new UserNotificationChannelImpl();
 
 		userNotificationChannel.setNew(true);
 		userNotificationChannel.setPrimaryKey(userNotificationChannelPK);
@@ -1278,8 +1291,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel remove(
-		UserNotificationChannelPK userNotificationChannelPK)
+			UserNotificationChannelPK userNotificationChannelPK)
 		throws NoSuchUserNotificationChannelException {
+
 		return remove((Serializable)userNotificationChannelPK);
 	}
 
@@ -1293,21 +1307,23 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public UserNotificationChannel remove(Serializable primaryKey)
 		throws NoSuchUserNotificationChannelException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			UserNotificationChannel userNotificationChannel = (UserNotificationChannel)session.get(UserNotificationChannelImpl.class,
-					primaryKey);
+			UserNotificationChannel userNotificationChannel =
+				(UserNotificationChannel)session.get(
+					UserNotificationChannelImpl.class, primaryKey);
 
 			if (userNotificationChannel == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchUserNotificationChannelException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchUserNotificationChannelException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(userNotificationChannel);
@@ -1326,7 +1342,6 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	protected UserNotificationChannel removeImpl(
 		UserNotificationChannel userNotificationChannel) {
-		userNotificationChannel = toUnwrappedModel(userNotificationChannel);
 
 		Session session = null;
 
@@ -1334,8 +1349,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			session = openSession();
 
 			if (!session.contains(userNotificationChannel)) {
-				userNotificationChannel = (UserNotificationChannel)session.get(UserNotificationChannelImpl.class,
-						userNotificationChannel.getPrimaryKeyObj());
+				userNotificationChannel = (UserNotificationChannel)session.get(
+					UserNotificationChannelImpl.class,
+					userNotificationChannel.getPrimaryKeyObj());
 			}
 
 			if (userNotificationChannel != null) {
@@ -1359,11 +1375,30 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public UserNotificationChannel updateImpl(
 		UserNotificationChannel userNotificationChannel) {
-		userNotificationChannel = toUnwrappedModel(userNotificationChannel);
 
 		boolean isNew = userNotificationChannel.isNew();
 
-		UserNotificationChannelModelImpl userNotificationChannelModelImpl = (UserNotificationChannelModelImpl)userNotificationChannel;
+		if (!(userNotificationChannel instanceof
+				UserNotificationChannelModelImpl)) {
+
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(userNotificationChannel.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					userNotificationChannel);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in userNotificationChannel proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom UserNotificationChannel implementation " +
+					userNotificationChannel.getClass());
+		}
+
+		UserNotificationChannelModelImpl userNotificationChannelModelImpl =
+			(UserNotificationChannelModelImpl)userNotificationChannel;
 
 		Session session = null;
 
@@ -1376,7 +1411,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 				userNotificationChannel.setNew(false);
 			}
 			else {
-				userNotificationChannel = (UserNotificationChannel)session.merge(userNotificationChannel);
+				userNotificationChannel =
+					(UserNotificationChannel)session.merge(
+						userNotificationChannel);
 			}
 		}
 		catch (Exception e) {
@@ -1391,68 +1428,73 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		if (!UserNotificationChannelModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
+		else if (isNew) {
 			Object[] args = new Object[] {
+				userNotificationChannelModelImpl.getPublikUserId()
+			};
+
+			finderCache.removeResult(_finderPathCountByPublikUserId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublikUserId, args);
+
+			args = new Object[] {
+				userNotificationChannelModelImpl.getChannelId()
+			};
+
+			finderCache.removeResult(_finderPathCountByChannelId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByChannelId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((userNotificationChannelModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByPublikUserId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					userNotificationChannelModelImpl.getOriginalPublikUserId()
+				};
+
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
+
+				args = new Object[] {
 					userNotificationChannelModelImpl.getPublikUserId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-				args);
-
-			args = new Object[] { userNotificationChannelModelImpl.getChannelId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_CHANNELID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CHANNELID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((userNotificationChannelModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						userNotificationChannelModelImpl.getOriginalPublikUserId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
-
-				args = new Object[] {
-						userNotificationChannelModelImpl.getPublikUserId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
 			}
 
 			if ((userNotificationChannelModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CHANNELID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						userNotificationChannelModelImpl.getOriginalChannelId()
-					};
+				 _finderPathWithoutPaginationFindByChannelId.
+					 getColumnBitmask()) != 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CHANNELID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CHANNELID,
-					args);
+				Object[] args = new Object[] {
+					userNotificationChannelModelImpl.getOriginalChannelId()
+				};
+
+				finderCache.removeResult(_finderPathCountByChannelId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByChannelId, args);
 
 				args = new Object[] {
-						userNotificationChannelModelImpl.getChannelId()
-					};
+					userNotificationChannelModelImpl.getChannelId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CHANNELID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CHANNELID,
-					args);
+				finderCache.removeResult(_finderPathCountByChannelId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByChannelId, args);
 			}
 		}
 
-		entityCache.putResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationChannelImpl.class,
 			userNotificationChannel.getPrimaryKey(), userNotificationChannel,
 			false);
@@ -1462,25 +1504,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 		return userNotificationChannel;
 	}
 
-	protected UserNotificationChannel toUnwrappedModel(
-		UserNotificationChannel userNotificationChannel) {
-		if (userNotificationChannel instanceof UserNotificationChannelImpl) {
-			return userNotificationChannel;
-		}
-
-		UserNotificationChannelImpl userNotificationChannelImpl = new UserNotificationChannelImpl();
-
-		userNotificationChannelImpl.setNew(userNotificationChannel.isNew());
-		userNotificationChannelImpl.setPrimaryKey(userNotificationChannel.getPrimaryKey());
-
-		userNotificationChannelImpl.setPublikUserId(userNotificationChannel.getPublikUserId());
-		userNotificationChannelImpl.setChannelId(userNotificationChannel.getChannelId());
-
-		return userNotificationChannelImpl;
-	}
-
 	/**
-	 * Returns the user notification channel with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the user notification channel with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the user notification channel
 	 * @return the user notification channel
@@ -1489,22 +1514,24 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public UserNotificationChannel findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchUserNotificationChannelException {
-		UserNotificationChannel userNotificationChannel = fetchByPrimaryKey(primaryKey);
+
+		UserNotificationChannel userNotificationChannel = fetchByPrimaryKey(
+			primaryKey);
 
 		if (userNotificationChannel == null) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchUserNotificationChannelException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchUserNotificationChannelException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return userNotificationChannel;
 	}
 
 	/**
-	 * Returns the user notification channel with the primary key or throws a {@link NoSuchUserNotificationChannelException} if it could not be found.
+	 * Returns the user notification channel with the primary key or throws a <code>NoSuchUserNotificationChannelException</code> if it could not be found.
 	 *
 	 * @param userNotificationChannelPK the primary key of the user notification channel
 	 * @return the user notification channel
@@ -1512,8 +1539,9 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel findByPrimaryKey(
-		UserNotificationChannelPK userNotificationChannelPK)
+			UserNotificationChannelPK userNotificationChannelPK)
 		throws NoSuchUserNotificationChannelException {
+
 		return findByPrimaryKey((Serializable)userNotificationChannelPK);
 	}
 
@@ -1525,14 +1553,16 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public UserNotificationChannel fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-				UserNotificationChannelImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
 		}
 
-		UserNotificationChannel userNotificationChannel = (UserNotificationChannel)serializable;
+		UserNotificationChannel userNotificationChannel =
+			(UserNotificationChannel)serializable;
 
 		if (userNotificationChannel == null) {
 			Session session = null;
@@ -1540,19 +1570,22 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			try {
 				session = openSession();
 
-				userNotificationChannel = (UserNotificationChannel)session.get(UserNotificationChannelImpl.class,
-						primaryKey);
+				userNotificationChannel = (UserNotificationChannel)session.get(
+					UserNotificationChannelImpl.class, primaryKey);
 
 				if (userNotificationChannel != null) {
 					cacheResult(userNotificationChannel);
 				}
 				else {
-					entityCache.putResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-						UserNotificationChannelImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+						UserNotificationChannelImpl.class, primaryKey,
+						nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 					UserNotificationChannelImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1574,20 +1607,24 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	@Override
 	public UserNotificationChannel fetchByPrimaryKey(
 		UserNotificationChannelPK userNotificationChannelPK) {
+
 		return fetchByPrimaryKey((Serializable)userNotificationChannelPK);
 	}
 
 	@Override
 	public Map<Serializable, UserNotificationChannel> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, UserNotificationChannel> map = new HashMap<Serializable, UserNotificationChannel>();
+		Map<Serializable, UserNotificationChannel> map =
+			new HashMap<Serializable, UserNotificationChannel>();
 
 		for (Serializable primaryKey : primaryKeys) {
-			UserNotificationChannel userNotificationChannel = fetchByPrimaryKey(primaryKey);
+			UserNotificationChannel userNotificationChannel = fetchByPrimaryKey(
+				primaryKey);
 
 			if (userNotificationChannel != null) {
 				map.put(primaryKey, userNotificationChannel);
@@ -1611,7 +1648,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Returns a range of all the user notification channels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of user notification channels
@@ -1627,7 +1664,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Returns an ordered range of all the user notification channels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of user notification channels
@@ -1636,8 +1673,10 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the ordered range of user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findAll(int start, int end,
+	public List<UserNotificationChannel> findAll(
+		int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1645,7 +1684,7 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Returns an ordered range of all the user notification channels.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserNotificationChannelModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>UserNotificationChannelModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of user notification channels
@@ -1655,29 +1694,32 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * @return the ordered range of user notification channels
 	 */
 	@Override
-	public List<UserNotificationChannel> findAll(int start, int end,
+	public List<UserNotificationChannel> findAll(
+		int start, int end,
 		OrderByComparator<UserNotificationChannel> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<UserNotificationChannel> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<UserNotificationChannel>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<UserNotificationChannel>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1685,13 +1727,13 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_USERNOTIFICATIONCHANNEL);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1699,7 +1741,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 				sql = _SQL_SELECT_USERNOTIFICATIONCHANNEL;
 
 				if (pagination) {
-					sql = sql.concat(UserNotificationChannelModelImpl.ORDER_BY_JPQL);
+					sql = sql.concat(
+						UserNotificationChannelModelImpl.ORDER_BY_JPQL);
 				}
 			}
 
@@ -1711,16 +1754,16 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<UserNotificationChannel>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<UserNotificationChannel>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<UserNotificationChannel>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<UserNotificationChannel>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1758,8 +1801,8 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1767,16 +1810,17 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(_SQL_COUNT_USERNOTIFICATIONCHANNEL);
+				Query q = session.createQuery(
+					_SQL_COUNT_USERNOTIFICATIONCHANNEL);
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1789,6 +1833,11 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	}
 
 	@Override
+	public Set<String> getCompoundPKColumnNames() {
+		return _compoundPKColumnNames;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return UserNotificationChannelModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1797,6 +1846,72 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 	 * Initializes the user notification channel persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationChannelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationChannelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationChannelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationChannelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
+			new String[] {String.class.getName()},
+			UserNotificationChannelModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserId = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByChannelId = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationChannelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByChannelId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByChannelId = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
+			UserNotificationChannelImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByChannelId",
+			new String[] {Long.class.getName()},
+			UserNotificationChannelModelImpl.CHANNELID_COLUMN_BITMASK);
+
+		_finderPathCountByChannelId = new FinderPath(
+			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
+			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByChannelId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -1808,14 +1923,35 @@ public class UserNotificationChannelPersistenceImpl extends BasePersistenceImpl<
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_USERNOTIFICATIONCHANNEL = "SELECT userNotificationChannel FROM UserNotificationChannel userNotificationChannel";
-	private static final String _SQL_SELECT_USERNOTIFICATIONCHANNEL_WHERE = "SELECT userNotificationChannel FROM UserNotificationChannel userNotificationChannel WHERE ";
-	private static final String _SQL_COUNT_USERNOTIFICATIONCHANNEL = "SELECT COUNT(userNotificationChannel) FROM UserNotificationChannel userNotificationChannel";
-	private static final String _SQL_COUNT_USERNOTIFICATIONCHANNEL_WHERE = "SELECT COUNT(userNotificationChannel) FROM UserNotificationChannel userNotificationChannel WHERE ";
-	private static final String _ORDER_BY_ENTITY_ALIAS = "userNotificationChannel.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No UserNotificationChannel exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No UserNotificationChannel exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(UserNotificationChannelPersistenceImpl.class);
+
+	private static final String _SQL_SELECT_USERNOTIFICATIONCHANNEL =
+		"SELECT userNotificationChannel FROM UserNotificationChannel userNotificationChannel";
+
+	private static final String _SQL_SELECT_USERNOTIFICATIONCHANNEL_WHERE =
+		"SELECT userNotificationChannel FROM UserNotificationChannel userNotificationChannel WHERE ";
+
+	private static final String _SQL_COUNT_USERNOTIFICATIONCHANNEL =
+		"SELECT COUNT(userNotificationChannel) FROM UserNotificationChannel userNotificationChannel";
+
+	private static final String _SQL_COUNT_USERNOTIFICATIONCHANNEL_WHERE =
+		"SELECT COUNT(userNotificationChannel) FROM UserNotificationChannel userNotificationChannel WHERE ";
+
+	private static final String _ORDER_BY_ENTITY_ALIAS =
+		"userNotificationChannel.";
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No UserNotificationChannel exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No UserNotificationChannel exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserNotificationChannelPersistenceImpl.class);
+
+	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
+		new String[] {"publikUserId", "channelId"});
+
 }
