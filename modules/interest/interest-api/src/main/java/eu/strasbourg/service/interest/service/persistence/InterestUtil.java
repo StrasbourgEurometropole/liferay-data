@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.interest.exception.NoSuchInterestException;
 import eu.strasbourg.service.interest.model.Interest;
 
 import java.io.Serializable;
@@ -207,7 +206,8 @@ public class InterestUtil {
 	 */
 	public static Interest findByUuid_First(
 			String uuid, OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUuid_First(uuid, orderByComparator);
 	}
@@ -235,7 +235,8 @@ public class InterestUtil {
 	 */
 	public static Interest findByUuid_Last(
 			String uuid, OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUuid_Last(uuid, orderByComparator);
 	}
@@ -265,7 +266,8 @@ public class InterestUtil {
 	public static Interest[] findByUuid_PrevAndNext(
 			long interestId, String uuid,
 			OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUuid_PrevAndNext(
 			interestId, uuid, orderByComparator);
@@ -299,7 +301,8 @@ public class InterestUtil {
 	 * @throws NoSuchInterestException if a matching interest could not be found
 	 */
 	public static Interest findByUUID_G(String uuid, long groupId)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUUID_G(uuid, groupId);
 	}
@@ -337,7 +340,8 @@ public class InterestUtil {
 	 * @return the interest that was removed
 	 */
 	public static Interest removeByUUID_G(String uuid, long groupId)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().removeByUUID_G(uuid, groupId);
 	}
@@ -441,7 +445,8 @@ public class InterestUtil {
 	public static Interest findByUuid_C_First(
 			String uuid, long companyId,
 			OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUuid_C_First(
 			uuid, companyId, orderByComparator);
@@ -475,7 +480,8 @@ public class InterestUtil {
 	public static Interest findByUuid_C_Last(
 			String uuid, long companyId,
 			OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUuid_C_Last(
 			uuid, companyId, orderByComparator);
@@ -510,7 +516,8 @@ public class InterestUtil {
 	public static Interest[] findByUuid_C_PrevAndNext(
 			long interestId, String uuid, long companyId,
 			OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByUuid_C_PrevAndNext(
 			interestId, uuid, companyId, orderByComparator);
@@ -619,7 +626,8 @@ public class InterestUtil {
 	 */
 	public static Interest findByGroupId_First(
 			long groupId, OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByGroupId_First(groupId, orderByComparator);
 	}
@@ -648,7 +656,8 @@ public class InterestUtil {
 	 */
 	public static Interest findByGroupId_Last(
 			long groupId, OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByGroupId_Last(groupId, orderByComparator);
 	}
@@ -678,7 +687,8 @@ public class InterestUtil {
 	public static Interest[] findByGroupId_PrevAndNext(
 			long interestId, long groupId,
 			OrderByComparator<Interest> orderByComparator)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByGroupId_PrevAndNext(
 			interestId, groupId, orderByComparator);
@@ -739,7 +749,8 @@ public class InterestUtil {
 	 * @throws NoSuchInterestException if a interest with the primary key could not be found
 	 */
 	public static Interest remove(long interestId)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().remove(interestId);
 	}
@@ -756,7 +767,8 @@ public class InterestUtil {
 	 * @throws NoSuchInterestException if a interest with the primary key could not be found
 	 */
 	public static Interest findByPrimaryKey(long interestId)
-		throws NoSuchInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchInterestException {
 
 		return getPersistence().findByPrimaryKey(interestId);
 	}
