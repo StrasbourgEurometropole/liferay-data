@@ -23,14 +23,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.comment.service.http.SignalementServiceSoap}.
+ * This class is used by SOAP remote services, specifically {
+ * @link eu.strasbourg.service.comment.service.http.SignalementServiceSoap}.
  *
  * @author Romain Vergnais
- * @see eu.strasbourg.service.comment.service.http.SignalementServiceSoap
  * @generated
  */
 @ProviderType
 public class SignalementSoap implements Serializable {
+
 	public static SignalementSoap toSoapModel(Signalement model) {
 		SignalementSoap soapModel = new SignalementSoap();
 
@@ -80,7 +81,8 @@ public class SignalementSoap implements Serializable {
 	}
 
 	public static SignalementSoap[] toSoapModels(List<Signalement> models) {
-		List<SignalementSoap> soapModels = new ArrayList<SignalementSoap>(models.size());
+		List<SignalementSoap> soapModels = new ArrayList<SignalementSoap>(
+			models.size());
 
 		for (Signalement model : models) {
 			soapModels.add(toSoapModel(model));
@@ -226,4 +228,5 @@ public class SignalementSoap implements Serializable {
 	private Date _statusDate;
 	private long _commentId;
 	private String _publikId;
+
 }

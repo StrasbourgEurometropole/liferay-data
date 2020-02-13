@@ -17,9 +17,7 @@ package eu.strasbourg.service.comment.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -41,6 +39,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class CommentWrapper implements Comment, ModelWrapper<Comment> {
+
 	public CommentWrapper(Comment comment) {
 		_comment = comment;
 	}
@@ -71,7 +70,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
-		attributes.put("comment", getComment());
+		attributes.put("text", getText());
 		attributes.put("level", getLevel());
 		attributes.put("userQuality", getUserQuality());
 		attributes.put("modifiedByUserDate", getModifiedByUserDate());
@@ -157,10 +156,10 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 			setStatusDate(statusDate);
 		}
 
-		String comment = (String)attributes.get("comment");
+		String text = (String)attributes.get("text");
 
-		if (comment != null) {
-			setComment(comment);
+		if (text != null) {
+			setText(text);
 		}
 
 		Integer level = (Integer)attributes.get("level");
@@ -200,18 +199,416 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 		}
 
 		String urlProjectCommentaire = (String)attributes.get(
-				"urlProjectCommentaire");
+			"urlProjectCommentaire");
 
 		if (urlProjectCommentaire != null) {
 			setUrlProjectCommentaire(urlProjectCommentaire);
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new CommentWrapper((Comment)_comment.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.comment.model.Comment comment) {
+		return _comment.compareTo(comment);
+	}
+
 	/**
-	* Returns <code>true</code> if this comment is approved.
-	*
-	* @return <code>true</code> if this comment is approved; <code>false</code> otherwise
-	*/
+	 * méthode qui renvoie la liste des signalements d'un commentaire.
+	 *
+	 * @return la liste des signalements
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Signalement>
+		findSignalements() {
+
+		return _comment.findSignalements();
+	}
+
+	/**
+	 * Retourne la liste des commentaires enfants de l'item
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment>
+		getApprovedChildComments() {
+
+		return _comment.getApprovedChildComments();
+	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _comment.getAssetEntry();
+	}
+
+	/**
+	 * Returns the asset entry ID of this comment.
+	 *
+	 * @return the asset entry ID of this comment
+	 */
+	@Override
+	public long getAssetEntryId() {
+		return _comment.getAssetEntryId();
+	}
+
+	@Override
+	public String getAssetEntryTitle() {
+		return _comment.getAssetEntryTitle();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return _comment.getCategories();
+	}
+
+	/**
+	 * Returns the comment ID of this comment.
+	 *
+	 * @return the comment ID of this comment
+	 */
+	@Override
+	public long getCommentId() {
+		return _comment.getCommentId();
+	}
+
+	/**
+	 * Returns the company ID of this comment.
+	 *
+	 * @return the company ID of this comment
+	 */
+	@Override
+	public long getCompanyId() {
+		return _comment.getCompanyId();
+	}
+
+	/**
+	 * méthode qui renvoie le nombre de signalement pour un commentaire.
+	 *
+	 * @return le nombre de signalement en int.
+	 */
+	@Override
+	public int getCountSignalements() {
+		return _comment.getCountSignalements();
+	}
+
+	/**
+	 * Returns the create date of this comment.
+	 *
+	 * @return the create date of this comment
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _comment.getCreateDate();
+	}
+
+	/**
+	 * Retourne la liste des dislikes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
+		return _comment.getDislikes();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _comment.getExpandoBridge();
+	}
+
+	/**
+	 * méthode permettant de retourner le nom de l'utilisateur en entier.
+	 *
+	 * @return le nom de l'utilisateur.
+	 */
+	@Override
+	public String getFullPublikUserName() {
+		return _comment.getFullPublikUserName();
+	}
+
+	/**
+	 * Returns the group ID of this comment.
+	 *
+	 * @return the group ID of this comment
+	 */
+	@Override
+	public long getGroupId() {
+		return _comment.getGroupId();
+	}
+
+	/**
+	 * Returns the level of this comment.
+	 *
+	 * @return the level of this comment
+	 */
+	@Override
+	public int getLevel() {
+		return _comment.getLevel();
+	}
+
+	/**
+	 * Retourne la liste des likes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _comment.getLikes();
+	}
+
+	/**
+	 * Retourne la liste des like/dislike de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like>
+		getLikesDislikes() {
+
+		return _comment.getLikesDislikes();
+	}
+
+	/**
+	 * Returns the modified by user date of this comment.
+	 *
+	 * @return the modified by user date of this comment
+	 */
+	@Override
+	public Date getModifiedByUserDate() {
+		return _comment.getModifiedByUserDate();
+	}
+
+	/**
+	 * Returns the modified date of this comment.
+	 *
+	 * @return the modified date of this comment
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _comment.getModifiedDate();
+	}
+
+	/**
+	 * Retourne le nombre de dislikes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbDislikes() {
+		return _comment.getNbDislikes();
+	}
+
+	/**
+	 * Retourne le nombre de likes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikes() {
+		return _comment.getNbLikes();
+	}
+
+	/**
+	 * Retourne le nombre de likes/dislikes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikesDislikes() {
+		return _comment.getNbLikesDislikes();
+	}
+
+	/**
+	 * Returns the parent comment ID of this comment.
+	 *
+	 * @return the parent comment ID of this comment
+	 */
+	@Override
+	public long getParentCommentId() {
+		return _comment.getParentCommentId();
+	}
+
+	/**
+	 * Returns the primary key of this comment.
+	 *
+	 * @return the primary key of this comment
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _comment.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _comment.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik ID of this comment.
+	 *
+	 * @return the publik ID of this comment
+	 */
+	@Override
+	public String getPublikId() {
+		return _comment.getPublikId();
+	}
+
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser() {
+		return _comment.getPublikUser();
+	}
+
+	@Override
+	public String getPublikUserName() {
+		return _comment.getPublikUserName();
+	}
+
+	/**
+	 * Returns the status of this comment.
+	 *
+	 * @return the status of this comment
+	 */
+	@Override
+	public int getStatus() {
+		return _comment.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this comment.
+	 *
+	 * @return the status by user ID of this comment
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _comment.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this comment.
+	 *
+	 * @return the status by user name of this comment
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _comment.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this comment.
+	 *
+	 * @return the status by user uuid of this comment
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _comment.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this comment.
+	 *
+	 * @return the status date of this comment
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _comment.getStatusDate();
+	}
+
+	/**
+	 * Returns the text of this comment.
+	 *
+	 * @return the text of this comment
+	 */
+	@Override
+	public String getText() {
+		return _comment.getText();
+	}
+
+	@Override
+	public String getTypeAssetEntry() {
+		return _comment.getTypeAssetEntry();
+	}
+
+	/**
+	 * Returns the url project commentaire of this comment.
+	 *
+	 * @return the url project commentaire of this comment
+	 */
+	@Override
+	public String getUrlProjectCommentaire() {
+		return _comment.getUrlProjectCommentaire();
+	}
+
+	/**
+	 * Returns the user ID of this comment.
+	 *
+	 * @return the user ID of this comment
+	 */
+	@Override
+	public long getUserId() {
+		return _comment.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this comment.
+	 *
+	 * @return the user name of this comment
+	 */
+	@Override
+	public String getUserName() {
+		return _comment.getUserName();
+	}
+
+	/**
+	 * Returns the user quality of this comment.
+	 *
+	 * @return the user quality of this comment
+	 */
+	@Override
+	public String getUserQuality() {
+		return _comment.getUserQuality();
+	}
+
+	/**
+	 * Returns the user uuid of this comment.
+	 *
+	 * @return the user uuid of this comment
+	 */
+	@Override
+	public String getUserUuid() {
+		return _comment.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this comment.
+	 *
+	 * @return the uuid of this comment
+	 */
+	@Override
+	public String getUuid() {
+		return _comment.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _comment.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this comment is approved.
+	 *
+	 * @return <code>true</code> if this comment is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _comment.isApproved();
@@ -223,20 +620,20 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is denied.
-	*
-	* @return <code>true</code> if this comment is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is denied.
+	 *
+	 * @return <code>true</code> if this comment is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _comment.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is a draft.
-	*
-	* @return <code>true</code> if this comment is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is a draft.
+	 *
+	 * @return <code>true</code> if this comment is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _comment.isDraft();
@@ -248,30 +645,30 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is expired.
-	*
-	* @return <code>true</code> if this comment is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is expired.
+	 *
+	 * @return <code>true</code> if this comment is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _comment.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is inactive.
-	*
-	* @return <code>true</code> if this comment is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is inactive.
+	 *
+	 * @return <code>true</code> if this comment is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _comment.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is incomplete.
-	*
-	* @return <code>true</code> if this comment is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is incomplete.
+	 *
+	 * @return <code>true</code> if this comment is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _comment.isIncomplete();
@@ -283,438 +680,23 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is pending.
-	*
-	* @return <code>true</code> if this comment is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is pending.
+	 *
+	 * @return <code>true</code> if this comment is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _comment.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this comment is scheduled.
-	*
-	* @return <code>true</code> if this comment is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this comment is scheduled.
+	 *
+	 * @return <code>true</code> if this comment is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _comment.isScheduled();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _comment.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _comment.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.comment.model.Comment> toCacheModel() {
-		return _comment.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Comment toEscapedModel() {
-		return new CommentWrapper(_comment.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Comment toUnescapedModel() {
-		return new CommentWrapper(_comment.toUnescapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser() {
-		return _comment.getPublikUser();
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.comment.model.Comment comment) {
-		return _comment.compareTo(comment);
-	}
-
-	/**
-	* méthode qui renvoie le nombre de signalement pour un commentaire.
-	*
-	* @return le nombre de signalement en int.
-	*/
-	@Override
-	public int getCountSignalements() {
-		return _comment.getCountSignalements();
-	}
-
-	/**
-	* Returns the level of this comment.
-	*
-	* @return the level of this comment
-	*/
-	@Override
-	public int getLevel() {
-		return _comment.getLevel();
-	}
-
-	/**
-	* Retourne le nombre de dislikes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public int getNbDislikes() {
-		return _comment.getNbDislikes();
-	}
-
-	/**
-	* Retourne le nombre de likes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public int getNbLikes() {
-		return _comment.getNbLikes();
-	}
-
-	/**
-	* Retourne le nombre de likes/dislikes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public int getNbLikesDislikes() {
-		return _comment.getNbLikesDislikes();
-	}
-
-	/**
-	* Returns the status of this comment.
-	*
-	* @return the status of this comment
-	*/
-	@Override
-	public int getStatus() {
-		return _comment.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _comment.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _comment.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new CommentWrapper((Comment)_comment.clone());
-	}
-
-	@Override
-	public java.lang.String getAssetEntryTitle() {
-		return _comment.getAssetEntryTitle();
-	}
-
-	/**
-	* Returns the comment of this comment.
-	*
-	* @return the comment of this comment
-	*/
-	@Override
-	public java.lang.String getComment() {
-		return _comment.getComment();
-	}
-
-	/**
-	* méthode permettant de retourner le nom de l'utilisateur en entier.
-	*
-	* @return le nom de l'utilisateur.
-	*/
-	@Override
-	public java.lang.String getFullPublikUserName() {
-		return _comment.getFullPublikUserName();
-	}
-
-	/**
-	* Returns the publik ID of this comment.
-	*
-	* @return the publik ID of this comment
-	*/
-	@Override
-	public java.lang.String getPublikId() {
-		return _comment.getPublikId();
-	}
-
-	@Override
-	public java.lang.String getPublikUserName() {
-		return _comment.getPublikUserName();
-	}
-
-	/**
-	* Returns the status by user name of this comment.
-	*
-	* @return the status by user name of this comment
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _comment.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this comment.
-	*
-	* @return the status by user uuid of this comment
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _comment.getStatusByUserUuid();
-	}
-
-	@Override
-	public java.lang.String getTypeAssetEntry() {
-		return _comment.getTypeAssetEntry();
-	}
-
-	/**
-	* Returns the url project commentaire of this comment.
-	*
-	* @return the url project commentaire of this comment
-	*/
-	@Override
-	public java.lang.String getUrlProjectCommentaire() {
-		return _comment.getUrlProjectCommentaire();
-	}
-
-	/**
-	* Returns the user name of this comment.
-	*
-	* @return the user name of this comment
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _comment.getUserName();
-	}
-
-	/**
-	* Returns the user quality of this comment.
-	*
-	* @return the user quality of this comment
-	*/
-	@Override
-	public java.lang.String getUserQuality() {
-		return _comment.getUserQuality();
-	}
-
-	/**
-	* Returns the user uuid of this comment.
-	*
-	* @return the user uuid of this comment
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _comment.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this comment.
-	*
-	* @return the uuid of this comment
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _comment.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _comment.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _comment.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this comment.
-	*
-	* @return the create date of this comment
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _comment.getCreateDate();
-	}
-
-	/**
-	* Returns the modified by user date of this comment.
-	*
-	* @return the modified by user date of this comment
-	*/
-	@Override
-	public Date getModifiedByUserDate() {
-		return _comment.getModifiedByUserDate();
-	}
-
-	/**
-	* Returns the modified date of this comment.
-	*
-	* @return the modified date of this comment
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _comment.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this comment.
-	*
-	* @return the status date of this comment
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _comment.getStatusDate();
-	}
-
-	/**
-	* méthode qui renvoie la liste des signalements d'un commentaire.
-	*
-	* @return la liste des signalements
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.comment.model.Signalement> findSignalements() {
-		return _comment.findSignalements();
-	}
-
-	/**
-	* Retourne la liste des commentaires enfants de l'item
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.comment.model.Comment> getApprovedChildComments() {
-		return _comment.getApprovedChildComments();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _comment.getCategories();
-	}
-
-	/**
-	* Retourne la liste des dislikes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
-		return _comment.getDislikes();
-	}
-
-	/**
-	* Retourne la liste des likes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _comment.getLikes();
-	}
-
-	/**
-	* Retourne la liste des like/dislike de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.like.model.Like> getLikesDislikes() {
-		return _comment.getLikesDislikes();
-	}
-
-	/**
-	* Returns the asset entry ID of this comment.
-	*
-	* @return the asset entry ID of this comment
-	*/
-	@Override
-	public long getAssetEntryId() {
-		return _comment.getAssetEntryId();
-	}
-
-	/**
-	* Returns the comment ID of this comment.
-	*
-	* @return the comment ID of this comment
-	*/
-	@Override
-	public long getCommentId() {
-		return _comment.getCommentId();
-	}
-
-	/**
-	* Returns the company ID of this comment.
-	*
-	* @return the company ID of this comment
-	*/
-	@Override
-	public long getCompanyId() {
-		return _comment.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this comment.
-	*
-	* @return the group ID of this comment
-	*/
-	@Override
-	public long getGroupId() {
-		return _comment.getGroupId();
-	}
-
-	/**
-	* Returns the parent comment ID of this comment.
-	*
-	* @return the parent comment ID of this comment
-	*/
-	@Override
-	public long getParentCommentId() {
-		return _comment.getParentCommentId();
-	}
-
-	/**
-	* Returns the primary key of this comment.
-	*
-	* @return the primary key of this comment
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _comment.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status by user ID of this comment.
-	*
-	* @return the status by user ID of this comment
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _comment.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this comment.
-	*
-	* @return the user ID of this comment
-	*/
-	@Override
-	public long getUserId() {
-		return _comment.getUserId();
 	}
 
 	@Override
@@ -723,10 +705,10 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Sets the asset entry ID of this comment.
-	*
-	* @param assetEntryId the asset entry ID of this comment
-	*/
+	 * Sets the asset entry ID of this comment.
+	 *
+	 * @param assetEntryId the asset entry ID of this comment
+	 */
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
 		_comment.setAssetEntryId(assetEntryId);
@@ -738,43 +720,40 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Sets the comment of this comment.
-	*
-	* @param comment the comment of this comment
-	*/
-	@Override
-	public void setComment(java.lang.String comment) {
-		_comment.setComment(comment);
-	}
-
-	/**
-	* Sets the comment ID of this comment.
-	*
-	* @param commentId the comment ID of this comment
-	*/
+	 * Sets the comment ID of this comment.
+	 *
+	 * @param commentId the comment ID of this comment
+	 */
 	@Override
 	public void setCommentId(long commentId) {
 		_comment.setCommentId(commentId);
 	}
 
 	/**
-	* Sets the company ID of this comment.
-	*
-	* @param companyId the company ID of this comment
-	*/
+	 * Sets the company ID of this comment.
+	 *
+	 * @param companyId the company ID of this comment
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_comment.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this comment.
-	*
-	* @param createDate the create date of this comment
-	*/
+	 * Sets the create date of this comment.
+	 *
+	 * @param createDate the create date of this comment
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_comment.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_comment.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -783,51 +762,45 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_comment.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_comment.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this comment.
-	*
-	* @param groupId the group ID of this comment
-	*/
+	 * Sets the group ID of this comment.
+	 *
+	 * @param groupId the group ID of this comment
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_comment.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the level of this comment.
-	*
-	* @param level the level of this comment
-	*/
+	 * Sets the level of this comment.
+	 *
+	 * @param level the level of this comment
+	 */
 	@Override
 	public void setLevel(int level) {
 		_comment.setLevel(level);
 	}
 
 	/**
-	* Sets the modified by user date of this comment.
-	*
-	* @param modifiedByUserDate the modified by user date of this comment
-	*/
+	 * Sets the modified by user date of this comment.
+	 *
+	 * @param modifiedByUserDate the modified by user date of this comment
+	 */
 	@Override
 	public void setModifiedByUserDate(Date modifiedByUserDate) {
 		_comment.setModifiedByUserDate(modifiedByUserDate);
 	}
 
 	/**
-	* Sets the modified date of this comment.
-	*
-	* @param modifiedDate the modified date of this comment
-	*/
+	 * Sets the modified date of this comment.
+	 *
+	 * @param modifiedDate the modified date of this comment
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_comment.setModifiedDate(modifiedDate);
@@ -839,20 +812,20 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Sets the parent comment ID of this comment.
-	*
-	* @param parentCommentId the parent comment ID of this comment
-	*/
+	 * Sets the parent comment ID of this comment.
+	 *
+	 * @param parentCommentId the parent comment ID of this comment
+	 */
 	@Override
 	public void setParentCommentId(long parentCommentId) {
 		_comment.setParentCommentId(parentCommentId);
 	}
 
 	/**
-	* Sets the primary key of this comment.
-	*
-	* @param primaryKey the primary key of this comment
-	*/
+	 * Sets the primary key of this comment.
+	 *
+	 * @param primaryKey the primary key of this comment
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_comment.setPrimaryKey(primaryKey);
@@ -864,123 +837,160 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	/**
-	* Sets the publik ID of this comment.
-	*
-	* @param publikId the publik ID of this comment
-	*/
+	 * Sets the publik ID of this comment.
+	 *
+	 * @param publikId the publik ID of this comment
+	 */
 	@Override
-	public void setPublikId(java.lang.String publikId) {
+	public void setPublikId(String publikId) {
 		_comment.setPublikId(publikId);
 	}
 
 	/**
-	* Sets the status of this comment.
-	*
-	* @param status the status of this comment
-	*/
+	 * Sets the status of this comment.
+	 *
+	 * @param status the status of this comment
+	 */
 	@Override
 	public void setStatus(int status) {
 		_comment.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this comment.
-	*
-	* @param statusByUserId the status by user ID of this comment
-	*/
+	 * Sets the status by user ID of this comment.
+	 *
+	 * @param statusByUserId the status by user ID of this comment
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_comment.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this comment.
-	*
-	* @param statusByUserName the status by user name of this comment
-	*/
+	 * Sets the status by user name of this comment.
+	 *
+	 * @param statusByUserName the status by user name of this comment
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_comment.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this comment.
-	*
-	* @param statusByUserUuid the status by user uuid of this comment
-	*/
+	 * Sets the status by user uuid of this comment.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this comment
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_comment.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this comment.
-	*
-	* @param statusDate the status date of this comment
-	*/
+	 * Sets the status date of this comment.
+	 *
+	 * @param statusDate the status date of this comment
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_comment.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the url project commentaire of this comment.
-	*
-	* @param urlProjectCommentaire the url project commentaire of this comment
-	*/
+	 * Sets the text of this comment.
+	 *
+	 * @param text the text of this comment
+	 */
 	@Override
-	public void setUrlProjectCommentaire(java.lang.String urlProjectCommentaire) {
+	public void setText(String text) {
+		_comment.setText(text);
+	}
+
+	/**
+	 * Sets the url project commentaire of this comment.
+	 *
+	 * @param urlProjectCommentaire the url project commentaire of this comment
+	 */
+	@Override
+	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
 		_comment.setUrlProjectCommentaire(urlProjectCommentaire);
 	}
 
 	/**
-	* Sets the user ID of this comment.
-	*
-	* @param userId the user ID of this comment
-	*/
+	 * Sets the user ID of this comment.
+	 *
+	 * @param userId the user ID of this comment
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_comment.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this comment.
-	*
-	* @param userName the user name of this comment
-	*/
+	 * Sets the user name of this comment.
+	 *
+	 * @param userName the user name of this comment
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_comment.setUserName(userName);
 	}
 
 	/**
-	* Sets the user quality of this comment.
-	*
-	* @param userQuality the user quality of this comment
-	*/
+	 * Sets the user quality of this comment.
+	 *
+	 * @param userQuality the user quality of this comment
+	 */
 	@Override
-	public void setUserQuality(java.lang.String userQuality) {
+	public void setUserQuality(String userQuality) {
 		_comment.setUserQuality(userQuality);
 	}
 
 	/**
-	* Sets the user uuid of this comment.
-	*
-	* @param userUuid the user uuid of this comment
-	*/
+	 * Sets the user uuid of this comment.
+	 *
+	 * @param userUuid the user uuid of this comment
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_comment.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this comment.
-	*
-	* @param uuid the uuid of this comment
-	*/
+	 * Sets the uuid of this comment.
+	 *
+	 * @param uuid the uuid of this comment
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_comment.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.comment.model.Comment> toCacheModel() {
+
+		return _comment.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.comment.model.Comment toEscapedModel() {
+		return new CommentWrapper(_comment.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _comment.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.comment.model.Comment toUnescapedModel() {
+		return new CommentWrapper(_comment.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _comment.toXmlString();
 	}
 
 	@Override
@@ -1028,4 +1038,5 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	private final Comment _comment;
+
 }

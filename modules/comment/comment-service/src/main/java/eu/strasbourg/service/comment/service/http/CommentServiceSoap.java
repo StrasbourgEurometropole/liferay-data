@@ -18,19 +18,20 @@ import aQute.bnd.annotation.ProviderType;
 
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.comment.service.CommentServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>eu.strasbourg.service.comment.service.CommentServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.comment.model.CommentSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.comment.model.Comment}, that is translated to a
- * {@link eu.strasbourg.service.comment.model.CommentSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.comment.model.CommentSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.comment.model.Comment</code>, that is translated to a
+ * <code>eu.strasbourg.service.comment.model.CommentSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -52,8 +53,6 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Romain Vergnais
  * @see CommentServiceHttp
- * @see eu.strasbourg.service.comment.model.CommentSoap
- * @see eu.strasbourg.service.comment.service.CommentServiceUtil
  * @generated
  */
 @ProviderType
