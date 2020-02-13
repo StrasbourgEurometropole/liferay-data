@@ -11,5 +11,4 @@ create index IX_B987AC2F on edition_EditionGallery (uuid_[$COLUMN_LENGTH:75$], c
 create unique index IX_8C1B7271 on edition_EditionGallery (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_8982DED6 on edition_EditionToEditionGallery (companyId);
-create index IX_2AE30F97 on edition_EditionToEditionGallery (editionId);
 create index IX_27B4A72B on edition_EditionToEditionGallery (galleryId);

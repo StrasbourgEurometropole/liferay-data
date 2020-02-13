@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.edition.service.http.EditionGalleryServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.edition.service.http.EditionGalleryServiceSoap
  * @generated
  */
 @ProviderType
 public class EditionGallerySoap implements Serializable {
+
 	public static EditionGallerySoap toSoapModel(EditionGallery model) {
 		EditionGallerySoap soapModel = new EditionGallerySoap();
 
@@ -65,11 +65,14 @@ public class EditionGallerySoap implements Serializable {
 		return soapModels;
 	}
 
-	public static EditionGallerySoap[][] toSoapModels(EditionGallery[][] models) {
+	public static EditionGallerySoap[][] toSoapModels(
+		EditionGallery[][] models) {
+
 		EditionGallerySoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new EditionGallerySoap[models.length][models[0].length];
+			soapModels =
+				new EditionGallerySoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new EditionGallerySoap[0][0];
@@ -82,8 +85,11 @@ public class EditionGallerySoap implements Serializable {
 		return soapModels;
 	}
 
-	public static EditionGallerySoap[] toSoapModels(List<EditionGallery> models) {
-		List<EditionGallerySoap> soapModels = new ArrayList<EditionGallerySoap>(models.size());
+	public static EditionGallerySoap[] toSoapModels(
+		List<EditionGallery> models) {
+
+		List<EditionGallerySoap> soapModels = new ArrayList<EditionGallerySoap>(
+			models.size());
 
 		for (EditionGallery model : models) {
 			soapModels.add(toSoapModel(model));
@@ -256,4 +262,5 @@ public class EditionGallerySoap implements Serializable {
 	private String _title;
 	private String _description;
 	private Date _publicationDate;
+
 }

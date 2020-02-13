@@ -32,12 +32,13 @@ import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class EditionBaseImpl extends EditionModelImpl
-	implements Edition {
+public abstract class EditionBaseImpl
+	extends EditionModelImpl implements Edition {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a edition model instance should use the {@link Edition} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a edition model instance should use the <code>Edition</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class EditionBaseImpl extends EditionModelImpl
 			EditionLocalServiceUtil.updateEdition(this);
 		}
 	}
+
 }
