@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.comment.model.Signalement;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Signalement in entity cache.
  *
  * @author Romain Vergnais
- * @see Signalement
  * @generated
  */
 @ProviderType
-public class SignalementCacheModel implements CacheModel<Signalement>,
-	Externalizable {
+public class SignalementCacheModel
+	implements CacheModel<Signalement>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 			return false;
 		}
 
-		SignalementCacheModel signalementCacheModel = (SignalementCacheModel)obj;
+		SignalementCacheModel signalementCacheModel =
+			(SignalementCacheModel)obj;
 
 		if (signalementId == signalementCacheModel.signalementId) {
 			return true;
@@ -106,7 +106,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		SignalementImpl signalementImpl = new SignalementImpl();
 
 		if (uuid == null) {
-			signalementImpl.setUuid(StringPool.BLANK);
+			signalementImpl.setUuid("");
 		}
 		else {
 			signalementImpl.setUuid(uuid);
@@ -118,7 +118,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		signalementImpl.setUserId(userId);
 
 		if (userName == null) {
-			signalementImpl.setUserName(StringPool.BLANK);
+			signalementImpl.setUserName("");
 		}
 		else {
 			signalementImpl.setUserName(userName);
@@ -142,7 +142,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		signalementImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			signalementImpl.setStatusByUserName(StringPool.BLANK);
+			signalementImpl.setStatusByUserName("");
 		}
 		else {
 			signalementImpl.setStatusByUserName(statusByUserName);
@@ -158,7 +158,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		signalementImpl.setCommentId(commentId);
 
 		if (publikId == null) {
-			signalementImpl.setPublikId(StringPool.BLANK);
+			signalementImpl.setPublikId("");
 		}
 		else {
 			signalementImpl.setPublikId(publikId);
@@ -195,10 +195,9 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -213,7 +212,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -227,7 +226,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -238,7 +237,7 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 		objectOutput.writeLong(commentId);
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
@@ -259,4 +258,5 @@ public class SignalementCacheModel implements CacheModel<Signalement>,
 	public long statusDate;
 	public long commentId;
 	public String publikId;
+
 }

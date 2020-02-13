@@ -22,6 +22,8 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface EditionFinder {
-	public java.util.List<eu.strasbourg.service.edition.model.Edition> findByKeywordsCategories(
-		java.lang.String keywords, long[] categoryIds);
+
+	public java.util.List<eu.strasbourg.service.edition.model.Edition>
+		findByKeywordsCategories(String keywords, long[] categoryIds);
+
 }

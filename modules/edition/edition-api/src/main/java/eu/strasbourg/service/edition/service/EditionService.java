@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see EditionServiceUtil
- * @see eu.strasbourg.service.edition.service.base.EditionServiceBaseImpl
- * @see eu.strasbourg.service.edition.service.impl.EditionServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=edition", "json.web.service.context.path=Edition"}, service = EditionService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=edition",
+		"json.web.service.context.path=Edition"
+	},
+	service = EditionService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface EditionService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link EditionServiceUtil} to access the edition remote service. Add custom service methods to {@link eu.strasbourg.service.edition.service.impl.EditionServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link EditionServiceUtil} to access the edition remote service. Add custom service methods to <code>eu.strasbourg.service.edition.service.impl.EditionServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

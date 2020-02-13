@@ -88,3 +88,6 @@ ALTER TABLE tipi_TipiEntry CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE video_Video CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE video_VideoGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE video_VideoToVideoGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+#Renommage du champ comment dans la table Comment
+ALTER TABLE comment_Comment CHANGE comment_ text_ VARCHAR(75);
