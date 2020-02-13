@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.favorite.model.Favorite;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Favorite in entity cache.
  *
  * @author BenjaminBini
- * @see Favorite
  * @generated
  */
 @ProviderType
-public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable {
+public class FavoriteCacheModel
+	implements CacheModel<Favorite>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -95,21 +95,21 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 		favoriteImpl.setFavoriteId(favoriteId);
 
 		if (publikUserId == null) {
-			favoriteImpl.setPublikUserId(StringPool.BLANK);
+			favoriteImpl.setPublikUserId("");
 		}
 		else {
 			favoriteImpl.setPublikUserId(publikUserId);
 		}
 
 		if (title == null) {
-			favoriteImpl.setTitle(StringPool.BLANK);
+			favoriteImpl.setTitle("");
 		}
 		else {
 			favoriteImpl.setTitle(title);
 		}
 
 		if (url == null) {
-			favoriteImpl.setUrl(StringPool.BLANK);
+			favoriteImpl.setUrl("");
 		}
 		else {
 			favoriteImpl.setUrl(url);
@@ -147,26 +147,25 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(favoriteId);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
 		}
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (url == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(url);
@@ -188,4 +187,5 @@ public class FavoriteCacheModel implements CacheModel<Favorite>, Externalizable 
 	public long entityId;
 	public long entityGroupId;
 	public long onDashboardDate;
+
 }
