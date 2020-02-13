@@ -4,7 +4,7 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
-//	compileOnly project(":modules:place:place-api")
+	compileOnly project(":modules:place:place-api")
 //	compileOnly project(":modules:agenda:agenda-api")
 	compileOnly project(":modules:edition:edition-api")
 	compileOnly project(":modules:video:video-api")
