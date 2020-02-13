@@ -1,5 +1,6 @@
 package eu.strasbourg.service.video.scheduler;
 
+import com.liferay.portal.kernel.scheduler.*;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -7,27 +8,25 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.video.service.VideoGalleryLocalService;
 import eu.strasbourg.service.video.service.VideoLocalService;
 
 @Component(immediate = true, service = CheckVideoMessageListener.class)
 public class CheckVideoMessageListener
-	extends BaseSchedulerEntryMessageListener {
+	extends BaseMessageListener {
 
-	@Activate
+		@Activate
 	@Modified
 	protected void activate() {
-		schedulerEntryImpl.setTrigger(
-			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 15, TimeUnit.MINUTE));
+			_schedulerEntryImpl.setTrigger(
+			TriggerFactoryUtil.createTrigger(getClass().getName(),
+					getClass().getName(), 15, TimeUnit.MINUTE));
 
-		_schedulerEngineHelper.register(this, schedulerEntryImpl,
+		_schedulerEngineHelper.register(this, _schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
 	}
 
@@ -52,10 +51,10 @@ public class CheckVideoMessageListener
 		_videoGalleryLocalService = videoGalleryLocalService;
 	}
 
-	@Reference(unbind = "-")
+//	@Reference(unbind = "-")
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 
 	private VideoLocalService _videoLocalService;
 	private VideoGalleryLocalService _videoGalleryLocalService;
-
+	private SchedulerEntryImpl _schedulerEntryImpl = null;
 }
