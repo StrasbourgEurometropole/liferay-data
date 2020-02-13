@@ -26,25 +26,26 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class VideoServiceWrapper implements VideoService,
-	ServiceWrapper<VideoService> {
+public class VideoServiceWrapper
+	implements VideoService, ServiceWrapper<VideoService> {
+
 	public VideoServiceWrapper(VideoService videoService) {
 		_videoService = videoService;
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _videoService.getOSGiServiceIdentifier();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getVideo(long id) {
 		return _videoService.getVideo(id);
-	}
-
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _videoService.getOSGiServiceIdentifier();
 	}
 
 	@Override
@@ -58,4 +59,5 @@ public class VideoServiceWrapper implements VideoService,
 	}
 
 	private VideoService _videoService;
+
 }

@@ -33,10 +33,11 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
  */
 @ProviderType
 public abstract class VideoBaseImpl extends VideoModelImpl implements Video {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a video model instance should use the {@link Video} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a video model instance should use the <code>Video</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class VideoBaseImpl extends VideoModelImpl implements Video {
 			VideoLocalServiceUtil.updateVideo(this);
 		}
 	}
+
 }

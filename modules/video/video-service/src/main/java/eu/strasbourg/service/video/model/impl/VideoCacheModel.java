@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.video.model.Video;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Video in entity cache.
  *
  * @author BenjaminBini
- * @see Video
  * @generated
  */
 @ProviderType
 public class VideoCacheModel implements CacheModel<Video>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -117,7 +116,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		VideoImpl videoImpl = new VideoImpl();
 
 		if (uuid == null) {
-			videoImpl.setUuid(StringPool.BLANK);
+			videoImpl.setUuid("");
 		}
 		else {
 			videoImpl.setUuid(uuid);
@@ -129,7 +128,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		videoImpl.setUserId(userId);
 
 		if (userName == null) {
-			videoImpl.setUserName(StringPool.BLANK);
+			videoImpl.setUserName("");
 		}
 		else {
 			videoImpl.setUserName(userName);
@@ -160,7 +159,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		videoImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			videoImpl.setStatusByUserName(StringPool.BLANK);
+			videoImpl.setStatusByUserName("");
 		}
 		else {
 			videoImpl.setStatusByUserName(statusByUserName);
@@ -174,28 +173,28 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		}
 
 		if (title == null) {
-			videoImpl.setTitle(StringPool.BLANK);
+			videoImpl.setTitle("");
 		}
 		else {
 			videoImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			videoImpl.setDescription(StringPool.BLANK);
+			videoImpl.setDescription("");
 		}
 		else {
 			videoImpl.setDescription(description);
 		}
 
 		if (copyright == null) {
-			videoImpl.setCopyright(StringPool.BLANK);
+			videoImpl.setCopyright("");
 		}
 		else {
 			videoImpl.setCopyright(copyright);
 		}
 
 		if (source == null) {
-			videoImpl.setSource(StringPool.BLANK);
+			videoImpl.setSource("");
 		}
 		else {
 			videoImpl.setSource(source);
@@ -249,10 +248,9 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -267,7 +265,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -282,7 +280,7 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -291,28 +289,28 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (copyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(copyright);
 		}
 
 		if (source == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(source);
@@ -345,4 +343,5 @@ public class VideoCacheModel implements CacheModel<Video>, Externalizable {
 	public long publicationDate;
 	public long imageId;
 	public long transcriptionFileId;
+
 }

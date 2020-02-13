@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see VideoGalleryServiceUtil
- * @see eu.strasbourg.service.video.service.base.VideoGalleryServiceBaseImpl
- * @see eu.strasbourg.service.video.service.impl.VideoGalleryServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=video", "json.web.service.context.path=VideoGallery"}, service = VideoGalleryService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=video",
+		"json.web.service.context.path=VideoGallery"
+	},
+	service = VideoGalleryService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface VideoGalleryService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link VideoGalleryServiceUtil} to access the video gallery remote service. Add custom service methods to {@link eu.strasbourg.service.video.service.impl.VideoGalleryServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link VideoGalleryServiceUtil} to access the video gallery remote service. Add custom service methods to <code>eu.strasbourg.service.video.service.impl.VideoGalleryServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

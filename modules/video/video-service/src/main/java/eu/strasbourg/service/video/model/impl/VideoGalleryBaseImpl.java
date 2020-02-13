@@ -32,12 +32,13 @@ import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class VideoGalleryBaseImpl extends VideoGalleryModelImpl
-	implements VideoGallery {
+public abstract class VideoGalleryBaseImpl
+	extends VideoGalleryModelImpl implements VideoGallery {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a video gallery model instance should use the {@link VideoGallery} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a video gallery model instance should use the <code>VideoGallery</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class VideoGalleryBaseImpl extends VideoGalleryModelImpl
 			VideoGalleryLocalServiceUtil.updateVideoGallery(this);
 		}
 	}
+
 }
