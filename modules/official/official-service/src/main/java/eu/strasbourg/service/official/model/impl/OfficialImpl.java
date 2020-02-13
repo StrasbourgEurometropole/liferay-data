@@ -41,7 +41,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
  * <p>
  * Helper methods and all application logic should be put in this class.
  * Whenever methods are added, rerun ServiceBuilder to copy their definitions
- * into the {@link official.model.Official} interface.
+ * into the Official interface.
  * </p>
  *
  * @author AngeliqueZUNINO

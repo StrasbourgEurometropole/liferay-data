@@ -3,8 +3,8 @@ package eu.strasbourg.service.official.exportimport;
 import java.util.List;
 import java.util.Map;
 
+import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.xml.Element;
 
 import eu.strasbourg.service.official.model.Official;
-import eu.strasbourg.service.official.service.OfficialLocalService;
 import eu.strasbourg.utils.FileEntryHelper;
 
 @Component(immediate = true, service = StagedModelDataHandler.class)
@@ -30,9 +29,6 @@ public class OfficialStagedModelDataHandler
 	extends BaseStagedModelDataHandler<Official> {
 
 	public static final String[] CLASS_NAMES = { Official.class.getName() };
-	
-	@Reference
-	private OfficialLocalService officialLocalService;
 
 	@Override
 	public void deleteStagedModel(String uuid, long groupId, String className,
@@ -45,13 +41,13 @@ public class OfficialStagedModelDataHandler
 
 	@Override
 	public void deleteStagedModel(Official stagedModel) throws PortalException {
-		officialLocalService.removeOfficial(stagedModel.getOfficialId());
+		OfficialLocalServiceUtil.removeOfficial(stagedModel.getOfficialId());
 	}
 
 	@Override
 	public List<Official> fetchStagedModelsByUuidAndCompanyId(String uuid,
 		long companyId) {
-		return officialLocalService.getOfficialsByUuidAndCompanyId(uuid,
+		return OfficialLocalServiceUtil.getOfficialsByUuidAndCompanyId(uuid,
 			companyId);
 	}
 
@@ -97,18 +93,18 @@ public class OfficialStagedModelDataHandler
 		sc.setUserId(userId);
 		Official importedOfficial = null;
 		if (portletDataContext.isDataStrategyMirror()) {
-			Official existingOfficial = officialLocalService
+			Official existingOfficial = OfficialLocalServiceUtil
 				.fetchOfficialByUuidAndGroupId(stagedModel.getUuid(),
 					portletDataContext.getScopeGroupId());
 
 			if (existingOfficial == null) {
-				importedOfficial = officialLocalService.createOfficial(sc);
+				importedOfficial = OfficialLocalServiceUtil.createOfficial(sc);
 			} else {
 				importedOfficial = existingOfficial;
 			}
 
 		} else {
-			importedOfficial = officialLocalService.createOfficial(sc);
+			importedOfficial = OfficialLocalServiceUtil.createOfficial(sc);
 		}
 
 		importedOfficial.setUuid(stagedModel.getUuid());
@@ -135,7 +131,7 @@ public class OfficialStagedModelDataHandler
 			.getLiveFileEntryId(stagedModel.getImageId(), newIdsMap));
 
 		// On update l'élu
-		officialLocalService.updateOfficial(importedOfficial, sc);
+		OfficialLocalServiceUtil.updateOfficial(importedOfficial, sc);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
