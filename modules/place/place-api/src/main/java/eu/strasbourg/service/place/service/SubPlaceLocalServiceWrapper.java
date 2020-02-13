@@ -26,16 +26,89 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
-	ServiceWrapper<SubPlaceLocalService> {
+public class SubPlaceLocalServiceWrapper
+	implements SubPlaceLocalService, ServiceWrapper<SubPlaceLocalService> {
+
 	public SubPlaceLocalServiceWrapper(
 		SubPlaceLocalService subPlaceLocalService) {
+
 		_subPlaceLocalService = subPlaceLocalService;
 	}
 
+	/**
+	 * Adds the sub place to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param subPlace the sub place
+	 * @return the sub place that was added
+	 */
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return _subPlaceLocalService.getActionableDynamicQuery();
+	public eu.strasbourg.service.place.model.SubPlace addSubPlace(
+		eu.strasbourg.service.place.model.SubPlace subPlace) {
+
+		return _subPlaceLocalService.addSubPlace(subPlace);
+	}
+
+	/**
+	 * Creates a new sub place with the primary key. Does not add the sub place to the database.
+	 *
+	 * @param subPlaceId the primary key for the new sub place
+	 * @return the new sub place
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace createSubPlace(
+		long subPlaceId) {
+
+		return _subPlaceLocalService.createSubPlace(subPlaceId);
+	}
+
+	/**
+	 * Crée un sous-lieu vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace createSubPlace(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.createSubPlace(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
+			com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.deletePersistedModel(persistedModel);
+	}
+
+	/**
+	 * Deletes the sub place with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param subPlaceId the primary key of the sub place
+	 * @return the sub place that was removed
+	 * @throws PortalException if a sub place with the primary key could not be found
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace deleteSubPlace(
+			long subPlaceId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.deleteSubPlace(subPlaceId);
+	}
+
+	/**
+	 * Deletes the sub place from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param subPlace the sub place
+	 * @return the sub place that was removed
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace deleteSubPlace(
+		eu.strasbourg.service.place.model.SubPlace subPlace) {
+
+		return _subPlaceLocalService.deleteSubPlace(subPlace);
 	}
 
 	@Override
@@ -43,304 +116,261 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 		return _subPlaceLocalService.dynamicQuery();
 	}
 
+	/**
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return _subPlaceLocalService.getIndexableActionableDynamicQuery();
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _subPlaceLocalService.dynamicQuery(dynamicQuery);
 	}
 
 	/**
-	* @throws PortalException
-	*/
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.SubPlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @return the range of matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
-		com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.deletePersistedModel(persistedModel);
-	}
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
-	@Override
-	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.getPersistedModel(primaryKeyObj);
-	}
-
-	/**
-	* Adds the sub place to the database. Also notifies the appropriate model listeners.
-	*
-	* @param subPlace the sub place
-	* @return the sub place that was added
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace addSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace) {
-		return _subPlaceLocalService.addSubPlace(subPlace);
+		return _subPlaceLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
 	/**
-	* Crée un sous-lieu vide avec une PK, non ajouté à la base de donnée
-	*/
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.SubPlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching rows
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.SubPlace createSubPlace(
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.createSubPlace(sc);
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+
+		return _subPlaceLocalService.dynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
-	* Creates a new sub place with the primary key. Does not add the sub place to the database.
-	*
-	* @param subPlaceId the primary key for the new sub place
-	* @return the new sub place
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.SubPlace createSubPlace(
-		long subPlaceId) {
-		return _subPlaceLocalService.createSubPlace(subPlaceId);
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _subPlaceLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
-	* Deletes the sub place from the database. Also notifies the appropriate model listeners.
-	*
-	* @param subPlace the sub place
-	* @return the sub place that was removed
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param projection the projection to apply to the query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.SubPlace deleteSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace) {
-		return _subPlaceLocalService.deleteSubPlace(subPlace);
-	}
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
-	/**
-	* Deletes the sub place with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param subPlaceId the primary key of the sub place
-	* @return the sub place that was removed
-	* @throws PortalException if a sub place with the primary key could not be found
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace deleteSubPlace(
-		long subPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.deleteSubPlace(subPlaceId);
+		return _subPlaceLocalService.dynamicQueryCount(
+			dynamicQuery, projection);
 	}
 
 	@Override
 	public eu.strasbourg.service.place.model.SubPlace fetchSubPlace(
 		long subPlaceId) {
+
 		return _subPlaceLocalService.fetchSubPlace(subPlaceId);
 	}
 
 	/**
-	* Returns the sub place with the primary key.
-	*
-	* @param subPlaceId the primary key of the sub place
-	* @return the sub place
-	* @throws PortalException if a sub place with the primary key could not be found
-	*/
+	 * Lance une recherche par mots-clés
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
+		findByKeyword(String keyword, int start, int end) {
+
+		return _subPlaceLocalService.findByKeyword(keyword, start, end);
+	}
+
+	/**
+	 * Compte de la recherche par mots-clés
+	 */
+	@Override
+	public long findByKeywordCount(String keyword) {
+		return _subPlaceLocalService.findByKeywordCount(keyword);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
+		getActionableDynamicQuery() {
+
+		return _subPlaceLocalService.getActionableDynamicQuery();
+	}
+
+	/**
+	 * Retourne les SubPlace rattachés à un lieu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
+		getByPlaceId(long placeId) {
+
+		return _subPlaceLocalService.getByPlaceId(placeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
+
+		return _subPlaceLocalService.getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _subPlaceLocalService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	/**
+	 * Returns the sub place with the primary key.
+	 *
+	 * @param subPlaceId the primary key of the sub place
+	 * @return the sub place
+	 * @throws PortalException if a sub place with the primary key could not be found
+	 */
 	@Override
 	public eu.strasbourg.service.place.model.SubPlace getSubPlace(
-		long subPlaceId)
+			long subPlaceId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _subPlaceLocalService.getSubPlace(subPlaceId);
 	}
 
 	/**
-	* Supprime un sous-lieu
-	*/
+	 * Returns a range of all the sub places.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.SubPlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of sub places
+	 * @param end the upper bound of the range of sub places (not inclusive)
+	 * @return the range of sub places
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.SubPlace removeSubPlace(
-		long subPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.removeSubPlace(subPlaceId);
+	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
+		getSubPlaces(int start, int end) {
+
+		return _subPlaceLocalService.getSubPlaces(start, end);
 	}
 
 	/**
-	* Met à jour le statut du sous-lieu par le framework workflow
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace updateStatus(
-		long userId, long entryId, int status,
-		com.liferay.portal.kernel.service.ServiceContext sc,
-		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.updateStatus(userId, entryId, status, sc,
-			workflowContext);
-	}
-
-	/**
-	* Updates the sub place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param subPlace the sub place
-	* @return the sub place that was updated
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace updateSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace) {
-		return _subPlaceLocalService.updateSubPlace(subPlace);
-	}
-
-	/**
-	* Met à jour un sous-lieu et l'enregistre en base de données
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace updateSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace,
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _subPlaceLocalService.updateSubPlace(subPlace, sc);
-	}
-
-	/**
-	* Returns the number of sub places.
-	*
-	* @return the number of sub places
-	*/
+	 * Returns the number of sub places.
+	 *
+	 * @return the number of sub places
+	 */
 	@Override
 	public int getSubPlacesCount() {
 		return _subPlaceLocalService.getSubPlacesCount();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Supprime un sous-lieu
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _subPlaceLocalService.getOSGiServiceIdentifier();
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns the matching rows.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _subPlaceLocalService.dynamicQuery(dynamicQuery);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns a range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.SubPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @return the range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
-		return _subPlaceLocalService.dynamicQuery(dynamicQuery, start, end);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.SubPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
-		return _subPlaceLocalService.dynamicQuery(dynamicQuery, start, end,
-			orderByComparator);
-	}
-
-	/**
-	* Lance une recherche par mots-clés
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace> findByKeyword(
-		java.lang.String keyword, int start, int end) {
-		return _subPlaceLocalService.findByKeyword(keyword, start, end);
-	}
-
-	/**
-	* Retourne les SubPlace rattachés à un lieu
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getByPlaceId(
-		long placeId) {
-		return _subPlaceLocalService.getByPlaceId(placeId);
-	}
-
-	/**
-	* Returns a range of all the sub places.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.SubPlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of sub places
-	* @param end the upper bound of the range of sub places (not inclusive)
-	* @return the range of sub places
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace> getSubPlaces(
-		int start, int end) {
-		return _subPlaceLocalService.getSubPlaces(start, end);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _subPlaceLocalService.dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection) {
-		return _subPlaceLocalService.dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	/**
-	* Compte de la recherche par mots-clés
-	*/
-	@Override
-	public long findByKeywordCount(java.lang.String keyword) {
-		return _subPlaceLocalService.findByKeywordCount(keyword);
-	}
-
-	/**
-	* Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
-	*/
-	@Override
-	public void updateStatus(long userId,
-		eu.strasbourg.service.place.model.SubPlace subPlace, int status)
+	public eu.strasbourg.service.place.model.SubPlace removeSubPlace(
+			long subPlaceId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.removeSubPlace(subPlaceId);
+	}
+
+	/**
+	 * Met à jour le statut du sous-lieu par le framework workflow
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			java.util.Map<String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.updateStatus(
+			userId, entryId, status, sc, workflowContext);
+	}
+
+	/**
+	 * Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(
+			long userId, eu.strasbourg.service.place.model.SubPlace subPlace,
+			int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		_subPlaceLocalService.updateStatus(userId, subPlace, status);
+	}
+
+	/**
+	 * Updates the sub place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * @param subPlace the sub place
+	 * @return the sub place that was updated
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace updateSubPlace(
+		eu.strasbourg.service.place.model.SubPlace subPlace) {
+
+		return _subPlaceLocalService.updateSubPlace(subPlace);
+	}
+
+	/**
+	 * Met à jour un sous-lieu et l'enregistre en base de données
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.SubPlace updateSubPlace(
+			eu.strasbourg.service.place.model.SubPlace subPlace,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _subPlaceLocalService.updateSubPlace(subPlace, sc);
 	}
 
 	@Override
@@ -354,4 +384,5 @@ public class SubPlaceLocalServiceWrapper implements SubPlaceLocalService,
 	}
 
 	private SubPlaceLocalService _subPlaceLocalService;
+
 }

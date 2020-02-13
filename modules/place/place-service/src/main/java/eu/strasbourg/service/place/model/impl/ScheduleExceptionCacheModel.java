@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.ScheduleException;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ScheduleException in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see ScheduleException
  * @generated
  */
 @ProviderType
-public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException>,
-	Externalizable {
+public class ScheduleExceptionCacheModel
+	implements CacheModel<ScheduleException>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 			return false;
 		}
 
-		ScheduleExceptionCacheModel scheduleExceptionCacheModel = (ScheduleExceptionCacheModel)obj;
+		ScheduleExceptionCacheModel scheduleExceptionCacheModel =
+			(ScheduleExceptionCacheModel)obj;
 
 		if (exceptionId == scheduleExceptionCacheModel.exceptionId) {
 			return true;
@@ -103,10 +103,11 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 
 	@Override
 	public ScheduleException toEntityModel() {
-		ScheduleExceptionImpl scheduleExceptionImpl = new ScheduleExceptionImpl();
+		ScheduleExceptionImpl scheduleExceptionImpl =
+			new ScheduleExceptionImpl();
 
 		if (uuid == null) {
-			scheduleExceptionImpl.setUuid(StringPool.BLANK);
+			scheduleExceptionImpl.setUuid("");
 		}
 		else {
 			scheduleExceptionImpl.setUuid(uuid);
@@ -129,49 +130,49 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		}
 
 		if (openingTimes == null) {
-			scheduleExceptionImpl.setOpeningTimes(StringPool.BLANK);
+			scheduleExceptionImpl.setOpeningTimes("");
 		}
 		else {
 			scheduleExceptionImpl.setOpeningTimes(openingTimes);
 		}
 
 		if (firstComment == null) {
-			scheduleExceptionImpl.setFirstComment(StringPool.BLANK);
+			scheduleExceptionImpl.setFirstComment("");
 		}
 		else {
 			scheduleExceptionImpl.setFirstComment(firstComment);
 		}
 
 		if (secondComment == null) {
-			scheduleExceptionImpl.setSecondComment(StringPool.BLANK);
+			scheduleExceptionImpl.setSecondComment("");
 		}
 		else {
 			scheduleExceptionImpl.setSecondComment(secondComment);
 		}
 
 		if (thirdComment == null) {
-			scheduleExceptionImpl.setThirdComment(StringPool.BLANK);
+			scheduleExceptionImpl.setThirdComment("");
 		}
 		else {
 			scheduleExceptionImpl.setThirdComment(thirdComment);
 		}
 
 		if (fourthComment == null) {
-			scheduleExceptionImpl.setFourthComment(StringPool.BLANK);
+			scheduleExceptionImpl.setFourthComment("");
 		}
 		else {
 			scheduleExceptionImpl.setFourthComment(fourthComment);
 		}
 
 		if (fifthComment == null) {
-			scheduleExceptionImpl.setFifthComment(StringPool.BLANK);
+			scheduleExceptionImpl.setFifthComment("");
 		}
 		else {
 			scheduleExceptionImpl.setFifthComment(fifthComment);
 		}
 
 		if (comment == null) {
-			scheduleExceptionImpl.setComment(StringPool.BLANK);
+			scheduleExceptionImpl.setComment("");
 		}
 		else {
 			scheduleExceptionImpl.setComment(comment);
@@ -209,10 +210,9 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -223,49 +223,49 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 		objectOutput.writeLong(endDate);
 
 		if (openingTimes == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(openingTimes);
 		}
 
 		if (firstComment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(firstComment);
 		}
 
 		if (secondComment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(secondComment);
 		}
 
 		if (thirdComment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(thirdComment);
 		}
 
 		if (fourthComment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(fourthComment);
 		}
 
 		if (fifthComment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(fifthComment);
 		}
 
 		if (comment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(comment);
@@ -292,4 +292,5 @@ public class ScheduleExceptionCacheModel implements CacheModel<ScheduleException
 	public boolean closed;
 	public long placeId;
 	public long subPlaceId;
+
 }

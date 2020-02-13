@@ -17,7 +17,6 @@ package eu.strasbourg.service.place.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,8 +37,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class PublicHolidayWrapper implements PublicHoliday,
-	ModelWrapper<PublicHoliday> {
+public class PublicHolidayWrapper
+	implements PublicHoliday, ModelWrapper<PublicHoliday> {
+
 	public PublicHolidayWrapper(PublicHoliday publicHoliday) {
 		_publicHoliday = publicHoliday;
 	}
@@ -62,7 +62,7 @@ public class PublicHolidayWrapper implements PublicHoliday,
 		attributes.put("publicHolidayId", getPublicHolidayId());
 		attributes.put("name", getName());
 		attributes.put("date", getDate());
-		attributes.put("recurrent", getRecurrent());
+		attributes.put("recurrent", isRecurrent());
 
 		return attributes;
 	}
@@ -100,14 +100,167 @@ public class PublicHolidayWrapper implements PublicHoliday,
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new PublicHolidayWrapper((PublicHoliday)_publicHoliday.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.place.model.PublicHoliday publicHoliday) {
+
+		return _publicHoliday.compareTo(publicHoliday);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return _publicHoliday.getAvailableLanguageIds();
+	}
+
 	/**
-	* Returns the recurrent of this public holiday.
-	*
-	* @return the recurrent of this public holiday
-	*/
+	 * Returns the date of this public holiday.
+	 *
+	 * @return the date of this public holiday
+	 */
+	@Override
+	public Date getDate() {
+		return _publicHoliday.getDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return _publicHoliday.getDefaultLanguageId();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _publicHoliday.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the name of this public holiday.
+	 *
+	 * @return the name of this public holiday
+	 */
+	@Override
+	public String getName() {
+		return _publicHoliday.getName();
+	}
+
+	/**
+	 * Returns the localized name of this public holiday in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized name of this public holiday
+	 */
+	@Override
+	public String getName(java.util.Locale locale) {
+		return _publicHoliday.getName(locale);
+	}
+
+	/**
+	 * Returns the localized name of this public holiday in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized name of this public holiday. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getName(java.util.Locale locale, boolean useDefault) {
+		return _publicHoliday.getName(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized name of this public holiday in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized name of this public holiday
+	 */
+	@Override
+	public String getName(String languageId) {
+		return _publicHoliday.getName(languageId);
+	}
+
+	/**
+	 * Returns the localized name of this public holiday in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized name of this public holiday
+	 */
+	@Override
+	public String getName(String languageId, boolean useDefault) {
+		return _publicHoliday.getName(languageId, useDefault);
+	}
+
+	@Override
+	public String getNameCurrentLanguageId() {
+		return _publicHoliday.getNameCurrentLanguageId();
+	}
+
+	@Override
+	public String getNameCurrentValue() {
+		return _publicHoliday.getNameCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized names of this public holiday.
+	 *
+	 * @return the locales and localized names of this public holiday
+	 */
+	@Override
+	public Map<java.util.Locale, String> getNameMap() {
+		return _publicHoliday.getNameMap();
+	}
+
+	/**
+	 * Returns the primary key of this public holiday.
+	 *
+	 * @return the primary key of this public holiday
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _publicHoliday.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _publicHoliday.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the public holiday ID of this public holiday.
+	 *
+	 * @return the public holiday ID of this public holiday
+	 */
+	@Override
+	public long getPublicHolidayId() {
+		return _publicHoliday.getPublicHolidayId();
+	}
+
+	/**
+	 * Returns the recurrent of this public holiday.
+	 *
+	 * @return the recurrent of this public holiday
+	 */
 	@Override
 	public boolean getRecurrent() {
 		return _publicHoliday.getRecurrent();
+	}
+
+	/**
+	 * Returns the uuid of this public holiday.
+	 *
+	 * @return the uuid of this public holiday
+	 */
+	@Override
+	public String getUuid() {
+		return _publicHoliday.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _publicHoliday.hashCode();
 	}
 
 	@Override
@@ -126,191 +279,13 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	}
 
 	/**
-	* Returns <code>true</code> if this public holiday is recurrent.
-	*
-	* @return <code>true</code> if this public holiday is recurrent; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this public holiday is recurrent.
+	 *
+	 * @return <code>true</code> if this public holiday is recurrent; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isRecurrent() {
 		return _publicHoliday.isRecurrent();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _publicHoliday.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.place.model.PublicHoliday> toCacheModel() {
-		return _publicHoliday.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.PublicHoliday toEscapedModel() {
-		return new PublicHolidayWrapper(_publicHoliday.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.PublicHoliday toUnescapedModel() {
-		return new PublicHolidayWrapper(_publicHoliday.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.place.model.PublicHoliday publicHoliday) {
-		return _publicHoliday.compareTo(publicHoliday);
-	}
-
-	@Override
-	public int hashCode() {
-		return _publicHoliday.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _publicHoliday.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new PublicHolidayWrapper((PublicHoliday)_publicHoliday.clone());
-	}
-
-	@Override
-	public java.lang.String getDefaultLanguageId() {
-		return _publicHoliday.getDefaultLanguageId();
-	}
-
-	/**
-	* Returns the name of this public holiday.
-	*
-	* @return the name of this public holiday
-	*/
-	@Override
-	public java.lang.String getName() {
-		return _publicHoliday.getName();
-	}
-
-	/**
-	* Returns the localized name of this public holiday in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized name of this public holiday
-	*/
-	@Override
-	public java.lang.String getName(java.lang.String languageId) {
-		return _publicHoliday.getName(languageId);
-	}
-
-	/**
-	* Returns the localized name of this public holiday in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized name of this public holiday
-	*/
-	@Override
-	public java.lang.String getName(java.lang.String languageId,
-		boolean useDefault) {
-		return _publicHoliday.getName(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized name of this public holiday in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized name of this public holiday
-	*/
-	@Override
-	public java.lang.String getName(java.util.Locale locale) {
-		return _publicHoliday.getName(locale);
-	}
-
-	/**
-	* Returns the localized name of this public holiday in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized name of this public holiday. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getName(java.util.Locale locale, boolean useDefault) {
-		return _publicHoliday.getName(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getNameCurrentLanguageId() {
-		return _publicHoliday.getNameCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getNameCurrentValue() {
-		return _publicHoliday.getNameCurrentValue();
-	}
-
-	/**
-	* Returns the uuid of this public holiday.
-	*
-	* @return the uuid of this public holiday
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _publicHoliday.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _publicHoliday.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _publicHoliday.toXmlString();
-	}
-
-	@Override
-	public java.lang.String[] getAvailableLanguageIds() {
-		return _publicHoliday.getAvailableLanguageIds();
-	}
-
-	/**
-	* Returns the date of this public holiday.
-	*
-	* @return the date of this public holiday
-	*/
-	@Override
-	public Date getDate() {
-		return _publicHoliday.getDate();
-	}
-
-	/**
-	* Returns a map of the locales and localized names of this public holiday.
-	*
-	* @return the locales and localized names of this public holiday
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getNameMap() {
-		return _publicHoliday.getNameMap();
-	}
-
-	/**
-	* Returns the primary key of this public holiday.
-	*
-	* @return the primary key of this public holiday
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _publicHoliday.getPrimaryKey();
-	}
-
-	/**
-	* Returns the public holiday ID of this public holiday.
-	*
-	* @return the public holiday ID of this public holiday
-	*/
-	@Override
-	public long getPublicHolidayId() {
-		return _publicHoliday.getPublicHolidayId();
 	}
 
 	@Override
@@ -321,13 +296,15 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_publicHoliday.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport(
-		java.util.Locale defaultImportLocale)
+			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_publicHoliday.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
@@ -337,13 +314,20 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	}
 
 	/**
-	* Sets the date of this public holiday.
-	*
-	* @param date the date of this public holiday
-	*/
+	 * Sets the date of this public holiday.
+	 *
+	 * @param date the date of this public holiday
+	 */
 	@Override
 	public void setDate(Date date) {
 		_publicHoliday.setDate(date);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_publicHoliday.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -352,74 +336,70 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_publicHoliday.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_publicHoliday.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the name of this public holiday.
-	*
-	* @param name the name of this public holiday
-	*/
+	 * Sets the name of this public holiday.
+	 *
+	 * @param name the name of this public holiday
+	 */
 	@Override
-	public void setName(java.lang.String name) {
+	public void setName(String name) {
 		_publicHoliday.setName(name);
 	}
 
 	/**
-	* Sets the localized name of this public holiday in the language.
-	*
-	* @param name the localized name of this public holiday
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized name of this public holiday in the language.
+	 *
+	 * @param name the localized name of this public holiday
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setName(java.lang.String name, java.util.Locale locale) {
+	public void setName(String name, java.util.Locale locale) {
 		_publicHoliday.setName(name, locale);
 	}
 
 	/**
-	* Sets the localized name of this public holiday in the language, and sets the default locale.
-	*
-	* @param name the localized name of this public holiday
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized name of this public holiday in the language, and sets the default locale.
+	 *
+	 * @param name the localized name of this public holiday
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setName(java.lang.String name, java.util.Locale locale,
-		java.util.Locale defaultLocale) {
+	public void setName(
+		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
+
 		_publicHoliday.setName(name, locale, defaultLocale);
 	}
 
 	@Override
-	public void setNameCurrentLanguageId(java.lang.String languageId) {
+	public void setNameCurrentLanguageId(String languageId) {
 		_publicHoliday.setNameCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized names of this public holiday from the map of locales and localized names.
-	*
-	* @param nameMap the locales and localized names of this public holiday
-	*/
+	 * Sets the localized names of this public holiday from the map of locales and localized names.
+	 *
+	 * @param nameMap the locales and localized names of this public holiday
+	 */
 	@Override
-	public void setNameMap(Map<java.util.Locale, java.lang.String> nameMap) {
+	public void setNameMap(Map<java.util.Locale, String> nameMap) {
 		_publicHoliday.setNameMap(nameMap);
 	}
 
 	/**
-	* Sets the localized names of this public holiday from the map of locales and localized names, and sets the default locale.
-	*
-	* @param nameMap the locales and localized names of this public holiday
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized names of this public holiday from the map of locales and localized names, and sets the default locale.
+	 *
+	 * @param nameMap the locales and localized names of this public holiday
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setNameMap(Map<java.util.Locale, java.lang.String> nameMap,
-		java.util.Locale defaultLocale) {
+	public void setNameMap(
+		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
+
 		_publicHoliday.setNameMap(nameMap, defaultLocale);
 	}
 
@@ -429,10 +409,10 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	}
 
 	/**
-	* Sets the primary key of this public holiday.
-	*
-	* @param primaryKey the primary key of this public holiday
-	*/
+	 * Sets the primary key of this public holiday.
+	 *
+	 * @param primaryKey the primary key of this public holiday
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_publicHoliday.setPrimaryKey(primaryKey);
@@ -444,33 +424,60 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	}
 
 	/**
-	* Sets the public holiday ID of this public holiday.
-	*
-	* @param publicHolidayId the public holiday ID of this public holiday
-	*/
+	 * Sets the public holiday ID of this public holiday.
+	 *
+	 * @param publicHolidayId the public holiday ID of this public holiday
+	 */
 	@Override
 	public void setPublicHolidayId(long publicHolidayId) {
 		_publicHoliday.setPublicHolidayId(publicHolidayId);
 	}
 
 	/**
-	* Sets whether this public holiday is recurrent.
-	*
-	* @param recurrent the recurrent of this public holiday
-	*/
+	 * Sets whether this public holiday is recurrent.
+	 *
+	 * @param recurrent the recurrent of this public holiday
+	 */
 	@Override
 	public void setRecurrent(boolean recurrent) {
 		_publicHoliday.setRecurrent(recurrent);
 	}
 
 	/**
-	* Sets the uuid of this public holiday.
-	*
-	* @param uuid the uuid of this public holiday
-	*/
+	 * Sets the uuid of this public holiday.
+	 *
+	 * @param uuid the uuid of this public holiday
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_publicHoliday.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.place.model.PublicHoliday> toCacheModel() {
+
+		return _publicHoliday.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.place.model.PublicHoliday toEscapedModel() {
+		return new PublicHolidayWrapper(_publicHoliday.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _publicHoliday.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.place.model.PublicHoliday toUnescapedModel() {
+		return new PublicHolidayWrapper(_publicHoliday.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _publicHoliday.toXmlString();
 	}
 
 	@Override
@@ -485,7 +492,9 @@ public class PublicHolidayWrapper implements PublicHoliday,
 
 		PublicHolidayWrapper publicHolidayWrapper = (PublicHolidayWrapper)obj;
 
-		if (Objects.equals(_publicHoliday, publicHolidayWrapper._publicHoliday)) {
+		if (Objects.equals(
+				_publicHoliday, publicHolidayWrapper._publicHoliday)) {
+
 			return true;
 		}
 
@@ -513,4 +522,5 @@ public class PublicHolidayWrapper implements PublicHoliday,
 	}
 
 	private final PublicHoliday _publicHoliday;
+
 }

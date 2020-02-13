@@ -33,10 +33,11 @@ import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
  */
 @ProviderType
 public abstract class PlaceBaseImpl extends PlaceModelImpl implements Place {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a place model instance should use the {@link Place} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a place model instance should use the <code>Place</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class PlaceBaseImpl extends PlaceModelImpl implements Place {
 			PlaceLocalServiceUtil.updatePlace(this);
 		}
 	}
+
 }

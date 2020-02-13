@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class PriceSoap implements Serializable {
+
 	public static PriceSoap toSoapModel(Price model) {
 		PriceSoap soapModel = new PriceSoap();
 
@@ -40,7 +41,7 @@ public class PriceSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setPrice(model.getPrice());
+		soapModel.setPriceDescription(model.getPriceDescription());
 
 		return soapModel;
 	}
@@ -149,12 +150,12 @@ public class PriceSoap implements Serializable {
 		_title = title;
 	}
 
-	public String getPrice() {
-		return _price;
+	public String getPriceDescription() {
+		return _priceDescription;
 	}
 
-	public void setPrice(String price) {
-		_price = price;
+	public void setPriceDescription(String priceDescription) {
+		_priceDescription = priceDescription;
 	}
 
 	private String _uuid;
@@ -164,5 +165,6 @@ public class PriceSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
-	private String _price;
+	private String _priceDescription;
+
 }

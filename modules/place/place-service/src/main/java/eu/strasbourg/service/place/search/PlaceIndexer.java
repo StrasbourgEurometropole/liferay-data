@@ -89,7 +89,7 @@ public class PlaceIndexer extends BaseIndexer<Place> {
 			description += place.getPresentation(locale);
 			description += place.getServiceAndActivities(locale);
 			if (place.getPrice() != null) {
-				description += place.getPrice().getPrice(locale);
+				description += place.getPrice().getPriceDescription(locale);
 			}
 			for (SubPlace subPlace : place.getSubPlaces()) {
 				description += subPlace.getName(locale);

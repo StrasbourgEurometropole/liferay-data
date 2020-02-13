@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angelique Zunino Champougny
  * @see PeriodModel
- * @see eu.strasbourg.service.place.model.impl.PeriodImpl
- * @see eu.strasbourg.service.place.model.impl.PeriodModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.place.model.impl.PeriodImpl")
 @ProviderType
 public interface Period extends PeriodModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.place.model.impl.PeriodImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.PeriodImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Period, Long> PERIOD_ID_ACCESSOR = new Accessor<Period, Long>() {
+	public static final Accessor<Period, Long> PERIOD_ID_ACCESSOR =
+		new Accessor<Period, Long>() {
+
 			@Override
 			public Long get(Period period) {
 				return period.getPeriodId();
@@ -52,39 +53,42 @@ public interface Period extends PeriodModel, PersistedModel {
 			public Class<Period> getTypeClass() {
 				return Period.class;
 			}
+
 		};
 
 	/**
-	* Retourne les Slots de la période pour un lieu
-	*/
+	 * Retourne les Slots de la période pour un lieu
+	 */
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getAllSlots();
 
 	/**
-	* Retourne les Slots de la période pour un lieu
-	*/
+	 * Retourne les Slots de la période pour un lieu
+	 */
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots();
 
 	/**
-	* Retourne les Slots de la période pour un sous-lieu
-	*/
+	 * Retourne les Slots de la période pour un sous-lieu
+	 */
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
 		long subPlaceId);
 
 	/**
-	* Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
-	*/
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule();
+	 * Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
+	 */
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
+		getWeekSchedule();
 
 	/**
-	* Retourne la liste des horaires par jour pour le sous lieu (0 = lundi, 1 = mardi, etc.)
-	*/
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule> getWeekSchedule(
-		long subPlaceId);
+	 * Retourne la liste des horaires par jour pour le sous lieu (0 = lundi, 1 = mardi, etc.)
+	 */
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
+		getWeekSchedule(long subPlaceId);
 
-	public java.lang.String getDisplay(java.util.Locale locale);
+	public String getDisplay(java.util.Locale locale);
 
 	/**
-	* Retourne la version JSON de la période
-	*/
+	 * Retourne la version JSON de la période
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

@@ -37,87 +37,94 @@ import java.util.List;
  *
  * @author Angelique Zunino Champougny
  * @see PlaceServiceUtil
- * @see eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl
- * @see eu.strasbourg.service.place.service.impl.PlaceServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=place", "json.web.service.context.path=Place"}, service = PlaceService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=place",
+		"json.web.service.context.path=Place"
+	},
+	service = PlaceService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface PlaceService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link PlaceServiceUtil} to access the place remote service. Add custom service methods to {@link eu.strasbourg.service.place.service.impl.PlaceServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link PlaceServiceUtil} to access the place remote service. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlaces() throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByNameAndLanguage(java.lang.String name,
-		java.lang.String language) throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByTerritory(java.lang.String territoryId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByTerritoryAndType(java.lang.String territoryId,
-		java.lang.String typeId) throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByType(java.lang.String typeId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByTypes(List<java.lang.String> typesId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getTypes() throws PortalException;
 
 	/**
-	* Retourne l'ancien web service LR6 concernant les Types de lieu
-	*/
+	 * Retourne l'ancien web service LR6 concernant les Types de lieu
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getLegacyCategoriesJSON() throws PortalException;
 
 	/**
-	* Retourne l'horrible ancien web service LR6
-	*/
+	 * Retourne l'horrible ancien web service LR6
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getLegacyJSON();
 
 	/**
-	* Retourne l'ancien web service LR6 concernant les Territoires
-	*/
+	 * Retourne l'ancien web service LR6 concernant les Territoires
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getLegacyTerritoriesJSON() throws PortalException;
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPlaceById(long id) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPlaceByIdSIG(java.lang.String sigId)
+	public JSONObject getPlaceByIdSIG(String sigId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPlaces() throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPlacesByNameAndLanguage(String name, String language)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPlacesByTerritory(String territoryId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPlacesByTerritoryAndType(
+			String territoryId, String typeId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPlacesByType(String typeId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPlacesByTypes(List<String> typesId)
 		throws PortalException;
 
 	/**
-	* Retourne le géoJSON des lieux
-	*/
+	 * Retourne le géoJSON des lieux
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getPlacesGeoJSON() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getRealtime() throws PortalException;
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getTypes() throws PortalException;
+
 }

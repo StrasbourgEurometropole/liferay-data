@@ -91,3 +91,6 @@ ALTER TABLE video_VideoToVideoGallery CHARACTER SET utf8 COLLATE utf8_unicode_ci
 
 #Renommage du champ comment dans la table Comment
 ALTER TABLE comment_Comment CHANGE comment_ text_ VARCHAR(75);
+
+#Renommage du champ price dans la table Price
+ALTER TABLE place_Price CHANGE price priceDescription LONGTEXT;

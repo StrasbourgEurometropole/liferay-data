@@ -32,12 +32,13 @@ import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class PublicHolidayBaseImpl extends PublicHolidayModelImpl
-	implements PublicHoliday {
+public abstract class PublicHolidayBaseImpl
+	extends PublicHolidayModelImpl implements PublicHoliday {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a public holiday model instance should use the {@link PublicHoliday} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a public holiday model instance should use the <code>PublicHoliday</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class PublicHolidayBaseImpl extends PublicHolidayModelImpl
 			PublicHolidayLocalServiceUtil.updatePublicHoliday(this);
 		}
 	}
+
 }

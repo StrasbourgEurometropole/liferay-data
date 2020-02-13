@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angelique Zunino Champougny
  * @see PriceModel
- * @see eu.strasbourg.service.place.model.impl.PriceImpl
- * @see eu.strasbourg.service.place.model.impl.PriceModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.place.model.impl.PriceImpl")
 @ProviderType
-public interface Price extends PriceModel, PersistedModel {
+public interface Price extends PersistedModel, PriceModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.place.model.impl.PriceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.PriceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Price, Long> PRICE_ID_ACCESSOR = new Accessor<Price, Long>() {
+	public static final Accessor<Price, Long> PRICE_ID_ACCESSOR =
+		new Accessor<Price, Long>() {
+
 			@Override
 			public Long get(Price price) {
 				return price.getPriceId();
@@ -52,16 +53,18 @@ public interface Price extends PriceModel, PersistedModel {
 			public Class<Price> getTypeClass() {
 				return Price.class;
 			}
+
 		};
 
 	/**
-	* Retourne les lieux du tarif
-	*/
+	 * Retourne les lieux du tarif
+	 */
 	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces();
 
 	/**
-	* Renvoie la liste des IDs des lieux auxquelles ce tarif
-	* appartient sous forme de String
-	*/
-	public java.lang.String getPlacesIds();
+	 * Renvoie la liste des IDs des lieux auxquelles ce tarif
+	 * appartient sous forme de String
+	 */
+	public String getPlacesIds();
+
 }
