@@ -25,39 +25,45 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see UserNotificationChannelModel
- * @see eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl
- * @see eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl"
+)
 @ProviderType
-public interface UserNotificationChannel extends UserNotificationChannelModel,
-	PersistedModel {
+public interface UserNotificationChannel
+	extends PersistedModel, UserNotificationChannelModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<UserNotificationChannel, String> PUBLIK_USER_ID_ACCESSOR =
-		new Accessor<UserNotificationChannel, String>() {
-			@Override
-			public String get(UserNotificationChannel userNotificationChannel) {
-				return userNotificationChannel.getPublikUserId();
-			}
+	public static final Accessor<UserNotificationChannel, String>
+		PUBLIK_USER_ID_ACCESSOR =
+			new Accessor<UserNotificationChannel, String>() {
 
-			@Override
-			public Class<String> getAttributeClass() {
-				return String.class;
-			}
+				@Override
+				public String get(
+					UserNotificationChannel userNotificationChannel) {
 
-			@Override
-			public Class<UserNotificationChannel> getTypeClass() {
-				return UserNotificationChannel.class;
-			}
-		};
+					return userNotificationChannel.getPublikUserId();
+				}
 
-	public static final Accessor<UserNotificationChannel, Long> CHANNEL_ID_ACCESSOR =
-		new Accessor<UserNotificationChannel, Long>() {
+				@Override
+				public Class<String> getAttributeClass() {
+					return String.class;
+				}
+
+				@Override
+				public Class<UserNotificationChannel> getTypeClass() {
+					return UserNotificationChannel.class;
+				}
+
+			};
+	public static final Accessor<UserNotificationChannel, Long>
+		CHANNEL_ID_ACCESSOR = new Accessor<UserNotificationChannel, Long>() {
+
 			@Override
 			public Long get(UserNotificationChannel userNotificationChannel) {
 				return userNotificationChannel.getChannelId();
@@ -72,5 +78,7 @@ public interface UserNotificationChannel extends UserNotificationChannelModel,
 			public Class<UserNotificationChannel> getTypeClass() {
 				return UserNotificationChannel.class;
 			}
+
 		};
+
 }

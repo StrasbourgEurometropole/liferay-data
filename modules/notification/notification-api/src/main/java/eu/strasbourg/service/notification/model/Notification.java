@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see NotificationModel
- * @see eu.strasbourg.service.notification.model.impl.NotificationImpl
- * @see eu.strasbourg.service.notification.model.impl.NotificationModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.notification.model.impl.NotificationImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.notification.model.impl.NotificationImpl"
+)
 @ProviderType
 public interface Notification extends NotificationModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.notification.model.impl.NotificationImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.notification.model.impl.NotificationImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Notification, Long> NOTIFICATION_ID_ACCESSOR = new Accessor<Notification, Long>() {
+	public static final Accessor<Notification, Long> NOTIFICATION_ID_ACCESSOR =
+		new Accessor<Notification, Long>() {
+
 			@Override
 			public Long get(Notification notification) {
 				return notification.getNotificationId();
@@ -52,15 +55,18 @@ public interface Notification extends NotificationModel, PersistedModel {
 			public Class<Notification> getTypeClass() {
 				return Notification.class;
 			}
+
 		};
 
 	/**
-	* Retourne le type de la notification
-	*/
+	 * Retourne le type de la notification
+	 */
 	public com.liferay.asset.kernel.model.AssetCategory getType();
 
 	/**
-	* Retourne la liste des utilisateurs concernés par la notification
-	*/
-	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser> getUsersToNotify();
+	 * Retourne la liste des utilisateurs concernés par la notification
+	 */
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
+		getUsersToNotify();
+
 }

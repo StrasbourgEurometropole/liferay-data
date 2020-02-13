@@ -1,19 +1,12 @@
 package eu.strasbourg.service.notification.scheduler;
 
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
-import org.osgi.service.component.annotations.Reference;
-
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
-
+import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
+import com.liferay.portal.kernel.scheduler.*;
 import eu.strasbourg.service.notification.service.NotificationLocalService;
+import org.osgi.service.component.annotations.*;
 
 /**
  * Publie toutes les notifications non publiées dont la date de publication a
@@ -21,37 +14,56 @@ import eu.strasbourg.service.notification.service.NotificationLocalService;
  * supprime les plus anciennes
  */
 @Component(immediate = true, service = CheckNotificationMessageListener.class)
-public class CheckNotificationMessageListener extends BaseSchedulerEntryMessageListener {
-
-	@Reference(unbind = "-")
-	private volatile SchedulerEngineHelper schedulerEngineHelper;
-
-	private NotificationLocalService notificationLocalService;
+public class CheckNotificationMessageListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(getEventListenerClass(), getEventListenerClass(),
-				5, TimeUnit.MINUTE));
+		String listenerClass = getClass().getName();
 
-		schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
+		// Création du trigger "Toutes les 5 minutes"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, null, null,
+				5, TimeUnit.MINUTE);
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
 	protected void deactivate() {
-		schedulerEngineHelper.unregister(this);
+		_schedulerEngineHelper.unregister(this);
 	}
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
-		notificationLocalService.publishRelevantNotifications();
-		notificationLocalService.unpublishPastNotifications();
-		notificationLocalService.deleteOldUnpublishedNotifications();
+		_notificationLocalService.publishRelevantNotifications();
+		_notificationLocalService.unpublishPastNotifications();
+		_notificationLocalService.deleteOldUnpublishedNotifications();
 	}
 
 	@Reference(unbind = "-")
 	protected void setNotificationLocalService(NotificationLocalService notificationLocalService) {
-		this.notificationLocalService = notificationLocalService;
+		_notificationLocalService = notificationLocalService;
 	}
+
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
+
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	private NotificationLocalService _notificationLocalService;
+	private TriggerFactory _triggerFactory;
 
 }
