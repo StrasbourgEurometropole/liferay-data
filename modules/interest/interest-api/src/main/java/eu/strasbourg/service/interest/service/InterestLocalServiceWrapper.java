@@ -16,7 +16,6 @@ package eu.strasbourg.service.interest.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -96,7 +95,7 @@ public class InterestLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.interest.model.Interest deleteInterest(
 			long interestId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.deleteInterest(interestId);
 	}
@@ -107,7 +106,7 @@ public class InterestLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
 			com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.deletePersistedModel(persistedModel);
 	}
@@ -307,7 +306,7 @@ public class InterestLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.interest.model.Interest getInterest(
 			long interestId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.getInterest(interestId);
 	}
@@ -323,7 +322,7 @@ public class InterestLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.interest.model.Interest
 			getInterestByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.getInterestByUuidAndGroupId(uuid, groupId);
 	}
@@ -406,7 +405,7 @@ public class InterestLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
 			java.io.Serializable primaryKeyObj)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.getPersistedModel(primaryKeyObj);
 	}
@@ -461,7 +460,7 @@ public class InterestLocalServiceWrapper
 	public eu.strasbourg.service.interest.model.Interest updateInterest(
 			eu.strasbourg.service.interest.model.Interest interest,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.updateInterest(interest, sc);
 	}
@@ -472,7 +471,7 @@ public class InterestLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.interest.model.Interest updateStatus(
 			long userId, long entryId, int status)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _interestLocalService.updateStatus(userId, entryId, status);
 	}

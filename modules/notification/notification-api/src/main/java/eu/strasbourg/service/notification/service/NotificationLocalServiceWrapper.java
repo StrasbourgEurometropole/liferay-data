@@ -16,7 +16,6 @@ package eu.strasbourg.service.notification.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**

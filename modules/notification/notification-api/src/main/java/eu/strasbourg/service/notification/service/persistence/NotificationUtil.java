@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.notification.exception.NoSuchNotificationException;
 import eu.strasbourg.service.notification.model.Notification;
 
 import java.io.Serializable;
@@ -222,7 +221,8 @@ public class NotificationUtil {
 	public static Notification findByPublicationDateAndStatus_First(
 			Date publicationDate, int status,
 			OrderByComparator<Notification> orderByComparator)
-		throws NoSuchNotificationException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchNotificationException {
 
 		return getPersistence().findByPublicationDateAndStatus_First(
 			publicationDate, status, orderByComparator);
@@ -256,7 +256,8 @@ public class NotificationUtil {
 	public static Notification findByPublicationDateAndStatus_Last(
 			Date publicationDate, int status,
 			OrderByComparator<Notification> orderByComparator)
-		throws NoSuchNotificationException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchNotificationException {
 
 		return getPersistence().findByPublicationDateAndStatus_Last(
 			publicationDate, status, orderByComparator);
@@ -291,7 +292,8 @@ public class NotificationUtil {
 	public static Notification[] findByPublicationDateAndStatus_PrevAndNext(
 			long notificationId, Date publicationDate, int status,
 			OrderByComparator<Notification> orderByComparator)
-		throws NoSuchNotificationException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchNotificationException {
 
 		return getPersistence().findByPublicationDateAndStatus_PrevAndNext(
 			notificationId, publicationDate, status, orderByComparator);
@@ -417,7 +419,8 @@ public class NotificationUtil {
 	public static Notification findByExpirationDateAndStatus_First(
 			Date expirationDate, int status,
 			OrderByComparator<Notification> orderByComparator)
-		throws NoSuchNotificationException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchNotificationException {
 
 		return getPersistence().findByExpirationDateAndStatus_First(
 			expirationDate, status, orderByComparator);

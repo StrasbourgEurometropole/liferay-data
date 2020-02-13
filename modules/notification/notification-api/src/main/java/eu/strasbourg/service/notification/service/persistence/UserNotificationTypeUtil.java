@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.notification.exception.NoSuchUserNotificationTypeException;
 import eu.strasbourg.service.notification.model.UserNotificationType;
 
 import java.io.Serializable;

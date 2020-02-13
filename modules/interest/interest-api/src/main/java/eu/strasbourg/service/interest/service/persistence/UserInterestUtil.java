@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.interest.exception.NoSuchUserInterestException;
 import eu.strasbourg.service.interest.model.UserInterest;
 
 import java.io.Serializable;
@@ -210,7 +209,8 @@ public class UserInterestUtil {
 	 */
 	public static UserInterest findByInterestId_First(
 			long interestId, OrderByComparator<UserInterest> orderByComparator)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByInterestId_First(
 			interestId, orderByComparator);
@@ -240,7 +240,8 @@ public class UserInterestUtil {
 	 */
 	public static UserInterest findByInterestId_Last(
 			long interestId, OrderByComparator<UserInterest> orderByComparator)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByInterestId_Last(
 			interestId, orderByComparator);
@@ -273,7 +274,8 @@ public class UserInterestUtil {
 			eu.strasbourg.service.interest.service.persistence.UserInterestPK
 				userInterestPK,
 			long interestId, OrderByComparator<UserInterest> orderByComparator)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByInterestId_PrevAndNext(
 			userInterestPK, interestId, orderByComparator);
@@ -381,7 +383,8 @@ public class UserInterestUtil {
 	public static UserInterest findByPublikUserId_First(
 			String publikUserId,
 			OrderByComparator<UserInterest> orderByComparator)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByPublikUserId_First(
 			publikUserId, orderByComparator);
@@ -413,7 +416,8 @@ public class UserInterestUtil {
 	public static UserInterest findByPublikUserId_Last(
 			String publikUserId,
 			OrderByComparator<UserInterest> orderByComparator)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByPublikUserId_Last(
 			publikUserId, orderByComparator);
@@ -448,7 +452,8 @@ public class UserInterestUtil {
 				userInterestPK,
 			String publikUserId,
 			OrderByComparator<UserInterest> orderByComparator)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByPublikUserId_PrevAndNext(
 			userInterestPK, publikUserId, orderByComparator);
@@ -514,7 +519,8 @@ public class UserInterestUtil {
 	public static UserInterest remove(
 			eu.strasbourg.service.interest.service.persistence.UserInterestPK
 				userInterestPK)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().remove(userInterestPK);
 	}
@@ -533,7 +539,8 @@ public class UserInterestUtil {
 	public static UserInterest findByPrimaryKey(
 			eu.strasbourg.service.interest.service.persistence.UserInterestPK
 				userInterestPK)
-		throws NoSuchUserInterestException {
+		throws eu.strasbourg.service.interest.exception.
+			NoSuchUserInterestException {
 
 		return getPersistence().findByPrimaryKey(userInterestPK);
 	}

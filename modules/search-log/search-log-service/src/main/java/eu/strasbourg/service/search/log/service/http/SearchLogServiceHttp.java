@@ -18,10 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 /**
  * Provides the HTTP utility for the
- * {@link eu.strasbourg.service.search.log.service.SearchLogServiceUtil} service utility. The
+ * <code>eu.strasbourg.service.search.log.service.SearchLogServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link com.liferay.portal.kernel.security.auth.HttpPrincipal} parameter.
+ * <code>com.liferay.portal.kernel.security.auth.HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -40,8 +41,6 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author BenjaminBini
  * @see SearchLogServiceSoap
- * @see com.liferay.portal.kernel.security.auth.HttpPrincipal
- * @see eu.strasbourg.service.search.log.service.SearchLogServiceUtil
  * @generated
  */
 @ProviderType
