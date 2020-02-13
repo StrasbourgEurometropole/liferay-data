@@ -17,11 +17,7 @@
     <div class="container mns-navbar-wrapper">
         <div class="sully-navbar-header">
             <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <#if request.session.getAttribute("publik_logged_in")!false>
               <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
