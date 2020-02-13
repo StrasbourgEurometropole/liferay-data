@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="container mns-navbar-wrapper">
-        <div class="navbar-header">
+        <div class="sully-navbar-header">
             <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
