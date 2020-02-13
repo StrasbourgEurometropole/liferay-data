@@ -26,10 +26,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.search.log.exception.NoSuchSearchLogException;
@@ -58,43 +56,42 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see SearchLogPersistence
- * @see eu.strasbourg.service.search.log.service.persistence.SearchLogUtil
  * @generated
  */
 @ProviderType
-public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
-	implements SearchLogPersistence {
+public class SearchLogPersistenceImpl
+	extends BasePersistenceImpl<SearchLog> implements SearchLogPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link SearchLogUtil} to access the search log persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>SearchLogUtil</code> to access the search log persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = SearchLogImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogModelImpl.FINDER_CACHE_ENABLED, SearchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogModelImpl.FINDER_CACHE_ENABLED, SearchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		SearchLogImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
 
 	public SearchLogPersistenceImpl() {
 		setModelClass(SearchLog.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("date", "date_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("date", "date_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -112,8 +109,9 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 */
 	@Override
 	public void cacheResult(SearchLog searchLog) {
-		entityCache.putResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogImpl.class, searchLog.getPrimaryKey(), searchLog);
+		entityCache.putResult(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
+			searchLog.getPrimaryKey(), searchLog);
 
 		searchLog.resetOriginalValues();
 	}
@@ -126,8 +124,10 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	@Override
 	public void cacheResult(List<SearchLog> searchLogs) {
 		for (SearchLog searchLog : searchLogs) {
-			if (entityCache.getResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-						SearchLogImpl.class, searchLog.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+					SearchLogImpl.class, searchLog.getPrimaryKey()) == null) {
+
 				cacheResult(searchLog);
 			}
 			else {
@@ -140,7 +140,7 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * Clears the cache for all search logs.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -156,13 +156,14 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * Clears the cache for the search log.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(SearchLog searchLog) {
-		entityCache.removeResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogImpl.class, searchLog.getPrimaryKey());
+		entityCache.removeResult(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
+			searchLog.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -174,8 +175,9 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (SearchLog searchLog : searchLogs) {
-			entityCache.removeResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-				SearchLogImpl.class, searchLog.getPrimaryKey());
+			entityCache.removeResult(
+				SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
+				searchLog.getPrimaryKey());
 		}
 	}
 
@@ -217,21 +219,22 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	@Override
 	public SearchLog remove(Serializable primaryKey)
 		throws NoSuchSearchLogException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			SearchLog searchLog = (SearchLog)session.get(SearchLogImpl.class,
-					primaryKey);
+			SearchLog searchLog = (SearchLog)session.get(
+				SearchLogImpl.class, primaryKey);
 
 			if (searchLog == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchSearchLogException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchSearchLogException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(searchLog);
@@ -249,16 +252,14 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 
 	@Override
 	protected SearchLog removeImpl(SearchLog searchLog) {
-		searchLog = toUnwrappedModel(searchLog);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(searchLog)) {
-				searchLog = (SearchLog)session.get(SearchLogImpl.class,
-						searchLog.getPrimaryKeyObj());
+				searchLog = (SearchLog)session.get(
+					SearchLogImpl.class, searchLog.getPrimaryKeyObj());
 			}
 
 			if (searchLog != null) {
@@ -281,8 +282,6 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 
 	@Override
 	public SearchLog updateImpl(SearchLog searchLog) {
-		searchLog = toUnwrappedModel(searchLog);
-
 		boolean isNew = searchLog.isNew();
 
 		Session session = null;
@@ -309,56 +308,22 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
 		if (isNew) {
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
 
-		entityCache.putResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogImpl.class, searchLog.getPrimaryKey(), searchLog, false);
+		entityCache.putResult(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
+			searchLog.getPrimaryKey(), searchLog, false);
 
 		searchLog.resetOriginalValues();
 
 		return searchLog;
 	}
 
-	protected SearchLog toUnwrappedModel(SearchLog searchLog) {
-		if (searchLog instanceof SearchLogImpl) {
-			return searchLog;
-		}
-
-		SearchLogImpl searchLogImpl = new SearchLogImpl();
-
-		searchLogImpl.setNew(searchLog.isNew());
-		searchLogImpl.setPrimaryKey(searchLog.getPrimaryKey());
-
-		searchLogImpl.setSearchLogId(searchLog.getSearchLogId());
-		searchLogImpl.setKeywords(searchLog.getKeywords());
-		searchLogImpl.setSearchTime(searchLog.getSearchTime());
-		searchLogImpl.setResultCount(searchLog.getResultCount());
-		searchLogImpl.setResult1ClassId(searchLog.getResult1ClassId());
-		searchLogImpl.setResult1ClassPK(searchLog.getResult1ClassPK());
-		searchLogImpl.setResult1Title(searchLog.getResult1Title());
-		searchLogImpl.setResult2ClassId(searchLog.getResult2ClassId());
-		searchLogImpl.setResult2ClassPK(searchLog.getResult2ClassPK());
-		searchLogImpl.setResult2Title(searchLog.getResult2Title());
-		searchLogImpl.setResult3ClassId(searchLog.getResult3ClassId());
-		searchLogImpl.setResult3ClassPK(searchLog.getResult3ClassPK());
-		searchLogImpl.setResult3Title(searchLog.getResult3Title());
-		searchLogImpl.setUserTargetClassId(searchLog.getUserTargetClassId());
-		searchLogImpl.setUserTargetClassPK(searchLog.getUserTargetClassPK());
-		searchLogImpl.setUserTargetTitle(searchLog.getUserTargetTitle());
-		searchLogImpl.setGroupId(searchLog.getGroupId());
-		searchLogImpl.setLayoutId(searchLog.getLayoutId());
-		searchLogImpl.setLayoutFriendlyURL(searchLog.getLayoutFriendlyURL());
-		searchLogImpl.setLanguage(searchLog.getLanguage());
-		searchLogImpl.setDate(searchLog.getDate());
-
-		return searchLogImpl;
-	}
-
 	/**
-	 * Returns the search log with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the search log with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the search log
 	 * @return the search log
@@ -367,6 +332,7 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	@Override
 	public SearchLog findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchSearchLogException {
+
 		SearchLog searchLog = fetchByPrimaryKey(primaryKey);
 
 		if (searchLog == null) {
@@ -374,15 +340,15 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchSearchLogException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchSearchLogException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return searchLog;
 	}
 
 	/**
-	 * Returns the search log with the primary key or throws a {@link NoSuchSearchLogException} if it could not be found.
+	 * Returns the search log with the primary key or throws a <code>NoSuchSearchLogException</code> if it could not be found.
 	 *
 	 * @param searchLogId the primary key of the search log
 	 * @return the search log
@@ -391,6 +357,7 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	@Override
 	public SearchLog findByPrimaryKey(long searchLogId)
 		throws NoSuchSearchLogException {
+
 		return findByPrimaryKey((Serializable)searchLogId);
 	}
 
@@ -402,8 +369,9 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 */
 	@Override
 	public SearchLog fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-				SearchLogImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -417,19 +385,21 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 			try {
 				session = openSession();
 
-				searchLog = (SearchLog)session.get(SearchLogImpl.class,
-						primaryKey);
+				searchLog = (SearchLog)session.get(
+					SearchLogImpl.class, primaryKey);
 
 				if (searchLog != null) {
 					cacheResult(searchLog);
 				}
 				else {
-					entityCache.putResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						SearchLogModelImpl.ENTITY_CACHE_ENABLED,
 						SearchLogImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					SearchLogModelImpl.ENTITY_CACHE_ENABLED,
 					SearchLogImpl.class, primaryKey);
 
 				throw processException(e);
@@ -456,11 +426,13 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	@Override
 	public Map<Serializable, SearchLog> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, SearchLog> map = new HashMap<Serializable, SearchLog>();
+		Map<Serializable, SearchLog> map =
+			new HashMap<Serializable, SearchLog>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -479,8 +451,9 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-					SearchLogImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -500,20 +473,20 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_SEARCHLOG_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -533,7 +506,8 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					SearchLogModelImpl.ENTITY_CACHE_ENABLED,
 					SearchLogImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -561,7 +535,7 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * Returns a range of all the search logs.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SearchLogModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SearchLogModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of search logs
@@ -577,7 +551,7 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * Returns an ordered range of all the search logs.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SearchLogModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SearchLogModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of search logs
@@ -586,8 +560,9 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * @return the ordered range of search logs
 	 */
 	@Override
-	public List<SearchLog> findAll(int start, int end,
-		OrderByComparator<SearchLog> orderByComparator) {
+	public List<SearchLog> findAll(
+		int start, int end, OrderByComparator<SearchLog> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -595,7 +570,7 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * Returns an ordered range of all the search logs.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SearchLogModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SearchLogModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of search logs
@@ -605,29 +580,31 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * @return the ordered range of search logs
 	 */
 	@Override
-	public List<SearchLog> findAll(int start, int end,
-		OrderByComparator<SearchLog> orderByComparator,
+	public List<SearchLog> findAll(
+		int start, int end, OrderByComparator<SearchLog> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<SearchLog> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<SearchLog>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<SearchLog>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -635,13 +612,13 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_SEARCHLOG);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -661,16 +638,16 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<SearchLog>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<SearchLog>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<SearchLog>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<SearchLog>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -708,8 +685,8 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -721,12 +698,12 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -752,6 +729,22 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 	 * Initializes the search log persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+			SearchLogModelImpl.FINDER_CACHE_ENABLED, SearchLogImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+			SearchLogModelImpl.FINDER_CACHE_ENABLED, SearchLogImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			SearchLogModelImpl.ENTITY_CACHE_ENABLED,
+			SearchLogModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
 	}
 
 	public void destroy() {
@@ -763,15 +756,28 @@ public class SearchLogPersistenceImpl extends BasePersistenceImpl<SearchLog>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_SEARCHLOG = "SELECT searchLog FROM SearchLog searchLog";
-	private static final String _SQL_SELECT_SEARCHLOG_WHERE_PKS_IN = "SELECT searchLog FROM SearchLog searchLog WHERE searchLogId IN (";
-	private static final String _SQL_COUNT_SEARCHLOG = "SELECT COUNT(searchLog) FROM SearchLog searchLog";
+
+	private static final String _SQL_SELECT_SEARCHLOG =
+		"SELECT searchLog FROM SearchLog searchLog";
+
+	private static final String _SQL_SELECT_SEARCHLOG_WHERE_PKS_IN =
+		"SELECT searchLog FROM SearchLog searchLog WHERE searchLogId IN (";
+
+	private static final String _SQL_COUNT_SEARCHLOG =
+		"SELECT COUNT(searchLog) FROM SearchLog searchLog";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "searchLog.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No SearchLog exists with the primary key ";
-	private static final Log _log = LogFactoryUtil.getLog(SearchLogPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"date"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No SearchLog exists with the primary key ";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SearchLogPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"date"});
+
 }

@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class SearchLogServiceWrapper implements SearchLogService,
-	ServiceWrapper<SearchLogService> {
+public class SearchLogServiceWrapper
+	implements SearchLogService, ServiceWrapper<SearchLogService> {
+
 	public SearchLogServiceWrapper(SearchLogService searchLogService) {
 		_searchLogService = searchLogService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _searchLogService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class SearchLogServiceWrapper implements SearchLogService,
 	}
 
 	private SearchLogService _searchLogService;
+
 }
