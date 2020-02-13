@@ -104,7 +104,7 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="price" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="priceDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.place.model.impl.PublicHolidayImpl" table="place_PublicHoliday">
 		<id name="publicHolidayId" type="long">

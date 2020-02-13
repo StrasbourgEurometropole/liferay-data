@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class PeriodSoap implements Serializable {
+
 	public static PeriodSoap toSoapModel(Period model) {
 		PeriodSoap soapModel = new PeriodSoap();
 
@@ -205,4 +206,5 @@ public class PeriodSoap implements Serializable {
 	private long _RTRedThreshold;
 	private long _RTMaxThreshold;
 	private long _placeId;
+
 }

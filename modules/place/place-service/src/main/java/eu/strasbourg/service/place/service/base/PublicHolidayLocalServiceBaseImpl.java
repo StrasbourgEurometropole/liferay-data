@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -66,17 +67,17 @@ import javax.sql.DataSource;
  *
  * @author Angelique Zunino Champougny
  * @see eu.strasbourg.service.place.service.impl.PublicHolidayLocalServiceImpl
- * @see eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class PublicHolidayLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements PublicHolidayLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements PublicHolidayLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil} to access the public holiday local service.
+	 * Never modify or reference this class directly. Use <code>PublicHolidayLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -100,6 +101,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @return the new public holiday
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public PublicHoliday createPublicHoliday(long publicHolidayId) {
 		return publicHolidayPersistence.create(publicHolidayId);
 	}
@@ -115,6 +117,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	@Override
 	public PublicHoliday deletePublicHoliday(long publicHolidayId)
 		throws PortalException {
+
 		return publicHolidayPersistence.remove(publicHolidayId);
 	}
 
@@ -134,8 +137,8 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(PublicHoliday.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			PublicHoliday.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -153,7 +156,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -162,17 +165,18 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return publicHolidayPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return publicHolidayPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -182,10 +186,12 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return publicHolidayPersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return publicHolidayPersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -207,10 +213,11 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return publicHolidayPersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return publicHolidayPersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
@@ -228,12 +235,14 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	@Override
 	public PublicHoliday getPublicHoliday(long publicHolidayId)
 		throws PortalException {
+
 		return publicHolidayPersistence.findByPrimaryKey(publicHolidayId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(publicHolidayLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -245,10 +254,14 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(publicHolidayLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			publicHolidayLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(PublicHoliday.class);
 
@@ -260,6 +273,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
+
 		actionableDynamicQuery.setBaseLocalService(publicHolidayLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(PublicHoliday.class);
@@ -273,12 +287,15 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return publicHolidayLocalService.deletePublicHoliday((PublicHoliday)persistedModel);
+
+		return publicHolidayLocalService.deletePublicHoliday(
+			(PublicHoliday)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return publicHolidayPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -286,7 +303,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * Returns a range of all the public holidaies.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of public holidaies
@@ -325,7 +342,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the period local service
 	 */
-	public eu.strasbourg.service.place.service.PeriodLocalService getPeriodLocalService() {
+	public eu.strasbourg.service.place.service.PeriodLocalService
+		getPeriodLocalService() {
+
 		return periodLocalService;
 	}
 
@@ -335,7 +354,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param periodLocalService the period local service
 	 */
 	public void setPeriodLocalService(
-		eu.strasbourg.service.place.service.PeriodLocalService periodLocalService) {
+		eu.strasbourg.service.place.service.PeriodLocalService
+			periodLocalService) {
+
 		this.periodLocalService = periodLocalService;
 	}
 
@@ -362,7 +383,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the place local service
 	 */
-	public eu.strasbourg.service.place.service.PlaceLocalService getPlaceLocalService() {
+	public eu.strasbourg.service.place.service.PlaceLocalService
+		getPlaceLocalService() {
+
 		return placeLocalService;
 	}
 
@@ -372,7 +395,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param placeLocalService the place local service
 	 */
 	public void setPlaceLocalService(
-		eu.strasbourg.service.place.service.PlaceLocalService placeLocalService) {
+		eu.strasbourg.service.place.service.PlaceLocalService
+			placeLocalService) {
+
 		this.placeLocalService = placeLocalService;
 	}
 
@@ -399,7 +424,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the price local service
 	 */
-	public eu.strasbourg.service.place.service.PriceLocalService getPriceLocalService() {
+	public eu.strasbourg.service.place.service.PriceLocalService
+		getPriceLocalService() {
+
 		return priceLocalService;
 	}
 
@@ -409,7 +436,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param priceLocalService the price local service
 	 */
 	public void setPriceLocalService(
-		eu.strasbourg.service.place.service.PriceLocalService priceLocalService) {
+		eu.strasbourg.service.place.service.PriceLocalService
+			priceLocalService) {
+
 		this.priceLocalService = priceLocalService;
 	}
 
@@ -447,6 +476,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 */
 	public void setPublicHolidayLocalService(
 		PublicHolidayLocalService publicHolidayLocalService) {
+
 		this.publicHolidayLocalService = publicHolidayLocalService;
 	}
 
@@ -466,6 +496,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 */
 	public void setPublicHolidayPersistence(
 		PublicHolidayPersistence publicHolidayPersistence) {
+
 		this.publicHolidayPersistence = publicHolidayPersistence;
 	}
 
@@ -474,7 +505,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the schedule exception local service
 	 */
-	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService getScheduleExceptionLocalService() {
+	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+		getScheduleExceptionLocalService() {
+
 		return scheduleExceptionLocalService;
 	}
 
@@ -484,7 +517,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param scheduleExceptionLocalService the schedule exception local service
 	 */
 	public void setScheduleExceptionLocalService(
-		eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService) {
+		eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+			scheduleExceptionLocalService) {
+
 		this.scheduleExceptionLocalService = scheduleExceptionLocalService;
 	}
 
@@ -504,6 +539,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 */
 	public void setScheduleExceptionPersistence(
 		ScheduleExceptionPersistence scheduleExceptionPersistence) {
+
 		this.scheduleExceptionPersistence = scheduleExceptionPersistence;
 	}
 
@@ -512,7 +548,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the slot local service
 	 */
-	public eu.strasbourg.service.place.service.SlotLocalService getSlotLocalService() {
+	public eu.strasbourg.service.place.service.SlotLocalService
+		getSlotLocalService() {
+
 		return slotLocalService;
 	}
 
@@ -523,6 +561,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 */
 	public void setSlotLocalService(
 		eu.strasbourg.service.place.service.SlotLocalService slotLocalService) {
+
 		this.slotLocalService = slotLocalService;
 	}
 
@@ -549,7 +588,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the sub place local service
 	 */
-	public eu.strasbourg.service.place.service.SubPlaceLocalService getSubPlaceLocalService() {
+	public eu.strasbourg.service.place.service.SubPlaceLocalService
+		getSubPlaceLocalService() {
+
 		return subPlaceLocalService;
 	}
 
@@ -559,7 +600,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param subPlaceLocalService the sub place local service
 	 */
 	public void setSubPlaceLocalService(
-		eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService) {
+		eu.strasbourg.service.place.service.SubPlaceLocalService
+			subPlaceLocalService) {
+
 		this.subPlaceLocalService = subPlaceLocalService;
 	}
 
@@ -577,7 +620,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @param subPlacePersistence the sub place persistence
 	 */
-	public void setSubPlacePersistence(SubPlacePersistence subPlacePersistence) {
+	public void setSubPlacePersistence(
+		SubPlacePersistence subPlacePersistence) {
+
 		this.subPlacePersistence = subPlacePersistence;
 	}
 
@@ -586,7 +631,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -596,7 +643,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -605,7 +654,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -615,7 +666,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -635,6 +688,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -643,7 +697,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -653,7 +709,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -662,7 +720,9 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -673,6 +733,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -695,7 +756,8 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.place.model.PublicHoliday",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.place.model.PublicHoliday",
 			publicHolidayLocalService);
 	}
 
@@ -736,8 +798,8 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -746,46 +808,98 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.place.service.PeriodLocalService.class)
-	protected eu.strasbourg.service.place.service.PeriodLocalService periodLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PeriodLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PeriodLocalService
+		periodLocalService;
+
 	@BeanReference(type = PeriodPersistence.class)
 	protected PeriodPersistence periodPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PlaceLocalService.class)
-	protected eu.strasbourg.service.place.service.PlaceLocalService placeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PlaceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PlaceLocalService
+		placeLocalService;
+
 	@BeanReference(type = PlacePersistence.class)
 	protected PlacePersistence placePersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PriceLocalService.class)
-	protected eu.strasbourg.service.place.service.PriceLocalService priceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PriceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PriceLocalService
+		priceLocalService;
+
 	@BeanReference(type = PricePersistence.class)
 	protected PricePersistence pricePersistence;
+
 	@BeanReference(type = PublicHolidayLocalService.class)
 	protected PublicHolidayLocalService publicHolidayLocalService;
+
 	@BeanReference(type = PublicHolidayPersistence.class)
 	protected PublicHolidayPersistence publicHolidayPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class)
-	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+		scheduleExceptionLocalService;
+
 	@BeanReference(type = ScheduleExceptionPersistence.class)
 	protected ScheduleExceptionPersistence scheduleExceptionPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.SlotLocalService.class)
-	protected eu.strasbourg.service.place.service.SlotLocalService slotLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.SlotLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.SlotLocalService
+		slotLocalService;
+
 	@BeanReference(type = SlotPersistence.class)
 	protected SlotPersistence slotPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.SubPlaceLocalService.class)
-	protected eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.SubPlaceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.SubPlaceLocalService
+		subPlaceLocalService;
+
 	@BeanReference(type = SubPlacePersistence.class)
 	protected SubPlacePersistence subPlacePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

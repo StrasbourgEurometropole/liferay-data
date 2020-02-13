@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.place.service.persistence.SlotPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,50 +62,32 @@ import java.util.Set;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see SlotPersistence
- * @see eu.strasbourg.service.place.service.persistence.SlotUtil
  * @generated
  */
 @ProviderType
-public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
-	implements SlotPersistence {
+public class SlotPersistenceImpl
+	extends BasePersistenceImpl<Slot> implements SlotPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link SlotUtil} to access the slot persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>SlotUtil</code> to access the slot persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = SlotImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			SlotModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		SlotImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the slots where uuid = &#63;.
@@ -122,7 +104,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns a range of all the slots where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -139,7 +121,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -149,8 +131,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of matching slots
 	 */
 	@Override
-	public List<Slot> findByUuid(String uuid, int start, int end,
+	public List<Slot> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Slot> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -158,7 +142,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -169,32 +153,37 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of matching slots
 	 */
 	@Override
-	public List<Slot> findByUuid(String uuid, int start, int end,
+	public List<Slot> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Slot> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Slot> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Slot>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Slot>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Slot slot : list) {
-					if (!Objects.equals(uuid, slot.getUuid())) {
+					if (!uuid.equals(slot.getUuid())) {
 						list = null;
 
 						break;
@@ -207,8 +196,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -218,10 +207,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -231,11 +217,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(SlotModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -255,16 +240,16 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 				}
 
 				if (!pagination) {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -293,8 +278,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a matching slot could not be found
 	 */
 	@Override
-	public Slot findByUuid_First(String uuid,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot findByUuid_First(
+			String uuid, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = fetchByUuid_First(uuid, orderByComparator);
 
 		if (slot != null) {
@@ -308,7 +295,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchSlotException(msg.toString());
 	}
@@ -321,8 +308,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the first matching slot, or <code>null</code> if a matching slot could not be found
 	 */
 	@Override
-	public Slot fetchByUuid_First(String uuid,
-		OrderByComparator<Slot> orderByComparator) {
+	public Slot fetchByUuid_First(
+		String uuid, OrderByComparator<Slot> orderByComparator) {
+
 		List<Slot> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -341,8 +329,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a matching slot could not be found
 	 */
 	@Override
-	public Slot findByUuid_Last(String uuid,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot findByUuid_Last(
+			String uuid, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (slot != null) {
@@ -356,7 +346,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchSlotException(msg.toString());
 	}
@@ -369,8 +359,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the last matching slot, or <code>null</code> if a matching slot could not be found
 	 */
 	@Override
-	public Slot fetchByUuid_Last(String uuid,
-		OrderByComparator<Slot> orderByComparator) {
+	public Slot fetchByUuid_Last(
+		String uuid, OrderByComparator<Slot> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
@@ -396,8 +387,12 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a slot with the primary key could not be found
 	 */
 	@Override
-	public Slot[] findByUuid_PrevAndNext(long slotId, String uuid,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot[] findByUuid_PrevAndNext(
+			long slotId, String uuid, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Slot slot = findByPrimaryKey(slotId);
 
 		Session session = null;
@@ -407,13 +402,13 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 			Slot[] array = new SlotImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, slot, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, slot, uuid, orderByComparator, true);
 
 			array[1] = slot;
 
-			array[2] = getByUuid_PrevAndNext(session, slot, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, slot, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -425,13 +420,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		}
 	}
 
-	protected Slot getByUuid_PrevAndNext(Session session, Slot slot,
-		String uuid, OrderByComparator<Slot> orderByComparator, boolean previous) {
+	protected Slot getByUuid_PrevAndNext(
+		Session session, Slot slot, String uuid,
+		OrderByComparator<Slot> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -442,10 +439,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -455,7 +449,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -527,10 +522,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(slot);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(slot)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -551,8 +546,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Slot slot : findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+		for (Slot slot :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(slot);
 		}
 	}
@@ -565,9 +561,11 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -578,10 +576,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -622,28 +617,14 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "slot.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "slot.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(slot.uuid IS NULL OR slot.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PERIODID = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPeriodId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PERIODID =
-		new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPeriodId",
-			new String[] { Long.class.getName() },
-			SlotModelImpl.PERIODID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PERIODID = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPeriodId",
-			new String[] { Long.class.getName() });
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(slot.uuid IS NULL OR slot.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByPeriodId;
+	private FinderPath _finderPathWithoutPaginationFindByPeriodId;
+	private FinderPath _finderPathCountByPeriodId;
 
 	/**
 	 * Returns all the slots where periodId = &#63;.
@@ -653,15 +634,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public List<Slot> findByPeriodId(long periodId) {
-		return findByPeriodId(periodId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findByPeriodId(
+			periodId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the slots where periodId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param periodId the period ID
@@ -678,7 +659,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots where periodId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param periodId the period ID
@@ -688,8 +669,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of matching slots
 	 */
 	@Override
-	public List<Slot> findByPeriodId(long periodId, int start, int end,
+	public List<Slot> findByPeriodId(
+		long periodId, int start, int end,
 		OrderByComparator<Slot> orderByComparator) {
+
 		return findByPeriodId(periodId, start, end, orderByComparator, true);
 	}
 
@@ -697,7 +680,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots where periodId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param periodId the period ID
@@ -708,28 +691,31 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of matching slots
 	 */
 	@Override
-	public List<Slot> findByPeriodId(long periodId, int start, int end,
+	public List<Slot> findByPeriodId(
+		long periodId, int start, int end,
 		OrderByComparator<Slot> orderByComparator, boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PERIODID;
-			finderArgs = new Object[] { periodId };
+			finderPath = _finderPathWithoutPaginationFindByPeriodId;
+			finderArgs = new Object[] {periodId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PERIODID;
-			finderArgs = new Object[] { periodId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByPeriodId;
+			finderArgs = new Object[] {periodId, start, end, orderByComparator};
 		}
 
 		List<Slot> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Slot>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Slot>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Slot slot : list) {
@@ -746,8 +732,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -758,11 +744,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			query.append(_FINDER_COLUMN_PERIODID_PERIODID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(SlotModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -780,16 +765,16 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 				qPos.add(periodId);
 
 				if (!pagination) {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -818,8 +803,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a matching slot could not be found
 	 */
 	@Override
-	public Slot findByPeriodId_First(long periodId,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot findByPeriodId_First(
+			long periodId, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = fetchByPeriodId_First(periodId, orderByComparator);
 
 		if (slot != null) {
@@ -833,7 +820,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		msg.append("periodId=");
 		msg.append(periodId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchSlotException(msg.toString());
 	}
@@ -846,8 +833,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the first matching slot, or <code>null</code> if a matching slot could not be found
 	 */
 	@Override
-	public Slot fetchByPeriodId_First(long periodId,
-		OrderByComparator<Slot> orderByComparator) {
+	public Slot fetchByPeriodId_First(
+		long periodId, OrderByComparator<Slot> orderByComparator) {
+
 		List<Slot> list = findByPeriodId(periodId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -866,8 +854,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a matching slot could not be found
 	 */
 	@Override
-	public Slot findByPeriodId_Last(long periodId,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot findByPeriodId_Last(
+			long periodId, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = fetchByPeriodId_Last(periodId, orderByComparator);
 
 		if (slot != null) {
@@ -881,7 +871,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		msg.append("periodId=");
 		msg.append(periodId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchSlotException(msg.toString());
 	}
@@ -894,16 +884,17 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the last matching slot, or <code>null</code> if a matching slot could not be found
 	 */
 	@Override
-	public Slot fetchByPeriodId_Last(long periodId,
-		OrderByComparator<Slot> orderByComparator) {
+	public Slot fetchByPeriodId_Last(
+		long periodId, OrderByComparator<Slot> orderByComparator) {
+
 		int count = countByPeriodId(periodId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Slot> list = findByPeriodId(periodId, count - 1, count,
-				orderByComparator);
+		List<Slot> list = findByPeriodId(
+			periodId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -922,8 +913,11 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a slot with the primary key could not be found
 	 */
 	@Override
-	public Slot[] findByPeriodId_PrevAndNext(long slotId, long periodId,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot[] findByPeriodId_PrevAndNext(
+			long slotId, long periodId,
+			OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = findByPrimaryKey(slotId);
 
 		Session session = null;
@@ -933,13 +927,13 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 			Slot[] array = new SlotImpl[3];
 
-			array[0] = getByPeriodId_PrevAndNext(session, slot, periodId,
-					orderByComparator, true);
+			array[0] = getByPeriodId_PrevAndNext(
+				session, slot, periodId, orderByComparator, true);
 
 			array[1] = slot;
 
-			array[2] = getByPeriodId_PrevAndNext(session, slot, periodId,
-					orderByComparator, false);
+			array[2] = getByPeriodId_PrevAndNext(
+				session, slot, periodId, orderByComparator, false);
 
 			return array;
 		}
@@ -951,14 +945,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		}
 	}
 
-	protected Slot getByPeriodId_PrevAndNext(Session session, Slot slot,
-		long periodId, OrderByComparator<Slot> orderByComparator,
-		boolean previous) {
+	protected Slot getByPeriodId_PrevAndNext(
+		Session session, Slot slot, long periodId,
+		OrderByComparator<Slot> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -970,7 +965,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		query.append(_FINDER_COLUMN_PERIODID_PERIODID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1040,10 +1036,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		qPos.add(periodId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(slot);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(slot)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1064,8 +1060,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public void removeByPeriodId(long periodId) {
-		for (Slot slot : findByPeriodId(periodId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Slot slot :
+				findByPeriodId(
+					periodId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(slot);
 		}
 	}
@@ -1078,9 +1076,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public int countByPeriodId(long periodId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PERIODID;
+		FinderPath finderPath = _finderPathCountByPeriodId;
 
-		Object[] finderArgs = new Object[] { periodId };
+		Object[] finderArgs = new Object[] {periodId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1121,27 +1119,12 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PERIODID_PERIODID_2 = "slot.periodId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SUBPLACEID =
-		new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubPlaceId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID =
-		new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubPlaceId",
-			new String[] { Long.class.getName() },
-			SlotModelImpl.SUBPLACEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_SUBPLACEID = new FinderPath(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubPlaceId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_PERIODID_PERIODID_2 =
+		"slot.periodId = ?";
+
+	private FinderPath _finderPathWithPaginationFindBySubPlaceId;
+	private FinderPath _finderPathWithoutPaginationFindBySubPlaceId;
+	private FinderPath _finderPathCountBySubPlaceId;
 
 	/**
 	 * Returns all the slots where subPlaceId = &#63;.
@@ -1151,15 +1134,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public List<Slot> findBySubPlaceId(long subPlaceId) {
-		return findBySubPlaceId(subPlaceId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findBySubPlaceId(
+			subPlaceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the slots where subPlaceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param subPlaceId the sub place ID
@@ -1176,7 +1159,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots where subPlaceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param subPlaceId the sub place ID
@@ -1186,16 +1169,19 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of matching slots
 	 */
 	@Override
-	public List<Slot> findBySubPlaceId(long subPlaceId, int start, int end,
+	public List<Slot> findBySubPlaceId(
+		long subPlaceId, int start, int end,
 		OrderByComparator<Slot> orderByComparator) {
-		return findBySubPlaceId(subPlaceId, start, end, orderByComparator, true);
+
+		return findBySubPlaceId(
+			subPlaceId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the slots where subPlaceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param subPlaceId the sub place ID
@@ -1206,28 +1192,33 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of matching slots
 	 */
 	@Override
-	public List<Slot> findBySubPlaceId(long subPlaceId, int start, int end,
+	public List<Slot> findBySubPlaceId(
+		long subPlaceId, int start, int end,
 		OrderByComparator<Slot> orderByComparator, boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID;
-			finderArgs = new Object[] { subPlaceId };
+			finderPath = _finderPathWithoutPaginationFindBySubPlaceId;
+			finderArgs = new Object[] {subPlaceId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SUBPLACEID;
-			finderArgs = new Object[] { subPlaceId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindBySubPlaceId;
+			finderArgs = new Object[] {
+				subPlaceId, start, end, orderByComparator
+			};
 		}
 
 		List<Slot> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Slot>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Slot>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Slot slot : list) {
@@ -1244,8 +1235,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1256,11 +1247,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			query.append(_FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(SlotModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1278,16 +1268,16 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 				qPos.add(subPlaceId);
 
 				if (!pagination) {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1316,8 +1306,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a matching slot could not be found
 	 */
 	@Override
-	public Slot findBySubPlaceId_First(long subPlaceId,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot findBySubPlaceId_First(
+			long subPlaceId, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = fetchBySubPlaceId_First(subPlaceId, orderByComparator);
 
 		if (slot != null) {
@@ -1331,7 +1323,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		msg.append("subPlaceId=");
 		msg.append(subPlaceId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchSlotException(msg.toString());
 	}
@@ -1344,8 +1336,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the first matching slot, or <code>null</code> if a matching slot could not be found
 	 */
 	@Override
-	public Slot fetchBySubPlaceId_First(long subPlaceId,
-		OrderByComparator<Slot> orderByComparator) {
+	public Slot fetchBySubPlaceId_First(
+		long subPlaceId, OrderByComparator<Slot> orderByComparator) {
+
 		List<Slot> list = findBySubPlaceId(subPlaceId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1364,8 +1357,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a matching slot could not be found
 	 */
 	@Override
-	public Slot findBySubPlaceId_Last(long subPlaceId,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot findBySubPlaceId_Last(
+			long subPlaceId, OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = fetchBySubPlaceId_Last(subPlaceId, orderByComparator);
 
 		if (slot != null) {
@@ -1379,7 +1374,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		msg.append("subPlaceId=");
 		msg.append(subPlaceId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchSlotException(msg.toString());
 	}
@@ -1392,16 +1387,17 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the last matching slot, or <code>null</code> if a matching slot could not be found
 	 */
 	@Override
-	public Slot fetchBySubPlaceId_Last(long subPlaceId,
-		OrderByComparator<Slot> orderByComparator) {
+	public Slot fetchBySubPlaceId_Last(
+		long subPlaceId, OrderByComparator<Slot> orderByComparator) {
+
 		int count = countBySubPlaceId(subPlaceId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Slot> list = findBySubPlaceId(subPlaceId, count - 1, count,
-				orderByComparator);
+		List<Slot> list = findBySubPlaceId(
+			subPlaceId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1420,8 +1416,11 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @throws NoSuchSlotException if a slot with the primary key could not be found
 	 */
 	@Override
-	public Slot[] findBySubPlaceId_PrevAndNext(long slotId, long subPlaceId,
-		OrderByComparator<Slot> orderByComparator) throws NoSuchSlotException {
+	public Slot[] findBySubPlaceId_PrevAndNext(
+			long slotId, long subPlaceId,
+			OrderByComparator<Slot> orderByComparator)
+		throws NoSuchSlotException {
+
 		Slot slot = findByPrimaryKey(slotId);
 
 		Session session = null;
@@ -1431,13 +1430,13 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 			Slot[] array = new SlotImpl[3];
 
-			array[0] = getBySubPlaceId_PrevAndNext(session, slot, subPlaceId,
-					orderByComparator, true);
+			array[0] = getBySubPlaceId_PrevAndNext(
+				session, slot, subPlaceId, orderByComparator, true);
 
 			array[1] = slot;
 
-			array[2] = getBySubPlaceId_PrevAndNext(session, slot, subPlaceId,
-					orderByComparator, false);
+			array[2] = getBySubPlaceId_PrevAndNext(
+				session, slot, subPlaceId, orderByComparator, false);
 
 			return array;
 		}
@@ -1449,14 +1448,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		}
 	}
 
-	protected Slot getBySubPlaceId_PrevAndNext(Session session, Slot slot,
-		long subPlaceId, OrderByComparator<Slot> orderByComparator,
-		boolean previous) {
+	protected Slot getBySubPlaceId_PrevAndNext(
+		Session session, Slot slot, long subPlaceId,
+		OrderByComparator<Slot> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1468,7 +1468,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		query.append(_FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1538,10 +1539,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		qPos.add(subPlaceId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(slot);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(slot)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1562,8 +1563,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public void removeBySubPlaceId(long subPlaceId) {
-		for (Slot slot : findBySubPlaceId(subPlaceId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Slot slot :
+				findBySubPlaceId(
+					subPlaceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(slot);
 		}
 	}
@@ -1576,9 +1579,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public int countBySubPlaceId(long subPlaceId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_SUBPLACEID;
+		FinderPath finderPath = _finderPathCountBySubPlaceId;
 
-		Object[] finderArgs = new Object[] { subPlaceId };
+		Object[] finderArgs = new Object[] {subPlaceId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1619,19 +1622,22 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2 = "slot.subPlaceId = ?";
+	private static final String _FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2 =
+		"slot.subPlaceId = ?";
 
 	public SlotPersistenceImpl() {
 		setModelClass(Slot.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("comment", "comment_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("comment", "comment_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1649,8 +1655,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public void cacheResult(Slot slot) {
-		entityCache.putResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotImpl.class, slot.getPrimaryKey(), slot);
+		entityCache.putResult(
+			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+			slot.getPrimaryKey(), slot);
 
 		slot.resetOriginalValues();
 	}
@@ -1663,8 +1670,10 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	@Override
 	public void cacheResult(List<Slot> slots) {
 		for (Slot slot : slots) {
-			if (entityCache.getResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-						SlotImpl.class, slot.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+					slot.getPrimaryKey()) == null) {
+
 				cacheResult(slot);
 			}
 			else {
@@ -1677,7 +1686,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Clears the cache for all slots.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1693,13 +1702,14 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Clears the cache for the slot.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Slot slot) {
-		entityCache.removeResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotImpl.class, slot.getPrimaryKey());
+		entityCache.removeResult(
+			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+			slot.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -1711,8 +1721,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Slot slot : slots) {
-			entityCache.removeResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-				SlotImpl.class, slot.getPrimaryKey());
+			entityCache.removeResult(
+				SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+				slot.getPrimaryKey());
 		}
 	}
 
@@ -1769,8 +1780,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchSlotException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchSlotException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(slot);
@@ -1788,15 +1799,14 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 	@Override
 	protected Slot removeImpl(Slot slot) {
-		slot = toUnwrappedModel(slot);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(slot)) {
-				slot = (Slot)session.get(SlotImpl.class, slot.getPrimaryKeyObj());
+				slot = (Slot)session.get(
+					SlotImpl.class, slot.getPrimaryKeyObj());
 			}
 
 			if (slot != null) {
@@ -1819,9 +1829,23 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 	@Override
 	public Slot updateImpl(Slot slot) {
-		slot = toUnwrappedModel(slot);
-
 		boolean isNew = slot.isNew();
+
+		if (!(slot instanceof SlotModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(slot.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(slot);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in slot proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Slot implementation " +
+					slot.getClass());
+		}
 
 		SlotModelImpl slotModelImpl = (SlotModelImpl)slot;
 
@@ -1857,112 +1881,97 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		if (!SlotModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { slotModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {slotModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { slotModelImpl.getPeriodId() };
+			args = new Object[] {slotModelImpl.getPeriodId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PERIODID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PERIODID,
-				args);
+			finderCache.removeResult(_finderPathCountByPeriodId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPeriodId, args);
 
-			args = new Object[] { slotModelImpl.getSubPlaceId() };
+			args = new Object[] {slotModelImpl.getSubPlaceId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_SUBPLACEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID,
-				args);
+			finderCache.removeResult(_finderPathCountBySubPlaceId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindBySubPlaceId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((slotModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { slotModelImpl.getOriginalUuid() };
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				Object[] args = new Object[] {slotModelImpl.getOriginalUuid()};
 
-				args = new Object[] { slotModelImpl.getUuid() };
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				args = new Object[] {slotModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((slotModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PERIODID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { slotModelImpl.getOriginalPeriodId() };
+				 _finderPathWithoutPaginationFindByPeriodId.
+					 getColumnBitmask()) != 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PERIODID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PERIODID,
-					args);
-
-				args = new Object[] { slotModelImpl.getPeriodId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PERIODID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PERIODID,
-					args);
-			}
-
-			if ((slotModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						slotModelImpl.getOriginalSubPlaceId()
-					};
+					slotModelImpl.getOriginalPeriodId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SUBPLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountByPeriodId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPeriodId, args);
 
-				args = new Object[] { slotModelImpl.getSubPlaceId() };
+				args = new Object[] {slotModelImpl.getPeriodId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SUBPLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountByPeriodId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPeriodId, args);
+			}
+
+			if ((slotModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindBySubPlaceId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					slotModelImpl.getOriginalSubPlaceId()
+				};
+
+				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySubPlaceId, args);
+
+				args = new Object[] {slotModelImpl.getSubPlaceId()};
+
+				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySubPlaceId, args);
 			}
 		}
 
-		entityCache.putResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotImpl.class, slot.getPrimaryKey(), slot, false);
+		entityCache.putResult(
+			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+			slot.getPrimaryKey(), slot, false);
 
 		slot.resetOriginalValues();
 
 		return slot;
 	}
 
-	protected Slot toUnwrappedModel(Slot slot) {
-		if (slot instanceof SlotImpl) {
-			return slot;
-		}
-
-		SlotImpl slotImpl = new SlotImpl();
-
-		slotImpl.setNew(slot.isNew());
-		slotImpl.setPrimaryKey(slot.getPrimaryKey());
-
-		slotImpl.setUuid(slot.getUuid());
-		slotImpl.setSlotId(slot.getSlotId());
-		slotImpl.setDayOfWeek(slot.getDayOfWeek());
-		slotImpl.setStartHour(slot.getStartHour());
-		slotImpl.setEndHour(slot.getEndHour());
-		slotImpl.setComment(slot.getComment());
-		slotImpl.setPeriodId(slot.getPeriodId());
-		slotImpl.setSubPlaceId(slot.getSubPlaceId());
-
-		return slotImpl;
-	}
-
 	/**
-	 * Returns the slot with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the slot with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the slot
 	 * @return the slot
@@ -1971,6 +1980,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	@Override
 	public Slot findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchSlotException {
+
 		Slot slot = fetchByPrimaryKey(primaryKey);
 
 		if (slot == null) {
@@ -1978,15 +1988,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchSlotException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchSlotException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return slot;
 	}
 
 	/**
-	 * Returns the slot with the primary key or throws a {@link NoSuchSlotException} if it could not be found.
+	 * Returns the slot with the primary key or throws a <code>NoSuchSlotException</code> if it could not be found.
 	 *
 	 * @param slotId the primary key of the slot
 	 * @return the slot
@@ -2005,8 +2015,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public Slot fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-				SlotImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2026,13 +2036,15 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 					cacheResult(slot);
 				}
 				else {
-					entityCache.putResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-						SlotImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+						primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-					SlotImpl.class, primaryKey);
+				entityCache.removeResult(
+					SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -2058,6 +2070,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	@Override
 	public Map<Serializable, Slot> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -2081,8 +2094,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-					SlotImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2102,20 +2115,20 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_SLOT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2135,8 +2148,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(SlotModelImpl.ENTITY_CACHE_ENABLED,
-					SlotImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2163,7 +2177,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns a range of all the slots.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of slots
@@ -2179,7 +2193,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of slots
@@ -2188,8 +2202,9 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of slots
 	 */
 	@Override
-	public List<Slot> findAll(int start, int end,
-		OrderByComparator<Slot> orderByComparator) {
+	public List<Slot> findAll(
+		int start, int end, OrderByComparator<Slot> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2197,7 +2212,7 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Returns an ordered range of all the slots.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of slots
@@ -2207,28 +2222,31 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * @return the ordered range of slots
 	 */
 	@Override
-	public List<Slot> findAll(int start, int end,
-		OrderByComparator<Slot> orderByComparator, boolean retrieveFromCache) {
+	public List<Slot> findAll(
+		int start, int end, OrderByComparator<Slot> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Slot> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Slot>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Slot>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2236,13 +2254,13 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_SLOT);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2262,16 +2280,16 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Slot>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Slot>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2309,8 +2327,8 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2322,12 +2340,12 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2353,6 +2371,88 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 	 * Initializes the slot persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			SlotModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByPeriodId = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPeriodId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPeriodId = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPeriodId",
+			new String[] {Long.class.getName()},
+			SlotModelImpl.PERIODID_COLUMN_BITMASK);
+
+		_finderPathCountByPeriodId = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPeriodId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindBySubPlaceId = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubPlaceId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindBySubPlaceId = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubPlaceId",
+			new String[] {Long.class.getName()},
+			SlotModelImpl.SUBPLACEID_COLUMN_BITMASK);
+
+		_finderPathCountBySubPlaceId = new FinderPath(
+			SlotModelImpl.ENTITY_CACHE_ENABLED,
+			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubPlaceId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2364,18 +2464,36 @@ public class SlotPersistenceImpl extends BasePersistenceImpl<Slot>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	private static final String _SQL_SELECT_SLOT = "SELECT slot FROM Slot slot";
-	private static final String _SQL_SELECT_SLOT_WHERE_PKS_IN = "SELECT slot FROM Slot slot WHERE slotId IN (";
-	private static final String _SQL_SELECT_SLOT_WHERE = "SELECT slot FROM Slot slot WHERE ";
-	private static final String _SQL_COUNT_SLOT = "SELECT COUNT(slot) FROM Slot slot";
-	private static final String _SQL_COUNT_SLOT_WHERE = "SELECT COUNT(slot) FROM Slot slot WHERE ";
+
+	private static final String _SQL_SELECT_SLOT_WHERE_PKS_IN =
+		"SELECT slot FROM Slot slot WHERE slotId IN (";
+
+	private static final String _SQL_SELECT_SLOT_WHERE =
+		"SELECT slot FROM Slot slot WHERE ";
+
+	private static final String _SQL_COUNT_SLOT =
+		"SELECT COUNT(slot) FROM Slot slot";
+
+	private static final String _SQL_COUNT_SLOT_WHERE =
+		"SELECT COUNT(slot) FROM Slot slot WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "slot.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Slot exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Slot exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(SlotPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "comment"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Slot exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Slot exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SlotPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid", "comment"});
+
 }

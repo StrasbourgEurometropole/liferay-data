@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.Slot;
 
@@ -32,11 +31,11 @@ import java.io.ObjectOutput;
  * The cache model class for representing Slot in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see Slot
  * @generated
  */
 @ProviderType
 public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -91,7 +90,7 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		SlotImpl slotImpl = new SlotImpl();
 
 		if (uuid == null) {
-			slotImpl.setUuid(StringPool.BLANK);
+			slotImpl.setUuid("");
 		}
 		else {
 			slotImpl.setUuid(uuid);
@@ -101,21 +100,21 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		slotImpl.setDayOfWeek(dayOfWeek);
 
 		if (startHour == null) {
-			slotImpl.setStartHour(StringPool.BLANK);
+			slotImpl.setStartHour("");
 		}
 		else {
 			slotImpl.setStartHour(startHour);
 		}
 
 		if (endHour == null) {
-			slotImpl.setEndHour(StringPool.BLANK);
+			slotImpl.setEndHour("");
 		}
 		else {
 			slotImpl.setEndHour(endHour);
 		}
 
 		if (comment == null) {
-			slotImpl.setComment(StringPool.BLANK);
+			slotImpl.setComment("");
 		}
 		else {
 			slotImpl.setComment(comment);
@@ -146,10 +145,9 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -160,21 +158,21 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 		objectOutput.writeLong(dayOfWeek);
 
 		if (startHour == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(startHour);
 		}
 
 		if (endHour == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(endHour);
 		}
 
 		if (comment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(comment);
@@ -193,4 +191,5 @@ public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 	public String comment;
 	public long periodId;
 	public long subPlaceId;
+
 }

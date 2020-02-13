@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angelique Zunino Champougny
  * @see SlotModel
- * @see eu.strasbourg.service.place.model.impl.SlotImpl
- * @see eu.strasbourg.service.place.model.impl.SlotModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.place.model.impl.SlotImpl")
 @ProviderType
-public interface Slot extends SlotModel, PersistedModel {
+public interface Slot extends PersistedModel, SlotModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.place.model.impl.SlotImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.SlotImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Slot, Long> SLOT_ID_ACCESSOR = new Accessor<Slot, Long>() {
+	public static final Accessor<Slot, Long> SLOT_ID_ACCESSOR =
+		new Accessor<Slot, Long>() {
+
 			@Override
 			public Long get(Slot slot) {
 				return slot.getSlotId();
@@ -52,10 +53,12 @@ public interface Slot extends SlotModel, PersistedModel {
 			public Class<Slot> getTypeClass() {
 				return Slot.class;
 			}
+
 		};
 
 	/**
-	* Retourne la version JSON des horaires
-	*/
+	 * Retourne la version JSON des horaires
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

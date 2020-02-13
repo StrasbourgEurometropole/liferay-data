@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class SubPlaceSoap implements Serializable {
+
 	public static SubPlaceSoap toSoapModel(SubPlace model) {
 		SubPlaceSoap soapModel = new SubPlaceSoap();
 
@@ -74,7 +75,8 @@ public class SubPlaceSoap implements Serializable {
 	}
 
 	public static SubPlaceSoap[] toSoapModels(List<SubPlace> models) {
-		List<SubPlaceSoap> soapModels = new ArrayList<SubPlaceSoap>(models.size());
+		List<SubPlaceSoap> soapModels = new ArrayList<SubPlaceSoap>(
+			models.size());
 
 		for (SubPlace model : models) {
 			soapModels.add(toSoapModel(model));
@@ -175,4 +177,5 @@ public class SubPlaceSoap implements Serializable {
 	private String _name;
 	private String _description;
 	private long _placeId;
+
 }

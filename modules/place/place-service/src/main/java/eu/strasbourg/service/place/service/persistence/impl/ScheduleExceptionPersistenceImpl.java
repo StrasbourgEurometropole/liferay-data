@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersiste
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,54 +62,33 @@ import java.util.Set;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see ScheduleExceptionPersistence
- * @see eu.strasbourg.service.place.service.persistence.ScheduleExceptionUtil
  * @generated
  */
 @ProviderType
-public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<ScheduleException>
+public class ScheduleExceptionPersistenceImpl
+	extends BasePersistenceImpl<ScheduleException>
 	implements ScheduleExceptionPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link ScheduleExceptionUtil} to access the schedule exception persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>ScheduleExceptionUtil</code> to access the schedule exception persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = ScheduleExceptionImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			ScheduleExceptionModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		ScheduleExceptionImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the schedule exceptions where uuid = &#63;.
@@ -126,7 +105,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns a range of all the schedule exceptions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -143,7 +122,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -153,8 +132,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findByUuid(String uuid, int start, int end,
+	public List<ScheduleException> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<ScheduleException> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -162,7 +143,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -173,33 +154,38 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findByUuid(String uuid, int start, int end,
+	public List<ScheduleException> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<ScheduleException> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<ScheduleException> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ScheduleException>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ScheduleException>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ScheduleException scheduleException : list) {
-					if (!Objects.equals(uuid, scheduleException.getUuid())) {
+					if (!uuid.equals(scheduleException.getUuid())) {
 						list = null;
 
 						break;
@@ -212,8 +198,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -223,10 +209,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -236,11 +219,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ScheduleExceptionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -260,16 +242,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 				}
 
 				if (!pagination) {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -298,11 +280,12 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException findByUuid_First(String uuid,
-		OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException findByUuid_First(
+			String uuid, OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
-		ScheduleException scheduleException = fetchByUuid_First(uuid,
-				orderByComparator);
+
+		ScheduleException scheduleException = fetchByUuid_First(
+			uuid, orderByComparator);
 
 		if (scheduleException != null) {
 			return scheduleException;
@@ -315,7 +298,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchScheduleExceptionException(msg.toString());
 	}
@@ -328,9 +311,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the first matching schedule exception, or <code>null</code> if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException fetchByUuid_First(String uuid,
-		OrderByComparator<ScheduleException> orderByComparator) {
-		List<ScheduleException> list = findByUuid(uuid, 0, 1, orderByComparator);
+	public ScheduleException fetchByUuid_First(
+		String uuid, OrderByComparator<ScheduleException> orderByComparator) {
+
+		List<ScheduleException> list = findByUuid(
+			uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -348,11 +333,12 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException findByUuid_Last(String uuid,
-		OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException findByUuid_Last(
+			String uuid, OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
-		ScheduleException scheduleException = fetchByUuid_Last(uuid,
-				orderByComparator);
+
+		ScheduleException scheduleException = fetchByUuid_Last(
+			uuid, orderByComparator);
 
 		if (scheduleException != null) {
 			return scheduleException;
@@ -365,7 +351,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchScheduleExceptionException(msg.toString());
 	}
@@ -378,16 +364,17 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the last matching schedule exception, or <code>null</code> if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException fetchByUuid_Last(String uuid,
-		OrderByComparator<ScheduleException> orderByComparator) {
+	public ScheduleException fetchByUuid_Last(
+		String uuid, OrderByComparator<ScheduleException> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ScheduleException> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<ScheduleException> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -406,9 +393,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a schedule exception with the primary key could not be found
 	 */
 	@Override
-	public ScheduleException[] findByUuid_PrevAndNext(long exceptionId,
-		String uuid, OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException[] findByUuid_PrevAndNext(
+			long exceptionId, String uuid,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		ScheduleException scheduleException = findByPrimaryKey(exceptionId);
 
 		Session session = null;
@@ -418,13 +409,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 			ScheduleException[] array = new ScheduleExceptionImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, scheduleException, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, scheduleException, uuid, orderByComparator, true);
 
 			array[1] = scheduleException;
 
-			array[2] = getByUuid_PrevAndNext(session, scheduleException, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, scheduleException, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -436,14 +427,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		}
 	}
 
-	protected ScheduleException getByUuid_PrevAndNext(Session session,
-		ScheduleException scheduleException, String uuid,
-		OrderByComparator<ScheduleException> orderByComparator, boolean previous) {
+	protected ScheduleException getByUuid_PrevAndNext(
+		Session session, ScheduleException scheduleException, String uuid,
+		OrderByComparator<ScheduleException> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -454,10 +447,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -467,7 +457,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -539,10 +530,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(scheduleException);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						scheduleException)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -563,8 +555,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (ScheduleException scheduleException : findByUuid(uuid,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ScheduleException scheduleException :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(scheduleException);
 		}
 	}
@@ -577,9 +570,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -590,10 +585,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -634,30 +626,15 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "scheduleException.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "scheduleException.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(scheduleException.uuid IS NULL OR scheduleException.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PLACEID = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID =
-		new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
-			new String[] { Long.class.getName() },
-			ScheduleExceptionModelImpl.PLACEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PLACEID = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"scheduleException.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(scheduleException.uuid IS NULL OR scheduleException.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByPlaceId;
+	private FinderPath _finderPathWithoutPaginationFindByPlaceId;
+	private FinderPath _finderPathCountByPlaceId;
 
 	/**
 	 * Returns all the schedule exceptions where placeId = &#63;.
@@ -667,14 +644,15 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public List<ScheduleException> findByPlaceId(long placeId) {
-		return findByPlaceId(placeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByPlaceId(
+			placeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the schedule exceptions where placeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param placeId the place ID
@@ -683,8 +661,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findByPlaceId(long placeId, int start,
-		int end) {
+	public List<ScheduleException> findByPlaceId(
+		long placeId, int start, int end) {
+
 		return findByPlaceId(placeId, start, end, null);
 	}
 
@@ -692,7 +671,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions where placeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param placeId the place ID
@@ -702,8 +681,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findByPlaceId(long placeId, int start,
-		int end, OrderByComparator<ScheduleException> orderByComparator) {
+	public List<ScheduleException> findByPlaceId(
+		long placeId, int start, int end,
+		OrderByComparator<ScheduleException> orderByComparator) {
+
 		return findByPlaceId(placeId, start, end, orderByComparator, true);
 	}
 
@@ -711,7 +692,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions where placeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param placeId the place ID
@@ -722,29 +703,32 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findByPlaceId(long placeId, int start,
-		int end, OrderByComparator<ScheduleException> orderByComparator,
+	public List<ScheduleException> findByPlaceId(
+		long placeId, int start, int end,
+		OrderByComparator<ScheduleException> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID;
-			finderArgs = new Object[] { placeId };
+			finderPath = _finderPathWithoutPaginationFindByPlaceId;
+			finderArgs = new Object[] {placeId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PLACEID;
-			finderArgs = new Object[] { placeId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByPlaceId;
+			finderArgs = new Object[] {placeId, start, end, orderByComparator};
 		}
 
 		List<ScheduleException> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ScheduleException>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ScheduleException>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ScheduleException scheduleException : list) {
@@ -761,8 +745,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -773,11 +757,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			query.append(_FINDER_COLUMN_PLACEID_PLACEID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ScheduleExceptionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -795,16 +778,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 				qPos.add(placeId);
 
 				if (!pagination) {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -833,11 +816,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException findByPlaceId_First(long placeId,
-		OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException findByPlaceId_First(
+			long placeId,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
-		ScheduleException scheduleException = fetchByPlaceId_First(placeId,
-				orderByComparator);
+
+		ScheduleException scheduleException = fetchByPlaceId_First(
+			placeId, orderByComparator);
 
 		if (scheduleException != null) {
 			return scheduleException;
@@ -850,7 +835,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		msg.append("placeId=");
 		msg.append(placeId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchScheduleExceptionException(msg.toString());
 	}
@@ -863,10 +848,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the first matching schedule exception, or <code>null</code> if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException fetchByPlaceId_First(long placeId,
-		OrderByComparator<ScheduleException> orderByComparator) {
-		List<ScheduleException> list = findByPlaceId(placeId, 0, 1,
-				orderByComparator);
+	public ScheduleException fetchByPlaceId_First(
+		long placeId, OrderByComparator<ScheduleException> orderByComparator) {
+
+		List<ScheduleException> list = findByPlaceId(
+			placeId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -884,11 +870,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException findByPlaceId_Last(long placeId,
-		OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException findByPlaceId_Last(
+			long placeId,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
-		ScheduleException scheduleException = fetchByPlaceId_Last(placeId,
-				orderByComparator);
+
+		ScheduleException scheduleException = fetchByPlaceId_Last(
+			placeId, orderByComparator);
 
 		if (scheduleException != null) {
 			return scheduleException;
@@ -901,7 +889,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		msg.append("placeId=");
 		msg.append(placeId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchScheduleExceptionException(msg.toString());
 	}
@@ -914,16 +902,17 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the last matching schedule exception, or <code>null</code> if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException fetchByPlaceId_Last(long placeId,
-		OrderByComparator<ScheduleException> orderByComparator) {
+	public ScheduleException fetchByPlaceId_Last(
+		long placeId, OrderByComparator<ScheduleException> orderByComparator) {
+
 		int count = countByPlaceId(placeId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ScheduleException> list = findByPlaceId(placeId, count - 1, count,
-				orderByComparator);
+		List<ScheduleException> list = findByPlaceId(
+			placeId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -942,9 +931,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a schedule exception with the primary key could not be found
 	 */
 	@Override
-	public ScheduleException[] findByPlaceId_PrevAndNext(long exceptionId,
-		long placeId, OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException[] findByPlaceId_PrevAndNext(
+			long exceptionId, long placeId,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
+
 		ScheduleException scheduleException = findByPrimaryKey(exceptionId);
 
 		Session session = null;
@@ -954,13 +945,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 			ScheduleException[] array = new ScheduleExceptionImpl[3];
 
-			array[0] = getByPlaceId_PrevAndNext(session, scheduleException,
-					placeId, orderByComparator, true);
+			array[0] = getByPlaceId_PrevAndNext(
+				session, scheduleException, placeId, orderByComparator, true);
 
 			array[1] = scheduleException;
 
-			array[2] = getByPlaceId_PrevAndNext(session, scheduleException,
-					placeId, orderByComparator, false);
+			array[2] = getByPlaceId_PrevAndNext(
+				session, scheduleException, placeId, orderByComparator, false);
 
 			return array;
 		}
@@ -972,14 +963,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		}
 	}
 
-	protected ScheduleException getByPlaceId_PrevAndNext(Session session,
-		ScheduleException scheduleException, long placeId,
-		OrderByComparator<ScheduleException> orderByComparator, boolean previous) {
+	protected ScheduleException getByPlaceId_PrevAndNext(
+		Session session, ScheduleException scheduleException, long placeId,
+		OrderByComparator<ScheduleException> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -991,7 +984,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		query.append(_FINDER_COLUMN_PLACEID_PLACEID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1061,10 +1055,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		qPos.add(placeId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(scheduleException);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						scheduleException)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1085,8 +1080,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public void removeByPlaceId(long placeId) {
-		for (ScheduleException scheduleException : findByPlaceId(placeId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ScheduleException scheduleException :
+				findByPlaceId(
+					placeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(scheduleException);
 		}
 	}
@@ -1099,9 +1096,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public int countByPlaceId(long placeId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PLACEID;
+		FinderPath finderPath = _finderPathCountByPlaceId;
 
-		Object[] finderArgs = new Object[] { placeId };
+		Object[] finderArgs = new Object[] {placeId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1142,29 +1139,12 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PLACEID_PLACEID_2 = "scheduleException.placeId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SUBPLACEID =
-		new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubPlaceId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID =
-		new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubPlaceId",
-			new String[] { Long.class.getName() },
-			ScheduleExceptionModelImpl.SUBPLACEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_SUBPLACEID = new FinderPath(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubPlaceId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_PLACEID_PLACEID_2 =
+		"scheduleException.placeId = ?";
+
+	private FinderPath _finderPathWithPaginationFindBySubPlaceId;
+	private FinderPath _finderPathWithoutPaginationFindBySubPlaceId;
+	private FinderPath _finderPathCountBySubPlaceId;
 
 	/**
 	 * Returns all the schedule exceptions where subPlaceId = &#63;.
@@ -1174,15 +1154,15 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public List<ScheduleException> findBySubPlaceId(long subPlaceId) {
-		return findBySubPlaceId(subPlaceId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findBySubPlaceId(
+			subPlaceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the schedule exceptions where subPlaceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param subPlaceId the sub place ID
@@ -1191,8 +1171,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findBySubPlaceId(long subPlaceId, int start,
-		int end) {
+	public List<ScheduleException> findBySubPlaceId(
+		long subPlaceId, int start, int end) {
+
 		return findBySubPlaceId(subPlaceId, start, end, null);
 	}
 
@@ -1200,7 +1181,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions where subPlaceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param subPlaceId the sub place ID
@@ -1210,16 +1191,19 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findBySubPlaceId(long subPlaceId, int start,
-		int end, OrderByComparator<ScheduleException> orderByComparator) {
-		return findBySubPlaceId(subPlaceId, start, end, orderByComparator, true);
+	public List<ScheduleException> findBySubPlaceId(
+		long subPlaceId, int start, int end,
+		OrderByComparator<ScheduleException> orderByComparator) {
+
+		return findBySubPlaceId(
+			subPlaceId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the schedule exceptions where subPlaceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param subPlaceId the sub place ID
@@ -1230,29 +1214,34 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of matching schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findBySubPlaceId(long subPlaceId, int start,
-		int end, OrderByComparator<ScheduleException> orderByComparator,
+	public List<ScheduleException> findBySubPlaceId(
+		long subPlaceId, int start, int end,
+		OrderByComparator<ScheduleException> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID;
-			finderArgs = new Object[] { subPlaceId };
+			finderPath = _finderPathWithoutPaginationFindBySubPlaceId;
+			finderArgs = new Object[] {subPlaceId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SUBPLACEID;
-			finderArgs = new Object[] { subPlaceId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindBySubPlaceId;
+			finderArgs = new Object[] {
+				subPlaceId, start, end, orderByComparator
+			};
 		}
 
 		List<ScheduleException> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ScheduleException>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ScheduleException>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ScheduleException scheduleException : list) {
@@ -1269,8 +1258,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1281,11 +1270,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			query.append(_FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ScheduleExceptionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1303,16 +1291,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 				qPos.add(subPlaceId);
 
 				if (!pagination) {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1341,11 +1329,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException findBySubPlaceId_First(long subPlaceId,
-		OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException findBySubPlaceId_First(
+			long subPlaceId,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
-		ScheduleException scheduleException = fetchBySubPlaceId_First(subPlaceId,
-				orderByComparator);
+
+		ScheduleException scheduleException = fetchBySubPlaceId_First(
+			subPlaceId, orderByComparator);
 
 		if (scheduleException != null) {
 			return scheduleException;
@@ -1358,7 +1348,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		msg.append("subPlaceId=");
 		msg.append(subPlaceId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchScheduleExceptionException(msg.toString());
 	}
@@ -1371,10 +1361,12 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the first matching schedule exception, or <code>null</code> if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException fetchBySubPlaceId_First(long subPlaceId,
+	public ScheduleException fetchBySubPlaceId_First(
+		long subPlaceId,
 		OrderByComparator<ScheduleException> orderByComparator) {
-		List<ScheduleException> list = findBySubPlaceId(subPlaceId, 0, 1,
-				orderByComparator);
+
+		List<ScheduleException> list = findBySubPlaceId(
+			subPlaceId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1392,11 +1384,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException findBySubPlaceId_Last(long subPlaceId,
-		OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException findBySubPlaceId_Last(
+			long subPlaceId,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
-		ScheduleException scheduleException = fetchBySubPlaceId_Last(subPlaceId,
-				orderByComparator);
+
+		ScheduleException scheduleException = fetchBySubPlaceId_Last(
+			subPlaceId, orderByComparator);
 
 		if (scheduleException != null) {
 			return scheduleException;
@@ -1409,7 +1403,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		msg.append("subPlaceId=");
 		msg.append(subPlaceId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchScheduleExceptionException(msg.toString());
 	}
@@ -1422,16 +1416,18 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the last matching schedule exception, or <code>null</code> if a matching schedule exception could not be found
 	 */
 	@Override
-	public ScheduleException fetchBySubPlaceId_Last(long subPlaceId,
+	public ScheduleException fetchBySubPlaceId_Last(
+		long subPlaceId,
 		OrderByComparator<ScheduleException> orderByComparator) {
+
 		int count = countBySubPlaceId(subPlaceId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ScheduleException> list = findBySubPlaceId(subPlaceId, count - 1,
-				count, orderByComparator);
+		List<ScheduleException> list = findBySubPlaceId(
+			subPlaceId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1450,9 +1446,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @throws NoSuchScheduleExceptionException if a schedule exception with the primary key could not be found
 	 */
 	@Override
-	public ScheduleException[] findBySubPlaceId_PrevAndNext(long exceptionId,
-		long subPlaceId, OrderByComparator<ScheduleException> orderByComparator)
+	public ScheduleException[] findBySubPlaceId_PrevAndNext(
+			long exceptionId, long subPlaceId,
+			OrderByComparator<ScheduleException> orderByComparator)
 		throws NoSuchScheduleExceptionException {
+
 		ScheduleException scheduleException = findByPrimaryKey(exceptionId);
 
 		Session session = null;
@@ -1462,13 +1460,15 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 			ScheduleException[] array = new ScheduleExceptionImpl[3];
 
-			array[0] = getBySubPlaceId_PrevAndNext(session, scheduleException,
-					subPlaceId, orderByComparator, true);
+			array[0] = getBySubPlaceId_PrevAndNext(
+				session, scheduleException, subPlaceId, orderByComparator,
+				true);
 
 			array[1] = scheduleException;
 
-			array[2] = getBySubPlaceId_PrevAndNext(session, scheduleException,
-					subPlaceId, orderByComparator, false);
+			array[2] = getBySubPlaceId_PrevAndNext(
+				session, scheduleException, subPlaceId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1480,14 +1480,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		}
 	}
 
-	protected ScheduleException getBySubPlaceId_PrevAndNext(Session session,
-		ScheduleException scheduleException, long subPlaceId,
-		OrderByComparator<ScheduleException> orderByComparator, boolean previous) {
+	protected ScheduleException getBySubPlaceId_PrevAndNext(
+		Session session, ScheduleException scheduleException, long subPlaceId,
+		OrderByComparator<ScheduleException> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1499,7 +1501,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		query.append(_FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1569,10 +1572,11 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		qPos.add(subPlaceId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(scheduleException);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						scheduleException)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1593,8 +1597,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public void removeBySubPlaceId(long subPlaceId) {
-		for (ScheduleException scheduleException : findBySubPlaceId(
-				subPlaceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ScheduleException scheduleException :
+				findBySubPlaceId(
+					subPlaceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(scheduleException);
 		}
 	}
@@ -1607,9 +1613,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public int countBySubPlaceId(long subPlaceId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_SUBPLACEID;
+		FinderPath finderPath = _finderPathCountBySubPlaceId;
 
-		Object[] finderArgs = new Object[] { subPlaceId };
+		Object[] finderArgs = new Object[] {subPlaceId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1650,19 +1656,22 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2 = "scheduleException.subPlaceId = ?";
+	private static final String _FINDER_COLUMN_SUBPLACEID_SUBPLACEID_2 =
+		"scheduleException.subPlaceId = ?";
 
 	public ScheduleExceptionPersistenceImpl() {
 		setModelClass(ScheduleException.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("comment", "comment_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("comment", "comment_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1680,7 +1689,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public void cacheResult(ScheduleException scheduleException) {
-		entityCache.putResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 			ScheduleExceptionImpl.class, scheduleException.getPrimaryKey(),
 			scheduleException);
 
@@ -1696,9 +1706,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	public void cacheResult(List<ScheduleException> scheduleExceptions) {
 		for (ScheduleException scheduleException : scheduleExceptions) {
 			if (entityCache.getResult(
-						ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-						ScheduleExceptionImpl.class,
-						scheduleException.getPrimaryKey()) == null) {
+					ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+					ScheduleExceptionImpl.class,
+					scheduleException.getPrimaryKey()) == null) {
+
 				cacheResult(scheduleException);
 			}
 			else {
@@ -1711,7 +1722,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Clears the cache for all schedule exceptions.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1727,12 +1738,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Clears the cache for the schedule exception.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(ScheduleException scheduleException) {
-		entityCache.removeResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 			ScheduleExceptionImpl.class, scheduleException.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
@@ -1745,7 +1757,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (ScheduleException scheduleException : scheduleExceptions) {
-			entityCache.removeResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 				ScheduleExceptionImpl.class, scheduleException.getPrimaryKey());
 		}
 	}
@@ -1780,6 +1793,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	@Override
 	public ScheduleException remove(long exceptionId)
 		throws NoSuchScheduleExceptionException {
+
 		return remove((Serializable)exceptionId);
 	}
 
@@ -1793,21 +1807,23 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	@Override
 	public ScheduleException remove(Serializable primaryKey)
 		throws NoSuchScheduleExceptionException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			ScheduleException scheduleException = (ScheduleException)session.get(ScheduleExceptionImpl.class,
-					primaryKey);
+			ScheduleException scheduleException =
+				(ScheduleException)session.get(
+					ScheduleExceptionImpl.class, primaryKey);
 
 			if (scheduleException == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchScheduleExceptionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchScheduleExceptionException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(scheduleException);
@@ -1824,8 +1840,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	}
 
 	@Override
-	protected ScheduleException removeImpl(ScheduleException scheduleException) {
-		scheduleException = toUnwrappedModel(scheduleException);
+	protected ScheduleException removeImpl(
+		ScheduleException scheduleException) {
 
 		Session session = null;
 
@@ -1833,8 +1849,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			session = openSession();
 
 			if (!session.contains(scheduleException)) {
-				scheduleException = (ScheduleException)session.get(ScheduleExceptionImpl.class,
-						scheduleException.getPrimaryKeyObj());
+				scheduleException = (ScheduleException)session.get(
+					ScheduleExceptionImpl.class,
+					scheduleException.getPrimaryKeyObj());
 			}
 
 			if (scheduleException != null) {
@@ -1857,11 +1874,27 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 	@Override
 	public ScheduleException updateImpl(ScheduleException scheduleException) {
-		scheduleException = toUnwrappedModel(scheduleException);
-
 		boolean isNew = scheduleException.isNew();
 
-		ScheduleExceptionModelImpl scheduleExceptionModelImpl = (ScheduleExceptionModelImpl)scheduleException;
+		if (!(scheduleException instanceof ScheduleExceptionModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(scheduleException.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					scheduleException);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in scheduleException proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom ScheduleException implementation " +
+					scheduleException.getClass());
+		}
+
+		ScheduleExceptionModelImpl scheduleExceptionModelImpl =
+			(ScheduleExceptionModelImpl)scheduleException;
 
 		if (Validator.isNull(scheduleException.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -1880,7 +1913,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 				scheduleException.setNew(false);
 			}
 			else {
-				scheduleException = (ScheduleException)session.merge(scheduleException);
+				scheduleException = (ScheduleException)session.merge(
+					scheduleException);
 			}
 		}
 		catch (Exception e) {
@@ -1895,85 +1929,92 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		if (!ScheduleExceptionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { scheduleExceptionModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {scheduleExceptionModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { scheduleExceptionModelImpl.getPlaceId() };
+			args = new Object[] {scheduleExceptionModelImpl.getPlaceId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID,
-				args);
+			finderCache.removeResult(_finderPathCountByPlaceId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPlaceId, args);
 
-			args = new Object[] { scheduleExceptionModelImpl.getSubPlaceId() };
+			args = new Object[] {scheduleExceptionModelImpl.getSubPlaceId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_SUBPLACEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID,
-				args);
+			finderCache.removeResult(_finderPathCountBySubPlaceId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindBySubPlaceId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((scheduleExceptionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						scheduleExceptionModelImpl.getOriginalUuid()
-					};
+					scheduleExceptionModelImpl.getOriginalUuid()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] { scheduleExceptionModelImpl.getUuid() };
+				args = new Object[] {scheduleExceptionModelImpl.getUuid()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((scheduleExceptionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByPlaceId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						scheduleExceptionModelImpl.getOriginalPlaceId()
-					};
+					scheduleExceptionModelImpl.getOriginalPlaceId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountByPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPlaceId, args);
 
-				args = new Object[] { scheduleExceptionModelImpl.getPlaceId() };
+				args = new Object[] {scheduleExceptionModelImpl.getPlaceId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountByPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPlaceId, args);
 			}
 
 			if ((scheduleExceptionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindBySubPlaceId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						scheduleExceptionModelImpl.getOriginalSubPlaceId()
-					};
+					scheduleExceptionModelImpl.getOriginalSubPlaceId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SUBPLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySubPlaceId, args);
 
-				args = new Object[] { scheduleExceptionModelImpl.getSubPlaceId() };
+				args = new Object[] {
+					scheduleExceptionModelImpl.getSubPlaceId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SUBPLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SUBPLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBySubPlaceId, args);
 			}
 		}
 
-		entityCache.putResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 			ScheduleExceptionImpl.class, scheduleException.getPrimaryKey(),
 			scheduleException, false);
 
@@ -1982,37 +2023,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		return scheduleException;
 	}
 
-	protected ScheduleException toUnwrappedModel(
-		ScheduleException scheduleException) {
-		if (scheduleException instanceof ScheduleExceptionImpl) {
-			return scheduleException;
-		}
-
-		ScheduleExceptionImpl scheduleExceptionImpl = new ScheduleExceptionImpl();
-
-		scheduleExceptionImpl.setNew(scheduleException.isNew());
-		scheduleExceptionImpl.setPrimaryKey(scheduleException.getPrimaryKey());
-
-		scheduleExceptionImpl.setUuid(scheduleException.getUuid());
-		scheduleExceptionImpl.setExceptionId(scheduleException.getExceptionId());
-		scheduleExceptionImpl.setStartDate(scheduleException.getStartDate());
-		scheduleExceptionImpl.setEndDate(scheduleException.getEndDate());
-		scheduleExceptionImpl.setOpeningTimes(scheduleException.getOpeningTimes());
-		scheduleExceptionImpl.setFirstComment(scheduleException.getFirstComment());
-		scheduleExceptionImpl.setSecondComment(scheduleException.getSecondComment());
-		scheduleExceptionImpl.setThirdComment(scheduleException.getThirdComment());
-		scheduleExceptionImpl.setFourthComment(scheduleException.getFourthComment());
-		scheduleExceptionImpl.setFifthComment(scheduleException.getFifthComment());
-		scheduleExceptionImpl.setComment(scheduleException.getComment());
-		scheduleExceptionImpl.setClosed(scheduleException.isClosed());
-		scheduleExceptionImpl.setPlaceId(scheduleException.getPlaceId());
-		scheduleExceptionImpl.setSubPlaceId(scheduleException.getSubPlaceId());
-
-		return scheduleExceptionImpl;
-	}
-
 	/**
-	 * Returns the schedule exception with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the schedule exception with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the schedule exception
 	 * @return the schedule exception
@@ -2021,6 +2033,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	@Override
 	public ScheduleException findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchScheduleExceptionException {
+
 		ScheduleException scheduleException = fetchByPrimaryKey(primaryKey);
 
 		if (scheduleException == null) {
@@ -2028,15 +2041,15 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchScheduleExceptionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchScheduleExceptionException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return scheduleException;
 	}
 
 	/**
-	 * Returns the schedule exception with the primary key or throws a {@link NoSuchScheduleExceptionException} if it could not be found.
+	 * Returns the schedule exception with the primary key or throws a <code>NoSuchScheduleExceptionException</code> if it could not be found.
 	 *
 	 * @param exceptionId the primary key of the schedule exception
 	 * @return the schedule exception
@@ -2045,6 +2058,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	@Override
 	public ScheduleException findByPrimaryKey(long exceptionId)
 		throws NoSuchScheduleExceptionException {
+
 		return findByPrimaryKey((Serializable)exceptionId);
 	}
 
@@ -2056,8 +2070,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public ScheduleException fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-				ScheduleExceptionImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2071,19 +2086,21 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			try {
 				session = openSession();
 
-				scheduleException = (ScheduleException)session.get(ScheduleExceptionImpl.class,
-						primaryKey);
+				scheduleException = (ScheduleException)session.get(
+					ScheduleExceptionImpl.class, primaryKey);
 
 				if (scheduleException != null) {
 					cacheResult(scheduleException);
 				}
 				else {
-					entityCache.putResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 						ScheduleExceptionImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 					ScheduleExceptionImpl.class, primaryKey);
 
 				throw processException(e);
@@ -2110,11 +2127,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	@Override
 	public Map<Serializable, ScheduleException> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, ScheduleException> map = new HashMap<Serializable, ScheduleException>();
+		Map<Serializable, ScheduleException> map =
+			new HashMap<Serializable, ScheduleException>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -2133,8 +2152,9 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-					ScheduleExceptionImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+				ScheduleExceptionImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2154,20 +2174,20 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_SCHEDULEEXCEPTION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2178,16 +2198,21 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 			Query q = session.createQuery(sql);
 
-			for (ScheduleException scheduleException : (List<ScheduleException>)q.list()) {
-				map.put(scheduleException.getPrimaryKeyObj(), scheduleException);
+			for (ScheduleException scheduleException :
+					(List<ScheduleException>)q.list()) {
+
+				map.put(
+					scheduleException.getPrimaryKeyObj(), scheduleException);
 
 				cacheResult(scheduleException);
 
-				uncachedPrimaryKeys.remove(scheduleException.getPrimaryKeyObj());
+				uncachedPrimaryKeys.remove(
+					scheduleException.getPrimaryKeyObj());
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 					ScheduleExceptionImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -2215,7 +2240,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns a range of all the schedule exceptions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of schedule exceptions
@@ -2231,7 +2256,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of schedule exceptions
@@ -2240,8 +2265,10 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findAll(int start, int end,
+	public List<ScheduleException> findAll(
+		int start, int end,
 		OrderByComparator<ScheduleException> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2249,7 +2276,7 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Returns an ordered range of all the schedule exceptions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ScheduleExceptionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ScheduleExceptionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of schedule exceptions
@@ -2259,29 +2286,32 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * @return the ordered range of schedule exceptions
 	 */
 	@Override
-	public List<ScheduleException> findAll(int start, int end,
+	public List<ScheduleException> findAll(
+		int start, int end,
 		OrderByComparator<ScheduleException> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<ScheduleException> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ScheduleException>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ScheduleException>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2289,13 +2319,13 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_SCHEDULEEXCEPTION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2315,16 +2345,16 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ScheduleException>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ScheduleException>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2362,8 +2392,8 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2375,12 +2405,12 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2406,6 +2436,96 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 	 * Initializes the schedule exception persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			ScheduleExceptionModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByPlaceId = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByPlaceId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPlaceId = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
+			new String[] {Long.class.getName()},
+			ScheduleExceptionModelImpl.PLACEID_COLUMN_BITMASK);
+
+		_finderPathCountByPlaceId = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindBySubPlaceId = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBySubPlaceId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindBySubPlaceId = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
+			ScheduleExceptionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubPlaceId",
+			new String[] {Long.class.getName()},
+			ScheduleExceptionModelImpl.SUBPLACEID_COLUMN_BITMASK);
+
+		_finderPathCountBySubPlaceId = new FinderPath(
+			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
+			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubPlaceId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2417,18 +2537,37 @@ public class ScheduleExceptionPersistenceImpl extends BasePersistenceImpl<Schedu
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_SCHEDULEEXCEPTION = "SELECT scheduleException FROM ScheduleException scheduleException";
-	private static final String _SQL_SELECT_SCHEDULEEXCEPTION_WHERE_PKS_IN = "SELECT scheduleException FROM ScheduleException scheduleException WHERE exceptionId IN (";
-	private static final String _SQL_SELECT_SCHEDULEEXCEPTION_WHERE = "SELECT scheduleException FROM ScheduleException scheduleException WHERE ";
-	private static final String _SQL_COUNT_SCHEDULEEXCEPTION = "SELECT COUNT(scheduleException) FROM ScheduleException scheduleException";
-	private static final String _SQL_COUNT_SCHEDULEEXCEPTION_WHERE = "SELECT COUNT(scheduleException) FROM ScheduleException scheduleException WHERE ";
+
+	private static final String _SQL_SELECT_SCHEDULEEXCEPTION =
+		"SELECT scheduleException FROM ScheduleException scheduleException";
+
+	private static final String _SQL_SELECT_SCHEDULEEXCEPTION_WHERE_PKS_IN =
+		"SELECT scheduleException FROM ScheduleException scheduleException WHERE exceptionId IN (";
+
+	private static final String _SQL_SELECT_SCHEDULEEXCEPTION_WHERE =
+		"SELECT scheduleException FROM ScheduleException scheduleException WHERE ";
+
+	private static final String _SQL_COUNT_SCHEDULEEXCEPTION =
+		"SELECT COUNT(scheduleException) FROM ScheduleException scheduleException";
+
+	private static final String _SQL_COUNT_SCHEDULEEXCEPTION_WHERE =
+		"SELECT COUNT(scheduleException) FROM ScheduleException scheduleException WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "scheduleException.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ScheduleException exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ScheduleException exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(ScheduleExceptionPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "comment"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No ScheduleException exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No ScheduleException exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ScheduleExceptionPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid", "comment"});
+
 }

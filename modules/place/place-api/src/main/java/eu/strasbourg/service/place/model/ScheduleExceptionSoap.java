@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class ScheduleExceptionSoap implements Serializable {
+
 	public static ScheduleExceptionSoap toSoapModel(ScheduleException model) {
 		ScheduleExceptionSoap soapModel = new ScheduleExceptionSoap();
 
@@ -44,7 +45,7 @@ public class ScheduleExceptionSoap implements Serializable {
 		soapModel.setFourthComment(model.getFourthComment());
 		soapModel.setFifthComment(model.getFifthComment());
 		soapModel.setComment(model.getComment());
-		soapModel.setClosed(model.getClosed());
+		soapModel.setClosed(model.isClosed());
 		soapModel.setPlaceId(model.getPlaceId());
 		soapModel.setSubPlaceId(model.getSubPlaceId());
 
@@ -53,7 +54,9 @@ public class ScheduleExceptionSoap implements Serializable {
 
 	public static ScheduleExceptionSoap[] toSoapModels(
 		ScheduleException[] models) {
-		ScheduleExceptionSoap[] soapModels = new ScheduleExceptionSoap[models.length];
+
+		ScheduleExceptionSoap[] soapModels =
+			new ScheduleExceptionSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -64,10 +67,12 @@ public class ScheduleExceptionSoap implements Serializable {
 
 	public static ScheduleExceptionSoap[][] toSoapModels(
 		ScheduleException[][] models) {
+
 		ScheduleExceptionSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ScheduleExceptionSoap[models.length][models[0].length];
+			soapModels =
+				new ScheduleExceptionSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ScheduleExceptionSoap[0][0];
@@ -82,7 +87,9 @@ public class ScheduleExceptionSoap implements Serializable {
 
 	public static ScheduleExceptionSoap[] toSoapModels(
 		List<ScheduleException> models) {
-		List<ScheduleExceptionSoap> soapModels = new ArrayList<ScheduleExceptionSoap>(models.size());
+
+		List<ScheduleExceptionSoap> soapModels =
+			new ArrayList<ScheduleExceptionSoap>(models.size());
 
 		for (ScheduleException model : models) {
 			soapModels.add(toSoapModel(model));
@@ -232,4 +239,5 @@ public class ScheduleExceptionSoap implements Serializable {
 	private boolean _closed;
 	private long _placeId;
 	private long _subPlaceId;
+
 }
