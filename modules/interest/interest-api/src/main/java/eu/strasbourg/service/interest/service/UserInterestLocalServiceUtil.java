@@ -16,7 +16,6 @@ package eu.strasbourg.service.interest.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -75,7 +74,7 @@ public class UserInterestLocalServiceUtil {
 	public static com.liferay.portal.kernel.model.PersistedModel
 			deletePersistedModel(
 				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -104,7 +103,7 @@ public class UserInterestLocalServiceUtil {
 			deleteUserInterest(
 				eu.strasbourg.service.interest.service.persistence.
 					UserInterestPK userInterestPK)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteUserInterest(userInterestPK);
 	}
@@ -240,7 +239,7 @@ public class UserInterestLocalServiceUtil {
 
 	public static com.liferay.portal.kernel.model.PersistedModel
 			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -256,7 +255,7 @@ public class UserInterestLocalServiceUtil {
 			getUserInterest(
 				eu.strasbourg.service.interest.service.persistence.
 					UserInterestPK userInterestPK)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getUserInterest(userInterestPK);
 	}

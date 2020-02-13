@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException;
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
 
 import java.io.Serializable;
@@ -218,7 +217,8 @@ public class UserNotificationChannelUtil {
 	public static UserNotificationChannel findByPublikUserId_First(
 			String publikUserId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByPublikUserId_First(
 			publikUserId, orderByComparator);
@@ -250,7 +250,8 @@ public class UserNotificationChannelUtil {
 	public static UserNotificationChannel findByPublikUserId_Last(
 			String publikUserId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByPublikUserId_Last(
 			publikUserId, orderByComparator);
@@ -285,7 +286,8 @@ public class UserNotificationChannelUtil {
 				UserNotificationChannelPK userNotificationChannelPK,
 			String publikUserId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByPublikUserId_PrevAndNext(
 			userNotificationChannelPK, publikUserId, orderByComparator);
@@ -395,7 +397,8 @@ public class UserNotificationChannelUtil {
 	public static UserNotificationChannel findByChannelId_First(
 			long channelId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByChannelId_First(
 			channelId, orderByComparator);
@@ -427,7 +430,8 @@ public class UserNotificationChannelUtil {
 	public static UserNotificationChannel findByChannelId_Last(
 			long channelId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByChannelId_Last(
 			channelId, orderByComparator);
@@ -462,7 +466,8 @@ public class UserNotificationChannelUtil {
 				UserNotificationChannelPK userNotificationChannelPK,
 			long channelId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByChannelId_PrevAndNext(
 			userNotificationChannelPK, channelId, orderByComparator);
@@ -532,7 +537,8 @@ public class UserNotificationChannelUtil {
 	public static UserNotificationChannel remove(
 			eu.strasbourg.service.notification.service.persistence.
 				UserNotificationChannelPK userNotificationChannelPK)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().remove(userNotificationChannelPK);
 	}
@@ -553,7 +559,8 @@ public class UserNotificationChannelUtil {
 	public static UserNotificationChannel findByPrimaryKey(
 			eu.strasbourg.service.notification.service.persistence.
 				UserNotificationChannelPK userNotificationChannelPK)
-		throws NoSuchUserNotificationChannelException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationChannelException {
 
 		return getPersistence().findByPrimaryKey(userNotificationChannelPK);
 	}
