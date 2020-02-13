@@ -11,31 +11,30 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-package eu.strasbourg.service.activity.exception;
+package eu.strasbourg.service.notification.exception;
 
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
- * @author Brian Wing Shun Chan
+ * @author BenjaminBini
  */
 @ProviderType
-public class NoSuchActivityCourseScheduleException extends NoSuchModelException {
+public class NoSuchNotificationException extends NoSuchModelException {
 
-	public NoSuchActivityCourseScheduleException() {
+	public NoSuchNotificationException() {
 	}
 
-	public NoSuchActivityCourseScheduleException(String msg) {
+	public NoSuchNotificationException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchActivityCourseScheduleException(String msg, Throwable cause) {
+	public NoSuchNotificationException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchActivityCourseScheduleException(Throwable cause) {
+	public NoSuchNotificationException(Throwable cause) {
 		super(cause);
 	}
 

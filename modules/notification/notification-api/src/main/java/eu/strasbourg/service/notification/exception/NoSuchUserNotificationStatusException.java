@@ -11,8 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-package eu.strasbourg.service.agenda.exception;
+package eu.strasbourg.service.notification.exception;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -22,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author BenjaminBini
  */
 @ProviderType
-public class NoSuchEventPeriodException extends NoSuchModelException {
+public class NoSuchUserNotificationStatusException extends NoSuchModelException {
 
-	public NoSuchEventPeriodException() {
+	public NoSuchUserNotificationStatusException() {
 	}
 
-	public NoSuchEventPeriodException(String msg) {
+	public NoSuchUserNotificationStatusException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchEventPeriodException(String msg, Throwable cause) {
+	public NoSuchUserNotificationStatusException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchEventPeriodException(Throwable cause) {
+	public NoSuchUserNotificationStatusException(Throwable cause) {
 		super(cause);
 	}
 

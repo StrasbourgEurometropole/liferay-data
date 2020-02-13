@@ -11,8 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-package eu.strasbourg.service.video.exception;
+package eu.strasbourg.service.notification.exception;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -22,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author BenjaminBini
  */
 @ProviderType
-public class NoSuchVideoGalleryException extends NoSuchModelException {
+public class NoSuchUserNotificationChannelException extends NoSuchModelException {
 
-	public NoSuchVideoGalleryException() {
+	public NoSuchUserNotificationChannelException() {
 	}
 
-	public NoSuchVideoGalleryException(String msg) {
+	public NoSuchUserNotificationChannelException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchVideoGalleryException(String msg, Throwable cause) {
+	public NoSuchUserNotificationChannelException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchVideoGalleryException(Throwable cause) {
+	public NoSuchUserNotificationChannelException(Throwable cause) {
 		super(cause);
 	}
 
