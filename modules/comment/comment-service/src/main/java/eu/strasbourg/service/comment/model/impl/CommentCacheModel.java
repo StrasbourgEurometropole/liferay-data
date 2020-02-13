@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.comment.model.Comment;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Comment in entity cache.
  *
  * @author Romain Vergnais
- * @see Comment
  * @generated
  */
 @ProviderType
 public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -91,8 +90,8 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
-		sb.append(", comment=");
-		sb.append(comment);
+		sb.append(", text=");
+		sb.append(text);
 		sb.append(", level=");
 		sb.append(level);
 		sb.append(", userQuality=");
@@ -117,7 +116,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		CommentImpl commentImpl = new CommentImpl();
 
 		if (uuid == null) {
-			commentImpl.setUuid(StringPool.BLANK);
+			commentImpl.setUuid("");
 		}
 		else {
 			commentImpl.setUuid(uuid);
@@ -129,7 +128,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		commentImpl.setUserId(userId);
 
 		if (userName == null) {
-			commentImpl.setUserName(StringPool.BLANK);
+			commentImpl.setUserName("");
 		}
 		else {
 			commentImpl.setUserName(userName);
@@ -153,7 +152,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		commentImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			commentImpl.setStatusByUserName(StringPool.BLANK);
+			commentImpl.setStatusByUserName("");
 		}
 		else {
 			commentImpl.setStatusByUserName(statusByUserName);
@@ -166,17 +165,17 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 			commentImpl.setStatusDate(new Date(statusDate));
 		}
 
-		if (comment == null) {
-			commentImpl.setComment(StringPool.BLANK);
+		if (text == null) {
+			commentImpl.setText("");
 		}
 		else {
-			commentImpl.setComment(comment);
+			commentImpl.setText(text);
 		}
 
 		commentImpl.setLevel(level);
 
 		if (userQuality == null) {
-			commentImpl.setUserQuality(StringPool.BLANK);
+			commentImpl.setUserQuality("");
 		}
 		else {
 			commentImpl.setUserQuality(userQuality);
@@ -192,7 +191,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		commentImpl.setAssetEntryId(assetEntryId);
 
 		if (publikId == null) {
-			commentImpl.setPublikId(StringPool.BLANK);
+			commentImpl.setPublikId("");
 		}
 		else {
 			commentImpl.setPublikId(publikId);
@@ -201,7 +200,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		commentImpl.setParentCommentId(parentCommentId);
 
 		if (urlProjectCommentaire == null) {
-			commentImpl.setUrlProjectCommentaire(StringPool.BLANK);
+			commentImpl.setUrlProjectCommentaire("");
 		}
 		else {
 			commentImpl.setUrlProjectCommentaire(urlProjectCommentaire);
@@ -232,7 +231,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
-		comment = objectInput.readUTF();
+		text = objectInput.readUTF();
 
 		level = objectInput.readInt();
 		userQuality = objectInput.readUTF();
@@ -246,10 +245,9 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -264,7 +262,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -278,7 +276,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -286,17 +284,17 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 		objectOutput.writeLong(statusDate);
 
-		if (comment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+		if (text == null) {
+			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(comment);
+			objectOutput.writeUTF(text);
 		}
 
 		objectOutput.writeInt(level);
 
 		if (userQuality == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userQuality);
@@ -307,7 +305,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(assetEntryId);
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
@@ -316,7 +314,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(parentCommentId);
 
 		if (urlProjectCommentaire == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(urlProjectCommentaire);
@@ -335,7 +333,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
-	public String comment;
+	public String text;
 	public int level;
 	public String userQuality;
 	public long modifiedByUserDate;
@@ -343,4 +341,5 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	public String publikId;
 	public long parentCommentId;
 	public String urlProjectCommentaire;
+
 }

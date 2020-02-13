@@ -17,9 +17,7 @@ package eu.strasbourg.service.comment.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -40,8 +38,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class SignalementWrapper implements Signalement,
-	ModelWrapper<Signalement> {
+public class SignalementWrapper
+	implements Signalement, ModelWrapper<Signalement> {
+
 	public SignalementWrapper(Signalement signalement) {
 		_signalement = signalement;
 	}
@@ -165,11 +164,284 @@ public class SignalementWrapper implements Signalement,
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new SignalementWrapper((Signalement)_signalement.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.comment.model.Signalement signalement) {
+
+		return _signalement.compareTo(signalement);
+	}
+
 	/**
-	* Returns <code>true</code> if this signalement is approved.
-	*
-	* @return <code>true</code> if this signalement is approved; <code>false</code> otherwise
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _signalement.getAssetEntry();
+	}
+
+	@Override
+	public String getCategorieName() {
+		return _signalement.getCategorieName();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategoriesByAssetEntry() {
+
+		return _signalement.getCategoriesByAssetEntry();
+	}
+
+	/**
+	 * méthode qui permet de récupérer le commmentaire lié au signalement.
+	 *
+	 * @return le commentaire.
+	 */
+	@Override
+	public eu.strasbourg.service.comment.model.Comment getComment() {
+		return _signalement.getComment();
+	}
+
+	/**
+	 * Retourne l'utilisateur auteur du commentaire
+	 */
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getCommentAuthor() {
+		return _signalement.getCommentAuthor();
+	}
+
+	/**
+	 * Retourne le nom de l'auteur du commentaire
+	 */
+	@Override
+	public String getCommentAuthorLabel() {
+		return _signalement.getCommentAuthorLabel();
+	}
+
+	/**
+	 * Recuperer le commmentaire lie au signalement.
+	 *
+	 * @return le commentaire.
+	 */
+	@Override
+	public String getCommentContent() {
+		return _signalement.getCommentContent();
+	}
+
+	/**
+	 * Returns the comment ID of this signalement.
+	 *
+	 * @return the comment ID of this signalement
+	 */
+	@Override
+	public long getCommentId() {
+		return _signalement.getCommentId();
+	}
+
+	/**
+	 * Returns the company ID of this signalement.
+	 *
+	 * @return the company ID of this signalement
+	 */
+	@Override
+	public long getCompanyId() {
+		return _signalement.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this signalement.
+	 *
+	 * @return the create date of this signalement
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _signalement.getCreateDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _signalement.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the group ID of this signalement.
+	 *
+	 * @return the group ID of this signalement
+	 */
+	@Override
+	public long getGroupId() {
+		return _signalement.getGroupId();
+	}
+
+	/**
+	 * Returns the modified date of this signalement.
+	 *
+	 * @return the modified date of this signalement
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _signalement.getModifiedDate();
+	}
+
+	/**
+	 * Returns the primary key of this signalement.
+	 *
+	 * @return the primary key of this signalement
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _signalement.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _signalement.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik ID of this signalement.
+	 *
+	 * @return the publik ID of this signalement
+	 */
+	@Override
+	public String getPublikId() {
+		return _signalement.getPublikId();
+	}
+
+	/**
+	 * Retourne l'utilisateur auteur du signalement
+	 */
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
+		return _signalement.getSignalementAuthor();
+	}
+
+	/**
+	 * Retourne le nom de l'auteur du signalement
+	 */
+	@Override
+	public String getSignalementAuthorLabel() {
+		return _signalement.getSignalementAuthorLabel();
+	}
+
+	/**
+	 * Returns the signalement ID of this signalement.
+	 *
+	 * @return the signalement ID of this signalement
+	 */
+	@Override
+	public long getSignalementId() {
+		return _signalement.getSignalementId();
+	}
+
+	/**
+	 * Returns the status of this signalement.
+	 *
+	 * @return the status of this signalement
+	 */
+	@Override
+	public int getStatus() {
+		return _signalement.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this signalement.
+	 *
+	 * @return the status by user ID of this signalement
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _signalement.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this signalement.
+	 *
+	 * @return the status by user name of this signalement
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _signalement.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this signalement.
+	 *
+	 * @return the status by user uuid of this signalement
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _signalement.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this signalement.
+	 *
+	 * @return the status date of this signalement
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _signalement.getStatusDate();
+	}
+
+	/**
+	 * Returns the user ID of this signalement.
+	 *
+	 * @return the user ID of this signalement
+	 */
+	@Override
+	public long getUserId() {
+		return _signalement.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this signalement.
+	 *
+	 * @return the user name of this signalement
+	 */
+	@Override
+	public String getUserName() {
+		return _signalement.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this signalement.
+	 *
+	 * @return the user uuid of this signalement
+	 */
+	@Override
+	public String getUserUuid() {
+		return _signalement.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this signalement.
+	 *
+	 * @return the uuid of this signalement
+	 */
+	@Override
+	public String getUuid() {
+		return _signalement.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _signalement.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this signalement is approved.
+	 *
+	 * @return <code>true</code> if this signalement is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _signalement.isApproved();
@@ -181,20 +453,20 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is denied.
-	*
-	* @return <code>true</code> if this signalement is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is denied.
+	 *
+	 * @return <code>true</code> if this signalement is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _signalement.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is a draft.
-	*
-	* @return <code>true</code> if this signalement is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is a draft.
+	 *
+	 * @return <code>true</code> if this signalement is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _signalement.isDraft();
@@ -206,30 +478,30 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is expired.
-	*
-	* @return <code>true</code> if this signalement is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is expired.
+	 *
+	 * @return <code>true</code> if this signalement is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _signalement.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is inactive.
-	*
-	* @return <code>true</code> if this signalement is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is inactive.
+	 *
+	 * @return <code>true</code> if this signalement is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _signalement.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is incomplete.
-	*
-	* @return <code>true</code> if this signalement is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is incomplete.
+	 *
+	 * @return <code>true</code> if this signalement is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _signalement.isIncomplete();
@@ -241,318 +513,23 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is pending.
-	*
-	* @return <code>true</code> if this signalement is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is pending.
+	 *
+	 * @return <code>true</code> if this signalement is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _signalement.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this signalement is scheduled.
-	*
-	* @return <code>true</code> if this signalement is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this signalement is scheduled.
+	 *
+	 * @return <code>true</code> if this signalement is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _signalement.isScheduled();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _signalement.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _signalement.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.comment.model.Signalement> toCacheModel() {
-		return _signalement.toCacheModel();
-	}
-
-	/**
-	* méthode qui permet de récupérer le commmentaire lié au signalement.
-	*
-	* @return le commentaire.
-	*/
-	@Override
-	public eu.strasbourg.service.comment.model.Comment getComment() {
-		return _signalement.getComment();
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Signalement toEscapedModel() {
-		return new SignalementWrapper(_signalement.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Signalement toUnescapedModel() {
-		return new SignalementWrapper(_signalement.toUnescapedModel());
-	}
-
-	/**
-	* Retourne l'utilisateur auteur du commentaire
-	*/
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser getCommentAuthor() {
-		return _signalement.getCommentAuthor();
-	}
-
-	/**
-	* Retourne l'utilisateur auteur du signalement
-	*/
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
-		return _signalement.getSignalementAuthor();
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.comment.model.Signalement signalement) {
-		return _signalement.compareTo(signalement);
-	}
-
-	/**
-	* Returns the status of this signalement.
-	*
-	* @return the status of this signalement
-	*/
-	@Override
-	public int getStatus() {
-		return _signalement.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _signalement.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _signalement.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new SignalementWrapper((Signalement)_signalement.clone());
-	}
-
-	@Override
-	public java.lang.String getCategorieName() {
-		return _signalement.getCategorieName();
-	}
-
-	/**
-	* Retourne le nom de l'auteur du commentaire
-	*/
-	@Override
-	public java.lang.String getCommentAuthorLabel() {
-		return _signalement.getCommentAuthorLabel();
-	}
-
-	/**
-	* Recuperer le commmentaire lie au signalement.
-	*
-	* @return le commentaire.
-	*/
-	@Override
-	public java.lang.String getCommentContent() {
-		return _signalement.getCommentContent();
-	}
-
-	/**
-	* Returns the publik ID of this signalement.
-	*
-	* @return the publik ID of this signalement
-	*/
-	@Override
-	public java.lang.String getPublikId() {
-		return _signalement.getPublikId();
-	}
-
-	/**
-	* Retourne le nom de l'auteur du signalement
-	*/
-	@Override
-	public java.lang.String getSignalementAuthorLabel() {
-		return _signalement.getSignalementAuthorLabel();
-	}
-
-	/**
-	* Returns the status by user name of this signalement.
-	*
-	* @return the status by user name of this signalement
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _signalement.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this signalement.
-	*
-	* @return the status by user uuid of this signalement
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _signalement.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the user name of this signalement.
-	*
-	* @return the user name of this signalement
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _signalement.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this signalement.
-	*
-	* @return the user uuid of this signalement
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _signalement.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this signalement.
-	*
-	* @return the uuid of this signalement
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _signalement.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _signalement.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _signalement.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this signalement.
-	*
-	* @return the create date of this signalement
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _signalement.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this signalement.
-	*
-	* @return the modified date of this signalement
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _signalement.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this signalement.
-	*
-	* @return the status date of this signalement
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _signalement.getStatusDate();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry() {
-		return _signalement.getCategoriesByAssetEntry();
-	}
-
-	/**
-	* Returns the comment ID of this signalement.
-	*
-	* @return the comment ID of this signalement
-	*/
-	@Override
-	public long getCommentId() {
-		return _signalement.getCommentId();
-	}
-
-	/**
-	* Returns the company ID of this signalement.
-	*
-	* @return the company ID of this signalement
-	*/
-	@Override
-	public long getCompanyId() {
-		return _signalement.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this signalement.
-	*
-	* @return the group ID of this signalement
-	*/
-	@Override
-	public long getGroupId() {
-		return _signalement.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this signalement.
-	*
-	* @return the primary key of this signalement
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _signalement.getPrimaryKey();
-	}
-
-	/**
-	* Returns the signalement ID of this signalement.
-	*
-	* @return the signalement ID of this signalement
-	*/
-	@Override
-	public long getSignalementId() {
-		return _signalement.getSignalementId();
-	}
-
-	/**
-	* Returns the status by user ID of this signalement.
-	*
-	* @return the status by user ID of this signalement
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _signalement.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this signalement.
-	*
-	* @return the user ID of this signalement
-	*/
-	@Override
-	public long getUserId() {
-		return _signalement.getUserId();
 	}
 
 	@Override
@@ -566,33 +543,40 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* Sets the comment ID of this signalement.
-	*
-	* @param commentId the comment ID of this signalement
-	*/
+	 * Sets the comment ID of this signalement.
+	 *
+	 * @param commentId the comment ID of this signalement
+	 */
 	@Override
 	public void setCommentId(long commentId) {
 		_signalement.setCommentId(commentId);
 	}
 
 	/**
-	* Sets the company ID of this signalement.
-	*
-	* @param companyId the company ID of this signalement
-	*/
+	 * Sets the company ID of this signalement.
+	 *
+	 * @param companyId the company ID of this signalement
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_signalement.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this signalement.
-	*
-	* @param createDate the create date of this signalement
-	*/
+	 * Sets the create date of this signalement.
+	 *
+	 * @param createDate the create date of this signalement
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_signalement.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_signalement.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -601,31 +585,25 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_signalement.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_signalement.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this signalement.
-	*
-	* @param groupId the group ID of this signalement
-	*/
+	 * Sets the group ID of this signalement.
+	 *
+	 * @param groupId the group ID of this signalement
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_signalement.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the modified date of this signalement.
-	*
-	* @param modifiedDate the modified date of this signalement
-	*/
+	 * Sets the modified date of this signalement.
+	 *
+	 * @param modifiedDate the modified date of this signalement
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_signalement.setModifiedDate(modifiedDate);
@@ -637,10 +615,10 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* Sets the primary key of this signalement.
-	*
-	* @param primaryKey the primary key of this signalement
-	*/
+	 * Sets the primary key of this signalement.
+	 *
+	 * @param primaryKey the primary key of this signalement
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_signalement.setPrimaryKey(primaryKey);
@@ -652,113 +630,140 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	/**
-	* Sets the publik ID of this signalement.
-	*
-	* @param publikId the publik ID of this signalement
-	*/
+	 * Sets the publik ID of this signalement.
+	 *
+	 * @param publikId the publik ID of this signalement
+	 */
 	@Override
-	public void setPublikId(java.lang.String publikId) {
+	public void setPublikId(String publikId) {
 		_signalement.setPublikId(publikId);
 	}
 
 	/**
-	* Sets the signalement ID of this signalement.
-	*
-	* @param signalementId the signalement ID of this signalement
-	*/
+	 * Sets the signalement ID of this signalement.
+	 *
+	 * @param signalementId the signalement ID of this signalement
+	 */
 	@Override
 	public void setSignalementId(long signalementId) {
 		_signalement.setSignalementId(signalementId);
 	}
 
 	/**
-	* Sets the status of this signalement.
-	*
-	* @param status the status of this signalement
-	*/
+	 * Sets the status of this signalement.
+	 *
+	 * @param status the status of this signalement
+	 */
 	@Override
 	public void setStatus(int status) {
 		_signalement.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this signalement.
-	*
-	* @param statusByUserId the status by user ID of this signalement
-	*/
+	 * Sets the status by user ID of this signalement.
+	 *
+	 * @param statusByUserId the status by user ID of this signalement
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_signalement.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this signalement.
-	*
-	* @param statusByUserName the status by user name of this signalement
-	*/
+	 * Sets the status by user name of this signalement.
+	 *
+	 * @param statusByUserName the status by user name of this signalement
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_signalement.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this signalement.
-	*
-	* @param statusByUserUuid the status by user uuid of this signalement
-	*/
+	 * Sets the status by user uuid of this signalement.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this signalement
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_signalement.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this signalement.
-	*
-	* @param statusDate the status date of this signalement
-	*/
+	 * Sets the status date of this signalement.
+	 *
+	 * @param statusDate the status date of this signalement
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_signalement.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the user ID of this signalement.
-	*
-	* @param userId the user ID of this signalement
-	*/
+	 * Sets the user ID of this signalement.
+	 *
+	 * @param userId the user ID of this signalement
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_signalement.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this signalement.
-	*
-	* @param userName the user name of this signalement
-	*/
+	 * Sets the user name of this signalement.
+	 *
+	 * @param userName the user name of this signalement
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_signalement.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this signalement.
-	*
-	* @param userUuid the user uuid of this signalement
-	*/
+	 * Sets the user uuid of this signalement.
+	 *
+	 * @param userUuid the user uuid of this signalement
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_signalement.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this signalement.
-	*
-	* @param uuid the uuid of this signalement
-	*/
+	 * Sets the uuid of this signalement.
+	 *
+	 * @param uuid the uuid of this signalement
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_signalement.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.comment.model.Signalement> toCacheModel() {
+
+		return _signalement.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.comment.model.Signalement toEscapedModel() {
+		return new SignalementWrapper(_signalement.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _signalement.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.comment.model.Signalement toUnescapedModel() {
+		return new SignalementWrapper(_signalement.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _signalement.toXmlString();
 	}
 
 	@Override
@@ -806,4 +811,5 @@ public class SignalementWrapper implements Signalement,
 	}
 
 	private final Signalement _signalement;
+
 }

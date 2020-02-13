@@ -21,9 +21,7 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="comment" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field name="text" type="String" />
 		<field name="level" type="int" />
 		<field name="userQuality" type="String" />
 		<field name="modifiedByUserDate" type="Date" />
