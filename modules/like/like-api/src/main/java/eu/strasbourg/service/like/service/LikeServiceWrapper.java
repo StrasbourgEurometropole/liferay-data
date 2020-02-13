@@ -26,78 +26,84 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class LikeServiceWrapper implements LikeService,
-	ServiceWrapper<LikeService> {
+public class LikeServiceWrapper
+	implements LikeService, ServiceWrapper<LikeService> {
+
 	public LikeServiceWrapper(LikeService likeService) {
 		_likeService = likeService;
 	}
 
 	/**
-	* Ajoute un like/dislike d'un utilisateur a une entite
-	*/
+	 * Ajoute un like/dislike d'un utilisateur a une entite
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addLike(
-		java.lang.String userId, java.lang.String title, boolean isDislike,
-		long typeId, long entityId) {
+		String userId, String title, boolean isDislike, long typeId,
+		long entityId) {
+
 		return _likeService.addLike(userId, title, isDislike, typeId, entityId);
 	}
 
 	/**
-	* Ajoute un like à un utilisateur
-	*/
+	 * Ajoute un like à un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addLikeLink(
-		java.lang.String title, boolean isDislike, long typeId, long entityId,
+		String title, boolean isDislike, long typeId, long entityId,
 		long entityGroupId) {
-		return _likeService.addLikeLink(title, isDislike, typeId, entityId,
-			entityGroupId);
+
+		return _likeService.addLikeLink(
+			title, isDislike, typeId, entityId, entityGroupId);
 	}
 
 	/**
-	* Supprime un like d'un utilisateur
-	*/
+	 * Supprime un like d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject deleteLike(
-		java.lang.String userId, long likeId) {
+		String userId, long likeId) {
+
 		return _likeService.deleteLike(userId, likeId);
 	}
 
 	/**
-	* Supprime un like d'un utilisateur
-	*/
+	 * Supprime un like d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject deleteLikeLink(
-		java.lang.String title, java.lang.String url, boolean isDislike,
-		long typeId, long entityId) {
-		return _likeService.deleteLikeLink(title, url, isDislike, typeId,
-			entityId);
+		String title, String url, boolean isDislike, long typeId,
+		long entityId) {
+
+		return _likeService.deleteLikeLink(
+			title, url, isDislike, typeId, entityId);
 	}
 
 	/**
-	* Retourne la liste des types de likes/dislikes
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _likeService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	 * Retourne la liste des types de likes/dislikes
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTypes() {
 		return _likeService.getTypes();
 	}
 
 	/**
-	* Retourne les likes d'un utilisateur
-	*/
+	 * Retourne les likes d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserLikes(
-		java.lang.String userId) {
-		return _likeService.getUserLikes(userId);
-	}
+		String userId) {
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _likeService.getOSGiServiceIdentifier();
+		return _likeService.getUserLikes(userId);
 	}
 
 	@Override
@@ -111,4 +117,5 @@ public class LikeServiceWrapper implements LikeService,
 	}
 
 	private LikeService _likeService;
+
 }

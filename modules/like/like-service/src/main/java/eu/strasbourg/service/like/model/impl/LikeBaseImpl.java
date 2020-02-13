@@ -33,10 +33,11 @@ import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
  */
 @ProviderType
 public abstract class LikeBaseImpl extends LikeModelImpl implements Like {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a like model instance should use the {@link Like} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a like model instance should use the <code>Like</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class LikeBaseImpl extends LikeModelImpl implements Like {
 			LikeLocalServiceUtil.updateLike(this);
 		}
 	}
+
 }

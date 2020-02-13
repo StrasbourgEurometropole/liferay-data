@@ -27,10 +27,11 @@ import eu.strasbourg.service.like.service.LikeServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link LikeServiceUtil} service utility. The
+ * <code>LikeServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,17 +50,17 @@ import eu.strasbourg.service.like.service.LikeServiceUtil;
  *
  * @author Cedric Henry
  * @see LikeServiceSoap
- * @see HttpPrincipal
- * @see LikeServiceUtil
  * @generated
  */
 @ProviderType
 public class LikeServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject getTypes(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(LikeServiceUtil.class,
-					"getTypes", _getTypesParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				LikeServiceUtil.class, "getTypes", _getTypesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -69,7 +70,8 @@ public class LikeServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -82,10 +84,12 @@ public class LikeServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserLikes(
-		HttpPrincipal httpPrincipal, java.lang.String userId) {
+		HttpPrincipal httpPrincipal, String userId) {
+
 		try {
-			MethodKey methodKey = new MethodKey(LikeServiceUtil.class,
-					"getUserLikes", _getUserLikesParameterTypes1);
+			MethodKey methodKey = new MethodKey(
+				LikeServiceUtil.class, "getUserLikes",
+				_getUserLikesParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
 
@@ -95,7 +99,8 @@ public class LikeServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -108,14 +113,15 @@ public class LikeServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject addLike(
-		HttpPrincipal httpPrincipal, java.lang.String userId,
-		java.lang.String title, boolean isDislike, long typeId, long entityId) {
-		try {
-			MethodKey methodKey = new MethodKey(LikeServiceUtil.class,
-					"addLike", _addLikeParameterTypes2);
+		HttpPrincipal httpPrincipal, String userId, String title,
+		boolean isDislike, long typeId, long entityId) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					title, isDislike, typeId, entityId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				LikeServiceUtil.class, "addLike", _addLikeParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, userId, title, isDislike, typeId, entityId);
 
 			Object returnObj = null;
 
@@ -123,7 +129,8 @@ public class LikeServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -136,14 +143,16 @@ public class LikeServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject addLikeLink(
-		HttpPrincipal httpPrincipal, java.lang.String title, boolean isDislike,
+		HttpPrincipal httpPrincipal, String title, boolean isDislike,
 		long typeId, long entityId, long entityGroupId) {
-		try {
-			MethodKey methodKey = new MethodKey(LikeServiceUtil.class,
-					"addLikeLink", _addLikeLinkParameterTypes3);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, title,
-					isDislike, typeId, entityId, entityGroupId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				LikeServiceUtil.class, "addLikeLink",
+				_addLikeLinkParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, title, isDislike, typeId, entityId, entityGroupId);
 
 			Object returnObj = null;
 
@@ -151,7 +160,8 @@ public class LikeServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -164,13 +174,15 @@ public class LikeServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject deleteLike(
-		HttpPrincipal httpPrincipal, java.lang.String userId, long likeId) {
-		try {
-			MethodKey methodKey = new MethodKey(LikeServiceUtil.class,
-					"deleteLike", _deleteLikeParameterTypes4);
+		HttpPrincipal httpPrincipal, String userId, long likeId) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
-					likeId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				LikeServiceUtil.class, "deleteLike",
+				_deleteLikeParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, userId, likeId);
 
 			Object returnObj = null;
 
@@ -178,7 +190,8 @@ public class LikeServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -191,14 +204,16 @@ public class LikeServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject deleteLikeLink(
-		HttpPrincipal httpPrincipal, java.lang.String title,
-		java.lang.String url, boolean isDislike, long typeId, long entityId) {
-		try {
-			MethodKey methodKey = new MethodKey(LikeServiceUtil.class,
-					"deleteLikeLink", _deleteLikeLinkParameterTypes5);
+		HttpPrincipal httpPrincipal, String title, String url,
+		boolean isDislike, long typeId, long entityId) {
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, title,
-					url, isDislike, typeId, entityId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				LikeServiceUtil.class, "deleteLikeLink",
+				_deleteLikeLinkParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, title, url, isDislike, typeId, entityId);
 
 			Object returnObj = null;
 
@@ -206,7 +221,8 @@ public class LikeServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -219,23 +235,23 @@ public class LikeServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(LikeServiceHttp.class);
-	private static final Class<?>[] _getTypesParameterTypes0 = new Class[] {  };
+
+	private static final Class<?>[] _getTypesParameterTypes0 = new Class[] {};
 	private static final Class<?>[] _getUserLikesParameterTypes1 = new Class[] {
-			java.lang.String.class
-		};
+		String.class
+	};
 	private static final Class<?>[] _addLikeParameterTypes2 = new Class[] {
-			java.lang.String.class, java.lang.String.class, boolean.class,
-			long.class, long.class
-		};
+		String.class, String.class, boolean.class, long.class, long.class
+	};
 	private static final Class<?>[] _addLikeLinkParameterTypes3 = new Class[] {
-			java.lang.String.class, boolean.class, long.class, long.class,
-			long.class
-		};
+		String.class, boolean.class, long.class, long.class, long.class
+	};
 	private static final Class<?>[] _deleteLikeParameterTypes4 = new Class[] {
-			java.lang.String.class, long.class
+		String.class, long.class
+	};
+	private static final Class<?>[] _deleteLikeLinkParameterTypes5 =
+		new Class[] {
+			String.class, String.class, boolean.class, long.class, long.class
 		};
-	private static final Class<?>[] _deleteLikeLinkParameterTypes5 = new Class[] {
-			java.lang.String.class, java.lang.String.class, boolean.class,
-			long.class, long.class
-		};
+
 }

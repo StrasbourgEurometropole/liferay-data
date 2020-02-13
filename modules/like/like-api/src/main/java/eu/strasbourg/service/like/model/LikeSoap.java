@@ -25,18 +25,18 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.like.service.http.LikeServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.like.service.http.LikeServiceSoap
  * @generated
  */
 @ProviderType
 public class LikeSoap implements Serializable {
+
 	public static LikeSoap toSoapModel(Like model) {
 		LikeSoap soapModel = new LikeSoap();
 
 		soapModel.setLikeId(model.getLikeId());
 		soapModel.setPublikUserId(model.getPublikUserId());
 		soapModel.setTitle(model.getTitle());
-		soapModel.setIsDislike(model.getIsDislike());
+		soapModel.setIsDislike(model.isIsDislike());
 		soapModel.setTypeId(model.getTypeId());
 		soapModel.setEntityId(model.getEntityId());
 		soapModel.setEntityGroupId(model.getEntityGroupId());
@@ -159,4 +159,5 @@ public class LikeSoap implements Serializable {
 	private long _typeId;
 	private long _entityId;
 	private long _entityGroupId;
+
 }
