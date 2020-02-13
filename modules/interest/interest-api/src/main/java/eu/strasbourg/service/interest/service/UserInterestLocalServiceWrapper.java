@@ -16,7 +16,6 @@ package eu.strasbourg.service.interest.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -70,7 +69,7 @@ public class UserInterestLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
 			com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _userInterestLocalService.deletePersistedModel(persistedModel);
 	}
@@ -99,7 +98,7 @@ public class UserInterestLocalServiceWrapper
 	public eu.strasbourg.service.interest.model.UserInterest deleteUserInterest(
 			eu.strasbourg.service.interest.service.persistence.UserInterestPK
 				userInterestPK)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _userInterestLocalService.deleteUserInterest(userInterestPK);
 	}
@@ -243,7 +242,7 @@ public class UserInterestLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
 			java.io.Serializable primaryKeyObj)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _userInterestLocalService.getPersistedModel(primaryKeyObj);
 	}
@@ -259,7 +258,7 @@ public class UserInterestLocalServiceWrapper
 	public eu.strasbourg.service.interest.model.UserInterest getUserInterest(
 			eu.strasbourg.service.interest.service.persistence.UserInterestPK
 				userInterestPK)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _userInterestLocalService.getUserInterest(userInterestPK);
 	}

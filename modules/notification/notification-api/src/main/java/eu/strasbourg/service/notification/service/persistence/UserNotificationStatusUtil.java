@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.notification.exception.NoSuchUserNotificationStatusException;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 
 import java.io.Serializable;
@@ -219,7 +218,8 @@ public class UserNotificationStatusUtil {
 	public static UserNotificationStatus findByNotificationId_First(
 			long notificationId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByNotificationId_First(
 			notificationId, orderByComparator);
@@ -251,7 +251,8 @@ public class UserNotificationStatusUtil {
 	public static UserNotificationStatus findByNotificationId_Last(
 			long notificationId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByNotificationId_Last(
 			notificationId, orderByComparator);
@@ -286,7 +287,8 @@ public class UserNotificationStatusUtil {
 				UserNotificationStatusPK userNotificationStatusPK,
 			long notificationId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByNotificationId_PrevAndNext(
 			userNotificationStatusPK, notificationId, orderByComparator);
@@ -396,7 +398,8 @@ public class UserNotificationStatusUtil {
 	public static UserNotificationStatus findByPublikUserId_First(
 			String publikUserId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByPublikUserId_First(
 			publikUserId, orderByComparator);
@@ -428,7 +431,8 @@ public class UserNotificationStatusUtil {
 	public static UserNotificationStatus findByPublikUserId_Last(
 			String publikUserId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByPublikUserId_Last(
 			publikUserId, orderByComparator);
@@ -463,7 +467,8 @@ public class UserNotificationStatusUtil {
 				UserNotificationStatusPK userNotificationStatusPK,
 			String publikUserId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByPublikUserId_PrevAndNext(
 			userNotificationStatusPK, publikUserId, orderByComparator);
@@ -533,7 +538,8 @@ public class UserNotificationStatusUtil {
 	public static UserNotificationStatus remove(
 			eu.strasbourg.service.notification.service.persistence.
 				UserNotificationStatusPK userNotificationStatusPK)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().remove(userNotificationStatusPK);
 	}
@@ -554,7 +560,8 @@ public class UserNotificationStatusUtil {
 	public static UserNotificationStatus findByPrimaryKey(
 			eu.strasbourg.service.notification.service.persistence.
 				UserNotificationStatusPK userNotificationStatusPK)
-		throws NoSuchUserNotificationStatusException {
+		throws eu.strasbourg.service.notification.exception.
+			NoSuchUserNotificationStatusException {
 
 		return getPersistence().findByPrimaryKey(userNotificationStatusPK);
 	}
