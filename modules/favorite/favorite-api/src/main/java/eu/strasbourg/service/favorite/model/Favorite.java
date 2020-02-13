@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see FavoriteModel
- * @see eu.strasbourg.service.favorite.model.impl.FavoriteImpl
- * @see eu.strasbourg.service.favorite.model.impl.FavoriteModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.favorite.model.impl.FavoriteImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.favorite.model.impl.FavoriteImpl"
+)
 @ProviderType
 public interface Favorite extends FavoriteModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.favorite.model.impl.FavoriteImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.favorite.model.impl.FavoriteImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Favorite, Long> FAVORITE_ID_ACCESSOR = new Accessor<Favorite, Long>() {
+	public static final Accessor<Favorite, Long> FAVORITE_ID_ACCESSOR =
+		new Accessor<Favorite, Long>() {
+
 			@Override
 			public Long get(Favorite favorite) {
 				return favorite.getFavoriteId();
@@ -52,6 +55,7 @@ public interface Favorite extends FavoriteModel, PersistedModel {
 			public Class<Favorite> getTypeClass() {
 				return Favorite.class;
 			}
+
 		};
 
 	public boolean hasAssetEntry();
@@ -63,7 +67,8 @@ public interface Favorite extends FavoriteModel, PersistedModel {
 	public boolean isOnDashboard();
 
 	/**
-	* Retourne la version JSON d'un favoris
-	*/
+	 * Retourne la version JSON d'un favoris
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

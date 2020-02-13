@@ -23,14 +23,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.favorite.service.http.FavoriteServiceSoap}.
+ * This class is used by SOAP remote services, specifically {
+ * @link eu.strasbourg.service.favorite.service.http.FavoriteServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.favorite.service.http.FavoriteServiceSoap
  * @generated
  */
 @ProviderType
 public class FavoriteSoap implements Serializable {
+
 	public static FavoriteSoap toSoapModel(Favorite model) {
 		FavoriteSoap soapModel = new FavoriteSoap();
 
@@ -74,7 +75,8 @@ public class FavoriteSoap implements Serializable {
 	}
 
 	public static FavoriteSoap[] toSoapModels(List<Favorite> models) {
-		List<FavoriteSoap> soapModels = new ArrayList<FavoriteSoap>(models.size());
+		List<FavoriteSoap> soapModels = new ArrayList<FavoriteSoap>(
+			models.size());
 
 		for (Favorite model : models) {
 			soapModels.add(toSoapModel(model));
@@ -166,4 +168,5 @@ public class FavoriteSoap implements Serializable {
 	private long _entityId;
 	private long _entityGroupId;
 	private Date _onDashboardDate;
+
 }
