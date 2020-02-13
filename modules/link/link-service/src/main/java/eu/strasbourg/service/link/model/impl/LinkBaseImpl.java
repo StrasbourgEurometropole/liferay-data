@@ -33,10 +33,11 @@ import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
  */
 @ProviderType
 public abstract class LinkBaseImpl extends LinkModelImpl implements Link {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a link model instance should use the {@link Link} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a link model instance should use the <code>Link</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class LinkBaseImpl extends LinkModelImpl implements Link {
 			LinkLocalServiceUtil.updateLink(this);
 		}
 	}
+
 }
