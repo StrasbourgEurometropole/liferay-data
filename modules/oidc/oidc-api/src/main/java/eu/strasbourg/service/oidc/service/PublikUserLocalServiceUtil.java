@@ -16,7 +16,6 @@ package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -78,7 +77,7 @@ public class PublikUserLocalServiceUtil {
 	public static com.liferay.portal.kernel.model.PersistedModel
 			deletePersistedModel(
 				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -92,7 +91,7 @@ public class PublikUserLocalServiceUtil {
 	 */
 	public static eu.strasbourg.service.oidc.model.PublikUser deletePublikUser(
 			long publikUserLiferayId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePublikUser(publikUserLiferayId);
 	}
@@ -251,7 +250,7 @@ public class PublikUserLocalServiceUtil {
 
 	public static com.liferay.portal.kernel.model.PersistedModel
 			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -265,7 +264,7 @@ public class PublikUserLocalServiceUtil {
 	 */
 	public static eu.strasbourg.service.oidc.model.PublikUser getPublikUser(
 			long publikUserLiferayId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPublikUser(publikUserLiferayId);
 	}
@@ -387,12 +386,12 @@ public class PublikUserLocalServiceUtil {
 	 * Met à jour un utilisateur Publik et l'enregistre en base
 	 *
 	 * @return L'utilisateur Publik modifié
-	 * @throws PortalException
+	 * @throws IOException
 	 */
 	public static eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(
 			eu.strasbourg.service.oidc.model.PublikUser publikUser,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updatePublikUser(publikUser, sc);
 	}

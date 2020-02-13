@@ -29,8 +29,8 @@ import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
-//import eu.strasbourg.service.notification.model.UserNotificationStatus;
-//import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
+import eu.strasbourg.service.notification.model.UserNotificationStatus;
+import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
@@ -240,11 +240,11 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 			UserInterestLocalServiceUtil.deleteUserInterest(userInterest);
 		}
 
-//		// Supprime le lien avec les notifications
-//		List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil.getByPublikUserId(publikUserId);
-//		for (UserNotificationStatus notification : notifications) {
-//			UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(notification);
-//		}
+		// Supprime le lien avec les notifications
+		List<UserNotificationStatus> notifications = UserNotificationStatusLocalServiceUtil.getByPublikUserId(publikUserId);
+		for (UserNotificationStatus notification : notifications) {
+			UserNotificationStatusLocalServiceUtil.deleteUserNotificationStatus(notification);
+		}
 
 		// Supprimé l'entité
 		PublikUser user = this.getByPublikUserId(publikUserId);

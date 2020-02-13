@@ -323,7 +323,7 @@ public interface PublikUserLocalService
 	 * Met à jour un utilisateur Publik et l'enregistre en base
 	 *
 	 * @return L'utilisateur Publik modifié
-	 * @throws PortalException
+	 * @throws IOException
 	 */
 	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
 		throws PortalException;
