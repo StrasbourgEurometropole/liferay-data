@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.favorite.service.http.FavoriteServiceSoap}.
+ * This class is used by SOAP remote services, specifically {
+ * @link eu.strasbourg.service.favorite.service.http.FavoriteServiceSoap}.
  *
  * @author BenjaminBini
  * @generated
