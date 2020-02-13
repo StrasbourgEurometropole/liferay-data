@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.edition.model.EditionGallery;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing EditionGallery in entity cache.
  *
  * @author BenjaminBini
- * @see EditionGallery
  * @generated
  */
 @ProviderType
-public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
-	Externalizable {
+public class EditionGalleryCacheModel
+	implements CacheModel<EditionGallery>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 			return false;
 		}
 
-		EditionGalleryCacheModel editionGalleryCacheModel = (EditionGalleryCacheModel)obj;
+		EditionGalleryCacheModel editionGalleryCacheModel =
+			(EditionGalleryCacheModel)obj;
 
 		if (galleryId == editionGalleryCacheModel.galleryId) {
 			return true;
@@ -112,7 +112,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		EditionGalleryImpl editionGalleryImpl = new EditionGalleryImpl();
 
 		if (uuid == null) {
-			editionGalleryImpl.setUuid(StringPool.BLANK);
+			editionGalleryImpl.setUuid("");
 		}
 		else {
 			editionGalleryImpl.setUuid(uuid);
@@ -124,7 +124,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		editionGalleryImpl.setUserId(userId);
 
 		if (userName == null) {
-			editionGalleryImpl.setUserName(StringPool.BLANK);
+			editionGalleryImpl.setUserName("");
 		}
 		else {
 			editionGalleryImpl.setUserName(userName);
@@ -155,7 +155,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		editionGalleryImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			editionGalleryImpl.setStatusByUserName(StringPool.BLANK);
+			editionGalleryImpl.setStatusByUserName("");
 		}
 		else {
 			editionGalleryImpl.setStatusByUserName(statusByUserName);
@@ -171,14 +171,14 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		editionGalleryImpl.setImageId(imageId);
 
 		if (title == null) {
-			editionGalleryImpl.setTitle(StringPool.BLANK);
+			editionGalleryImpl.setTitle("");
 		}
 		else {
 			editionGalleryImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			editionGalleryImpl.setDescription(StringPool.BLANK);
+			editionGalleryImpl.setDescription("");
 		}
 		else {
 			editionGalleryImpl.setDescription(description);
@@ -225,10 +225,9 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -243,7 +242,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -258,7 +257,7 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -269,14 +268,14 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 		objectOutput.writeLong(imageId);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
@@ -302,4 +301,5 @@ public class EditionGalleryCacheModel implements CacheModel<EditionGallery>,
 	public String title;
 	public String description;
 	public long publicationDate;
+
 }

@@ -16,7 +16,6 @@ package eu.strasbourg.service.favorite.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -93,7 +92,7 @@ public class FavoriteLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.favorite.model.Favorite deleteFavorite(
 			long favoriteId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _favoriteLocalService.deleteFavorite(favoriteId);
 	}
@@ -109,7 +108,7 @@ public class FavoriteLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
 			com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _favoriteLocalService.deletePersistedModel(persistedModel);
 	}
@@ -238,7 +237,7 @@ public class FavoriteLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.favorite.model.Favorite getFavorite(
 			long favoriteId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _favoriteLocalService.getFavorite(favoriteId);
 	}
@@ -299,7 +298,7 @@ public class FavoriteLocalServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
 			java.io.Serializable primaryKeyObj)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _favoriteLocalService.getPersistedModel(primaryKeyObj);
 	}

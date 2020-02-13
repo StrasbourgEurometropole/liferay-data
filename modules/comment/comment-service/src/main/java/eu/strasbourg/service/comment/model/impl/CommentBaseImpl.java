@@ -32,12 +32,13 @@ import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class CommentBaseImpl extends CommentModelImpl
-	implements Comment {
+public abstract class CommentBaseImpl
+	extends CommentModelImpl implements Comment {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a comment model instance should use the {@link Comment} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a comment model instance should use the <code>Comment</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class CommentBaseImpl extends CommentModelImpl
 			CommentLocalServiceUtil.updateComment(this);
 		}
 	}
+
 }

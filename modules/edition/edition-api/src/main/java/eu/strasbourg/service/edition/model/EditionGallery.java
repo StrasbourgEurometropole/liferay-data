@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see EditionGalleryModel
- * @see eu.strasbourg.service.edition.model.impl.EditionGalleryImpl
- * @see eu.strasbourg.service.edition.model.impl.EditionGalleryModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.edition.model.impl.EditionGalleryImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.edition.model.impl.EditionGalleryImpl"
+)
 @ProviderType
 public interface EditionGallery extends EditionGalleryModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.edition.model.impl.EditionGalleryImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.edition.model.impl.EditionGalleryImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<EditionGallery, Long> GALLERY_ID_ACCESSOR = new Accessor<EditionGallery, Long>() {
+	public static final Accessor<EditionGallery, Long> GALLERY_ID_ACCESSOR =
+		new Accessor<EditionGallery, Long>() {
+
 			@Override
 			public Long get(EditionGallery editionGallery) {
 				return editionGallery.getGalleryId();
@@ -52,56 +55,62 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 			public Class<EditionGallery> getTypeClass() {
 				return EditionGallery.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'AssetEntry rattachée cet item
-	*/
+	 * Retourne l'AssetEntry rattachée cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Renvoie l'URL de l'image à partir de l'id du DLFileEntry
-	*/
-	public java.lang.String getImageURL();
+	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL();
 
 	/**
-	* Retourne le copyright de l'image principale
-	*/
-	public java.lang.String getImageCopyright(java.util.Locale locale);
+	 * Retourne le copyright de l'image principale
+	 */
+	public String getImageCopyright(java.util.Locale locale);
 
 	/**
-	* Renvoie la liste des éditions de la galerie
-	*/
-	public java.util.List<eu.strasbourg.service.edition.model.Edition> getEditions();
+	 * Renvoie la liste des éditions de la galerie
+	 */
+	public java.util.List<eu.strasbourg.service.edition.model.Edition>
+		getEditions();
 
 	/**
-	* Renvoie la liste des ids des éditions de la galerie sous forme de String
-	*/
-	public java.lang.String getEditionsIds();
+	 * Renvoie la liste des ids des éditions de la galerie sous forme de String
+	 */
+	public String getEditionsIds();
 
 	/**
-	* Retourne les types de la galerie d'éditions
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+	 * Retourne les types de la galerie d'éditions
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTypes();
 
 	/**
-	* Retourne le texte à afficher pour les types de la galerie d'éditions
-	*/
-	public java.lang.String getTypesLabels(java.util.Locale locale);
+	 * Retourne le texte à afficher pour les types de la galerie d'éditions
+	 */
+	public String getTypesLabels(java.util.Locale locale);
 
 	/**
-	* Renvoie la liste des éditions publiées de la galerie
-	*/
-	public java.util.List<eu.strasbourg.service.edition.model.Edition> getPublishedEditions();
+	 * Renvoie la liste des éditions publiées de la galerie
+	 */
+	public java.util.List<eu.strasbourg.service.edition.model.Edition>
+		getPublishedEditions();
 
 	/**
-	* Renvoie la version live de la galerie d'édition, si elle existe
-	*/
+	 * Renvoie la version live de la galerie d'édition, si elle existe
+	 */
 	public eu.strasbourg.service.edition.model.EditionGallery getLiveVersion();
+
 }

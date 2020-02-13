@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.favorite.exception.NoSuchFavoriteException;
 import eu.strasbourg.service.favorite.model.Favorite;
 
 import java.io.Serializable;
@@ -210,7 +209,8 @@ public class FavoriteUtil {
 	 */
 	public static Favorite findByPublikUserId_First(
 			String publikUserId, OrderByComparator<Favorite> orderByComparator)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByPublikUserId_First(
 			publikUserId, orderByComparator);
@@ -240,7 +240,8 @@ public class FavoriteUtil {
 	 */
 	public static Favorite findByPublikUserId_Last(
 			String publikUserId, OrderByComparator<Favorite> orderByComparator)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByPublikUserId_Last(
 			publikUserId, orderByComparator);
@@ -272,7 +273,8 @@ public class FavoriteUtil {
 	public static Favorite[] findByPublikUserId_PrevAndNext(
 			long favoriteId, String publikUserId,
 			OrderByComparator<Favorite> orderByComparator)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByPublikUserId_PrevAndNext(
 			favoriteId, publikUserId, orderByComparator);
@@ -309,7 +311,8 @@ public class FavoriteUtil {
 	 */
 	public static Favorite findByAllAttributes(
 			String publikUserId, String title, long typeId, long entityId)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByAllAttributes(
 			publikUserId, title, typeId, entityId);
@@ -360,7 +363,8 @@ public class FavoriteUtil {
 	 */
 	public static Favorite removeByAllAttributes(
 			String publikUserId, String title, long typeId, long entityId)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().removeByAllAttributes(
 			publikUserId, title, typeId, entityId);
@@ -473,7 +477,8 @@ public class FavoriteUtil {
 	public static Favorite findByEntityIdAndTypeId_First(
 			long entityId, long typeId,
 			OrderByComparator<Favorite> orderByComparator)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByEntityIdAndTypeId_First(
 			entityId, typeId, orderByComparator);
@@ -507,7 +512,8 @@ public class FavoriteUtil {
 	public static Favorite findByEntityIdAndTypeId_Last(
 			long entityId, long typeId,
 			OrderByComparator<Favorite> orderByComparator)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByEntityIdAndTypeId_Last(
 			entityId, typeId, orderByComparator);
@@ -542,7 +548,8 @@ public class FavoriteUtil {
 	public static Favorite[] findByEntityIdAndTypeId_PrevAndNext(
 			long favoriteId, long entityId, long typeId,
 			OrderByComparator<Favorite> orderByComparator)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByEntityIdAndTypeId_PrevAndNext(
 			favoriteId, entityId, typeId, orderByComparator);
@@ -605,7 +612,8 @@ public class FavoriteUtil {
 	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
 	 */
 	public static Favorite remove(long favoriteId)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().remove(favoriteId);
 	}
@@ -622,7 +630,8 @@ public class FavoriteUtil {
 	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
 	 */
 	public static Favorite findByPrimaryKey(long favoriteId)
-		throws NoSuchFavoriteException {
+		throws eu.strasbourg.service.favorite.exception.
+			NoSuchFavoriteException {
 
 		return getPersistence().findByPrimaryKey(favoriteId);
 	}

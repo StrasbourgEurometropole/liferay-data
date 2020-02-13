@@ -26,20 +26,22 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class EditionGalleryServiceWrapper implements EditionGalleryService,
-	ServiceWrapper<EditionGalleryService> {
+public class EditionGalleryServiceWrapper
+	implements EditionGalleryService, ServiceWrapper<EditionGalleryService> {
+
 	public EditionGalleryServiceWrapper(
 		EditionGalleryService editionGalleryService) {
+
 		_editionGalleryService = editionGalleryService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _editionGalleryService.getOSGiServiceIdentifier();
 	}
 
@@ -54,4 +56,5 @@ public class EditionGalleryServiceWrapper implements EditionGalleryService,
 	}
 
 	private EditionGalleryService _editionGalleryService;
+
 }

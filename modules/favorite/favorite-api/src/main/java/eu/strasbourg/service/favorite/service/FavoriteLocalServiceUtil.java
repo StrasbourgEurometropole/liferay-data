@@ -16,7 +16,6 @@ package eu.strasbourg.service.favorite.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -96,7 +95,7 @@ public class FavoriteLocalServiceUtil {
 	 */
 	public static eu.strasbourg.service.favorite.model.Favorite deleteFavorite(
 			long favoriteId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deleteFavorite(favoriteId);
 	}
@@ -113,7 +112,7 @@ public class FavoriteLocalServiceUtil {
 	public static com.liferay.portal.kernel.model.PersistedModel
 			deletePersistedModel(
 				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -233,7 +232,7 @@ public class FavoriteLocalServiceUtil {
 	 */
 	public static eu.strasbourg.service.favorite.model.Favorite getFavorite(
 			long favoriteId)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getFavorite(favoriteId);
 	}
@@ -289,7 +288,7 @@ public class FavoriteLocalServiceUtil {
 
 	public static com.liferay.portal.kernel.model.PersistedModel
 			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
