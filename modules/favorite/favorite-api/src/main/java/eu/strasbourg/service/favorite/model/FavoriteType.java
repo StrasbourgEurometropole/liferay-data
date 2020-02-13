@@ -14,12 +14,12 @@ import com.liferay.portal.kernel.model.Layout;
 //import eu.strasbourg.service.edition.model.Edition;
 //import eu.strasbourg.service.edition.model.EditionGallery;
 //import eu.strasbourg.service.place.model.Place;
-//import eu.strasbourg.service.video.model.Video;
+import eu.strasbourg.service.video.model.Video;
 
 public enum FavoriteType {
 //	PLACE(1, "PLACE", Place.class),
 //	EVENT(2, "EVENT", Event.class),
-//	VIDEO(3, "VIDEO", Video.class),
+	VIDEO(3, "VIDEO", Video.class),
 //	EDITION(4, "EDITION", Edition.class),
 	IMAGE(5, "IMAGE", DLFileEntry.class), 
 	NEWS(6, "NEWS", JournalArticle.class),

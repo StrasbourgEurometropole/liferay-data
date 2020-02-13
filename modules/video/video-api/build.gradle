@@ -1,7 +1,7 @@
 dependencies {
-	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
-	compile group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"
-	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
-	compile group: "org.osgi", name: "org.osgi.core", version: "5.0.0"
+	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+	compile group: "com.liferay", name: "com.liferay.osgi.util"
+	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compile group: "org.osgi", name: "org.osgi.core"
 	compile project(":modules:like:like-api")
 }
