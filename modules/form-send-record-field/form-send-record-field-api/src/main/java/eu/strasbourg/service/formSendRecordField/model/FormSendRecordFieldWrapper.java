@@ -17,9 +17,7 @@ package eu.strasbourg.service.formSendRecordField.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -40,8 +38,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class FormSendRecordFieldWrapper implements FormSendRecordField,
-	ModelWrapper<FormSendRecordField> {
+public class FormSendRecordFieldWrapper
+	implements FormSendRecordField, ModelWrapper<FormSendRecordField> {
+
 	public FormSendRecordFieldWrapper(FormSendRecordField formSendRecordField) {
 		_formSendRecordField = formSendRecordField;
 	}
@@ -90,7 +89,7 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 		}
 
 		Long formSendRecordFieldId = (Long)attributes.get(
-				"formSendRecordFieldId");
+			"formSendRecordFieldId");
 
 		if (formSendRecordFieldId != null) {
 			setFormSendRecordFieldId(formSendRecordFieldId);
@@ -187,11 +186,314 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new FormSendRecordFieldWrapper(
+			(FormSendRecordField)_formSendRecordField.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
+			formSendRecordField) {
+
+		return _formSendRecordField.compareTo(formSendRecordField);
+	}
+
 	/**
-	* Returns <code>true</code> if this form send record field is approved.
-	*
-	* @return <code>true</code> if this form send record field is approved; <code>false</code> otherwise
-	*/
+	 * méthode qui renvoie la liste des signalements d'une réponse.
+	 *
+	 * @return la liste des signalements
+	 */
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.formSendRecordField.model.
+			FormSendRecordFieldSignalement> findSignalements() {
+
+		return _formSendRecordField.findSignalements();
+	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _formSendRecordField.getAssetEntry();
+	}
+
+	/**
+	 * Returns the asset entry ID of this form send record field.
+	 *
+	 * @return the asset entry ID of this form send record field
+	 */
+	@Override
+	public long getAssetEntryId() {
+		return _formSendRecordField.getAssetEntryId();
+	}
+
+	/**
+	 * Returns the company ID of this form send record field.
+	 *
+	 * @return the company ID of this form send record field
+	 */
+	@Override
+	public long getCompanyId() {
+		return _formSendRecordField.getCompanyId();
+	}
+
+	/**
+	 * Returns the content ID of this form send record field.
+	 *
+	 * @return the content ID of this form send record field
+	 */
+	@Override
+	public long getContentId() {
+		return _formSendRecordField.getContentId();
+	}
+
+	/**
+	 * méthode qui renvoie le nombre de signalement pour un commentaire.
+	 *
+	 * @return le nombre de signalement en int.
+	 */
+	@Override
+	public int getCountSignalements() {
+		return _formSendRecordField.getCountSignalements();
+	}
+
+	/**
+	 * Returns the create date of this form send record field.
+	 *
+	 * @return the create date of this form send record field
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _formSendRecordField.getCreateDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _formSendRecordField.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the form send record field ID of this form send record field.
+	 *
+	 * @return the form send record field ID of this form send record field
+	 */
+	@Override
+	public long getFormSendRecordFieldId() {
+		return _formSendRecordField.getFormSendRecordFieldId();
+	}
+
+	/**
+	 * Returns the group ID of this form send record field.
+	 *
+	 * @return the group ID of this form send record field
+	 */
+	@Override
+	public long getGroupId() {
+		return _formSendRecordField.getGroupId();
+	}
+
+	/**
+	 * Returns the instance ID of this form send record field.
+	 *
+	 * @return the instance ID of this form send record field
+	 */
+	@Override
+	public String getInstanceId() {
+		return _formSendRecordField.getInstanceId();
+	}
+
+	/**
+	 * Retourne la liste des likes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
+		return _formSendRecordField.getLikes();
+	}
+
+	/**
+	 * Returns the modified date of this form send record field.
+	 *
+	 * @return the modified date of this form send record field
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _formSendRecordField.getModifiedDate();
+	}
+
+	/**
+	 * Retourne le nombre de dislikes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbDislikes() {
+		return _formSendRecordField.getNbDislikes();
+	}
+
+	/**
+	 * Retourne le nombre de likes de l'entité
+	 *
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 * @see eu.strasbourg.service.like.model.LikeType
+	 */
+	@Override
+	public int getNbLikes() {
+		return _formSendRecordField.getNbLikes();
+	}
+
+	/**
+	 * Returns the primary key of this form send record field.
+	 *
+	 * @return the primary key of this form send record field
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _formSendRecordField.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _formSendRecordField.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the response of this form send record field.
+	 *
+	 * @return the response of this form send record field
+	 */
+	@Override
+	public String getResponse() {
+		return _formSendRecordField.getResponse();
+	}
+
+	/**
+	 * Returns the response user ID of this form send record field.
+	 *
+	 * @return the response user ID of this form send record field
+	 */
+	@Override
+	public long getResponseUserId() {
+		return _formSendRecordField.getResponseUserId();
+	}
+
+	/**
+	 * Returns the response user uuid of this form send record field.
+	 *
+	 * @return the response user uuid of this form send record field
+	 */
+	@Override
+	public String getResponseUserUuid() {
+		return _formSendRecordField.getResponseUserUuid();
+	}
+
+	/**
+	 * Returns the status of this form send record field.
+	 *
+	 * @return the status of this form send record field
+	 */
+	@Override
+	public int getStatus() {
+		return _formSendRecordField.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this form send record field.
+	 *
+	 * @return the status by user ID of this form send record field
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _formSendRecordField.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this form send record field.
+	 *
+	 * @return the status by user name of this form send record field
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _formSendRecordField.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this form send record field.
+	 *
+	 * @return the status by user uuid of this form send record field
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _formSendRecordField.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this form send record field.
+	 *
+	 * @return the status date of this form send record field
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _formSendRecordField.getStatusDate();
+	}
+
+	/**
+	 * Returns the user ID of this form send record field.
+	 *
+	 * @return the user ID of this form send record field
+	 */
+	@Override
+	public long getUserId() {
+		return _formSendRecordField.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this form send record field.
+	 *
+	 * @return the user name of this form send record field
+	 */
+	@Override
+	public String getUserName() {
+		return _formSendRecordField.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this form send record field.
+	 *
+	 * @return the user uuid of this form send record field
+	 */
+	@Override
+	public String getUserUuid() {
+		return _formSendRecordField.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this form send record field.
+	 *
+	 * @return the uuid of this form send record field
+	 */
+	@Override
+	public String getUuid() {
+		return _formSendRecordField.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _formSendRecordField.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this form send record field is approved.
+	 *
+	 * @return <code>true</code> if this form send record field is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _formSendRecordField.isApproved();
@@ -203,20 +505,20 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is denied.
-	*
-	* @return <code>true</code> if this form send record field is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is denied.
+	 *
+	 * @return <code>true</code> if this form send record field is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _formSendRecordField.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is a draft.
-	*
-	* @return <code>true</code> if this form send record field is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is a draft.
+	 *
+	 * @return <code>true</code> if this form send record field is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _formSendRecordField.isDraft();
@@ -228,30 +530,30 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is expired.
-	*
-	* @return <code>true</code> if this form send record field is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is expired.
+	 *
+	 * @return <code>true</code> if this form send record field is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _formSendRecordField.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is inactive.
-	*
-	* @return <code>true</code> if this form send record field is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is inactive.
+	 *
+	 * @return <code>true</code> if this form send record field is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _formSendRecordField.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is incomplete.
-	*
-	* @return <code>true</code> if this form send record field is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is incomplete.
+	 *
+	 * @return <code>true</code> if this form send record field is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _formSendRecordField.isIncomplete();
@@ -263,342 +565,23 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is pending.
-	*
-	* @return <code>true</code> if this form send record field is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is pending.
+	 *
+	 * @return <code>true</code> if this form send record field is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _formSendRecordField.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field is scheduled.
-	*
-	* @return <code>true</code> if this form send record field is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field is scheduled.
+	 *
+	 * @return <code>true</code> if this form send record field is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _formSendRecordField.isScheduled();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _formSendRecordField.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _formSendRecordField.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField> toCacheModel() {
-		return _formSendRecordField.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField toEscapedModel() {
-		return new FormSendRecordFieldWrapper(_formSendRecordField.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField toUnescapedModel() {
-		return new FormSendRecordFieldWrapper(_formSendRecordField.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.formSendRecordField.model.FormSendRecordField formSendRecordField) {
-		return _formSendRecordField.compareTo(formSendRecordField);
-	}
-
-	/**
-	* méthode qui renvoie le nombre de signalement pour un commentaire.
-	*
-	* @return le nombre de signalement en int.
-	*/
-	@Override
-	public int getCountSignalements() {
-		return _formSendRecordField.getCountSignalements();
-	}
-
-	/**
-	* Retourne le nombre de dislikes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public int getNbDislikes() {
-		return _formSendRecordField.getNbDislikes();
-	}
-
-	/**
-	* Retourne le nombre de likes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public int getNbLikes() {
-		return _formSendRecordField.getNbLikes();
-	}
-
-	/**
-	* Returns the status of this form send record field.
-	*
-	* @return the status of this form send record field
-	*/
-	@Override
-	public int getStatus() {
-		return _formSendRecordField.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _formSendRecordField.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _formSendRecordField.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new FormSendRecordFieldWrapper((FormSendRecordField)_formSendRecordField.clone());
-	}
-
-	/**
-	* Returns the instance ID of this form send record field.
-	*
-	* @return the instance ID of this form send record field
-	*/
-	@Override
-	public java.lang.String getInstanceId() {
-		return _formSendRecordField.getInstanceId();
-	}
-
-	/**
-	* Returns the response of this form send record field.
-	*
-	* @return the response of this form send record field
-	*/
-	@Override
-	public java.lang.String getResponse() {
-		return _formSendRecordField.getResponse();
-	}
-
-	/**
-	* Returns the response user uuid of this form send record field.
-	*
-	* @return the response user uuid of this form send record field
-	*/
-	@Override
-	public java.lang.String getResponseUserUuid() {
-		return _formSendRecordField.getResponseUserUuid();
-	}
-
-	/**
-	* Returns the status by user name of this form send record field.
-	*
-	* @return the status by user name of this form send record field
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _formSendRecordField.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this form send record field.
-	*
-	* @return the status by user uuid of this form send record field
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _formSendRecordField.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the user name of this form send record field.
-	*
-	* @return the user name of this form send record field
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _formSendRecordField.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this form send record field.
-	*
-	* @return the user uuid of this form send record field
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _formSendRecordField.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this form send record field.
-	*
-	* @return the uuid of this form send record field
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _formSendRecordField.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _formSendRecordField.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _formSendRecordField.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this form send record field.
-	*
-	* @return the create date of this form send record field
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _formSendRecordField.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this form send record field.
-	*
-	* @return the modified date of this form send record field
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _formSendRecordField.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this form send record field.
-	*
-	* @return the status date of this form send record field
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _formSendRecordField.getStatusDate();
-	}
-
-	/**
-	* méthode qui renvoie la liste des signalements d'une réponse.
-	*
-	* @return la liste des signalements
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement> findSignalements() {
-		return _formSendRecordField.findSignalements();
-	}
-
-	/**
-	* Retourne la liste des likes de l'entité
-	*
-	* @see eu.strasbourg.service.like.model.LikeType
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _formSendRecordField.getLikes();
-	}
-
-	/**
-	* Returns the asset entry ID of this form send record field.
-	*
-	* @return the asset entry ID of this form send record field
-	*/
-	@Override
-	public long getAssetEntryId() {
-		return _formSendRecordField.getAssetEntryId();
-	}
-
-	/**
-	* Returns the company ID of this form send record field.
-	*
-	* @return the company ID of this form send record field
-	*/
-	@Override
-	public long getCompanyId() {
-		return _formSendRecordField.getCompanyId();
-	}
-
-	/**
-	* Returns the content ID of this form send record field.
-	*
-	* @return the content ID of this form send record field
-	*/
-	@Override
-	public long getContentId() {
-		return _formSendRecordField.getContentId();
-	}
-
-	/**
-	* Returns the form send record field ID of this form send record field.
-	*
-	* @return the form send record field ID of this form send record field
-	*/
-	@Override
-	public long getFormSendRecordFieldId() {
-		return _formSendRecordField.getFormSendRecordFieldId();
-	}
-
-	/**
-	* Returns the group ID of this form send record field.
-	*
-	* @return the group ID of this form send record field
-	*/
-	@Override
-	public long getGroupId() {
-		return _formSendRecordField.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this form send record field.
-	*
-	* @return the primary key of this form send record field
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _formSendRecordField.getPrimaryKey();
-	}
-
-	/**
-	* Returns the response user ID of this form send record field.
-	*
-	* @return the response user ID of this form send record field
-	*/
-	@Override
-	public long getResponseUserId() {
-		return _formSendRecordField.getResponseUserId();
-	}
-
-	/**
-	* Returns the status by user ID of this form send record field.
-	*
-	* @return the status by user ID of this form send record field
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _formSendRecordField.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this form send record field.
-	*
-	* @return the user ID of this form send record field
-	*/
-	@Override
-	public long getUserId() {
-		return _formSendRecordField.getUserId();
 	}
 
 	@Override
@@ -607,10 +590,10 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Sets the asset entry ID of this form send record field.
-	*
-	* @param assetEntryId the asset entry ID of this form send record field
-	*/
+	 * Sets the asset entry ID of this form send record field.
+	 *
+	 * @param assetEntryId the asset entry ID of this form send record field
+	 */
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
 		_formSendRecordField.setAssetEntryId(assetEntryId);
@@ -622,33 +605,40 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Sets the company ID of this form send record field.
-	*
-	* @param companyId the company ID of this form send record field
-	*/
+	 * Sets the company ID of this form send record field.
+	 *
+	 * @param companyId the company ID of this form send record field
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_formSendRecordField.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the content ID of this form send record field.
-	*
-	* @param contentId the content ID of this form send record field
-	*/
+	 * Sets the content ID of this form send record field.
+	 *
+	 * @param contentId the content ID of this form send record field
+	 */
 	@Override
 	public void setContentId(long contentId) {
 		_formSendRecordField.setContentId(contentId);
 	}
 
 	/**
-	* Sets the create date of this form send record field.
-	*
-	* @param createDate the create date of this form send record field
-	*/
+	 * Sets the create date of this form send record field.
+	 *
+	 * @param createDate the create date of this form send record field
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_formSendRecordField.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_formSendRecordField.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -657,51 +647,45 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_formSendRecordField.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_formSendRecordField.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the form send record field ID of this form send record field.
-	*
-	* @param formSendRecordFieldId the form send record field ID of this form send record field
-	*/
+	 * Sets the form send record field ID of this form send record field.
+	 *
+	 * @param formSendRecordFieldId the form send record field ID of this form send record field
+	 */
 	@Override
 	public void setFormSendRecordFieldId(long formSendRecordFieldId) {
 		_formSendRecordField.setFormSendRecordFieldId(formSendRecordFieldId);
 	}
 
 	/**
-	* Sets the group ID of this form send record field.
-	*
-	* @param groupId the group ID of this form send record field
-	*/
+	 * Sets the group ID of this form send record field.
+	 *
+	 * @param groupId the group ID of this form send record field
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_formSendRecordField.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the instance ID of this form send record field.
-	*
-	* @param instanceId the instance ID of this form send record field
-	*/
+	 * Sets the instance ID of this form send record field.
+	 *
+	 * @param instanceId the instance ID of this form send record field
+	 */
 	@Override
-	public void setInstanceId(java.lang.String instanceId) {
+	public void setInstanceId(String instanceId) {
 		_formSendRecordField.setInstanceId(instanceId);
 	}
 
 	/**
-	* Sets the modified date of this form send record field.
-	*
-	* @param modifiedDate the modified date of this form send record field
-	*/
+	 * Sets the modified date of this form send record field.
+	 *
+	 * @param modifiedDate the modified date of this form send record field
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_formSendRecordField.setModifiedDate(modifiedDate);
@@ -713,10 +697,10 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Sets the primary key of this form send record field.
-	*
-	* @param primaryKey the primary key of this form send record field
-	*/
+	 * Sets the primary key of this form send record field.
+	 *
+	 * @param primaryKey the primary key of this form send record field
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_formSendRecordField.setPrimaryKey(primaryKey);
@@ -728,123 +712,157 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	/**
-	* Sets the response of this form send record field.
-	*
-	* @param response the response of this form send record field
-	*/
+	 * Sets the response of this form send record field.
+	 *
+	 * @param response the response of this form send record field
+	 */
 	@Override
-	public void setResponse(java.lang.String response) {
+	public void setResponse(String response) {
 		_formSendRecordField.setResponse(response);
 	}
 
 	/**
-	* Sets the response user ID of this form send record field.
-	*
-	* @param responseUserId the response user ID of this form send record field
-	*/
+	 * Sets the response user ID of this form send record field.
+	 *
+	 * @param responseUserId the response user ID of this form send record field
+	 */
 	@Override
 	public void setResponseUserId(long responseUserId) {
 		_formSendRecordField.setResponseUserId(responseUserId);
 	}
 
 	/**
-	* Sets the response user uuid of this form send record field.
-	*
-	* @param responseUserUuid the response user uuid of this form send record field
-	*/
+	 * Sets the response user uuid of this form send record field.
+	 *
+	 * @param responseUserUuid the response user uuid of this form send record field
+	 */
 	@Override
-	public void setResponseUserUuid(java.lang.String responseUserUuid) {
+	public void setResponseUserUuid(String responseUserUuid) {
 		_formSendRecordField.setResponseUserUuid(responseUserUuid);
 	}
 
 	/**
-	* Sets the status of this form send record field.
-	*
-	* @param status the status of this form send record field
-	*/
+	 * Sets the status of this form send record field.
+	 *
+	 * @param status the status of this form send record field
+	 */
 	@Override
 	public void setStatus(int status) {
 		_formSendRecordField.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this form send record field.
-	*
-	* @param statusByUserId the status by user ID of this form send record field
-	*/
+	 * Sets the status by user ID of this form send record field.
+	 *
+	 * @param statusByUserId the status by user ID of this form send record field
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_formSendRecordField.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this form send record field.
-	*
-	* @param statusByUserName the status by user name of this form send record field
-	*/
+	 * Sets the status by user name of this form send record field.
+	 *
+	 * @param statusByUserName the status by user name of this form send record field
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_formSendRecordField.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this form send record field.
-	*
-	* @param statusByUserUuid the status by user uuid of this form send record field
-	*/
+	 * Sets the status by user uuid of this form send record field.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this form send record field
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_formSendRecordField.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this form send record field.
-	*
-	* @param statusDate the status date of this form send record field
-	*/
+	 * Sets the status date of this form send record field.
+	 *
+	 * @param statusDate the status date of this form send record field
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_formSendRecordField.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the user ID of this form send record field.
-	*
-	* @param userId the user ID of this form send record field
-	*/
+	 * Sets the user ID of this form send record field.
+	 *
+	 * @param userId the user ID of this form send record field
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_formSendRecordField.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this form send record field.
-	*
-	* @param userName the user name of this form send record field
-	*/
+	 * Sets the user name of this form send record field.
+	 *
+	 * @param userName the user name of this form send record field
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_formSendRecordField.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this form send record field.
-	*
-	* @param userUuid the user uuid of this form send record field
-	*/
+	 * Sets the user uuid of this form send record field.
+	 *
+	 * @param userUuid the user uuid of this form send record field
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_formSendRecordField.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this form send record field.
-	*
-	* @param uuid the uuid of this form send record field
-	*/
+	 * Sets the uuid of this form send record field.
+	 *
+	 * @param uuid the uuid of this form send record field
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_formSendRecordField.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField>
+			toCacheModel() {
+
+		return _formSendRecordField.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
+		toEscapedModel() {
+
+		return new FormSendRecordFieldWrapper(
+			_formSendRecordField.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _formSendRecordField.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
+		toUnescapedModel() {
+
+		return new FormSendRecordFieldWrapper(
+			_formSendRecordField.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _formSendRecordField.toXmlString();
 	}
 
 	@Override
@@ -857,10 +875,13 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 			return false;
 		}
 
-		FormSendRecordFieldWrapper formSendRecordFieldWrapper = (FormSendRecordFieldWrapper)obj;
+		FormSendRecordFieldWrapper formSendRecordFieldWrapper =
+			(FormSendRecordFieldWrapper)obj;
 
-		if (Objects.equals(_formSendRecordField,
-					formSendRecordFieldWrapper._formSendRecordField)) {
+		if (Objects.equals(
+				_formSendRecordField,
+				formSendRecordFieldWrapper._formSendRecordField)) {
+
 			return true;
 		}
 
@@ -893,4 +914,5 @@ public class FormSendRecordFieldWrapper implements FormSendRecordField,
 	}
 
 	private final FormSendRecordField _formSendRecordField;
+
 }

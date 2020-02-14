@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing FormSendRecordField in entity cache.
  *
  * @author Angélique Zunino
- * @see FormSendRecordField
  * @generated
  */
 @ProviderType
-public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordField>,
-	Externalizable {
+public class FormSendRecordFieldCacheModel
+	implements CacheModel<FormSendRecordField>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 			return false;
 		}
 
-		FormSendRecordFieldCacheModel formSendRecordFieldCacheModel = (FormSendRecordFieldCacheModel)obj;
+		FormSendRecordFieldCacheModel formSendRecordFieldCacheModel =
+			(FormSendRecordFieldCacheModel)obj;
 
-		if (formSendRecordFieldId == formSendRecordFieldCacheModel.formSendRecordFieldId) {
+		if (formSendRecordFieldId ==
+				formSendRecordFieldCacheModel.formSendRecordFieldId) {
+
 			return true;
 		}
 
@@ -109,10 +111,11 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 
 	@Override
 	public FormSendRecordField toEntityModel() {
-		FormSendRecordFieldImpl formSendRecordFieldImpl = new FormSendRecordFieldImpl();
+		FormSendRecordFieldImpl formSendRecordFieldImpl =
+			new FormSendRecordFieldImpl();
 
 		if (uuid == null) {
-			formSendRecordFieldImpl.setUuid(StringPool.BLANK);
+			formSendRecordFieldImpl.setUuid("");
 		}
 		else {
 			formSendRecordFieldImpl.setUuid(uuid);
@@ -124,7 +127,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		formSendRecordFieldImpl.setUserId(userId);
 
 		if (userName == null) {
-			formSendRecordFieldImpl.setUserName(StringPool.BLANK);
+			formSendRecordFieldImpl.setUserName("");
 		}
 		else {
 			formSendRecordFieldImpl.setUserName(userName);
@@ -148,7 +151,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		formSendRecordFieldImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			formSendRecordFieldImpl.setStatusByUserName(StringPool.BLANK);
+			formSendRecordFieldImpl.setStatusByUserName("");
 		}
 		else {
 			formSendRecordFieldImpl.setStatusByUserName(statusByUserName);
@@ -162,7 +165,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		}
 
 		if (response == null) {
-			formSendRecordFieldImpl.setResponse(StringPool.BLANK);
+			formSendRecordFieldImpl.setResponse("");
 		}
 		else {
 			formSendRecordFieldImpl.setResponse(response);
@@ -172,7 +175,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		formSendRecordFieldImpl.setContentId(contentId);
 
 		if (instanceId == null) {
-			formSendRecordFieldImpl.setInstanceId(StringPool.BLANK);
+			formSendRecordFieldImpl.setInstanceId("");
 		}
 		else {
 			formSendRecordFieldImpl.setInstanceId(instanceId);
@@ -216,10 +219,9 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -234,7 +236,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -248,7 +250,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -257,7 +259,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		objectOutput.writeLong(statusDate);
 
 		if (response == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(response);
@@ -268,7 +270,7 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 		objectOutput.writeLong(contentId);
 
 		if (instanceId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(instanceId);
@@ -294,4 +296,5 @@ public class FormSendRecordFieldCacheModel implements CacheModel<FormSendRecordF
 	public long contentId;
 	public String instanceId;
 	public long responseUserId;
+
 }
