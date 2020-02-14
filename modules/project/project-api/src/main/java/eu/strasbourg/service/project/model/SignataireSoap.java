@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.SignataireServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.SignataireServiceSoap
  * @generated
  */
 @ProviderType
 public class SignataireSoap implements Serializable {
+
 	public static SignataireSoap toSoapModel(Signataire model) {
 		SignataireSoap soapModel = new SignataireSoap();
 
@@ -90,7 +90,8 @@ public class SignataireSoap implements Serializable {
 	}
 
 	public static SignataireSoap[] toSoapModels(List<Signataire> models) {
-		List<SignataireSoap> soapModels = new ArrayList<SignataireSoap>(models.size());
+		List<SignataireSoap> soapModels = new ArrayList<SignataireSoap>(
+			models.size());
 
 		for (Signataire model : models) {
 			soapModels.add(toSoapModel(model));
@@ -326,4 +327,5 @@ public class SignataireSoap implements Serializable {
 	private Date _signatureDate;
 	private String _publikUserId;
 	private long _petitionId;
+
 }

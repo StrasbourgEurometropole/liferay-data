@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link ProjectFollowedServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>ProjectFollowedServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.project.model.ProjectFollowedSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.project.model.ProjectFollowed}, that is translated to a
- * {@link eu.strasbourg.service.project.model.ProjectFollowedSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.project.model.ProjectFollowedSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.project.model.ProjectFollowed</code>, that is translated to a
+ * <code>eu.strasbourg.service.project.model.ProjectFollowedSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,20 +60,20 @@ import java.rmi.RemoteException;
  *
  * @author Cedric Henry
  * @see ProjectFollowedServiceHttp
- * @see eu.strasbourg.service.project.model.ProjectFollowedSoap
- * @see ProjectFollowedServiceUtil
  * @generated
  */
 @ProviderType
 public class ProjectFollowedServiceSoap {
+
 	/**
-	* Ajoute un projet à un utilisateur
-	*/
-	public static java.lang.String addFollowerLink(long projectId, long groupId)
+	 * Ajoute un projet à un utilisateur
+	 */
+	public static String addFollowerLink(long projectId, long groupId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = ProjectFollowedServiceUtil.addFollowerLink(projectId,
-					groupId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				ProjectFollowedServiceUtil.addFollowerLink(projectId, groupId);
 
 			return returnValue.toString();
 		}
@@ -84,12 +85,12 @@ public class ProjectFollowedServiceSoap {
 	}
 
 	/**
-	* Verifie si l'utilisateur courant suit le projet
-	*/
-	public static java.lang.String isFollower(long projectId)
-		throws RemoteException {
+	 * Verifie si l'utilisateur courant suit le projet
+	 */
+	public static String isFollower(long projectId) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = ProjectFollowedServiceUtil.isFollower(projectId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				ProjectFollowedServiceUtil.isFollower(projectId);
 
 			return returnValue.toString();
 		}
@@ -100,13 +101,18 @@ public class ProjectFollowedServiceSoap {
 		}
 	}
 
-	public static eu.strasbourg.service.project.model.ProjectFollowedSoap[] findProjectFollowedByPublikUserId(
-		java.lang.String publikId) throws RemoteException {
-		try {
-			java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> returnValue =
-				ProjectFollowedServiceUtil.findProjectFollowedByPublikUserId(publikId);
+	public static eu.strasbourg.service.project.model.ProjectFollowedSoap[]
+			findProjectFollowedByPublikUserId(String publikId)
+		throws RemoteException {
 
-			return eu.strasbourg.service.project.model.ProjectFollowedSoap.toSoapModels(returnValue);
+		try {
+			java.util.List<eu.strasbourg.service.project.model.ProjectFollowed>
+				returnValue =
+					ProjectFollowedServiceUtil.
+						findProjectFollowedByPublikUserId(publikId);
+
+			return eu.strasbourg.service.project.model.ProjectFollowedSoap.
+				toSoapModels(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -115,5 +121,7 @@ public class ProjectFollowedServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(ProjectFollowedServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		ProjectFollowedServiceSoap.class);
+
 }

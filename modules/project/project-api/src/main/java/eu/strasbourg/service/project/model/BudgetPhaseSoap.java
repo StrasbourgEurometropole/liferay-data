@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.BudgetPhaseServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.BudgetPhaseServiceSoap
  * @generated
  */
 @ProviderType
 public class BudgetPhaseSoap implements Serializable {
+
 	public static BudgetPhaseSoap toSoapModel(BudgetPhase model) {
 		BudgetPhaseSoap soapModel = new BudgetPhaseSoap();
 
@@ -49,7 +49,7 @@ public class BudgetPhaseSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setNumberOfVote(model.getNumberOfVote());
-		soapModel.setIsActive(model.getIsActive());
+		soapModel.setIsActive(model.isIsActive());
 		soapModel.setBeginDate(model.getBeginDate());
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setBeginVoteDate(model.getBeginVoteDate());
@@ -86,7 +86,8 @@ public class BudgetPhaseSoap implements Serializable {
 	}
 
 	public static BudgetPhaseSoap[] toSoapModels(List<BudgetPhase> models) {
-		List<BudgetPhaseSoap> soapModels = new ArrayList<BudgetPhaseSoap>(models.size());
+		List<BudgetPhaseSoap> soapModels = new ArrayList<BudgetPhaseSoap>(
+			models.size());
 
 		for (BudgetPhase model : models) {
 			soapModels.add(toSoapModel(model));
@@ -290,4 +291,5 @@ public class BudgetPhaseSoap implements Serializable {
 	private Date _endDate;
 	private Date _beginVoteDate;
 	private Date _endVoteDate;
+
 }

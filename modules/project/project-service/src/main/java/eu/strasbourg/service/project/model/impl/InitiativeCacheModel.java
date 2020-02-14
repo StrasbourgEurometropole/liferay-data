@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.Initiative;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Initiative in entity cache.
  *
  * @author Cedric Henry
- * @see Initiative
  * @generated
  */
 @ProviderType
-public class InitiativeCacheModel implements CacheModel<Initiative>,
-	Externalizable {
+public class InitiativeCacheModel
+	implements CacheModel<Initiative>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -128,7 +127,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		InitiativeImpl initiativeImpl = new InitiativeImpl();
 
 		if (uuid == null) {
-			initiativeImpl.setUuid(StringPool.BLANK);
+			initiativeImpl.setUuid("");
 		}
 		else {
 			initiativeImpl.setUuid(uuid);
@@ -140,7 +139,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		initiativeImpl.setUserId(userId);
 
 		if (userName == null) {
-			initiativeImpl.setUserName(StringPool.BLANK);
+			initiativeImpl.setUserName("");
 		}
 		else {
 			initiativeImpl.setUserName(userName);
@@ -164,7 +163,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		initiativeImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			initiativeImpl.setStatusByUserName(StringPool.BLANK);
+			initiativeImpl.setStatusByUserName("");
 		}
 		else {
 			initiativeImpl.setStatusByUserName(statusByUserName);
@@ -178,49 +177,49 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		}
 
 		if (title == null) {
-			initiativeImpl.setTitle(StringPool.BLANK);
+			initiativeImpl.setTitle("");
 		}
 		else {
 			initiativeImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			initiativeImpl.setDescription(StringPool.BLANK);
+			initiativeImpl.setDescription("");
 		}
 		else {
 			initiativeImpl.setDescription(description);
 		}
 
 		if (placeTextArea == null) {
-			initiativeImpl.setPlaceTextArea(StringPool.BLANK);
+			initiativeImpl.setPlaceTextArea("");
 		}
 		else {
 			initiativeImpl.setPlaceTextArea(placeTextArea);
 		}
 
 		if (inTheNameOf == null) {
-			initiativeImpl.setInTheNameOf(StringPool.BLANK);
+			initiativeImpl.setInTheNameOf("");
 		}
 		else {
 			initiativeImpl.setInTheNameOf(inTheNameOf);
 		}
 
 		if (videoUrl == null) {
-			initiativeImpl.setVideoUrl(StringPool.BLANK);
+			initiativeImpl.setVideoUrl("");
 		}
 		else {
 			initiativeImpl.setVideoUrl(videoUrl);
 		}
 
 		if (externalImageURL == null) {
-			initiativeImpl.setExternalImageURL(StringPool.BLANK);
+			initiativeImpl.setExternalImageURL("");
 		}
 		else {
 			initiativeImpl.setExternalImageURL(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			initiativeImpl.setExternalImageCopyright(StringPool.BLANK);
+			initiativeImpl.setExternalImageCopyright("");
 		}
 		else {
 			initiativeImpl.setExternalImageCopyright(externalImageCopyright);
@@ -230,7 +229,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		initiativeImpl.setAssetEntryId(assetEntryId);
 
 		if (publikId == null) {
-			initiativeImpl.setPublikId(StringPool.BLANK);
+			initiativeImpl.setPublikId("");
 		}
 		else {
 			initiativeImpl.setPublikId(publikId);
@@ -239,7 +238,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		initiativeImpl.setImageId(imageId);
 
 		if (filesIds == null) {
-			initiativeImpl.setFilesIds(StringPool.BLANK);
+			initiativeImpl.setFilesIds("");
 		}
 		else {
 			initiativeImpl.setFilesIds(filesIds);
@@ -296,10 +295,9 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -314,7 +312,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -328,7 +326,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -337,49 +335,49 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (placeTextArea == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeTextArea);
 		}
 
 		if (inTheNameOf == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(inTheNameOf);
 		}
 
 		if (videoUrl == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videoUrl);
 		}
 
 		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
@@ -390,7 +388,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		objectOutput.writeLong(assetEntryId);
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
@@ -399,7 +397,7 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 		objectOutput.writeLong(imageId);
 
 		if (filesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filesIds);
@@ -433,4 +431,5 @@ public class InitiativeCacheModel implements CacheModel<Initiative>,
 	public long imageId;
 	public String filesIds;
 	public long publicationDate;
+
 }

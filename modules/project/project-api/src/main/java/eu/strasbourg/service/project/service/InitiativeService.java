@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Cedric Henry
  * @see InitiativeServiceUtil
- * @see eu.strasbourg.service.project.service.base.InitiativeServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.InitiativeServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=project", "json.web.service.context.path=Initiative"}, service = InitiativeService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=project",
+		"json.web.service.context.path=Initiative"
+	},
+	service = InitiativeService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface InitiativeService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link InitiativeServiceUtil} to access the initiative remote service. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.InitiativeServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link InitiativeServiceUtil} to access the initiative remote service. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.InitiativeServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

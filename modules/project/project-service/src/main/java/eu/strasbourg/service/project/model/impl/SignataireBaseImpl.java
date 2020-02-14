@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class SignataireBaseImpl extends SignataireModelImpl
-	implements Signataire {
+public abstract class SignataireBaseImpl
+	extends SignataireModelImpl implements Signataire {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a signataire model instance should use the {@link Signataire} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a signataire model instance should use the <code>Signataire</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class SignataireBaseImpl extends SignataireModelImpl
 			SignataireLocalServiceUtil.updateSignataire(this);
 		}
 	}
+
 }

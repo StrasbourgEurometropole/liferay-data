@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.ProjectFollowed;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ProjectFollowed in entity cache.
  *
  * @author Cedric Henry
- * @see ProjectFollowed
  * @generated
  */
 @ProviderType
-public class ProjectFollowedCacheModel implements CacheModel<ProjectFollowed>,
-	Externalizable {
+public class ProjectFollowedCacheModel
+	implements CacheModel<ProjectFollowed>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ProjectFollowedCacheModel implements CacheModel<ProjectFollowed>,
 			return false;
 		}
 
-		ProjectFollowedCacheModel projectFollowedCacheModel = (ProjectFollowedCacheModel)obj;
+		ProjectFollowedCacheModel projectFollowedCacheModel =
+			(ProjectFollowedCacheModel)obj;
 
 		if (projectFollowedId == projectFollowedCacheModel.projectFollowedId) {
 			return true;
@@ -97,7 +97,7 @@ public class ProjectFollowedCacheModel implements CacheModel<ProjectFollowed>,
 		}
 
 		if (publikUserId == null) {
-			projectFollowedImpl.setPublikUserId(StringPool.BLANK);
+			projectFollowedImpl.setPublikUserId("");
 		}
 		else {
 			projectFollowedImpl.setPublikUserId(publikUserId);
@@ -123,13 +123,12 @@ public class ProjectFollowedCacheModel implements CacheModel<ProjectFollowed>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(projectFollowedId);
 		objectOutput.writeLong(createDate);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -145,4 +144,5 @@ public class ProjectFollowedCacheModel implements CacheModel<ProjectFollowed>,
 	public String publikUserId;
 	public long projectId;
 	public long groupId;
+
 }

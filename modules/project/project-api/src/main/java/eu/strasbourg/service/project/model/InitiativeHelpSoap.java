@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.InitiativeHelpServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.InitiativeHelpServiceSoap
  * @generated
  */
 @ProviderType
 public class InitiativeHelpSoap implements Serializable {
+
 	public static InitiativeHelpSoap toSoapModel(InitiativeHelp model) {
 		InitiativeHelpSoap soapModel = new InitiativeHelpSoap();
 
@@ -42,7 +42,7 @@ public class InitiativeHelpSoap implements Serializable {
 		soapModel.setHelpTypes(model.getHelpTypes());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setMessage(model.getMessage());
-		soapModel.setHelpDisplay(model.getHelpDisplay());
+		soapModel.setHelpDisplay(model.isHelpDisplay());
 
 		return soapModel;
 	}
@@ -57,11 +57,14 @@ public class InitiativeHelpSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static InitiativeHelpSoap[][] toSoapModels(InitiativeHelp[][] models) {
+	public static InitiativeHelpSoap[][] toSoapModels(
+		InitiativeHelp[][] models) {
+
 		InitiativeHelpSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new InitiativeHelpSoap[models.length][models[0].length];
+			soapModels =
+				new InitiativeHelpSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new InitiativeHelpSoap[0][0];
@@ -74,8 +77,11 @@ public class InitiativeHelpSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static InitiativeHelpSoap[] toSoapModels(List<InitiativeHelp> models) {
-		List<InitiativeHelpSoap> soapModels = new ArrayList<InitiativeHelpSoap>(models.size());
+	public static InitiativeHelpSoap[] toSoapModels(
+		List<InitiativeHelp> models) {
+
+		List<InitiativeHelpSoap> soapModels = new ArrayList<InitiativeHelpSoap>(
+			models.size());
 
 		for (InitiativeHelp model : models) {
 			soapModels.add(toSoapModel(model));
@@ -180,4 +186,5 @@ public class InitiativeHelpSoap implements Serializable {
 	private long _groupId;
 	private String _message;
 	private boolean _helpDisplay;
+
 }

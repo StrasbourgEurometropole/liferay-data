@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see ProjectTimelineModel
- * @see eu.strasbourg.service.project.model.impl.ProjectTimelineImpl
- * @see eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.project.model.impl.ProjectTimelineImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.project.model.impl.ProjectTimelineImpl"
+)
 @ProviderType
-public interface ProjectTimeline extends ProjectTimelineModel, PersistedModel {
+public interface ProjectTimeline extends PersistedModel, ProjectTimelineModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.project.model.impl.ProjectTimelineImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.project.model.impl.ProjectTimelineImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ProjectTimeline, Long> PROJECT_TIMELINE_ID_ACCESSOR =
-		new Accessor<ProjectTimeline, Long>() {
+	public static final Accessor<ProjectTimeline, Long>
+		PROJECT_TIMELINE_ID_ACCESSOR = new Accessor<ProjectTimeline, Long>() {
+
 			@Override
 			public Long get(ProjectTimeline projectTimeline) {
 				return projectTimeline.getProjectTimelineId();
@@ -53,17 +55,19 @@ public interface ProjectTimeline extends ProjectTimelineModel, PersistedModel {
 			public Class<ProjectTimeline> getTypeClass() {
 				return ProjectTimeline.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'equivalent en Freeemarker du format de date de la timeline
-	*
-	* @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
-	*/
-	public java.lang.String getFreeMarkerFormatDate();
+	 * Retourne l'equivalent en Freeemarker du format de date de la timeline
+	 *
+	 * @return Le format de date en freemarker, JJ/MM/AAAA dans le cas d'une timeline sans format encore defini
+	 */
+	public String getFreeMarkerFormatDate();
 
 	/**
-	* Retourne la version JSON de l'entité
-	*/
+	 * Retourne la version JSON de l'entité
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

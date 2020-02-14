@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.PetitionServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.PetitionServiceSoap
  * @generated
  */
 @ProviderType
 public class PetitionSoap implements Serializable {
+
 	public static PetitionSoap toSoapModel(Petition model) {
 		PetitionSoap soapModel = new PetitionSoap();
 
@@ -59,16 +59,17 @@ public class PetitionSoap implements Serializable {
 		soapModel.setPetitionnaireFirstname(model.getPetitionnaireFirstname());
 		soapModel.setPetitionnaireBirthday(model.getPetitionnaireBirthday());
 		soapModel.setPetitionnaireAdresse(model.getPetitionnaireAdresse());
-		soapModel.setPetitionnairePostalCode(model.getPetitionnairePostalCode());
+		soapModel.setPetitionnairePostalCode(
+			model.getPetitionnairePostalCode());
 		soapModel.setPetitionnaireCity(model.getPetitionnaireCity());
 		soapModel.setPetitionnairePhone(model.getPetitionnairePhone());
 		soapModel.setPetitionnaireEmail(model.getPetitionnaireEmail());
-		soapModel.setIsSupported(model.getIsSupported());
+		soapModel.setIsSupported(model.isIsSupported());
 		soapModel.setSupportedBy(model.getSupportedBy());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
-		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setMediaChoice(model.isMediaChoice());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
 		soapModel.setFilesIds(model.getFilesIds());
@@ -104,7 +105,8 @@ public class PetitionSoap implements Serializable {
 	}
 
 	public static PetitionSoap[] toSoapModels(List<Petition> models) {
-		List<PetitionSoap> soapModels = new ArrayList<PetitionSoap>(models.size());
+		List<PetitionSoap> soapModels = new ArrayList<PetitionSoap>(
+			models.size());
 
 		for (Petition model : models) {
 			soapModels.add(toSoapModel(model));
@@ -474,4 +476,5 @@ public class PetitionSoap implements Serializable {
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
+
 }

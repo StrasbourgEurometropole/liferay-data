@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.project.service.persistence.InitiativePersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -67,51 +67,32 @@ import java.util.Set;
  * </p>
  *
  * @author Cedric Henry
- * @see InitiativePersistence
- * @see eu.strasbourg.service.project.service.persistence.InitiativeUtil
  * @generated
  */
 @ProviderType
-public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
-	implements InitiativePersistence {
+public class InitiativePersistenceImpl
+	extends BasePersistenceImpl<Initiative> implements InitiativePersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link InitiativeUtil} to access the initiative persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>InitiativeUtil</code> to access the initiative persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = InitiativeImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			InitiativeModelImpl.UUID_COLUMN_BITMASK |
-			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		InitiativeImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the initiatives where uuid = &#63;.
@@ -128,7 +109,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns a range of all the initiatives where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -145,7 +126,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -155,8 +136,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByUuid(String uuid, int start, int end,
+	public List<Initiative> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Initiative> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -164,7 +147,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -175,33 +158,38 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByUuid(String uuid, int start, int end,
+	public List<Initiative> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Initiative> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Initiative> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Initiative>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Initiative>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Initiative initiative : list) {
-					if (!Objects.equals(uuid, initiative.getUuid())) {
+					if (!uuid.equals(initiative.getUuid())) {
 						list = null;
 
 						break;
@@ -214,8 +202,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -225,10 +213,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -238,11 +223,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -262,16 +246,16 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				}
 
 				if (!pagination) {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -300,9 +284,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByUuid_First(String uuid,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByUuid_First(
+			String uuid, OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = fetchByUuid_First(uuid, orderByComparator);
 
 		if (initiative != null) {
@@ -316,7 +301,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -329,8 +314,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByUuid_First(String uuid,
-		OrderByComparator<Initiative> orderByComparator) {
+	public Initiative fetchByUuid_First(
+		String uuid, OrderByComparator<Initiative> orderByComparator) {
+
 		List<Initiative> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -349,9 +335,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByUuid_Last(String uuid,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByUuid_Last(
+			String uuid, OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (initiative != null) {
@@ -365,7 +352,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -378,16 +365,17 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByUuid_Last(String uuid,
-		OrderByComparator<Initiative> orderByComparator) {
+	public Initiative fetchByUuid_Last(
+		String uuid, OrderByComparator<Initiative> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Initiative> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Initiative> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -406,9 +394,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a initiative with the primary key could not be found
 	 */
 	@Override
-	public Initiative[] findByUuid_PrevAndNext(long initiativeId, String uuid,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative[] findByUuid_PrevAndNext(
+			long initiativeId, String uuid,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Initiative initiative = findByPrimaryKey(initiativeId);
 
 		Session session = null;
@@ -418,13 +410,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			Initiative[] array = new InitiativeImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, initiative, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, initiative, uuid, orderByComparator, true);
 
 			array[1] = initiative;
 
-			array[2] = getByUuid_PrevAndNext(session, initiative, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, initiative, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -436,14 +428,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 	}
 
-	protected Initiative getByUuid_PrevAndNext(Session session,
-		Initiative initiative, String uuid,
+	protected Initiative getByUuid_PrevAndNext(
+		Session session, Initiative initiative, String uuid,
 		OrderByComparator<Initiative> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -454,10 +447,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -467,7 +457,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -539,10 +530,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiative);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(initiative)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -563,8 +554,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Initiative initiative : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Initiative initiative :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(initiative);
 		}
 	}
@@ -577,9 +569,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -590,10 +584,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -634,22 +625,17 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "initiative.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "initiative.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(initiative.uuid IS NULL OR initiative.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			InitiativeModelImpl.UUID_COLUMN_BITMASK |
-			InitiativeModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"initiative.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(initiative.uuid IS NULL OR initiative.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the initiative where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchInitiativeException} if it could not be found.
+	 * Returns the initiative where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchInitiativeException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -659,6 +645,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Initiative findByUUID_G(String uuid, long groupId)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = fetchByUUID_G(uuid, groupId);
 
 		if (initiative == null) {
@@ -672,7 +659,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -705,22 +692,26 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Initiative fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Initiative) {
 			Initiative initiative = (Initiative)result;
 
 			if (!Objects.equals(uuid, initiative.getUuid()) ||
-					(groupId != initiative.getGroupId())) {
+				(groupId != initiative.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -732,10 +723,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -766,8 +754,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				List<Initiative> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Initiative initiative = list.get(0);
@@ -775,17 +763,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 					result = initiative;
 
 					cacheResult(initiative);
-
-					if ((initiative.getUuid() == null) ||
-							!initiative.getUuid().equals(uuid) ||
-							(initiative.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, initiative);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -812,6 +793,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Initiative removeByUUID_G(String uuid, long groupId)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = findByUUID_G(uuid, groupId);
 
 		return remove(initiative);
@@ -826,9 +808,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -839,10 +823,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -887,31 +868,18 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "initiative.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "initiative.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(initiative.uuid IS NULL OR initiative.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "initiative.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			InitiativeModelImpl.UUID_COLUMN_BITMASK |
-			InitiativeModelImpl.COMPANYID_COLUMN_BITMASK |
-			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"initiative.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(initiative.uuid IS NULL OR initiative.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"initiative.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the initiatives where uuid = &#63; and companyId = &#63;.
@@ -922,15 +890,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public List<Initiative> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the initiatives where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -940,8 +908,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByUuid_C(String uuid, long companyId,
-		int start, int end) {
+	public List<Initiative> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -949,7 +918,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -960,16 +929,19 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<Initiative> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Initiative> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the initiatives where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -981,38 +953,42 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<Initiative> orderByComparator,
+	public List<Initiative> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Initiative> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Initiative>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Initiative>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Initiative initiative : list) {
-					if (!Objects.equals(uuid, initiative.getUuid()) ||
-							(companyId != initiative.getCompanyId())) {
+					if (!uuid.equals(initiative.getUuid()) ||
+						(companyId != initiative.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1025,8 +1001,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1036,10 +1012,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1051,11 +1024,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1077,16 +1049,16 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1116,11 +1088,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		Initiative initiative = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -1136,7 +1110,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -1150,10 +1124,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByUuid_C_First(String uuid, long companyId,
+	public Initiative fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Initiative> orderByComparator) {
-		List<Initiative> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<Initiative> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1172,11 +1148,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		Initiative initiative = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -1192,7 +1170,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -1206,16 +1184,18 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByUuid_C_Last(String uuid, long companyId,
+	public Initiative fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Initiative> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Initiative> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Initiative> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1235,10 +1215,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a initiative with the primary key could not be found
 	 */
 	@Override
-	public Initiative[] findByUuid_C_PrevAndNext(long initiativeId,
-		String uuid, long companyId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative[] findByUuid_C_PrevAndNext(
+			long initiativeId, String uuid, long companyId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Initiative initiative = findByPrimaryKey(initiativeId);
 
 		Session session = null;
@@ -1248,13 +1231,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			Initiative[] array = new InitiativeImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, initiative, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, initiative, uuid, companyId, orderByComparator, true);
 
 			array[1] = initiative;
 
-			array[2] = getByUuid_C_PrevAndNext(session, initiative, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, initiative, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1266,14 +1249,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 	}
 
-	protected Initiative getByUuid_C_PrevAndNext(Session session,
-		Initiative initiative, String uuid, long companyId,
+	protected Initiative getByUuid_C_PrevAndNext(
+		Session session, Initiative initiative, String uuid, long companyId,
 		OrderByComparator<Initiative> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1284,10 +1268,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1299,7 +1280,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1373,10 +1355,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiative);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(initiative)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1398,8 +1380,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Initiative initiative : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Initiative initiative :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(initiative);
 		}
 	}
@@ -1413,9 +1398,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1426,10 +1413,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1474,30 +1458,18 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "initiative.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "initiative.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(initiative.uuid IS NULL OR initiative.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "initiative.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			InitiativeModelImpl.GROUPID_COLUMN_BITMASK |
-			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"initiative.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(initiative.uuid IS NULL OR initiative.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"initiative.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the initiatives where groupId = &#63;.
@@ -1507,14 +1479,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public List<Initiative> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the initiatives where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1531,7 +1504,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1541,8 +1514,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByGroupId(long groupId, int start, int end,
+	public List<Initiative> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Initiative> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1550,7 +1525,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1561,29 +1536,32 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByGroupId(long groupId, int start, int end,
+	public List<Initiative> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Initiative> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<Initiative> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Initiative>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Initiative>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Initiative initiative : list) {
@@ -1600,8 +1578,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1612,11 +1590,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1634,16 +1611,16 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1672,10 +1649,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByGroupId_First(long groupId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByGroupId_First(
+			long groupId, OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchByGroupId_First(groupId, orderByComparator);
+
+		Initiative initiative = fetchByGroupId_First(
+			groupId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -1688,7 +1667,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -1701,8 +1680,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByGroupId_First(long groupId,
-		OrderByComparator<Initiative> orderByComparator) {
+	public Initiative fetchByGroupId_First(
+		long groupId, OrderByComparator<Initiative> orderByComparator) {
+
 		List<Initiative> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1721,9 +1701,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByGroupId_Last(long groupId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByGroupId_Last(
+			long groupId, OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (initiative != null) {
@@ -1737,7 +1718,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -1750,16 +1731,17 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByGroupId_Last(long groupId,
-		OrderByComparator<Initiative> orderByComparator) {
+	public Initiative fetchByGroupId_Last(
+		long groupId, OrderByComparator<Initiative> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Initiative> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<Initiative> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1778,9 +1760,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a initiative with the primary key could not be found
 	 */
 	@Override
-	public Initiative[] findByGroupId_PrevAndNext(long initiativeId,
-		long groupId, OrderByComparator<Initiative> orderByComparator)
+	public Initiative[] findByGroupId_PrevAndNext(
+			long initiativeId, long groupId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = findByPrimaryKey(initiativeId);
 
 		Session session = null;
@@ -1790,13 +1774,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			Initiative[] array = new InitiativeImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, initiative, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, initiative, groupId, orderByComparator, true);
 
 			array[1] = initiative;
 
-			array[2] = getByGroupId_PrevAndNext(session, initiative, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, initiative, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1808,14 +1792,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 	}
 
-	protected Initiative getByGroupId_PrevAndNext(Session session,
-		Initiative initiative, long groupId,
+	protected Initiative getByGroupId_PrevAndNext(
+		Session session, Initiative initiative, long groupId,
 		OrderByComparator<Initiative> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1827,7 +1812,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1897,10 +1883,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiative);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(initiative)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1921,8 +1907,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (Initiative initiative : findByGroupId(groupId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Initiative initiative :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(initiative);
 		}
 	}
@@ -1935,9 +1923,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1978,27 +1966,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "initiative.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBypublikId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID =
-		new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBypublikId",
-			new String[] { String.class.getName() },
-			InitiativeModelImpl.PUBLIKID_COLUMN_BITMASK |
-			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBypublikId",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"initiative.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindBypublikId;
+	private FinderPath _finderPathWithoutPaginationFindBypublikId;
+	private FinderPath _finderPathCountBypublikId;
 
 	/**
 	 * Returns all the initiatives where publikId = &#63;.
@@ -2008,15 +1981,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public List<Initiative> findBypublikId(String publikId) {
-		return findBypublikId(publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findBypublikId(
+			publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the initiatives where publikId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikId the publik ID
@@ -2025,7 +1998,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findBypublikId(String publikId, int start, int end) {
+	public List<Initiative> findBypublikId(
+		String publikId, int start, int end) {
+
 		return findBypublikId(publikId, start, end, null);
 	}
 
@@ -2033,7 +2008,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where publikId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikId the publik ID
@@ -2043,8 +2018,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findBypublikId(String publikId, int start, int end,
+	public List<Initiative> findBypublikId(
+		String publikId, int start, int end,
 		OrderByComparator<Initiative> orderByComparator) {
+
 		return findBypublikId(publikId, start, end, orderByComparator, true);
 	}
 
@@ -2052,7 +2029,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where publikId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikId the publik ID
@@ -2063,33 +2040,38 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findBypublikId(String publikId, int start, int end,
+	public List<Initiative> findBypublikId(
+		String publikId, int start, int end,
 		OrderByComparator<Initiative> orderByComparator,
 		boolean retrieveFromCache) {
+
+		publikId = Objects.toString(publikId, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID;
-			finderArgs = new Object[] { publikId };
+			finderPath = _finderPathWithoutPaginationFindBypublikId;
+			finderArgs = new Object[] {publikId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID;
-			finderArgs = new Object[] { publikId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindBypublikId;
+			finderArgs = new Object[] {publikId, start, end, orderByComparator};
 		}
 
 		List<Initiative> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Initiative>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Initiative>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Initiative initiative : list) {
-					if (!Objects.equals(publikId, initiative.getPublikId())) {
+					if (!publikId.equals(initiative.getPublikId())) {
 						list = null;
 
 						break;
@@ -2102,8 +2084,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2113,10 +2095,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindPublikId = false;
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
+			if (publikId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
@@ -2126,11 +2105,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2150,16 +2128,16 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				}
 
 				if (!pagination) {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2188,11 +2166,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findBypublikId_First(String publikId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findBypublikId_First(
+			String publikId, OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchBypublikId_First(publikId,
-				orderByComparator);
+
+		Initiative initiative = fetchBypublikId_First(
+			publikId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -2205,7 +2184,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append("publikId=");
 		msg.append(publikId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -2218,9 +2197,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchBypublikId_First(String publikId,
-		OrderByComparator<Initiative> orderByComparator) {
-		List<Initiative> list = findBypublikId(publikId, 0, 1, orderByComparator);
+	public Initiative fetchBypublikId_First(
+		String publikId, OrderByComparator<Initiative> orderByComparator) {
+
+		List<Initiative> list = findBypublikId(
+			publikId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2238,10 +2219,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findBypublikId_Last(String publikId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findBypublikId_Last(
+			String publikId, OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchBypublikId_Last(publikId, orderByComparator);
+
+		Initiative initiative = fetchBypublikId_Last(
+			publikId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -2254,7 +2237,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append("publikId=");
 		msg.append(publikId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -2267,16 +2250,17 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchBypublikId_Last(String publikId,
-		OrderByComparator<Initiative> orderByComparator) {
+	public Initiative fetchBypublikId_Last(
+		String publikId, OrderByComparator<Initiative> orderByComparator) {
+
 		int count = countBypublikId(publikId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Initiative> list = findBypublikId(publikId, count - 1, count,
-				orderByComparator);
+		List<Initiative> list = findBypublikId(
+			publikId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2295,9 +2279,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a initiative with the primary key could not be found
 	 */
 	@Override
-	public Initiative[] findBypublikId_PrevAndNext(long initiativeId,
-		String publikId, OrderByComparator<Initiative> orderByComparator)
+	public Initiative[] findBypublikId_PrevAndNext(
+			long initiativeId, String publikId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
+		publikId = Objects.toString(publikId, "");
+
 		Initiative initiative = findByPrimaryKey(initiativeId);
 
 		Session session = null;
@@ -2307,13 +2295,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			Initiative[] array = new InitiativeImpl[3];
 
-			array[0] = getBypublikId_PrevAndNext(session, initiative, publikId,
-					orderByComparator, true);
+			array[0] = getBypublikId_PrevAndNext(
+				session, initiative, publikId, orderByComparator, true);
 
 			array[1] = initiative;
 
-			array[2] = getBypublikId_PrevAndNext(session, initiative, publikId,
-					orderByComparator, false);
+			array[2] = getBypublikId_PrevAndNext(
+				session, initiative, publikId, orderByComparator, false);
 
 			return array;
 		}
@@ -2325,14 +2313,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 	}
 
-	protected Initiative getBypublikId_PrevAndNext(Session session,
-		Initiative initiative, String publikId,
+	protected Initiative getBypublikId_PrevAndNext(
+		Session session, Initiative initiative, String publikId,
 		OrderByComparator<Initiative> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2343,10 +2332,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 		boolean bindPublikId = false;
 
-		if (publikId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-		}
-		else if (publikId.equals(StringPool.BLANK)) {
+		if (publikId.isEmpty()) {
 			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 		}
 		else {
@@ -2356,7 +2342,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2428,10 +2415,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiative);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(initiative)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2452,8 +2439,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public void removeBypublikId(String publikId) {
-		for (Initiative initiative : findBypublikId(publikId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Initiative initiative :
+				findBypublikId(
+					publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(initiative);
 		}
 	}
@@ -2466,9 +2455,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countBypublikId(String publikId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
+		publikId = Objects.toString(publikId, "");
 
-		Object[] finderArgs = new Object[] { publikId };
+		FinderPath finderPath = _finderPathCountBypublikId;
+
+		Object[] finderArgs = new Object[] {publikId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2479,10 +2470,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			boolean bindPublikId = false;
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
+			if (publikId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
@@ -2523,33 +2511,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "initiative.publikId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "initiative.publikId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(initiative.publikId IS NULL OR initiative.publikId = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSANDGROUPID =
-		new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
-			new String[] {
-				Integer.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID =
-		new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByStatusAndGroupId",
-			new String[] { Integer.class.getName(), Long.class.getName() },
-			InitiativeModelImpl.STATUS_COLUMN_BITMASK |
-			InitiativeModelImpl.GROUPID_COLUMN_BITMASK |
-			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_STATUSANDGROUPID = new FinderPath(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByStatusAndGroupId",
-			new String[] { Integer.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 =
+		"initiative.publikId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 =
+		"(initiative.publikId IS NULL OR initiative.publikId = '')";
+
+	private FinderPath _finderPathWithPaginationFindByStatusAndGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByStatusAndGroupId;
+	private FinderPath _finderPathCountByStatusAndGroupId;
 
 	/**
 	 * Returns all the initiatives where status = &#63; and groupId = &#63;.
@@ -2560,15 +2530,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public List<Initiative> findByStatusAndGroupId(int status, long groupId) {
-		return findByStatusAndGroupId(status, groupId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByStatusAndGroupId(
+			status, groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the initiatives where status = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -2578,8 +2548,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByStatusAndGroupId(int status, long groupId,
-		int start, int end) {
+	public List<Initiative> findByStatusAndGroupId(
+		int status, long groupId, int start, int end) {
+
 		return findByStatusAndGroupId(status, groupId, start, end, null);
 	}
 
@@ -2587,7 +2558,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives where status = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -2598,17 +2569,19 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByStatusAndGroupId(int status, long groupId,
-		int start, int end, OrderByComparator<Initiative> orderByComparator) {
-		return findByStatusAndGroupId(status, groupId, start, end,
-			orderByComparator, true);
+	public List<Initiative> findByStatusAndGroupId(
+		int status, long groupId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator) {
+
+		return findByStatusAndGroupId(
+			status, groupId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the initiatives where status = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -2620,38 +2593,40 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of matching initiatives
 	 */
 	@Override
-	public List<Initiative> findByStatusAndGroupId(int status, long groupId,
-		int start, int end, OrderByComparator<Initiative> orderByComparator,
+	public List<Initiative> findByStatusAndGroupId(
+		int status, long groupId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID;
-			finderArgs = new Object[] { status, groupId };
+			finderPath = _finderPathWithoutPaginationFindByStatusAndGroupId;
+			finderArgs = new Object[] {status, groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSANDGROUPID;
+			finderPath = _finderPathWithPaginationFindByStatusAndGroupId;
 			finderArgs = new Object[] {
-					status, groupId,
-					
-					start, end, orderByComparator
-				};
+				status, groupId, start, end, orderByComparator
+			};
 		}
 
 		List<Initiative> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Initiative>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Initiative>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Initiative initiative : list) {
 					if ((status != initiative.getStatus()) ||
-							(groupId != initiative.getGroupId())) {
+						(groupId != initiative.getGroupId())) {
+
 						list = null;
 
 						break;
@@ -2664,8 +2639,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2678,11 +2653,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(InitiativeModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2702,16 +2676,16 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2741,11 +2715,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByStatusAndGroupId_First(int status, long groupId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByStatusAndGroupId_First(
+			int status, long groupId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchByStatusAndGroupId_First(status, groupId,
-				orderByComparator);
+
+		Initiative initiative = fetchByStatusAndGroupId_First(
+			status, groupId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -2761,7 +2737,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append(", groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -2775,10 +2751,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the first matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByStatusAndGroupId_First(int status, long groupId,
+	public Initiative fetchByStatusAndGroupId_First(
+		int status, long groupId,
 		OrderByComparator<Initiative> orderByComparator) {
-		List<Initiative> list = findByStatusAndGroupId(status, groupId, 0, 1,
-				orderByComparator);
+
+		List<Initiative> list = findByStatusAndGroupId(
+			status, groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2797,11 +2775,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative findByStatusAndGroupId_Last(int status, long groupId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative findByStatusAndGroupId_Last(
+			int status, long groupId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
-		Initiative initiative = fetchByStatusAndGroupId_Last(status, groupId,
-				orderByComparator);
+
+		Initiative initiative = fetchByStatusAndGroupId_Last(
+			status, groupId, orderByComparator);
 
 		if (initiative != null) {
 			return initiative;
@@ -2817,7 +2797,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		msg.append(", groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchInitiativeException(msg.toString());
 	}
@@ -2831,16 +2811,18 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the last matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
 	@Override
-	public Initiative fetchByStatusAndGroupId_Last(int status, long groupId,
+	public Initiative fetchByStatusAndGroupId_Last(
+		int status, long groupId,
 		OrderByComparator<Initiative> orderByComparator) {
+
 		int count = countByStatusAndGroupId(status, groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Initiative> list = findByStatusAndGroupId(status, groupId,
-				count - 1, count, orderByComparator);
+		List<Initiative> list = findByStatusAndGroupId(
+			status, groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2860,10 +2842,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @throws NoSuchInitiativeException if a initiative with the primary key could not be found
 	 */
 	@Override
-	public Initiative[] findByStatusAndGroupId_PrevAndNext(long initiativeId,
-		int status, long groupId,
-		OrderByComparator<Initiative> orderByComparator)
+	public Initiative[] findByStatusAndGroupId_PrevAndNext(
+			long initiativeId, int status, long groupId,
+			OrderByComparator<Initiative> orderByComparator)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = findByPrimaryKey(initiativeId);
 
 		Session session = null;
@@ -2873,13 +2856,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 			Initiative[] array = new InitiativeImpl[3];
 
-			array[0] = getByStatusAndGroupId_PrevAndNext(session, initiative,
-					status, groupId, orderByComparator, true);
+			array[0] = getByStatusAndGroupId_PrevAndNext(
+				session, initiative, status, groupId, orderByComparator, true);
 
 			array[1] = initiative;
 
-			array[2] = getByStatusAndGroupId_PrevAndNext(session, initiative,
-					status, groupId, orderByComparator, false);
+			array[2] = getByStatusAndGroupId_PrevAndNext(
+				session, initiative, status, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -2891,14 +2874,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		}
 	}
 
-	protected Initiative getByStatusAndGroupId_PrevAndNext(Session session,
-		Initiative initiative, int status, long groupId,
+	protected Initiative getByStatusAndGroupId_PrevAndNext(
+		Session session, Initiative initiative, int status, long groupId,
 		OrderByComparator<Initiative> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2912,7 +2896,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2984,10 +2969,10 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(initiative);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(initiative)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -3009,8 +2994,11 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public void removeByStatusAndGroupId(int status, long groupId) {
-		for (Initiative initiative : findByStatusAndGroupId(status, groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Initiative initiative :
+				findByStatusAndGroupId(
+					status, groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(initiative);
 		}
 	}
@@ -3024,9 +3012,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countByStatusAndGroupId(int status, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_STATUSANDGROUPID;
+		FinderPath finderPath = _finderPathCountByStatusAndGroupId;
 
-		Object[] finderArgs = new Object[] { status, groupId };
+		Object[] finderArgs = new Object[] {status, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3071,19 +3059,24 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUSANDGROUPID_STATUS_2 = "initiative.status = ? AND ";
-	private static final String _FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2 = "initiative.groupId = ?";
+	private static final String _FINDER_COLUMN_STATUSANDGROUPID_STATUS_2 =
+		"initiative.status = ? AND ";
+
+	private static final String _FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2 =
+		"initiative.groupId = ?";
 
 	public InitiativePersistenceImpl() {
 		setModelClass(Initiative.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -3101,11 +3094,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public void cacheResult(Initiative initiative) {
-		entityCache.putResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeImpl.class, initiative.getPrimaryKey(), initiative);
+		entityCache.putResult(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED, InitiativeImpl.class,
+			initiative.getPrimaryKey(), initiative);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { initiative.getUuid(), initiative.getGroupId() },
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {initiative.getUuid(), initiative.getGroupId()},
 			initiative);
 
 		initiative.resetOriginalValues();
@@ -3120,8 +3115,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	public void cacheResult(List<Initiative> initiatives) {
 		for (Initiative initiative : initiatives) {
 			if (entityCache.getResult(
-						InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-						InitiativeImpl.class, initiative.getPrimaryKey()) == null) {
+					InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+					InitiativeImpl.class, initiative.getPrimaryKey()) == null) {
+
 				cacheResult(initiative);
 			}
 			else {
@@ -3134,7 +3130,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Clears the cache for all initiatives.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -3150,13 +3146,14 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Clears the cache for the initiative.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Initiative initiative) {
-		entityCache.removeResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeImpl.class, initiative.getPrimaryKey());
+		entityCache.removeResult(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED, InitiativeImpl.class,
+			initiative.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3170,8 +3167,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Initiative initiative : initiatives) {
-			entityCache.removeResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-				InitiativeImpl.class, initiative.getPrimaryKey());
+			entityCache.removeResult(
+				InitiativeModelImpl.ENTITY_CACHE_ENABLED, InitiativeImpl.class,
+				initiative.getPrimaryKey());
 
 			clearUniqueFindersCache((InitiativeModelImpl)initiative, true);
 		}
@@ -3179,37 +3177,39 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 	protected void cacheUniqueFindersCache(
 		InitiativeModelImpl initiativeModelImpl) {
-		Object[] args = new Object[] {
-				initiativeModelImpl.getUuid(), initiativeModelImpl.getGroupId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			initiativeModelImpl, false);
+		Object[] args = new Object[] {
+			initiativeModelImpl.getUuid(), initiativeModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, initiativeModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		InitiativeModelImpl initiativeModelImpl, boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					initiativeModelImpl.getUuid(),
-					initiativeModelImpl.getGroupId()
-				};
+				initiativeModelImpl.getUuid(), initiativeModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((initiativeModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					initiativeModelImpl.getOriginalUuid(),
-					initiativeModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				initiativeModelImpl.getOriginalUuid(),
+				initiativeModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -3245,6 +3245,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Initiative remove(long initiativeId)
 		throws NoSuchInitiativeException {
+
 		return remove((Serializable)initiativeId);
 	}
 
@@ -3258,21 +3259,22 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Initiative remove(Serializable primaryKey)
 		throws NoSuchInitiativeException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Initiative initiative = (Initiative)session.get(InitiativeImpl.class,
-					primaryKey);
+			Initiative initiative = (Initiative)session.get(
+				InitiativeImpl.class, primaryKey);
 
 			if (initiative == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchInitiativeException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchInitiativeException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(initiative);
@@ -3290,16 +3292,14 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 	@Override
 	protected Initiative removeImpl(Initiative initiative) {
-		initiative = toUnwrappedModel(initiative);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(initiative)) {
-				initiative = (Initiative)session.get(InitiativeImpl.class,
-						initiative.getPrimaryKeyObj());
+				initiative = (Initiative)session.get(
+					InitiativeImpl.class, initiative.getPrimaryKeyObj());
 			}
 
 			if (initiative != null) {
@@ -3322,11 +3322,26 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 	@Override
 	public Initiative updateImpl(Initiative initiative) {
-		initiative = toUnwrappedModel(initiative);
-
 		boolean isNew = initiative.isNew();
 
-		InitiativeModelImpl initiativeModelImpl = (InitiativeModelImpl)initiative;
+		if (!(initiative instanceof InitiativeModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(initiative.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(initiative);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in initiative proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Initiative implementation " +
+					initiative.getClass());
+		}
+
+		InitiativeModelImpl initiativeModelImpl =
+			(InitiativeModelImpl)initiative;
 
 		if (Validator.isNull(initiative.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -3334,7 +3349,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			initiative.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -3382,148 +3398,157 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		if (!InitiativeModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { initiativeModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {initiativeModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				initiativeModelImpl.getUuid(),
+				initiativeModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {initiativeModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			args = new Object[] {initiativeModelImpl.getPublikId()};
+
+			finderCache.removeResult(_finderPathCountBypublikId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindBypublikId, args);
+
+			args = new Object[] {
+				initiativeModelImpl.getStatus(),
+				initiativeModelImpl.getGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByStatusAndGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByStatusAndGroupId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((initiativeModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					initiativeModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {initiativeModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((initiativeModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					initiativeModelImpl.getOriginalUuid(),
+					initiativeModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					initiativeModelImpl.getUuid(),
 					initiativeModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
 
-			args = new Object[] { initiativeModelImpl.getGroupId() };
+			if ((initiativeModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
+				Object[] args = new Object[] {
+					initiativeModelImpl.getOriginalGroupId()
+				};
 
-			args = new Object[] { initiativeModelImpl.getPublikId() };
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
-				args);
+				args = new Object[] {initiativeModelImpl.getGroupId()};
 
-			args = new Object[] {
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+			}
+
+			if ((initiativeModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindBypublikId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					initiativeModelImpl.getOriginalPublikId()
+				};
+
+				finderCache.removeResult(_finderPathCountBypublikId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBypublikId, args);
+
+				args = new Object[] {initiativeModelImpl.getPublikId()};
+
+				finderCache.removeResult(_finderPathCountBypublikId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindBypublikId, args);
+			}
+
+			if ((initiativeModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByStatusAndGroupId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					initiativeModelImpl.getOriginalStatus(),
+					initiativeModelImpl.getOriginalGroupId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByStatusAndGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
+
+				args = new Object[] {
 					initiativeModelImpl.getStatus(),
 					initiativeModelImpl.getGroupId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUSANDGROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((initiativeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						initiativeModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { initiativeModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-			}
-
-			if ((initiativeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						initiativeModelImpl.getOriginalUuid(),
-						initiativeModelImpl.getOriginalCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-
-				args = new Object[] {
-						initiativeModelImpl.getUuid(),
-						initiativeModelImpl.getCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((initiativeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						initiativeModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { initiativeModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-			}
-
-			if ((initiativeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						initiativeModelImpl.getOriginalPublikId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
-					args);
-
-				args = new Object[] { initiativeModelImpl.getPublikId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
-					args);
-			}
-
-			if ((initiativeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						initiativeModelImpl.getOriginalStatus(),
-						initiativeModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUSANDGROUPID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID,
-					args);
-
-				args = new Object[] {
-						initiativeModelImpl.getStatus(),
-						initiativeModelImpl.getGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUSANDGROUPID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByStatusAndGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
 			}
 		}
 
-		entityCache.putResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-			InitiativeImpl.class, initiative.getPrimaryKey(), initiative, false);
+		entityCache.putResult(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED, InitiativeImpl.class,
+			initiative.getPrimaryKey(), initiative, false);
 
 		clearUniqueFindersCache(initiativeModelImpl, false);
 		cacheUniqueFindersCache(initiativeModelImpl);
@@ -3533,47 +3558,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		return initiative;
 	}
 
-	protected Initiative toUnwrappedModel(Initiative initiative) {
-		if (initiative instanceof InitiativeImpl) {
-			return initiative;
-		}
-
-		InitiativeImpl initiativeImpl = new InitiativeImpl();
-
-		initiativeImpl.setNew(initiative.isNew());
-		initiativeImpl.setPrimaryKey(initiative.getPrimaryKey());
-
-		initiativeImpl.setUuid(initiative.getUuid());
-		initiativeImpl.setInitiativeId(initiative.getInitiativeId());
-		initiativeImpl.setGroupId(initiative.getGroupId());
-		initiativeImpl.setCompanyId(initiative.getCompanyId());
-		initiativeImpl.setUserId(initiative.getUserId());
-		initiativeImpl.setUserName(initiative.getUserName());
-		initiativeImpl.setCreateDate(initiative.getCreateDate());
-		initiativeImpl.setModifiedDate(initiative.getModifiedDate());
-		initiativeImpl.setStatus(initiative.getStatus());
-		initiativeImpl.setStatusByUserId(initiative.getStatusByUserId());
-		initiativeImpl.setStatusByUserName(initiative.getStatusByUserName());
-		initiativeImpl.setStatusDate(initiative.getStatusDate());
-		initiativeImpl.setTitle(initiative.getTitle());
-		initiativeImpl.setDescription(initiative.getDescription());
-		initiativeImpl.setPlaceTextArea(initiative.getPlaceTextArea());
-		initiativeImpl.setInTheNameOf(initiative.getInTheNameOf());
-		initiativeImpl.setVideoUrl(initiative.getVideoUrl());
-		initiativeImpl.setExternalImageURL(initiative.getExternalImageURL());
-		initiativeImpl.setExternalImageCopyright(initiative.getExternalImageCopyright());
-		initiativeImpl.setMediaChoice(initiative.isMediaChoice());
-		initiativeImpl.setAssetEntryId(initiative.getAssetEntryId());
-		initiativeImpl.setPublikId(initiative.getPublikId());
-		initiativeImpl.setImageId(initiative.getImageId());
-		initiativeImpl.setFilesIds(initiative.getFilesIds());
-		initiativeImpl.setPublicationDate(initiative.getPublicationDate());
-
-		return initiativeImpl;
-	}
-
 	/**
-	 * Returns the initiative with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the initiative with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the initiative
 	 * @return the initiative
@@ -3582,6 +3568,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Initiative findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchInitiativeException {
+
 		Initiative initiative = fetchByPrimaryKey(primaryKey);
 
 		if (initiative == null) {
@@ -3589,15 +3576,15 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchInitiativeException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchInitiativeException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return initiative;
 	}
 
 	/**
-	 * Returns the initiative with the primary key or throws a {@link NoSuchInitiativeException} if it could not be found.
+	 * Returns the initiative with the primary key or throws a <code>NoSuchInitiativeException</code> if it could not be found.
 	 *
 	 * @param initiativeId the primary key of the initiative
 	 * @return the initiative
@@ -3606,6 +3593,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Initiative findByPrimaryKey(long initiativeId)
 		throws NoSuchInitiativeException {
+
 		return findByPrimaryKey((Serializable)initiativeId);
 	}
 
@@ -3617,8 +3605,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public Initiative fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-				InitiativeImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED, InitiativeImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -3632,19 +3621,21 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			try {
 				session = openSession();
 
-				initiative = (Initiative)session.get(InitiativeImpl.class,
-						primaryKey);
+				initiative = (Initiative)session.get(
+					InitiativeImpl.class, primaryKey);
 
 				if (initiative != null) {
 					cacheResult(initiative);
 				}
 				else {
-					entityCache.putResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						InitiativeModelImpl.ENTITY_CACHE_ENABLED,
 						InitiativeImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					InitiativeModelImpl.ENTITY_CACHE_ENABLED,
 					InitiativeImpl.class, primaryKey);
 
 				throw processException(e);
@@ -3671,11 +3662,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	@Override
 	public Map<Serializable, Initiative> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, Initiative> map = new HashMap<Serializable, Initiative>();
+		Map<Serializable, Initiative> map =
+			new HashMap<Serializable, Initiative>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -3694,8 +3687,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
-					InitiativeImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				InitiativeModelImpl.ENTITY_CACHE_ENABLED, InitiativeImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3715,20 +3709,20 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_INITIATIVE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -3748,7 +3742,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					InitiativeModelImpl.ENTITY_CACHE_ENABLED,
 					InitiativeImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -3776,7 +3771,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns a range of all the initiatives.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of initiatives
@@ -3792,7 +3787,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of initiatives
@@ -3801,8 +3796,9 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of initiatives
 	 */
 	@Override
-	public List<Initiative> findAll(int start, int end,
-		OrderByComparator<Initiative> orderByComparator) {
+	public List<Initiative> findAll(
+		int start, int end, OrderByComparator<Initiative> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -3810,7 +3806,7 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Returns an ordered range of all the initiatives.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link InitiativeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>InitiativeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of initiatives
@@ -3820,29 +3816,31 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * @return the ordered range of initiatives
 	 */
 	@Override
-	public List<Initiative> findAll(int start, int end,
-		OrderByComparator<Initiative> orderByComparator,
+	public List<Initiative> findAll(
+		int start, int end, OrderByComparator<Initiative> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Initiative> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Initiative>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Initiative>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -3850,13 +3848,13 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_INITIATIVE);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -3876,16 +3874,16 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Initiative>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Initiative>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3923,8 +3921,8 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -3936,12 +3934,12 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3967,6 +3965,156 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 	 * Initializes the initiative persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			InitiativeModelImpl.UUID_COLUMN_BITMASK |
+			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			InitiativeModelImpl.UUID_COLUMN_BITMASK |
+			InitiativeModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			InitiativeModelImpl.UUID_COLUMN_BITMASK |
+			InitiativeModelImpl.COMPANYID_COLUMN_BITMASK |
+			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			InitiativeModelImpl.GROUPID_COLUMN_BITMASK |
+			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindBypublikId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBypublikId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindBypublikId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBypublikId",
+			new String[] {String.class.getName()},
+			InitiativeModelImpl.PUBLIKID_COLUMN_BITMASK |
+			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountBypublikId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBypublikId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByStatusAndGroupId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
+			new String[] {
+				Integer.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByStatusAndGroupId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, InitiativeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatusAndGroupId",
+			new String[] {Integer.class.getName(), Long.class.getName()},
+			InitiativeModelImpl.STATUS_COLUMN_BITMASK |
+			InitiativeModelImpl.GROUPID_COLUMN_BITMASK |
+			InitiativeModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByStatusAndGroupId = new FinderPath(
+			InitiativeModelImpl.ENTITY_CACHE_ENABLED,
+			InitiativeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByStatusAndGroupId",
+			new String[] {Integer.class.getName(), Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -3978,20 +4126,40 @@ public class InitiativePersistenceImpl extends BasePersistenceImpl<Initiative>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_INITIATIVE = "SELECT initiative FROM Initiative initiative";
-	private static final String _SQL_SELECT_INITIATIVE_WHERE_PKS_IN = "SELECT initiative FROM Initiative initiative WHERE initiativeId IN (";
-	private static final String _SQL_SELECT_INITIATIVE_WHERE = "SELECT initiative FROM Initiative initiative WHERE ";
-	private static final String _SQL_COUNT_INITIATIVE = "SELECT COUNT(initiative) FROM Initiative initiative";
-	private static final String _SQL_COUNT_INITIATIVE_WHERE = "SELECT COUNT(initiative) FROM Initiative initiative WHERE ";
+
+	private static final String _SQL_SELECT_INITIATIVE =
+		"SELECT initiative FROM Initiative initiative";
+
+	private static final String _SQL_SELECT_INITIATIVE_WHERE_PKS_IN =
+		"SELECT initiative FROM Initiative initiative WHERE initiativeId IN (";
+
+	private static final String _SQL_SELECT_INITIATIVE_WHERE =
+		"SELECT initiative FROM Initiative initiative WHERE ";
+
+	private static final String _SQL_COUNT_INITIATIVE =
+		"SELECT COUNT(initiative) FROM Initiative initiative";
+
+	private static final String _SQL_COUNT_INITIATIVE_WHERE =
+		"SELECT COUNT(initiative) FROM Initiative initiative WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "initiative.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Initiative exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Initiative exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(InitiativePersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Initiative exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Initiative exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		InitiativePersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

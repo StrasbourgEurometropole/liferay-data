@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class InitiativeHelpBaseImpl extends InitiativeHelpModelImpl
-	implements InitiativeHelp {
+public abstract class InitiativeHelpBaseImpl
+	extends InitiativeHelpModelImpl implements InitiativeHelp {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a initiative help model instance should use the {@link InitiativeHelp} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a initiative help model instance should use the <code>InitiativeHelp</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class InitiativeHelpBaseImpl extends InitiativeHelpModelImpl
 			InitiativeHelpLocalServiceUtil.updateInitiativeHelp(this);
 		}
 	}
+
 }

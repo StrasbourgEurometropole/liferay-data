@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class PlacitPlaceServiceWrapper implements PlacitPlaceService,
-	ServiceWrapper<PlacitPlaceService> {
+public class PlacitPlaceServiceWrapper
+	implements PlacitPlaceService, ServiceWrapper<PlacitPlaceService> {
+
 	public PlacitPlaceServiceWrapper(PlacitPlaceService placitPlaceService) {
 		_placitPlaceService = placitPlaceService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _placitPlaceService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class PlacitPlaceServiceWrapper implements PlacitPlaceService,
 	}
 
 	private PlacitPlaceService _placitPlaceService;
+
 }

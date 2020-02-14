@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -72,17 +73,17 @@ import javax.sql.DataSource;
  *
  * @author Cedric Henry
  * @see eu.strasbourg.service.project.service.impl.ProjectTimelineLocalServiceImpl
- * @see eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class ProjectTimelineLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements ProjectTimelineLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements ProjectTimelineLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil} to access the project timeline local service.
+	 * Never modify or reference this class directly. Use <code>ProjectTimelineLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -106,6 +107,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @return the new project timeline
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public ProjectTimeline createProjectTimeline(long projectTimelineId) {
 		return projectTimelinePersistence.create(projectTimelineId);
 	}
@@ -121,6 +123,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	@Override
 	public ProjectTimeline deleteProjectTimeline(long projectTimelineId)
 		throws PortalException {
+
 		return projectTimelinePersistence.remove(projectTimelineId);
 	}
 
@@ -134,6 +137,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	@Override
 	public ProjectTimeline deleteProjectTimeline(
 		ProjectTimeline projectTimeline) {
+
 		return projectTimelinePersistence.remove(projectTimeline);
 	}
 
@@ -141,8 +145,8 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(ProjectTimeline.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			ProjectTimeline.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -160,7 +164,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -169,17 +173,18 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return projectTimelinePersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return projectTimelinePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -189,10 +194,12 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return projectTimelinePersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return projectTimelinePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -214,10 +221,11 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return projectTimelinePersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return projectTimelinePersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
@@ -235,12 +243,14 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	@Override
 	public ProjectTimeline getProjectTimeline(long projectTimelineId)
 		throws PortalException {
+
 		return projectTimelinePersistence.findByPrimaryKey(projectTimelineId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(projectTimelineLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -252,10 +262,14 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(projectTimelineLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			projectTimelineLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(ProjectTimeline.class);
 
@@ -267,6 +281,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
+
 		actionableDynamicQuery.setBaseLocalService(projectTimelineLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(ProjectTimeline.class);
@@ -280,12 +295,15 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return projectTimelineLocalService.deleteProjectTimeline((ProjectTimeline)persistedModel);
+
+		return projectTimelineLocalService.deleteProjectTimeline(
+			(ProjectTimeline)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return projectTimelinePersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -293,7 +311,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * Returns a range of all the project timelines.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of project timelines
@@ -325,6 +343,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	@Override
 	public ProjectTimeline updateProjectTimeline(
 		ProjectTimeline projectTimeline) {
+
 		return projectTimelinePersistence.update(projectTimeline);
 	}
 
@@ -333,7 +352,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the budget participatif local service
 	 */
-	public eu.strasbourg.service.project.service.BudgetParticipatifLocalService getBudgetParticipatifLocalService() {
+	public eu.strasbourg.service.project.service.BudgetParticipatifLocalService
+		getBudgetParticipatifLocalService() {
+
 		return budgetParticipatifLocalService;
 	}
 
@@ -343,7 +364,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param budgetParticipatifLocalService the budget participatif local service
 	 */
 	public void setBudgetParticipatifLocalService(
-		eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService) {
+		eu.strasbourg.service.project.service.BudgetParticipatifLocalService
+			budgetParticipatifLocalService) {
+
 		this.budgetParticipatifLocalService = budgetParticipatifLocalService;
 	}
 
@@ -363,6 +386,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setBudgetParticipatifPersistence(
 		BudgetParticipatifPersistence budgetParticipatifPersistence) {
+
 		this.budgetParticipatifPersistence = budgetParticipatifPersistence;
 	}
 
@@ -382,6 +406,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setBudgetParticipatifFinder(
 		BudgetParticipatifFinder budgetParticipatifFinder) {
+
 		this.budgetParticipatifFinder = budgetParticipatifFinder;
 	}
 
@@ -390,7 +415,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the budget phase local service
 	 */
-	public eu.strasbourg.service.project.service.BudgetPhaseLocalService getBudgetPhaseLocalService() {
+	public eu.strasbourg.service.project.service.BudgetPhaseLocalService
+		getBudgetPhaseLocalService() {
+
 		return budgetPhaseLocalService;
 	}
 
@@ -400,7 +427,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param budgetPhaseLocalService the budget phase local service
 	 */
 	public void setBudgetPhaseLocalService(
-		eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService) {
+		eu.strasbourg.service.project.service.BudgetPhaseLocalService
+			budgetPhaseLocalService) {
+
 		this.budgetPhaseLocalService = budgetPhaseLocalService;
 	}
 
@@ -420,6 +449,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setBudgetPhasePersistence(
 		BudgetPhasePersistence budgetPhasePersistence) {
+
 		this.budgetPhasePersistence = budgetPhasePersistence;
 	}
 
@@ -428,7 +458,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the budget support local service
 	 */
-	public eu.strasbourg.service.project.service.BudgetSupportLocalService getBudgetSupportLocalService() {
+	public eu.strasbourg.service.project.service.BudgetSupportLocalService
+		getBudgetSupportLocalService() {
+
 		return budgetSupportLocalService;
 	}
 
@@ -438,7 +470,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param budgetSupportLocalService the budget support local service
 	 */
 	public void setBudgetSupportLocalService(
-		eu.strasbourg.service.project.service.BudgetSupportLocalService budgetSupportLocalService) {
+		eu.strasbourg.service.project.service.BudgetSupportLocalService
+			budgetSupportLocalService) {
+
 		this.budgetSupportLocalService = budgetSupportLocalService;
 	}
 
@@ -458,6 +492,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setBudgetSupportPersistence(
 		BudgetSupportPersistence budgetSupportPersistence) {
+
 		this.budgetSupportPersistence = budgetSupportPersistence;
 	}
 
@@ -466,7 +501,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the initiative local service
 	 */
-	public eu.strasbourg.service.project.service.InitiativeLocalService getInitiativeLocalService() {
+	public eu.strasbourg.service.project.service.InitiativeLocalService
+		getInitiativeLocalService() {
+
 		return initiativeLocalService;
 	}
 
@@ -476,7 +513,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param initiativeLocalService the initiative local service
 	 */
 	public void setInitiativeLocalService(
-		eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService) {
+		eu.strasbourg.service.project.service.InitiativeLocalService
+			initiativeLocalService) {
+
 		this.initiativeLocalService = initiativeLocalService;
 	}
 
@@ -496,6 +535,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setInitiativePersistence(
 		InitiativePersistence initiativePersistence) {
+
 		this.initiativePersistence = initiativePersistence;
 	}
 
@@ -504,7 +544,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the initiative help local service
 	 */
-	public eu.strasbourg.service.project.service.InitiativeHelpLocalService getInitiativeHelpLocalService() {
+	public eu.strasbourg.service.project.service.InitiativeHelpLocalService
+		getInitiativeHelpLocalService() {
+
 		return initiativeHelpLocalService;
 	}
 
@@ -514,7 +556,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param initiativeHelpLocalService the initiative help local service
 	 */
 	public void setInitiativeHelpLocalService(
-		eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService) {
+		eu.strasbourg.service.project.service.InitiativeHelpLocalService
+			initiativeHelpLocalService) {
+
 		this.initiativeHelpLocalService = initiativeHelpLocalService;
 	}
 
@@ -534,6 +578,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setInitiativeHelpPersistence(
 		InitiativeHelpPersistence initiativeHelpPersistence) {
+
 		this.initiativeHelpPersistence = initiativeHelpPersistence;
 	}
 
@@ -542,7 +587,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the participation local service
 	 */
-	public eu.strasbourg.service.project.service.ParticipationLocalService getParticipationLocalService() {
+	public eu.strasbourg.service.project.service.ParticipationLocalService
+		getParticipationLocalService() {
+
 		return participationLocalService;
 	}
 
@@ -552,7 +599,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param participationLocalService the participation local service
 	 */
 	public void setParticipationLocalService(
-		eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService) {
+		eu.strasbourg.service.project.service.ParticipationLocalService
+			participationLocalService) {
+
 		this.participationLocalService = participationLocalService;
 	}
 
@@ -572,6 +621,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setParticipationPersistence(
 		ParticipationPersistence participationPersistence) {
+
 		this.participationPersistence = participationPersistence;
 	}
 
@@ -580,7 +630,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the petition local service
 	 */
-	public eu.strasbourg.service.project.service.PetitionLocalService getPetitionLocalService() {
+	public eu.strasbourg.service.project.service.PetitionLocalService
+		getPetitionLocalService() {
+
 		return petitionLocalService;
 	}
 
@@ -590,7 +642,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param petitionLocalService the petition local service
 	 */
 	public void setPetitionLocalService(
-		eu.strasbourg.service.project.service.PetitionLocalService petitionLocalService) {
+		eu.strasbourg.service.project.service.PetitionLocalService
+			petitionLocalService) {
+
 		this.petitionLocalService = petitionLocalService;
 	}
 
@@ -608,7 +662,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @param petitionPersistence the petition persistence
 	 */
-	public void setPetitionPersistence(PetitionPersistence petitionPersistence) {
+	public void setPetitionPersistence(
+		PetitionPersistence petitionPersistence) {
+
 		this.petitionPersistence = petitionPersistence;
 	}
 
@@ -617,7 +673,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the placit place local service
 	 */
-	public eu.strasbourg.service.project.service.PlacitPlaceLocalService getPlacitPlaceLocalService() {
+	public eu.strasbourg.service.project.service.PlacitPlaceLocalService
+		getPlacitPlaceLocalService() {
+
 		return placitPlaceLocalService;
 	}
 
@@ -627,7 +685,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param placitPlaceLocalService the placit place local service
 	 */
 	public void setPlacitPlaceLocalService(
-		eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService) {
+		eu.strasbourg.service.project.service.PlacitPlaceLocalService
+			placitPlaceLocalService) {
+
 		this.placitPlaceLocalService = placitPlaceLocalService;
 	}
 
@@ -647,6 +707,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setPlacitPlacePersistence(
 		PlacitPlacePersistence placitPlacePersistence) {
+
 		this.placitPlacePersistence = placitPlacePersistence;
 	}
 
@@ -655,7 +716,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the project local service
 	 */
-	public eu.strasbourg.service.project.service.ProjectLocalService getProjectLocalService() {
+	public eu.strasbourg.service.project.service.ProjectLocalService
+		getProjectLocalService() {
+
 		return projectLocalService;
 	}
 
@@ -665,7 +728,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param projectLocalService the project local service
 	 */
 	public void setProjectLocalService(
-		eu.strasbourg.service.project.service.ProjectLocalService projectLocalService) {
+		eu.strasbourg.service.project.service.ProjectLocalService
+			projectLocalService) {
+
 		this.projectLocalService = projectLocalService;
 	}
 
@@ -692,7 +757,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the project followed local service
 	 */
-	public eu.strasbourg.service.project.service.ProjectFollowedLocalService getProjectFollowedLocalService() {
+	public eu.strasbourg.service.project.service.ProjectFollowedLocalService
+		getProjectFollowedLocalService() {
+
 		return projectFollowedLocalService;
 	}
 
@@ -702,7 +769,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param projectFollowedLocalService the project followed local service
 	 */
 	public void setProjectFollowedLocalService(
-		eu.strasbourg.service.project.service.ProjectFollowedLocalService projectFollowedLocalService) {
+		eu.strasbourg.service.project.service.ProjectFollowedLocalService
+			projectFollowedLocalService) {
+
 		this.projectFollowedLocalService = projectFollowedLocalService;
 	}
 
@@ -722,6 +791,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setProjectFollowedPersistence(
 		ProjectFollowedPersistence projectFollowedPersistence) {
+
 		this.projectFollowedPersistence = projectFollowedPersistence;
 	}
 
@@ -741,6 +811,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setProjectTimelineLocalService(
 		ProjectTimelineLocalService projectTimelineLocalService) {
+
 		this.projectTimelineLocalService = projectTimelineLocalService;
 	}
 
@@ -760,6 +831,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setProjectTimelinePersistence(
 		ProjectTimelinePersistence projectTimelinePersistence) {
+
 		this.projectTimelinePersistence = projectTimelinePersistence;
 	}
 
@@ -768,7 +840,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the signataire local service
 	 */
-	public eu.strasbourg.service.project.service.SignataireLocalService getSignataireLocalService() {
+	public eu.strasbourg.service.project.service.SignataireLocalService
+		getSignataireLocalService() {
+
 		return signataireLocalService;
 	}
 
@@ -778,7 +852,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param signataireLocalService the signataire local service
 	 */
 	public void setSignataireLocalService(
-		eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService) {
+		eu.strasbourg.service.project.service.SignataireLocalService
+			signataireLocalService) {
+
 		this.signataireLocalService = signataireLocalService;
 	}
 
@@ -798,6 +874,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setSignatairePersistence(
 		SignatairePersistence signatairePersistence) {
+
 		this.signatairePersistence = signatairePersistence;
 	}
 
@@ -806,7 +883,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -816,7 +895,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -825,7 +906,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -835,7 +918,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -855,6 +940,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -863,7 +949,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -873,7 +961,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -882,7 +972,9 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -893,6 +985,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -915,7 +1008,8 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.project.model.ProjectTimeline",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.project.model.ProjectTimeline",
 			projectTimelineLocalService);
 	}
 
@@ -956,8 +1050,8 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -966,68 +1060,147 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.project.service.BudgetParticipatifLocalService.class)
-	protected eu.strasbourg.service.project.service.BudgetParticipatifLocalService budgetParticipatifLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.BudgetParticipatifLocalService.class
+	)
+	protected
+		eu.strasbourg.service.project.service.BudgetParticipatifLocalService
+			budgetParticipatifLocalService;
+
 	@BeanReference(type = BudgetParticipatifPersistence.class)
 	protected BudgetParticipatifPersistence budgetParticipatifPersistence;
+
 	@BeanReference(type = BudgetParticipatifFinder.class)
 	protected BudgetParticipatifFinder budgetParticipatifFinder;
-	@BeanReference(type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class)
-	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService budgetPhaseLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.BudgetPhaseLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.BudgetPhaseLocalService
+		budgetPhaseLocalService;
+
 	@BeanReference(type = BudgetPhasePersistence.class)
 	protected BudgetPhasePersistence budgetPhasePersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.BudgetSupportLocalService.class)
-	protected eu.strasbourg.service.project.service.BudgetSupportLocalService budgetSupportLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.BudgetSupportLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.BudgetSupportLocalService
+		budgetSupportLocalService;
+
 	@BeanReference(type = BudgetSupportPersistence.class)
 	protected BudgetSupportPersistence budgetSupportPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeLocalService.class)
-	protected eu.strasbourg.service.project.service.InitiativeLocalService initiativeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.InitiativeLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.InitiativeLocalService
+		initiativeLocalService;
+
 	@BeanReference(type = InitiativePersistence.class)
 	protected InitiativePersistence initiativePersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.InitiativeHelpLocalService.class)
-	protected eu.strasbourg.service.project.service.InitiativeHelpLocalService initiativeHelpLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.InitiativeHelpLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.InitiativeHelpLocalService
+		initiativeHelpLocalService;
+
 	@BeanReference(type = InitiativeHelpPersistence.class)
 	protected InitiativeHelpPersistence initiativeHelpPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.ParticipationLocalService.class)
-	protected eu.strasbourg.service.project.service.ParticipationLocalService participationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.ParticipationLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.ParticipationLocalService
+		participationLocalService;
+
 	@BeanReference(type = ParticipationPersistence.class)
 	protected ParticipationPersistence participationPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.PetitionLocalService.class)
-	protected eu.strasbourg.service.project.service.PetitionLocalService petitionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.PetitionLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.PetitionLocalService
+		petitionLocalService;
+
 	@BeanReference(type = PetitionPersistence.class)
 	protected PetitionPersistence petitionPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.PlacitPlaceLocalService.class)
-	protected eu.strasbourg.service.project.service.PlacitPlaceLocalService placitPlaceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.PlacitPlaceLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.PlacitPlaceLocalService
+		placitPlaceLocalService;
+
 	@BeanReference(type = PlacitPlacePersistence.class)
 	protected PlacitPlacePersistence placitPlacePersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.ProjectLocalService.class)
-	protected eu.strasbourg.service.project.service.ProjectLocalService projectLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.ProjectLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.ProjectLocalService
+		projectLocalService;
+
 	@BeanReference(type = ProjectPersistence.class)
 	protected ProjectPersistence projectPersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.ProjectFollowedLocalService.class)
-	protected eu.strasbourg.service.project.service.ProjectFollowedLocalService projectFollowedLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.ProjectFollowedLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.ProjectFollowedLocalService
+		projectFollowedLocalService;
+
 	@BeanReference(type = ProjectFollowedPersistence.class)
 	protected ProjectFollowedPersistence projectFollowedPersistence;
+
 	@BeanReference(type = ProjectTimelineLocalService.class)
 	protected ProjectTimelineLocalService projectTimelineLocalService;
+
 	@BeanReference(type = ProjectTimelinePersistence.class)
 	protected ProjectTimelinePersistence projectTimelinePersistence;
-	@BeanReference(type = eu.strasbourg.service.project.service.SignataireLocalService.class)
-	protected eu.strasbourg.service.project.service.SignataireLocalService signataireLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.SignataireLocalService.class
+	)
+	protected eu.strasbourg.service.project.service.SignataireLocalService
+		signataireLocalService;
+
 	@BeanReference(type = SignatairePersistence.class)
 	protected SignatairePersistence signatairePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

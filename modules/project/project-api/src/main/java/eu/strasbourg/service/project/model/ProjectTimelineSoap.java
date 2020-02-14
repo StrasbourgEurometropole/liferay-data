@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.ProjectTimelineServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.ProjectTimelineServiceSoap
  * @generated
  */
 @ProviderType
 public class ProjectTimelineSoap implements Serializable {
+
 	public static ProjectTimelineSoap toSoapModel(ProjectTimeline model) {
 		ProjectTimelineSoap soapModel = new ProjectTimelineSoap();
 
@@ -48,7 +48,8 @@ public class ProjectTimelineSoap implements Serializable {
 	}
 
 	public static ProjectTimelineSoap[] toSoapModels(ProjectTimeline[] models) {
-		ProjectTimelineSoap[] soapModels = new ProjectTimelineSoap[models.length];
+		ProjectTimelineSoap[] soapModels =
+			new ProjectTimelineSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -59,10 +60,12 @@ public class ProjectTimelineSoap implements Serializable {
 
 	public static ProjectTimelineSoap[][] toSoapModels(
 		ProjectTimeline[][] models) {
+
 		ProjectTimelineSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ProjectTimelineSoap[models.length][models[0].length];
+			soapModels =
+				new ProjectTimelineSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ProjectTimelineSoap[0][0];
@@ -77,7 +80,9 @@ public class ProjectTimelineSoap implements Serializable {
 
 	public static ProjectTimelineSoap[] toSoapModels(
 		List<ProjectTimeline> models) {
-		List<ProjectTimelineSoap> soapModels = new ArrayList<ProjectTimelineSoap>(models.size());
+
+		List<ProjectTimelineSoap> soapModels =
+			new ArrayList<ProjectTimelineSoap>(models.size());
 
 		for (ProjectTimeline model : models) {
 			soapModels.add(toSoapModel(model));
@@ -178,4 +183,5 @@ public class ProjectTimelineSoap implements Serializable {
 	private String _link;
 	private long _projectId;
 	private long _budgetParticipatifId;
+
 }

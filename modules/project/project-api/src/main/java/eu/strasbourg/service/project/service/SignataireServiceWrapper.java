@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class SignataireServiceWrapper implements SignataireService,
-	ServiceWrapper<SignataireService> {
+public class SignataireServiceWrapper
+	implements SignataireService, ServiceWrapper<SignataireService> {
+
 	public SignataireServiceWrapper(SignataireService signataireService) {
 		_signataireService = signataireService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _signataireService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class SignataireServiceWrapper implements SignataireService,
 	}
 
 	private SignataireService _signataireService;
+
 }

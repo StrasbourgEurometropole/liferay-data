@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class PetitionServiceWrapper implements PetitionService,
-	ServiceWrapper<PetitionService> {
+public class PetitionServiceWrapper
+	implements PetitionService, ServiceWrapper<PetitionService> {
+
 	public PetitionServiceWrapper(PetitionService petitionService) {
 		_petitionService = petitionService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _petitionService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class PetitionServiceWrapper implements PetitionService,
 	}
 
 	private PetitionService _petitionService;
+
 }

@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Cedric Henry
  * @see SignataireServiceUtil
- * @see eu.strasbourg.service.project.service.base.SignataireServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.SignataireServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=project", "json.web.service.context.path=Signataire"}, service = SignataireService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=project",
+		"json.web.service.context.path=Signataire"
+	},
+	service = SignataireService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface SignataireService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link SignataireServiceUtil} to access the signataire remote service. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.SignataireServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link SignataireServiceUtil} to access the signataire remote service. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.SignataireServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

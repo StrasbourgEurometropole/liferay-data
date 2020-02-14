@@ -3,9 +3,7 @@ package eu.strasbourg.service.project.scheduler;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.scheduler.*;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import org.osgi.service.component.annotations.Activate;
@@ -27,12 +25,18 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
 	@Activate
 	@Modified
 	protected void activate() {
-		schedulerEntryImpl.setTrigger(
-			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), 60, TimeUnit.MINUTE));
+		String listenerClass = getClass().getName();
 
-		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-			DestinationNames.SCHEDULER_DISPATCH);
+		// Création du trigger "Toutes les heures"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, null, null,
+				60, TimeUnit.MINUTE);
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
@@ -56,10 +60,21 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
         _petitionLocalService = petitionLocalService;
     }
 
-    @Reference(unbind = "-")
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
 
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private ParticipationLocalService _participationLocalService;
 	private PetitionLocalService _petitionLocalService;
+	private TriggerFactory _triggerFactory;
 	
 }

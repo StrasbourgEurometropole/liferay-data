@@ -16,38 +16,37 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for BudgetParticipatif. This utility wraps
- * {@link eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Cedric Henry
  * @see BudgetParticipatifService
- * @see eu.strasbourg.service.project.service.base.BudgetParticipatifServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl
  * @generated
  */
 @ProviderType
 public class BudgetParticipatifServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,23 @@ public class BudgetParticipatifServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<BudgetParticipatifService, BudgetParticipatifService> _serviceTracker =
-		ServiceTrackerFactory.open(BudgetParticipatifService.class);
+	private static ServiceTracker
+		<BudgetParticipatifService, BudgetParticipatifService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(
+			BudgetParticipatifService.class);
+
+		ServiceTracker<BudgetParticipatifService, BudgetParticipatifService>
+			serviceTracker =
+				new ServiceTracker
+					<BudgetParticipatifService, BudgetParticipatifService>(
+						bundle.getBundleContext(),
+						BudgetParticipatifService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

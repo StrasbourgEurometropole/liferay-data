@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.BudgetSupportServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.BudgetSupportServiceSoap
  * @generated
  */
 @ProviderType
 public class BudgetSupportSoap implements Serializable {
+
 	public static BudgetSupportSoap toSoapModel(BudgetSupport model) {
 		BudgetSupportSoap soapModel = new BudgetSupportSoap();
 
@@ -87,7 +87,8 @@ public class BudgetSupportSoap implements Serializable {
 	}
 
 	public static BudgetSupportSoap[] toSoapModels(List<BudgetSupport> models) {
-		List<BudgetSupportSoap> soapModels = new ArrayList<BudgetSupportSoap>(models.size());
+		List<BudgetSupportSoap> soapModels = new ArrayList<BudgetSupportSoap>(
+			models.size());
 
 		for (BudgetSupport model : models) {
 			soapModels.add(toSoapModel(model));
@@ -296,4 +297,5 @@ public class BudgetSupportSoap implements Serializable {
 	private String _citoyenCity;
 	private String _publikUserId;
 	private long _budgetParticipatifId;
+
 }

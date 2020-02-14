@@ -26,20 +26,22 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ParticipationServiceWrapper implements ParticipationService,
-	ServiceWrapper<ParticipationService> {
+public class ParticipationServiceWrapper
+	implements ParticipationService, ServiceWrapper<ParticipationService> {
+
 	public ParticipationServiceWrapper(
 		ParticipationService participationService) {
+
 		_participationService = participationService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _participationService.getOSGiServiceIdentifier();
 	}
 
@@ -54,4 +56,5 @@ public class ParticipationServiceWrapper implements ParticipationService,
 	}
 
 	private ParticipationService _participationService;
+
 }

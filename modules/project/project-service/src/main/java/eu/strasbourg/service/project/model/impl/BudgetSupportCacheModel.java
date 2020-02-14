@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.BudgetSupport;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing BudgetSupport in entity cache.
  *
  * @author Cedric Henry
- * @see BudgetSupport
  * @generated
  */
 @ProviderType
-public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
-	Externalizable {
+public class BudgetSupportCacheModel
+	implements CacheModel<BudgetSupport>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 			return false;
 		}
 
-		BudgetSupportCacheModel budgetSupportCacheModel = (BudgetSupportCacheModel)obj;
+		BudgetSupportCacheModel budgetSupportCacheModel =
+			(BudgetSupportCacheModel)obj;
 
 		if (budgetSupportId == budgetSupportCacheModel.budgetSupportId) {
 			return true;
@@ -120,7 +120,7 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		BudgetSupportImpl budgetSupportImpl = new BudgetSupportImpl();
 
 		if (uuid == null) {
-			budgetSupportImpl.setUuid(StringPool.BLANK);
+			budgetSupportImpl.setUuid("");
 		}
 		else {
 			budgetSupportImpl.setUuid(uuid);
@@ -148,7 +148,7 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		budgetSupportImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			budgetSupportImpl.setStatusByUserName(StringPool.BLANK);
+			budgetSupportImpl.setStatusByUserName("");
 		}
 		else {
 			budgetSupportImpl.setStatusByUserName(statusByUserName);
@@ -162,14 +162,14 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		}
 
 		if (citoyenLastName == null) {
-			budgetSupportImpl.setCitoyenLastName(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenLastName("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenLastName(citoyenLastName);
 		}
 
 		if (citoyenFirstname == null) {
-			budgetSupportImpl.setCitoyenFirstname(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenFirstname("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenFirstname(citoyenFirstname);
@@ -183,14 +183,14 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		}
 
 		if (citoyenAddress == null) {
-			budgetSupportImpl.setCitoyenAddress(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenAddress("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenAddress(citoyenAddress);
 		}
 
 		if (citoyenMail == null) {
-			budgetSupportImpl.setCitoyenMail(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenMail("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenMail(citoyenMail);
@@ -199,28 +199,28 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		budgetSupportImpl.setCitoyenPostalCode(citoyenPostalCode);
 
 		if (citoyenMobilePhone == null) {
-			budgetSupportImpl.setCitoyenMobilePhone(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenMobilePhone("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenMobilePhone(citoyenMobilePhone);
 		}
 
 		if (citoyenPhone == null) {
-			budgetSupportImpl.setCitoyenPhone(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenPhone("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenPhone(citoyenPhone);
 		}
 
 		if (citoyenCity == null) {
-			budgetSupportImpl.setCitoyenCity(StringPool.BLANK);
+			budgetSupportImpl.setCitoyenCity("");
 		}
 		else {
 			budgetSupportImpl.setCitoyenCity(citoyenCity);
 		}
 
 		if (publikUserId == null) {
-			budgetSupportImpl.setPublikUserId(StringPool.BLANK);
+			budgetSupportImpl.setPublikUserId("");
 		}
 		else {
 			budgetSupportImpl.setPublikUserId(publikUserId);
@@ -266,10 +266,9 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -288,7 +287,7 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -297,14 +296,14 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		objectOutput.writeLong(statusDate);
 
 		if (citoyenLastName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenLastName);
 		}
 
 		if (citoyenFirstname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenFirstname);
@@ -313,14 +312,14 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		objectOutput.writeLong(citoyenBirthday);
 
 		if (citoyenAddress == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenAddress);
 		}
 
 		if (citoyenMail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenMail);
@@ -329,28 +328,28 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 		objectOutput.writeLong(citoyenPostalCode);
 
 		if (citoyenMobilePhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenMobilePhone);
 		}
 
 		if (citoyenPhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenPhone);
 		}
 
 		if (citoyenCity == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenCity);
 		}
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -380,4 +379,5 @@ public class BudgetSupportCacheModel implements CacheModel<BudgetSupport>,
 	public String citoyenCity;
 	public String publikUserId;
 	public long budgetParticipatifId;
+
 }

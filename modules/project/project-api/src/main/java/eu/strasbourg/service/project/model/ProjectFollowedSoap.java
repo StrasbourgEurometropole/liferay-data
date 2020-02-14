@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.ProjectFollowedServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.ProjectFollowedServiceSoap
  * @generated
  */
 @ProviderType
 public class ProjectFollowedSoap implements Serializable {
+
 	public static ProjectFollowedSoap toSoapModel(ProjectFollowed model) {
 		ProjectFollowedSoap soapModel = new ProjectFollowedSoap();
 
@@ -44,7 +44,8 @@ public class ProjectFollowedSoap implements Serializable {
 	}
 
 	public static ProjectFollowedSoap[] toSoapModels(ProjectFollowed[] models) {
-		ProjectFollowedSoap[] soapModels = new ProjectFollowedSoap[models.length];
+		ProjectFollowedSoap[] soapModels =
+			new ProjectFollowedSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -55,10 +56,12 @@ public class ProjectFollowedSoap implements Serializable {
 
 	public static ProjectFollowedSoap[][] toSoapModels(
 		ProjectFollowed[][] models) {
+
 		ProjectFollowedSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ProjectFollowedSoap[models.length][models[0].length];
+			soapModels =
+				new ProjectFollowedSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ProjectFollowedSoap[0][0];
@@ -73,7 +76,9 @@ public class ProjectFollowedSoap implements Serializable {
 
 	public static ProjectFollowedSoap[] toSoapModels(
 		List<ProjectFollowed> models) {
-		List<ProjectFollowedSoap> soapModels = new ArrayList<ProjectFollowedSoap>(models.size());
+
+		List<ProjectFollowedSoap> soapModels =
+			new ArrayList<ProjectFollowedSoap>(models.size());
 
 		for (ProjectFollowed model : models) {
 			soapModels.add(toSoapModel(model));
@@ -138,4 +143,5 @@ public class ProjectFollowedSoap implements Serializable {
 	private String _publikUserId;
 	private long _projectId;
 	private long _groupId;
+
 }

@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,8 +37,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class ProjectFollowedWrapper implements ProjectFollowed,
-	ModelWrapper<ProjectFollowed> {
+public class ProjectFollowedWrapper
+	implements ProjectFollowed, ModelWrapper<ProjectFollowed> {
+
 	public ProjectFollowedWrapper(ProjectFollowed projectFollowed) {
 		_projectFollowed = projectFollowed;
 	}
@@ -101,6 +101,94 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	@Override
+	public Object clone() {
+		return new ProjectFollowedWrapper(
+			(ProjectFollowed)_projectFollowed.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.project.model.ProjectFollowed projectFollowed) {
+
+		return _projectFollowed.compareTo(projectFollowed);
+	}
+
+	/**
+	 * Returns the create date of this project followed.
+	 *
+	 * @return the create date of this project followed
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _projectFollowed.getCreateDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _projectFollowed.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the group ID of this project followed.
+	 *
+	 * @return the group ID of this project followed
+	 */
+	@Override
+	public long getGroupId() {
+		return _projectFollowed.getGroupId();
+	}
+
+	/**
+	 * Returns the primary key of this project followed.
+	 *
+	 * @return the primary key of this project followed
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _projectFollowed.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _projectFollowed.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the project followed ID of this project followed.
+	 *
+	 * @return the project followed ID of this project followed
+	 */
+	@Override
+	public long getProjectFollowedId() {
+		return _projectFollowed.getProjectFollowedId();
+	}
+
+	/**
+	 * Returns the project ID of this project followed.
+	 *
+	 * @return the project ID of this project followed
+	 */
+	@Override
+	public long getProjectId() {
+		return _projectFollowed.getProjectId();
+	}
+
+	/**
+	 * Returns the publik user ID of this project followed.
+	 *
+	 * @return the publik user ID of this project followed
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _projectFollowed.getPublikUserId();
+	}
+
+	@Override
+	public int hashCode() {
+		return _projectFollowed.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _projectFollowed.isCachedModel();
 	}
@@ -116,117 +204,6 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _projectFollowed.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.ProjectFollowed> toCacheModel() {
-		return _projectFollowed.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectFollowed toEscapedModel() {
-		return new ProjectFollowedWrapper(_projectFollowed.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectFollowed toUnescapedModel() {
-		return new ProjectFollowedWrapper(_projectFollowed.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.ProjectFollowed projectFollowed) {
-		return _projectFollowed.compareTo(projectFollowed);
-	}
-
-	@Override
-	public int hashCode() {
-		return _projectFollowed.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _projectFollowed.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new ProjectFollowedWrapper((ProjectFollowed)_projectFollowed.clone());
-	}
-
-	/**
-	* Returns the publik user ID of this project followed.
-	*
-	* @return the publik user ID of this project followed
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _projectFollowed.getPublikUserId();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _projectFollowed.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _projectFollowed.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this project followed.
-	*
-	* @return the create date of this project followed
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _projectFollowed.getCreateDate();
-	}
-
-	/**
-	* Returns the group ID of this project followed.
-	*
-	* @return the group ID of this project followed
-	*/
-	@Override
-	public long getGroupId() {
-		return _projectFollowed.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this project followed.
-	*
-	* @return the primary key of this project followed
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _projectFollowed.getPrimaryKey();
-	}
-
-	/**
-	* Returns the project followed ID of this project followed.
-	*
-	* @return the project followed ID of this project followed
-	*/
-	@Override
-	public long getProjectFollowedId() {
-		return _projectFollowed.getProjectFollowedId();
-	}
-
-	/**
-	* Returns the project ID of this project followed.
-	*
-	* @return the project ID of this project followed
-	*/
-	@Override
-	public long getProjectId() {
-		return _projectFollowed.getProjectId();
-	}
-
-	@Override
 	public void persist() {
 		_projectFollowed.persist();
 	}
@@ -237,13 +214,20 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	/**
-	* Sets the create date of this project followed.
-	*
-	* @param createDate the create date of this project followed
-	*/
+	 * Sets the create date of this project followed.
+	 *
+	 * @param createDate the create date of this project followed
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_projectFollowed.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_projectFollowed.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -252,21 +236,15 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_projectFollowed.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_projectFollowed.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this project followed.
-	*
-	* @param groupId the group ID of this project followed
-	*/
+	 * Sets the group ID of this project followed.
+	 *
+	 * @param groupId the group ID of this project followed
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_projectFollowed.setGroupId(groupId);
@@ -278,10 +256,10 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	/**
-	* Sets the primary key of this project followed.
-	*
-	* @param primaryKey the primary key of this project followed
-	*/
+	 * Sets the primary key of this project followed.
+	 *
+	 * @param primaryKey the primary key of this project followed
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_projectFollowed.setPrimaryKey(primaryKey);
@@ -293,33 +271,64 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	/**
-	* Sets the project followed ID of this project followed.
-	*
-	* @param projectFollowedId the project followed ID of this project followed
-	*/
+	 * Sets the project followed ID of this project followed.
+	 *
+	 * @param projectFollowedId the project followed ID of this project followed
+	 */
 	@Override
 	public void setProjectFollowedId(long projectFollowedId) {
 		_projectFollowed.setProjectFollowedId(projectFollowedId);
 	}
 
 	/**
-	* Sets the project ID of this project followed.
-	*
-	* @param projectId the project ID of this project followed
-	*/
+	 * Sets the project ID of this project followed.
+	 *
+	 * @param projectId the project ID of this project followed
+	 */
 	@Override
 	public void setProjectId(long projectId) {
 		_projectFollowed.setProjectId(projectId);
 	}
 
 	/**
-	* Sets the publik user ID of this project followed.
-	*
-	* @param publikUserId the publik user ID of this project followed
-	*/
+	 * Sets the publik user ID of this project followed.
+	 *
+	 * @param publikUserId the publik user ID of this project followed
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_projectFollowed.setPublikUserId(publikUserId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.project.model.ProjectFollowed> toCacheModel() {
+
+		return _projectFollowed.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.ProjectFollowed
+		toEscapedModel() {
+
+		return new ProjectFollowedWrapper(_projectFollowed.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _projectFollowed.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.ProjectFollowed
+		toUnescapedModel() {
+
+		return new ProjectFollowedWrapper(_projectFollowed.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _projectFollowed.toXmlString();
 	}
 
 	@Override
@@ -332,10 +341,12 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 			return false;
 		}
 
-		ProjectFollowedWrapper projectFollowedWrapper = (ProjectFollowedWrapper)obj;
+		ProjectFollowedWrapper projectFollowedWrapper =
+			(ProjectFollowedWrapper)obj;
 
-		if (Objects.equals(_projectFollowed,
-					projectFollowedWrapper._projectFollowed)) {
+		if (Objects.equals(
+				_projectFollowed, projectFollowedWrapper._projectFollowed)) {
+
 			return true;
 		}
 
@@ -363,4 +374,5 @@ public class ProjectFollowedWrapper implements ProjectFollowed,
 	}
 
 	private final ProjectFollowed _projectFollowed;
+
 }

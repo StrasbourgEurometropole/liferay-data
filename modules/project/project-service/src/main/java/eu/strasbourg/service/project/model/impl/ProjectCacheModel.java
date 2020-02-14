@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.Project;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Project in entity cache.
  *
  * @author Cedric Henry
- * @see Project
  * @generated
  */
 @ProviderType
 public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -131,7 +130,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		ProjectImpl projectImpl = new ProjectImpl();
 
 		if (uuid == null) {
-			projectImpl.setUuid(StringPool.BLANK);
+			projectImpl.setUuid("");
 		}
 		else {
 			projectImpl.setUuid(uuid);
@@ -143,7 +142,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		projectImpl.setUserId(userId);
 
 		if (userName == null) {
-			projectImpl.setUserName(StringPool.BLANK);
+			projectImpl.setUserName("");
 		}
 		else {
 			projectImpl.setUserName(userName);
@@ -167,7 +166,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		projectImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			projectImpl.setStatusByUserName(StringPool.BLANK);
+			projectImpl.setStatusByUserName("");
 		}
 		else {
 			projectImpl.setStatusByUserName(statusByUserName);
@@ -181,21 +180,21 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		}
 
 		if (title == null) {
-			projectImpl.setTitle(StringPool.BLANK);
+			projectImpl.setTitle("");
 		}
 		else {
 			projectImpl.setTitle(title);
 		}
 
 		if (externalImageURL == null) {
-			projectImpl.setExternalImageURL(StringPool.BLANK);
+			projectImpl.setExternalImageURL("");
 		}
 		else {
 			projectImpl.setExternalImageURL(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			projectImpl.setExternalImageCopyright(StringPool.BLANK);
+			projectImpl.setExternalImageCopyright("");
 		}
 		else {
 			projectImpl.setExternalImageCopyright(externalImageCopyright);
@@ -204,70 +203,70 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		projectImpl.setOpacityImage(opacityImage);
 
 		if (description == null) {
-			projectImpl.setDescription(StringPool.BLANK);
+			projectImpl.setDescription("");
 		}
 		else {
 			projectImpl.setDescription(description);
 		}
 
 		if (detailURL == null) {
-			projectImpl.setDetailURL(StringPool.BLANK);
+			projectImpl.setDetailURL("");
 		}
 		else {
 			projectImpl.setDetailURL(detailURL);
 		}
 
 		if (budget == null) {
-			projectImpl.setBudget(StringPool.BLANK);
+			projectImpl.setBudget("");
 		}
 		else {
 			projectImpl.setBudget(budget);
 		}
 
 		if (label == null) {
-			projectImpl.setLabel(StringPool.BLANK);
+			projectImpl.setLabel("");
 		}
 		else {
 			projectImpl.setLabel(label);
 		}
 
 		if (duration == null) {
-			projectImpl.setDuration(StringPool.BLANK);
+			projectImpl.setDuration("");
 		}
 		else {
 			projectImpl.setDuration(duration);
 		}
 
 		if (partners == null) {
-			projectImpl.setPartners(StringPool.BLANK);
+			projectImpl.setPartners("");
 		}
 		else {
 			projectImpl.setPartners(partners);
 		}
 
 		if (contactName == null) {
-			projectImpl.setContactName(StringPool.BLANK);
+			projectImpl.setContactName("");
 		}
 		else {
 			projectImpl.setContactName(contactName);
 		}
 
 		if (contactLine1 == null) {
-			projectImpl.setContactLine1(StringPool.BLANK);
+			projectImpl.setContactLine1("");
 		}
 		else {
 			projectImpl.setContactLine1(contactLine1);
 		}
 
 		if (contactLine2 == null) {
-			projectImpl.setContactLine2(StringPool.BLANK);
+			projectImpl.setContactLine2("");
 		}
 		else {
 			projectImpl.setContactLine2(contactLine2);
 		}
 
 		if (contactPhoneNumber == null) {
-			projectImpl.setContactPhoneNumber(StringPool.BLANK);
+			projectImpl.setContactPhoneNumber("");
 		}
 		else {
 			projectImpl.setContactPhoneNumber(contactPhoneNumber);
@@ -320,10 +319,9 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -338,7 +336,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -352,7 +350,7 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -361,21 +359,21 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
@@ -384,70 +382,70 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		objectOutput.writeDouble(opacityImage);
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (detailURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(detailURL);
 		}
 
 		if (budget == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(budget);
 		}
 
 		if (label == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(label);
 		}
 
 		if (duration == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(duration);
 		}
 
 		if (partners == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(partners);
 		}
 
 		if (contactName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactName);
 		}
 
 		if (contactLine1 == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactLine1);
 		}
 
 		if (contactLine2 == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactLine2);
 		}
 
 		if (contactPhoneNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactPhoneNumber);
@@ -483,4 +481,5 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	public String contactLine2;
 	public String contactPhoneNumber;
 	public long imageId;
+
 }

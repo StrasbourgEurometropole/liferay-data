@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see ProjectFollowedModel
- * @see eu.strasbourg.service.project.model.impl.ProjectFollowedImpl
- * @see eu.strasbourg.service.project.model.impl.ProjectFollowedModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.project.model.impl.ProjectFollowedImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.project.model.impl.ProjectFollowedImpl"
+)
 @ProviderType
-public interface ProjectFollowed extends ProjectFollowedModel, PersistedModel {
+public interface ProjectFollowed extends PersistedModel, ProjectFollowedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.project.model.impl.ProjectFollowedImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.project.model.impl.ProjectFollowedImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ProjectFollowed, Long> PROJECT_FOLLOWED_ID_ACCESSOR =
-		new Accessor<ProjectFollowed, Long>() {
+	public static final Accessor<ProjectFollowed, Long>
+		PROJECT_FOLLOWED_ID_ACCESSOR = new Accessor<ProjectFollowed, Long>() {
+
 			@Override
 			public Long get(ProjectFollowed projectFollowed) {
 				return projectFollowed.getProjectFollowedId();
@@ -53,5 +55,7 @@ public interface ProjectFollowed extends ProjectFollowedModel, PersistedModel {
 			public Class<ProjectFollowed> getTypeClass() {
 				return ProjectFollowed.class;
 			}
+
 		};
+
 }

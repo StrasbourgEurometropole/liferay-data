@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.InitiativeServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.InitiativeServiceSoap
  * @generated
  */
 @ProviderType
 public class InitiativeSoap implements Serializable {
+
 	public static InitiativeSoap toSoapModel(Initiative model) {
 		InitiativeSoap soapModel = new InitiativeSoap();
 
@@ -53,7 +53,7 @@ public class InitiativeSoap implements Serializable {
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setExternalImageURL(model.getExternalImageURL());
 		soapModel.setExternalImageCopyright(model.getExternalImageCopyright());
-		soapModel.setMediaChoice(model.getMediaChoice());
+		soapModel.setMediaChoice(model.isMediaChoice());
 		soapModel.setAssetEntryId(model.getAssetEntryId());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
@@ -91,7 +91,8 @@ public class InitiativeSoap implements Serializable {
 	}
 
 	public static InitiativeSoap[] toSoapModels(List<Initiative> models) {
-		List<InitiativeSoap> soapModels = new ArrayList<InitiativeSoap>(models.size());
+		List<InitiativeSoap> soapModels = new ArrayList<InitiativeSoap>(
+			models.size());
 
 		for (Initiative model : models) {
 			soapModels.add(toSoapModel(model));
@@ -340,4 +341,5 @@ public class InitiativeSoap implements Serializable {
 	private long _imageId;
 	private String _filesIds;
 	private Date _publicationDate;
+
 }
