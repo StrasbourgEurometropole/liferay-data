@@ -17,7 +17,6 @@ package eu.strasbourg.service.strasbourg.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,6 +37,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
+
 	public StrasbourgWrapper(Strasbourg strasbourg) {
 		_strasbourg = strasbourg;
 	}
@@ -78,6 +78,63 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	@Override
+	public Object clone() {
+		return new StrasbourgWrapper((Strasbourg)_strasbourg.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
+
+		return _strasbourg.compareTo(strasbourg);
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _strasbourg.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the ID of this strasbourg.
+	 *
+	 * @return the ID of this strasbourg
+	 */
+	@Override
+	public long getId() {
+		return _strasbourg.getId();
+	}
+
+	/**
+	 * Returns the primary key of this strasbourg.
+	 *
+	 * @return the primary key of this strasbourg
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _strasbourg.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _strasbourg.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the uuid of this strasbourg.
+	 *
+	 * @return the uuid of this strasbourg
+	 */
+	@Override
+	public String getUuid() {
+		return _strasbourg.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _strasbourg.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _strasbourg.isCachedModel();
 	}
@@ -93,87 +150,6 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _strasbourg.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.strasbourg.model.Strasbourg> toCacheModel() {
-		return _strasbourg.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg toEscapedModel() {
-		return new StrasbourgWrapper(_strasbourg.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg toUnescapedModel() {
-		return new StrasbourgWrapper(_strasbourg.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
-		return _strasbourg.compareTo(strasbourg);
-	}
-
-	@Override
-	public int hashCode() {
-		return _strasbourg.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _strasbourg.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new StrasbourgWrapper((Strasbourg)_strasbourg.clone());
-	}
-
-	/**
-	* Returns the uuid of this strasbourg.
-	*
-	* @return the uuid of this strasbourg
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _strasbourg.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _strasbourg.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _strasbourg.toXmlString();
-	}
-
-	/**
-	* Returns the ID of this strasbourg.
-	*
-	* @return the ID of this strasbourg
-	*/
-	@Override
-	public long getId() {
-		return _strasbourg.getId();
-	}
-
-	/**
-	* Returns the primary key of this strasbourg.
-	*
-	* @return the primary key of this strasbourg
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _strasbourg.getPrimaryKey();
-	}
-
-	@Override
 	public void persist() {
 		_strasbourg.persist();
 	}
@@ -184,14 +160,15 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_strasbourg.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_strasbourg.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_strasbourg.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_strasbourg.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -200,10 +177,10 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	/**
-	* Sets the ID of this strasbourg.
-	*
-	* @param id the ID of this strasbourg
-	*/
+	 * Sets the ID of this strasbourg.
+	 *
+	 * @param id the ID of this strasbourg
+	 */
 	@Override
 	public void setId(long id) {
 		_strasbourg.setId(id);
@@ -215,10 +192,10 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	/**
-	* Sets the primary key of this strasbourg.
-	*
-	* @param primaryKey the primary key of this strasbourg
-	*/
+	 * Sets the primary key of this strasbourg.
+	 *
+	 * @param primaryKey the primary key of this strasbourg
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_strasbourg.setPrimaryKey(primaryKey);
@@ -230,13 +207,42 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	/**
-	* Sets the uuid of this strasbourg.
-	*
-	* @param uuid the uuid of this strasbourg
-	*/
+	 * Sets the uuid of this strasbourg.
+	 *
+	 * @param uuid the uuid of this strasbourg
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_strasbourg.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.strasbourg.model.Strasbourg> toCacheModel() {
+
+		return _strasbourg.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.strasbourg.model.Strasbourg toEscapedModel() {
+		return new StrasbourgWrapper(_strasbourg.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _strasbourg.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.strasbourg.model.Strasbourg
+		toUnescapedModel() {
+
+		return new StrasbourgWrapper(_strasbourg.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _strasbourg.toXmlString();
 	}
 
 	@Override
@@ -279,4 +285,5 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	private final Strasbourg _strasbourg;
+
 }

@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see StrasbourgModel
- * @see eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl
- * @see eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl"
+)
 @ProviderType
-public interface Strasbourg extends StrasbourgModel, PersistedModel {
+public interface Strasbourg extends PersistedModel, StrasbourgModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Strasbourg, Long> ID_ACCESSOR = new Accessor<Strasbourg, Long>() {
+	public static final Accessor<Strasbourg, Long> ID_ACCESSOR =
+		new Accessor<Strasbourg, Long>() {
+
 			@Override
 			public Long get(Strasbourg strasbourg) {
 				return strasbourg.getId();
@@ -52,5 +55,7 @@ public interface Strasbourg extends StrasbourgModel, PersistedModel {
 			public Class<Strasbourg> getTypeClass() {
 				return Strasbourg.class;
 			}
+
 		};
+
 }
