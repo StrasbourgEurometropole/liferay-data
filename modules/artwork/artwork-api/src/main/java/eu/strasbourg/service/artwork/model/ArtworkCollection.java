@@ -25,20 +25,23 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see ArtworkCollectionModel
- * @see eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl
- * @see eu.strasbourg.service.artwork.model.impl.ArtworkCollectionModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl"
+)
 @ProviderType
-public interface ArtworkCollection extends ArtworkCollectionModel, PersistedModel {
+public interface ArtworkCollection
+	extends ArtworkCollectionModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.artwork.model.impl.ArtworkCollectionImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ArtworkCollection, Long> COLLECTION_ID_ACCESSOR =
-		new Accessor<ArtworkCollection, Long>() {
+	public static final Accessor<ArtworkCollection, Long>
+		COLLECTION_ID_ACCESSOR = new Accessor<ArtworkCollection, Long>() {
+
 			@Override
 			public Long get(ArtworkCollection artworkCollection) {
 				return artworkCollection.getCollectionId();
@@ -53,56 +56,63 @@ public interface ArtworkCollection extends ArtworkCollectionModel, PersistedMode
 			public Class<ArtworkCollection> getTypeClass() {
 				return ArtworkCollection.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'AssetEntry correspondant à cet item
-	*/
+	 * Retourne l'AssetEntry correspondant à cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Retourne la liste des AssetCategory correspondant à cet item (via
-	* l'AssetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Retourne la liste des AssetCategory correspondant à cet item (via
+	 * l'AssetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
-	*/
-	public java.lang.String getImageURL();
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL();
 
 	/**
-	* Retourne le copyright de l'image principale
-	*/
-	public java.lang.String getImageCopyright(java.util.Locale locale);
+	 * Retourne le copyright de l'image principale
+	 */
+	public String getImageCopyright(java.util.Locale locale);
 
 	/**
-	* Retourne la liste des oeuvres
-	*/
-	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getArtworks();
+	 * Retourne la liste des oeuvres
+	 */
+	public java.util.List<eu.strasbourg.service.artwork.model.Artwork>
+		getArtworks();
 
 	/**
-	* Retourne la liste des ids d'oeuvres sous forme de String
-	*/
-	public java.lang.String getArtworksIds();
+	 * Retourne la liste des ids d'oeuvres sous forme de String
+	 */
+	public String getArtworksIds();
 
 	/**
-	* Retourne la liste des oeuvres publiées
-	*/
-	public java.util.List<eu.strasbourg.service.artwork.model.Artwork> getPublishedArtworks();
+	 * Retourne la liste des oeuvres publiées
+	 */
+	public java.util.List<eu.strasbourg.service.artwork.model.Artwork>
+		getPublishedArtworks();
 
 	/**
-	* Retourne la version live de la collection, si elle existe
-	*/
-	public eu.strasbourg.service.artwork.model.ArtworkCollection getLiveVersion();
+	 * Retourne la version live de la collection, si elle existe
+	 */
+	public eu.strasbourg.service.artwork.model.ArtworkCollection
+		getLiveVersion();
 
 	/**
-	* Retourne les sources de la collection
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getSources();
+	 * Retourne les sources de la collection
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getSources();
 
 	/**
-	* Retourne la classe css correspondante à la source
-	*/
-	public java.lang.String getSourceCSSClass();
+	 * Retourne la classe css correspondante à la source
+	 */
+	public String getSourceCSSClass();
+
 }
