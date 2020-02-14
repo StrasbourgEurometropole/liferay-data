@@ -35,104 +35,106 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Brian Wing Shun Chan
  * @see StrasbourgServiceUtil
- * @see eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl
- * @see eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=strasbourg", "json.web.service.context.path=Strasbourg"}, service = StrasbourgService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=strasbourg",
+		"json.web.service.context.path=Strasbourg"
+	},
+	service = StrasbourgService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface StrasbourgService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link StrasbourgServiceUtil} to access the strasbourg remote service. Add custom service methods to {@link eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link StrasbourgServiceUtil} to access the strasbourg remote service. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getCoordinateForAddress(java.lang.String address);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPracticeCategories(long parentCategoryId,
-		java.lang.String localeId);
+	public void foldPortlet(String portletId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getAlerts();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getCopyright(long groupId, java.lang.String uuid,
-		java.lang.String language);
+	public String getArticleHTMLContent(long groupId, String articleId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getCoordinateForAddress(String address);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getCopyright(long groupId, String uuid, String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFavoritesPois(long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFavoritesPois(long groupId,
-		java.lang.String typeContenu);
+	public JSONObject getFavoritesPois(long groupId, String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFavoritesPois(long groupId,
-		java.lang.String typeContenu, java.lang.String localeId);
+	public JSONObject getFavoritesPois(
+		long groupId, String typeContenu, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getFileDetails(long groupId, java.lang.String uuid,
-		java.lang.String language);
+	public int getFavoritesPoisCount(long groupId, String typeContenu);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPois(java.lang.String interests,
-		java.lang.String categories, java.lang.String prefilters, long groupId,
-		java.lang.String typeContenu);
+	public JSONObject getFileDetails(
+		long groupId, String uuid, String language);
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPois(java.lang.String interests,
-		java.lang.String categories, java.lang.String prefilters, long groupId,
-		java.lang.String typeContenu, java.lang.String localeId);
+	public JSONObject getPois(String interests, long groupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPois(java.lang.String interests, long groupId);
+	public JSONObject getPois(String interests, long groupId, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPois(java.lang.String interests, long groupId,
-		java.lang.String localeId);
+	public JSONObject getPois(
+		String interests, String categories, String prefilters, long groupId,
+		String typeContenu);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getPois(
+		String interests, String categories, String prefilters, long groupId,
+		String typeContenu, String localeId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPoisCategoryCount(
+		long idCategory, String prefilters, long groupId, String typeContenu);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getPoisInterestCount(
+		long idCategory, long groupId, String typeContenu);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getPracticeCategories(
+		long parentCategoryId, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTraffic();
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject searchStreets(java.lang.String query);
+	public void hidePortlet(String portletId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject searchStreets(java.lang.String query,
-		java.lang.String city);
+	public JSONObject searchStreets(String query);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getFavoritesPoisCount(long groupId, java.lang.String typeContenu);
+	public JSONObject searchStreets(String query, String city);
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPoisCategoryCount(long idCategory,
-		java.lang.String prefilters, long groupId, java.lang.String typeContenu);
+	public void unfoldPortlet(String portletId);
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getPoisInterestCount(long idCategory, long groupId,
-		java.lang.String typeContenu);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.lang.String getArticleHTMLContent(long groupId,
-		java.lang.String articleId);
-
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
-
-	public void foldPortlet(java.lang.String portletId);
-
-	public void hidePortlet(java.lang.String portletId);
-
-	public void unfoldPortlet(java.lang.String portletId);
 }

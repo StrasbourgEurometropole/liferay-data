@@ -26,23 +26,16 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class StrasbourgServiceWrapper implements StrasbourgService,
-	ServiceWrapper<StrasbourgService> {
+public class StrasbourgServiceWrapper
+	implements StrasbourgService, ServiceWrapper<StrasbourgService> {
+
 	public StrasbourgServiceWrapper(StrasbourgService strasbourgService) {
 		_strasbourgService = strasbourgService;
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
-		java.lang.String address) {
-		return _strasbourgService.getCoordinateForAddress(address);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
-		long parentCategoryId, java.lang.String localeId) {
-		return _strasbourgService.getPracticeCategories(parentCategoryId,
-			localeId);
+	public void foldPortlet(String portletId) {
+		_strasbourgService.foldPortlet(portletId);
 	}
 
 	@Override
@@ -51,63 +44,122 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public String getArticleHTMLContent(long groupId, String articleId) {
+		return _strasbourgService.getArticleHTMLContent(groupId, articleId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
+		String address) {
+
+		return _strasbourgService.getCoordinateForAddress(address);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCopyright(
-		long groupId, java.lang.String uuid, java.lang.String language) {
+		long groupId, String uuid, String language) {
+
 		return _strasbourgService.getCopyright(groupId, uuid, language);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		long groupId) {
+
 		return _strasbourgService.getFavoritesPois(groupId);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, java.lang.String typeContenu) {
+		long groupId, String typeContenu) {
+
 		return _strasbourgService.getFavoritesPois(groupId, typeContenu);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, java.lang.String typeContenu, java.lang.String localeId) {
-		return _strasbourgService.getFavoritesPois(groupId, typeContenu,
-			localeId);
-	}
+		long groupId, String typeContenu, String localeId) {
 
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		long groupId, java.lang.String uuid, java.lang.String language) {
-		return _strasbourgService.getFileDetails(groupId, uuid, language);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, java.lang.String categories,
-		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
-		return _strasbourgService.getPois(interests, categories, prefilters,
-			groupId, typeContenu);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, java.lang.String categories,
-		java.lang.String prefilters, long groupId,
-		java.lang.String typeContenu, java.lang.String localeId) {
-		return _strasbourgService.getPois(interests, categories, prefilters,
+		return _strasbourgService.getFavoritesPois(
 			groupId, typeContenu, localeId);
 	}
 
 	@Override
+	public int getFavoritesPoisCount(long groupId, String typeContenu) {
+		return _strasbourgService.getFavoritesPoisCount(groupId, typeContenu);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
+		long groupId, String uuid, String language) {
+
+		return _strasbourgService.getFileDetails(groupId, uuid, language);
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _strasbourgService.getOSGiServiceIdentifier();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, long groupId) {
+		String interests, long groupId) {
+
 		return _strasbourgService.getPois(interests, groupId);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, long groupId, java.lang.String localeId) {
+		String interests, long groupId, String localeId) {
+
 		return _strasbourgService.getPois(interests, groupId, localeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPois(
+		String interests, String categories, String prefilters, long groupId,
+		String typeContenu) {
+
+		return _strasbourgService.getPois(
+			interests, categories, prefilters, groupId, typeContenu);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getPois(
+		String interests, String categories, String prefilters, long groupId,
+		String typeContenu, String localeId) {
+
+		return _strasbourgService.getPois(
+			interests, categories, prefilters, groupId, typeContenu, localeId);
+	}
+
+	@Override
+	public int getPoisCategoryCount(
+		long idCategory, String prefilters, long groupId, String typeContenu) {
+
+		return _strasbourgService.getPoisCategoryCount(
+			idCategory, prefilters, groupId, typeContenu);
+	}
+
+	@Override
+	public int getPoisInterestCount(
+		long idCategory, long groupId, String typeContenu) {
+
+		return _strasbourgService.getPoisInterestCount(
+			idCategory, groupId, typeContenu);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
+		long parentCategoryId, String localeId) {
+
+		return _strasbourgService.getPracticeCategories(
+			parentCategoryId, localeId);
 	}
 
 	@Override
@@ -116,64 +168,26 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	@Override
+	public void hidePortlet(String portletId) {
+		_strasbourgService.hidePortlet(portletId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject searchStreets(
-		java.lang.String query) {
+		String query) {
+
 		return _strasbourgService.searchStreets(query);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject searchStreets(
-		java.lang.String query, java.lang.String city) {
+		String query, String city) {
+
 		return _strasbourgService.searchStreets(query, city);
 	}
 
 	@Override
-	public int getFavoritesPoisCount(long groupId, java.lang.String typeContenu) {
-		return _strasbourgService.getFavoritesPoisCount(groupId, typeContenu);
-	}
-
-	@Override
-	public int getPoisCategoryCount(long idCategory,
-		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
-		return _strasbourgService.getPoisCategoryCount(idCategory, prefilters,
-			groupId, typeContenu);
-	}
-
-	@Override
-	public int getPoisInterestCount(long idCategory, long groupId,
-		java.lang.String typeContenu) {
-		return _strasbourgService.getPoisInterestCount(idCategory, groupId,
-			typeContenu);
-	}
-
-	@Override
-	public java.lang.String getArticleHTMLContent(long groupId,
-		java.lang.String articleId) {
-		return _strasbourgService.getArticleHTMLContent(groupId, articleId);
-	}
-
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _strasbourgService.getOSGiServiceIdentifier();
-	}
-
-	@Override
-	public void foldPortlet(java.lang.String portletId) {
-		_strasbourgService.foldPortlet(portletId);
-	}
-
-	@Override
-	public void hidePortlet(java.lang.String portletId) {
-		_strasbourgService.hidePortlet(portletId);
-	}
-
-	@Override
-	public void unfoldPortlet(java.lang.String portletId) {
+	public void unfoldPortlet(String portletId) {
 		_strasbourgService.unfoldPortlet(portletId);
 	}
 
@@ -188,4 +202,5 @@ public class StrasbourgServiceWrapper implements StrasbourgService,
 	}
 
 	private StrasbourgService _strasbourgService;
+
 }

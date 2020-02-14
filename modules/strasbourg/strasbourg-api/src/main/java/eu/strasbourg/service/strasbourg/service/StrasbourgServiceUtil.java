@@ -16,152 +16,160 @@ package eu.strasbourg.service.strasbourg.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Strasbourg. This utility wraps
- * {@link eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Brian Wing Shun Chan
  * @see StrasbourgService
- * @see eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl
- * @see eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl
  * @generated
  */
 @ProviderType
 public class StrasbourgServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static com.liferay.portal.kernel.json.JSONArray getCoordinateForAddress(
-		java.lang.String address) {
-		return getService().getCoordinateForAddress(address);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getPracticeCategories(
-		long parentCategoryId, java.lang.String localeId) {
-		return getService().getPracticeCategories(parentCategoryId, localeId);
+	public static void foldPortlet(String portletId) {
+		getService().foldPortlet(portletId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getAlerts() {
 		return getService().getAlerts();
 	}
 
+	public static String getArticleHTMLContent(long groupId, String articleId) {
+		return getService().getArticleHTMLContent(groupId, articleId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getCoordinateForAddress(String address) {
+
+		return getService().getCoordinateForAddress(address);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getCopyright(
-		long groupId, java.lang.String uuid, java.lang.String language) {
+		long groupId, String uuid, String language) {
+
 		return getService().getCopyright(groupId, uuid, language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		long groupId) {
+
 		return getService().getFavoritesPois(groupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, java.lang.String typeContenu) {
+		long groupId, String typeContenu) {
+
 		return getService().getFavoritesPois(groupId, typeContenu);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, java.lang.String typeContenu, java.lang.String localeId) {
+		long groupId, String typeContenu, String localeId) {
+
 		return getService().getFavoritesPois(groupId, typeContenu, localeId);
 	}
 
+	public static int getFavoritesPoisCount(long groupId, String typeContenu) {
+		return getService().getFavoritesPoisCount(groupId, typeContenu);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		long groupId, java.lang.String uuid, java.lang.String language) {
+		long groupId, String uuid, String language) {
+
 		return getService().getFileDetails(groupId, uuid, language);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, java.lang.String categories,
-		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
-		return getService()
-				   .getPois(interests, categories, prefilters, groupId,
-			typeContenu);
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
+		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, java.lang.String categories,
-		java.lang.String prefilters, long groupId,
-		java.lang.String typeContenu, java.lang.String localeId) {
-		return getService()
-				   .getPois(interests, categories, prefilters, groupId,
-			typeContenu, localeId);
-	}
+		String interests, long groupId) {
 
-	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, long groupId) {
 		return getService().getPois(interests, groupId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPois(
-		java.lang.String interests, long groupId, java.lang.String localeId) {
+		String interests, long groupId, String localeId) {
+
 		return getService().getPois(interests, groupId, localeId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getPois(
+		String interests, String categories, String prefilters, long groupId,
+		String typeContenu) {
+
+		return getService().getPois(
+			interests, categories, prefilters, groupId, typeContenu);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getPois(
+		String interests, String categories, String prefilters, long groupId,
+		String typeContenu, String localeId) {
+
+		return getService().getPois(
+			interests, categories, prefilters, groupId, typeContenu, localeId);
+	}
+
+	public static int getPoisCategoryCount(
+		long idCategory, String prefilters, long groupId, String typeContenu) {
+
+		return getService().getPoisCategoryCount(
+			idCategory, prefilters, groupId, typeContenu);
+	}
+
+	public static int getPoisInterestCount(
+		long idCategory, long groupId, String typeContenu) {
+
+		return getService().getPoisInterestCount(
+			idCategory, groupId, typeContenu);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
+		getPracticeCategories(long parentCategoryId, String localeId) {
+
+		return getService().getPracticeCategories(parentCategoryId, localeId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return getService().getTraffic();
 	}
 
+	public static void hidePortlet(String portletId) {
+		getService().hidePortlet(portletId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
-		java.lang.String query) {
+		String query) {
+
 		return getService().searchStreets(query);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
-		java.lang.String query, java.lang.String city) {
+		String query, String city) {
+
 		return getService().searchStreets(query, city);
 	}
 
-	public static int getFavoritesPoisCount(long groupId,
-		java.lang.String typeContenu) {
-		return getService().getFavoritesPoisCount(groupId, typeContenu);
-	}
-
-	public static int getPoisCategoryCount(long idCategory,
-		java.lang.String prefilters, long groupId, java.lang.String typeContenu) {
-		return getService()
-				   .getPoisCategoryCount(idCategory, prefilters, groupId,
-			typeContenu);
-	}
-
-	public static int getPoisInterestCount(long idCategory, long groupId,
-		java.lang.String typeContenu) {
-		return getService()
-				   .getPoisInterestCount(idCategory, groupId, typeContenu);
-	}
-
-	public static java.lang.String getArticleHTMLContent(long groupId,
-		java.lang.String articleId) {
-		return getService().getArticleHTMLContent(groupId, articleId);
-	}
-
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
-		return getService().getOSGiServiceIdentifier();
-	}
-
-	public static void foldPortlet(java.lang.String portletId) {
-		getService().foldPortlet(portletId);
-	}
-
-	public static void hidePortlet(java.lang.String portletId) {
-		getService().hidePortlet(portletId);
-	}
-
-	public static void unfoldPortlet(java.lang.String portletId) {
+	public static void unfoldPortlet(String portletId) {
 		getService().unfoldPortlet(portletId);
 	}
 
@@ -169,6 +177,19 @@ public class StrasbourgServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<StrasbourgService, StrasbourgService> _serviceTracker =
-		ServiceTrackerFactory.open(StrasbourgService.class);
+	private static ServiceTracker<StrasbourgService, StrasbourgService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(StrasbourgService.class);
+
+		ServiceTracker<StrasbourgService, StrasbourgService> serviceTracker =
+			new ServiceTracker<StrasbourgService, StrasbourgService>(
+				bundle.getBundleContext(), StrasbourgService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

@@ -25,11 +25,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.strasbourg.service.http.StrasbourgServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.strasbourg.service.http.StrasbourgServiceSoap
  * @generated
  */
 @ProviderType
 public class StrasbourgSoap implements Serializable {
+
 	public static StrasbourgSoap toSoapModel(Strasbourg model) {
 		StrasbourgSoap soapModel = new StrasbourgSoap();
 
@@ -67,7 +67,8 @@ public class StrasbourgSoap implements Serializable {
 	}
 
 	public static StrasbourgSoap[] toSoapModels(List<Strasbourg> models) {
-		List<StrasbourgSoap> soapModels = new ArrayList<StrasbourgSoap>(models.size());
+		List<StrasbourgSoap> soapModels = new ArrayList<StrasbourgSoap>(
+			models.size());
 
 		for (Strasbourg model : models) {
 			soapModels.add(toSoapModel(model));
@@ -105,4 +106,5 @@ public class StrasbourgSoap implements Serializable {
 
 	private String _uuid;
 	private long _id;
+
 }
