@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.link.service.http.LinkServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.link.service.http.LinkServiceSoap
  * @generated
  */
 @ProviderType
 public class LinkSoap implements Serializable {
+
 	public static LinkSoap toSoapModel(Link model) {
 		LinkSoap soapModel = new LinkSoap();
 
@@ -244,6 +244,9 @@ public class LinkSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+
 	private String _URL;
+
 	private String _hoverText;
+
 }

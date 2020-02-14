@@ -42,15 +42,16 @@ import javax.sql.DataSource;
  *
  * @author Angelique Zunino Champougny
  * @see eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl
- * @see eu.strasbourg.service.tipi.service.TipiEntryServiceUtil
  * @generated
  */
-public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
+public abstract class TipiEntryServiceBaseImpl
+	extends BaseServiceImpl
 	implements TipiEntryService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.tipi.service.TipiEntryServiceUtil} to access the tipi entry remote service.
+	 * Never modify or reference this class directly. Use <code>TipiEntryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.tipi.service.TipiEntryServiceUtil</code>.
 	 */
 
 	/**
@@ -58,7 +59,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the tipi entry local service
 	 */
-	public eu.strasbourg.service.tipi.service.TipiEntryLocalService getTipiEntryLocalService() {
+	public eu.strasbourg.service.tipi.service.TipiEntryLocalService
+		getTipiEntryLocalService() {
+
 		return tipiEntryLocalService;
 	}
 
@@ -68,7 +71,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 * @param tipiEntryLocalService the tipi entry local service
 	 */
 	public void setTipiEntryLocalService(
-		eu.strasbourg.service.tipi.service.TipiEntryLocalService tipiEntryLocalService) {
+		eu.strasbourg.service.tipi.service.TipiEntryLocalService
+			tipiEntryLocalService) {
+
 		this.tipiEntryLocalService = tipiEntryLocalService;
 	}
 
@@ -106,6 +111,7 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setTipiEntryPersistence(
 		TipiEntryPersistence tipiEntryPersistence) {
+
 		this.tipiEntryPersistence = tipiEntryPersistence;
 	}
 
@@ -114,7 +120,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -124,7 +132,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -133,7 +143,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -143,7 +155,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -152,7 +166,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -163,6 +179,7 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -182,6 +199,7 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -190,7 +208,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -200,7 +220,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -209,7 +231,9 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -220,6 +244,7 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -239,6 +264,7 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -298,8 +324,8 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -308,26 +334,57 @@ public abstract class TipiEntryServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.tipi.service.TipiEntryLocalService.class)
-	protected eu.strasbourg.service.tipi.service.TipiEntryLocalService tipiEntryLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.tipi.service.TipiEntryLocalService.class
+	)
+	protected eu.strasbourg.service.tipi.service.TipiEntryLocalService
+		tipiEntryLocalService;
+
 	@BeanReference(type = TipiEntryService.class)
 	protected TipiEntryService tipiEntryService;
+
 	@BeanReference(type = TipiEntryPersistence.class)
 	protected TipiEntryPersistence tipiEntryPersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 }

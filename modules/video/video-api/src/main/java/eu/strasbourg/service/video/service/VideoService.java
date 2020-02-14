@@ -34,30 +34,38 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see VideoServiceUtil
- * @see eu.strasbourg.service.video.service.base.VideoServiceBaseImpl
- * @see eu.strasbourg.service.video.service.impl.VideoServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=video", "json.web.service.context.path=Video"}, service = VideoService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=video",
+		"json.web.service.context.path=Video"
+	},
+	service = VideoService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface VideoService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link VideoServiceUtil} to access the video remote service. Add custom service methods to {@link eu.strasbourg.service.video.service.impl.VideoServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link VideoServiceUtil} to access the video remote service. Add custom service methods to <code>eu.strasbourg.service.video.service.impl.VideoServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getVideo(long id);
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
 }

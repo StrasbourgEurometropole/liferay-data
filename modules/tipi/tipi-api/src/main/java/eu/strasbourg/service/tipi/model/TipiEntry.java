@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angelique Zunino Champougny
  * @see TipiEntryModel
- * @see eu.strasbourg.service.tipi.model.impl.TipiEntryImpl
- * @see eu.strasbourg.service.tipi.model.impl.TipiEntryModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.tipi.model.impl.TipiEntryImpl")
 @ProviderType
-public interface TipiEntry extends TipiEntryModel, PersistedModel {
+public interface TipiEntry extends PersistedModel, TipiEntryModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.tipi.model.impl.TipiEntryImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.tipi.model.impl.TipiEntryImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<TipiEntry, Long> ID_ACCESSOR = new Accessor<TipiEntry, Long>() {
+	public static final Accessor<TipiEntry, Long> ID_ACCESSOR =
+		new Accessor<TipiEntry, Long>() {
+
 			@Override
 			public Long get(TipiEntry tipiEntry) {
 				return tipiEntry.getId();
@@ -52,5 +53,7 @@ public interface TipiEntry extends TipiEntryModel, PersistedModel {
 			public Class<TipiEntry> getTypeClass() {
 				return TipiEntry.class;
 			}
+
 		};
+
 }

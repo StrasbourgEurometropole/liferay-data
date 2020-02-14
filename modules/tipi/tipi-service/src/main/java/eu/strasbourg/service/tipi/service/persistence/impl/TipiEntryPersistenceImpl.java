@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.tipi.service.persistence.TipiEntryPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
@@ -65,50 +65,32 @@ import java.util.Set;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see TipiEntryPersistence
- * @see eu.strasbourg.service.tipi.service.persistence.TipiEntryUtil
  * @generated
  */
 @ProviderType
-public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
-	implements TipiEntryPersistence {
+public class TipiEntryPersistenceImpl
+	extends BasePersistenceImpl<TipiEntry> implements TipiEntryPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link TipiEntryUtil} to access the tipi entry persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>TipiEntryUtil</code> to access the tipi entry persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = TipiEntryImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			TipiEntryModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		TipiEntryImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the tipi entries where uuid = &#63;.
@@ -125,7 +107,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns a range of all the tipi entries where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -142,7 +124,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns an ordered range of all the tipi entries where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -152,8 +134,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the ordered range of matching tipi entries
 	 */
 	@Override
-	public List<TipiEntry> findByUuid(String uuid, int start, int end,
+	public List<TipiEntry> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<TipiEntry> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -161,7 +145,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns an ordered range of all the tipi entries where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -172,33 +156,38 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the ordered range of matching tipi entries
 	 */
 	@Override
-	public List<TipiEntry> findByUuid(String uuid, int start, int end,
+	public List<TipiEntry> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<TipiEntry> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<TipiEntry> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<TipiEntry>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<TipiEntry>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TipiEntry tipiEntry : list) {
-					if (!Objects.equals(uuid, tipiEntry.getUuid())) {
+					if (!uuid.equals(tipiEntry.getUuid())) {
 						list = null;
 
 						break;
@@ -211,8 +200,8 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -222,10 +211,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -235,11 +221,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(TipiEntryModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -259,16 +244,16 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 				}
 
 				if (!pagination) {
-					list = (List<TipiEntry>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<TipiEntry>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<TipiEntry>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<TipiEntry>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -297,9 +282,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @throws NoSuchTipiEntryException if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry findByUuid_First(String uuid,
-		OrderByComparator<TipiEntry> orderByComparator)
+	public TipiEntry findByUuid_First(
+			String uuid, OrderByComparator<TipiEntry> orderByComparator)
 		throws NoSuchTipiEntryException {
+
 		TipiEntry tipiEntry = fetchByUuid_First(uuid, orderByComparator);
 
 		if (tipiEntry != null) {
@@ -313,7 +299,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTipiEntryException(msg.toString());
 	}
@@ -326,8 +312,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the first matching tipi entry, or <code>null</code> if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry fetchByUuid_First(String uuid,
-		OrderByComparator<TipiEntry> orderByComparator) {
+	public TipiEntry fetchByUuid_First(
+		String uuid, OrderByComparator<TipiEntry> orderByComparator) {
+
 		List<TipiEntry> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -346,9 +333,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @throws NoSuchTipiEntryException if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry findByUuid_Last(String uuid,
-		OrderByComparator<TipiEntry> orderByComparator)
+	public TipiEntry findByUuid_Last(
+			String uuid, OrderByComparator<TipiEntry> orderByComparator)
 		throws NoSuchTipiEntryException {
+
 		TipiEntry tipiEntry = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (tipiEntry != null) {
@@ -362,7 +350,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTipiEntryException(msg.toString());
 	}
@@ -375,16 +363,17 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the last matching tipi entry, or <code>null</code> if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry fetchByUuid_Last(String uuid,
-		OrderByComparator<TipiEntry> orderByComparator) {
+	public TipiEntry fetchByUuid_Last(
+		String uuid, OrderByComparator<TipiEntry> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<TipiEntry> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<TipiEntry> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -403,9 +392,13 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @throws NoSuchTipiEntryException if a tipi entry with the primary key could not be found
 	 */
 	@Override
-	public TipiEntry[] findByUuid_PrevAndNext(long id, String uuid,
-		OrderByComparator<TipiEntry> orderByComparator)
+	public TipiEntry[] findByUuid_PrevAndNext(
+			long id, String uuid,
+			OrderByComparator<TipiEntry> orderByComparator)
 		throws NoSuchTipiEntryException {
+
+		uuid = Objects.toString(uuid, "");
+
 		TipiEntry tipiEntry = findByPrimaryKey(id);
 
 		Session session = null;
@@ -415,13 +408,13 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 			TipiEntry[] array = new TipiEntryImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, tipiEntry, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, tipiEntry, uuid, orderByComparator, true);
 
 			array[1] = tipiEntry;
 
-			array[2] = getByUuid_PrevAndNext(session, tipiEntry, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, tipiEntry, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -433,14 +426,15 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		}
 	}
 
-	protected TipiEntry getByUuid_PrevAndNext(Session session,
-		TipiEntry tipiEntry, String uuid,
+	protected TipiEntry getByUuid_PrevAndNext(
+		Session session, TipiEntry tipiEntry, String uuid,
 		OrderByComparator<TipiEntry> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -451,10 +445,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -464,7 +455,8 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -536,10 +528,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(tipiEntry);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(tipiEntry)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -560,8 +552,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (TipiEntry tipiEntry : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (TipiEntry tipiEntry :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(tipiEntry);
 		}
 	}
@@ -574,9 +567,11 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -587,10 +582,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -631,27 +623,15 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "tipiEntry.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "tipiEntry.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(tipiEntry.uuid IS NULL OR tipiEntry.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_DATE = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDate",
-			new String[] {
-				Date.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDate",
-			new String[] { Date.class.getName() },
-			TipiEntryModelImpl.DATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_DATE = new FinderPath(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDate",
-			new String[] { Date.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"tipiEntry.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(tipiEntry.uuid IS NULL OR tipiEntry.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByDate;
+	private FinderPath _finderPathWithoutPaginationFindByDate;
+	private FinderPath _finderPathCountByDate;
 
 	/**
 	 * Returns all the tipi entries where date = &#63;.
@@ -668,7 +648,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns a range of all the tipi entries where date = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param date the date
@@ -685,7 +665,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns an ordered range of all the tipi entries where date = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param date the date
@@ -695,8 +675,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the ordered range of matching tipi entries
 	 */
 	@Override
-	public List<TipiEntry> findByDate(Date date, int start, int end,
+	public List<TipiEntry> findByDate(
+		Date date, int start, int end,
 		OrderByComparator<TipiEntry> orderByComparator) {
+
 		return findByDate(date, start, end, orderByComparator, true);
 	}
 
@@ -704,7 +686,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns an ordered range of all the tipi entries where date = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param date the date
@@ -715,29 +697,34 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the ordered range of matching tipi entries
 	 */
 	@Override
-	public List<TipiEntry> findByDate(Date date, int start, int end,
+	public List<TipiEntry> findByDate(
+		Date date, int start, int end,
 		OrderByComparator<TipiEntry> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE;
-			finderArgs = new Object[] { date };
+			finderPath = _finderPathWithoutPaginationFindByDate;
+			finderArgs = new Object[] {_getTime(date)};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_DATE;
-			finderArgs = new Object[] { date, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByDate;
+			finderArgs = new Object[] {
+				_getTime(date), start, end, orderByComparator
+			};
 		}
 
 		List<TipiEntry> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<TipiEntry>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<TipiEntry>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TipiEntry tipiEntry : list) {
@@ -754,8 +741,8 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -775,11 +762,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(TipiEntryModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -799,16 +785,16 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 				}
 
 				if (!pagination) {
-					list = (List<TipiEntry>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<TipiEntry>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<TipiEntry>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<TipiEntry>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -837,9 +823,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @throws NoSuchTipiEntryException if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry findByDate_First(Date date,
-		OrderByComparator<TipiEntry> orderByComparator)
+	public TipiEntry findByDate_First(
+			Date date, OrderByComparator<TipiEntry> orderByComparator)
 		throws NoSuchTipiEntryException {
+
 		TipiEntry tipiEntry = fetchByDate_First(date, orderByComparator);
 
 		if (tipiEntry != null) {
@@ -853,7 +840,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		msg.append("date=");
 		msg.append(date);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTipiEntryException(msg.toString());
 	}
@@ -866,8 +853,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the first matching tipi entry, or <code>null</code> if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry fetchByDate_First(Date date,
-		OrderByComparator<TipiEntry> orderByComparator) {
+	public TipiEntry fetchByDate_First(
+		Date date, OrderByComparator<TipiEntry> orderByComparator) {
+
 		List<TipiEntry> list = findByDate(date, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -886,9 +874,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @throws NoSuchTipiEntryException if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry findByDate_Last(Date date,
-		OrderByComparator<TipiEntry> orderByComparator)
+	public TipiEntry findByDate_Last(
+			Date date, OrderByComparator<TipiEntry> orderByComparator)
 		throws NoSuchTipiEntryException {
+
 		TipiEntry tipiEntry = fetchByDate_Last(date, orderByComparator);
 
 		if (tipiEntry != null) {
@@ -902,7 +891,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		msg.append("date=");
 		msg.append(date);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchTipiEntryException(msg.toString());
 	}
@@ -915,16 +904,17 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the last matching tipi entry, or <code>null</code> if a matching tipi entry could not be found
 	 */
 	@Override
-	public TipiEntry fetchByDate_Last(Date date,
-		OrderByComparator<TipiEntry> orderByComparator) {
+	public TipiEntry fetchByDate_Last(
+		Date date, OrderByComparator<TipiEntry> orderByComparator) {
+
 		int count = countByDate(date);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<TipiEntry> list = findByDate(date, count - 1, count,
-				orderByComparator);
+		List<TipiEntry> list = findByDate(
+			date, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -943,9 +933,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @throws NoSuchTipiEntryException if a tipi entry with the primary key could not be found
 	 */
 	@Override
-	public TipiEntry[] findByDate_PrevAndNext(long id, Date date,
-		OrderByComparator<TipiEntry> orderByComparator)
+	public TipiEntry[] findByDate_PrevAndNext(
+			long id, Date date, OrderByComparator<TipiEntry> orderByComparator)
 		throws NoSuchTipiEntryException {
+
 		TipiEntry tipiEntry = findByPrimaryKey(id);
 
 		Session session = null;
@@ -955,13 +946,13 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 			TipiEntry[] array = new TipiEntryImpl[3];
 
-			array[0] = getByDate_PrevAndNext(session, tipiEntry, date,
-					orderByComparator, true);
+			array[0] = getByDate_PrevAndNext(
+				session, tipiEntry, date, orderByComparator, true);
 
 			array[1] = tipiEntry;
 
-			array[2] = getByDate_PrevAndNext(session, tipiEntry, date,
-					orderByComparator, false);
+			array[2] = getByDate_PrevAndNext(
+				session, tipiEntry, date, orderByComparator, false);
 
 			return array;
 		}
@@ -973,14 +964,15 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		}
 	}
 
-	protected TipiEntry getByDate_PrevAndNext(Session session,
-		TipiEntry tipiEntry, Date date,
+	protected TipiEntry getByDate_PrevAndNext(
+		Session session, TipiEntry tipiEntry, Date date,
 		OrderByComparator<TipiEntry> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1001,7 +993,8 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1073,10 +1066,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(tipiEntry);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(tipiEntry)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1097,8 +1090,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public void removeByDate(Date date) {
-		for (TipiEntry tipiEntry : findByDate(date, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (TipiEntry tipiEntry :
+				findByDate(date, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(tipiEntry);
 		}
 	}
@@ -1111,9 +1105,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public int countByDate(Date date) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_DATE;
+		FinderPath finderPath = _finderPathCountByDate;
 
-		Object[] finderArgs = new Object[] { date };
+		Object[] finderArgs = new Object[] {_getTime(date)};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1165,22 +1159,27 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DATE_DATE_1 = "tipiEntry.date IS NULL";
-	private static final String _FINDER_COLUMN_DATE_DATE_2 = "tipiEntry.date = ?";
+	private static final String _FINDER_COLUMN_DATE_DATE_1 =
+		"tipiEntry.date IS NULL";
+
+	private static final String _FINDER_COLUMN_DATE_DATE_2 =
+		"tipiEntry.date = ?";
 
 	public TipiEntryPersistenceImpl() {
 		setModelClass(TipiEntry.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("id", "id_");
+		dbColumnNames.put("date", "date_");
+		dbColumnNames.put("type", "type_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("id", "id_");
-			dbColumnNames.put("date", "date_");
-			dbColumnNames.put("type", "type_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1198,8 +1197,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public void cacheResult(TipiEntry tipiEntry) {
-		entityCache.putResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryImpl.class, tipiEntry.getPrimaryKey(), tipiEntry);
+		entityCache.putResult(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
+			tipiEntry.getPrimaryKey(), tipiEntry);
 
 		tipiEntry.resetOriginalValues();
 	}
@@ -1212,8 +1212,10 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	@Override
 	public void cacheResult(List<TipiEntry> tipiEntries) {
 		for (TipiEntry tipiEntry : tipiEntries) {
-			if (entityCache.getResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-						TipiEntryImpl.class, tipiEntry.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+					TipiEntryImpl.class, tipiEntry.getPrimaryKey()) == null) {
+
 				cacheResult(tipiEntry);
 			}
 			else {
@@ -1226,7 +1228,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Clears the cache for all tipi entries.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1242,13 +1244,14 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Clears the cache for the tipi entry.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(TipiEntry tipiEntry) {
-		entityCache.removeResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryImpl.class, tipiEntry.getPrimaryKey());
+		entityCache.removeResult(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
+			tipiEntry.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -1260,8 +1263,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (TipiEntry tipiEntry : tipiEntries) {
-			entityCache.removeResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-				TipiEntryImpl.class, tipiEntry.getPrimaryKey());
+			entityCache.removeResult(
+				TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
+				tipiEntry.getPrimaryKey());
 		}
 	}
 
@@ -1307,21 +1311,22 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	@Override
 	public TipiEntry remove(Serializable primaryKey)
 		throws NoSuchTipiEntryException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			TipiEntry tipiEntry = (TipiEntry)session.get(TipiEntryImpl.class,
-					primaryKey);
+			TipiEntry tipiEntry = (TipiEntry)session.get(
+				TipiEntryImpl.class, primaryKey);
 
 			if (tipiEntry == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchTipiEntryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchTipiEntryException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(tipiEntry);
@@ -1339,16 +1344,14 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 	@Override
 	protected TipiEntry removeImpl(TipiEntry tipiEntry) {
-		tipiEntry = toUnwrappedModel(tipiEntry);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(tipiEntry)) {
-				tipiEntry = (TipiEntry)session.get(TipiEntryImpl.class,
-						tipiEntry.getPrimaryKeyObj());
+				tipiEntry = (TipiEntry)session.get(
+					TipiEntryImpl.class, tipiEntry.getPrimaryKeyObj());
 			}
 
 			if (tipiEntry != null) {
@@ -1371,9 +1374,23 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 	@Override
 	public TipiEntry updateImpl(TipiEntry tipiEntry) {
-		tipiEntry = toUnwrappedModel(tipiEntry);
-
 		boolean isNew = tipiEntry.isNew();
+
+		if (!(tipiEntry instanceof TipiEntryModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(tipiEntry.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(tipiEntry);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in tipiEntry proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom TipiEntry implementation " +
+					tipiEntry.getClass());
+		}
 
 		TipiEntryModelImpl tipiEntryModelImpl = (TipiEntryModelImpl)tipiEntry;
 
@@ -1409,93 +1426,74 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		if (!TipiEntryModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { tipiEntryModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {tipiEntryModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { tipiEntryModelImpl.getDate() };
+			args = new Object[] {tipiEntryModelImpl.getDate()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_DATE, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE,
-				args);
+			finderCache.removeResult(_finderPathCountByDate, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByDate, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((tipiEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						tipiEntryModelImpl.getOriginalUuid()
-					};
+					tipiEntryModelImpl.getOriginalUuid()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] { tipiEntryModelImpl.getUuid() };
+				args = new Object[] {tipiEntryModelImpl.getUuid()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((tipiEntryModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByDate.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						tipiEntryModelImpl.getOriginalDate()
-					};
+					tipiEntryModelImpl.getOriginalDate()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_DATE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE,
-					args);
+				finderCache.removeResult(_finderPathCountByDate, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByDate, args);
 
-				args = new Object[] { tipiEntryModelImpl.getDate() };
+				args = new Object[] {tipiEntryModelImpl.getDate()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_DATE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE,
-					args);
+				finderCache.removeResult(_finderPathCountByDate, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByDate, args);
 			}
 		}
 
-		entityCache.putResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryImpl.class, tipiEntry.getPrimaryKey(), tipiEntry, false);
+		entityCache.putResult(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
+			tipiEntry.getPrimaryKey(), tipiEntry, false);
 
 		tipiEntry.resetOriginalValues();
 
 		return tipiEntry;
 	}
 
-	protected TipiEntry toUnwrappedModel(TipiEntry tipiEntry) {
-		if (tipiEntry instanceof TipiEntryImpl) {
-			return tipiEntry;
-		}
-
-		TipiEntryImpl tipiEntryImpl = new TipiEntryImpl();
-
-		tipiEntryImpl.setNew(tipiEntry.isNew());
-		tipiEntryImpl.setPrimaryKey(tipiEntry.getPrimaryKey());
-
-		tipiEntryImpl.setUuid(tipiEntry.getUuid());
-		tipiEntryImpl.setId(tipiEntry.getId());
-		tipiEntryImpl.setDate(tipiEntry.getDate());
-		tipiEntryImpl.setTotal(tipiEntry.getTotal());
-		tipiEntryImpl.setPaidCount(tipiEntry.getPaidCount());
-		tipiEntryImpl.setRefusedCount(tipiEntry.getRefusedCount());
-		tipiEntryImpl.setCanceledCount(tipiEntry.getCanceledCount());
-		tipiEntryImpl.setType(tipiEntry.getType());
-
-		return tipiEntryImpl;
-	}
-
 	/**
-	 * Returns the tipi entry with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the tipi entry with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the tipi entry
 	 * @return the tipi entry
@@ -1504,6 +1502,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	@Override
 	public TipiEntry findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchTipiEntryException {
+
 		TipiEntry tipiEntry = fetchByPrimaryKey(primaryKey);
 
 		if (tipiEntry == null) {
@@ -1511,15 +1510,15 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchTipiEntryException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchTipiEntryException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return tipiEntry;
 	}
 
 	/**
-	 * Returns the tipi entry with the primary key or throws a {@link NoSuchTipiEntryException} if it could not be found.
+	 * Returns the tipi entry with the primary key or throws a <code>NoSuchTipiEntryException</code> if it could not be found.
 	 *
 	 * @param id the primary key of the tipi entry
 	 * @return the tipi entry
@@ -1538,8 +1537,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public TipiEntry fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-				TipiEntryImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -1553,19 +1553,21 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			try {
 				session = openSession();
 
-				tipiEntry = (TipiEntry)session.get(TipiEntryImpl.class,
-						primaryKey);
+				tipiEntry = (TipiEntry)session.get(
+					TipiEntryImpl.class, primaryKey);
 
 				if (tipiEntry != null) {
 					cacheResult(tipiEntry);
 				}
 				else {
-					entityCache.putResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
 						TipiEntryImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
 					TipiEntryImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1592,11 +1594,13 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	@Override
 	public Map<Serializable, TipiEntry> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, TipiEntry> map = new HashMap<Serializable, TipiEntry>();
+		Map<Serializable, TipiEntry> map =
+			new HashMap<Serializable, TipiEntry>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -1615,8 +1619,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-					TipiEntryImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1636,20 +1641,20 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_TIPIENTRY_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1669,7 +1674,8 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
 					TipiEntryImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1697,7 +1703,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns a range of all the tipi entries.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of tipi entries
@@ -1713,7 +1719,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns an ordered range of all the tipi entries.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of tipi entries
@@ -1722,8 +1728,9 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the ordered range of tipi entries
 	 */
 	@Override
-	public List<TipiEntry> findAll(int start, int end,
-		OrderByComparator<TipiEntry> orderByComparator) {
+	public List<TipiEntry> findAll(
+		int start, int end, OrderByComparator<TipiEntry> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1731,7 +1738,7 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Returns an ordered range of all the tipi entries.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TipiEntryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>TipiEntryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of tipi entries
@@ -1741,29 +1748,31 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * @return the ordered range of tipi entries
 	 */
 	@Override
-	public List<TipiEntry> findAll(int start, int end,
-		OrderByComparator<TipiEntry> orderByComparator,
+	public List<TipiEntry> findAll(
+		int start, int end, OrderByComparator<TipiEntry> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<TipiEntry> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<TipiEntry>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<TipiEntry>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1771,13 +1780,13 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_TIPIENTRY);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1797,16 +1806,16 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<TipiEntry>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<TipiEntry>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<TipiEntry>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<TipiEntry>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1844,8 +1853,8 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1857,12 +1866,12 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1888,6 +1897,66 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 	 * Initializes the tipi entry persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			TipiEntryModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByDate = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDate",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByDate = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDate",
+			new String[] {Date.class.getName()},
+			TipiEntryModelImpl.DATE_COLUMN_BITMASK);
+
+		_finderPathCountByDate = new FinderPath(
+			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
+			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDate",
+			new String[] {Date.class.getName()});
 	}
 
 	public void destroy() {
@@ -1899,18 +1968,45 @@ public class TipiEntryPersistenceImpl extends BasePersistenceImpl<TipiEntry>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_TIPIENTRY = "SELECT tipiEntry FROM TipiEntry tipiEntry";
-	private static final String _SQL_SELECT_TIPIENTRY_WHERE_PKS_IN = "SELECT tipiEntry FROM TipiEntry tipiEntry WHERE id_ IN (";
-	private static final String _SQL_SELECT_TIPIENTRY_WHERE = "SELECT tipiEntry FROM TipiEntry tipiEntry WHERE ";
-	private static final String _SQL_COUNT_TIPIENTRY = "SELECT COUNT(tipiEntry) FROM TipiEntry tipiEntry";
-	private static final String _SQL_COUNT_TIPIENTRY_WHERE = "SELECT COUNT(tipiEntry) FROM TipiEntry tipiEntry WHERE ";
+
+	private Long _getTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		return date.getTime();
+	}
+
+	private static final String _SQL_SELECT_TIPIENTRY =
+		"SELECT tipiEntry FROM TipiEntry tipiEntry";
+
+	private static final String _SQL_SELECT_TIPIENTRY_WHERE_PKS_IN =
+		"SELECT tipiEntry FROM TipiEntry tipiEntry WHERE id_ IN (";
+
+	private static final String _SQL_SELECT_TIPIENTRY_WHERE =
+		"SELECT tipiEntry FROM TipiEntry tipiEntry WHERE ";
+
+	private static final String _SQL_COUNT_TIPIENTRY =
+		"SELECT COUNT(tipiEntry) FROM TipiEntry tipiEntry";
+
+	private static final String _SQL_COUNT_TIPIENTRY_WHERE =
+		"SELECT COUNT(tipiEntry) FROM TipiEntry tipiEntry WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "tipiEntry.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No TipiEntry exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No TipiEntry exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(TipiEntryPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "id", "date", "type"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No TipiEntry exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No TipiEntry exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		TipiEntryPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid", "id", "date", "type"});
+
 }

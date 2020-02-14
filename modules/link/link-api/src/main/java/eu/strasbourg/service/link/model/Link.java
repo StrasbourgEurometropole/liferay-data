@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see LinkModel
- * @see eu.strasbourg.service.link.model.impl.LinkImpl
- * @see eu.strasbourg.service.link.model.impl.LinkModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.link.model.impl.LinkImpl")
 @ProviderType
 public interface Link extends LinkModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.link.model.impl.LinkImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.link.model.impl.LinkImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Link, Long> LINK_ID_ACCESSOR = new Accessor<Link, Long>() {
+	public static final Accessor<Link, Long> LINK_ID_ACCESSOR =
+		new Accessor<Link, Long>() {
+
 			@Override
 			public Long get(Link link) {
 				return link.getLinkId();
@@ -52,21 +53,24 @@ public interface Link extends LinkModel, PersistedModel {
 			public Class<Link> getTypeClass() {
 				return Link.class;
 			}
+
 		};
 
 	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Renvoie la version live du lien, si elle existe
-	*/
+	 * Renvoie la version live du lien, si elle existe
+	 */
 	public eu.strasbourg.service.link.model.Link getLiveVersion();
+
 }

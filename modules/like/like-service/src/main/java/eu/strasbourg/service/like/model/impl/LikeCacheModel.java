@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.like.model.Like;
 
@@ -32,11 +31,11 @@ import java.io.ObjectOutput;
  * The cache model class for representing Like in entity cache.
  *
  * @author Cedric Henry
- * @see Like
  * @generated
  */
 @ProviderType
 public class LikeCacheModel implements CacheModel<Like>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -91,14 +90,14 @@ public class LikeCacheModel implements CacheModel<Like>, Externalizable {
 		likeImpl.setLikeId(likeId);
 
 		if (publikUserId == null) {
-			likeImpl.setPublikUserId(StringPool.BLANK);
+			likeImpl.setPublikUserId("");
 		}
 		else {
 			likeImpl.setPublikUserId(publikUserId);
 		}
 
 		if (title == null) {
-			likeImpl.setTitle(StringPool.BLANK);
+			likeImpl.setTitle("");
 		}
 		else {
 			likeImpl.setTitle(title);
@@ -130,19 +129,18 @@ public class LikeCacheModel implements CacheModel<Like>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(likeId);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
 		}
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
@@ -164,4 +162,5 @@ public class LikeCacheModel implements CacheModel<Like>, Externalizable {
 	public long typeId;
 	public long entityId;
 	public long entityGroupId;
+
 }

@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class LinkServiceWrapper implements LinkService,
-	ServiceWrapper<LinkService> {
+public class LinkServiceWrapper
+	implements LinkService, ServiceWrapper<LinkService> {
+
 	public LinkServiceWrapper(LinkService linkService) {
 		_linkService = linkService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _linkService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class LinkServiceWrapper implements LinkService,
 	}
 
 	private LinkService _linkService;
+
 }

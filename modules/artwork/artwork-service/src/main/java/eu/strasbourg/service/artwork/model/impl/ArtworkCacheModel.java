@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.artwork.model.Artwork;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Artwork in entity cache.
  *
  * @author BenjaminBini
- * @see Artwork
  * @generated
  */
 @ProviderType
 public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -131,7 +130,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		ArtworkImpl artworkImpl = new ArtworkImpl();
 
 		if (uuid == null) {
-			artworkImpl.setUuid(StringPool.BLANK);
+			artworkImpl.setUuid("");
 		}
 		else {
 			artworkImpl.setUuid(uuid);
@@ -143,7 +142,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		artworkImpl.setUserId(userId);
 
 		if (userName == null) {
-			artworkImpl.setUserName(StringPool.BLANK);
+			artworkImpl.setUserName("");
 		}
 		else {
 			artworkImpl.setUserName(userName);
@@ -174,7 +173,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		artworkImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			artworkImpl.setStatusByUserName(StringPool.BLANK);
+			artworkImpl.setStatusByUserName("");
 		}
 		else {
 			artworkImpl.setStatusByUserName(statusByUserName);
@@ -188,84 +187,84 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 
 		if (title == null) {
-			artworkImpl.setTitle(StringPool.BLANK);
+			artworkImpl.setTitle("");
 		}
 		else {
 			artworkImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			artworkImpl.setDescription(StringPool.BLANK);
+			artworkImpl.setDescription("");
 		}
 		else {
 			artworkImpl.setDescription(description);
 		}
 
 		if (technicalInformation == null) {
-			artworkImpl.setTechnicalInformation(StringPool.BLANK);
+			artworkImpl.setTechnicalInformation("");
 		}
 		else {
 			artworkImpl.setTechnicalInformation(technicalInformation);
 		}
 
 		if (noticeLink == null) {
-			artworkImpl.setNoticeLink(StringPool.BLANK);
+			artworkImpl.setNoticeLink("");
 		}
 		else {
 			artworkImpl.setNoticeLink(noticeLink);
 		}
 
 		if (artistName == null) {
-			artworkImpl.setArtistName(StringPool.BLANK);
+			artworkImpl.setArtistName("");
 		}
 		else {
 			artworkImpl.setArtistName(artistName);
 		}
 
 		if (creationYear == null) {
-			artworkImpl.setCreationYear(StringPool.BLANK);
+			artworkImpl.setCreationYear("");
 		}
 		else {
 			artworkImpl.setCreationYear(creationYear);
 		}
 
 		if (origin == null) {
-			artworkImpl.setOrigin(StringPool.BLANK);
+			artworkImpl.setOrigin("");
 		}
 		else {
 			artworkImpl.setOrigin(origin);
 		}
 
 		if (exhibitionName == null) {
-			artworkImpl.setExhibitionName(StringPool.BLANK);
+			artworkImpl.setExhibitionName("");
 		}
 		else {
 			artworkImpl.setExhibitionName(exhibitionName);
 		}
 
 		if (exhibitionPlace == null) {
-			artworkImpl.setExhibitionPlace(StringPool.BLANK);
+			artworkImpl.setExhibitionPlace("");
 		}
 		else {
 			artworkImpl.setExhibitionPlace(exhibitionPlace);
 		}
 
 		if (loanPeriod == null) {
-			artworkImpl.setLoanPeriod(StringPool.BLANK);
+			artworkImpl.setLoanPeriod("");
 		}
 		else {
 			artworkImpl.setLoanPeriod(loanPeriod);
 		}
 
 		if (linkName == null) {
-			artworkImpl.setLinkName(StringPool.BLANK);
+			artworkImpl.setLinkName("");
 		}
 		else {
 			artworkImpl.setLinkName(linkName);
 		}
 
 		if (link == null) {
-			artworkImpl.setLink(StringPool.BLANK);
+			artworkImpl.setLink("");
 		}
 		else {
 			artworkImpl.setLink(link);
@@ -274,7 +273,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		artworkImpl.setImageId(imageId);
 
 		if (imagesIds == null) {
-			artworkImpl.setImagesIds(StringPool.BLANK);
+			artworkImpl.setImagesIds("");
 		}
 		else {
 			artworkImpl.setImagesIds(imagesIds);
@@ -324,10 +323,9 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -342,7 +340,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -357,7 +355,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -366,84 +364,84 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (technicalInformation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(technicalInformation);
 		}
 
 		if (noticeLink == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(noticeLink);
 		}
 
 		if (artistName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(artistName);
 		}
 
 		if (creationYear == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(creationYear);
 		}
 
 		if (origin == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(origin);
 		}
 
 		if (exhibitionName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(exhibitionName);
 		}
 
 		if (exhibitionPlace == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(exhibitionPlace);
 		}
 
 		if (loanPeriod == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(loanPeriod);
 		}
 
 		if (linkName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(linkName);
 		}
 
 		if (link == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(link);
@@ -452,7 +450,7 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		objectOutput.writeLong(imageId);
 
 		if (imagesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imagesIds);
@@ -486,4 +484,5 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	public String link;
 	public long imageId;
 	public String imagesIds;
+
 }

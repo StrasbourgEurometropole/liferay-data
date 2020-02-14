@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link LikeServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>LikeServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.like.model.LikeSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.like.model.Like}, that is translated to a
- * {@link eu.strasbourg.service.like.model.LikeSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.like.model.LikeSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.like.model.Like</code>, that is translated to a
+ * <code>eu.strasbourg.service.like.model.LikeSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,18 +60,18 @@ import java.rmi.RemoteException;
  *
  * @author Cedric Henry
  * @see LikeServiceHttp
- * @see eu.strasbourg.service.like.model.LikeSoap
- * @see LikeServiceUtil
  * @generated
  */
 @ProviderType
 public class LikeServiceSoap {
+
 	/**
-	* Retourne la liste des types de likes/dislikes
-	*/
-	public static java.lang.String getTypes() throws RemoteException {
+	 * Retourne la liste des types de likes/dislikes
+	 */
+	public static String getTypes() throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = LikeServiceUtil.getTypes();
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				LikeServiceUtil.getTypes();
 
 			return returnValue.toString();
 		}
@@ -82,12 +83,34 @@ public class LikeServiceSoap {
 	}
 
 	/**
-	* Retourne les likes d'un utilisateur
-	*/
-	public static java.lang.String getUserLikes(java.lang.String userId)
+	 * Retourne les likes d'un utilisateur
+	 */
+	public static String getUserLikes(String userId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				LikeServiceUtil.getUserLikes(userId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Ajoute un like/dislike d'un utilisateur a une entite
+	 */
+	public static String addLike(
+			String userId, String title, boolean isDislike, long typeId,
+			long entityId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = LikeServiceUtil.getUserLikes(userId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				LikeServiceUtil.addLike(
+					userId, title, isDislike, typeId, entityId);
 
 			return returnValue.toString();
 		}
@@ -99,14 +122,17 @@ public class LikeServiceSoap {
 	}
 
 	/**
-	* Ajoute un like/dislike d'un utilisateur a une entite
-	*/
-	public static java.lang.String addLike(java.lang.String userId,
-		java.lang.String title, boolean isDislike, long typeId, long entityId)
+	 * Ajoute un like à un utilisateur
+	 */
+	public static String addLikeLink(
+			String title, boolean isDislike, long typeId, long entityId,
+			long entityGroupId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = LikeServiceUtil.addLike(userId,
-					title, isDislike, typeId, entityId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				LikeServiceUtil.addLikeLink(
+					title, isDislike, typeId, entityId, entityGroupId);
 
 			return returnValue.toString();
 		}
@@ -118,14 +144,14 @@ public class LikeServiceSoap {
 	}
 
 	/**
-	* Ajoute un like à un utilisateur
-	*/
-	public static java.lang.String addLikeLink(java.lang.String title,
-		boolean isDislike, long typeId, long entityId, long entityGroupId)
+	 * Supprime un like d'un utilisateur
+	 */
+	public static String deleteLike(String userId, long likeId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = LikeServiceUtil.addLikeLink(title,
-					isDislike, typeId, entityId, entityGroupId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				LikeServiceUtil.deleteLike(userId, likeId);
 
 			return returnValue.toString();
 		}
@@ -137,32 +163,17 @@ public class LikeServiceSoap {
 	}
 
 	/**
-	* Supprime un like d'un utilisateur
-	*/
-	public static java.lang.String deleteLike(java.lang.String userId,
-		long likeId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = LikeServiceUtil.deleteLike(userId,
-					likeId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	* Supprime un like d'un utilisateur
-	*/
-	public static java.lang.String deleteLikeLink(java.lang.String title,
-		java.lang.String url, boolean isDislike, long typeId, long entityId)
+	 * Supprime un like d'un utilisateur
+	 */
+	public static String deleteLikeLink(
+			String title, String url, boolean isDislike, long typeId,
+			long entityId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = LikeServiceUtil.deleteLikeLink(title,
-					url, isDislike, typeId, entityId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				LikeServiceUtil.deleteLikeLink(
+					title, url, isDislike, typeId, entityId);
 
 			return returnValue.toString();
 		}
@@ -174,4 +185,5 @@ public class LikeServiceSoap {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(LikeServiceSoap.class);
+
 }

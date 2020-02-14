@@ -34,63 +34,73 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Cedric Henry
  * @see LikeServiceUtil
- * @see eu.strasbourg.service.like.service.base.LikeServiceBaseImpl
- * @see eu.strasbourg.service.like.service.impl.LikeServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=like", "json.web.service.context.path=Like"}, service = LikeService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=like",
+		"json.web.service.context.path=Like"
+	},
+	service = LikeService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface LikeService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link LikeServiceUtil} to access the like remote service. Add custom service methods to {@link eu.strasbourg.service.like.service.impl.LikeServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link LikeServiceUtil} to access the like remote service. Add custom service methods to <code>eu.strasbourg.service.like.service.impl.LikeServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Ajoute un like/dislike d'un utilisateur a une entite
-	*/
-	public JSONObject addLike(java.lang.String userId, java.lang.String title,
-		boolean isDislike, long typeId, long entityId);
+	 * Ajoute un like/dislike d'un utilisateur a une entite
+	 */
+	public JSONObject addLike(
+		String userId, String title, boolean isDislike, long typeId,
+		long entityId);
 
 	/**
-	* Ajoute un like à un utilisateur
-	*/
-	public JSONObject addLikeLink(java.lang.String title, boolean isDislike,
-		long typeId, long entityId, long entityGroupId);
+	 * Ajoute un like à un utilisateur
+	 */
+	public JSONObject addLikeLink(
+		String title, boolean isDislike, long typeId, long entityId,
+		long entityGroupId);
 
 	/**
-	* Supprime un like d'un utilisateur
-	*/
-	public JSONObject deleteLike(java.lang.String userId, long likeId);
+	 * Supprime un like d'un utilisateur
+	 */
+	public JSONObject deleteLike(String userId, long likeId);
 
 	/**
-	* Supprime un like d'un utilisateur
-	*/
-	public JSONObject deleteLikeLink(java.lang.String title,
-		java.lang.String url, boolean isDislike, long typeId, long entityId);
+	 * Supprime un like d'un utilisateur
+	 */
+	public JSONObject deleteLikeLink(
+		String title, String url, boolean isDislike, long typeId,
+		long entityId);
 
 	/**
-	* Retourne la liste des types de likes/dislikes
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
+	/**
+	 * Retourne la liste des types de likes/dislikes
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTypes();
 
 	/**
-	* Retourne les likes d'un utilisateur
-	*/
+	 * Retourne les likes d'un utilisateur
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserLikes(java.lang.String userId);
+	public JSONObject getUserLikes(String userId);
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
 }

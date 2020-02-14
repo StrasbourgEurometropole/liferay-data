@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see LikeModel
- * @see eu.strasbourg.service.like.model.impl.LikeImpl
- * @see eu.strasbourg.service.like.model.impl.LikeModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.like.model.impl.LikeImpl")
 @ProviderType
 public interface Like extends LikeModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.like.model.impl.LikeImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.like.model.impl.LikeImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Like, Long> LIKE_ID_ACCESSOR = new Accessor<Like, Long>() {
+	public static final Accessor<Like, Long> LIKE_ID_ACCESSOR =
+		new Accessor<Like, Long>() {
+
 			@Override
 			public Long get(Like like) {
 				return like.getLikeId();
@@ -52,12 +53,14 @@ public interface Like extends LikeModel, PersistedModel {
 			public Class<Like> getTypeClass() {
 				return Like.class;
 			}
+
 		};
 
 	public eu.strasbourg.service.like.model.LikeType getLikeType();
 
 	/**
-	* Retourne la version JSON d'un like/dislike
-	*/
+	 * Retourne la version JSON d'un like/dislike
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

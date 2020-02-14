@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.artwork.service.http.ArtworkServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.artwork.service.http.ArtworkServiceSoap
  * @generated
  */
 @ProviderType
 public class ArtworkSoap implements Serializable {
+
 	public static ArtworkSoap toSoapModel(Artwork model) {
 		ArtworkSoap soapModel = new ArtworkSoap();
 
@@ -93,7 +93,8 @@ public class ArtworkSoap implements Serializable {
 	}
 
 	public static ArtworkSoap[] toSoapModels(List<Artwork> models) {
-		List<ArtworkSoap> soapModels = new ArrayList<ArtworkSoap>(models.size());
+		List<ArtworkSoap> soapModels = new ArrayList<ArtworkSoap>(
+			models.size());
 
 		for (Artwork model : models) {
 			soapModels.add(toSoapModel(model));
@@ -356,4 +357,5 @@ public class ArtworkSoap implements Serializable {
 	private String _link;
 	private Long _imageId;
 	private String _imagesIds;
+
 }

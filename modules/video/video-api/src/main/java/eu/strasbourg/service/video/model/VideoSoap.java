@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.video.service.http.VideoServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.video.service.http.VideoServiceSoap
  * @generated
  */
 @ProviderType
 public class VideoSoap implements Serializable {
+
 	public static VideoSoap toSoapModel(Video model) {
 		VideoSoap soapModel = new VideoSoap();
 
@@ -286,4 +286,5 @@ public class VideoSoap implements Serializable {
 	private Date _publicationDate;
 	private Long _imageId;
 	private Long _transcriptionFileId;
+
 }

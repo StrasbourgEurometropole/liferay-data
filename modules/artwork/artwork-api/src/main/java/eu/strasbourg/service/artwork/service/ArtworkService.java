@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see ArtworkServiceUtil
- * @see eu.strasbourg.service.artwork.service.base.ArtworkServiceBaseImpl
- * @see eu.strasbourg.service.artwork.service.impl.ArtworkServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=artwork", "json.web.service.context.path=Artwork"}, service = ArtworkService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=artwork",
+		"json.web.service.context.path=Artwork"
+	},
+	service = ArtworkService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ArtworkService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ArtworkServiceUtil} to access the artwork remote service. Add custom service methods to {@link eu.strasbourg.service.artwork.service.impl.ArtworkServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ArtworkServiceUtil} to access the artwork remote service. Add custom service methods to <code>eu.strasbourg.service.artwork.service.impl.ArtworkServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

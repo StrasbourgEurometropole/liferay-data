@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.link.service.persistence.LinkPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -67,51 +67,32 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see LinkPersistence
- * @see eu.strasbourg.service.link.service.persistence.LinkUtil
  * @generated
  */
 @ProviderType
-public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
-	implements LinkPersistence {
+public class LinkPersistenceImpl
+	extends BasePersistenceImpl<Link> implements LinkPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link LinkUtil} to access the link persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>LinkUtil</code> to access the link persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = LinkImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			LinkModelImpl.UUID_COLUMN_BITMASK |
-			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		LinkImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the links where uuid = &#63;.
@@ -128,7 +109,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns a range of all the links where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -145,7 +126,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -155,8 +136,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of matching links
 	 */
 	@Override
-	public List<Link> findByUuid(String uuid, int start, int end,
+	public List<Link> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Link> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -164,7 +147,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -175,32 +158,37 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of matching links
 	 */
 	@Override
-	public List<Link> findByUuid(String uuid, int start, int end,
+	public List<Link> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Link> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Link> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Link>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Link>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Link link : list) {
-					if (!Objects.equals(uuid, link.getUuid())) {
+					if (!uuid.equals(link.getUuid())) {
 						list = null;
 
 						break;
@@ -213,8 +201,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -224,10 +212,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -237,11 +222,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(LinkModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -261,16 +245,16 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 				}
 
 				if (!pagination) {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -299,8 +283,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a matching link could not be found
 	 */
 	@Override
-	public Link findByUuid_First(String uuid,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link findByUuid_First(
+			String uuid, OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = fetchByUuid_First(uuid, orderByComparator);
 
 		if (link != null) {
@@ -314,7 +300,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchLinkException(msg.toString());
 	}
@@ -327,8 +313,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the first matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByUuid_First(String uuid,
-		OrderByComparator<Link> orderByComparator) {
+	public Link fetchByUuid_First(
+		String uuid, OrderByComparator<Link> orderByComparator) {
+
 		List<Link> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -347,8 +334,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a matching link could not be found
 	 */
 	@Override
-	public Link findByUuid_Last(String uuid,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link findByUuid_Last(
+			String uuid, OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (link != null) {
@@ -362,7 +351,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchLinkException(msg.toString());
 	}
@@ -375,8 +364,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the last matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByUuid_Last(String uuid,
-		OrderByComparator<Link> orderByComparator) {
+	public Link fetchByUuid_Last(
+		String uuid, OrderByComparator<Link> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
@@ -402,8 +392,12 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a link with the primary key could not be found
 	 */
 	@Override
-	public Link[] findByUuid_PrevAndNext(long linkId, String uuid,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link[] findByUuid_PrevAndNext(
+			long linkId, String uuid, OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Link link = findByPrimaryKey(linkId);
 
 		Session session = null;
@@ -413,13 +407,13 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			Link[] array = new LinkImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, link, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, link, uuid, orderByComparator, true);
 
 			array[1] = link;
 
-			array[2] = getByUuid_PrevAndNext(session, link, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, link, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -431,13 +425,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		}
 	}
 
-	protected Link getByUuid_PrevAndNext(Session session, Link link,
-		String uuid, OrderByComparator<Link> orderByComparator, boolean previous) {
+	protected Link getByUuid_PrevAndNext(
+		Session session, Link link, String uuid,
+		OrderByComparator<Link> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -448,10 +444,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -461,7 +454,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -533,10 +527,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(link);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(link)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -557,8 +551,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Link link : findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				null)) {
+		for (Link link :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(link);
 		}
 	}
@@ -571,9 +566,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -584,10 +581,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -628,22 +622,16 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "link.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "link.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(link.uuid IS NULL OR link.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			LinkModelImpl.UUID_COLUMN_BITMASK |
-			LinkModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(link.uuid IS NULL OR link.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the link where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchLinkException} if it could not be found.
+	 * Returns the link where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchLinkException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -653,6 +641,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	@Override
 	public Link findByUUID_G(String uuid, long groupId)
 		throws NoSuchLinkException {
+
 		Link link = fetchByUUID_G(uuid, groupId);
 
 		if (link == null) {
@@ -666,7 +655,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -699,22 +688,26 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Link fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Link) {
 			Link link = (Link)result;
 
 			if (!Objects.equals(uuid, link.getUuid()) ||
-					(groupId != link.getGroupId())) {
+				(groupId != link.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -726,10 +719,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -760,8 +750,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 				List<Link> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Link link = list.get(0);
@@ -769,17 +759,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 					result = link;
 
 					cacheResult(link);
-
-					if ((link.getUuid() == null) ||
-							!link.getUuid().equals(uuid) ||
-							(link.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, link);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -806,6 +789,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	@Override
 	public Link removeByUUID_G(String uuid, long groupId)
 		throws NoSuchLinkException {
+
 		Link link = findByUUID_G(uuid, groupId);
 
 		return remove(link);
@@ -820,9 +804,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -833,10 +819,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -881,31 +864,18 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "link.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "link.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(link.uuid IS NULL OR link.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "link.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			LinkModelImpl.UUID_COLUMN_BITMASK |
-			LinkModelImpl.COMPANYID_COLUMN_BITMASK |
-			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"link.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(link.uuid IS NULL OR link.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"link.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the links where uuid = &#63; and companyId = &#63;.
@@ -916,15 +886,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public List<Link> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the links where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -934,8 +904,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the range of matching links
 	 */
 	@Override
-	public List<Link> findByUuid_C(String uuid, long companyId, int start,
-		int end) {
+	public List<Link> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -943,7 +914,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -954,16 +925,19 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of matching links
 	 */
 	@Override
-	public List<Link> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Link> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Link> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Link> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the links where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -975,38 +949,41 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of matching links
 	 */
 	@Override
-	public List<Link> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Link> orderByComparator,
-		boolean retrieveFromCache) {
+	public List<Link> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Link> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Link> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Link>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Link>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Link link : list) {
-					if (!Objects.equals(uuid, link.getUuid()) ||
-							(companyId != link.getCompanyId())) {
+					if (!uuid.equals(link.getUuid()) ||
+						(companyId != link.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1019,8 +996,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1030,10 +1007,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1045,11 +1019,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(LinkModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1071,16 +1044,16 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1110,8 +1083,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a matching link could not be found
 	 */
 	@Override
-	public Link findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = fetchByUuid_C_First(uuid, companyId, orderByComparator);
 
 		if (link != null) {
@@ -1128,7 +1104,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchLinkException(msg.toString());
 	}
@@ -1142,9 +1118,12 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the first matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByUuid_C_First(String uuid, long companyId,
+	public Link fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Link> orderByComparator) {
-		List<Link> list = findByUuid_C(uuid, companyId, 0, 1, orderByComparator);
+
+		List<Link> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1163,8 +1142,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a matching link could not be found
 	 */
 	@Override
-	public Link findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = fetchByUuid_C_Last(uuid, companyId, orderByComparator);
 
 		if (link != null) {
@@ -1181,7 +1163,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchLinkException(msg.toString());
 	}
@@ -1195,16 +1177,18 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the last matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByUuid_C_Last(String uuid, long companyId,
+	public Link fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Link> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Link> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Link> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1224,9 +1208,13 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a link with the primary key could not be found
 	 */
 	@Override
-	public Link[] findByUuid_C_PrevAndNext(long linkId, String uuid,
-		long companyId, OrderByComparator<Link> orderByComparator)
+	public Link[] findByUuid_C_PrevAndNext(
+			long linkId, String uuid, long companyId,
+			OrderByComparator<Link> orderByComparator)
 		throws NoSuchLinkException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Link link = findByPrimaryKey(linkId);
 
 		Session session = null;
@@ -1236,13 +1224,13 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			Link[] array = new LinkImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, link, uuid, companyId,
-					orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, link, uuid, companyId, orderByComparator, true);
 
 			array[1] = link;
 
-			array[2] = getByUuid_C_PrevAndNext(session, link, uuid, companyId,
-					orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, link, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1254,14 +1242,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		}
 	}
 
-	protected Link getByUuid_C_PrevAndNext(Session session, Link link,
-		String uuid, long companyId, OrderByComparator<Link> orderByComparator,
-		boolean previous) {
+	protected Link getByUuid_C_PrevAndNext(
+		Session session, Link link, String uuid, long companyId,
+		OrderByComparator<Link> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1272,10 +1261,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1287,7 +1273,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1361,10 +1348,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(link);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(link)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1386,8 +1373,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Link link : findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Link link :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(link);
 		}
 	}
@@ -1401,9 +1391,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1414,10 +1406,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1462,30 +1451,18 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "link.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "link.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(link.uuid IS NULL OR link.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "link.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			LinkModelImpl.GROUPID_COLUMN_BITMASK |
-			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"link.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(link.uuid IS NULL OR link.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"link.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the links where groupId = &#63;.
@@ -1495,14 +1472,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public List<Link> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the links where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1519,7 +1497,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1529,8 +1507,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of matching links
 	 */
 	@Override
-	public List<Link> findByGroupId(long groupId, int start, int end,
+	public List<Link> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Link> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1538,7 +1518,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1549,28 +1529,31 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of matching links
 	 */
 	@Override
-	public List<Link> findByGroupId(long groupId, int start, int end,
+	public List<Link> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Link> orderByComparator, boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<Link> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Link>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Link>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Link link : list) {
@@ -1587,8 +1570,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1599,11 +1582,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(LinkModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1621,16 +1603,16 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1659,8 +1641,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a matching link could not be found
 	 */
 	@Override
-	public Link findByGroupId_First(long groupId,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link findByGroupId_First(
+			long groupId, OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = fetchByGroupId_First(groupId, orderByComparator);
 
 		if (link != null) {
@@ -1674,7 +1658,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchLinkException(msg.toString());
 	}
@@ -1687,8 +1671,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the first matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByGroupId_First(long groupId,
-		OrderByComparator<Link> orderByComparator) {
+	public Link fetchByGroupId_First(
+		long groupId, OrderByComparator<Link> orderByComparator) {
+
 		List<Link> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1707,8 +1692,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a matching link could not be found
 	 */
 	@Override
-	public Link findByGroupId_Last(long groupId,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link findByGroupId_Last(
+			long groupId, OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (link != null) {
@@ -1722,7 +1709,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchLinkException(msg.toString());
 	}
@@ -1735,16 +1722,17 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the last matching link, or <code>null</code> if a matching link could not be found
 	 */
 	@Override
-	public Link fetchByGroupId_Last(long groupId,
-		OrderByComparator<Link> orderByComparator) {
+	public Link fetchByGroupId_Last(
+		long groupId, OrderByComparator<Link> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Link> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<Link> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1763,8 +1751,11 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @throws NoSuchLinkException if a link with the primary key could not be found
 	 */
 	@Override
-	public Link[] findByGroupId_PrevAndNext(long linkId, long groupId,
-		OrderByComparator<Link> orderByComparator) throws NoSuchLinkException {
+	public Link[] findByGroupId_PrevAndNext(
+			long linkId, long groupId,
+			OrderByComparator<Link> orderByComparator)
+		throws NoSuchLinkException {
+
 		Link link = findByPrimaryKey(linkId);
 
 		Session session = null;
@@ -1774,13 +1765,13 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 			Link[] array = new LinkImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, link, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, link, groupId, orderByComparator, true);
 
 			array[1] = link;
 
-			array[2] = getByGroupId_PrevAndNext(session, link, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, link, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1792,14 +1783,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		}
 	}
 
-	protected Link getByGroupId_PrevAndNext(Session session, Link link,
-		long groupId, OrderByComparator<Link> orderByComparator,
-		boolean previous) {
+	protected Link getByGroupId_PrevAndNext(
+		Session session, Link link, long groupId,
+		OrderByComparator<Link> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1811,7 +1803,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1881,10 +1874,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(link);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(link)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1905,8 +1898,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (Link link : findByGroupId(groupId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Link link :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(link);
 		}
 	}
@@ -1919,9 +1914,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1962,18 +1957,21 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "link.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"link.groupId = ?";
 
 	public LinkPersistenceImpl() {
 		setModelClass(Link.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1991,11 +1989,13 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public void cacheResult(Link link) {
-		entityCache.putResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkImpl.class, link.getPrimaryKey(), link);
+		entityCache.putResult(
+			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+			link.getPrimaryKey(), link);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { link.getUuid(), link.getGroupId() }, link);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {link.getUuid(), link.getGroupId()}, link);
 
 		link.resetOriginalValues();
 	}
@@ -2008,8 +2008,10 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	@Override
 	public void cacheResult(List<Link> links) {
 		for (Link link : links) {
-			if (entityCache.getResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-						LinkImpl.class, link.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+					link.getPrimaryKey()) == null) {
+
 				cacheResult(link);
 			}
 			else {
@@ -2022,7 +2024,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Clears the cache for all links.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2038,13 +2040,14 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Clears the cache for the link.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Link link) {
-		entityCache.removeResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkImpl.class, link.getPrimaryKey());
+		entityCache.removeResult(
+			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+			link.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -2058,8 +2061,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Link link : links) {
-			entityCache.removeResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-				LinkImpl.class, link.getPrimaryKey());
+			entityCache.removeResult(
+				LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+				link.getPrimaryKey());
 
 			clearUniqueFindersCache((LinkModelImpl)link, true);
 		}
@@ -2067,35 +2071,37 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 	protected void cacheUniqueFindersCache(LinkModelImpl linkModelImpl) {
 		Object[] args = new Object[] {
+			linkModelImpl.getUuid(), linkModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, linkModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		LinkModelImpl linkModelImpl, boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				linkModelImpl.getUuid(), linkModelImpl.getGroupId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args, linkModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(LinkModelImpl linkModelImpl,
-		boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					linkModelImpl.getUuid(), linkModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((linkModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					linkModelImpl.getOriginalUuid(),
-					linkModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				linkModelImpl.getOriginalUuid(),
+				linkModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -2154,8 +2160,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchLinkException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchLinkException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(link);
@@ -2173,15 +2179,14 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 	@Override
 	protected Link removeImpl(Link link) {
-		link = toUnwrappedModel(link);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(link)) {
-				link = (Link)session.get(LinkImpl.class, link.getPrimaryKeyObj());
+				link = (Link)session.get(
+					LinkImpl.class, link.getPrimaryKeyObj());
 			}
 
 			if (link != null) {
@@ -2204,9 +2209,23 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 	@Override
 	public Link updateImpl(Link link) {
-		link = toUnwrappedModel(link);
-
 		boolean isNew = link.isNew();
+
+		if (!(link instanceof LinkModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(link.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(link);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in link proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Link implementation " +
+					link.getClass());
+		}
 
 		LinkModelImpl linkModelImpl = (LinkModelImpl)link;
 
@@ -2216,7 +2235,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			link.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -2264,87 +2284,94 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		if (!LinkModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { linkModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {linkModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				linkModelImpl.getUuid(), linkModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {linkModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((linkModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {linkModelImpl.getOriginalUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {linkModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((linkModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					linkModelImpl.getOriginalUuid(),
+					linkModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					linkModelImpl.getUuid(), linkModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
-
-			args = new Object[] { linkModelImpl.getGroupId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((linkModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { linkModelImpl.getOriginalUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { linkModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
 			}
 
 			if ((linkModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						linkModelImpl.getOriginalUuid(),
-						linkModelImpl.getOriginalCompanyId()
-					};
+					linkModelImpl.getOriginalGroupId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 
-				args = new Object[] {
-						linkModelImpl.getUuid(), linkModelImpl.getCompanyId()
-					};
+				args = new Object[] {linkModelImpl.getGroupId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((linkModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { linkModelImpl.getOriginalGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { linkModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 			}
 		}
 
-		entityCache.putResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkImpl.class, link.getPrimaryKey(), link, false);
+		entityCache.putResult(
+			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+			link.getPrimaryKey(), link, false);
 
 		clearUniqueFindersCache(linkModelImpl, false);
 		cacheUniqueFindersCache(linkModelImpl);
@@ -2354,38 +2381,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		return link;
 	}
 
-	protected Link toUnwrappedModel(Link link) {
-		if (link instanceof LinkImpl) {
-			return link;
-		}
-
-		LinkImpl linkImpl = new LinkImpl();
-
-		linkImpl.setNew(link.isNew());
-		linkImpl.setPrimaryKey(link.getPrimaryKey());
-
-		linkImpl.setUuid(link.getUuid());
-		linkImpl.setLinkId(link.getLinkId());
-		linkImpl.setGroupId(link.getGroupId());
-		linkImpl.setCompanyId(link.getCompanyId());
-		linkImpl.setUserId(link.getUserId());
-		linkImpl.setUserName(link.getUserName());
-		linkImpl.setCreateDate(link.getCreateDate());
-		linkImpl.setModifiedDate(link.getModifiedDate());
-		linkImpl.setLastPublishDate(link.getLastPublishDate());
-		linkImpl.setStatus(link.getStatus());
-		linkImpl.setStatusByUserId(link.getStatusByUserId());
-		linkImpl.setStatusByUserName(link.getStatusByUserName());
-		linkImpl.setStatusDate(link.getStatusDate());
-		linkImpl.setTitle(link.getTitle());
-		linkImpl.setURL(link.getURL());
-		linkImpl.setHoverText(link.getHoverText());
-
-		return linkImpl;
-	}
-
 	/**
-	 * Returns the link with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the link with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the link
 	 * @return the link
@@ -2394,6 +2391,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	@Override
 	public Link findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchLinkException {
+
 		Link link = fetchByPrimaryKey(primaryKey);
 
 		if (link == null) {
@@ -2401,15 +2399,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchLinkException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchLinkException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return link;
 	}
 
 	/**
-	 * Returns the link with the primary key or throws a {@link NoSuchLinkException} if it could not be found.
+	 * Returns the link with the primary key or throws a <code>NoSuchLinkException</code> if it could not be found.
 	 *
 	 * @param linkId the primary key of the link
 	 * @return the link
@@ -2428,8 +2426,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public Link fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-				LinkImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2449,13 +2447,15 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 					cacheResult(link);
 				}
 				else {
-					entityCache.putResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-						LinkImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+						primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-					LinkImpl.class, primaryKey);
+				entityCache.removeResult(
+					LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -2481,6 +2481,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	@Override
 	public Map<Serializable, Link> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -2504,8 +2505,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-					LinkImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2525,20 +2526,20 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_LINK_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2558,8 +2559,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(LinkModelImpl.ENTITY_CACHE_ENABLED,
-					LinkImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2586,7 +2588,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns a range of all the links.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of links
@@ -2602,7 +2604,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of links
@@ -2611,8 +2613,9 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of links
 	 */
 	@Override
-	public List<Link> findAll(int start, int end,
-		OrderByComparator<Link> orderByComparator) {
+	public List<Link> findAll(
+		int start, int end, OrderByComparator<Link> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2620,7 +2623,7 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Returns an ordered range of all the links.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LinkModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LinkModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of links
@@ -2630,28 +2633,31 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * @return the ordered range of links
 	 */
 	@Override
-	public List<Link> findAll(int start, int end,
-		OrderByComparator<Link> orderByComparator, boolean retrieveFromCache) {
+	public List<Link> findAll(
+		int start, int end, OrderByComparator<Link> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Link> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Link>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Link>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2659,13 +2665,13 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_LINK);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2685,16 +2691,16 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Link>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Link>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2732,8 +2738,8 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2745,12 +2751,12 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2776,6 +2782,107 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 	 * Initializes the link persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			LinkModelImpl.UUID_COLUMN_BITMASK |
+			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			LinkModelImpl.UUID_COLUMN_BITMASK |
+			LinkModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			LinkModelImpl.UUID_COLUMN_BITMASK |
+			LinkModelImpl.COMPANYID_COLUMN_BITMASK |
+			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			LinkModelImpl.GROUPID_COLUMN_BITMASK |
+			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			LinkModelImpl.ENTITY_CACHE_ENABLED,
+			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2787,20 +2894,39 @@ public class LinkPersistenceImpl extends BasePersistenceImpl<Link>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	private static final String _SQL_SELECT_LINK = "SELECT link FROM Link link";
-	private static final String _SQL_SELECT_LINK_WHERE_PKS_IN = "SELECT link FROM Link link WHERE linkId IN (";
-	private static final String _SQL_SELECT_LINK_WHERE = "SELECT link FROM Link link WHERE ";
-	private static final String _SQL_COUNT_LINK = "SELECT COUNT(link) FROM Link link";
-	private static final String _SQL_COUNT_LINK_WHERE = "SELECT COUNT(link) FROM Link link WHERE ";
+
+	private static final String _SQL_SELECT_LINK_WHERE_PKS_IN =
+		"SELECT link FROM Link link WHERE linkId IN (";
+
+	private static final String _SQL_SELECT_LINK_WHERE =
+		"SELECT link FROM Link link WHERE ";
+
+	private static final String _SQL_COUNT_LINK =
+		"SELECT COUNT(link) FROM Link link";
+
+	private static final String _SQL_COUNT_LINK_WHERE =
+		"SELECT COUNT(link) FROM Link link WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "link.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Link exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Link exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(LinkPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Link exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Link exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LinkPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }
