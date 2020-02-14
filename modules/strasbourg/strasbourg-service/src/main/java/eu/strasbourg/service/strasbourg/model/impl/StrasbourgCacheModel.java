@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 
@@ -32,12 +31,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing Strasbourg in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Strasbourg
  * @generated
  */
 @ProviderType
-public class StrasbourgCacheModel implements CacheModel<Strasbourg>,
-	Externalizable {
+public class StrasbourgCacheModel
+	implements CacheModel<Strasbourg>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -80,7 +79,7 @@ public class StrasbourgCacheModel implements CacheModel<Strasbourg>,
 		StrasbourgImpl strasbourgImpl = new StrasbourgImpl();
 
 		if (uuid == null) {
-			strasbourgImpl.setUuid(StringPool.BLANK);
+			strasbourgImpl.setUuid("");
 		}
 		else {
 			strasbourgImpl.setUuid(uuid);
@@ -101,10 +100,9 @@ public class StrasbourgCacheModel implements CacheModel<Strasbourg>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -115,4 +113,5 @@ public class StrasbourgCacheModel implements CacheModel<Strasbourg>,
 
 	public String uuid;
 	public long id;
+
 }

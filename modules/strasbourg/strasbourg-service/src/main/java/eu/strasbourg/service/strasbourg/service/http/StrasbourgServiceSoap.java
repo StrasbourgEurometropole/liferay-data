@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link StrasbourgServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>StrasbourgServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.strasbourg.model.StrasbourgSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.strasbourg.model.Strasbourg}, that is translated to a
- * {@link eu.strasbourg.service.strasbourg.model.StrasbourgSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.strasbourg.model.StrasbourgSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.strasbourg.model.Strasbourg</code>, that is translated to a
+ * <code>eu.strasbourg.service.strasbourg.model.StrasbourgSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,18 +60,18 @@ import java.rmi.RemoteException;
  *
  * @author Brian Wing Shun Chan
  * @see StrasbourgServiceHttp
- * @see eu.strasbourg.service.strasbourg.model.StrasbourgSoap
- * @see StrasbourgServiceUtil
  * @generated
  */
 @ProviderType
 public class StrasbourgServiceSoap {
-	public static java.lang.String getCopyright(long groupId,
-		java.lang.String uuid, java.lang.String language)
+
+	public static String getCopyright(
+			long groupId, String uuid, String language)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getCopyright(groupId,
-					uuid, language);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getCopyright(groupId, uuid, language);
 
 			return returnValue.toString();
 		}
@@ -81,12 +82,13 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String getFileDetails(long groupId,
-		java.lang.String uuid, java.lang.String language)
+	public static String getFileDetails(
+			long groupId, String uuid, String language)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFileDetails(groupId,
-					uuid, language);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getFileDetails(groupId, uuid, language);
 
 			return returnValue.toString();
 		}
@@ -97,10 +99,26 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String searchStreets(java.lang.String query)
+	public static String searchStreets(String query) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.searchStreets(query);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String searchStreets(String query, String city)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.searchStreets(query);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.searchStreets(query, city);
 
 			return returnValue.toString();
 		}
@@ -111,26 +129,12 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String searchStreets(java.lang.String query,
-		java.lang.String city) throws RemoteException {
+	public static String getArticleHTMLContent(long groupId, String articleId)
+		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.searchStreets(query,
-					city);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getArticleHTMLContent(long groupId,
-		java.lang.String articleId) throws RemoteException {
-		try {
-			java.lang.String returnValue = StrasbourgServiceUtil.getArticleHTMLContent(groupId,
-					articleId);
+			String returnValue = StrasbourgServiceUtil.getArticleHTMLContent(
+				groupId, articleId);
 
 			return returnValue;
 		}
@@ -141,40 +145,12 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String getPois(java.lang.String interests,
-		long groupId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
-					groupId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getPois(java.lang.String interests,
-		long groupId, java.lang.String localeId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
-					groupId, localeId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getFavoritesPois(long groupId)
+	public static String getPois(String interests, long groupId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getPois(interests, groupId);
 
 			return returnValue.toString();
 		}
@@ -185,29 +161,13 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String getPois(java.lang.String interests,
-		java.lang.String categories, java.lang.String prefilters, long groupId,
-		java.lang.String typeContenu) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
-					categories, prefilters, groupId, typeContenu);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getPois(java.lang.String interests,
-		java.lang.String categories, java.lang.String prefilters, long groupId,
-		java.lang.String typeContenu, java.lang.String localeId)
+	public static String getPois(
+			String interests, long groupId, String localeId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getPois(interests,
-					categories, prefilters, groupId, typeContenu, localeId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getPois(interests, groupId, localeId);
 
 			return returnValue.toString();
 		}
@@ -218,42 +178,10 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static int getPoisCategoryCount(long idCategory,
-		java.lang.String prefilters, long groupId, java.lang.String typeContenu)
-		throws RemoteException {
+	public static String getFavoritesPois(long groupId) throws RemoteException {
 		try {
-			int returnValue = StrasbourgServiceUtil.getPoisCategoryCount(idCategory,
-					prefilters, groupId, typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static int getPoisInterestCount(long idCategory, long groupId,
-		java.lang.String typeContenu) throws RemoteException {
-		try {
-			int returnValue = StrasbourgServiceUtil.getPoisInterestCount(idCategory,
-					groupId, typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getFavoritesPois(long groupId,
-		java.lang.String typeContenu) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId,
-					typeContenu);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getFavoritesPois(groupId);
 
 			return returnValue.toString();
 		}
@@ -264,12 +192,15 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static java.lang.String getFavoritesPois(long groupId,
-		java.lang.String typeContenu, java.lang.String localeId)
+	public static String getPois(
+			String interests, String categories, String prefilters,
+			long groupId, String typeContenu)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getFavoritesPois(groupId,
-					typeContenu, localeId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getPois(
+					interests, categories, prefilters, groupId, typeContenu);
 
 			return returnValue.toString();
 		}
@@ -280,102 +211,15 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	public static int getFavoritesPoisCount(long groupId,
-		java.lang.String typeContenu) throws RemoteException {
-		try {
-			int returnValue = StrasbourgServiceUtil.getFavoritesPoisCount(groupId,
-					typeContenu);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static void hidePortlet(java.lang.String portletId)
+	public static String getPois(
+			String interests, String categories, String prefilters,
+			long groupId, String typeContenu, String localeId)
 		throws RemoteException {
+
 		try {
-			StrasbourgServiceUtil.hidePortlet(portletId);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getCoordinateForAddress(
-		java.lang.String address) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = StrasbourgServiceUtil.getCoordinateForAddress(address);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getTraffic() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getTraffic();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getAlerts() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.getAlerts();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static void unfoldPortlet(java.lang.String portletId)
-		throws RemoteException {
-		try {
-			StrasbourgServiceUtil.unfoldPortlet(portletId);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static void foldPortlet(java.lang.String portletId)
-		throws RemoteException {
-		try {
-			StrasbourgServiceUtil.foldPortlet(portletId);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static java.lang.String getPracticeCategories(
-		long parentCategoryId, java.lang.String localeId)
-		throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = StrasbourgServiceUtil.getPracticeCategories(parentCategoryId,
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getPois(
+					interests, categories, prefilters, groupId, typeContenu,
 					localeId);
 
 			return returnValue.toString();
@@ -387,5 +231,187 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
+	public static int getPoisCategoryCount(
+			long idCategory, String prefilters, long groupId,
+			String typeContenu)
+		throws RemoteException {
+
+		try {
+			int returnValue = StrasbourgServiceUtil.getPoisCategoryCount(
+				idCategory, prefilters, groupId, typeContenu);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static int getPoisInterestCount(
+			long idCategory, long groupId, String typeContenu)
+		throws RemoteException {
+
+		try {
+			int returnValue = StrasbourgServiceUtil.getPoisInterestCount(
+				idCategory, groupId, typeContenu);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getFavoritesPois(long groupId, String typeContenu)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getFavoritesPois(groupId, typeContenu);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getFavoritesPois(
+			long groupId, String typeContenu, String localeId)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getFavoritesPois(
+					groupId, typeContenu, localeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static int getFavoritesPoisCount(long groupId, String typeContenu)
+		throws RemoteException {
+
+		try {
+			int returnValue = StrasbourgServiceUtil.getFavoritesPoisCount(
+				groupId, typeContenu);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void hidePortlet(String portletId) throws RemoteException {
+		try {
+			StrasbourgServiceUtil.hidePortlet(portletId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getCoordinateForAddress(String address)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getCoordinateForAddress(address);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getTraffic() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getTraffic();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getAlerts() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.getAlerts();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void unfoldPortlet(String portletId) throws RemoteException {
+		try {
+			StrasbourgServiceUtil.unfoldPortlet(portletId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void foldPortlet(String portletId) throws RemoteException {
+		try {
+			StrasbourgServiceUtil.foldPortlet(portletId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static String getPracticeCategories(
+			long parentCategoryId, String localeId)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getPracticeCategories(
+					parentCategoryId, localeId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(
+		StrasbourgServiceSoap.class);
+
 }
