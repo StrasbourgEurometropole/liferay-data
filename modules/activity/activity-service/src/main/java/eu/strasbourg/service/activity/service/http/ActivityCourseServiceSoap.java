@@ -18,19 +18,20 @@ import aQute.bnd.annotation.ProviderType;
 
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.activity.service.ActivityCourseServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>eu.strasbourg.service.activity.service.ActivityCourseServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.activity.model.ActivityCourseSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.activity.model.ActivityCourse}, that is translated to a
- * {@link eu.strasbourg.service.activity.model.ActivityCourseSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.activity.model.ActivityCourseSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.activity.model.ActivityCourse</code>, that is translated to a
+ * <code>eu.strasbourg.service.activity.model.ActivityCourseSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -52,8 +53,6 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityCourseServiceHttp
- * @see eu.strasbourg.service.activity.model.ActivityCourseSoap
- * @see eu.strasbourg.service.activity.service.ActivityCourseServiceUtil
  * @generated
  */
 @ProviderType

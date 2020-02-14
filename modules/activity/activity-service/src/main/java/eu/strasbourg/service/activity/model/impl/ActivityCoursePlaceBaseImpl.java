@@ -34,10 +34,11 @@ import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUti
 @ProviderType
 public abstract class ActivityCoursePlaceBaseImpl
 	extends ActivityCoursePlaceModelImpl implements ActivityCoursePlace {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a activity course place model instance should use the {@link ActivityCoursePlace} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a activity course place model instance should use the <code>ActivityCoursePlace</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ActivityCoursePlaceBaseImpl
 			ActivityCoursePlaceLocalServiceUtil.updateActivityCoursePlace(this);
 		}
 	}
+
 }

@@ -16,38 +16,37 @@ package eu.strasbourg.service.activity.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Practice. This utility wraps
- * {@link eu.strasbourg.service.activity.service.impl.PracticeServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.activity.service.impl.PracticeServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Brian Wing Shun Chan
  * @see PracticeService
- * @see eu.strasbourg.service.activity.service.base.PracticeServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.impl.PracticeServiceImpl
  * @generated
  */
 @ProviderType
 public class PracticeServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.PracticeServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.PracticeServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,19 @@ public class PracticeServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<PracticeService, PracticeService> _serviceTracker =
-		ServiceTrackerFactory.open(PracticeService.class);
+	private static ServiceTracker<PracticeService, PracticeService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(PracticeService.class);
+
+		ServiceTracker<PracticeService, PracticeService> serviceTracker =
+			new ServiceTracker<PracticeService, PracticeService>(
+				bundle.getBundleContext(), PracticeService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

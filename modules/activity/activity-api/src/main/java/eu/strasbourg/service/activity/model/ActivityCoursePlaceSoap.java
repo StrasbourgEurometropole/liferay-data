@@ -26,12 +26,14 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.activity.service.http.ActivityCoursePlaceServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.activity.service.http.ActivityCoursePlaceServiceSoap
  * @generated
  */
 @ProviderType
 public class ActivityCoursePlaceSoap implements Serializable {
-	public static ActivityCoursePlaceSoap toSoapModel(ActivityCoursePlace model) {
+
+	public static ActivityCoursePlaceSoap toSoapModel(
+		ActivityCoursePlace model) {
+
 		ActivityCoursePlaceSoap soapModel = new ActivityCoursePlaceSoap();
 
 		soapModel.setUuid(model.getUuid());
@@ -55,7 +57,9 @@ public class ActivityCoursePlaceSoap implements Serializable {
 
 	public static ActivityCoursePlaceSoap[] toSoapModels(
 		ActivityCoursePlace[] models) {
-		ActivityCoursePlaceSoap[] soapModels = new ActivityCoursePlaceSoap[models.length];
+
+		ActivityCoursePlaceSoap[] soapModels =
+			new ActivityCoursePlaceSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -66,10 +70,12 @@ public class ActivityCoursePlaceSoap implements Serializable {
 
 	public static ActivityCoursePlaceSoap[][] toSoapModels(
 		ActivityCoursePlace[][] models) {
+
 		ActivityCoursePlaceSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ActivityCoursePlaceSoap[models.length][models[0].length];
+			soapModels =
+				new ActivityCoursePlaceSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ActivityCoursePlaceSoap[0][0];
@@ -84,13 +90,16 @@ public class ActivityCoursePlaceSoap implements Serializable {
 
 	public static ActivityCoursePlaceSoap[] toSoapModels(
 		List<ActivityCoursePlace> models) {
-		List<ActivityCoursePlaceSoap> soapModels = new ArrayList<ActivityCoursePlaceSoap>(models.size());
+
+		List<ActivityCoursePlaceSoap> soapModels =
+			new ArrayList<ActivityCoursePlaceSoap>(models.size());
 
 		for (ActivityCoursePlace model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new ActivityCoursePlaceSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new ActivityCoursePlaceSoap[soapModels.size()]);
 	}
 
 	public ActivityCoursePlaceSoap() {
@@ -239,4 +248,5 @@ public class ActivityCoursePlaceSoap implements Serializable {
 	private String _placeStreetName;
 	private String _placeZipCode;
 	private long _placeCityId;
+
 }
