@@ -23,17 +23,19 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.formSendRecordField.service.http.FormSendRecordFieldSignalementServiceSoap}.
+ * This class is used by SOAP remote services.
  *
  * @author Angélique Zunino
- * @see eu.strasbourg.service.formSendRecordField.service.http.FormSendRecordFieldSignalementServiceSoap
  * @generated
  */
 @ProviderType
 public class FormSendRecordFieldSignalementSoap implements Serializable {
+
 	public static FormSendRecordFieldSignalementSoap toSoapModel(
 		FormSendRecordFieldSignalement model) {
-		FormSendRecordFieldSignalementSoap soapModel = new FormSendRecordFieldSignalementSoap();
+
+		FormSendRecordFieldSignalementSoap soapModel =
+			new FormSendRecordFieldSignalementSoap();
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setSignalementId(model.getSignalementId());
@@ -55,7 +57,9 @@ public class FormSendRecordFieldSignalementSoap implements Serializable {
 
 	public static FormSendRecordFieldSignalementSoap[] toSoapModels(
 		FormSendRecordFieldSignalement[] models) {
-		FormSendRecordFieldSignalementSoap[] soapModels = new FormSendRecordFieldSignalementSoap[models.length];
+
+		FormSendRecordFieldSignalementSoap[] soapModels =
+			new FormSendRecordFieldSignalementSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -66,10 +70,12 @@ public class FormSendRecordFieldSignalementSoap implements Serializable {
 
 	public static FormSendRecordFieldSignalementSoap[][] toSoapModels(
 		FormSendRecordFieldSignalement[][] models) {
+
 		FormSendRecordFieldSignalementSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new FormSendRecordFieldSignalementSoap[models.length][models[0].length];
+			soapModels = new FormSendRecordFieldSignalementSoap
+				[models.length][models[0].length];
 		}
 		else {
 			soapModels = new FormSendRecordFieldSignalementSoap[0][0];
@@ -84,13 +90,16 @@ public class FormSendRecordFieldSignalementSoap implements Serializable {
 
 	public static FormSendRecordFieldSignalementSoap[] toSoapModels(
 		List<FormSendRecordFieldSignalement> models) {
-		List<FormSendRecordFieldSignalementSoap> soapModels = new ArrayList<FormSendRecordFieldSignalementSoap>(models.size());
+
+		List<FormSendRecordFieldSignalementSoap> soapModels =
+			new ArrayList<FormSendRecordFieldSignalementSoap>(models.size());
 
 		for (FormSendRecordFieldSignalement model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new FormSendRecordFieldSignalementSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new FormSendRecordFieldSignalementSoap[soapModels.size()]);
 	}
 
 	public FormSendRecordFieldSignalementSoap() {
@@ -230,4 +239,5 @@ public class FormSendRecordFieldSignalementSoap implements Serializable {
 	private Date _statusDate;
 	private long _formSendRecordFieldId;
 	private String _publikId;
+
 }

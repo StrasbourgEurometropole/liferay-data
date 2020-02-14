@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing FormSendRecordFieldSignalement in entity cache.
  *
  * @author Angélique Zunino
- * @see FormSendRecordFieldSignalement
  * @generated
  */
 @ProviderType
-public class FormSendRecordFieldSignalementCacheModel implements CacheModel<FormSendRecordFieldSignalement>,
-	Externalizable {
+public class FormSendRecordFieldSignalementCacheModel
+	implements CacheModel<FormSendRecordFieldSignalement>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,10 +49,13 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 			return false;
 		}
 
-		FormSendRecordFieldSignalementCacheModel formSendRecordFieldSignalementCacheModel =
-			(FormSendRecordFieldSignalementCacheModel)obj;
+		FormSendRecordFieldSignalementCacheModel
+			formSendRecordFieldSignalementCacheModel =
+				(FormSendRecordFieldSignalementCacheModel)obj;
 
-		if (signalementId == formSendRecordFieldSignalementCacheModel.signalementId) {
+		if (signalementId ==
+				formSendRecordFieldSignalementCacheModel.signalementId) {
+
 			return true;
 		}
 
@@ -104,10 +106,11 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 
 	@Override
 	public FormSendRecordFieldSignalement toEntityModel() {
-		FormSendRecordFieldSignalementImpl formSendRecordFieldSignalementImpl = new FormSendRecordFieldSignalementImpl();
+		FormSendRecordFieldSignalementImpl formSendRecordFieldSignalementImpl =
+			new FormSendRecordFieldSignalementImpl();
 
 		if (uuid == null) {
-			formSendRecordFieldSignalementImpl.setUuid(StringPool.BLANK);
+			formSendRecordFieldSignalementImpl.setUuid("");
 		}
 		else {
 			formSendRecordFieldSignalementImpl.setUuid(uuid);
@@ -119,7 +122,7 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 		formSendRecordFieldSignalementImpl.setUserId(userId);
 
 		if (userName == null) {
-			formSendRecordFieldSignalementImpl.setUserName(StringPool.BLANK);
+			formSendRecordFieldSignalementImpl.setUserName("");
 		}
 		else {
 			formSendRecordFieldSignalementImpl.setUserName(userName);
@@ -129,40 +132,42 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 			formSendRecordFieldSignalementImpl.setCreateDate(null);
 		}
 		else {
-			formSendRecordFieldSignalementImpl.setCreateDate(new Date(
-					createDate));
+			formSendRecordFieldSignalementImpl.setCreateDate(
+				new Date(createDate));
 		}
 
 		if (modifiedDate == Long.MIN_VALUE) {
 			formSendRecordFieldSignalementImpl.setModifiedDate(null);
 		}
 		else {
-			formSendRecordFieldSignalementImpl.setModifiedDate(new Date(
-					modifiedDate));
+			formSendRecordFieldSignalementImpl.setModifiedDate(
+				new Date(modifiedDate));
 		}
 
 		formSendRecordFieldSignalementImpl.setStatus(status);
 		formSendRecordFieldSignalementImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			formSendRecordFieldSignalementImpl.setStatusByUserName(StringPool.BLANK);
+			formSendRecordFieldSignalementImpl.setStatusByUserName("");
 		}
 		else {
-			formSendRecordFieldSignalementImpl.setStatusByUserName(statusByUserName);
+			formSendRecordFieldSignalementImpl.setStatusByUserName(
+				statusByUserName);
 		}
 
 		if (statusDate == Long.MIN_VALUE) {
 			formSendRecordFieldSignalementImpl.setStatusDate(null);
 		}
 		else {
-			formSendRecordFieldSignalementImpl.setStatusDate(new Date(
-					statusDate));
+			formSendRecordFieldSignalementImpl.setStatusDate(
+				new Date(statusDate));
 		}
 
-		formSendRecordFieldSignalementImpl.setFormSendRecordFieldId(formSendRecordFieldId);
+		formSendRecordFieldSignalementImpl.setFormSendRecordFieldId(
+			formSendRecordFieldId);
 
 		if (publikId == null) {
-			formSendRecordFieldSignalementImpl.setPublikId(StringPool.BLANK);
+			formSendRecordFieldSignalementImpl.setPublikId("");
 		}
 		else {
 			formSendRecordFieldSignalementImpl.setPublikId(publikId);
@@ -199,10 +204,9 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -217,7 +221,7 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -231,7 +235,7 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -242,7 +246,7 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 		objectOutput.writeLong(formSendRecordFieldId);
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
@@ -263,4 +267,5 @@ public class FormSendRecordFieldSignalementCacheModel implements CacheModel<Form
 	public long statusDate;
 	public long formSendRecordFieldId;
 	public String publikId;
+
 }

@@ -17,9 +17,7 @@ package eu.strasbourg.service.formSendRecordField.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -42,9 +40,11 @@ import java.util.Objects;
 @ProviderType
 public class FormSendRecordFieldSignalementWrapper
 	implements FormSendRecordFieldSignalement,
-		ModelWrapper<FormSendRecordFieldSignalement> {
+			   ModelWrapper<FormSendRecordFieldSignalement> {
+
 	public FormSendRecordFieldSignalementWrapper(
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
+
 		_formSendRecordFieldSignalement = formSendRecordFieldSignalement;
 	}
 
@@ -155,7 +155,7 @@ public class FormSendRecordFieldSignalementWrapper
 		}
 
 		Long formSendRecordFieldId = (Long)attributes.get(
-				"formSendRecordFieldId");
+			"formSendRecordFieldId");
 
 		if (formSendRecordFieldId != null) {
 			setFormSendRecordFieldId(formSendRecordFieldId);
@@ -168,11 +168,244 @@ public class FormSendRecordFieldSignalementWrapper
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new FormSendRecordFieldSignalementWrapper(
+			(FormSendRecordFieldSignalement)
+				_formSendRecordFieldSignalement.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.formSendRecordField.model.
+			FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
+
+		return _formSendRecordFieldSignalement.compareTo(
+			formSendRecordFieldSignalement);
+	}
+
+	@Override
+	public String getCategorieName() {
+		return _formSendRecordFieldSignalement.getCategorieName();
+	}
+
 	/**
-	* Returns <code>true</code> if this form send record field signalement is approved.
-	*
-	* @return <code>true</code> if this form send record field signalement is approved; <code>false</code> otherwise
-	*/
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategoriesByAssetEntry() {
+
+		return _formSendRecordFieldSignalement.getCategoriesByAssetEntry();
+	}
+
+	/**
+	 * Returns the company ID of this form send record field signalement.
+	 *
+	 * @return the company ID of this form send record field signalement
+	 */
+	@Override
+	public long getCompanyId() {
+		return _formSendRecordFieldSignalement.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this form send record field signalement.
+	 *
+	 * @return the create date of this form send record field signalement
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _formSendRecordFieldSignalement.getCreateDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _formSendRecordFieldSignalement.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the form send record field ID of this form send record field signalement.
+	 *
+	 * @return the form send record field ID of this form send record field signalement
+	 */
+	@Override
+	public long getFormSendRecordFieldId() {
+		return _formSendRecordFieldSignalement.getFormSendRecordFieldId();
+	}
+
+	/**
+	 * Returns the group ID of this form send record field signalement.
+	 *
+	 * @return the group ID of this form send record field signalement
+	 */
+	@Override
+	public long getGroupId() {
+		return _formSendRecordFieldSignalement.getGroupId();
+	}
+
+	/**
+	 * Returns the modified date of this form send record field signalement.
+	 *
+	 * @return the modified date of this form send record field signalement
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _formSendRecordFieldSignalement.getModifiedDate();
+	}
+
+	/**
+	 * Returns the primary key of this form send record field signalement.
+	 *
+	 * @return the primary key of this form send record field signalement
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _formSendRecordFieldSignalement.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _formSendRecordFieldSignalement.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik ID of this form send record field signalement.
+	 *
+	 * @return the publik ID of this form send record field signalement
+	 */
+	@Override
+	public String getPublikId() {
+		return _formSendRecordFieldSignalement.getPublikId();
+	}
+
+	/**
+	 * Retourne l'utilisateur auteur du signalement
+	 */
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
+		return _formSendRecordFieldSignalement.getSignalementAuthor();
+	}
+
+	/**
+	 * Retourne le nom de l'auteur du signalement
+	 */
+	@Override
+	public String getSignalementAuthorLabel() {
+		return _formSendRecordFieldSignalement.getSignalementAuthorLabel();
+	}
+
+	/**
+	 * Returns the signalement ID of this form send record field signalement.
+	 *
+	 * @return the signalement ID of this form send record field signalement
+	 */
+	@Override
+	public long getSignalementId() {
+		return _formSendRecordFieldSignalement.getSignalementId();
+	}
+
+	/**
+	 * Returns the status of this form send record field signalement.
+	 *
+	 * @return the status of this form send record field signalement
+	 */
+	@Override
+	public int getStatus() {
+		return _formSendRecordFieldSignalement.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this form send record field signalement.
+	 *
+	 * @return the status by user ID of this form send record field signalement
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _formSendRecordFieldSignalement.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this form send record field signalement.
+	 *
+	 * @return the status by user name of this form send record field signalement
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _formSendRecordFieldSignalement.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this form send record field signalement.
+	 *
+	 * @return the status by user uuid of this form send record field signalement
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _formSendRecordFieldSignalement.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this form send record field signalement.
+	 *
+	 * @return the status date of this form send record field signalement
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _formSendRecordFieldSignalement.getStatusDate();
+	}
+
+	/**
+	 * Returns the user ID of this form send record field signalement.
+	 *
+	 * @return the user ID of this form send record field signalement
+	 */
+	@Override
+	public long getUserId() {
+		return _formSendRecordFieldSignalement.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this form send record field signalement.
+	 *
+	 * @return the user name of this form send record field signalement
+	 */
+	@Override
+	public String getUserName() {
+		return _formSendRecordFieldSignalement.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this form send record field signalement.
+	 *
+	 * @return the user uuid of this form send record field signalement
+	 */
+	@Override
+	public String getUserUuid() {
+		return _formSendRecordFieldSignalement.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this form send record field signalement.
+	 *
+	 * @return the uuid of this form send record field signalement
+	 */
+	@Override
+	public String getUuid() {
+		return _formSendRecordFieldSignalement.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _formSendRecordFieldSignalement.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this form send record field signalement is approved.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _formSendRecordFieldSignalement.isApproved();
@@ -184,20 +417,20 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is denied.
-	*
-	* @return <code>true</code> if this form send record field signalement is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is denied.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _formSendRecordFieldSignalement.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is a draft.
-	*
-	* @return <code>true</code> if this form send record field signalement is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is a draft.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _formSendRecordFieldSignalement.isDraft();
@@ -209,30 +442,30 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is expired.
-	*
-	* @return <code>true</code> if this form send record field signalement is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is expired.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _formSendRecordFieldSignalement.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is inactive.
-	*
-	* @return <code>true</code> if this form send record field signalement is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is inactive.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _formSendRecordFieldSignalement.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is incomplete.
-	*
-	* @return <code>true</code> if this form send record field signalement is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is incomplete.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _formSendRecordFieldSignalement.isIncomplete();
@@ -244,274 +477,23 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is pending.
-	*
-	* @return <code>true</code> if this form send record field signalement is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is pending.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _formSendRecordFieldSignalement.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this form send record field signalement is scheduled.
-	*
-	* @return <code>true</code> if this form send record field signalement is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this form send record field signalement is scheduled.
+	 *
+	 * @return <code>true</code> if this form send record field signalement is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _formSendRecordFieldSignalement.isScheduled();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _formSendRecordFieldSignalement.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement> toCacheModel() {
-		return _formSendRecordFieldSignalement.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement toEscapedModel() {
-		return new FormSendRecordFieldSignalementWrapper(_formSendRecordFieldSignalement.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement toUnescapedModel() {
-		return new FormSendRecordFieldSignalementWrapper(_formSendRecordFieldSignalement.toUnescapedModel());
-	}
-
-	/**
-	* Retourne l'utilisateur auteur du signalement
-	*/
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
-		return _formSendRecordFieldSignalement.getSignalementAuthor();
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
-		return _formSendRecordFieldSignalement.compareTo(formSendRecordFieldSignalement);
-	}
-
-	/**
-	* Returns the status of this form send record field signalement.
-	*
-	* @return the status of this form send record field signalement
-	*/
-	@Override
-	public int getStatus() {
-		return _formSendRecordFieldSignalement.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _formSendRecordFieldSignalement.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _formSendRecordFieldSignalement.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new FormSendRecordFieldSignalementWrapper((FormSendRecordFieldSignalement)_formSendRecordFieldSignalement.clone());
-	}
-
-	@Override
-	public java.lang.String getCategorieName() {
-		return _formSendRecordFieldSignalement.getCategorieName();
-	}
-
-	/**
-	* Returns the publik ID of this form send record field signalement.
-	*
-	* @return the publik ID of this form send record field signalement
-	*/
-	@Override
-	public java.lang.String getPublikId() {
-		return _formSendRecordFieldSignalement.getPublikId();
-	}
-
-	/**
-	* Retourne le nom de l'auteur du signalement
-	*/
-	@Override
-	public java.lang.String getSignalementAuthorLabel() {
-		return _formSendRecordFieldSignalement.getSignalementAuthorLabel();
-	}
-
-	/**
-	* Returns the status by user name of this form send record field signalement.
-	*
-	* @return the status by user name of this form send record field signalement
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _formSendRecordFieldSignalement.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this form send record field signalement.
-	*
-	* @return the status by user uuid of this form send record field signalement
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _formSendRecordFieldSignalement.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the user name of this form send record field signalement.
-	*
-	* @return the user name of this form send record field signalement
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _formSendRecordFieldSignalement.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this form send record field signalement.
-	*
-	* @return the user uuid of this form send record field signalement
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _formSendRecordFieldSignalement.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this form send record field signalement.
-	*
-	* @return the uuid of this form send record field signalement
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _formSendRecordFieldSignalement.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _formSendRecordFieldSignalement.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _formSendRecordFieldSignalement.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this form send record field signalement.
-	*
-	* @return the create date of this form send record field signalement
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _formSendRecordFieldSignalement.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this form send record field signalement.
-	*
-	* @return the modified date of this form send record field signalement
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _formSendRecordFieldSignalement.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this form send record field signalement.
-	*
-	* @return the status date of this form send record field signalement
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _formSendRecordFieldSignalement.getStatusDate();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategoriesByAssetEntry() {
-		return _formSendRecordFieldSignalement.getCategoriesByAssetEntry();
-	}
-
-	/**
-	* Returns the company ID of this form send record field signalement.
-	*
-	* @return the company ID of this form send record field signalement
-	*/
-	@Override
-	public long getCompanyId() {
-		return _formSendRecordFieldSignalement.getCompanyId();
-	}
-
-	/**
-	* Returns the form send record field ID of this form send record field signalement.
-	*
-	* @return the form send record field ID of this form send record field signalement
-	*/
-	@Override
-	public long getFormSendRecordFieldId() {
-		return _formSendRecordFieldSignalement.getFormSendRecordFieldId();
-	}
-
-	/**
-	* Returns the group ID of this form send record field signalement.
-	*
-	* @return the group ID of this form send record field signalement
-	*/
-	@Override
-	public long getGroupId() {
-		return _formSendRecordFieldSignalement.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this form send record field signalement.
-	*
-	* @return the primary key of this form send record field signalement
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _formSendRecordFieldSignalement.getPrimaryKey();
-	}
-
-	/**
-	* Returns the signalement ID of this form send record field signalement.
-	*
-	* @return the signalement ID of this form send record field signalement
-	*/
-	@Override
-	public long getSignalementId() {
-		return _formSendRecordFieldSignalement.getSignalementId();
-	}
-
-	/**
-	* Returns the status by user ID of this form send record field signalement.
-	*
-	* @return the status by user ID of this form send record field signalement
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _formSendRecordFieldSignalement.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this form send record field signalement.
-	*
-	* @return the user ID of this form send record field signalement
-	*/
-	@Override
-	public long getUserId() {
-		return _formSendRecordFieldSignalement.getUserId();
 	}
 
 	@Override
@@ -525,66 +507,70 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	/**
-	* Sets the company ID of this form send record field signalement.
-	*
-	* @param companyId the company ID of this form send record field signalement
-	*/
+	 * Sets the company ID of this form send record field signalement.
+	 *
+	 * @param companyId the company ID of this form send record field signalement
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_formSendRecordFieldSignalement.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this form send record field signalement.
-	*
-	* @param createDate the create date of this form send record field signalement
-	*/
+	 * Sets the create date of this form send record field signalement.
+	 *
+	 * @param createDate the create date of this form send record field signalement
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_formSendRecordFieldSignalement.setCreateDate(createDate);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
 		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(
+			expandoBridge);
+	}
+
+	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(serviceContext);
+		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(
+			serviceContext);
 	}
 
 	/**
-	* Sets the form send record field ID of this form send record field signalement.
-	*
-	* @param formSendRecordFieldId the form send record field ID of this form send record field signalement
-	*/
+	 * Sets the form send record field ID of this form send record field signalement.
+	 *
+	 * @param formSendRecordFieldId the form send record field ID of this form send record field signalement
+	 */
 	@Override
 	public void setFormSendRecordFieldId(long formSendRecordFieldId) {
-		_formSendRecordFieldSignalement.setFormSendRecordFieldId(formSendRecordFieldId);
+		_formSendRecordFieldSignalement.setFormSendRecordFieldId(
+			formSendRecordFieldId);
 	}
 
 	/**
-	* Sets the group ID of this form send record field signalement.
-	*
-	* @param groupId the group ID of this form send record field signalement
-	*/
+	 * Sets the group ID of this form send record field signalement.
+	 *
+	 * @param groupId the group ID of this form send record field signalement
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_formSendRecordFieldSignalement.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the modified date of this form send record field signalement.
-	*
-	* @param modifiedDate the modified date of this form send record field signalement
-	*/
+	 * Sets the modified date of this form send record field signalement.
+	 *
+	 * @param modifiedDate the modified date of this form send record field signalement
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_formSendRecordFieldSignalement.setModifiedDate(modifiedDate);
@@ -596,10 +582,10 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	/**
-	* Sets the primary key of this form send record field signalement.
-	*
-	* @param primaryKey the primary key of this form send record field signalement
-	*/
+	 * Sets the primary key of this form send record field signalement.
+	 *
+	 * @param primaryKey the primary key of this form send record field signalement
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_formSendRecordFieldSignalement.setPrimaryKey(primaryKey);
@@ -611,113 +597,147 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	/**
-	* Sets the publik ID of this form send record field signalement.
-	*
-	* @param publikId the publik ID of this form send record field signalement
-	*/
+	 * Sets the publik ID of this form send record field signalement.
+	 *
+	 * @param publikId the publik ID of this form send record field signalement
+	 */
 	@Override
-	public void setPublikId(java.lang.String publikId) {
+	public void setPublikId(String publikId) {
 		_formSendRecordFieldSignalement.setPublikId(publikId);
 	}
 
 	/**
-	* Sets the signalement ID of this form send record field signalement.
-	*
-	* @param signalementId the signalement ID of this form send record field signalement
-	*/
+	 * Sets the signalement ID of this form send record field signalement.
+	 *
+	 * @param signalementId the signalement ID of this form send record field signalement
+	 */
 	@Override
 	public void setSignalementId(long signalementId) {
 		_formSendRecordFieldSignalement.setSignalementId(signalementId);
 	}
 
 	/**
-	* Sets the status of this form send record field signalement.
-	*
-	* @param status the status of this form send record field signalement
-	*/
+	 * Sets the status of this form send record field signalement.
+	 *
+	 * @param status the status of this form send record field signalement
+	 */
 	@Override
 	public void setStatus(int status) {
 		_formSendRecordFieldSignalement.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this form send record field signalement.
-	*
-	* @param statusByUserId the status by user ID of this form send record field signalement
-	*/
+	 * Sets the status by user ID of this form send record field signalement.
+	 *
+	 * @param statusByUserId the status by user ID of this form send record field signalement
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_formSendRecordFieldSignalement.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this form send record field signalement.
-	*
-	* @param statusByUserName the status by user name of this form send record field signalement
-	*/
+	 * Sets the status by user name of this form send record field signalement.
+	 *
+	 * @param statusByUserName the status by user name of this form send record field signalement
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_formSendRecordFieldSignalement.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this form send record field signalement.
-	*
-	* @param statusByUserUuid the status by user uuid of this form send record field signalement
-	*/
+	 * Sets the status by user uuid of this form send record field signalement.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this form send record field signalement
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_formSendRecordFieldSignalement.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this form send record field signalement.
-	*
-	* @param statusDate the status date of this form send record field signalement
-	*/
+	 * Sets the status date of this form send record field signalement.
+	 *
+	 * @param statusDate the status date of this form send record field signalement
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_formSendRecordFieldSignalement.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the user ID of this form send record field signalement.
-	*
-	* @param userId the user ID of this form send record field signalement
-	*/
+	 * Sets the user ID of this form send record field signalement.
+	 *
+	 * @param userId the user ID of this form send record field signalement
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_formSendRecordFieldSignalement.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this form send record field signalement.
-	*
-	* @param userName the user name of this form send record field signalement
-	*/
+	 * Sets the user name of this form send record field signalement.
+	 *
+	 * @param userName the user name of this form send record field signalement
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_formSendRecordFieldSignalement.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this form send record field signalement.
-	*
-	* @param userUuid the user uuid of this form send record field signalement
-	*/
+	 * Sets the user uuid of this form send record field signalement.
+	 *
+	 * @param userUuid the user uuid of this form send record field signalement
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_formSendRecordFieldSignalement.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this form send record field signalement.
-	*
-	* @param uuid the uuid of this form send record field signalement
-	*/
+	 * Sets the uuid of this form send record field signalement.
+	 *
+	 * @param uuid the uuid of this form send record field signalement
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_formSendRecordFieldSignalement.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.formSendRecordField.model.
+			FormSendRecordFieldSignalement> toCacheModel() {
+
+		return _formSendRecordFieldSignalement.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.formSendRecordField.model.
+		FormSendRecordFieldSignalement toEscapedModel() {
+
+		return new FormSendRecordFieldSignalementWrapper(
+			_formSendRecordFieldSignalement.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _formSendRecordFieldSignalement.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.formSendRecordField.model.
+		FormSendRecordFieldSignalement toUnescapedModel() {
+
+		return new FormSendRecordFieldSignalementWrapper(
+			_formSendRecordFieldSignalement.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _formSendRecordFieldSignalement.toXmlString();
 	}
 
 	@Override
@@ -730,11 +750,15 @@ public class FormSendRecordFieldSignalementWrapper
 			return false;
 		}
 
-		FormSendRecordFieldSignalementWrapper formSendRecordFieldSignalementWrapper =
-			(FormSendRecordFieldSignalementWrapper)obj;
+		FormSendRecordFieldSignalementWrapper
+			formSendRecordFieldSignalementWrapper =
+				(FormSendRecordFieldSignalementWrapper)obj;
 
-		if (Objects.equals(_formSendRecordFieldSignalement,
-					formSendRecordFieldSignalementWrapper._formSendRecordFieldSignalement)) {
+		if (Objects.equals(
+				_formSendRecordFieldSignalement,
+				formSendRecordFieldSignalementWrapper.
+					_formSendRecordFieldSignalement)) {
+
 			return true;
 		}
 
@@ -766,5 +790,7 @@ public class FormSendRecordFieldSignalementWrapper
 		_formSendRecordFieldSignalement.resetOriginalValues();
 	}
 
-	private final FormSendRecordFieldSignalement _formSendRecordFieldSignalement;
+	private final FormSendRecordFieldSignalement
+		_formSendRecordFieldSignalement;
+
 }
