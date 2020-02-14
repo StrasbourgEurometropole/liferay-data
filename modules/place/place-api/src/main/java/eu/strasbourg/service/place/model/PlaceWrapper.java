@@ -1242,6 +1242,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getCreateDate();
 	}
 
+	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getCurrentAndFuturePublishedEvents() {
+
+		return _place.getCurrentAndFuturePublishedEvents();
+	}
+
 	@Override
 	public String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();
@@ -1305,6 +1315,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.util.List<String> getDocumentURLs() {
 		return _place.getDocumentURLs();
+	}
+
+	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getEvents() {
+
+		return _place.getEvents();
 	}
 
 	/**
@@ -1975,6 +1995,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		getPublicHolidays() {
 
 		return _place.getPublicHolidays();
+	}
+
+	/**
+	 * Retourne une list d'évènements lié à ce lieu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getPublishedEvents() {
+
+		return _place.getPublishedEvents();
 	}
 
 	/**

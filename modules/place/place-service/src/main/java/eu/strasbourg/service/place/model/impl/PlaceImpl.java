@@ -34,9 +34,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import aQute.bnd.annotation.ProviderType;
-//import eu.strasbourg.service.agenda.model.Event;
-//import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.MairieStateSOAPClient;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -494,35 +493,35 @@ public class PlaceImpl extends PlaceBaseImpl {
         return videos;
     }
 
-//    /**
-//     * Retourne une list d'évènements lié à ce lieu
-//     */
-//    @Override
-//    public List<Event> getEvents() {
-//        List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
-//        return events;
-//    }
+    /**
+     * Retourne une list d'évènements lié à ce lieu
+     */
+    @Override
+    public List<Event> getEvents() {
+        List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+        return events;
+    }
 
-//    /**
-//     * Retourne une list d'évènements lié à ce lieu
-//     */
-//    @Override
-//    public List<Event> getPublishedEvents() {
-//        List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
-//        return events.stream().filter(e -> e.isApproved()).collect(Collectors.toList());
-//    }
+    /**
+     * Retourne une list d'évènements lié à ce lieu
+     */
+    @Override
+    public List<Event> getPublishedEvents() {
+        List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+        return events.stream().filter(e -> e.isApproved()).collect(Collectors.toList());
+    }
 
-//    /**
-//     * Retourne une list d'évènements lié à ce lieu
-//     */
-//    @Override
-//    public List<Event> getCurrentAndFuturePublishedEvents() {
-//        final Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.DATE, -1);
-//        Date yesterday = cal.getTime();
-//        List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
-//        return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
-//    }
+    /**
+     * Retourne une list d'évènements lié à ce lieu
+     */
+    @Override
+    public List<Event> getCurrentAndFuturePublishedEvents() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        Date yesterday = cal.getTime();
+        List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+        return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
+    }
 
     /**
      * Retourne true si l'événement est accessible pour au moins un type de
