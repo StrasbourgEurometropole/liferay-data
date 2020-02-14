@@ -35,18 +35,22 @@ import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSign
 public abstract class FormSendRecordFieldSignalementBaseImpl
 	extends FormSendRecordFieldSignalementModelImpl
 	implements FormSendRecordFieldSignalement {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a form send record field signalement model instance should use the {@link FormSendRecordFieldSignalement} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a form send record field signalement model instance should use the <code>FormSendRecordFieldSignalement</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			FormSendRecordFieldSignalementLocalServiceUtil.addFormSendRecordFieldSignalement(this);
+			FormSendRecordFieldSignalementLocalServiceUtil.
+				addFormSendRecordFieldSignalement(this);
 		}
 		else {
-			FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(this);
+			FormSendRecordFieldSignalementLocalServiceUtil.
+				updateFormSendRecordFieldSignalement(this);
 		}
 	}
+
 }
