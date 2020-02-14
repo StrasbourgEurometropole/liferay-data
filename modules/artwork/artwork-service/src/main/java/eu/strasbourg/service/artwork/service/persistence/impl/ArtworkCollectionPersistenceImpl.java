@@ -36,10 +36,9 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -54,6 +53,7 @@ import eu.strasbourg.service.artwork.service.persistence.ArtworkPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -73,54 +73,33 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see ArtworkCollectionPersistence
- * @see eu.strasbourg.service.artwork.service.persistence.ArtworkCollectionUtil
  * @generated
  */
 @ProviderType
-public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<ArtworkCollection>
+public class ArtworkCollectionPersistenceImpl
+	extends BasePersistenceImpl<ArtworkCollection>
 	implements ArtworkCollectionPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link ArtworkCollectionUtil} to access the artwork collection persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>ArtworkCollectionUtil</code> to access the artwork collection persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = ArtworkCollectionImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			ArtworkCollectionModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		ArtworkCollectionImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the artwork collections where uuid = &#63;.
@@ -137,7 +116,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns a range of all the artwork collections where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -154,7 +133,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -164,8 +143,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByUuid(String uuid, int start, int end,
+	public List<ArtworkCollection> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<ArtworkCollection> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -173,7 +154,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -184,33 +165,38 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByUuid(String uuid, int start, int end,
+	public List<ArtworkCollection> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<ArtworkCollection> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<ArtworkCollection> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ArtworkCollection>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ArtworkCollection>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ArtworkCollection artworkCollection : list) {
-					if (!Objects.equals(uuid, artworkCollection.getUuid())) {
+					if (!uuid.equals(artworkCollection.getUuid())) {
 						list = null;
 
 						break;
@@ -223,8 +209,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -234,10 +220,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -247,11 +230,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ArtworkCollectionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -271,16 +253,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				}
 
 				if (!pagination) {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -309,11 +291,12 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection findByUuid_First(String uuid,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection findByUuid_First(
+			String uuid, OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
-		ArtworkCollection artworkCollection = fetchByUuid_First(uuid,
-				orderByComparator);
+
+		ArtworkCollection artworkCollection = fetchByUuid_First(
+			uuid, orderByComparator);
 
 		if (artworkCollection != null) {
 			return artworkCollection;
@@ -326,7 +309,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchArtworkCollectionException(msg.toString());
 	}
@@ -339,9 +322,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the first matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByUuid_First(String uuid,
-		OrderByComparator<ArtworkCollection> orderByComparator) {
-		List<ArtworkCollection> list = findByUuid(uuid, 0, 1, orderByComparator);
+	public ArtworkCollection fetchByUuid_First(
+		String uuid, OrderByComparator<ArtworkCollection> orderByComparator) {
+
+		List<ArtworkCollection> list = findByUuid(
+			uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -359,11 +344,12 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection findByUuid_Last(String uuid,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection findByUuid_Last(
+			String uuid, OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
-		ArtworkCollection artworkCollection = fetchByUuid_Last(uuid,
-				orderByComparator);
+
+		ArtworkCollection artworkCollection = fetchByUuid_Last(
+			uuid, orderByComparator);
 
 		if (artworkCollection != null) {
 			return artworkCollection;
@@ -376,7 +362,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchArtworkCollectionException(msg.toString());
 	}
@@ -389,16 +375,17 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the last matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByUuid_Last(String uuid,
-		OrderByComparator<ArtworkCollection> orderByComparator) {
+	public ArtworkCollection fetchByUuid_Last(
+		String uuid, OrderByComparator<ArtworkCollection> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ArtworkCollection> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<ArtworkCollection> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -417,9 +404,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a artwork collection with the primary key could not be found
 	 */
 	@Override
-	public ArtworkCollection[] findByUuid_PrevAndNext(long collectionId,
-		String uuid, OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection[] findByUuid_PrevAndNext(
+			long collectionId, String uuid,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		ArtworkCollection artworkCollection = findByPrimaryKey(collectionId);
 
 		Session session = null;
@@ -429,13 +420,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			ArtworkCollection[] array = new ArtworkCollectionImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, artworkCollection, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, artworkCollection, uuid, orderByComparator, true);
 
 			array[1] = artworkCollection;
 
-			array[2] = getByUuid_PrevAndNext(session, artworkCollection, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, artworkCollection, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -447,14 +438,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		}
 	}
 
-	protected ArtworkCollection getByUuid_PrevAndNext(Session session,
-		ArtworkCollection artworkCollection, String uuid,
-		OrderByComparator<ArtworkCollection> orderByComparator, boolean previous) {
+	protected ArtworkCollection getByUuid_PrevAndNext(
+		Session session, ArtworkCollection artworkCollection, String uuid,
+		OrderByComparator<ArtworkCollection> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -465,10 +458,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -478,7 +468,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -550,10 +541,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(artworkCollection);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						artworkCollection)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -574,8 +566,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (ArtworkCollection artworkCollection : findByUuid(uuid,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ArtworkCollection artworkCollection :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(artworkCollection);
 		}
 	}
@@ -588,9 +581,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -601,10 +596,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -645,23 +637,17 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "artworkCollection.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "artworkCollection.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(artworkCollection.uuid IS NULL OR artworkCollection.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ArtworkCollectionModelImpl.UUID_COLUMN_BITMASK |
-			ArtworkCollectionModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"artworkCollection.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(artworkCollection.uuid IS NULL OR artworkCollection.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the artwork collection where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchArtworkCollectionException} if it could not be found.
+	 * Returns the artwork collection where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchArtworkCollectionException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -671,6 +657,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public ArtworkCollection findByUUID_G(String uuid, long groupId)
 		throws NoSuchArtworkCollectionException {
+
 		ArtworkCollection artworkCollection = fetchByUUID_G(uuid, groupId);
 
 		if (artworkCollection == null) {
@@ -684,7 +671,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -717,22 +704,26 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public ArtworkCollection fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof ArtworkCollection) {
 			ArtworkCollection artworkCollection = (ArtworkCollection)result;
 
 			if (!Objects.equals(uuid, artworkCollection.getUuid()) ||
-					(groupId != artworkCollection.getGroupId())) {
+				(groupId != artworkCollection.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -744,10 +735,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -778,8 +766,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				List<ArtworkCollection> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					ArtworkCollection artworkCollection = list.get(0);
@@ -787,17 +775,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 					result = artworkCollection;
 
 					cacheResult(artworkCollection);
-
-					if ((artworkCollection.getUuid() == null) ||
-							!artworkCollection.getUuid().equals(uuid) ||
-							(artworkCollection.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, artworkCollection);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -824,6 +805,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public ArtworkCollection removeByUUID_G(String uuid, long groupId)
 		throws NoSuchArtworkCollectionException {
+
 		ArtworkCollection artworkCollection = findByUUID_G(uuid, groupId);
 
 		return remove(artworkCollection);
@@ -838,9 +820,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -851,10 +835,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -899,32 +880,18 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "artworkCollection.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "artworkCollection.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(artworkCollection.uuid IS NULL OR artworkCollection.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "artworkCollection.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ArtworkCollectionModelImpl.UUID_COLUMN_BITMASK |
-			ArtworkCollectionModelImpl.COMPANYID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"artworkCollection.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(artworkCollection.uuid IS NULL OR artworkCollection.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"artworkCollection.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the artwork collections where uuid = &#63; and companyId = &#63;.
@@ -935,15 +902,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public List<ArtworkCollection> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the artwork collections where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -953,8 +920,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByUuid_C(String uuid, long companyId,
-		int start, int end) {
+	public List<ArtworkCollection> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -962,7 +930,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -973,17 +941,19 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByUuid_C(String uuid, long companyId,
-		int start, int end,
+	public List<ArtworkCollection> findByUuid_C(
+		String uuid, long companyId, int start, int end,
 		OrderByComparator<ArtworkCollection> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the artwork collections where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -995,39 +965,42 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByUuid_C(String uuid, long companyId,
-		int start, int end,
+	public List<ArtworkCollection> findByUuid_C(
+		String uuid, long companyId, int start, int end,
 		OrderByComparator<ArtworkCollection> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<ArtworkCollection> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ArtworkCollection>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ArtworkCollection>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ArtworkCollection artworkCollection : list) {
-					if (!Objects.equals(uuid, artworkCollection.getUuid()) ||
-							(companyId != artworkCollection.getCompanyId())) {
+					if (!uuid.equals(artworkCollection.getUuid()) ||
+						(companyId != artworkCollection.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1040,8 +1013,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1051,10 +1024,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1066,11 +1036,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ArtworkCollectionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1092,16 +1061,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1131,11 +1100,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
-		ArtworkCollection artworkCollection = fetchByUuid_C_First(uuid,
-				companyId, orderByComparator);
+
+		ArtworkCollection artworkCollection = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (artworkCollection != null) {
 			return artworkCollection;
@@ -1151,7 +1122,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchArtworkCollectionException(msg.toString());
 	}
@@ -1165,10 +1136,12 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the first matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByUuid_C_First(String uuid, long companyId,
+	public ArtworkCollection fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<ArtworkCollection> orderByComparator) {
-		List<ArtworkCollection> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<ArtworkCollection> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1187,11 +1160,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
-		ArtworkCollection artworkCollection = fetchByUuid_C_Last(uuid,
-				companyId, orderByComparator);
+
+		ArtworkCollection artworkCollection = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (artworkCollection != null) {
 			return artworkCollection;
@@ -1207,7 +1182,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchArtworkCollectionException(msg.toString());
 	}
@@ -1221,16 +1196,18 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the last matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByUuid_C_Last(String uuid, long companyId,
+	public ArtworkCollection fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<ArtworkCollection> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ArtworkCollection> list = findByUuid_C(uuid, companyId, count - 1,
-				count, orderByComparator);
+		List<ArtworkCollection> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1250,10 +1227,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a artwork collection with the primary key could not be found
 	 */
 	@Override
-	public ArtworkCollection[] findByUuid_C_PrevAndNext(long collectionId,
-		String uuid, long companyId,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection[] findByUuid_C_PrevAndNext(
+			long collectionId, String uuid, long companyId,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		ArtworkCollection artworkCollection = findByPrimaryKey(collectionId);
 
 		Session session = null;
@@ -1263,13 +1243,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			ArtworkCollection[] array = new ArtworkCollectionImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, artworkCollection,
-					uuid, companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, artworkCollection, uuid, companyId, orderByComparator,
+				true);
 
 			array[1] = artworkCollection;
 
-			array[2] = getByUuid_C_PrevAndNext(session, artworkCollection,
-					uuid, companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, artworkCollection, uuid, companyId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1281,14 +1263,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		}
 	}
 
-	protected ArtworkCollection getByUuid_C_PrevAndNext(Session session,
-		ArtworkCollection artworkCollection, String uuid, long companyId,
-		OrderByComparator<ArtworkCollection> orderByComparator, boolean previous) {
+	protected ArtworkCollection getByUuid_C_PrevAndNext(
+		Session session, ArtworkCollection artworkCollection, String uuid,
+		long companyId, OrderByComparator<ArtworkCollection> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1299,10 +1283,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1314,7 +1295,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1388,10 +1370,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(artworkCollection);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						artworkCollection)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1413,8 +1396,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (ArtworkCollection artworkCollection : findByUuid_C(uuid,
-				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ArtworkCollection artworkCollection :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(artworkCollection);
 		}
 	}
@@ -1428,9 +1414,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1441,10 +1429,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1489,31 +1474,18 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "artworkCollection.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "artworkCollection.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(artworkCollection.uuid IS NULL OR artworkCollection.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "artworkCollection.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
-			ArtworkCollectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			ArtworkCollectionModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"artworkCollection.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(artworkCollection.uuid IS NULL OR artworkCollection.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"artworkCollection.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the artwork collections where groupId = &#63;.
@@ -1523,14 +1495,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public List<ArtworkCollection> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the artwork collections where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1539,8 +1512,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByGroupId(long groupId, int start,
-		int end) {
+	public List<ArtworkCollection> findByGroupId(
+		long groupId, int start, int end) {
+
 		return findByGroupId(groupId, start, end, null);
 	}
 
@@ -1548,7 +1522,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1558,8 +1532,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByGroupId(long groupId, int start,
-		int end, OrderByComparator<ArtworkCollection> orderByComparator) {
+	public List<ArtworkCollection> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<ArtworkCollection> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1567,7 +1543,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1578,29 +1554,32 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of matching artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findByGroupId(long groupId, int start,
-		int end, OrderByComparator<ArtworkCollection> orderByComparator,
+	public List<ArtworkCollection> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<ArtworkCollection> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<ArtworkCollection> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ArtworkCollection>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ArtworkCollection>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ArtworkCollection artworkCollection : list) {
@@ -1617,8 +1596,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1629,11 +1608,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ArtworkCollectionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1651,16 +1629,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1689,11 +1667,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection findByGroupId_First(long groupId,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection findByGroupId_First(
+			long groupId,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
-		ArtworkCollection artworkCollection = fetchByGroupId_First(groupId,
-				orderByComparator);
+
+		ArtworkCollection artworkCollection = fetchByGroupId_First(
+			groupId, orderByComparator);
 
 		if (artworkCollection != null) {
 			return artworkCollection;
@@ -1706,7 +1686,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchArtworkCollectionException(msg.toString());
 	}
@@ -1719,10 +1699,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the first matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByGroupId_First(long groupId,
-		OrderByComparator<ArtworkCollection> orderByComparator) {
-		List<ArtworkCollection> list = findByGroupId(groupId, 0, 1,
-				orderByComparator);
+	public ArtworkCollection fetchByGroupId_First(
+		long groupId, OrderByComparator<ArtworkCollection> orderByComparator) {
+
+		List<ArtworkCollection> list = findByGroupId(
+			groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1740,11 +1721,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection findByGroupId_Last(long groupId,
-		OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection findByGroupId_Last(
+			long groupId,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
-		ArtworkCollection artworkCollection = fetchByGroupId_Last(groupId,
-				orderByComparator);
+
+		ArtworkCollection artworkCollection = fetchByGroupId_Last(
+			groupId, orderByComparator);
 
 		if (artworkCollection != null) {
 			return artworkCollection;
@@ -1757,7 +1740,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchArtworkCollectionException(msg.toString());
 	}
@@ -1770,16 +1753,17 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the last matching artwork collection, or <code>null</code> if a matching artwork collection could not be found
 	 */
 	@Override
-	public ArtworkCollection fetchByGroupId_Last(long groupId,
-		OrderByComparator<ArtworkCollection> orderByComparator) {
+	public ArtworkCollection fetchByGroupId_Last(
+		long groupId, OrderByComparator<ArtworkCollection> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ArtworkCollection> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<ArtworkCollection> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1798,9 +1782,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @throws NoSuchArtworkCollectionException if a artwork collection with the primary key could not be found
 	 */
 	@Override
-	public ArtworkCollection[] findByGroupId_PrevAndNext(long collectionId,
-		long groupId, OrderByComparator<ArtworkCollection> orderByComparator)
+	public ArtworkCollection[] findByGroupId_PrevAndNext(
+			long collectionId, long groupId,
+			OrderByComparator<ArtworkCollection> orderByComparator)
 		throws NoSuchArtworkCollectionException {
+
 		ArtworkCollection artworkCollection = findByPrimaryKey(collectionId);
 
 		Session session = null;
@@ -1810,13 +1796,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			ArtworkCollection[] array = new ArtworkCollectionImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, artworkCollection,
-					groupId, orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, artworkCollection, groupId, orderByComparator, true);
 
 			array[1] = artworkCollection;
 
-			array[2] = getByGroupId_PrevAndNext(session, artworkCollection,
-					groupId, orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, artworkCollection, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1828,14 +1814,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		}
 	}
 
-	protected ArtworkCollection getByGroupId_PrevAndNext(Session session,
-		ArtworkCollection artworkCollection, long groupId,
-		OrderByComparator<ArtworkCollection> orderByComparator, boolean previous) {
+	protected ArtworkCollection getByGroupId_PrevAndNext(
+		Session session, ArtworkCollection artworkCollection, long groupId,
+		OrderByComparator<ArtworkCollection> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1847,7 +1835,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1917,10 +1906,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(artworkCollection);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						artworkCollection)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1941,8 +1931,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (ArtworkCollection artworkCollection : findByGroupId(groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ArtworkCollection artworkCollection :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(artworkCollection);
 		}
 	}
@@ -1955,9 +1947,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1998,18 +1990,21 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "artworkCollection.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"artworkCollection.groupId = ?";
 
 	public ArtworkCollectionPersistenceImpl() {
 		setModelClass(ArtworkCollection.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2027,14 +2022,17 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public void cacheResult(ArtworkCollection artworkCollection) {
-		entityCache.putResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 			ArtworkCollectionImpl.class, artworkCollection.getPrimaryKey(),
 			artworkCollection);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
 			new Object[] {
 				artworkCollection.getUuid(), artworkCollection.getGroupId()
-			}, artworkCollection);
+			},
+			artworkCollection);
 
 		artworkCollection.resetOriginalValues();
 	}
@@ -2048,9 +2046,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	public void cacheResult(List<ArtworkCollection> artworkCollections) {
 		for (ArtworkCollection artworkCollection : artworkCollections) {
 			if (entityCache.getResult(
-						ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-						ArtworkCollectionImpl.class,
-						artworkCollection.getPrimaryKey()) == null) {
+					ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+					ArtworkCollectionImpl.class,
+					artworkCollection.getPrimaryKey()) == null) {
+
 				cacheResult(artworkCollection);
 			}
 			else {
@@ -2063,7 +2062,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Clears the cache for all artwork collections.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2079,19 +2078,20 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Clears the cache for the artwork collection.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(ArtworkCollection artworkCollection) {
-		entityCache.removeResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 			ArtworkCollectionImpl.class, artworkCollection.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ArtworkCollectionModelImpl)artworkCollection,
-			true);
+		clearUniqueFindersCache(
+			(ArtworkCollectionModelImpl)artworkCollection, true);
 	}
 
 	@Override
@@ -2100,49 +2100,53 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (ArtworkCollection artworkCollection : artworkCollections) {
-			entityCache.removeResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 				ArtworkCollectionImpl.class, artworkCollection.getPrimaryKey());
 
-			clearUniqueFindersCache((ArtworkCollectionModelImpl)artworkCollection,
-				true);
+			clearUniqueFindersCache(
+				(ArtworkCollectionModelImpl)artworkCollection, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
 		ArtworkCollectionModelImpl artworkCollectionModelImpl) {
-		Object[] args = new Object[] {
-				artworkCollectionModelImpl.getUuid(),
-				artworkCollectionModelImpl.getGroupId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			artworkCollectionModelImpl, false);
+		Object[] args = new Object[] {
+			artworkCollectionModelImpl.getUuid(),
+			artworkCollectionModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, artworkCollectionModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		ArtworkCollectionModelImpl artworkCollectionModelImpl,
 		boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					artworkCollectionModelImpl.getUuid(),
-					artworkCollectionModelImpl.getGroupId()
-				};
+				artworkCollectionModelImpl.getUuid(),
+				artworkCollectionModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((artworkCollectionModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					artworkCollectionModelImpl.getOriginalUuid(),
-					artworkCollectionModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				artworkCollectionModelImpl.getOriginalUuid(),
+				artworkCollectionModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -2178,6 +2182,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public ArtworkCollection remove(long collectionId)
 		throws NoSuchArtworkCollectionException {
+
 		return remove((Serializable)collectionId);
 	}
 
@@ -2191,21 +2196,23 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public ArtworkCollection remove(Serializable primaryKey)
 		throws NoSuchArtworkCollectionException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			ArtworkCollection artworkCollection = (ArtworkCollection)session.get(ArtworkCollectionImpl.class,
-					primaryKey);
+			ArtworkCollection artworkCollection =
+				(ArtworkCollection)session.get(
+					ArtworkCollectionImpl.class, primaryKey);
 
 			if (artworkCollection == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchArtworkCollectionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchArtworkCollectionException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(artworkCollection);
@@ -2222,10 +2229,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	}
 
 	@Override
-	protected ArtworkCollection removeImpl(ArtworkCollection artworkCollection) {
-		artworkCollection = toUnwrappedModel(artworkCollection);
+	protected ArtworkCollection removeImpl(
+		ArtworkCollection artworkCollection) {
 
-		artworkCollectionToArtworkTableMapper.deleteLeftPrimaryKeyTableMappings(artworkCollection.getPrimaryKey());
+		artworkCollectionToArtworkTableMapper.deleteLeftPrimaryKeyTableMappings(
+			artworkCollection.getPrimaryKey());
 
 		Session session = null;
 
@@ -2233,8 +2241,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			session = openSession();
 
 			if (!session.contains(artworkCollection)) {
-				artworkCollection = (ArtworkCollection)session.get(ArtworkCollectionImpl.class,
-						artworkCollection.getPrimaryKeyObj());
+				artworkCollection = (ArtworkCollection)session.get(
+					ArtworkCollectionImpl.class,
+					artworkCollection.getPrimaryKeyObj());
 			}
 
 			if (artworkCollection != null) {
@@ -2257,11 +2266,27 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 	@Override
 	public ArtworkCollection updateImpl(ArtworkCollection artworkCollection) {
-		artworkCollection = toUnwrappedModel(artworkCollection);
-
 		boolean isNew = artworkCollection.isNew();
 
-		ArtworkCollectionModelImpl artworkCollectionModelImpl = (ArtworkCollectionModelImpl)artworkCollection;
+		if (!(artworkCollection instanceof ArtworkCollectionModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(artworkCollection.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					artworkCollection);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in artworkCollection proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom ArtworkCollection implementation " +
+					artworkCollection.getClass());
+		}
+
+		ArtworkCollectionModelImpl artworkCollectionModelImpl =
+			(ArtworkCollectionModelImpl)artworkCollection;
 
 		if (Validator.isNull(artworkCollection.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -2269,7 +2294,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			artworkCollection.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -2278,8 +2304,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				artworkCollection.setCreateDate(now);
 			}
 			else {
-				artworkCollection.setCreateDate(serviceContext.getCreateDate(
-						now));
+				artworkCollection.setCreateDate(
+					serviceContext.getCreateDate(now));
 			}
 		}
 
@@ -2288,8 +2314,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				artworkCollection.setModifiedDate(now);
 			}
 			else {
-				artworkCollection.setModifiedDate(serviceContext.getModifiedDate(
-						now));
+				artworkCollection.setModifiedDate(
+					serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -2304,7 +2330,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				artworkCollection.setNew(false);
 			}
 			else {
-				artworkCollection = (ArtworkCollection)session.merge(artworkCollection);
+				artworkCollection = (ArtworkCollection)session.merge(
+					artworkCollection);
 			}
 		}
 		catch (Exception e) {
@@ -2319,92 +2346,97 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		if (!ArtworkCollectionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { artworkCollectionModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {artworkCollectionModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				artworkCollectionModelImpl.getUuid(),
+				artworkCollectionModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {artworkCollectionModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((artworkCollectionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					artworkCollectionModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {artworkCollectionModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((artworkCollectionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					artworkCollectionModelImpl.getOriginalUuid(),
+					artworkCollectionModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					artworkCollectionModelImpl.getUuid(),
 					artworkCollectionModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
-
-			args = new Object[] { artworkCollectionModelImpl.getGroupId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((artworkCollectionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						artworkCollectionModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { artworkCollectionModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
 			}
 
 			if ((artworkCollectionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						artworkCollectionModelImpl.getOriginalUuid(),
-						artworkCollectionModelImpl.getOriginalCompanyId()
-					};
+					artworkCollectionModelImpl.getOriginalGroupId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 
-				args = new Object[] {
-						artworkCollectionModelImpl.getUuid(),
-						artworkCollectionModelImpl.getCompanyId()
-					};
+				args = new Object[] {artworkCollectionModelImpl.getGroupId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((artworkCollectionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						artworkCollectionModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { artworkCollectionModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 			}
 		}
 
-		entityCache.putResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 			ArtworkCollectionImpl.class, artworkCollection.getPrimaryKey(),
 			artworkCollection, false);
 
@@ -2416,40 +2448,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		return artworkCollection;
 	}
 
-	protected ArtworkCollection toUnwrappedModel(
-		ArtworkCollection artworkCollection) {
-		if (artworkCollection instanceof ArtworkCollectionImpl) {
-			return artworkCollection;
-		}
-
-		ArtworkCollectionImpl artworkCollectionImpl = new ArtworkCollectionImpl();
-
-		artworkCollectionImpl.setNew(artworkCollection.isNew());
-		artworkCollectionImpl.setPrimaryKey(artworkCollection.getPrimaryKey());
-
-		artworkCollectionImpl.setUuid(artworkCollection.getUuid());
-		artworkCollectionImpl.setCollectionId(artworkCollection.getCollectionId());
-		artworkCollectionImpl.setGroupId(artworkCollection.getGroupId());
-		artworkCollectionImpl.setCompanyId(artworkCollection.getCompanyId());
-		artworkCollectionImpl.setUserId(artworkCollection.getUserId());
-		artworkCollectionImpl.setUserName(artworkCollection.getUserName());
-		artworkCollectionImpl.setCreateDate(artworkCollection.getCreateDate());
-		artworkCollectionImpl.setModifiedDate(artworkCollection.getModifiedDate());
-		artworkCollectionImpl.setLastPublishDate(artworkCollection.getLastPublishDate());
-		artworkCollectionImpl.setStatus(artworkCollection.getStatus());
-		artworkCollectionImpl.setStatusByUserId(artworkCollection.getStatusByUserId());
-		artworkCollectionImpl.setStatusByUserName(artworkCollection.getStatusByUserName());
-		artworkCollectionImpl.setStatusDate(artworkCollection.getStatusDate());
-		artworkCollectionImpl.setTitle(artworkCollection.getTitle());
-		artworkCollectionImpl.setDescription(artworkCollection.getDescription());
-		artworkCollectionImpl.setContributors(artworkCollection.getContributors());
-		artworkCollectionImpl.setImageId(artworkCollection.getImageId());
-
-		return artworkCollectionImpl;
-	}
-
 	/**
-	 * Returns the artwork collection with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the artwork collection with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the artwork collection
 	 * @return the artwork collection
@@ -2458,6 +2458,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public ArtworkCollection findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchArtworkCollectionException {
+
 		ArtworkCollection artworkCollection = fetchByPrimaryKey(primaryKey);
 
 		if (artworkCollection == null) {
@@ -2465,15 +2466,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchArtworkCollectionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchArtworkCollectionException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return artworkCollection;
 	}
 
 	/**
-	 * Returns the artwork collection with the primary key or throws a {@link NoSuchArtworkCollectionException} if it could not be found.
+	 * Returns the artwork collection with the primary key or throws a <code>NoSuchArtworkCollectionException</code> if it could not be found.
 	 *
 	 * @param collectionId the primary key of the artwork collection
 	 * @return the artwork collection
@@ -2482,6 +2483,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public ArtworkCollection findByPrimaryKey(long collectionId)
 		throws NoSuchArtworkCollectionException {
+
 		return findByPrimaryKey((Serializable)collectionId);
 	}
 
@@ -2493,8 +2495,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public ArtworkCollection fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-				ArtworkCollectionImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2508,19 +2511,21 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			try {
 				session = openSession();
 
-				artworkCollection = (ArtworkCollection)session.get(ArtworkCollectionImpl.class,
-						primaryKey);
+				artworkCollection = (ArtworkCollection)session.get(
+					ArtworkCollectionImpl.class, primaryKey);
 
 				if (artworkCollection != null) {
 					cacheResult(artworkCollection);
 				}
 				else {
-					entityCache.putResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 						ArtworkCollectionImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 					ArtworkCollectionImpl.class, primaryKey);
 
 				throw processException(e);
@@ -2547,11 +2552,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public Map<Serializable, ArtworkCollection> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, ArtworkCollection> map = new HashMap<Serializable, ArtworkCollection>();
+		Map<Serializable, ArtworkCollection> map =
+			new HashMap<Serializable, ArtworkCollection>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -2570,8 +2577,9 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
-					ArtworkCollectionImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+				ArtworkCollectionImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2591,20 +2599,20 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_ARTWORKCOLLECTION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2615,16 +2623,21 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 			Query q = session.createQuery(sql);
 
-			for (ArtworkCollection artworkCollection : (List<ArtworkCollection>)q.list()) {
-				map.put(artworkCollection.getPrimaryKeyObj(), artworkCollection);
+			for (ArtworkCollection artworkCollection :
+					(List<ArtworkCollection>)q.list()) {
+
+				map.put(
+					artworkCollection.getPrimaryKeyObj(), artworkCollection);
 
 				cacheResult(artworkCollection);
 
-				uncachedPrimaryKeys.remove(artworkCollection.getPrimaryKeyObj());
+				uncachedPrimaryKeys.remove(
+					artworkCollection.getPrimaryKeyObj());
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
 					ArtworkCollectionImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -2652,7 +2665,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns a range of all the artwork collections.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of artwork collections
@@ -2668,7 +2681,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of artwork collections
@@ -2677,8 +2690,10 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findAll(int start, int end,
+	public List<ArtworkCollection> findAll(
+		int start, int end,
 		OrderByComparator<ArtworkCollection> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2686,7 +2701,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artwork collections.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of artwork collections
@@ -2696,29 +2711,32 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @return the ordered range of artwork collections
 	 */
 	@Override
-	public List<ArtworkCollection> findAll(int start, int end,
+	public List<ArtworkCollection> findAll(
+		int start, int end,
 		OrderByComparator<ArtworkCollection> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<ArtworkCollection> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ArtworkCollection>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ArtworkCollection>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2726,13 +2744,13 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_ARTWORKCOLLECTION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2752,16 +2770,16 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ArtworkCollection>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ArtworkCollection>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2799,8 +2817,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2812,12 +2830,12 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2837,7 +2855,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public long[] getArtworkPrimaryKeys(long pk) {
-		long[] pks = artworkCollectionToArtworkTableMapper.getRightPrimaryKeys(pk);
+		long[] pks = artworkCollectionToArtworkTableMapper.getRightPrimaryKeys(
+			pk);
 
 		return pks.clone();
 	}
@@ -2851,6 +2870,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public List<eu.strasbourg.service.artwork.model.Artwork> getArtworks(
 		long pk) {
+
 		return getArtworks(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 	}
 
@@ -2858,7 +2878,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns a range of all the artworks associated with the artwork collection.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param pk the primary key of the artwork collection
@@ -2869,6 +2889,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public List<eu.strasbourg.service.artwork.model.Artwork> getArtworks(
 		long pk, int start, int end) {
+
 		return getArtworks(pk, start, end, null);
 	}
 
@@ -2876,7 +2897,7 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Returns an ordered range of all the artworks associated with the artwork collection.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ArtworkCollectionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ArtworkCollectionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param pk the primary key of the artwork collection
@@ -2888,9 +2909,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public List<eu.strasbourg.service.artwork.model.Artwork> getArtworks(
 		long pk, int start, int end,
-		OrderByComparator<eu.strasbourg.service.artwork.model.Artwork> orderByComparator) {
-		return artworkCollectionToArtworkTableMapper.getRightBaseModels(pk,
-			start, end, orderByComparator);
+		OrderByComparator<eu.strasbourg.service.artwork.model.Artwork>
+			orderByComparator) {
+
+		return artworkCollectionToArtworkTableMapper.getRightBaseModels(
+			pk, start, end, orderByComparator);
 	}
 
 	/**
@@ -2901,7 +2924,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public int getArtworksSize(long pk) {
-		long[] pks = artworkCollectionToArtworkTableMapper.getRightPrimaryKeys(pk);
+		long[] pks = artworkCollectionToArtworkTableMapper.getRightPrimaryKeys(
+			pk);
 
 		return pks.length;
 	}
@@ -2915,8 +2939,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public boolean containsArtwork(long pk, long artworkPK) {
-		return artworkCollectionToArtworkTableMapper.containsTableMapping(pk,
-			artworkPK);
+		return artworkCollectionToArtworkTableMapper.containsTableMapping(
+			pk, artworkPK);
 	}
 
 	/**
@@ -2946,12 +2970,12 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 		ArtworkCollection artworkCollection = fetchByPrimaryKey(pk);
 
 		if (artworkCollection == null) {
-			artworkCollectionToArtworkTableMapper.addTableMapping(companyProvider.getCompanyId(),
-				pk, artworkPK);
+			artworkCollectionToArtworkTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk, artworkPK);
 		}
 		else {
-			artworkCollectionToArtworkTableMapper.addTableMapping(artworkCollection.getCompanyId(),
-				pk, artworkPK);
+			artworkCollectionToArtworkTableMapper.addTableMapping(
+				artworkCollection.getCompanyId(), pk, artworkPK);
 		}
 	}
 
@@ -2962,17 +2986,18 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @param artwork the artwork
 	 */
 	@Override
-	public void addArtwork(long pk,
-		eu.strasbourg.service.artwork.model.Artwork artwork) {
+	public void addArtwork(
+		long pk, eu.strasbourg.service.artwork.model.Artwork artwork) {
+
 		ArtworkCollection artworkCollection = fetchByPrimaryKey(pk);
 
 		if (artworkCollection == null) {
-			artworkCollectionToArtworkTableMapper.addTableMapping(companyProvider.getCompanyId(),
-				pk, artwork.getPrimaryKey());
+			artworkCollectionToArtworkTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk, artwork.getPrimaryKey());
 		}
 		else {
-			artworkCollectionToArtworkTableMapper.addTableMapping(artworkCollection.getCompanyId(),
-				pk, artwork.getPrimaryKey());
+			artworkCollectionToArtworkTableMapper.addTableMapping(
+				artworkCollection.getCompanyId(), pk, artwork.getPrimaryKey());
 		}
 	}
 
@@ -2995,8 +3020,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			companyId = artworkCollection.getCompanyId();
 		}
 
-		artworkCollectionToArtworkTableMapper.addTableMappings(companyId, pk,
-			artworkPKs);
+		artworkCollectionToArtworkTableMapper.addTableMappings(
+			companyId, pk, artworkPKs);
 	}
 
 	/**
@@ -3006,11 +3031,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @param artworks the artworks
 	 */
 	@Override
-	public void addArtworks(long pk,
-		List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
-		addArtworks(pk,
-			ListUtil.toLongArray(artworks,
-				eu.strasbourg.service.artwork.model.Artwork.ARTWORK_ID_ACCESSOR));
+	public void addArtworks(
+		long pk, List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
+
+		addArtworks(
+			pk,
+			ListUtil.toLongArray(
+				artworks,
+				eu.strasbourg.service.artwork.model.Artwork.
+					ARTWORK_ID_ACCESSOR));
 	}
 
 	/**
@@ -3020,7 +3049,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public void clearArtworks(long pk) {
-		artworkCollectionToArtworkTableMapper.deleteLeftPrimaryKeyTableMappings(pk);
+		artworkCollectionToArtworkTableMapper.deleteLeftPrimaryKeyTableMappings(
+			pk);
 	}
 
 	/**
@@ -3041,10 +3071,11 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @param artwork the artwork
 	 */
 	@Override
-	public void removeArtwork(long pk,
-		eu.strasbourg.service.artwork.model.Artwork artwork) {
-		artworkCollectionToArtworkTableMapper.deleteTableMapping(pk,
-			artwork.getPrimaryKey());
+	public void removeArtwork(
+		long pk, eu.strasbourg.service.artwork.model.Artwork artwork) {
+
+		artworkCollectionToArtworkTableMapper.deleteTableMapping(
+			pk, artwork.getPrimaryKey());
 	}
 
 	/**
@@ -3055,7 +3086,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 */
 	@Override
 	public void removeArtworks(long pk, long[] artworkPKs) {
-		artworkCollectionToArtworkTableMapper.deleteTableMappings(pk, artworkPKs);
+		artworkCollectionToArtworkTableMapper.deleteTableMappings(
+			pk, artworkPKs);
 	}
 
 	/**
@@ -3065,11 +3097,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @param artworks the artworks
 	 */
 	@Override
-	public void removeArtworks(long pk,
-		List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
-		removeArtworks(pk,
-			ListUtil.toLongArray(artworks,
-				eu.strasbourg.service.artwork.model.Artwork.ARTWORK_ID_ACCESSOR));
+	public void removeArtworks(
+		long pk, List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
+
+		removeArtworks(
+			pk,
+			ListUtil.toLongArray(
+				artworks,
+				eu.strasbourg.service.artwork.model.Artwork.
+					ARTWORK_ID_ACCESSOR));
 	}
 
 	/**
@@ -3081,15 +3117,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	@Override
 	public void setArtworks(long pk, long[] artworkPKs) {
 		Set<Long> newArtworkPKsSet = SetUtil.fromArray(artworkPKs);
-		Set<Long> oldArtworkPKsSet = SetUtil.fromArray(artworkCollectionToArtworkTableMapper.getRightPrimaryKeys(
-					pk));
+		Set<Long> oldArtworkPKsSet = SetUtil.fromArray(
+			artworkCollectionToArtworkTableMapper.getRightPrimaryKeys(pk));
 
 		Set<Long> removeArtworkPKsSet = new HashSet<Long>(oldArtworkPKsSet);
 
 		removeArtworkPKsSet.removeAll(newArtworkPKsSet);
 
-		artworkCollectionToArtworkTableMapper.deleteTableMappings(pk,
-			ArrayUtil.toLongArray(removeArtworkPKsSet));
+		artworkCollectionToArtworkTableMapper.deleteTableMappings(
+			pk, ArrayUtil.toLongArray(removeArtworkPKsSet));
 
 		newArtworkPKsSet.removeAll(oldArtworkPKsSet);
 
@@ -3104,8 +3140,8 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 			companyId = artworkCollection.getCompanyId();
 		}
 
-		artworkCollectionToArtworkTableMapper.addTableMappings(companyId, pk,
-			ArrayUtil.toLongArray(newArtworkPKsSet));
+		artworkCollectionToArtworkTableMapper.addTableMappings(
+			companyId, pk, ArrayUtil.toLongArray(newArtworkPKsSet));
 	}
 
 	/**
@@ -3115,13 +3151,15 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * @param artworks the artworks to be associated with the artwork collection
 	 */
 	@Override
-	public void setArtworks(long pk,
-		List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
+	public void setArtworks(
+		long pk, List<eu.strasbourg.service.artwork.model.Artwork> artworks) {
+
 		try {
 			long[] artworkPKs = new long[artworks.size()];
 
 			for (int i = 0; i < artworks.size(); i++) {
-				eu.strasbourg.service.artwork.model.Artwork artwork = artworks.get(i);
+				eu.strasbourg.service.artwork.model.Artwork artwork =
+					artworks.get(i);
 
 				artworkPKs[i] = artwork.getPrimaryKey();
 			}
@@ -3147,9 +3185,118 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 	 * Initializes the artwork collection persistence.
 	 */
 	public void afterPropertiesSet() {
-		artworkCollectionToArtworkTableMapper = TableMapperFactory.getTableMapper("artwork_ArtworkToArtworkCollection",
-				"companyId", "collectionId", "artworkId", this,
-				artworkPersistence);
+		artworkCollectionToArtworkTableMapper =
+			TableMapperFactory.getTableMapper(
+				"artwork_ArtworkToArtworkCollection", "companyId",
+				"collectionId", "artworkId", this, artworkPersistence);
+
+		_finderPathWithPaginationFindAll = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			ArtworkCollectionModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ArtworkCollectionModelImpl.UUID_COLUMN_BITMASK |
+			ArtworkCollectionModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ArtworkCollectionModelImpl.UUID_COLUMN_BITMASK |
+			ArtworkCollectionModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED,
+			ArtworkCollectionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			ArtworkCollectionModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			ArtworkCollectionModelImpl.ENTITY_CACHE_ENABLED,
+			ArtworkCollectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -3164,23 +3311,47 @@ public class ArtworkCollectionPersistenceImpl extends BasePersistenceImpl<Artwor
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	@BeanReference(type = ArtworkPersistence.class)
 	protected ArtworkPersistence artworkPersistence;
-	protected TableMapper<ArtworkCollection, eu.strasbourg.service.artwork.model.Artwork> artworkCollectionToArtworkTableMapper;
-	private static final String _SQL_SELECT_ARTWORKCOLLECTION = "SELECT artworkCollection FROM ArtworkCollection artworkCollection";
-	private static final String _SQL_SELECT_ARTWORKCOLLECTION_WHERE_PKS_IN = "SELECT artworkCollection FROM ArtworkCollection artworkCollection WHERE collectionId IN (";
-	private static final String _SQL_SELECT_ARTWORKCOLLECTION_WHERE = "SELECT artworkCollection FROM ArtworkCollection artworkCollection WHERE ";
-	private static final String _SQL_COUNT_ARTWORKCOLLECTION = "SELECT COUNT(artworkCollection) FROM ArtworkCollection artworkCollection";
-	private static final String _SQL_COUNT_ARTWORKCOLLECTION_WHERE = "SELECT COUNT(artworkCollection) FROM ArtworkCollection artworkCollection WHERE ";
+
+	protected TableMapper
+		<ArtworkCollection, eu.strasbourg.service.artwork.model.Artwork>
+			artworkCollectionToArtworkTableMapper;
+
+	private static final String _SQL_SELECT_ARTWORKCOLLECTION =
+		"SELECT artworkCollection FROM ArtworkCollection artworkCollection";
+
+	private static final String _SQL_SELECT_ARTWORKCOLLECTION_WHERE_PKS_IN =
+		"SELECT artworkCollection FROM ArtworkCollection artworkCollection WHERE collectionId IN (";
+
+	private static final String _SQL_SELECT_ARTWORKCOLLECTION_WHERE =
+		"SELECT artworkCollection FROM ArtworkCollection artworkCollection WHERE ";
+
+	private static final String _SQL_COUNT_ARTWORKCOLLECTION =
+		"SELECT COUNT(artworkCollection) FROM ArtworkCollection artworkCollection";
+
+	private static final String _SQL_COUNT_ARTWORKCOLLECTION_WHERE =
+		"SELECT COUNT(artworkCollection) FROM ArtworkCollection artworkCollection WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "artworkCollection.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ArtworkCollection exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ArtworkCollection exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(ArtworkCollectionPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No ArtworkCollection exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No ArtworkCollection exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ArtworkCollectionPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

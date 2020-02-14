@@ -32,12 +32,13 @@ import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ArtworkBaseImpl extends ArtworkModelImpl
-	implements Artwork {
+public abstract class ArtworkBaseImpl
+	extends ArtworkModelImpl implements Artwork {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a artwork model instance should use the {@link Artwork} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a artwork model instance should use the <code>Artwork</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ArtworkBaseImpl extends ArtworkModelImpl
 			ArtworkLocalServiceUtil.updateArtwork(this);
 		}
 	}
+
 }

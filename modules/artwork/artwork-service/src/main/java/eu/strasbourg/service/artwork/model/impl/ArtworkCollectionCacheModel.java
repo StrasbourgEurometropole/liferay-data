@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.artwork.model.ArtworkCollection;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ArtworkCollection in entity cache.
  *
  * @author BenjaminBini
- * @see ArtworkCollection
  * @generated
  */
 @ProviderType
-public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection>,
-	Externalizable {
+public class ArtworkCollectionCacheModel
+	implements CacheModel<ArtworkCollection>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 			return false;
 		}
 
-		ArtworkCollectionCacheModel artworkCollectionCacheModel = (ArtworkCollectionCacheModel)obj;
+		ArtworkCollectionCacheModel artworkCollectionCacheModel =
+			(ArtworkCollectionCacheModel)obj;
 
 		if (collectionId == artworkCollectionCacheModel.collectionId) {
 			return true;
@@ -109,10 +109,11 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 
 	@Override
 	public ArtworkCollection toEntityModel() {
-		ArtworkCollectionImpl artworkCollectionImpl = new ArtworkCollectionImpl();
+		ArtworkCollectionImpl artworkCollectionImpl =
+			new ArtworkCollectionImpl();
 
 		if (uuid == null) {
-			artworkCollectionImpl.setUuid(StringPool.BLANK);
+			artworkCollectionImpl.setUuid("");
 		}
 		else {
 			artworkCollectionImpl.setUuid(uuid);
@@ -124,7 +125,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		artworkCollectionImpl.setUserId(userId);
 
 		if (userName == null) {
-			artworkCollectionImpl.setUserName(StringPool.BLANK);
+			artworkCollectionImpl.setUserName("");
 		}
 		else {
 			artworkCollectionImpl.setUserName(userName);
@@ -155,7 +156,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		artworkCollectionImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			artworkCollectionImpl.setStatusByUserName(StringPool.BLANK);
+			artworkCollectionImpl.setStatusByUserName("");
 		}
 		else {
 			artworkCollectionImpl.setStatusByUserName(statusByUserName);
@@ -169,21 +170,21 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		}
 
 		if (title == null) {
-			artworkCollectionImpl.setTitle(StringPool.BLANK);
+			artworkCollectionImpl.setTitle("");
 		}
 		else {
 			artworkCollectionImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			artworkCollectionImpl.setDescription(StringPool.BLANK);
+			artworkCollectionImpl.setDescription("");
 		}
 		else {
 			artworkCollectionImpl.setDescription(description);
 		}
 
 		if (contributors == null) {
-			artworkCollectionImpl.setContributors(StringPool.BLANK);
+			artworkCollectionImpl.setContributors("");
 		}
 		else {
 			artworkCollectionImpl.setContributors(contributors);
@@ -225,10 +226,9 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -243,7 +243,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -258,7 +258,7 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -267,21 +267,21 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (contributors == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contributors);
@@ -307,4 +307,5 @@ public class ArtworkCollectionCacheModel implements CacheModel<ArtworkCollection
 	public String description;
 	public String contributors;
 	public long imageId;
+
 }
