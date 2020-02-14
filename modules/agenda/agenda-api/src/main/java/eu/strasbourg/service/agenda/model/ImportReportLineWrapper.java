@@ -17,7 +17,6 @@ package eu.strasbourg.service.agenda.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -37,8 +36,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class ImportReportLineWrapper implements ImportReportLine,
-	ModelWrapper<ImportReportLine> {
+public class ImportReportLineWrapper
+	implements ImportReportLine, ModelWrapper<ImportReportLine> {
+
 	public ImportReportLineWrapper(ImportReportLine importReportLine) {
 		_importReportLine = importReportLine;
 	}
@@ -128,8 +128,141 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	@Override
+	public Object clone() {
+		return new ImportReportLineWrapper(
+			(ImportReportLine)_importReportLine.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.agenda.model.ImportReportLine importReportLine) {
+
+		return _importReportLine.compareTo(importReportLine);
+	}
+
+	@Override
+	public void error(String cause) {
+		_importReportLine.error(cause);
+	}
+
+	/**
+	 * Returns the entity external ID of this import report line.
+	 *
+	 * @return the entity external ID of this import report line
+	 */
+	@Override
+	public String getEntityExternalId() {
+		return _importReportLine.getEntityExternalId();
+	}
+
+	/**
+	 * Returns the entity ID of this import report line.
+	 *
+	 * @return the entity ID of this import report line
+	 */
+	@Override
+	public long getEntityId() {
+		return _importReportLine.getEntityId();
+	}
+
+	/**
+	 * Returns the entity name of this import report line.
+	 *
+	 * @return the entity name of this import report line
+	 */
+	@Override
+	public String getEntityName() {
+		return _importReportLine.getEntityName();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _importReportLine.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the line ID of this import report line.
+	 *
+	 * @return the line ID of this import report line
+	 */
+	@Override
+	public long getLineId() {
+		return _importReportLine.getLineId();
+	}
+
+	/**
+	 * Returns the log of this import report line.
+	 *
+	 * @return the log of this import report line
+	 */
+	@Override
+	public String getLog() {
+		return _importReportLine.getLog();
+	}
+
+	/**
+	 * Returns the primary key of this import report line.
+	 *
+	 * @return the primary key of this import report line
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _importReportLine.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _importReportLine.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the report ID of this import report line.
+	 *
+	 * @return the report ID of this import report line
+	 */
+	@Override
+	public long getReportId() {
+		return _importReportLine.getReportId();
+	}
+
+	/**
+	 * Returns the status of this import report line.
+	 *
+	 * @return the status of this import report line
+	 */
+	@Override
+	public long getStatus() {
+		return _importReportLine.getStatus();
+	}
+
+	/**
+	 * Returns the type of this import report line.
+	 *
+	 * @return the type of this import report line
+	 */
+	@Override
+	public String getType() {
+		return _importReportLine.getType();
+	}
+
+	/**
+	 * Returns the uuid of this import report line.
+	 *
+	 * @return the uuid of this import report line
+	 */
+	@Override
+	public String getUuid() {
+		return _importReportLine.getUuid();
+	}
+
+	@Override
 	public boolean hasError() {
 		return _importReportLine.hasError();
+	}
+
+	@Override
+	public int hashCode() {
+		return _importReportLine.hashCode();
 	}
 
 	@Override
@@ -148,162 +281,6 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _importReportLine.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.agenda.model.ImportReportLine> toCacheModel() {
-		return _importReportLine.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.ImportReportLine toEscapedModel() {
-		return new ImportReportLineWrapper(_importReportLine.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.ImportReportLine toUnescapedModel() {
-		return new ImportReportLineWrapper(_importReportLine.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.ImportReportLine importReportLine) {
-		return _importReportLine.compareTo(importReportLine);
-	}
-
-	@Override
-	public int hashCode() {
-		return _importReportLine.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _importReportLine.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new ImportReportLineWrapper((ImportReportLine)_importReportLine.clone());
-	}
-
-	/**
-	* Returns the entity external ID of this import report line.
-	*
-	* @return the entity external ID of this import report line
-	*/
-	@Override
-	public java.lang.String getEntityExternalId() {
-		return _importReportLine.getEntityExternalId();
-	}
-
-	/**
-	* Returns the entity name of this import report line.
-	*
-	* @return the entity name of this import report line
-	*/
-	@Override
-	public java.lang.String getEntityName() {
-		return _importReportLine.getEntityName();
-	}
-
-	/**
-	* Returns the log of this import report line.
-	*
-	* @return the log of this import report line
-	*/
-	@Override
-	public java.lang.String getLog() {
-		return _importReportLine.getLog();
-	}
-
-	/**
-	* Returns the type of this import report line.
-	*
-	* @return the type of this import report line
-	*/
-	@Override
-	public java.lang.String getType() {
-		return _importReportLine.getType();
-	}
-
-	/**
-	* Returns the uuid of this import report line.
-	*
-	* @return the uuid of this import report line
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _importReportLine.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _importReportLine.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _importReportLine.toXmlString();
-	}
-
-	/**
-	* Returns the entity ID of this import report line.
-	*
-	* @return the entity ID of this import report line
-	*/
-	@Override
-	public long getEntityId() {
-		return _importReportLine.getEntityId();
-	}
-
-	/**
-	* Returns the line ID of this import report line.
-	*
-	* @return the line ID of this import report line
-	*/
-	@Override
-	public long getLineId() {
-		return _importReportLine.getLineId();
-	}
-
-	/**
-	* Returns the primary key of this import report line.
-	*
-	* @return the primary key of this import report line
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _importReportLine.getPrimaryKey();
-	}
-
-	/**
-	* Returns the report ID of this import report line.
-	*
-	* @return the report ID of this import report line
-	*/
-	@Override
-	public long getReportId() {
-		return _importReportLine.getReportId();
-	}
-
-	/**
-	* Returns the status of this import report line.
-	*
-	* @return the status of this import report line
-	*/
-	@Override
-	public long getStatus() {
-		return _importReportLine.getStatus();
-	}
-
-	@Override
-	public void error(java.lang.String cause) {
-		_importReportLine.error(cause);
-	}
-
-	@Override
 	public void persist() {
 		_importReportLine.persist();
 	}
@@ -314,33 +291,40 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	/**
-	* Sets the entity external ID of this import report line.
-	*
-	* @param entityExternalId the entity external ID of this import report line
-	*/
+	 * Sets the entity external ID of this import report line.
+	 *
+	 * @param entityExternalId the entity external ID of this import report line
+	 */
 	@Override
-	public void setEntityExternalId(java.lang.String entityExternalId) {
+	public void setEntityExternalId(String entityExternalId) {
 		_importReportLine.setEntityExternalId(entityExternalId);
 	}
 
 	/**
-	* Sets the entity ID of this import report line.
-	*
-	* @param entityId the entity ID of this import report line
-	*/
+	 * Sets the entity ID of this import report line.
+	 *
+	 * @param entityId the entity ID of this import report line
+	 */
 	@Override
 	public void setEntityId(long entityId) {
 		_importReportLine.setEntityId(entityId);
 	}
 
 	/**
-	* Sets the entity name of this import report line.
-	*
-	* @param entityName the entity name of this import report line
-	*/
+	 * Sets the entity name of this import report line.
+	 *
+	 * @param entityName the entity name of this import report line
+	 */
 	@Override
-	public void setEntityName(java.lang.String entityName) {
+	public void setEntityName(String entityName) {
 		_importReportLine.setEntityName(entityName);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_importReportLine.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -349,33 +333,27 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_importReportLine.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_importReportLine.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the line ID of this import report line.
-	*
-	* @param lineId the line ID of this import report line
-	*/
+	 * Sets the line ID of this import report line.
+	 *
+	 * @param lineId the line ID of this import report line
+	 */
 	@Override
 	public void setLineId(long lineId) {
 		_importReportLine.setLineId(lineId);
 	}
 
 	/**
-	* Sets the log of this import report line.
-	*
-	* @param log the log of this import report line
-	*/
+	 * Sets the log of this import report line.
+	 *
+	 * @param log the log of this import report line
+	 */
 	@Override
-	public void setLog(java.lang.String log) {
+	public void setLog(String log) {
 		_importReportLine.setLog(log);
 	}
 
@@ -385,10 +363,10 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	/**
-	* Sets the primary key of this import report line.
-	*
-	* @param primaryKey the primary key of this import report line
-	*/
+	 * Sets the primary key of this import report line.
+	 *
+	 * @param primaryKey the primary key of this import report line
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_importReportLine.setPrimaryKey(primaryKey);
@@ -400,43 +378,75 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	/**
-	* Sets the report ID of this import report line.
-	*
-	* @param reportId the report ID of this import report line
-	*/
+	 * Sets the report ID of this import report line.
+	 *
+	 * @param reportId the report ID of this import report line
+	 */
 	@Override
 	public void setReportId(long reportId) {
 		_importReportLine.setReportId(reportId);
 	}
 
 	/**
-	* Sets the status of this import report line.
-	*
-	* @param status the status of this import report line
-	*/
+	 * Sets the status of this import report line.
+	 *
+	 * @param status the status of this import report line
+	 */
 	@Override
 	public void setStatus(long status) {
 		_importReportLine.setStatus(status);
 	}
 
 	/**
-	* Sets the type of this import report line.
-	*
-	* @param type the type of this import report line
-	*/
+	 * Sets the type of this import report line.
+	 *
+	 * @param type the type of this import report line
+	 */
 	@Override
-	public void setType(java.lang.String type) {
+	public void setType(String type) {
 		_importReportLine.setType(type);
 	}
 
 	/**
-	* Sets the uuid of this import report line.
-	*
-	* @param uuid the uuid of this import report line
-	*/
+	 * Sets the uuid of this import report line.
+	 *
+	 * @param uuid the uuid of this import report line
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_importReportLine.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.agenda.model.ImportReportLine> toCacheModel() {
+
+		return _importReportLine.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.agenda.model.ImportReportLine
+		toEscapedModel() {
+
+		return new ImportReportLineWrapper(_importReportLine.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _importReportLine.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.agenda.model.ImportReportLine
+		toUnescapedModel() {
+
+		return new ImportReportLineWrapper(
+			_importReportLine.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _importReportLine.toXmlString();
 	}
 
 	@Override
@@ -449,10 +459,12 @@ public class ImportReportLineWrapper implements ImportReportLine,
 			return false;
 		}
 
-		ImportReportLineWrapper importReportLineWrapper = (ImportReportLineWrapper)obj;
+		ImportReportLineWrapper importReportLineWrapper =
+			(ImportReportLineWrapper)obj;
 
-		if (Objects.equals(_importReportLine,
-					importReportLineWrapper._importReportLine)) {
+		if (Objects.equals(
+				_importReportLine, importReportLineWrapper._importReportLine)) {
+
 			return true;
 		}
 
@@ -480,4 +492,5 @@ public class ImportReportLineWrapper implements ImportReportLine,
 	}
 
 	private final ImportReportLine _importReportLine;
+
 }

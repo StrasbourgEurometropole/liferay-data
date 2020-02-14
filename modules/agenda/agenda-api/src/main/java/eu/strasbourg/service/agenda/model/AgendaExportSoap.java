@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.agenda.service.http.AgendaExportServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.agenda.service.http.AgendaExportServiceSoap
  * @generated
  */
 @ProviderType
 public class AgendaExportSoap implements Serializable {
+
 	public static AgendaExportSoap toSoapModel(AgendaExport model) {
 		AgendaExportSoap soapModel = new AgendaExportSoap();
 
@@ -85,7 +85,8 @@ public class AgendaExportSoap implements Serializable {
 	}
 
 	public static AgendaExportSoap[] toSoapModels(List<AgendaExport> models) {
-		List<AgendaExportSoap> soapModels = new ArrayList<AgendaExportSoap>(models.size());
+		List<AgendaExportSoap> soapModels = new ArrayList<AgendaExportSoap>(
+			models.size());
 
 		for (AgendaExport model : models) {
 			soapModels.add(toSoapModel(model));
@@ -276,4 +277,5 @@ public class AgendaExportSoap implements Serializable {
 	private long _templateId;
 	private String _eventCategories;
 	private String _aggregations;
+
 }

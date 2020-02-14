@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see EventPeriodModel
- * @see eu.strasbourg.service.agenda.model.impl.EventPeriodImpl
- * @see eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.EventPeriodImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.EventPeriodImpl"
+)
 @ProviderType
 public interface EventPeriod extends EventPeriodModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.EventPeriodImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.EventPeriodImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<EventPeriod, Long> EVENT_PERIOD_ID_ACCESSOR = new Accessor<EventPeriod, Long>() {
+	public static final Accessor<EventPeriod, Long> EVENT_PERIOD_ID_ACCESSOR =
+		new Accessor<EventPeriod, Long>() {
+
 			@Override
 			public Long get(EventPeriod eventPeriod) {
 				return eventPeriod.getEventPeriodId();
@@ -52,10 +55,12 @@ public interface EventPeriod extends EventPeriodModel, PersistedModel {
 			public Class<EventPeriod> getTypeClass() {
 				return EventPeriod.class;
 			}
+
 		};
 
-	public java.lang.String getDisplay(java.util.Locale locale);
+	public String getDisplay(java.util.Locale locale);
 
-	public java.lang.String getDisplay(java.util.Locale locale,
-		boolean dispYear, boolean dispShortMonth);
+	public String getDisplay(
+		java.util.Locale locale, boolean dispYear, boolean dispShortMonth);
+
 }

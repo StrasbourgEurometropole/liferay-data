@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.EventParticipation;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing EventParticipation in entity cache.
  *
  * @author BenjaminBini
- * @see EventParticipation
  * @generated
  */
 @ProviderType
-public class EventParticipationCacheModel implements CacheModel<EventParticipation>,
-	Externalizable {
+public class EventParticipationCacheModel
+	implements CacheModel<EventParticipation>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class EventParticipationCacheModel implements CacheModel<EventParticipati
 			return false;
 		}
 
-		EventParticipationCacheModel eventParticipationCacheModel = (EventParticipationCacheModel)obj;
+		EventParticipationCacheModel eventParticipationCacheModel =
+			(EventParticipationCacheModel)obj;
 
-		if (eventParticipationId == eventParticipationCacheModel.eventParticipationId) {
+		if (eventParticipationId ==
+				eventParticipationCacheModel.eventParticipationId) {
+
 			return true;
 		}
 
@@ -85,7 +87,8 @@ public class EventParticipationCacheModel implements CacheModel<EventParticipati
 
 	@Override
 	public EventParticipation toEntityModel() {
-		EventParticipationImpl eventParticipationImpl = new EventParticipationImpl();
+		EventParticipationImpl eventParticipationImpl =
+			new EventParticipationImpl();
 
 		eventParticipationImpl.setEventParticipationId(eventParticipationId);
 
@@ -97,7 +100,7 @@ public class EventParticipationCacheModel implements CacheModel<EventParticipati
 		}
 
 		if (publikUserId == null) {
-			eventParticipationImpl.setPublikUserId(StringPool.BLANK);
+			eventParticipationImpl.setPublikUserId("");
 		}
 		else {
 			eventParticipationImpl.setPublikUserId(publikUserId);
@@ -123,13 +126,12 @@ public class EventParticipationCacheModel implements CacheModel<EventParticipati
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(eventParticipationId);
 		objectOutput.writeLong(createDate);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -145,4 +147,5 @@ public class EventParticipationCacheModel implements CacheModel<EventParticipati
 	public String publikUserId;
 	public long eventId;
 	public long groupId;
+
 }

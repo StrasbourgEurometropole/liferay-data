@@ -4,7 +4,7 @@
 <service-builder package-path="eu.strasbourg.service.agenda">
     <author>BenjaminBini</author>
 	<namespace>agenda</namespace>
-	
+
 	<entity local-service="true" cache-enabled="true" name="Event" remote-service="true" uuid="true" >
 
 		<!-- PK fields -->
@@ -21,7 +21,7 @@
 		<column name="modifiedDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
 
-		<!-- Workflow fields --> 
+		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
@@ -35,7 +35,7 @@
         <column name="externalImageCopyright" type="String" />
         <column name="imageWidth" type="Integer" />
         <column name="imageHeight" type="Integer" />
-        
+
         <!-- Lieu -->
         <column name="placeSIGId" type="String" />
         <column name="placeName" type="String" localized="true" />
@@ -44,7 +44,7 @@
         <column name="placeZipCode" type="String" />
         <column name="placeCity" type="String" />
         <column name="placeCountry" type="String" />
-		
+
 		<!-- Accès -->
 		<column name="access" type="String" localized="true" />
 		<column name="accessForDisabled" type="String" localized="true" />
@@ -53,38 +53,38 @@
 		<column name="accessForWheelchair" type="Boolean" />
 		<column name="accessForElder" type="Boolean" />
 		<column name="accessForDeficient" type="Boolean" />
-		
+
 		<!-- Contact -->
 		<column name="promoter" type="String" />
 		<column name="phone" type="String" />
 		<column name="email" type="String" />
 		<column name="websiteURL" type="String" localized="true" />
 		<column name="websiteName" type="String" localized="true" />
-		
+
 		<!-- Tarif -->
 		<column name="free" type="Integer" />
 		<column name="price" type="String" localized="true" />
-		
+
 		<!-- Reservation billeterie -->
 		<column name="bookingDescription" type="String" localized="true" />
 		<column name="bookingURL" type="String" />
 		<column name="subscriptionURL" type="String" />
-		
+
 		<!-- Infos de gestion -->
         <column name="source" type="String" />
         <column name="idSource" type="String" />
 		<column name="publicationDate" type="Date" />
-		
+
 		<!-- Infos du concert -->
 		<column name="distribution" type="String" localized="true"/>
 		<column name="composer" type="String" />
 		<column name="concertId" type="String" />
 		<column name="program" type="String" localized="true"/>
-		
+
 		<!-- Dates -->
 		<column name="firstStartDate" type="Date" />
 		<column name="lastEndDate" type="Date" />
-        
+
 		<!-- Links with other entities -->
         <column name="imageId" type="Long" />
         <column name="eventPeriods" type="Collection" entity="EventPeriod"/>
@@ -135,9 +135,9 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
-	
+
 	</entity>
-	
+
 	<entity local-service="true" name="Manifestation" cache-enabled="true" remote-service="true" uuid="true" >
 
 		<!-- PK fields -->
@@ -210,9 +210,9 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
-	
+
 	</entity>
-	
+
 	<entity local-service="true" name="EventPeriod" cache-enabled="true" remote-service="true" uuid="true" >
 
 		<!-- PK fields -->
@@ -222,11 +222,11 @@
         <column name="startDate" type="Date" />
         <column name="endDate" type="Date" />
         <column name="timeDetail" type="String" localized="true" />
-                
+
 		<!-- Links with other entities -->
         <column name="eventId" type="long" />
         <column name="campaignEventId" type="long" />
-        
+
 		<!-- Finder methods -->
 		<finder name="EventId" return-type="Collection">
 			<finder-column name="eventId" />
@@ -234,13 +234,14 @@
 		<finder name="CampaignEventId" return-type="Collection">
 			<finder-column name="campaignEventId" />
 		</finder>
-	
+
 	</entity>
+
 	<entity  local-service="true" name="ImportReport" cache-enabled="true" remote-service="false" uuid="true" >
 
 		<!-- PK fields -->
 		<column name="reportId" primary="true" type="long" />
-		
+
 		<!-- Other fields -->
 		<column name="provider" type="String" />
 		<column name="filename" type="String" />
@@ -254,15 +255,16 @@
 		<column name="errorManifestationsCount" type="long" />
 		<column name="startDate" type="Date" />
 		<column name="endDate" type="Date" />
-		
+
 		<!-- Links with other entities -->
 		<column name="lines" type="Collection" entity="ImportReportLine" />
-			
+
 	</entity>
+
 	<entity local-service="true" name="ImportReportLine" cache-enabled="true" remote-service="false" uuid="true" >
 		<!-- PK fields -->
-		<column name="lineId" primary="true" type="long" /> 
-		
+		<column name="lineId" primary="true" type="long" />
+
 		<!-- Other fields -->
 		<column name="type" type="String" /> <!-- Event / Manifestation -->
 		<column name="status" type="long" /> <!-- 0 : erreur, 1 : ajout, 2 : modif -->
@@ -270,10 +272,10 @@
 		<column name="entityName" type="String" />
 		<column name="entityExternalId" type="String" />
 		<column name="entityId" type="long" />
-		
+
 		<!-- Links with other entities -->
 		<column name="reportId" type="long" />
-		
+
 		<!-- Finder methods -->
 		<finder name="TypeAndStatus" return-type="Collection">
 			<finder-column name="type" />
@@ -283,14 +285,14 @@
 			<finder-column name="reportId" />
 		</finder>
 	</entity>
-	
+
 	<entity local-service="true" remote-service="false" name="CampaignEvent" cache-enabled="true" uuid="true">
 		<!-- PK fields -->
 		<column name="campaignEventId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
-		
+
 		<!-- Audit fields -->
 		<column name="companyId" type="long" />
 		<column name="userId" type="long" />
@@ -300,7 +302,7 @@
 		<column name="lastPublishDate" type="Date" />
 
 		<column name="status" type="int" />
-		
+
 		<column name="firstName" type="String" />
 		<column name="lastName" type="String" />
 		<column name="phone" type="String" />
@@ -335,18 +337,18 @@
 		<column name="themesIds" type="String" />
 		<column name="typesIds" type="String" />
 		<column name="publicsIds" type="String" />
-		
+
 		<!-- Finder methods -->
 		<finder name="CampaignId" return-type="Collection">
 			<finder-column name="campaignId" />
 		</finder>
-		
+
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
-	
+
 	<entity local-service="true" remote-service="false" name="Campaign" cache-enabled="true" uuid="true">
 		<!-- PK fields -->
 		<column name="campaignId" primary="true" type="long" />
@@ -362,7 +364,7 @@
 		<column name="modifiedDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
 
-		<!-- Workflow fields --> 
+		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
@@ -376,7 +378,7 @@
         <column name="exportEnabled" type="Boolean" />
 		<column name="startDate" type="Date" />
 		<column name="endDate" type="Date" />
-        
+
 		<!-- Order -->
 		<order by="desc">
 			<order-column name="modifiedDate" />
@@ -389,13 +391,13 @@
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId" />
 		</finder>
-		
+
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
-	
+
 	<entity local-service="true" name="CampaignEventStatus" cache-enabled="true" remote-service="true" uuid="true" >
 
 		<!-- PK fields -->
@@ -406,32 +408,32 @@
 		<column name="comment" type="String" />
 		<column name="deletionDenied" type="Boolean" />
 		<column name="date" type="Date" />
-                        
+
 		<!-- Links with other entities -->
         <column name="campaignEventId" type="long" />
         <column name="previousStatusId" type="long" />
         <column name="userId" type="long" />
         <column name="userName" type="String" />
-        
+
 		<!-- Finder methods -->
 		<finder name="CampaignEventId" return-type="Collection">
 			<finder-column name="campaignEventId" />
-		</finder> 
+		</finder>
 	</entity>
-	
+
 	<entity local-service="true" name="EventParticipation" remote-service="true" uuid="false">
-		
+
 		<!-- PK fields -->
 		<column name="eventParticipationId" primary="true" type="long" />
-		
+
 		<!-- Audit fields -->
 		<column name="createDate" type="Date" />
-		
+
 		<!-- Other fields -->
 		<column name="publikUserId" type="String" />
         <column name="eventId" type="long" />
         <column name="groupId" type="long" />
-		
+
 		<!-- Finder methods -->
 		<finder name="PublikUserId" return-type="Collection" db-index="true" >
 			<finder-column name="publikUserId" />
@@ -445,8 +447,7 @@
 		</finder>
 
 	</entity>
-	
-	
+
 	<entity local-service="true" cache-enabled="true" name="AgendaExport" remote-service="true" uuid="true" >
 
 		<!-- PK fields -->
@@ -463,7 +464,7 @@
 		<column name="modifiedDate" type="Date" />
 		<column name="lastPublishDate" type="Date" />
 
-		<!-- Workflow fields --> 
+		<!-- Workflow fields -->
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
@@ -495,7 +496,7 @@
 			<finder-column name="groupId" />
 			<finder-column name="status" />
 		</finder>
-		
+
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
@@ -520,5 +521,5 @@
 		</finder>
 
 	</entity>
-	
+
 </service-builder>

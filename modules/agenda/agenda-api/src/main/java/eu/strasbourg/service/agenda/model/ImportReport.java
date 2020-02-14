@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see ImportReportModel
- * @see eu.strasbourg.service.agenda.model.impl.ImportReportImpl
- * @see eu.strasbourg.service.agenda.model.impl.ImportReportModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.ImportReportImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.ImportReportImpl"
+)
 @ProviderType
 public interface ImportReport extends ImportReportModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.ImportReportImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.ImportReportImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ImportReport, Long> REPORT_ID_ACCESSOR = new Accessor<ImportReport, Long>() {
+	public static final Accessor<ImportReport, Long> REPORT_ID_ACCESSOR =
+		new Accessor<ImportReport, Long>() {
+
 			@Override
 			public Long get(ImportReport importReport) {
 				return importReport.getReportId();
@@ -52,9 +55,10 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 			public Class<ImportReport> getTypeClass() {
 				return ImportReport.class;
 			}
+
 		};
 
-	public void globalError(java.lang.String cause);
+	public void globalError(String cause);
 
 	public void incrementNewEvents();
 
@@ -68,19 +72,27 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 
 	public void incrementErrorManifestations();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getNewManifestationsLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getNewManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getModifiedManifestationsLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getModifiedManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getErrorManifestationsLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getErrorManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getNewEventsLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getNewEventsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getModifiedEventsLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getModifiedEventsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine> getErrorEventsLines();
+	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
+		getErrorEventsLines();
 
 	public void sendMail();
+
 }

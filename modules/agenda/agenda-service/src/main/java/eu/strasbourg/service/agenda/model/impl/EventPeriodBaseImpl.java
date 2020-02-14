@@ -32,12 +32,13 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class EventPeriodBaseImpl extends EventPeriodModelImpl
-	implements EventPeriod {
+public abstract class EventPeriodBaseImpl
+	extends EventPeriodModelImpl implements EventPeriod {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a event period model instance should use the {@link EventPeriod} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a event period model instance should use the <code>EventPeriod</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class EventPeriodBaseImpl extends EventPeriodModelImpl
 			EventPeriodLocalServiceUtil.updateEventPeriod(this);
 		}
 	}
+
 }

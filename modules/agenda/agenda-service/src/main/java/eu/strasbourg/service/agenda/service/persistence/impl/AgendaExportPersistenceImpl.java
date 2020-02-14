@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -67,50 +67,33 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see AgendaExportPersistence
- * @see eu.strasbourg.service.agenda.service.persistence.AgendaExportUtil
  * @generated
  */
 @ProviderType
-public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExport>
+public class AgendaExportPersistenceImpl
+	extends BasePersistenceImpl<AgendaExport>
 	implements AgendaExportPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link AgendaExportUtil} to access the agenda export persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>AgendaExportUtil</code> to access the agenda export persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = AgendaExportImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			AgendaExportModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		AgendaExportImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the agenda exports where uuid = &#63;.
@@ -127,7 +110,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns a range of all the agenda exports where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -144,7 +127,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -154,8 +137,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByUuid(String uuid, int start, int end,
+	public List<AgendaExport> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -163,7 +148,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -174,33 +159,38 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByUuid(String uuid, int start, int end,
+	public List<AgendaExport> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<AgendaExport> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<AgendaExport>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<AgendaExport>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (AgendaExport agendaExport : list) {
-					if (!Objects.equals(uuid, agendaExport.getUuid())) {
+					if (!uuid.equals(agendaExport.getUuid())) {
 						list = null;
 
 						break;
@@ -213,8 +203,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -224,10 +214,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -237,11 +224,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(AgendaExportModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -261,16 +247,16 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				}
 
 				if (!pagination) {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -299,9 +285,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByUuid_First(String uuid,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByUuid_First(
+			String uuid, OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = fetchByUuid_First(uuid, orderByComparator);
 
 		if (agendaExport != null) {
@@ -315,7 +302,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -328,8 +315,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the first matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByUuid_First(String uuid,
-		OrderByComparator<AgendaExport> orderByComparator) {
+	public AgendaExport fetchByUuid_First(
+		String uuid, OrderByComparator<AgendaExport> orderByComparator) {
+
 		List<AgendaExport> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -348,9 +336,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByUuid_Last(String uuid,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByUuid_Last(
+			String uuid, OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (agendaExport != null) {
@@ -364,7 +353,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -377,16 +366,17 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the last matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByUuid_Last(String uuid,
-		OrderByComparator<AgendaExport> orderByComparator) {
+	public AgendaExport fetchByUuid_Last(
+		String uuid, OrderByComparator<AgendaExport> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<AgendaExport> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<AgendaExport> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -405,9 +395,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a agenda export with the primary key could not be found
 	 */
 	@Override
-	public AgendaExport[] findByUuid_PrevAndNext(long agendaExportId,
-		String uuid, OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport[] findByUuid_PrevAndNext(
+			long agendaExportId, String uuid,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
+		uuid = Objects.toString(uuid, "");
+
 		AgendaExport agendaExport = findByPrimaryKey(agendaExportId);
 
 		Session session = null;
@@ -417,13 +411,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			AgendaExport[] array = new AgendaExportImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, agendaExport, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, agendaExport, uuid, orderByComparator, true);
 
 			array[1] = agendaExport;
 
-			array[2] = getByUuid_PrevAndNext(session, agendaExport, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, agendaExport, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -435,14 +429,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 	}
 
-	protected AgendaExport getByUuid_PrevAndNext(Session session,
-		AgendaExport agendaExport, String uuid,
+	protected AgendaExport getByUuid_PrevAndNext(
+		Session session, AgendaExport agendaExport, String uuid,
 		OrderByComparator<AgendaExport> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -453,10 +448,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -466,7 +458,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -538,10 +531,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(agendaExport);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(agendaExport)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -562,8 +555,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (AgendaExport agendaExport : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (AgendaExport agendaExport :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(agendaExport);
 		}
 	}
@@ -576,9 +570,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -589,10 +585,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -633,22 +626,17 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "agendaExport.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "agendaExport.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(agendaExport.uuid IS NULL OR agendaExport.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			AgendaExportModelImpl.UUID_COLUMN_BITMASK |
-			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"agendaExport.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(agendaExport.uuid IS NULL OR agendaExport.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the agenda export where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchAgendaExportException} if it could not be found.
+	 * Returns the agenda export where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchAgendaExportException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -658,6 +646,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public AgendaExport findByUUID_G(String uuid, long groupId)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = fetchByUUID_G(uuid, groupId);
 
 		if (agendaExport == null) {
@@ -671,7 +660,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -704,22 +693,26 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public AgendaExport fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof AgendaExport) {
 			AgendaExport agendaExport = (AgendaExport)result;
 
 			if (!Objects.equals(uuid, agendaExport.getUuid()) ||
-					(groupId != agendaExport.getGroupId())) {
+				(groupId != agendaExport.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -731,10 +724,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -765,8 +755,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				List<AgendaExport> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					AgendaExport agendaExport = list.get(0);
@@ -774,17 +764,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 					result = agendaExport;
 
 					cacheResult(agendaExport);
-
-					if ((agendaExport.getUuid() == null) ||
-							!agendaExport.getUuid().equals(uuid) ||
-							(agendaExport.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, agendaExport);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -811,6 +794,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public AgendaExport removeByUUID_G(String uuid, long groupId)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = findByUUID_G(uuid, groupId);
 
 		return remove(agendaExport);
@@ -825,9 +809,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -838,10 +824,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -886,30 +869,18 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "agendaExport.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "agendaExport.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(agendaExport.uuid IS NULL OR agendaExport.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "agendaExport.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			AgendaExportModelImpl.UUID_COLUMN_BITMASK |
-			AgendaExportModelImpl.COMPANYID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"agendaExport.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(agendaExport.uuid IS NULL OR agendaExport.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"agendaExport.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the agenda exports where uuid = &#63; and companyId = &#63;.
@@ -920,15 +891,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public List<AgendaExport> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the agenda exports where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -938,8 +909,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByUuid_C(String uuid, long companyId,
-		int start, int end) {
+	public List<AgendaExport> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -947,7 +919,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -958,16 +930,19 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<AgendaExport> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<AgendaExport> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<AgendaExport> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the agenda exports where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -979,38 +954,42 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByUuid_C(String uuid, long companyId,
-		int start, int end, OrderByComparator<AgendaExport> orderByComparator,
+	public List<AgendaExport> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<AgendaExport> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<AgendaExport> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<AgendaExport>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<AgendaExport>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (AgendaExport agendaExport : list) {
-					if (!Objects.equals(uuid, agendaExport.getUuid()) ||
-							(companyId != agendaExport.getCompanyId())) {
+					if (!uuid.equals(agendaExport.getUuid()) ||
+						(companyId != agendaExport.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1023,8 +1002,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1034,10 +1013,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1049,11 +1025,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(AgendaExportModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1075,16 +1050,16 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1114,11 +1089,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		AgendaExport agendaExport = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -1134,7 +1111,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -1148,10 +1125,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the first matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByUuid_C_First(String uuid, long companyId,
+	public AgendaExport fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<AgendaExport> orderByComparator) {
-		List<AgendaExport> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<AgendaExport> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1170,11 +1149,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		AgendaExport agendaExport = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -1190,7 +1171,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -1204,16 +1185,18 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the last matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByUuid_C_Last(String uuid, long companyId,
+	public AgendaExport fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<AgendaExport> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<AgendaExport> list = findByUuid_C(uuid, companyId, count - 1,
-				count, orderByComparator);
+		List<AgendaExport> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1233,10 +1216,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a agenda export with the primary key could not be found
 	 */
 	@Override
-	public AgendaExport[] findByUuid_C_PrevAndNext(long agendaExportId,
-		String uuid, long companyId,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport[] findByUuid_C_PrevAndNext(
+			long agendaExportId, String uuid, long companyId,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
+		uuid = Objects.toString(uuid, "");
+
 		AgendaExport agendaExport = findByPrimaryKey(agendaExportId);
 
 		Session session = null;
@@ -1246,13 +1232,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			AgendaExport[] array = new AgendaExportImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, agendaExport, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, agendaExport, uuid, companyId, orderByComparator,
+				true);
 
 			array[1] = agendaExport;
 
-			array[2] = getByUuid_C_PrevAndNext(session, agendaExport, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, agendaExport, uuid, companyId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1264,14 +1252,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 	}
 
-	protected AgendaExport getByUuid_C_PrevAndNext(Session session,
-		AgendaExport agendaExport, String uuid, long companyId,
+	protected AgendaExport getByUuid_C_PrevAndNext(
+		Session session, AgendaExport agendaExport, String uuid, long companyId,
 		OrderByComparator<AgendaExport> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1282,10 +1271,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1297,7 +1283,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1371,10 +1358,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(agendaExport);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(agendaExport)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1396,8 +1383,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (AgendaExport agendaExport : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (AgendaExport agendaExport :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(agendaExport);
 		}
 	}
@@ -1411,9 +1401,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1424,10 +1416,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1472,29 +1461,18 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "agendaExport.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "agendaExport.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(agendaExport.uuid IS NULL OR agendaExport.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "agendaExport.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUS = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatus",
-			new String[] {
-				Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUS =
-		new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatus",
-			new String[] { Integer.class.getName() },
-			AgendaExportModelImpl.STATUS_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_STATUS = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
-			new String[] { Integer.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"agendaExport.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(agendaExport.uuid IS NULL OR agendaExport.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"agendaExport.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByStatus;
+	private FinderPath _finderPathWithoutPaginationFindByStatus;
+	private FinderPath _finderPathCountByStatus;
 
 	/**
 	 * Returns all the agenda exports where status = &#63;.
@@ -1511,7 +1489,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns a range of all the agenda exports where status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -1528,7 +1506,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -1538,8 +1516,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByStatus(int status, int start, int end,
+	public List<AgendaExport> findByStatus(
+		int status, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator) {
+
 		return findByStatus(status, start, end, orderByComparator, true);
 	}
 
@@ -1547,7 +1527,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -1558,29 +1538,32 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByStatus(int status, int start, int end,
+	public List<AgendaExport> findByStatus(
+		int status, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUS;
-			finderArgs = new Object[] { status };
+			finderPath = _finderPathWithoutPaginationFindByStatus;
+			finderArgs = new Object[] {status};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUS;
-			finderArgs = new Object[] { status, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByStatus;
+			finderArgs = new Object[] {status, start, end, orderByComparator};
 		}
 
 		List<AgendaExport> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<AgendaExport>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<AgendaExport>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (AgendaExport agendaExport : list) {
@@ -1597,8 +1580,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1609,11 +1592,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			query.append(_FINDER_COLUMN_STATUS_STATUS_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(AgendaExportModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1631,16 +1613,16 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				qPos.add(status);
 
 				if (!pagination) {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1669,11 +1651,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByStatus_First(int status,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByStatus_First(
+			int status, OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByStatus_First(status,
-				orderByComparator);
+
+		AgendaExport agendaExport = fetchByStatus_First(
+			status, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -1686,7 +1669,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append("status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -1699,8 +1682,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the first matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByStatus_First(int status,
-		OrderByComparator<AgendaExport> orderByComparator) {
+	public AgendaExport fetchByStatus_First(
+		int status, OrderByComparator<AgendaExport> orderByComparator) {
+
 		List<AgendaExport> list = findByStatus(status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1719,10 +1703,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByStatus_Last(int status,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByStatus_Last(
+			int status, OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByStatus_Last(status, orderByComparator);
+
+		AgendaExport agendaExport = fetchByStatus_Last(
+			status, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -1735,7 +1721,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append("status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -1748,16 +1734,17 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the last matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByStatus_Last(int status,
-		OrderByComparator<AgendaExport> orderByComparator) {
+	public AgendaExport fetchByStatus_Last(
+		int status, OrderByComparator<AgendaExport> orderByComparator) {
+
 		int count = countByStatus(status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<AgendaExport> list = findByStatus(status, count - 1, count,
-				orderByComparator);
+		List<AgendaExport> list = findByStatus(
+			status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1776,9 +1763,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a agenda export with the primary key could not be found
 	 */
 	@Override
-	public AgendaExport[] findByStatus_PrevAndNext(long agendaExportId,
-		int status, OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport[] findByStatus_PrevAndNext(
+			long agendaExportId, int status,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = findByPrimaryKey(agendaExportId);
 
 		Session session = null;
@@ -1788,13 +1777,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			AgendaExport[] array = new AgendaExportImpl[3];
 
-			array[0] = getByStatus_PrevAndNext(session, agendaExport, status,
-					orderByComparator, true);
+			array[0] = getByStatus_PrevAndNext(
+				session, agendaExport, status, orderByComparator, true);
 
 			array[1] = agendaExport;
 
-			array[2] = getByStatus_PrevAndNext(session, agendaExport, status,
-					orderByComparator, false);
+			array[2] = getByStatus_PrevAndNext(
+				session, agendaExport, status, orderByComparator, false);
 
 			return array;
 		}
@@ -1806,14 +1795,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 	}
 
-	protected AgendaExport getByStatus_PrevAndNext(Session session,
-		AgendaExport agendaExport, int status,
+	protected AgendaExport getByStatus_PrevAndNext(
+		Session session, AgendaExport agendaExport, int status,
 		OrderByComparator<AgendaExport> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1825,7 +1815,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		query.append(_FINDER_COLUMN_STATUS_STATUS_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1895,10 +1886,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		qPos.add(status);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(agendaExport);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(agendaExport)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1919,8 +1910,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public void removeByStatus(int status) {
-		for (AgendaExport agendaExport : findByStatus(status,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (AgendaExport agendaExport :
+				findByStatus(
+					status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(agendaExport);
 		}
 	}
@@ -1933,9 +1926,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countByStatus(int status) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_STATUS;
+		FinderPath finderPath = _finderPathCountByStatus;
 
-		Object[] finderArgs = new Object[] { status };
+		Object[] finderArgs = new Object[] {status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1976,26 +1969,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUS_STATUS_2 = "agendaExport.status = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_STATUS_STATUS_2 =
+		"agendaExport.status = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the agenda exports where groupId = &#63;.
@@ -2005,14 +1984,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public List<AgendaExport> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the agenda exports where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2029,7 +2009,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2039,8 +2019,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByGroupId(long groupId, int start, int end,
+	public List<AgendaExport> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -2048,7 +2030,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2059,29 +2041,32 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByGroupId(long groupId, int start, int end,
+	public List<AgendaExport> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<AgendaExport> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<AgendaExport> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<AgendaExport>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<AgendaExport>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (AgendaExport agendaExport : list) {
@@ -2098,8 +2083,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2110,11 +2095,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(AgendaExportModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2132,16 +2116,16 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2170,11 +2154,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByGroupId_First(long groupId,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByGroupId_First(
+			long groupId, OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByGroupId_First(groupId,
-				orderByComparator);
+
+		AgendaExport agendaExport = fetchByGroupId_First(
+			groupId, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -2187,7 +2172,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -2200,9 +2185,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the first matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByGroupId_First(long groupId,
-		OrderByComparator<AgendaExport> orderByComparator) {
-		List<AgendaExport> list = findByGroupId(groupId, 0, 1, orderByComparator);
+	public AgendaExport fetchByGroupId_First(
+		long groupId, OrderByComparator<AgendaExport> orderByComparator) {
+
+		List<AgendaExport> list = findByGroupId(
+			groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2220,11 +2207,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByGroupId_Last(long groupId,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByGroupId_Last(
+			long groupId, OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByGroupId_Last(groupId,
-				orderByComparator);
+
+		AgendaExport agendaExport = fetchByGroupId_Last(
+			groupId, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -2237,7 +2225,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -2250,16 +2238,17 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the last matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByGroupId_Last(long groupId,
-		OrderByComparator<AgendaExport> orderByComparator) {
+	public AgendaExport fetchByGroupId_Last(
+		long groupId, OrderByComparator<AgendaExport> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<AgendaExport> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<AgendaExport> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2278,9 +2267,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a agenda export with the primary key could not be found
 	 */
 	@Override
-	public AgendaExport[] findByGroupId_PrevAndNext(long agendaExportId,
-		long groupId, OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport[] findByGroupId_PrevAndNext(
+			long agendaExportId, long groupId,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = findByPrimaryKey(agendaExportId);
 
 		Session session = null;
@@ -2290,13 +2281,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			AgendaExport[] array = new AgendaExportImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, agendaExport, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, agendaExport, groupId, orderByComparator, true);
 
 			array[1] = agendaExport;
 
-			array[2] = getByGroupId_PrevAndNext(session, agendaExport, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, agendaExport, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -2308,14 +2299,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 	}
 
-	protected AgendaExport getByGroupId_PrevAndNext(Session session,
-		AgendaExport agendaExport, long groupId,
+	protected AgendaExport getByGroupId_PrevAndNext(
+		Session session, AgendaExport agendaExport, long groupId,
 		OrderByComparator<AgendaExport> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2327,7 +2319,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2397,10 +2390,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(agendaExport);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(agendaExport)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2421,8 +2414,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (AgendaExport agendaExport : findByGroupId(groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (AgendaExport agendaExport :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(agendaExport);
 		}
 	}
@@ -2435,9 +2430,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2478,30 +2473,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "agendaExport.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPIDANDSTATUS =
-		new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndStatus",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDSTATUS =
-		new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupIdAndStatus",
-			new String[] { Long.class.getName(), Integer.class.getName() },
-			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK |
-			AgendaExportModelImpl.STATUS_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPIDANDSTATUS = new FinderPath(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupIdAndStatus",
-			new String[] { Long.class.getName(), Integer.class.getName() });
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"agendaExport.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupIdAndStatus;
+	private FinderPath _finderPathWithoutPaginationFindByGroupIdAndStatus;
+	private FinderPath _finderPathCountByGroupIdAndStatus;
 
 	/**
 	 * Returns all the agenda exports where groupId = &#63; and status = &#63;.
@@ -2512,15 +2489,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public List<AgendaExport> findByGroupIdAndStatus(long groupId, int status) {
-		return findByGroupIdAndStatus(groupId, status, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByGroupIdAndStatus(
+			groupId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the agenda exports where groupId = &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2530,8 +2507,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByGroupIdAndStatus(long groupId, int status,
-		int start, int end) {
+	public List<AgendaExport> findByGroupIdAndStatus(
+		long groupId, int status, int start, int end) {
+
 		return findByGroupIdAndStatus(groupId, status, start, end, null);
 	}
 
@@ -2539,7 +2517,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports where groupId = &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2550,17 +2528,19 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByGroupIdAndStatus(long groupId, int status,
-		int start, int end, OrderByComparator<AgendaExport> orderByComparator) {
-		return findByGroupIdAndStatus(groupId, status, start, end,
-			orderByComparator, true);
+	public List<AgendaExport> findByGroupIdAndStatus(
+		long groupId, int status, int start, int end,
+		OrderByComparator<AgendaExport> orderByComparator) {
+
+		return findByGroupIdAndStatus(
+			groupId, status, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the agenda exports where groupId = &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2572,38 +2552,40 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of matching agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findByGroupIdAndStatus(long groupId, int status,
-		int start, int end, OrderByComparator<AgendaExport> orderByComparator,
+	public List<AgendaExport> findByGroupIdAndStatus(
+		long groupId, int status, int start, int end,
+		OrderByComparator<AgendaExport> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDSTATUS;
-			finderArgs = new Object[] { groupId, status };
+			finderPath = _finderPathWithoutPaginationFindByGroupIdAndStatus;
+			finderArgs = new Object[] {groupId, status};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPIDANDSTATUS;
+			finderPath = _finderPathWithPaginationFindByGroupIdAndStatus;
 			finderArgs = new Object[] {
-					groupId, status,
-					
-					start, end, orderByComparator
-				};
+				groupId, status, start, end, orderByComparator
+			};
 		}
 
 		List<AgendaExport> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<AgendaExport>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<AgendaExport>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (AgendaExport agendaExport : list) {
 					if ((groupId != agendaExport.getGroupId()) ||
-							(status != agendaExport.getStatus())) {
+						(status != agendaExport.getStatus())) {
+
 						list = null;
 
 						break;
@@ -2616,8 +2598,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2630,11 +2612,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			query.append(_FINDER_COLUMN_GROUPIDANDSTATUS_STATUS_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(AgendaExportModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2654,16 +2635,16 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				qPos.add(status);
 
 				if (!pagination) {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2693,11 +2674,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByGroupIdAndStatus_First(long groupId, int status,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByGroupIdAndStatus_First(
+			long groupId, int status,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByGroupIdAndStatus_First(groupId,
-				status, orderByComparator);
+
+		AgendaExport agendaExport = fetchByGroupIdAndStatus_First(
+			groupId, status, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -2713,7 +2696,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -2727,10 +2710,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the first matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByGroupIdAndStatus_First(long groupId, int status,
+	public AgendaExport fetchByGroupIdAndStatus_First(
+		long groupId, int status,
 		OrderByComparator<AgendaExport> orderByComparator) {
-		List<AgendaExport> list = findByGroupIdAndStatus(groupId, status, 0, 1,
-				orderByComparator);
+
+		List<AgendaExport> list = findByGroupIdAndStatus(
+			groupId, status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2749,11 +2734,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @throws NoSuchAgendaExportException if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport findByGroupIdAndStatus_Last(long groupId, int status,
-		OrderByComparator<AgendaExport> orderByComparator)
+	public AgendaExport findByGroupIdAndStatus_Last(
+			long groupId, int status,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
-		AgendaExport agendaExport = fetchByGroupIdAndStatus_Last(groupId,
-				status, orderByComparator);
+
+		AgendaExport agendaExport = fetchByGroupIdAndStatus_Last(
+			groupId, status, orderByComparator);
 
 		if (agendaExport != null) {
 			return agendaExport;
@@ -2769,7 +2756,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchAgendaExportException(msg.toString());
 	}
@@ -2783,16 +2770,18 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the last matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
 	@Override
-	public AgendaExport fetchByGroupIdAndStatus_Last(long groupId, int status,
+	public AgendaExport fetchByGroupIdAndStatus_Last(
+		long groupId, int status,
 		OrderByComparator<AgendaExport> orderByComparator) {
+
 		int count = countByGroupIdAndStatus(groupId, status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<AgendaExport> list = findByGroupIdAndStatus(groupId, status,
-				count - 1, count, orderByComparator);
+		List<AgendaExport> list = findByGroupIdAndStatus(
+			groupId, status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2813,9 +2802,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public AgendaExport[] findByGroupIdAndStatus_PrevAndNext(
-		long agendaExportId, long groupId, int status,
-		OrderByComparator<AgendaExport> orderByComparator)
+			long agendaExportId, long groupId, int status,
+			OrderByComparator<AgendaExport> orderByComparator)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = findByPrimaryKey(agendaExportId);
 
 		Session session = null;
@@ -2825,13 +2815,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 			AgendaExport[] array = new AgendaExportImpl[3];
 
-			array[0] = getByGroupIdAndStatus_PrevAndNext(session, agendaExport,
-					groupId, status, orderByComparator, true);
+			array[0] = getByGroupIdAndStatus_PrevAndNext(
+				session, agendaExport, groupId, status, orderByComparator,
+				true);
 
 			array[1] = agendaExport;
 
-			array[2] = getByGroupIdAndStatus_PrevAndNext(session, agendaExport,
-					groupId, status, orderByComparator, false);
+			array[2] = getByGroupIdAndStatus_PrevAndNext(
+				session, agendaExport, groupId, status, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -2843,14 +2835,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		}
 	}
 
-	protected AgendaExport getByGroupIdAndStatus_PrevAndNext(Session session,
-		AgendaExport agendaExport, long groupId, int status,
+	protected AgendaExport getByGroupIdAndStatus_PrevAndNext(
+		Session session, AgendaExport agendaExport, long groupId, int status,
 		OrderByComparator<AgendaExport> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2864,7 +2857,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		query.append(_FINDER_COLUMN_GROUPIDANDSTATUS_STATUS_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2936,10 +2930,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		qPos.add(status);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(agendaExport);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(agendaExport)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2961,8 +2955,11 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public void removeByGroupIdAndStatus(long groupId, int status) {
-		for (AgendaExport agendaExport : findByGroupIdAndStatus(groupId,
-				status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (AgendaExport agendaExport :
+				findByGroupIdAndStatus(
+					groupId, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(agendaExport);
 		}
 	}
@@ -2976,9 +2973,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countByGroupIdAndStatus(long groupId, int status) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPIDANDSTATUS;
+		FinderPath finderPath = _finderPathCountByGroupIdAndStatus;
 
-		Object[] finderArgs = new Object[] { groupId, status };
+		Object[] finderArgs = new Object[] {groupId, status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3023,19 +3020,24 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPIDANDSTATUS_GROUPID_2 = "agendaExport.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_GROUPIDANDSTATUS_STATUS_2 = "agendaExport.status = ?";
+	private static final String _FINDER_COLUMN_GROUPIDANDSTATUS_GROUPID_2 =
+		"agendaExport.groupId = ? AND ";
+
+	private static final String _FINDER_COLUMN_GROUPIDANDSTATUS_STATUS_2 =
+		"agendaExport.status = ?";
 
 	public AgendaExportPersistenceImpl() {
 		setModelClass(AgendaExport.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -3053,11 +3055,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public void cacheResult(AgendaExport agendaExport) {
-		entityCache.putResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportImpl.class, agendaExport.getPrimaryKey(), agendaExport);
+		entityCache.putResult(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
+			agendaExport.getPrimaryKey(), agendaExport);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { agendaExport.getUuid(), agendaExport.getGroupId() },
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {agendaExport.getUuid(), agendaExport.getGroupId()},
 			agendaExport);
 
 		agendaExport.resetOriginalValues();
@@ -3072,8 +3076,10 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	public void cacheResult(List<AgendaExport> agendaExports) {
 		for (AgendaExport agendaExport : agendaExports) {
 			if (entityCache.getResult(
-						AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-						AgendaExportImpl.class, agendaExport.getPrimaryKey()) == null) {
+					AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+					AgendaExportImpl.class, agendaExport.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(agendaExport);
 			}
 			else {
@@ -3086,7 +3092,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Clears the cache for all agenda exports.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -3102,13 +3108,14 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Clears the cache for the agenda export.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(AgendaExport agendaExport) {
-		entityCache.removeResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportImpl.class, agendaExport.getPrimaryKey());
+		entityCache.removeResult(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
+			agendaExport.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3122,7 +3129,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (AgendaExport agendaExport : agendaExports) {
-			entityCache.removeResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
 				AgendaExportImpl.class, agendaExport.getPrimaryKey());
 
 			clearUniqueFindersCache((AgendaExportModelImpl)agendaExport, true);
@@ -3131,38 +3139,40 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 	protected void cacheUniqueFindersCache(
 		AgendaExportModelImpl agendaExportModelImpl) {
-		Object[] args = new Object[] {
-				agendaExportModelImpl.getUuid(),
-				agendaExportModelImpl.getGroupId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			agendaExportModelImpl, false);
+		Object[] args = new Object[] {
+			agendaExportModelImpl.getUuid(), agendaExportModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, agendaExportModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		AgendaExportModelImpl agendaExportModelImpl, boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					agendaExportModelImpl.getUuid(),
-					agendaExportModelImpl.getGroupId()
-				};
+				agendaExportModelImpl.getUuid(),
+				agendaExportModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((agendaExportModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					agendaExportModelImpl.getOriginalUuid(),
-					agendaExportModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				agendaExportModelImpl.getOriginalUuid(),
+				agendaExportModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -3198,6 +3208,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public AgendaExport remove(long agendaExportId)
 		throws NoSuchAgendaExportException {
+
 		return remove((Serializable)agendaExportId);
 	}
 
@@ -3211,21 +3222,22 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public AgendaExport remove(Serializable primaryKey)
 		throws NoSuchAgendaExportException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			AgendaExport agendaExport = (AgendaExport)session.get(AgendaExportImpl.class,
-					primaryKey);
+			AgendaExport agendaExport = (AgendaExport)session.get(
+				AgendaExportImpl.class, primaryKey);
 
 			if (agendaExport == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchAgendaExportException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchAgendaExportException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(agendaExport);
@@ -3243,16 +3255,14 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 	@Override
 	protected AgendaExport removeImpl(AgendaExport agendaExport) {
-		agendaExport = toUnwrappedModel(agendaExport);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(agendaExport)) {
-				agendaExport = (AgendaExport)session.get(AgendaExportImpl.class,
-						agendaExport.getPrimaryKeyObj());
+				agendaExport = (AgendaExport)session.get(
+					AgendaExportImpl.class, agendaExport.getPrimaryKeyObj());
 			}
 
 			if (agendaExport != null) {
@@ -3275,11 +3285,27 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 	@Override
 	public AgendaExport updateImpl(AgendaExport agendaExport) {
-		agendaExport = toUnwrappedModel(agendaExport);
-
 		boolean isNew = agendaExport.isNew();
 
-		AgendaExportModelImpl agendaExportModelImpl = (AgendaExportModelImpl)agendaExport;
+		if (!(agendaExport instanceof AgendaExportModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(agendaExport.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					agendaExport);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in agendaExport proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom AgendaExport implementation " +
+					agendaExport.getClass());
+		}
+
+		AgendaExportModelImpl agendaExportModelImpl =
+			(AgendaExportModelImpl)agendaExport;
 
 		if (Validator.isNull(agendaExport.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -3287,7 +3313,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			agendaExport.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -3305,7 +3332,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				agendaExport.setModifiedDate(now);
 			}
 			else {
-				agendaExport.setModifiedDate(serviceContext.getModifiedDate(now));
+				agendaExport.setModifiedDate(
+					serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -3335,149 +3363,157 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		if (!AgendaExportModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { agendaExportModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {agendaExportModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				agendaExportModelImpl.getUuid(),
+				agendaExportModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {agendaExportModelImpl.getStatus()};
+
+			finderCache.removeResult(_finderPathCountByStatus, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByStatus, args);
+
+			args = new Object[] {agendaExportModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			args = new Object[] {
+				agendaExportModelImpl.getGroupId(),
+				agendaExportModelImpl.getStatus()
+			};
+
+			finderCache.removeResult(_finderPathCountByGroupIdAndStatus, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupIdAndStatus, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((agendaExportModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					agendaExportModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {agendaExportModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((agendaExportModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					agendaExportModelImpl.getOriginalUuid(),
+					agendaExportModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					agendaExportModelImpl.getUuid(),
 					agendaExportModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
 
-			args = new Object[] { agendaExportModelImpl.getStatus() };
+			if ((agendaExportModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByStatus.getColumnBitmask()) !=
+					 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUS, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUS,
-				args);
+				Object[] args = new Object[] {
+					agendaExportModelImpl.getOriginalStatus()
+				};
 
-			args = new Object[] { agendaExportModelImpl.getGroupId() };
+				finderCache.removeResult(_finderPathCountByStatus, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByStatus, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
+				args = new Object[] {agendaExportModelImpl.getStatus()};
 
-			args = new Object[] {
+				finderCache.removeResult(_finderPathCountByStatus, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByStatus, args);
+			}
+
+			if ((agendaExportModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					agendaExportModelImpl.getOriginalGroupId()
+				};
+
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+
+				args = new Object[] {agendaExportModelImpl.getGroupId()};
+
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+			}
+
+			if ((agendaExportModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupIdAndStatus.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					agendaExportModelImpl.getOriginalGroupId(),
+					agendaExportModelImpl.getOriginalStatus()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByGroupIdAndStatus, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupIdAndStatus, args);
+
+				args = new Object[] {
 					agendaExportModelImpl.getGroupId(),
 					agendaExportModelImpl.getStatus()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDSTATUS, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDSTATUS,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((agendaExportModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						agendaExportModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { agendaExportModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						agendaExportModelImpl.getOriginalUuid(),
-						agendaExportModelImpl.getOriginalCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-
-				args = new Object[] {
-						agendaExportModelImpl.getUuid(),
-						agendaExportModelImpl.getCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUS.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						agendaExportModelImpl.getOriginalStatus()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUS, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUS,
-					args);
-
-				args = new Object[] { agendaExportModelImpl.getStatus() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUS, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUS,
-					args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						agendaExportModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { agendaExportModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDSTATUS.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						agendaExportModelImpl.getOriginalGroupId(),
-						agendaExportModelImpl.getOriginalStatus()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDSTATUS,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDSTATUS,
-					args);
-
-				args = new Object[] {
-						agendaExportModelImpl.getGroupId(),
-						agendaExportModelImpl.getStatus()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDSTATUS,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDSTATUS,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByGroupIdAndStatus, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupIdAndStatus, args);
 			}
 		}
 
-		entityCache.putResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportImpl.class, agendaExport.getPrimaryKey(), agendaExport,
-			false);
+		entityCache.putResult(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
+			agendaExport.getPrimaryKey(), agendaExport, false);
 
 		clearUniqueFindersCache(agendaExportModelImpl, false);
 		cacheUniqueFindersCache(agendaExportModelImpl);
@@ -3487,41 +3523,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		return agendaExport;
 	}
 
-	protected AgendaExport toUnwrappedModel(AgendaExport agendaExport) {
-		if (agendaExport instanceof AgendaExportImpl) {
-			return agendaExport;
-		}
-
-		AgendaExportImpl agendaExportImpl = new AgendaExportImpl();
-
-		agendaExportImpl.setNew(agendaExport.isNew());
-		agendaExportImpl.setPrimaryKey(agendaExport.getPrimaryKey());
-
-		agendaExportImpl.setUuid(agendaExport.getUuid());
-		agendaExportImpl.setAgendaExportId(agendaExport.getAgendaExportId());
-		agendaExportImpl.setGroupId(agendaExport.getGroupId());
-		agendaExportImpl.setCompanyId(agendaExport.getCompanyId());
-		agendaExportImpl.setUserId(agendaExport.getUserId());
-		agendaExportImpl.setUserName(agendaExport.getUserName());
-		agendaExportImpl.setCreateDate(agendaExport.getCreateDate());
-		agendaExportImpl.setModifiedDate(agendaExport.getModifiedDate());
-		agendaExportImpl.setLastPublishDate(agendaExport.getLastPublishDate());
-		agendaExportImpl.setStatus(agendaExport.getStatus());
-		agendaExportImpl.setStatusByUserId(agendaExport.getStatusByUserId());
-		agendaExportImpl.setStatusByUserName(agendaExport.getStatusByUserName());
-		agendaExportImpl.setStatusDate(agendaExport.getStatusDate());
-		agendaExportImpl.setTitle(agendaExport.getTitle());
-		agendaExportImpl.setLanguage(agendaExport.getLanguage());
-		agendaExportImpl.setExportFormat(agendaExport.getExportFormat());
-		agendaExportImpl.setTemplateId(agendaExport.getTemplateId());
-		agendaExportImpl.setEventCategories(agendaExport.getEventCategories());
-		agendaExportImpl.setAggregations(agendaExport.getAggregations());
-
-		return agendaExportImpl;
-	}
-
 	/**
-	 * Returns the agenda export with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the agenda export with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the agenda export
 	 * @return the agenda export
@@ -3530,6 +3533,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public AgendaExport findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchAgendaExportException {
+
 		AgendaExport agendaExport = fetchByPrimaryKey(primaryKey);
 
 		if (agendaExport == null) {
@@ -3537,15 +3541,15 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchAgendaExportException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchAgendaExportException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return agendaExport;
 	}
 
 	/**
-	 * Returns the agenda export with the primary key or throws a {@link NoSuchAgendaExportException} if it could not be found.
+	 * Returns the agenda export with the primary key or throws a <code>NoSuchAgendaExportException</code> if it could not be found.
 	 *
 	 * @param agendaExportId the primary key of the agenda export
 	 * @return the agenda export
@@ -3554,6 +3558,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public AgendaExport findByPrimaryKey(long agendaExportId)
 		throws NoSuchAgendaExportException {
+
 		return findByPrimaryKey((Serializable)agendaExportId);
 	}
 
@@ -3565,8 +3570,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public AgendaExport fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -3580,19 +3586,21 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			try {
 				session = openSession();
 
-				agendaExport = (AgendaExport)session.get(AgendaExportImpl.class,
-						primaryKey);
+				agendaExport = (AgendaExport)session.get(
+					AgendaExportImpl.class, primaryKey);
 
 				if (agendaExport != null) {
 					cacheResult(agendaExport);
 				}
 				else {
-					entityCache.putResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
 						AgendaExportImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
 					AgendaExportImpl.class, primaryKey);
 
 				throw processException(e);
@@ -3619,11 +3627,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	@Override
 	public Map<Serializable, AgendaExport> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, AgendaExport> map = new HashMap<Serializable, AgendaExport>();
+		Map<Serializable, AgendaExport> map =
+			new HashMap<Serializable, AgendaExport>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -3642,8 +3652,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-					AgendaExportImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+				AgendaExportImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3663,20 +3674,20 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_AGENDAEXPORT_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -3696,7 +3707,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
 					AgendaExportImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -3724,7 +3736,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns a range of all the agenda exports.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of agenda exports
@@ -3740,7 +3752,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of agenda exports
@@ -3749,8 +3761,9 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findAll(int start, int end,
-		OrderByComparator<AgendaExport> orderByComparator) {
+	public List<AgendaExport> findAll(
+		int start, int end, OrderByComparator<AgendaExport> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -3758,7 +3771,7 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Returns an ordered range of all the agenda exports.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AgendaExportModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AgendaExportModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of agenda exports
@@ -3768,29 +3781,31 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * @return the ordered range of agenda exports
 	 */
 	@Override
-	public List<AgendaExport> findAll(int start, int end,
-		OrderByComparator<AgendaExport> orderByComparator,
+	public List<AgendaExport> findAll(
+		int start, int end, OrderByComparator<AgendaExport> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<AgendaExport> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<AgendaExport>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<AgendaExport>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -3798,13 +3813,13 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_AGENDAEXPORT);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -3824,16 +3839,16 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<AgendaExport>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<AgendaExport>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3871,8 +3886,8 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -3884,12 +3899,12 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3915,6 +3930,151 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 	 * Initializes the agenda export persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			AgendaExportModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			AgendaExportModelImpl.UUID_COLUMN_BITMASK |
+			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			AgendaExportModelImpl.UUID_COLUMN_BITMASK |
+			AgendaExportModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByStatus = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatus",
+			new String[] {
+				Integer.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByStatus = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatus",
+			new String[] {Integer.class.getName()},
+			AgendaExportModelImpl.STATUS_COLUMN_BITMASK);
+
+		_finderPathCountByStatus = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
+			new String[] {Integer.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupIdAndStatus = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndStatus",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupIdAndStatus = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupIdAndStatus",
+			new String[] {Long.class.getName(), Integer.class.getName()},
+			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK |
+			AgendaExportModelImpl.STATUS_COLUMN_BITMASK);
+
+		_finderPathCountByGroupIdAndStatus = new FinderPath(
+			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
+			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByGroupIdAndStatus",
+			new String[] {Long.class.getName(), Integer.class.getName()});
 	}
 
 	public void destroy() {
@@ -3926,20 +4086,40 @@ public class AgendaExportPersistenceImpl extends BasePersistenceImpl<AgendaExpor
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_AGENDAEXPORT = "SELECT agendaExport FROM AgendaExport agendaExport";
-	private static final String _SQL_SELECT_AGENDAEXPORT_WHERE_PKS_IN = "SELECT agendaExport FROM AgendaExport agendaExport WHERE agendaExportId IN (";
-	private static final String _SQL_SELECT_AGENDAEXPORT_WHERE = "SELECT agendaExport FROM AgendaExport agendaExport WHERE ";
-	private static final String _SQL_COUNT_AGENDAEXPORT = "SELECT COUNT(agendaExport) FROM AgendaExport agendaExport";
-	private static final String _SQL_COUNT_AGENDAEXPORT_WHERE = "SELECT COUNT(agendaExport) FROM AgendaExport agendaExport WHERE ";
+
+	private static final String _SQL_SELECT_AGENDAEXPORT =
+		"SELECT agendaExport FROM AgendaExport agendaExport";
+
+	private static final String _SQL_SELECT_AGENDAEXPORT_WHERE_PKS_IN =
+		"SELECT agendaExport FROM AgendaExport agendaExport WHERE agendaExportId IN (";
+
+	private static final String _SQL_SELECT_AGENDAEXPORT_WHERE =
+		"SELECT agendaExport FROM AgendaExport agendaExport WHERE ";
+
+	private static final String _SQL_COUNT_AGENDAEXPORT =
+		"SELECT COUNT(agendaExport) FROM AgendaExport agendaExport";
+
+	private static final String _SQL_COUNT_AGENDAEXPORT_WHERE =
+		"SELECT COUNT(agendaExport) FROM AgendaExport agendaExport WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "agendaExport.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No AgendaExport exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No AgendaExport exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(AgendaExportPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No AgendaExport exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No AgendaExport exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AgendaExportPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

@@ -22,5 +22,8 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface EventFinder {
-	public java.util.List<eu.strasbourg.service.agenda.model.Event> findByNextHappening();
+
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		findByNextHappening();
+
 }

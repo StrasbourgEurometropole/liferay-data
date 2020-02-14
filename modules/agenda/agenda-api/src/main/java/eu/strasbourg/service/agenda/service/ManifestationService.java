@@ -35,33 +35,40 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see ManifestationServiceUtil
- * @see eu.strasbourg.service.agenda.service.base.ManifestationServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=agenda", "json.web.service.context.path=Manifestation"}, service = ManifestationService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=agenda",
+		"json.web.service.context.path=Manifestation"
+	},
+	service = ManifestationService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ManifestationService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ManifestationServiceUtil} to access the manifestation remote service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ManifestationServiceUtil} to access the manifestation remote service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getManifestations() throws PortalException;
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getManifestation(long id) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getManifestations() throws PortalException;
+
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

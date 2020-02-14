@@ -11,8 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-package eu.strasbourg.service.artwork.exception;
+package eu.strasbourg.service.agenda.exception;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -22,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author BenjaminBini
  */
 @ProviderType
-public class NoSuchArtworkException extends NoSuchModelException {
+public class NoSuchEventPeriodException extends NoSuchModelException {
 
-	public NoSuchArtworkException() {
+	public NoSuchEventPeriodException() {
 	}
 
-	public NoSuchArtworkException(String msg) {
+	public NoSuchEventPeriodException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchArtworkException(String msg, Throwable cause) {
+	public NoSuchEventPeriodException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchArtworkException(Throwable cause) {
+	public NoSuchEventPeriodException(Throwable cause) {
 		super(cause);
 	}
 

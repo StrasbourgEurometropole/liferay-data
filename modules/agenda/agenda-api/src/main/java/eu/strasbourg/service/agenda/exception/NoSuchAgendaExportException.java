@@ -11,8 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-package eu.strasbourg.service.link.exception;
+package eu.strasbourg.service.agenda.exception;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -22,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author BenjaminBini
  */
 @ProviderType
-public class NoSuchLinkException extends NoSuchModelException {
+public class NoSuchAgendaExportException extends NoSuchModelException {
 
-	public NoSuchLinkException() {
+	public NoSuchAgendaExportException() {
 	}
 
-	public NoSuchLinkException(String msg) {
+	public NoSuchAgendaExportException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchLinkException(String msg, Throwable cause) {
+	public NoSuchAgendaExportException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchLinkException(Throwable cause) {
+	public NoSuchAgendaExportException(Throwable cause) {
 		super(cause);
 	}
 

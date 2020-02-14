@@ -49,7 +49,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field localized="true" name="title" type="String" />
+		<field localized="true" name="title" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="defaultImageId" type="long" />
 		<field localized="true" name="defaultImageCopyright" type="String" />
 		<field name="managersIds" type="String" />

@@ -16,47 +16,49 @@ package eu.strasbourg.service.agenda.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Manifestation. This utility wraps
- * {@link eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author BenjaminBini
  * @see ManifestationService
- * @see eu.strasbourg.service.agenda.service.base.ManifestationServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl
  * @generated
  */
 @ProviderType
 public class ManifestationServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.ManifestationServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static com.liferay.portal.kernel.json.JSONArray getManifestations()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getManifestations();
-	}
-
 	public static com.liferay.portal.kernel.json.JSONObject getManifestation(
-		long id) throws com.liferay.portal.kernel.exception.PortalException {
+			long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getManifestation(id);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getManifestations()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getManifestations();
+	}
+
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -64,6 +66,21 @@ public class ManifestationServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<ManifestationService, ManifestationService> _serviceTracker =
-		ServiceTrackerFactory.open(ManifestationService.class);
+	private static ServiceTracker<ManifestationService, ManifestationService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(ManifestationService.class);
+
+		ServiceTracker<ManifestationService, ManifestationService>
+			serviceTracker =
+				new ServiceTracker<ManifestationService, ManifestationService>(
+					bundle.getBundleContext(), ManifestationService.class,
+					null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

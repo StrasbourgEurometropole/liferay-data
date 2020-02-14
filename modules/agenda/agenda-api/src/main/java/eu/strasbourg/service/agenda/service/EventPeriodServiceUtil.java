@@ -16,38 +16,37 @@ package eu.strasbourg.service.agenda.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for EventPeriod. This utility wraps
- * {@link eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author BenjaminBini
  * @see EventPeriodService
- * @see eu.strasbourg.service.agenda.service.base.EventPeriodServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl
  * @generated
  */
 @ProviderType
 public class EventPeriodServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,19 @@ public class EventPeriodServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<EventPeriodService, EventPeriodService> _serviceTracker =
-		ServiceTrackerFactory.open(EventPeriodService.class);
+	private static ServiceTracker<EventPeriodService, EventPeriodService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(EventPeriodService.class);
+
+		ServiceTracker<EventPeriodService, EventPeriodService> serviceTracker =
+			new ServiceTracker<EventPeriodService, EventPeriodService>(
+				bundle.getBundleContext(), EventPeriodService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

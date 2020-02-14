@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 
@@ -32,12 +31,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing ImportReportLine in entity cache.
  *
  * @author BenjaminBini
- * @see ImportReportLine
  * @generated
  */
 @ProviderType
-public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
-	Externalizable {
+public class ImportReportLineCacheModel
+	implements CacheModel<ImportReportLine>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -48,7 +47,8 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 			return false;
 		}
 
-		ImportReportLineCacheModel importReportLineCacheModel = (ImportReportLineCacheModel)obj;
+		ImportReportLineCacheModel importReportLineCacheModel =
+			(ImportReportLineCacheModel)obj;
 
 		if (lineId == importReportLineCacheModel.lineId) {
 			return true;
@@ -94,7 +94,7 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 		ImportReportLineImpl importReportLineImpl = new ImportReportLineImpl();
 
 		if (uuid == null) {
-			importReportLineImpl.setUuid(StringPool.BLANK);
+			importReportLineImpl.setUuid("");
 		}
 		else {
 			importReportLineImpl.setUuid(uuid);
@@ -103,7 +103,7 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 		importReportLineImpl.setLineId(lineId);
 
 		if (type == null) {
-			importReportLineImpl.setType(StringPool.BLANK);
+			importReportLineImpl.setType("");
 		}
 		else {
 			importReportLineImpl.setType(type);
@@ -112,21 +112,21 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 		importReportLineImpl.setStatus(status);
 
 		if (log == null) {
-			importReportLineImpl.setLog(StringPool.BLANK);
+			importReportLineImpl.setLog("");
 		}
 		else {
 			importReportLineImpl.setLog(log);
 		}
 
 		if (entityName == null) {
-			importReportLineImpl.setEntityName(StringPool.BLANK);
+			importReportLineImpl.setEntityName("");
 		}
 		else {
 			importReportLineImpl.setEntityName(entityName);
 		}
 
 		if (entityExternalId == null) {
-			importReportLineImpl.setEntityExternalId(StringPool.BLANK);
+			importReportLineImpl.setEntityExternalId("");
 		}
 		else {
 			importReportLineImpl.setEntityExternalId(entityExternalId);
@@ -158,10 +158,9 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -170,7 +169,7 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 		objectOutput.writeLong(lineId);
 
 		if (type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(type);
@@ -179,21 +178,21 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 		objectOutput.writeLong(status);
 
 		if (log == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(log);
 		}
 
 		if (entityName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(entityName);
 		}
 
 		if (entityExternalId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(entityExternalId);
@@ -213,4 +212,5 @@ public class ImportReportLineCacheModel implements CacheModel<ImportReportLine>,
 	public String entityExternalId;
 	public long entityId;
 	public long reportId;
+
 }

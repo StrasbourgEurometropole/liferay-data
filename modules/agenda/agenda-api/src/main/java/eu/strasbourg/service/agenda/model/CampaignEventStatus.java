@@ -25,20 +25,23 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see CampaignEventStatusModel
- * @see eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl
- * @see eu.strasbourg.service.agenda.model.impl.CampaignEventStatusModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl"
+)
 @ProviderType
-public interface CampaignEventStatus extends CampaignEventStatusModel,
-	PersistedModel {
+public interface CampaignEventStatus
+	extends CampaignEventStatusModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<CampaignEventStatus, Long> STATUS_ID_ACCESSOR = new Accessor<CampaignEventStatus, Long>() {
+	public static final Accessor<CampaignEventStatus, Long> STATUS_ID_ACCESSOR =
+		new Accessor<CampaignEventStatus, Long>() {
+
 			@Override
 			public Long get(CampaignEventStatus campaignEventStatus) {
 				return campaignEventStatus.getStatusId();
@@ -53,12 +56,15 @@ public interface CampaignEventStatus extends CampaignEventStatusModel,
 			public Class<CampaignEventStatus> getTypeClass() {
 				return CampaignEventStatus.class;
 			}
+
 		};
 
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus getPreviousStatus();
+	public eu.strasbourg.service.agenda.model.CampaignEventStatus
+		getPreviousStatus();
 
 	/**
-	* Retourne le label correspondant au statut
-	*/
-	public java.lang.String getStatusLabel();
+	 * Retourne le label correspondant au statut
+	 */
+	public String getStatusLabel();
+
 }

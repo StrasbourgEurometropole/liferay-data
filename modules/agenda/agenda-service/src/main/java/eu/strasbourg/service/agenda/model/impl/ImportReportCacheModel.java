@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.ImportReport;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ImportReport in entity cache.
  *
  * @author BenjaminBini
- * @see ImportReport
  * @generated
  */
 @ProviderType
-public class ImportReportCacheModel implements CacheModel<ImportReport>,
-	Externalizable {
+public class ImportReportCacheModel
+	implements CacheModel<ImportReport>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 			return false;
 		}
 
-		ImportReportCacheModel importReportCacheModel = (ImportReportCacheModel)obj;
+		ImportReportCacheModel importReportCacheModel =
+			(ImportReportCacheModel)obj;
 
 		if (reportId == importReportCacheModel.reportId) {
 			return true;
@@ -106,7 +106,7 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 		ImportReportImpl importReportImpl = new ImportReportImpl();
 
 		if (uuid == null) {
-			importReportImpl.setUuid(StringPool.BLANK);
+			importReportImpl.setUuid("");
 		}
 		else {
 			importReportImpl.setUuid(uuid);
@@ -115,14 +115,14 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 		importReportImpl.setReportId(reportId);
 
 		if (provider == null) {
-			importReportImpl.setProvider(StringPool.BLANK);
+			importReportImpl.setProvider("");
 		}
 		else {
 			importReportImpl.setProvider(provider);
 		}
 
 		if (filename == null) {
-			importReportImpl.setFilename(StringPool.BLANK);
+			importReportImpl.setFilename("");
 		}
 		else {
 			importReportImpl.setFilename(filename);
@@ -131,7 +131,7 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 		importReportImpl.setStatus(status);
 
 		if (globalErrorCause == null) {
-			importReportImpl.setGlobalErrorCause(StringPool.BLANK);
+			importReportImpl.setGlobalErrorCause("");
 		}
 		else {
 			importReportImpl.setGlobalErrorCause(globalErrorCause);
@@ -141,7 +141,8 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 		importReportImpl.setModifiedEventsCount(modifiedEventsCount);
 		importReportImpl.setErrorEventsCount(errorEventsCount);
 		importReportImpl.setNewManifestationsCount(newManifestationsCount);
-		importReportImpl.setModifiedManifestationsCount(modifiedManifestationsCount);
+		importReportImpl.setModifiedManifestationsCount(
+			modifiedManifestationsCount);
 		importReportImpl.setErrorManifestationsCount(errorManifestationsCount);
 
 		if (startDate == Long.MIN_VALUE) {
@@ -190,10 +191,9 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -202,14 +202,14 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 		objectOutput.writeLong(reportId);
 
 		if (provider == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(provider);
 		}
 
 		if (filename == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filename);
@@ -218,7 +218,7 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 		objectOutput.writeLong(status);
 
 		if (globalErrorCause == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(globalErrorCause);
@@ -253,4 +253,5 @@ public class ImportReportCacheModel implements CacheModel<ImportReport>,
 	public long errorManifestationsCount;
 	public long startDate;
 	public long endDate;
+
 }

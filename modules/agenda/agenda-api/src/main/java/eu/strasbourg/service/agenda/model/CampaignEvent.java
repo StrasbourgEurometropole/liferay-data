@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see CampaignEventModel
- * @see eu.strasbourg.service.agenda.model.impl.CampaignEventImpl
- * @see eu.strasbourg.service.agenda.model.impl.CampaignEventModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.CampaignEventImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.CampaignEventImpl"
+)
 @ProviderType
 public interface CampaignEvent extends CampaignEventModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.CampaignEventImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.CampaignEventImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<CampaignEvent, Long> CAMPAIGN_EVENT_ID_ACCESSOR =
-		new Accessor<CampaignEvent, Long>() {
+	public static final Accessor<CampaignEvent, Long>
+		CAMPAIGN_EVENT_ID_ACCESSOR = new Accessor<CampaignEvent, Long>() {
+
 			@Override
 			public Long get(CampaignEvent campaignEvent) {
 				return campaignEvent.getCampaignEventId();
@@ -53,66 +55,73 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 			public Class<CampaignEvent> getTypeClass() {
 				return CampaignEvent.class;
 			}
+
 		};
 
 	public eu.strasbourg.service.agenda.model.Campaign getCampaign();
 
 	/**
-	* Retourne la liste de CampaignEventStatus, correspondant à l'historique
-	* des statuts de l'événement classé par ordre chronologique
-	*/
-	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEventStatus> getStatusHistory();
+	 * Retourne la liste de CampaignEventStatus, correspondant à l'historique
+	 * des statuts de l'événement classé par ordre chronologique
+	 */
+	public java.util.List
+		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
+			getStatusHistory();
 
 	/**
-	* Renvoie le dernier statut en date de l'événement
-	*/
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus getLastStatus();
+	 * Renvoie le dernier statut en date de l'événement
+	 */
+	public eu.strasbourg.service.agenda.model.CampaignEventStatus
+		getLastStatus();
 
 	public eu.strasbourg.service.agenda.model.CampaignEventStatus updateStatus(
-		int newStatus, java.lang.String comment,
-		com.liferay.portal.kernel.model.User user)
+			int newStatus, String comment,
+			com.liferay.portal.kernel.model.User user)
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
-	* Retourne true si l'utilisateur est manager de la campagne à laquelle
-	* appartient l'événement
-	*/
+	 * Retourne true si l'utilisateur est manager de la campagne à laquelle
+	 * appartient l'événement
+	 */
 	public boolean isUserManagerOfTheEvent(long userId);
 
 	/**
-	* Retourne les thèmes
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getThemes();
+	 * Retourne les thèmes
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getThemes();
 
 	/**
-	* Retourne le label des thèles de l'événement
-	*/
-	public java.lang.String getThemeLabel(java.util.Locale locale);
+	 * Retourne le label des thèles de l'événement
+	 */
+	public String getThemeLabel(java.util.Locale locale);
 
 	/**
-	* Retourne les types
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getTypes();
+	 * Retourne les types
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getTypes();
 
 	/**
-	* Retourne le label des types de l'événement
-	*/
-	public java.lang.String getTypeLabel(java.util.Locale locale);
+	 * Retourne le label des types de l'événement
+	 */
+	public String getTypeLabel(java.util.Locale locale);
 
 	/**
-	* Retourne les publics
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPublics();
+	 * Retourne les publics
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getPublics();
 
 	/**
-	* Retourne le label des publics de l'événement
-	*/
-	public java.lang.String getPublicLabel(java.util.Locale locale);
+	 * Retourne le label des publics de l'événement
+	 */
+	public String getPublicLabel(java.util.Locale locale);
 
 	/**
-	* Retourne le nom du service
-	*/
-	public java.lang.String getServiceName(java.util.Locale locale);
+	 * Retourne le nom du service
+	 */
+	public String getServiceName(java.util.Locale locale);
 
 	public void sendDeleteMail()
 		throws com.liferay.portal.kernel.exception.PortalException;
@@ -124,44 +133,46 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 		throws com.liferay.portal.kernel.exception.PortalException;
 
 	/**
-	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
-	*/
-	public java.lang.String getImageURL();
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageURL();
 
 	/**
-	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
-	*/
-	public java.lang.String getWebImageURL();
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getWebImageURL();
 
 	/**
-	* Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
-	* existe
-	*/
+	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
+	 * existe
+	 */
 	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
 		java.util.Locale locale);
 
 	/**
-	* Retourne les périodes
-	*/
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod> getPeriods();
+	 * Retourne les périodes
+	 */
+	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
+		getPeriods();
 
 	/**
-	* Retourne le territoire (la ville) de l'événement (si lieu manuel)
-	*/
-	public java.lang.String getCity();
+	 * Retourne le territoire (la ville) de l'événement (si lieu manuel)
+	 */
+	public String getCity();
 
 	/**
-	* Retourne le label des manifestations de l'événement
-	*/
-	public java.lang.String getManifestationLabel(java.util.Locale locale);
+	 * Retourne le label des manifestations de l'événement
+	 */
+	public String getManifestationLabel(java.util.Locale locale);
 
 	/**
-	* Retourne la version JSON de l'object
-	*/
+	 * Retourne la version JSON de l'object
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
 	/**
-	* Retourne le nom lieu rattaché à l'événement
-	*/
-	public java.lang.String getPlaceAlias(java.util.Locale locale);
+	 * Retourne le nom lieu rattaché à l'événement
+	 */
+	public String getPlaceAlias(java.util.Locale locale);
+
 }

@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link EventParticipationServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>EventParticipationServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.agenda.model.EventParticipationSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.agenda.model.EventParticipation}, that is translated to a
- * {@link eu.strasbourg.service.agenda.model.EventParticipationSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.agenda.model.EventParticipationSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.agenda.model.EventParticipation</code>, that is translated to a
+ * <code>eu.strasbourg.service.agenda.model.EventParticipationSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,54 +60,21 @@ import java.rmi.RemoteException;
  *
  * @author BenjaminBini
  * @see EventParticipationServiceHttp
- * @see eu.strasbourg.service.agenda.model.EventParticipationSoap
- * @see EventParticipationServiceUtil
  * @generated
  */
 @ProviderType
 public class EventParticipationServiceSoap {
-	/**
-	* Retourne les participation d'evenement d'un utilisateur
-	*/
-	public static java.lang.String getUserEventParticipations(
-		java.lang.String userId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = EventParticipationServiceUtil.getUserEventParticipations(userId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
 
 	/**
-	* Ajoute une participation à un utilisateur
-	*/
-	public static java.lang.String addEventParticipationLink(long eventId,
-		long groupId) throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = EventParticipationServiceUtil.addEventParticipationLink(eventId,
-					groupId);
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	* Supprime une participation d'evenement d'un utilisateur
-	*/
-	public static java.lang.String deleteEventParticipationLink(long eventId)
+	 * Retourne les participation d'evenement d'un utilisateur
+	 */
+	public static String getUserEventParticipations(String userId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = EventParticipationServiceUtil.deleteEventParticipationLink(eventId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				EventParticipationServiceUtil.getUserEventParticipations(
+					userId);
 
 			return returnValue.toString();
 		}
@@ -118,12 +86,15 @@ public class EventParticipationServiceSoap {
 	}
 
 	/**
-	* Verifie si l'utilisateur courant participe a l'evenement
-	*/
-	public static java.lang.String isUserParticipates(long eventId)
+	 * Ajoute une participation à un utilisateur
+	 */
+	public static String addEventParticipationLink(long eventId, long groupId)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = EventParticipationServiceUtil.isUserParticipates(eventId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				EventParticipationServiceUtil.addEventParticipationLink(
+					eventId, groupId);
 
 			return returnValue.toString();
 		}
@@ -134,5 +105,46 @@ public class EventParticipationServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(EventParticipationServiceSoap.class);
+	/**
+	 * Supprime une participation d'evenement d'un utilisateur
+	 */
+	public static String deleteEventParticipationLink(long eventId)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				EventParticipationServiceUtil.deleteEventParticipationLink(
+					eventId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Verifie si l'utilisateur courant participe a l'evenement
+	 */
+	public static String isUserParticipates(long eventId)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				EventParticipationServiceUtil.isUserParticipates(eventId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(
+		EventParticipationServiceSoap.class);
+
 }

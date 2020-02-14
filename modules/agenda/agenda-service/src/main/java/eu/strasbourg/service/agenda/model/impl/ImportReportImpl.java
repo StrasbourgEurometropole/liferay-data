@@ -36,8 +36,8 @@ import eu.strasbourg.service.agenda.utils.ImportReportLineStatus;
 import eu.strasbourg.service.agenda.utils.ImportReportStatus;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+//import freemarker.template.Configuration;
+//import freemarker.template.Template;
 
 /**
  * The extended model implementation for the ImportReport service. Represents a
@@ -177,20 +177,20 @@ public class ImportReportImpl extends ImportReportBaseImpl {
 		context.put("report", this);
 		context.put("environment", environment);
 
-		Configuration configuration = new Configuration(
-			Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(),
-			"/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+//		Configuration configuration = new Configuration(
+//			Configuration.getVersion());
+//		configuration.setClassForTemplateLoading(this.getClass(),
+//			"/templates/");
+//		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
 		try {
-			Template subjectTemplate = configuration
-				.getTemplate("import-notification-mail-subject.ftl");
-			Template bodyTemplate = configuration
-				.getTemplate("import-notification-mail-body.ftl");
+//			Template subjectTemplate = configuration
+//				.getTemplate("import-notification-mail-subject.ftl");
+//			Template bodyTemplate = configuration
+//				.getTemplate("import-notification-mail-body.ftl");
 			StringWriter subjectWriter = new StringWriter();
 			StringWriter bodyWriter = new StringWriter();
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
+//			subjectTemplate.process(context, subjectWriter);
+//			bodyTemplate.process(context, bodyWriter);
 			String adminEmailFromAddress = PrefsPropsUtil.getString(
 				PortalUtil.getDefaultCompanyId(),
 				PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
