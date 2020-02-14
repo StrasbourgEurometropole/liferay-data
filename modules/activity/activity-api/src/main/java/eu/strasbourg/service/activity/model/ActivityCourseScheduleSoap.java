@@ -26,17 +26,19 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.activity.service.http.ActivityCourseScheduleServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.activity.service.http.ActivityCourseScheduleServiceSoap
  * @generated
  */
 @ProviderType
 public class ActivityCourseScheduleSoap implements Serializable {
+
 	public static ActivityCourseScheduleSoap toSoapModel(
 		ActivityCourseSchedule model) {
+
 		ActivityCourseScheduleSoap soapModel = new ActivityCourseScheduleSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setActivityCourseScheduleId(model.getActivityCourseScheduleId());
+		soapModel.setActivityCourseScheduleId(
+			model.getActivityCourseScheduleId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -46,13 +48,13 @@ public class ActivityCourseScheduleSoap implements Serializable {
 		soapModel.setActivityCoursePlaceId(model.getActivityCoursePlaceId());
 		soapModel.setStartTime(model.getStartTime());
 		soapModel.setEndTime(model.getEndTime());
-		soapModel.setMonday(model.getMonday());
-		soapModel.setTuesday(model.getTuesday());
-		soapModel.setWednesday(model.getWednesday());
-		soapModel.setThursday(model.getThursday());
-		soapModel.setFriday(model.getFriday());
-		soapModel.setSaturday(model.getSaturday());
-		soapModel.setSunday(model.getSunday());
+		soapModel.setMonday(model.isMonday());
+		soapModel.setTuesday(model.isTuesday());
+		soapModel.setWednesday(model.isWednesday());
+		soapModel.setThursday(model.isThursday());
+		soapModel.setFriday(model.isFriday());
+		soapModel.setSaturday(model.isSaturday());
+		soapModel.setSunday(model.isSunday());
 		soapModel.setComments(model.getComments());
 		soapModel.setPeriodsIds(model.getPeriodsIds());
 
@@ -61,7 +63,9 @@ public class ActivityCourseScheduleSoap implements Serializable {
 
 	public static ActivityCourseScheduleSoap[] toSoapModels(
 		ActivityCourseSchedule[] models) {
-		ActivityCourseScheduleSoap[] soapModels = new ActivityCourseScheduleSoap[models.length];
+
+		ActivityCourseScheduleSoap[] soapModels =
+			new ActivityCourseScheduleSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -72,10 +76,12 @@ public class ActivityCourseScheduleSoap implements Serializable {
 
 	public static ActivityCourseScheduleSoap[][] toSoapModels(
 		ActivityCourseSchedule[][] models) {
+
 		ActivityCourseScheduleSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ActivityCourseScheduleSoap[models.length][models[0].length];
+			soapModels =
+				new ActivityCourseScheduleSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ActivityCourseScheduleSoap[0][0];
@@ -90,13 +96,16 @@ public class ActivityCourseScheduleSoap implements Serializable {
 
 	public static ActivityCourseScheduleSoap[] toSoapModels(
 		List<ActivityCourseSchedule> models) {
-		List<ActivityCourseScheduleSoap> soapModels = new ArrayList<ActivityCourseScheduleSoap>(models.size());
+
+		List<ActivityCourseScheduleSoap> soapModels =
+			new ArrayList<ActivityCourseScheduleSoap>(models.size());
 
 		for (ActivityCourseSchedule model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new ActivityCourseScheduleSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new ActivityCourseScheduleSoap[soapModels.size()]);
 	}
 
 	public ActivityCourseScheduleSoap() {
@@ -318,4 +327,5 @@ public class ActivityCourseScheduleSoap implements Serializable {
 	private boolean _sunday;
 	private String _comments;
 	private String _periodsIds;
+
 }

@@ -32,12 +32,13 @@ import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class AssociationBaseImpl extends AssociationModelImpl
-	implements Association {
+public abstract class AssociationBaseImpl
+	extends AssociationModelImpl implements Association {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a association model instance should use the {@link Association} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a association model instance should use the <code>Association</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class AssociationBaseImpl extends AssociationModelImpl
 			AssociationLocalServiceUtil.updateAssociation(this);
 		}
 	}
+
 }

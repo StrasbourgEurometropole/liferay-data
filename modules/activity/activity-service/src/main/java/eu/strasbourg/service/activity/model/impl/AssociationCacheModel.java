@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.Association;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Association in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Association
  * @generated
  */
 @ProviderType
-public class AssociationCacheModel implements CacheModel<Association>,
-	Externalizable {
+public class AssociationCacheModel
+	implements CacheModel<Association>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class AssociationCacheModel implements CacheModel<Association>,
 			return false;
 		}
 
-		AssociationCacheModel associationCacheModel = (AssociationCacheModel)obj;
+		AssociationCacheModel associationCacheModel =
+			(AssociationCacheModel)obj;
 
 		if (associationId == associationCacheModel.associationId) {
 			return true;
@@ -116,7 +116,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		AssociationImpl associationImpl = new AssociationImpl();
 
 		if (uuid == null) {
-			associationImpl.setUuid(StringPool.BLANK);
+			associationImpl.setUuid("");
 		}
 		else {
 			associationImpl.setUuid(uuid);
@@ -128,7 +128,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		associationImpl.setUserId(userId);
 
 		if (userName == null) {
-			associationImpl.setUserName(StringPool.BLANK);
+			associationImpl.setUserName("");
 		}
 		else {
 			associationImpl.setUserName(userName);
@@ -149,49 +149,49 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		}
 
 		if (name == null) {
-			associationImpl.setName(StringPool.BLANK);
+			associationImpl.setName("");
 		}
 		else {
 			associationImpl.setName(name);
 		}
 
 		if (presentation == null) {
-			associationImpl.setPresentation(StringPool.BLANK);
+			associationImpl.setPresentation("");
 		}
 		else {
 			associationImpl.setPresentation(presentation);
 		}
 
 		if (phone == null) {
-			associationImpl.setPhone(StringPool.BLANK);
+			associationImpl.setPhone("");
 		}
 		else {
 			associationImpl.setPhone(phone);
 		}
 
 		if (siteURL == null) {
-			associationImpl.setSiteURL(StringPool.BLANK);
+			associationImpl.setSiteURL("");
 		}
 		else {
 			associationImpl.setSiteURL(siteURL);
 		}
 
 		if (mail == null) {
-			associationImpl.setMail(StringPool.BLANK);
+			associationImpl.setMail("");
 		}
 		else {
 			associationImpl.setMail(mail);
 		}
 
 		if (facebookURL == null) {
-			associationImpl.setFacebookURL(StringPool.BLANK);
+			associationImpl.setFacebookURL("");
 		}
 		else {
 			associationImpl.setFacebookURL(facebookURL);
 		}
 
 		if (othersInformations == null) {
-			associationImpl.setOthersInformations(StringPool.BLANK);
+			associationImpl.setOthersInformations("");
 		}
 		else {
 			associationImpl.setOthersInformations(othersInformations);
@@ -201,7 +201,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		associationImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			associationImpl.setStatusByUserName(StringPool.BLANK);
+			associationImpl.setStatusByUserName("");
 		}
 		else {
 			associationImpl.setStatusByUserName(statusByUserName);
@@ -249,10 +249,9 @@ public class AssociationCacheModel implements CacheModel<Association>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -267,7 +266,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -277,49 +276,49 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		objectOutput.writeLong(modifiedDate);
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(presentation);
 		}
 
 		if (phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(phone);
 		}
 
 		if (siteURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(siteURL);
 		}
 
 		if (mail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mail);
 		}
 
 		if (facebookURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(facebookURL);
 		}
 
 		if (othersInformations == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(othersInformations);
@@ -330,7 +329,7 @@ public class AssociationCacheModel implements CacheModel<Association>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -358,4 +357,5 @@ public class AssociationCacheModel implements CacheModel<Association>,
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+
 }

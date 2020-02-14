@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.Activity;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Activity in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Activity
  * @generated
  */
 @ProviderType
-public class ActivityCacheModel implements CacheModel<Activity>, Externalizable {
+public class ActivityCacheModel
+	implements CacheModel<Activity>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -113,7 +113,7 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		ActivityImpl activityImpl = new ActivityImpl();
 
 		if (uuid == null) {
-			activityImpl.setUuid(StringPool.BLANK);
+			activityImpl.setUuid("");
 		}
 		else {
 			activityImpl.setUuid(uuid);
@@ -125,7 +125,7 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		activityImpl.setUserId(userId);
 
 		if (userName == null) {
-			activityImpl.setUserName(StringPool.BLANK);
+			activityImpl.setUserName("");
 		}
 		else {
 			activityImpl.setUserName(userName);
@@ -146,21 +146,21 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		}
 
 		if (title == null) {
-			activityImpl.setTitle(StringPool.BLANK);
+			activityImpl.setTitle("");
 		}
 		else {
 			activityImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			activityImpl.setDescription(StringPool.BLANK);
+			activityImpl.setDescription("");
 		}
 		else {
 			activityImpl.setDescription(description);
 		}
 
 		if (videosIds == null) {
-			activityImpl.setVideosIds(StringPool.BLANK);
+			activityImpl.setVideosIds("");
 		}
 		else {
 			activityImpl.setVideosIds(videosIds);
@@ -169,14 +169,14 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		activityImpl.setImageId(imageId);
 
 		if (imagesIds == null) {
-			activityImpl.setImagesIds(StringPool.BLANK);
+			activityImpl.setImagesIds("");
 		}
 		else {
 			activityImpl.setImagesIds(imagesIds);
 		}
 
 		if (filesIds == null) {
-			activityImpl.setFilesIds(StringPool.BLANK);
+			activityImpl.setFilesIds("");
 		}
 		else {
 			activityImpl.setFilesIds(filesIds);
@@ -186,7 +186,7 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		activityImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			activityImpl.setStatusByUserName(StringPool.BLANK);
+			activityImpl.setStatusByUserName("");
 		}
 		else {
 			activityImpl.setStatusByUserName(statusByUserName);
@@ -234,10 +234,9 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -252,7 +251,7 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -262,21 +261,21 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		objectOutput.writeLong(modifiedDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (videosIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videosIds);
@@ -285,14 +284,14 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		objectOutput.writeLong(imageId);
 
 		if (imagesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imagesIds);
 		}
 
 		if (filesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filesIds);
@@ -303,7 +302,7 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -330,4 +329,5 @@ public class ActivityCacheModel implements CacheModel<Activity>, Externalizable 
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ActivityOrganizer in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see ActivityOrganizer
  * @generated
  */
 @ProviderType
-public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer>,
-	Externalizable {
+public class ActivityOrganizerCacheModel
+	implements CacheModel<ActivityOrganizer>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 			return false;
 		}
 
-		ActivityOrganizerCacheModel activityOrganizerCacheModel = (ActivityOrganizerCacheModel)obj;
+		ActivityOrganizerCacheModel activityOrganizerCacheModel =
+			(ActivityOrganizerCacheModel)obj;
 
-		if (activityOrganizerId == activityOrganizerCacheModel.activityOrganizerId) {
+		if (activityOrganizerId ==
+				activityOrganizerCacheModel.activityOrganizerId) {
+
 			return true;
 		}
 
@@ -113,10 +115,11 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 
 	@Override
 	public ActivityOrganizer toEntityModel() {
-		ActivityOrganizerImpl activityOrganizerImpl = new ActivityOrganizerImpl();
+		ActivityOrganizerImpl activityOrganizerImpl =
+			new ActivityOrganizerImpl();
 
 		if (uuid == null) {
-			activityOrganizerImpl.setUuid(StringPool.BLANK);
+			activityOrganizerImpl.setUuid("");
 		}
 		else {
 			activityOrganizerImpl.setUuid(uuid);
@@ -128,7 +131,7 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		activityOrganizerImpl.setUserId(userId);
 
 		if (userName == null) {
-			activityOrganizerImpl.setUserName(StringPool.BLANK);
+			activityOrganizerImpl.setUserName("");
 		}
 		else {
 			activityOrganizerImpl.setUserName(userName);
@@ -152,7 +155,7 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		activityOrganizerImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			activityOrganizerImpl.setStatusByUserName(StringPool.BLANK);
+			activityOrganizerImpl.setStatusByUserName("");
 		}
 		else {
 			activityOrganizerImpl.setStatusByUserName(statusByUserName);
@@ -166,42 +169,42 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		}
 
 		if (name == null) {
-			activityOrganizerImpl.setName(StringPool.BLANK);
+			activityOrganizerImpl.setName("");
 		}
 		else {
 			activityOrganizerImpl.setName(name);
 		}
 
 		if (presentation == null) {
-			activityOrganizerImpl.setPresentation(StringPool.BLANK);
+			activityOrganizerImpl.setPresentation("");
 		}
 		else {
 			activityOrganizerImpl.setPresentation(presentation);
 		}
 
 		if (address == null) {
-			activityOrganizerImpl.setAddress(StringPool.BLANK);
+			activityOrganizerImpl.setAddress("");
 		}
 		else {
 			activityOrganizerImpl.setAddress(address);
 		}
 
 		if (phone == null) {
-			activityOrganizerImpl.setPhone(StringPool.BLANK);
+			activityOrganizerImpl.setPhone("");
 		}
 		else {
 			activityOrganizerImpl.setPhone(phone);
 		}
 
 		if (mail == null) {
-			activityOrganizerImpl.setMail(StringPool.BLANK);
+			activityOrganizerImpl.setMail("");
 		}
 		else {
 			activityOrganizerImpl.setMail(mail);
 		}
 
 		if (siteURL == null) {
-			activityOrganizerImpl.setSiteURL(StringPool.BLANK);
+			activityOrganizerImpl.setSiteURL("");
 		}
 		else {
 			activityOrganizerImpl.setSiteURL(siteURL);
@@ -245,10 +248,9 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -263,7 +265,7 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -277,7 +279,7 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -286,42 +288,42 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 		objectOutput.writeLong(statusDate);
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(presentation);
 		}
 
 		if (address == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(address);
 		}
 
 		if (phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(phone);
 		}
 
 		if (mail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mail);
 		}
 
 		if (siteURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(siteURL);
@@ -349,4 +351,5 @@ public class ActivityOrganizerCacheModel implements CacheModel<ActivityOrganizer
 	public String mail;
 	public String siteURL;
 	public long imageId;
+
 }

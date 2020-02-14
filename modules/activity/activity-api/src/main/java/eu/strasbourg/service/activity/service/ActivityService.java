@@ -34,31 +34,38 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityServiceUtil
- * @see eu.strasbourg.service.activity.service.base.ActivityServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.impl.ActivityServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=activity", "json.web.service.context.path=Activity"}, service = ActivityService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=activity",
+		"json.web.service.context.path=Activity"
+	},
+	service = ActivityService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ActivityService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ActivityServiceUtil} to access the activity remote service. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.ActivityServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ActivityServiceUtil} to access the activity remote service. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.ActivityServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getActivities(long groupId, java.lang.String name,
-		java.lang.String language) throws PortalException;
+	public JSONArray getActivities(long groupId, String name, String language)
+		throws PortalException;
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

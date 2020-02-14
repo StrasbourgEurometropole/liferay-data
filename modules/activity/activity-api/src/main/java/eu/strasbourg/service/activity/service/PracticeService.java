@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Brian Wing Shun Chan
  * @see PracticeServiceUtil
- * @see eu.strasbourg.service.activity.service.base.PracticeServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.impl.PracticeServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=activity", "json.web.service.context.path=Practice"}, service = PracticeService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=activity",
+		"json.web.service.context.path=Practice"
+	},
+	service = PracticeService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface PracticeService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link PracticeServiceUtil} to access the practice remote service. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.PracticeServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link PracticeServiceUtil} to access the practice remote service. Add custom service methods to <code>eu.strasbourg.service.activity.service.impl.PracticeServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

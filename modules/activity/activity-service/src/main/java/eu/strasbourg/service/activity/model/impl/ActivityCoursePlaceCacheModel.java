@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ActivityCoursePlace in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see ActivityCoursePlace
  * @generated
  */
 @ProviderType
-public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCoursePlace>,
-	Externalizable {
+public class ActivityCoursePlaceCacheModel
+	implements CacheModel<ActivityCoursePlace>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 			return false;
 		}
 
-		ActivityCoursePlaceCacheModel activityCoursePlaceCacheModel = (ActivityCoursePlaceCacheModel)obj;
+		ActivityCoursePlaceCacheModel activityCoursePlaceCacheModel =
+			(ActivityCoursePlaceCacheModel)obj;
 
-		if (activityCoursePlaceId == activityCoursePlaceCacheModel.activityCoursePlaceId) {
+		if (activityCoursePlaceId ==
+				activityCoursePlaceCacheModel.activityCoursePlaceId) {
+
 			return true;
 		}
 
@@ -105,10 +107,11 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 
 	@Override
 	public ActivityCoursePlace toEntityModel() {
-		ActivityCoursePlaceImpl activityCoursePlaceImpl = new ActivityCoursePlaceImpl();
+		ActivityCoursePlaceImpl activityCoursePlaceImpl =
+			new ActivityCoursePlaceImpl();
 
 		if (uuid == null) {
-			activityCoursePlaceImpl.setUuid(StringPool.BLANK);
+			activityCoursePlaceImpl.setUuid("");
 		}
 		else {
 			activityCoursePlaceImpl.setUuid(uuid);
@@ -120,7 +123,7 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 		activityCoursePlaceImpl.setUserId(userId);
 
 		if (userName == null) {
-			activityCoursePlaceImpl.setUserName(StringPool.BLANK);
+			activityCoursePlaceImpl.setUserName("");
 		}
 		else {
 			activityCoursePlaceImpl.setUserName(userName);
@@ -143,35 +146,35 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 		activityCoursePlaceImpl.setActivityCourseId(activityCourseId);
 
 		if (placeSIGId == null) {
-			activityCoursePlaceImpl.setPlaceSIGId(StringPool.BLANK);
+			activityCoursePlaceImpl.setPlaceSIGId("");
 		}
 		else {
 			activityCoursePlaceImpl.setPlaceSIGId(placeSIGId);
 		}
 
 		if (placeName == null) {
-			activityCoursePlaceImpl.setPlaceName(StringPool.BLANK);
+			activityCoursePlaceImpl.setPlaceName("");
 		}
 		else {
 			activityCoursePlaceImpl.setPlaceName(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			activityCoursePlaceImpl.setPlaceStreetNumber(StringPool.BLANK);
+			activityCoursePlaceImpl.setPlaceStreetNumber("");
 		}
 		else {
 			activityCoursePlaceImpl.setPlaceStreetNumber(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			activityCoursePlaceImpl.setPlaceStreetName(StringPool.BLANK);
+			activityCoursePlaceImpl.setPlaceStreetName("");
 		}
 		else {
 			activityCoursePlaceImpl.setPlaceStreetName(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			activityCoursePlaceImpl.setPlaceZipCode(StringPool.BLANK);
+			activityCoursePlaceImpl.setPlaceZipCode("");
 		}
 		else {
 			activityCoursePlaceImpl.setPlaceZipCode(placeZipCode);
@@ -210,10 +213,9 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -228,7 +230,7 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -240,35 +242,35 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 		objectOutput.writeLong(activityCourseId);
 
 		if (placeSIGId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeSIGId);
 		}
 
 		if (placeName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeZipCode);
@@ -292,4 +294,5 @@ public class ActivityCoursePlaceCacheModel implements CacheModel<ActivityCourseP
 	public String placeStreetName;
 	public String placeZipCode;
 	public long placeCityId;
+
 }

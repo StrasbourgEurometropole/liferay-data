@@ -19,13 +19,11 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -48,6 +46,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -77,17 +76,17 @@ import javax.sql.DataSource;
  *
  * @author Brian Wing Shun Chan
  * @see eu.strasbourg.service.activity.service.impl.ActivityCoursePlaceLocalServiceImpl
- * @see eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class ActivityCoursePlaceLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements ActivityCoursePlaceLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements ActivityCoursePlaceLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil} to access the activity course place local service.
+	 * Never modify or reference this class directly. Use <code>ActivityCoursePlaceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -100,6 +99,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public ActivityCoursePlace addActivityCoursePlace(
 		ActivityCoursePlace activityCoursePlace) {
+
 		activityCoursePlace.setNew(true);
 
 		return activityCoursePlacePersistence.update(activityCoursePlace);
@@ -112,8 +112,10 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @return the new activity course place
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public ActivityCoursePlace createActivityCoursePlace(
 		long activityCoursePlaceId) {
+
 		return activityCoursePlacePersistence.create(activityCoursePlaceId);
 	}
 
@@ -127,7 +129,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	public ActivityCoursePlace deleteActivityCoursePlace(
-		long activityCoursePlaceId) throws PortalException {
+			long activityCoursePlaceId)
+		throws PortalException {
+
 		return activityCoursePlacePersistence.remove(activityCoursePlaceId);
 	}
 
@@ -141,6 +145,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public ActivityCoursePlace deleteActivityCoursePlace(
 		ActivityCoursePlace activityCoursePlace) {
+
 		return activityCoursePlacePersistence.remove(activityCoursePlace);
 	}
 
@@ -148,8 +153,8 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(ActivityCoursePlace.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			ActivityCoursePlace.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -160,14 +165,15 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	@Override
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
-		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery);
+		return activityCoursePlacePersistence.findWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -176,17 +182,18 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return activityCoursePlacePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -196,10 +203,12 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return activityCoursePlacePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -210,7 +219,8 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	@Override
 	public long dynamicQueryCount(DynamicQuery dynamicQuery) {
-		return activityCoursePlacePersistence.countWithDynamicQuery(dynamicQuery);
+		return activityCoursePlacePersistence.countWithDynamicQuery(
+			dynamicQuery);
 	}
 
 	/**
@@ -221,16 +231,19 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return activityCoursePlacePersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return activityCoursePlacePersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
 	public ActivityCoursePlace fetchActivityCoursePlace(
 		long activityCoursePlaceId) {
-		return activityCoursePlacePersistence.fetchByPrimaryKey(activityCoursePlaceId);
+
+		return activityCoursePlacePersistence.fetchByPrimaryKey(
+			activityCoursePlaceId);
 	}
 
 	/**
@@ -243,6 +256,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public ActivityCoursePlace fetchActivityCoursePlaceByUuidAndGroupId(
 		String uuid, long groupId) {
+
 		return activityCoursePlacePersistence.fetchByUUID_G(uuid, groupId);
 	}
 
@@ -255,15 +269,20 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	@Override
 	public ActivityCoursePlace getActivityCoursePlace(
-		long activityCoursePlaceId) throws PortalException {
-		return activityCoursePlacePersistence.findByPrimaryKey(activityCoursePlaceId);
+			long activityCoursePlaceId)
+		throws PortalException {
+
+		return activityCoursePlacePersistence.findByPrimaryKey(
+			activityCoursePlaceId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
-		actionableDynamicQuery.setBaseLocalService(activityCoursePlaceLocalService);
+		actionableDynamicQuery.setBaseLocalService(
+			activityCoursePlaceLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(ActivityCoursePlace.class);
 
@@ -274,12 +293,17 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(activityCoursePlaceLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			activityCoursePlaceLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
-		indexableActionableDynamicQuery.setModelClass(ActivityCoursePlace.class);
+		indexableActionableDynamicQuery.setModelClass(
+			ActivityCoursePlace.class);
 
 		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
 			"activityCoursePlaceId");
@@ -289,7 +313,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
-		actionableDynamicQuery.setBaseLocalService(activityCoursePlaceLocalService);
+
+		actionableDynamicQuery.setBaseLocalService(
+			activityCoursePlaceLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(ActivityCoursePlace.class);
 
@@ -300,51 +326,68 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
+
+		final ExportActionableDynamicQuery exportActionableDynamicQuery =
+			new ExportActionableDynamicQuery() {
+
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary =
+						portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(stagedModelType,
-						modelAdditionCount);
+					manifestSummary.addModelAdditionCount(
+						stagedModelType, modelAdditionCount);
 
-					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
-							stagedModelType);
+					long modelDeletionCount =
+						ExportImportHelperUtil.getModelDeletionCount(
+							portletDataContext, stagedModelType);
 
-					manifestSummary.addModelDeletionCount(stagedModelType,
-						modelDeletionCount);
+					manifestSummary.addModelDeletionCount(
+						stagedModelType, modelDeletionCount);
 
 					return modelAdditionCount;
 				}
+
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
+		exportActionableDynamicQuery.setAddCriteriaMethod(
+			new ActionableDynamicQuery.AddCriteriaMethod() {
+
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					portletDataContext.addDateRangeCriteria(dynamicQuery,
-						"modifiedDate");
+					portletDataContext.addDateRangeCriteria(
+						dynamicQuery, "modifiedDate");
 				}
+
 			});
 
-		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(
+			portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<ActivityCoursePlace>() {
+		exportActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod
+				<ActivityCoursePlace>() {
+
 				@Override
 				public void performAction(
-					ActivityCoursePlace activityCoursePlace)
+						ActivityCoursePlace activityCoursePlace)
 					throws PortalException {
-					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
-						activityCoursePlace);
+
+					StagedModelDataHandlerUtil.exportStagedModel(
+						portletDataContext, activityCoursePlace);
 				}
+
 			});
-		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
-				PortalUtil.getClassNameId(ActivityCoursePlace.class.getName())));
+		exportActionableDynamicQuery.setStagedModelType(
+			new StagedModelType(
+				PortalUtil.getClassNameId(
+					ActivityCoursePlace.class.getName())));
 
 		return exportActionableDynamicQuery;
 	}
@@ -355,12 +398,15 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return activityCoursePlaceLocalService.deleteActivityCoursePlace((ActivityCoursePlace)persistedModel);
+
+		return activityCoursePlaceLocalService.deleteActivityCoursePlace(
+			(ActivityCoursePlace)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return activityCoursePlacePersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -374,6 +420,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public List<ActivityCoursePlace> getActivityCoursePlacesByUuidAndCompanyId(
 		String uuid, long companyId) {
+
 		return activityCoursePlacePersistence.findByUuid_C(uuid, companyId);
 	}
 
@@ -391,8 +438,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	public List<ActivityCoursePlace> getActivityCoursePlacesByUuidAndCompanyId(
 		String uuid, long companyId, int start, int end,
 		OrderByComparator<ActivityCoursePlace> orderByComparator) {
-		return activityCoursePlacePersistence.findByUuid_C(uuid, companyId,
-			start, end, orderByComparator);
+
+		return activityCoursePlacePersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -405,7 +453,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	@Override
 	public ActivityCoursePlace getActivityCoursePlaceByUuidAndGroupId(
-		String uuid, long groupId) throws PortalException {
+			String uuid, long groupId)
+		throws PortalException {
+
 		return activityCoursePlacePersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -413,7 +463,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * Returns a range of all the activity course places.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.activity.model.impl.ActivityCoursePlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of activity course places
@@ -421,7 +471,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @return the range of activity course places
 	 */
 	@Override
-	public List<ActivityCoursePlace> getActivityCoursePlaces(int start, int end) {
+	public List<ActivityCoursePlace> getActivityCoursePlaces(
+		int start, int end) {
+
 		return activityCoursePlacePersistence.findAll(start, end);
 	}
 
@@ -445,6 +497,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	@Override
 	public ActivityCoursePlace updateActivityCoursePlace(
 		ActivityCoursePlace activityCoursePlace) {
+
 		return activityCoursePlacePersistence.update(activityCoursePlace);
 	}
 
@@ -453,7 +506,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the activity local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityLocalService getActivityLocalService() {
+	public eu.strasbourg.service.activity.service.ActivityLocalService
+		getActivityLocalService() {
+
 		return activityLocalService;
 	}
 
@@ -463,7 +518,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param activityLocalService the activity local service
 	 */
 	public void setActivityLocalService(
-		eu.strasbourg.service.activity.service.ActivityLocalService activityLocalService) {
+		eu.strasbourg.service.activity.service.ActivityLocalService
+			activityLocalService) {
+
 		this.activityLocalService = activityLocalService;
 	}
 
@@ -481,7 +538,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @param activityPersistence the activity persistence
 	 */
-	public void setActivityPersistence(ActivityPersistence activityPersistence) {
+	public void setActivityPersistence(
+		ActivityPersistence activityPersistence) {
+
 		this.activityPersistence = activityPersistence;
 	}
 
@@ -490,7 +549,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the activity course local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCourseLocalService getActivityCourseLocalService() {
+	public eu.strasbourg.service.activity.service.ActivityCourseLocalService
+		getActivityCourseLocalService() {
+
 		return activityCourseLocalService;
 	}
 
@@ -500,7 +561,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param activityCourseLocalService the activity course local service
 	 */
 	public void setActivityCourseLocalService(
-		eu.strasbourg.service.activity.service.ActivityCourseLocalService activityCourseLocalService) {
+		eu.strasbourg.service.activity.service.ActivityCourseLocalService
+			activityCourseLocalService) {
+
 		this.activityCourseLocalService = activityCourseLocalService;
 	}
 
@@ -520,6 +583,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setActivityCoursePersistence(
 		ActivityCoursePersistence activityCoursePersistence) {
+
 		this.activityCoursePersistence = activityCoursePersistence;
 	}
 
@@ -528,7 +592,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the activity course place local service
 	 */
-	public ActivityCoursePlaceLocalService getActivityCoursePlaceLocalService() {
+	public ActivityCoursePlaceLocalService
+		getActivityCoursePlaceLocalService() {
+
 		return activityCoursePlaceLocalService;
 	}
 
@@ -539,6 +605,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setActivityCoursePlaceLocalService(
 		ActivityCoursePlaceLocalService activityCoursePlaceLocalService) {
+
 		this.activityCoursePlaceLocalService = activityCoursePlaceLocalService;
 	}
 
@@ -558,6 +625,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setActivityCoursePlacePersistence(
 		ActivityCoursePlacePersistence activityCoursePlacePersistence) {
+
 		this.activityCoursePlacePersistence = activityCoursePlacePersistence;
 	}
 
@@ -566,7 +634,11 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the activity course schedule local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService getActivityCourseScheduleLocalService() {
+	public
+		eu.strasbourg.service.activity.service.
+			ActivityCourseScheduleLocalService
+				getActivityCourseScheduleLocalService() {
+
 		return activityCourseScheduleLocalService;
 	}
 
@@ -576,8 +648,12 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param activityCourseScheduleLocalService the activity course schedule local service
 	 */
 	public void setActivityCourseScheduleLocalService(
-		eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService activityCourseScheduleLocalService) {
-		this.activityCourseScheduleLocalService = activityCourseScheduleLocalService;
+		eu.strasbourg.service.activity.service.
+			ActivityCourseScheduleLocalService
+				activityCourseScheduleLocalService) {
+
+		this.activityCourseScheduleLocalService =
+			activityCourseScheduleLocalService;
 	}
 
 	/**
@@ -585,7 +661,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the activity course schedule persistence
 	 */
-	public ActivityCourseSchedulePersistence getActivityCourseSchedulePersistence() {
+	public ActivityCourseSchedulePersistence
+		getActivityCourseSchedulePersistence() {
+
 		return activityCourseSchedulePersistence;
 	}
 
@@ -596,7 +674,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setActivityCourseSchedulePersistence(
 		ActivityCourseSchedulePersistence activityCourseSchedulePersistence) {
-		this.activityCourseSchedulePersistence = activityCourseSchedulePersistence;
+
+		this.activityCourseSchedulePersistence =
+			activityCourseSchedulePersistence;
 	}
 
 	/**
@@ -604,7 +684,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the activity organizer local service
 	 */
-	public eu.strasbourg.service.activity.service.ActivityOrganizerLocalService getActivityOrganizerLocalService() {
+	public eu.strasbourg.service.activity.service.ActivityOrganizerLocalService
+		getActivityOrganizerLocalService() {
+
 		return activityOrganizerLocalService;
 	}
 
@@ -614,7 +696,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param activityOrganizerLocalService the activity organizer local service
 	 */
 	public void setActivityOrganizerLocalService(
-		eu.strasbourg.service.activity.service.ActivityOrganizerLocalService activityOrganizerLocalService) {
+		eu.strasbourg.service.activity.service.ActivityOrganizerLocalService
+			activityOrganizerLocalService) {
+
 		this.activityOrganizerLocalService = activityOrganizerLocalService;
 	}
 
@@ -634,6 +718,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setActivityOrganizerPersistence(
 		ActivityOrganizerPersistence activityOrganizerPersistence) {
+
 		this.activityOrganizerPersistence = activityOrganizerPersistence;
 	}
 
@@ -642,7 +727,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the association local service
 	 */
-	public eu.strasbourg.service.activity.service.AssociationLocalService getAssociationLocalService() {
+	public eu.strasbourg.service.activity.service.AssociationLocalService
+		getAssociationLocalService() {
+
 		return associationLocalService;
 	}
 
@@ -652,7 +739,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param associationLocalService the association local service
 	 */
 	public void setAssociationLocalService(
-		eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService) {
+		eu.strasbourg.service.activity.service.AssociationLocalService
+			associationLocalService) {
+
 		this.associationLocalService = associationLocalService;
 	}
 
@@ -672,6 +761,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setAssociationPersistence(
 		AssociationPersistence associationPersistence) {
+
 		this.associationPersistence = associationPersistence;
 	}
 
@@ -680,7 +770,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the practice local service
 	 */
-	public eu.strasbourg.service.activity.service.PracticeLocalService getPracticeLocalService() {
+	public eu.strasbourg.service.activity.service.PracticeLocalService
+		getPracticeLocalService() {
+
 		return practiceLocalService;
 	}
 
@@ -690,7 +782,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param practiceLocalService the practice local service
 	 */
 	public void setPracticeLocalService(
-		eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService) {
+		eu.strasbourg.service.activity.service.PracticeLocalService
+			practiceLocalService) {
+
 		this.practiceLocalService = practiceLocalService;
 	}
 
@@ -708,7 +802,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @param practicePersistence the practice persistence
 	 */
-	public void setPracticePersistence(PracticePersistence practicePersistence) {
+	public void setPracticePersistence(
+		PracticePersistence practicePersistence) {
+
 		this.practicePersistence = practicePersistence;
 	}
 
@@ -717,7 +813,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -727,7 +825,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -736,7 +836,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -746,7 +848,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -766,6 +870,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -774,7 +879,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -784,7 +891,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -793,7 +902,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -804,6 +915,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -830,7 +942,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -840,7 +954,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -860,6 +976,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -868,7 +985,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -878,7 +997,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -898,6 +1019,7 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -906,7 +1028,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -916,7 +1040,9 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -934,12 +1060,15 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.activity.model.ActivityCoursePlace",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.activity.model.ActivityCoursePlace",
 			activityCoursePlaceLocalService);
 	}
 
@@ -973,15 +1102,16 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 	 */
 	protected void runSQL(String sql) {
 		try {
-			DataSource dataSource = activityCoursePlacePersistence.getDataSource();
+			DataSource dataSource =
+				activityCoursePlacePersistence.getDataSource();
 
 			DB db = DBManagerUtil.getDB();
 
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -990,58 +1120,129 @@ public abstract class ActivityCoursePlaceLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityLocalService activityLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityLocalService
+		activityLocalService;
+
 	@BeanReference(type = ActivityPersistence.class)
 	protected ActivityPersistence activityPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCourseLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCourseLocalService activityCourseLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCourseLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.ActivityCourseLocalService
+		activityCourseLocalService;
+
 	@BeanReference(type = ActivityCoursePersistence.class)
 	protected ActivityCoursePersistence activityCoursePersistence;
+
 	@BeanReference(type = ActivityCoursePlaceLocalService.class)
 	protected ActivityCoursePlaceLocalService activityCoursePlaceLocalService;
+
 	@BeanReference(type = ActivityCoursePlacePersistence.class)
 	protected ActivityCoursePlacePersistence activityCoursePlacePersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService activityCourseScheduleLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService.class
+	)
+	protected
+		eu.strasbourg.service.activity.service.
+			ActivityCourseScheduleLocalService
+				activityCourseScheduleLocalService;
+
 	@BeanReference(type = ActivityCourseSchedulePersistence.class)
-	protected ActivityCourseSchedulePersistence activityCourseSchedulePersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.ActivityOrganizerLocalService.class)
-	protected eu.strasbourg.service.activity.service.ActivityOrganizerLocalService activityOrganizerLocalService;
+	protected ActivityCourseSchedulePersistence
+		activityCourseSchedulePersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.ActivityOrganizerLocalService.class
+	)
+	protected
+		eu.strasbourg.service.activity.service.ActivityOrganizerLocalService
+			activityOrganizerLocalService;
+
 	@BeanReference(type = ActivityOrganizerPersistence.class)
 	protected ActivityOrganizerPersistence activityOrganizerPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.AssociationLocalService.class)
-	protected eu.strasbourg.service.activity.service.AssociationLocalService associationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.AssociationLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.AssociationLocalService
+		associationLocalService;
+
 	@BeanReference(type = AssociationPersistence.class)
 	protected AssociationPersistence associationPersistence;
-	@BeanReference(type = eu.strasbourg.service.activity.service.PracticeLocalService.class)
-	protected eu.strasbourg.service.activity.service.PracticeLocalService practiceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.activity.service.PracticeLocalService.class
+	)
+	protected eu.strasbourg.service.activity.service.PracticeLocalService
+		practiceLocalService;
+
 	@BeanReference(type = PracticePersistence.class)
 	protected PracticePersistence practicePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

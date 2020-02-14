@@ -34,10 +34,11 @@ import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 @ProviderType
 public abstract class ActivityOrganizerBaseImpl
 	extends ActivityOrganizerModelImpl implements ActivityOrganizer {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a activity organizer model instance should use the {@link ActivityOrganizer} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a activity organizer model instance should use the <code>ActivityOrganizer</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ActivityOrganizerBaseImpl
 			ActivityOrganizerLocalServiceUtil.updateActivityOrganizer(this);
 		}
 	}
+
 }

@@ -17,9 +17,7 @@ package eu.strasbourg.service.activity.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -40,10 +38,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
-	ModelWrapper<ActivityCourseSchedule> {
+public class ActivityCourseScheduleWrapper
+	implements ActivityCourseSchedule, ModelWrapper<ActivityCourseSchedule> {
+
 	public ActivityCourseScheduleWrapper(
 		ActivityCourseSchedule activityCourseSchedule) {
+
 		_activityCourseSchedule = activityCourseSchedule;
 	}
 
@@ -62,7 +62,8 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("activityCourseScheduleId", getActivityCourseScheduleId());
+		attributes.put(
+			"activityCourseScheduleId", getActivityCourseScheduleId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -72,13 +73,13 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		attributes.put("activityCoursePlaceId", getActivityCoursePlaceId());
 		attributes.put("startTime", getStartTime());
 		attributes.put("endTime", getEndTime());
-		attributes.put("monday", getMonday());
-		attributes.put("tuesday", getTuesday());
-		attributes.put("wednesday", getWednesday());
-		attributes.put("thursday", getThursday());
-		attributes.put("friday", getFriday());
-		attributes.put("saturday", getSaturday());
-		attributes.put("sunday", getSunday());
+		attributes.put("monday", isMonday());
+		attributes.put("tuesday", isTuesday());
+		attributes.put("wednesday", isWednesday());
+		attributes.put("thursday", isThursday());
+		attributes.put("friday", isFriday());
+		attributes.put("saturday", isSaturday());
+		attributes.put("sunday", isSunday());
 		attributes.put("comments", getComments());
 		attributes.put("periodsIds", getPeriodsIds());
 
@@ -94,7 +95,7 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		}
 
 		Long activityCourseScheduleId = (Long)attributes.get(
-				"activityCourseScheduleId");
+			"activityCourseScheduleId");
 
 		if (activityCourseScheduleId != null) {
 			setActivityCourseScheduleId(activityCourseScheduleId);
@@ -137,7 +138,7 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		}
 
 		Long activityCoursePlaceId = (Long)attributes.get(
-				"activityCoursePlaceId");
+			"activityCoursePlaceId");
 
 		if (activityCoursePlaceId != null) {
 			setActivityCoursePlaceId(activityCoursePlaceId);
@@ -210,80 +211,393 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new ActivityCourseScheduleWrapper(
+			(ActivityCourseSchedule)_activityCourseSchedule.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.activity.model.ActivityCourseSchedule
+			activityCourseSchedule) {
+
+		return _activityCourseSchedule.compareTo(activityCourseSchedule);
+	}
+
 	/**
-	* Returns the friday of this activity course schedule.
-	*
-	* @return the friday of this activity course schedule
-	*/
+	 * Retourne le lieu de l'horaire
+	 */
+	@Override
+	public eu.strasbourg.service.activity.model.ActivityCoursePlace
+		getActivityCoursePlace() {
+
+		return _activityCourseSchedule.getActivityCoursePlace();
+	}
+
+	/**
+	 * Returns the activity course place ID of this activity course schedule.
+	 *
+	 * @return the activity course place ID of this activity course schedule
+	 */
+	@Override
+	public long getActivityCoursePlaceId() {
+		return _activityCourseSchedule.getActivityCoursePlaceId();
+	}
+
+	/**
+	 * Returns the activity course schedule ID of this activity course schedule.
+	 *
+	 * @return the activity course schedule ID of this activity course schedule
+	 */
+	@Override
+	public long getActivityCourseScheduleId() {
+		return _activityCourseSchedule.getActivityCourseScheduleId();
+	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché à cette entité
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _activityCourseSchedule.getAssetEntry();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return _activityCourseSchedule.getAvailableLanguageIds();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cette entité (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return _activityCourseSchedule.getCategories();
+	}
+
+	/**
+	 * Returns the comments of this activity course schedule.
+	 *
+	 * @return the comments of this activity course schedule
+	 */
+	@Override
+	public String getComments() {
+		return _activityCourseSchedule.getComments();
+	}
+
+	/**
+	 * Returns the localized comments of this activity course schedule in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized comments of this activity course schedule
+	 */
+	@Override
+	public String getComments(java.util.Locale locale) {
+		return _activityCourseSchedule.getComments(locale);
+	}
+
+	/**
+	 * Returns the localized comments of this activity course schedule in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comments of this activity course schedule. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getComments(java.util.Locale locale, boolean useDefault) {
+		return _activityCourseSchedule.getComments(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized comments of this activity course schedule in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized comments of this activity course schedule
+	 */
+	@Override
+	public String getComments(String languageId) {
+		return _activityCourseSchedule.getComments(languageId);
+	}
+
+	/**
+	 * Returns the localized comments of this activity course schedule in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized comments of this activity course schedule
+	 */
+	@Override
+	public String getComments(String languageId, boolean useDefault) {
+		return _activityCourseSchedule.getComments(languageId, useDefault);
+	}
+
+	@Override
+	public String getCommentsCurrentLanguageId() {
+		return _activityCourseSchedule.getCommentsCurrentLanguageId();
+	}
+
+	@Override
+	public String getCommentsCurrentValue() {
+		return _activityCourseSchedule.getCommentsCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized commentses of this activity course schedule.
+	 *
+	 * @return the locales and localized commentses of this activity course schedule
+	 */
+	@Override
+	public Map<java.util.Locale, String> getCommentsMap() {
+		return _activityCourseSchedule.getCommentsMap();
+	}
+
+	/**
+	 * Returns the company ID of this activity course schedule.
+	 *
+	 * @return the company ID of this activity course schedule
+	 */
+	@Override
+	public long getCompanyId() {
+		return _activityCourseSchedule.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this activity course schedule.
+	 *
+	 * @return the create date of this activity course schedule
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _activityCourseSchedule.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return _activityCourseSchedule.getDefaultLanguageId();
+	}
+
+	/**
+	 * Returns the end time of this activity course schedule.
+	 *
+	 * @return the end time of this activity course schedule
+	 */
+	@Override
+	public String getEndTime() {
+		return _activityCourseSchedule.getEndTime();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _activityCourseSchedule.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the friday of this activity course schedule.
+	 *
+	 * @return the friday of this activity course schedule
+	 */
 	@Override
 	public boolean getFriday() {
 		return _activityCourseSchedule.getFriday();
 	}
 
 	/**
-	* Returns the monday of this activity course schedule.
-	*
-	* @return the monday of this activity course schedule
-	*/
+	 * Returns the group ID of this activity course schedule.
+	 *
+	 * @return the group ID of this activity course schedule
+	 */
+	@Override
+	public long getGroupId() {
+		return _activityCourseSchedule.getGroupId();
+	}
+
+	/**
+	 * Retourne la version live de cette entité
+	 */
+	@Override
+	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
+		getLiveVersion() {
+
+		return _activityCourseSchedule.getLiveVersion();
+	}
+
+	/**
+	 * Returns the modified date of this activity course schedule.
+	 *
+	 * @return the modified date of this activity course schedule
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _activityCourseSchedule.getModifiedDate();
+	}
+
+	/**
+	 * Returns the monday of this activity course schedule.
+	 *
+	 * @return the monday of this activity course schedule
+	 */
 	@Override
 	public boolean getMonday() {
 		return _activityCourseSchedule.getMonday();
 	}
 
 	/**
-	* Returns the saturday of this activity course schedule.
-	*
-	* @return the saturday of this activity course schedule
-	*/
+	 * Retourne les périodes du schedule
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getPeriods() {
+
+		return _activityCourseSchedule.getPeriods();
+	}
+
+	/**
+	 * Returns the periods IDs of this activity course schedule.
+	 *
+	 * @return the periods IDs of this activity course schedule
+	 */
+	@Override
+	public String getPeriodsIds() {
+		return _activityCourseSchedule.getPeriodsIds();
+	}
+
+	/**
+	 * Returns the primary key of this activity course schedule.
+	 *
+	 * @return the primary key of this activity course schedule
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _activityCourseSchedule.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _activityCourseSchedule.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the saturday of this activity course schedule.
+	 *
+	 * @return the saturday of this activity course schedule
+	 */
 	@Override
 	public boolean getSaturday() {
 		return _activityCourseSchedule.getSaturday();
 	}
 
 	/**
-	* Returns the sunday of this activity course schedule.
-	*
-	* @return the sunday of this activity course schedule
-	*/
+	 * Returns the start time of this activity course schedule.
+	 *
+	 * @return the start time of this activity course schedule
+	 */
+	@Override
+	public String getStartTime() {
+		return _activityCourseSchedule.getStartTime();
+	}
+
+	/**
+	 * Returns the sunday of this activity course schedule.
+	 *
+	 * @return the sunday of this activity course schedule
+	 */
 	@Override
 	public boolean getSunday() {
 		return _activityCourseSchedule.getSunday();
 	}
 
 	/**
-	* Returns the thursday of this activity course schedule.
-	*
-	* @return the thursday of this activity course schedule
-	*/
+	 * Returns the thursday of this activity course schedule.
+	 *
+	 * @return the thursday of this activity course schedule
+	 */
 	@Override
 	public boolean getThursday() {
 		return _activityCourseSchedule.getThursday();
 	}
 
 	/**
-	* Returns the tuesday of this activity course schedule.
-	*
-	* @return the tuesday of this activity course schedule
-	*/
+	 * Returns the tuesday of this activity course schedule.
+	 *
+	 * @return the tuesday of this activity course schedule
+	 */
 	@Override
 	public boolean getTuesday() {
 		return _activityCourseSchedule.getTuesday();
 	}
 
 	/**
-	* Returns the wednesday of this activity course schedule.
-	*
-	* @return the wednesday of this activity course schedule
-	*/
+	 * Returns the user ID of this activity course schedule.
+	 *
+	 * @return the user ID of this activity course schedule
+	 */
+	@Override
+	public long getUserId() {
+		return _activityCourseSchedule.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this activity course schedule.
+	 *
+	 * @return the user name of this activity course schedule
+	 */
+	@Override
+	public String getUserName() {
+		return _activityCourseSchedule.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this activity course schedule.
+	 *
+	 * @return the user uuid of this activity course schedule
+	 */
+	@Override
+	public String getUserUuid() {
+		return _activityCourseSchedule.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this activity course schedule.
+	 *
+	 * @return the uuid of this activity course schedule
+	 */
+	@Override
+	public String getUuid() {
+		return _activityCourseSchedule.getUuid();
+	}
+
+	/**
+	 * Returns the wednesday of this activity course schedule.
+	 *
+	 * @return the wednesday of this activity course schedule
+	 */
 	@Override
 	public boolean getWednesday() {
 		return _activityCourseSchedule.getWednesday();
 	}
 
 	/**
-	* Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
-	* 0 et 6)
-	*/
+	 * Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
+	 * jour, false sinon
+	 */
+	@Override
+	public boolean[] getWeekDays() {
+		return _activityCourseSchedule.getWeekDays();
+	}
+
+	@Override
+	public int hashCode() {
+		return _activityCourseSchedule.hashCode();
+	}
+
+	/**
+	 * Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
+	 * 0 et 6)
+	 */
 	@Override
 	public boolean hasScheduleOnDay(int day) {
 		return _activityCourseSchedule.hasScheduleOnDay(day);
@@ -300,20 +614,20 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is friday.
-	*
-	* @return <code>true</code> if this activity course schedule is friday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is friday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is friday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isFriday() {
 		return _activityCourseSchedule.isFriday();
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is monday.
-	*
-	* @return <code>true</code> if this activity course schedule is monday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is monday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is monday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isMonday() {
 		return _activityCourseSchedule.isMonday();
@@ -325,382 +639,53 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is saturday.
-	*
-	* @return <code>true</code> if this activity course schedule is saturday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is saturday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is saturday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isSaturday() {
 		return _activityCourseSchedule.isSaturday();
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is sunday.
-	*
-	* @return <code>true</code> if this activity course schedule is sunday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is sunday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is sunday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isSunday() {
 		return _activityCourseSchedule.isSunday();
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is thursday.
-	*
-	* @return <code>true</code> if this activity course schedule is thursday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is thursday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is thursday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isThursday() {
 		return _activityCourseSchedule.isThursday();
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is tuesday.
-	*
-	* @return <code>true</code> if this activity course schedule is tuesday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is tuesday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is tuesday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isTuesday() {
 		return _activityCourseSchedule.isTuesday();
 	}
 
 	/**
-	* Returns <code>true</code> if this activity course schedule is wednesday.
-	*
-	* @return <code>true</code> if this activity course schedule is wednesday; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this activity course schedule is wednesday.
+	 *
+	 * @return <code>true</code> if this activity course schedule is wednesday; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isWednesday() {
 		return _activityCourseSchedule.isWednesday();
-	}
-
-	/**
-	* Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
-	* jour, false sinon
-	*/
-	@Override
-	public boolean[] getWeekDays() {
-		return _activityCourseSchedule.getWeekDays();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché à cette entité
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _activityCourseSchedule.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _activityCourseSchedule.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.activity.model.ActivityCourseSchedule> toCacheModel() {
-		return _activityCourseSchedule.toCacheModel();
-	}
-
-	/**
-	* Retourne le lieu de l'horaire
-	*/
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace getActivityCoursePlace() {
-		return _activityCourseSchedule.getActivityCoursePlace();
-	}
-
-	/**
-	* Retourne la version live de cette entité
-	*/
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule getLiveVersion() {
-		return _activityCourseSchedule.getLiveVersion();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule toEscapedModel() {
-		return new ActivityCourseScheduleWrapper(_activityCourseSchedule.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule toUnescapedModel() {
-		return new ActivityCourseScheduleWrapper(_activityCourseSchedule.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.activity.model.ActivityCourseSchedule activityCourseSchedule) {
-		return _activityCourseSchedule.compareTo(activityCourseSchedule);
-	}
-
-	@Override
-	public int hashCode() {
-		return _activityCourseSchedule.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _activityCourseSchedule.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new ActivityCourseScheduleWrapper((ActivityCourseSchedule)_activityCourseSchedule.clone());
-	}
-
-	/**
-	* Returns the comments of this activity course schedule.
-	*
-	* @return the comments of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getComments() {
-		return _activityCourseSchedule.getComments();
-	}
-
-	/**
-	* Returns the localized comments of this activity course schedule in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized comments of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getComments(java.lang.String languageId) {
-		return _activityCourseSchedule.getComments(languageId);
-	}
-
-	/**
-	* Returns the localized comments of this activity course schedule in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized comments of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getComments(java.lang.String languageId,
-		boolean useDefault) {
-		return _activityCourseSchedule.getComments(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized comments of this activity course schedule in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized comments of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getComments(java.util.Locale locale) {
-		return _activityCourseSchedule.getComments(locale);
-	}
-
-	/**
-	* Returns the localized comments of this activity course schedule in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized comments of this activity course schedule. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getComments(java.util.Locale locale,
-		boolean useDefault) {
-		return _activityCourseSchedule.getComments(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getCommentsCurrentLanguageId() {
-		return _activityCourseSchedule.getCommentsCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getCommentsCurrentValue() {
-		return _activityCourseSchedule.getCommentsCurrentValue();
-	}
-
-	@Override
-	public java.lang.String getDefaultLanguageId() {
-		return _activityCourseSchedule.getDefaultLanguageId();
-	}
-
-	/**
-	* Returns the end time of this activity course schedule.
-	*
-	* @return the end time of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getEndTime() {
-		return _activityCourseSchedule.getEndTime();
-	}
-
-	/**
-	* Returns the periods IDs of this activity course schedule.
-	*
-	* @return the periods IDs of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getPeriodsIds() {
-		return _activityCourseSchedule.getPeriodsIds();
-	}
-
-	/**
-	* Returns the start time of this activity course schedule.
-	*
-	* @return the start time of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getStartTime() {
-		return _activityCourseSchedule.getStartTime();
-	}
-
-	/**
-	* Returns the user name of this activity course schedule.
-	*
-	* @return the user name of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _activityCourseSchedule.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this activity course schedule.
-	*
-	* @return the user uuid of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _activityCourseSchedule.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this activity course schedule.
-	*
-	* @return the uuid of this activity course schedule
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _activityCourseSchedule.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _activityCourseSchedule.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _activityCourseSchedule.toXmlString();
-	}
-
-	@Override
-	public java.lang.String[] getAvailableLanguageIds() {
-		return _activityCourseSchedule.getAvailableLanguageIds();
-	}
-
-	/**
-	* Returns the create date of this activity course schedule.
-	*
-	* @return the create date of this activity course schedule
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _activityCourseSchedule.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this activity course schedule.
-	*
-	* @return the modified date of this activity course schedule
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _activityCourseSchedule.getModifiedDate();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cette entité (via
-	* l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _activityCourseSchedule.getCategories();
-	}
-
-	/**
-	* Retourne les périodes du schedule
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPeriods() {
-		return _activityCourseSchedule.getPeriods();
-	}
-
-	/**
-	* Returns a map of the locales and localized commentses of this activity course schedule.
-	*
-	* @return the locales and localized commentses of this activity course schedule
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getCommentsMap() {
-		return _activityCourseSchedule.getCommentsMap();
-	}
-
-	/**
-	* Returns the activity course place ID of this activity course schedule.
-	*
-	* @return the activity course place ID of this activity course schedule
-	*/
-	@Override
-	public long getActivityCoursePlaceId() {
-		return _activityCourseSchedule.getActivityCoursePlaceId();
-	}
-
-	/**
-	* Returns the activity course schedule ID of this activity course schedule.
-	*
-	* @return the activity course schedule ID of this activity course schedule
-	*/
-	@Override
-	public long getActivityCourseScheduleId() {
-		return _activityCourseSchedule.getActivityCourseScheduleId();
-	}
-
-	/**
-	* Returns the company ID of this activity course schedule.
-	*
-	* @return the company ID of this activity course schedule
-	*/
-	@Override
-	public long getCompanyId() {
-		return _activityCourseSchedule.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this activity course schedule.
-	*
-	* @return the group ID of this activity course schedule
-	*/
-	@Override
-	public long getGroupId() {
-		return _activityCourseSchedule.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this activity course schedule.
-	*
-	* @return the primary key of this activity course schedule
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _activityCourseSchedule.getPrimaryKey();
-	}
-
-	/**
-	* Returns the user ID of this activity course schedule.
-	*
-	* @return the user ID of this activity course schedule
-	*/
-	@Override
-	public long getUserId() {
-		return _activityCourseSchedule.getUserId();
 	}
 
 	@Override
@@ -711,34 +696,38 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_activityCourseSchedule.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport(
-		java.util.Locale defaultImportLocale)
+			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
-		_activityCourseSchedule.prepareLocalizedFieldsForImport(defaultImportLocale);
+
+		_activityCourseSchedule.prepareLocalizedFieldsForImport(
+			defaultImportLocale);
 	}
 
 	/**
-	* Sets the activity course place ID of this activity course schedule.
-	*
-	* @param activityCoursePlaceId the activity course place ID of this activity course schedule
-	*/
+	 * Sets the activity course place ID of this activity course schedule.
+	 *
+	 * @param activityCoursePlaceId the activity course place ID of this activity course schedule
+	 */
 	@Override
 	public void setActivityCoursePlaceId(long activityCoursePlaceId) {
 		_activityCourseSchedule.setActivityCoursePlaceId(activityCoursePlaceId);
 	}
 
 	/**
-	* Sets the activity course schedule ID of this activity course schedule.
-	*
-	* @param activityCourseScheduleId the activity course schedule ID of this activity course schedule
-	*/
+	 * Sets the activity course schedule ID of this activity course schedule.
+	 *
+	 * @param activityCourseScheduleId the activity course schedule ID of this activity course schedule
+	 */
 	@Override
 	public void setActivityCourseScheduleId(long activityCourseScheduleId) {
-		_activityCourseSchedule.setActivityCourseScheduleId(activityCourseScheduleId);
+		_activityCourseSchedule.setActivityCourseScheduleId(
+			activityCourseScheduleId);
 	}
 
 	@Override
@@ -747,96 +736,105 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Sets the comments of this activity course schedule.
-	*
-	* @param comments the comments of this activity course schedule
-	*/
+	 * Sets the comments of this activity course schedule.
+	 *
+	 * @param comments the comments of this activity course schedule
+	 */
 	@Override
-	public void setComments(java.lang.String comments) {
+	public void setComments(String comments) {
 		_activityCourseSchedule.setComments(comments);
 	}
 
 	/**
-	* Sets the localized comments of this activity course schedule in the language.
-	*
-	* @param comments the localized comments of this activity course schedule
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized comments of this activity course schedule in the language.
+	 *
+	 * @param comments the localized comments of this activity course schedule
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setComments(java.lang.String comments, java.util.Locale locale) {
+	public void setComments(String comments, java.util.Locale locale) {
 		_activityCourseSchedule.setComments(comments, locale);
 	}
 
 	/**
-	* Sets the localized comments of this activity course schedule in the language, and sets the default locale.
-	*
-	* @param comments the localized comments of this activity course schedule
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized comments of this activity course schedule in the language, and sets the default locale.
+	 *
+	 * @param comments the localized comments of this activity course schedule
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setComments(java.lang.String comments, java.util.Locale locale,
+	public void setComments(
+		String comments, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
+
 		_activityCourseSchedule.setComments(comments, locale, defaultLocale);
 	}
 
 	@Override
-	public void setCommentsCurrentLanguageId(java.lang.String languageId) {
+	public void setCommentsCurrentLanguageId(String languageId) {
 		_activityCourseSchedule.setCommentsCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized commentses of this activity course schedule from the map of locales and localized commentses.
-	*
-	* @param commentsMap the locales and localized commentses of this activity course schedule
-	*/
+	 * Sets the localized commentses of this activity course schedule from the map of locales and localized commentses.
+	 *
+	 * @param commentsMap the locales and localized commentses of this activity course schedule
+	 */
 	@Override
-	public void setCommentsMap(
-		Map<java.util.Locale, java.lang.String> commentsMap) {
+	public void setCommentsMap(Map<java.util.Locale, String> commentsMap) {
 		_activityCourseSchedule.setCommentsMap(commentsMap);
 	}
 
 	/**
-	* Sets the localized commentses of this activity course schedule from the map of locales and localized commentses, and sets the default locale.
-	*
-	* @param commentsMap the locales and localized commentses of this activity course schedule
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized commentses of this activity course schedule from the map of locales and localized commentses, and sets the default locale.
+	 *
+	 * @param commentsMap the locales and localized commentses of this activity course schedule
+	 * @param defaultLocale the default locale
+	 */
 	@Override
 	public void setCommentsMap(
-		Map<java.util.Locale, java.lang.String> commentsMap,
+		Map<java.util.Locale, String> commentsMap,
 		java.util.Locale defaultLocale) {
+
 		_activityCourseSchedule.setCommentsMap(commentsMap, defaultLocale);
 	}
 
 	/**
-	* Sets the company ID of this activity course schedule.
-	*
-	* @param companyId the company ID of this activity course schedule
-	*/
+	 * Sets the company ID of this activity course schedule.
+	 *
+	 * @param companyId the company ID of this activity course schedule
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_activityCourseSchedule.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this activity course schedule.
-	*
-	* @param createDate the create date of this activity course schedule
-	*/
+	 * Sets the create date of this activity course schedule.
+	 *
+	 * @param createDate the create date of this activity course schedule
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_activityCourseSchedule.setCreateDate(createDate);
 	}
 
 	/**
-	* Sets the end time of this activity course schedule.
-	*
-	* @param endTime the end time of this activity course schedule
-	*/
+	 * Sets the end time of this activity course schedule.
+	 *
+	 * @param endTime the end time of this activity course schedule
+	 */
 	@Override
-	public void setEndTime(java.lang.String endTime) {
+	public void setEndTime(String endTime) {
 		_activityCourseSchedule.setEndTime(endTime);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_activityCourseSchedule.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -845,51 +843,45 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_activityCourseSchedule.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_activityCourseSchedule.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets whether this activity course schedule is friday.
-	*
-	* @param friday the friday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is friday.
+	 *
+	 * @param friday the friday of this activity course schedule
+	 */
 	@Override
 	public void setFriday(boolean friday) {
 		_activityCourseSchedule.setFriday(friday);
 	}
 
 	/**
-	* Sets the group ID of this activity course schedule.
-	*
-	* @param groupId the group ID of this activity course schedule
-	*/
+	 * Sets the group ID of this activity course schedule.
+	 *
+	 * @param groupId the group ID of this activity course schedule
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_activityCourseSchedule.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the modified date of this activity course schedule.
-	*
-	* @param modifiedDate the modified date of this activity course schedule
-	*/
+	 * Sets the modified date of this activity course schedule.
+	 *
+	 * @param modifiedDate the modified date of this activity course schedule
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_activityCourseSchedule.setModifiedDate(modifiedDate);
 	}
 
 	/**
-	* Sets whether this activity course schedule is monday.
-	*
-	* @param monday the monday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is monday.
+	 *
+	 * @param monday the monday of this activity course schedule
+	 */
 	@Override
 	public void setMonday(boolean monday) {
 		_activityCourseSchedule.setMonday(monday);
@@ -901,20 +893,20 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Sets the periods IDs of this activity course schedule.
-	*
-	* @param periodsIds the periods IDs of this activity course schedule
-	*/
+	 * Sets the periods IDs of this activity course schedule.
+	 *
+	 * @param periodsIds the periods IDs of this activity course schedule
+	 */
 	@Override
-	public void setPeriodsIds(java.lang.String periodsIds) {
+	public void setPeriodsIds(String periodsIds) {
 		_activityCourseSchedule.setPeriodsIds(periodsIds);
 	}
 
 	/**
-	* Sets the primary key of this activity course schedule.
-	*
-	* @param primaryKey the primary key of this activity course schedule
-	*/
+	 * Sets the primary key of this activity course schedule.
+	 *
+	 * @param primaryKey the primary key of this activity course schedule
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_activityCourseSchedule.setPrimaryKey(primaryKey);
@@ -926,103 +918,137 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	/**
-	* Sets whether this activity course schedule is saturday.
-	*
-	* @param saturday the saturday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is saturday.
+	 *
+	 * @param saturday the saturday of this activity course schedule
+	 */
 	@Override
 	public void setSaturday(boolean saturday) {
 		_activityCourseSchedule.setSaturday(saturday);
 	}
 
 	/**
-	* Sets the start time of this activity course schedule.
-	*
-	* @param startTime the start time of this activity course schedule
-	*/
+	 * Sets the start time of this activity course schedule.
+	 *
+	 * @param startTime the start time of this activity course schedule
+	 */
 	@Override
-	public void setStartTime(java.lang.String startTime) {
+	public void setStartTime(String startTime) {
 		_activityCourseSchedule.setStartTime(startTime);
 	}
 
 	/**
-	* Sets whether this activity course schedule is sunday.
-	*
-	* @param sunday the sunday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is sunday.
+	 *
+	 * @param sunday the sunday of this activity course schedule
+	 */
 	@Override
 	public void setSunday(boolean sunday) {
 		_activityCourseSchedule.setSunday(sunday);
 	}
 
 	/**
-	* Sets whether this activity course schedule is thursday.
-	*
-	* @param thursday the thursday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is thursday.
+	 *
+	 * @param thursday the thursday of this activity course schedule
+	 */
 	@Override
 	public void setThursday(boolean thursday) {
 		_activityCourseSchedule.setThursday(thursday);
 	}
 
 	/**
-	* Sets whether this activity course schedule is tuesday.
-	*
-	* @param tuesday the tuesday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is tuesday.
+	 *
+	 * @param tuesday the tuesday of this activity course schedule
+	 */
 	@Override
 	public void setTuesday(boolean tuesday) {
 		_activityCourseSchedule.setTuesday(tuesday);
 	}
 
 	/**
-	* Sets the user ID of this activity course schedule.
-	*
-	* @param userId the user ID of this activity course schedule
-	*/
+	 * Sets the user ID of this activity course schedule.
+	 *
+	 * @param userId the user ID of this activity course schedule
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_activityCourseSchedule.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this activity course schedule.
-	*
-	* @param userName the user name of this activity course schedule
-	*/
+	 * Sets the user name of this activity course schedule.
+	 *
+	 * @param userName the user name of this activity course schedule
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_activityCourseSchedule.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this activity course schedule.
-	*
-	* @param userUuid the user uuid of this activity course schedule
-	*/
+	 * Sets the user uuid of this activity course schedule.
+	 *
+	 * @param userUuid the user uuid of this activity course schedule
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_activityCourseSchedule.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this activity course schedule.
-	*
-	* @param uuid the uuid of this activity course schedule
-	*/
+	 * Sets the uuid of this activity course schedule.
+	 *
+	 * @param uuid the uuid of this activity course schedule
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_activityCourseSchedule.setUuid(uuid);
 	}
 
 	/**
-	* Sets whether this activity course schedule is wednesday.
-	*
-	* @param wednesday the wednesday of this activity course schedule
-	*/
+	 * Sets whether this activity course schedule is wednesday.
+	 *
+	 * @param wednesday the wednesday of this activity course schedule
+	 */
 	@Override
 	public void setWednesday(boolean wednesday) {
 		_activityCourseSchedule.setWednesday(wednesday);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
+			toCacheModel() {
+
+		return _activityCourseSchedule.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
+		toEscapedModel() {
+
+		return new ActivityCourseScheduleWrapper(
+			_activityCourseSchedule.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _activityCourseSchedule.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
+		toUnescapedModel() {
+
+		return new ActivityCourseScheduleWrapper(
+			_activityCourseSchedule.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _activityCourseSchedule.toXmlString();
 	}
 
 	@Override
@@ -1035,10 +1061,13 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 			return false;
 		}
 
-		ActivityCourseScheduleWrapper activityCourseScheduleWrapper = (ActivityCourseScheduleWrapper)obj;
+		ActivityCourseScheduleWrapper activityCourseScheduleWrapper =
+			(ActivityCourseScheduleWrapper)obj;
 
-		if (Objects.equals(_activityCourseSchedule,
-					activityCourseScheduleWrapper._activityCourseSchedule)) {
+		if (Objects.equals(
+				_activityCourseSchedule,
+				activityCourseScheduleWrapper._activityCourseSchedule)) {
+
 			return true;
 		}
 
@@ -1071,4 +1100,5 @@ public class ActivityCourseScheduleWrapper implements ActivityCourseSchedule,
 	}
 
 	private final ActivityCourseSchedule _activityCourseSchedule;
+
 }
