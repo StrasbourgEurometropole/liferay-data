@@ -7,8 +7,8 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.model.Layout;
 
-//import eu.strasbourg.service.activity.model.Activity;
-//import eu.strasbourg.service.activity.model.ActivityCourse;
+import eu.strasbourg.service.activity.model.Activity;
+import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.edition.model.Edition;
@@ -26,8 +26,8 @@ public enum FavoriteType {
 	ARTICLE(7, "ARTICLE", JournalArticle.class), 
 	PROCEDURE(8, "PROCEDURE", String.class),
 	PAGE(9, "PAGE", Layout.class),
-//	ACTIVITY(10, "ACTIVITY", Activity.class),
-//	COURSE(11, "COURSE", ActivityCourse.class),
+	ACTIVITY(10, "ACTIVITY", Activity.class),
+	COURSE(11, "COURSE", ActivityCourse.class),
 	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
 	GALLERY(13,"GALLERY", EditionGallery.class);
 
