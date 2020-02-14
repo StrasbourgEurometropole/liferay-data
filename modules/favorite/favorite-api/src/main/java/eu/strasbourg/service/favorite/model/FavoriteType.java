@@ -9,8 +9,8 @@ import com.liferay.portal.kernel.model.Layout;
 
 //import eu.strasbourg.service.activity.model.Activity;
 //import eu.strasbourg.service.activity.model.ActivityCourse;
-//import eu.strasbourg.service.agenda.model.Event;
-//import eu.strasbourg.service.agenda.model.Manifestation;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.place.model.Place;
@@ -18,7 +18,7 @@ import eu.strasbourg.service.video.model.Video;
 
 public enum FavoriteType {
 	PLACE(1, "PLACE", Place.class),
-//	EVENT(2, "EVENT", Event.class),
+	EVENT(2, "EVENT", Event.class),
 	VIDEO(3, "VIDEO", Video.class),
 	EDITION(4, "EDITION", Edition.class),
 	IMAGE(5, "IMAGE", DLFileEntry.class),
@@ -28,7 +28,7 @@ public enum FavoriteType {
 	PAGE(9, "PAGE", Layout.class),
 //	ACTIVITY(10, "ACTIVITY", Activity.class),
 //	COURSE(11, "COURSE", ActivityCourse.class),
-//	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
+	MANIFESTATION(12,"MANIFESTATION", Manifestation.class),
 	GALLERY(13,"GALLERY", EditionGallery.class);
 
 	private long id;
