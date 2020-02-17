@@ -21,6 +21,7 @@
     "tag": "7_0_x"
   },
   "dependencies": {
-    "gulp-ruby-sass": "^2.1.1"
+    "gulp-ruby-sass": "^2.1.1",
+    "natives": "^1.1.6"
   }
 }
