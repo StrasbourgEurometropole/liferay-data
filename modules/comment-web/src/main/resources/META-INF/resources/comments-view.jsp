@@ -155,7 +155,7 @@
 											value="${commentAnswer.createDate}"
 											pattern="dd MMM yyyy" />
 									</p>
-									<p id="comment-${commentAnswer.commentId}">${commentAnswer.comment}</p>
+									<p id="comment-${commentAnswer.commentId}">${commentAnswer.text}</p>
 									<div class="pro-interactions">
 									
 										<c:choose>
