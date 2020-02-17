@@ -69,11 +69,6 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 	}
 
 	@Override
-	public boolean isShowSearch() {
-		return true;
-	}
-
-	@Override
 	public boolean isVisible(ThemeDisplay themeDisplay) {
 		return true;
 	}
@@ -90,7 +85,7 @@ public class BudgetParticipatifItemSelectorView implements ItemSelectorView<Budg
 
 		boolean multiple = GetterUtil
 			.getBoolean(servletRequest.getParameter("multiple"), false);
-		portletURL.setParameter("multiple", String.valueOf(multiple));
+		portletURL.getRenderParameters().setValue("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(
 			servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
