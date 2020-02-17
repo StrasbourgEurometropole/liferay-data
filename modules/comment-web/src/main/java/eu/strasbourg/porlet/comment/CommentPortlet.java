@@ -210,7 +210,7 @@ public class CommentPortlet extends MVCPortlet {
 					comment.setAssetEntryId(entryID);
 					comment.setUrlProjectCommentaire(url.toString());
 					comment.setUserName(comment.getFullPublikUserName());
-					comment.setComment(escapeHtml4(message));
+					comment.setText(escapeHtml4(message));
 					comment.setUserQuality(escapeHtml4(userQuality));
 
 					// Si le message est une reponse
@@ -228,7 +228,7 @@ public class CommentPortlet extends MVCPortlet {
 					
 					// Verifie si c'est bien le posteur original
 					if (comment.getPublikId().equals(userPublikId)) {
-						comment.setComment(message);
+						comment.setText(message);
 						comment.setModifiedByUserDate(new Date());
 						_commentLocalService.updateComment(comment, sc);
 					} else {

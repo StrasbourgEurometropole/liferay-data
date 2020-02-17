@@ -40,7 +40,7 @@
 							</span>
 						</c:if>
 						<div class="pro-comment">
-							<p id="comment-${comment.commentId}">${comment.comment}</p>
+							<p id="comment-${comment.commentId}">${comment.text}</p>
 							<div class="pro-interactions">
 								<c:choose>
 									<c:when test="${isAssetCommentable}">
