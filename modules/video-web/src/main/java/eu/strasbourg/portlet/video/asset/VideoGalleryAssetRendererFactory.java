@@ -12,6 +12,8 @@ import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.util.Locale;
+
 @Component(
 	immediate = true,
 	property = {"javax.portlet.name=" + StrasbourgPortletKeys.VIDEO_WEB},
@@ -46,8 +48,12 @@ public class VideoGalleryAssetRendererFactory extends BaseAssetRendererFactory<V
 	public String getType() {
 		return TYPE;
 	}
-	
-	
+
+	@Override
+	public String getTypeName(Locale locale) {
+		return TYPE;
+	}
+
 	private VideoGalleryLocalService _videoGalleryLocalService;
 
 	@Reference(unbind = "-")
