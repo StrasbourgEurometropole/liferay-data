@@ -59,11 +59,7 @@ public class SliderUneDisplayContext {
         if(Validator.isNotNull(virtualHostName) && ! stagingGroup)
             home = "";
         else {
-            try {
-                home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
-            } catch (PortalException e) {
-                e.printStackTrace();
-            }
+            home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
         }
         return home;
     }
