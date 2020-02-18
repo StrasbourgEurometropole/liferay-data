@@ -25,11 +25,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.objtp.service.http.ObjectCategoryServiceSoap}.
  *
  * @author JeremyZwickert
- * @see eu.strasbourg.service.objtp.service.http.ObjectCategoryServiceSoap
  * @generated
  */
 @ProviderType
 public class ObjectCategorySoap implements Serializable {
+
 	public static ObjectCategorySoap toSoapModel(ObjectCategory model) {
 		ObjectCategorySoap soapModel = new ObjectCategorySoap();
 
@@ -49,11 +49,14 @@ public class ObjectCategorySoap implements Serializable {
 		return soapModels;
 	}
 
-	public static ObjectCategorySoap[][] toSoapModels(ObjectCategory[][] models) {
+	public static ObjectCategorySoap[][] toSoapModels(
+		ObjectCategory[][] models) {
+
 		ObjectCategorySoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ObjectCategorySoap[models.length][models[0].length];
+			soapModels =
+				new ObjectCategorySoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ObjectCategorySoap[0][0];
@@ -66,8 +69,11 @@ public class ObjectCategorySoap implements Serializable {
 		return soapModels;
 	}
 
-	public static ObjectCategorySoap[] toSoapModels(List<ObjectCategory> models) {
-		List<ObjectCategorySoap> soapModels = new ArrayList<ObjectCategorySoap>(models.size());
+	public static ObjectCategorySoap[] toSoapModels(
+		List<ObjectCategory> models) {
+
+		List<ObjectCategorySoap> soapModels = new ArrayList<ObjectCategorySoap>(
+			models.size());
 
 		for (ObjectCategory model : models) {
 			soapModels.add(toSoapModel(model));
@@ -105,4 +111,5 @@ public class ObjectCategorySoap implements Serializable {
 
 	private String _code;
 	private String _name;
+
 }

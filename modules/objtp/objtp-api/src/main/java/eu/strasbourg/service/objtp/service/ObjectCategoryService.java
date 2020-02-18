@@ -34,30 +34,37 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author JeremyZwickert
  * @see ObjectCategoryServiceUtil
- * @see eu.strasbourg.service.objtp.service.base.ObjectCategoryServiceBaseImpl
- * @see eu.strasbourg.service.objtp.service.impl.ObjectCategoryServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=objtp", "json.web.service.context.path=ObjectCategory"}, service = ObjectCategoryService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=objtp",
+		"json.web.service.context.path=ObjectCategory"
+	},
+	service = ObjectCategoryService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ObjectCategoryService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ObjectCategoryServiceUtil} to access the object category remote service. Add custom service methods to {@link eu.strasbourg.service.objtp.service.impl.ObjectCategoryServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ObjectCategoryServiceUtil} to access the object category remote service. Add custom service methods to <code>eu.strasbourg.service.objtp.service.impl.ObjectCategoryServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getObjectCategories();
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

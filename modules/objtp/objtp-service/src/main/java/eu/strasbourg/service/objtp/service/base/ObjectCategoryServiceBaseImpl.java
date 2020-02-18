@@ -43,15 +43,16 @@ import javax.sql.DataSource;
  *
  * @author JeremyZwickert
  * @see eu.strasbourg.service.objtp.service.impl.ObjectCategoryServiceImpl
- * @see eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil
  * @generated
  */
-public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
+public abstract class ObjectCategoryServiceBaseImpl
+	extends BaseServiceImpl
 	implements ObjectCategoryService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil} to access the object category remote service.
+	 * Never modify or reference this class directly. Use <code>ObjectCategoryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil</code>.
 	 */
 
 	/**
@@ -59,7 +60,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the found object local service
 	 */
-	public eu.strasbourg.service.objtp.service.FoundObjectLocalService getFoundObjectLocalService() {
+	public eu.strasbourg.service.objtp.service.FoundObjectLocalService
+		getFoundObjectLocalService() {
+
 		return foundObjectLocalService;
 	}
 
@@ -69,7 +72,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 * @param foundObjectLocalService the found object local service
 	 */
 	public void setFoundObjectLocalService(
-		eu.strasbourg.service.objtp.service.FoundObjectLocalService foundObjectLocalService) {
+		eu.strasbourg.service.objtp.service.FoundObjectLocalService
+			foundObjectLocalService) {
+
 		this.foundObjectLocalService = foundObjectLocalService;
 	}
 
@@ -78,7 +83,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the found object remote service
 	 */
-	public eu.strasbourg.service.objtp.service.FoundObjectService getFoundObjectService() {
+	public eu.strasbourg.service.objtp.service.FoundObjectService
+		getFoundObjectService() {
+
 		return foundObjectService;
 	}
 
@@ -88,7 +95,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 * @param foundObjectService the found object remote service
 	 */
 	public void setFoundObjectService(
-		eu.strasbourg.service.objtp.service.FoundObjectService foundObjectService) {
+		eu.strasbourg.service.objtp.service.FoundObjectService
+			foundObjectService) {
+
 		this.foundObjectService = foundObjectService;
 	}
 
@@ -108,6 +117,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setFoundObjectPersistence(
 		FoundObjectPersistence foundObjectPersistence) {
+
 		this.foundObjectPersistence = foundObjectPersistence;
 	}
 
@@ -116,7 +126,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the object category local service
 	 */
-	public eu.strasbourg.service.objtp.service.ObjectCategoryLocalService getObjectCategoryLocalService() {
+	public eu.strasbourg.service.objtp.service.ObjectCategoryLocalService
+		getObjectCategoryLocalService() {
+
 		return objectCategoryLocalService;
 	}
 
@@ -126,7 +138,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 * @param objectCategoryLocalService the object category local service
 	 */
 	public void setObjectCategoryLocalService(
-		eu.strasbourg.service.objtp.service.ObjectCategoryLocalService objectCategoryLocalService) {
+		eu.strasbourg.service.objtp.service.ObjectCategoryLocalService
+			objectCategoryLocalService) {
+
 		this.objectCategoryLocalService = objectCategoryLocalService;
 	}
 
@@ -146,6 +160,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setObjectCategoryService(
 		ObjectCategoryService objectCategoryService) {
+
 		this.objectCategoryService = objectCategoryService;
 	}
 
@@ -165,6 +180,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setObjectCategoryPersistence(
 		ObjectCategoryPersistence objectCategoryPersistence) {
+
 		this.objectCategoryPersistence = objectCategoryPersistence;
 	}
 
@@ -173,7 +189,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -183,7 +201,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -192,7 +212,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -202,7 +224,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -211,7 +235,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -222,6 +248,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -241,6 +268,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -249,7 +277,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -259,7 +289,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -268,7 +300,9 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -279,6 +313,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -298,6 +333,7 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -357,8 +393,8 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -367,32 +403,72 @@ public abstract class ObjectCategoryServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.objtp.service.FoundObjectLocalService.class)
-	protected eu.strasbourg.service.objtp.service.FoundObjectLocalService foundObjectLocalService;
-	@BeanReference(type = eu.strasbourg.service.objtp.service.FoundObjectService.class)
-	protected eu.strasbourg.service.objtp.service.FoundObjectService foundObjectService;
+	@BeanReference(
+		type = eu.strasbourg.service.objtp.service.FoundObjectLocalService.class
+	)
+	protected eu.strasbourg.service.objtp.service.FoundObjectLocalService
+		foundObjectLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.objtp.service.FoundObjectService.class
+	)
+	protected eu.strasbourg.service.objtp.service.FoundObjectService
+		foundObjectService;
+
 	@BeanReference(type = FoundObjectPersistence.class)
 	protected FoundObjectPersistence foundObjectPersistence;
-	@BeanReference(type = eu.strasbourg.service.objtp.service.ObjectCategoryLocalService.class)
-	protected eu.strasbourg.service.objtp.service.ObjectCategoryLocalService objectCategoryLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.objtp.service.ObjectCategoryLocalService.class
+	)
+	protected eu.strasbourg.service.objtp.service.ObjectCategoryLocalService
+		objectCategoryLocalService;
+
 	@BeanReference(type = ObjectCategoryService.class)
 	protected ObjectCategoryService objectCategoryService;
+
 	@BeanReference(type = ObjectCategoryPersistence.class)
 	protected ObjectCategoryPersistence objectCategoryPersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 }

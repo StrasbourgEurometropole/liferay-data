@@ -27,10 +27,11 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link ObjectCategoryServiceUtil} service utility. The
+ * <code>ObjectCategoryServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,17 +50,18 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryServiceUtil;
  *
  * @author JeremyZwickert
  * @see ObjectCategoryServiceSoap
- * @see HttpPrincipal
- * @see ObjectCategoryServiceUtil
  * @generated
  */
 @ProviderType
 public class ObjectCategoryServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONArray getObjectCategories(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(ObjectCategoryServiceUtil.class,
-					"getObjectCategories", _getObjectCategoriesParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				ObjectCategoryServiceUtil.class, "getObjectCategories",
+				_getObjectCategoriesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -69,7 +71,8 @@ public class ObjectCategoryServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -81,8 +84,10 @@ public class ObjectCategoryServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(ObjectCategoryServiceHttp.class);
-	private static final Class<?>[] _getObjectCategoriesParameterTypes0 = new Class[] {
-			
-		};
+	private static Log _log = LogFactoryUtil.getLog(
+		ObjectCategoryServiceHttp.class);
+
+	private static final Class<?>[] _getObjectCategoriesParameterTypes0 =
+		new Class[] {};
+
 }

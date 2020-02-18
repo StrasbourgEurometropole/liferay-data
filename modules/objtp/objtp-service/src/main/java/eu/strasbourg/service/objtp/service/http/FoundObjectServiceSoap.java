@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link FoundObjectServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>FoundObjectServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.objtp.model.FoundObjectSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.objtp.model.FoundObject}, that is translated to a
- * {@link eu.strasbourg.service.objtp.model.FoundObjectSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.objtp.model.FoundObjectSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.objtp.model.FoundObject</code>, that is translated to a
+ * <code>eu.strasbourg.service.objtp.model.FoundObjectSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,21 +60,23 @@ import java.rmi.RemoteException;
  *
  * @author JeremyZwickert
  * @see FoundObjectServiceHttp
- * @see eu.strasbourg.service.objtp.model.FoundObjectSoap
- * @see FoundObjectServiceUtil
  * @generated
  */
 @ProviderType
 public class FoundObjectServiceSoap {
+
 	/**
-	* Retourne la liste des objets d'une catégorie
-	*
-	* @throws PortalException
-	*/
-	public static java.lang.String getFoundObjectByCategoryCode(
-		java.lang.String codeCategory) throws RemoteException {
+	 * Retourne la liste des objets d'une catégorie
+	 *
+	 * @throws PortalException
+	 */
+	public static String getFoundObjectByCategoryCode(String codeCategory)
+		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = FoundObjectServiceUtil.getFoundObjectByCategoryCode(codeCategory);
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				FoundObjectServiceUtil.getFoundObjectByCategoryCode(
+					codeCategory);
 
 			return returnValue.toString();
 		}
@@ -84,5 +87,7 @@ public class FoundObjectServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(FoundObjectServiceSoap.class);
+	private static Log _log = LogFactoryUtil.getLog(
+		FoundObjectServiceSoap.class);
+
 }
