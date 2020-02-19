@@ -32,12 +32,13 @@ import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class FoundObjectBaseImpl extends FoundObjectModelImpl
-	implements FoundObject {
+public abstract class FoundObjectBaseImpl
+	extends FoundObjectModelImpl implements FoundObject {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a found object model instance should use the {@link FoundObject} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a found object model instance should use the <code>FoundObject</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class FoundObjectBaseImpl extends FoundObjectModelImpl
 			FoundObjectLocalServiceUtil.updateFoundObject(this);
 		}
 	}
+
 }

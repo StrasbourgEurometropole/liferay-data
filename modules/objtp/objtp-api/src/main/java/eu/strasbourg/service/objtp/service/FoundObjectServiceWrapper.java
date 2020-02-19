@@ -26,31 +26,33 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class FoundObjectServiceWrapper implements FoundObjectService,
-	ServiceWrapper<FoundObjectService> {
+public class FoundObjectServiceWrapper
+	implements FoundObjectService, ServiceWrapper<FoundObjectService> {
+
 	public FoundObjectServiceWrapper(FoundObjectService foundObjectService) {
 		_foundObjectService = foundObjectService;
 	}
 
 	/**
-	* Retourne la liste des objets d'une catégorie
-	*
-	* @throws PortalException
-	*/
+	 * Retourne la liste des objets d'une catégorie
+	 *
+	 * @throws PortalException
+	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getFoundObjectByCategoryCode(
-		java.lang.String codeCategory)
+	public com.liferay.portal.kernel.json.JSONArray
+			getFoundObjectByCategoryCode(String codeCategory)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _foundObjectService.getFoundObjectByCategoryCode(codeCategory);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _foundObjectService.getOSGiServiceIdentifier();
 	}
 
@@ -65,4 +67,5 @@ public class FoundObjectServiceWrapper implements FoundObjectService,
 	}
 
 	private FoundObjectService _foundObjectService;
+
 }

@@ -28,10 +28,78 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 @ProviderType
 public class ObjectCategoryLocalServiceWrapper
 	implements ObjectCategoryLocalService,
-		ServiceWrapper<ObjectCategoryLocalService> {
+			   ServiceWrapper<ObjectCategoryLocalService> {
+
 	public ObjectCategoryLocalServiceWrapper(
 		ObjectCategoryLocalService objectCategoryLocalService) {
+
 		_objectCategoryLocalService = objectCategoryLocalService;
+	}
+
+	/**
+	 * Adds the object category to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param objectCategory the object category
+	 * @return the object category that was added
+	 */
+	@Override
+	public eu.strasbourg.service.objtp.model.ObjectCategory addObjectCategory(
+		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
+
+		return _objectCategoryLocalService.addObjectCategory(objectCategory);
+	}
+
+	/**
+	 * Creates a new object category with the primary key. Does not add the object category to the database.
+	 *
+	 * @param code the primary key for the new object category
+	 * @return the new object category
+	 */
+	@Override
+	public eu.strasbourg.service.objtp.model.ObjectCategory
+		createObjectCategory(String code) {
+
+		return _objectCategoryLocalService.createObjectCategory(code);
+	}
+
+	/**
+	 * Deletes the object category from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param objectCategory the object category
+	 * @return the object category that was removed
+	 */
+	@Override
+	public eu.strasbourg.service.objtp.model.ObjectCategory
+		deleteObjectCategory(
+			eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
+
+		return _objectCategoryLocalService.deleteObjectCategory(objectCategory);
+	}
+
+	/**
+	 * Deletes the object category with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param code the primary key of the object category
+	 * @return the object category that was removed
+	 * @throws PortalException if a object category with the primary key could not be found
+	 */
+	@Override
+	public eu.strasbourg.service.objtp.model.ObjectCategory
+			deleteObjectCategory(String code)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _objectCategoryLocalService.deleteObjectCategory(code);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
+			com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _objectCategoryLocalService.deletePersistedModel(persistedModel);
 	}
 
 	@Override
@@ -40,219 +108,171 @@ public class ObjectCategoryLocalServiceWrapper
 	}
 
 	/**
-	* @throws PortalException
-	*/
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
-		com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _objectCategoryLocalService.deletePersistedModel(persistedModel);
-	}
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
 
-	@Override
-	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _objectCategoryLocalService.getPersistedModel(primaryKeyObj);
+		return _objectCategoryLocalService.dynamicQuery(dynamicQuery);
 	}
 
 	/**
-	* Adds the object category to the database. Also notifies the appropriate model listeners.
-	*
-	* @param objectCategory the object category
-	* @return the object category that was added
-	*/
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @return the range of matching rows
+	 */
 	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory addObjectCategory(
-		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
-		return _objectCategoryLocalService.addObjectCategory(objectCategory);
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
+
+		return _objectCategoryLocalService.dynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
-	* Creates a new object category with the primary key. Does not add the object category to the database.
-	*
-	* @param code the primary key for the new object category
-	* @return the new object category
-	*/
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching rows
+	 */
 	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory createObjectCategory(
-		java.lang.String code) {
-		return _objectCategoryLocalService.createObjectCategory(code);
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+
+		return _objectCategoryLocalService.dynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
-	* Deletes the object category from the database. Also notifies the appropriate model listeners.
-	*
-	* @param objectCategory the object category
-	* @return the object category that was removed
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory deleteObjectCategory(
-		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
-		return _objectCategoryLocalService.deleteObjectCategory(objectCategory);
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _objectCategoryLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
-	* Deletes the object category with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param code the primary key of the object category
-	* @return the object category that was removed
-	* @throws PortalException if a object category with the primary key could not be found
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param projection the projection to apply to the query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory deleteObjectCategory(
-		java.lang.String code)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _objectCategoryLocalService.deleteObjectCategory(code);
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
+
+		return _objectCategoryLocalService.dynamicQueryCount(
+			dynamicQuery, projection);
 	}
 
 	@Override
 	public eu.strasbourg.service.objtp.model.ObjectCategory fetchObjectCategory(
-		java.lang.String code) {
+		String code) {
+
 		return _objectCategoryLocalService.fetchObjectCategory(code);
 	}
 
 	/**
-	* Returns the object category with the primary key.
-	*
-	* @param code the primary key of the object category
-	* @return the object category
-	* @throws PortalException if a object category with the primary key could not be found
-	*/
+	 * Returns a range of all the object categories.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of object categories
+	 * @param end the upper bound of the range of object categories (not inclusive)
+	 * @return the range of object categories
+	 */
 	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory getObjectCategory(
-		java.lang.String code)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _objectCategoryLocalService.getObjectCategory(code);
+	public java.util.List<eu.strasbourg.service.objtp.model.ObjectCategory>
+		getObjectCategories(int start, int end) {
+
+		return _objectCategoryLocalService.getObjectCategories(start, end);
 	}
 
 	/**
-	* Updates the object category in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param objectCategory the object category
-	* @return the object category that was updated
-	*/
-	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory updateObjectCategory(
-		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
-		return _objectCategoryLocalService.updateObjectCategory(objectCategory);
-	}
-
-	/**
-	* Returns the number of object categories.
-	*
-	* @return the number of object categories
-	*/
+	 * Returns the number of object categories.
+	 *
+	 * @return the number of object categories
+	 */
 	@Override
 	public int getObjectCategoriesCount() {
 		return _objectCategoryLocalService.getObjectCategoriesCount();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the object category with the primary key.
+	 *
+	 * @param code the primary key of the object category
+	 * @return the object category
+	 * @throws PortalException if a object category with the primary key could not be found
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public eu.strasbourg.service.objtp.model.ObjectCategory getObjectCategory(
+			String code)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _objectCategoryLocalService.getObjectCategory(code);
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
 		return _objectCategoryLocalService.getOSGiServiceIdentifier();
 	}
 
-	/**
-	* Performs a dynamic query on the database and returns the matching rows.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the matching rows
-	*/
 	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _objectCategoryLocalService.dynamicQuery(dynamicQuery);
+	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _objectCategoryLocalService.getPersistedModel(primaryKeyObj);
 	}
 
 	/**
-	* Performs a dynamic query on the database and returns a range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @return the range of matching rows
-	*/
+	 * Updates the object category in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * @param objectCategory the object category
+	 * @return the object category that was updated
+	 */
 	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
-		return _objectCategoryLocalService.dynamicQuery(dynamicQuery, start, end);
-	}
+	public eu.strasbourg.service.objtp.model.ObjectCategory
+		updateObjectCategory(
+			eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
 
-	/**
-	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
-		return _objectCategoryLocalService.dynamicQuery(dynamicQuery, start,
-			end, orderByComparator);
-	}
-
-	/**
-	* Returns a range of all the object categories.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of object categories
-	* @param end the upper bound of the range of object categories (not inclusive)
-	* @return the range of object categories
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.objtp.model.ObjectCategory> getObjectCategories(
-		int start, int end) {
-		return _objectCategoryLocalService.getObjectCategories(start, end);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _objectCategoryLocalService.dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection) {
-		return _objectCategoryLocalService.dynamicQueryCount(dynamicQuery,
-			projection);
+		return _objectCategoryLocalService.updateObjectCategory(objectCategory);
 	}
 
 	@Override
@@ -263,8 +283,10 @@ public class ObjectCategoryLocalServiceWrapper
 	@Override
 	public void setWrappedService(
 		ObjectCategoryLocalService objectCategoryLocalService) {
+
 		_objectCategoryLocalService = objectCategoryLocalService;
 	}
 
 	private ObjectCategoryLocalService _objectCategoryLocalService;
+
 }
