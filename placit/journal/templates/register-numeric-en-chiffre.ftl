@@ -4,7 +4,7 @@
     <ul class="pro-list-chiffres">
         <li><span class="pro-nb" id="valContributions"></span><strong>Contribution(s)</strong></li>
         <!--<li><span class="pro-nb" id="valReponses"></span><strong>Réponses (uniquement par courrier/mail)</strong></li>-->
-        <li><span class="pro-nb" id="valReponsesVille"></span><strong>Réponse Ville</strong></li>
+        <li><span class="pro-nb" id="valReponsesVille"></span><strong>Réponse(s) Ville</strong></li>
     </ul>
 </aside>
 
