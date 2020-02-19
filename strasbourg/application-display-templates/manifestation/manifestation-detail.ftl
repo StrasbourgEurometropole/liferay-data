@@ -8,7 +8,10 @@
 <#assign imageUrl = ""/>
 <!-- vignette -->
 <#if entry.imageURL?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
+    <#if !entry.imageURL?contains('http')>
+        <#assign imageUrl = themeDisplay.getPortalURL() />
+    </#if>
+    <#assign imageUrl = imageUrl + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
 <#-- Liste des infos a partager -->

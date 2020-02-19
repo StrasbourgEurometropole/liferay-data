@@ -7,7 +7,7 @@
     <#assign imageUrl = themeDisplay.getPortalURL() + entry.imagesURLs?first?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 <!-- bannière -->
-<#if imageUrl?has_content>
+<#if entry.imageURL?has_content>
     <#assign imageUrl = themeDisplay.getPortalURL() + entry.imageURL?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
