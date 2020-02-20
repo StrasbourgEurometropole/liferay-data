@@ -24,7 +24,9 @@ import eu.strasbourg.portlet.edition.display.context.ViewGalleriesDisplayContext
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/edition-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/edition-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
