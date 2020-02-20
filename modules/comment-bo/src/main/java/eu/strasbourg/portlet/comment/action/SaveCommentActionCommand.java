@@ -96,7 +96,7 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             comment.setStatus(approved ? 0 : 1);
             String commentaire = ParamUtil.getString(actionRequest,"comment");
             _log.info("nouveau commentaire : "+commentaire);
-            comment.setComment(commentaire);
+            comment.setText(commentaire);
 
             // ---------------------------------------------------------------
             // -------------------------- BANNISSEMENT -----------------------
