@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 
@@ -32,12 +31,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing ObjectCategory in entity cache.
  *
  * @author JeremyZwickert
- * @see ObjectCategory
  * @generated
  */
 @ProviderType
-public class ObjectCategoryCacheModel implements CacheModel<ObjectCategory>,
-	Externalizable {
+public class ObjectCategoryCacheModel
+	implements CacheModel<ObjectCategory>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -48,7 +47,8 @@ public class ObjectCategoryCacheModel implements CacheModel<ObjectCategory>,
 			return false;
 		}
 
-		ObjectCategoryCacheModel objectCategoryCacheModel = (ObjectCategoryCacheModel)obj;
+		ObjectCategoryCacheModel objectCategoryCacheModel =
+			(ObjectCategoryCacheModel)obj;
 
 		if (code.equals(objectCategoryCacheModel.code)) {
 			return true;
@@ -80,14 +80,14 @@ public class ObjectCategoryCacheModel implements CacheModel<ObjectCategory>,
 		ObjectCategoryImpl objectCategoryImpl = new ObjectCategoryImpl();
 
 		if (code == null) {
-			objectCategoryImpl.setCode(StringPool.BLANK);
+			objectCategoryImpl.setCode("");
 		}
 		else {
 			objectCategoryImpl.setCode(code);
 		}
 
 		if (name == null) {
-			objectCategoryImpl.setName(StringPool.BLANK);
+			objectCategoryImpl.setName("");
 		}
 		else {
 			objectCategoryImpl.setName(name);
@@ -105,17 +105,16 @@ public class ObjectCategoryCacheModel implements CacheModel<ObjectCategory>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (code == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(code);
 		}
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
@@ -124,4 +123,5 @@ public class ObjectCategoryCacheModel implements CacheModel<ObjectCategory>,
 
 	public String code;
 	public String name;
+
 }
