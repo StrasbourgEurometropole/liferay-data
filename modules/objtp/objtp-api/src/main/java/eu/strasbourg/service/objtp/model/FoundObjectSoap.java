@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.objtp.service.http.FoundObjectServiceSoap}.
  *
  * @author JeremyZwickert
- * @see eu.strasbourg.service.objtp.service.http.FoundObjectServiceSoap
  * @generated
  */
 @ProviderType
 public class FoundObjectSoap implements Serializable {
+
 	public static FoundObjectSoap toSoapModel(FoundObject model) {
 		FoundObjectSoap soapModel = new FoundObjectSoap();
 
@@ -70,7 +70,8 @@ public class FoundObjectSoap implements Serializable {
 	}
 
 	public static FoundObjectSoap[] toSoapModels(List<FoundObject> models) {
-		List<FoundObjectSoap> soapModels = new ArrayList<FoundObjectSoap>(models.size());
+		List<FoundObjectSoap> soapModels = new ArrayList<FoundObjectSoap>(
+			models.size());
 
 		for (FoundObject model : models) {
 			soapModels.add(toSoapModel(model));
@@ -126,4 +127,5 @@ public class FoundObjectSoap implements Serializable {
 	private Date _date;
 	private String _imageUrl;
 	private String _categoryCode;
+
 }

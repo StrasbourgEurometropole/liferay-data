@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.entity_detail.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -27,7 +28,6 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.PredicateFilter;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -92,22 +92,27 @@ public class EntityDetailConfigurationAction
 						EntityDetailConfiguration.class);
 
 				// Liste des types d'entités (ainsi que leurs labels)
-				List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
-					.filter(
-						AssetRendererFactoryRegistryUtil
-							.getAssetRendererFactories(
-								themeDisplay.getCompany().getCompanyId()),
-						new PredicateFilter<AssetRendererFactory<?>>() {
-
-							@Override
-							public boolean filter(
-								AssetRendererFactory<?> assetRendererFactory) {
-								return assetRendererFactory.isCategorizable()
-									&& assetRendererFactory.getClassName()
-										.startsWith("eu.strasbourg");
-							}
-
-						});
+				List<AssetRendererFactory<?>> availableAssetRendererFactories =
+						AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
+								themeDisplay.getCompany().getCompanyId()).stream()
+								.filter(a -> a.isCategorizable() && a.getClassName().startsWith("eu.strasbourg"))
+								.collect(Collectors.toList());
+//				List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
+//						.filter(
+//								AssetRendererFactoryRegistryUtil
+//										.getAssetRendererFactories(
+//												themeDisplay.getCompany().getCompanyId()),
+//								new Predicate<AssetRendererFactory<?>>() {
+//
+//									@Override
+//									public boolean filter(
+//											AssetRendererFactory<?> assetRendererFactory) {
+//										return assetRendererFactory.isCategorizable()
+//												&& assetRendererFactory.getClassName()
+//												.startsWith("eu.strasbourg");
+//									}
+//
+//								});
 
 				List<String> classNames = new ArrayList<String>();
 				List<String> classNamesLabels = new ArrayList<String>();
