@@ -57,12 +57,12 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.LegacyPlace;
-//import freemarker.core.ParseException;
-//import freemarker.template.Configuration;
-//import freemarker.template.MalformedTemplateNameException;
-//import freemarker.template.Template;
-//import freemarker.template.TemplateException;
-//import freemarker.template.TemplateNotFoundException;
+import freemarker.core.ParseException;
+import freemarker.template.Configuration;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateNotFoundException;
 
 /**
  * The extended model implementation for the CampaignEvent service. Represents a
@@ -392,8 +392,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		try {
 			sendMail("deletion-approved-subject-template.ftl", "deletion-approved-template.ftl", context,
 					userMailAddress);
-//		} catch (IOException | TemplateException e) {
-		} catch (IOException e) {
+		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
 	}
@@ -417,8 +416,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 		try {
 			sendMail("deletion-denied-subject-template.ftl", "deletion-denied-template.ftl", context, userMailAddress);
-//		} catch (IOException | TemplateException e) {
-		} catch (IOException e) {
+		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
 	}
@@ -482,17 +480,17 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 	private void sendMail(String subjectTemplatePath, String bodyTemplatePath, Map<String, Object> context, String mail)
 			throws IOException
-//			,TemplateNotFoundException, MalformedTemplateNameException, ParseException, TemplateException
+			,TemplateNotFoundException, MalformedTemplateNameException, ParseException, TemplateException
 	{
-//		Configuration configuration = new Configuration(Configuration.getVersion());
-//		configuration.setClassForTemplateLoading(this.getClass(), "/templates/campaign");
-//		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-//		Template subjectTemplate = configuration.getTemplate(subjectTemplatePath);
-//		Template bodyTemplate = configuration.getTemplate(bodyTemplatePath);
+		Configuration configuration = new Configuration(Configuration.getVersion());
+		configuration.setClassForTemplateLoading(this.getClass(), "/templates/campaign");
+		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+		Template subjectTemplate = configuration.getTemplate(subjectTemplatePath);
+		Template bodyTemplate = configuration.getTemplate(bodyTemplatePath);
 		StringWriter subjectWriter = new StringWriter();
 		StringWriter bodyWriter = new StringWriter();
-//		subjectTemplate.process(context, subjectWriter);
-//		bodyTemplate.process(context, bodyWriter);
+		subjectTemplate.process(context, subjectWriter);
+		bodyTemplate.process(context, bodyWriter);
 		MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", mail, subjectWriter.toString(),
 				bodyWriter.toString());
 	}

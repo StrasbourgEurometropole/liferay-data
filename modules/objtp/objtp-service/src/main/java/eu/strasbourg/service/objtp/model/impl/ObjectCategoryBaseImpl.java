@@ -32,12 +32,13 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ObjectCategoryBaseImpl extends ObjectCategoryModelImpl
-	implements ObjectCategory {
+public abstract class ObjectCategoryBaseImpl
+	extends ObjectCategoryModelImpl implements ObjectCategory {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a object category model instance should use the {@link ObjectCategory} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a object category model instance should use the <code>ObjectCategory</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ObjectCategoryBaseImpl extends ObjectCategoryModelImpl
 			ObjectCategoryLocalServiceUtil.updateObjectCategory(this);
 		}
 	}
+
 }

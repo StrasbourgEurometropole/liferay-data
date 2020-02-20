@@ -2,4 +2,13 @@ Bundle-Name: contact-form-web
 Bundle-SymbolicName: eu.strasbourg.portlet.contact
 Bundle-Version: 1.31.0
 Export-Package: eu.strasbourg.portlet.contact.constants
+Import-Package: !com.sun.org.apache.xml.internal.utils,\
+    !com.sun.org.apache.xpath.internal.objects,\
+    !org.mozilla.javascript,\
+    !org.apache.log,\
+    !org.python.core,\
+    !org.python.util,\
+    !org.zeroturnaround.javarebel,\
+    !org.apache.jasper.runtime,\
+    !com.sun.org.apache.xpath.internal,*
 Javac-Encoding=UTF-8

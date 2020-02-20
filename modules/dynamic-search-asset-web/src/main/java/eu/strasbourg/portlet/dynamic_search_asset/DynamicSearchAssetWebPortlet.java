@@ -602,11 +602,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
 				|| themeDisplay.getScopeGroup().isStagingGroup()) {
-			try {
-				return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
-			} catch (PortalException e) {
-				return "/web/";
-			}
+			return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
 		} else {
 			return "/";
 		}

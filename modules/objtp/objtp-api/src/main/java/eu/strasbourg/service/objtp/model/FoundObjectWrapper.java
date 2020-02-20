@@ -17,7 +17,6 @@ package eu.strasbourg.service.objtp.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,8 +37,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class FoundObjectWrapper implements FoundObject,
-	ModelWrapper<FoundObject> {
+public class FoundObjectWrapper
+	implements FoundObject, ModelWrapper<FoundObject> {
+
 	public FoundObjectWrapper(FoundObject foundObject) {
 		_foundObject = foundObject;
 	}
@@ -94,6 +94,83 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	@Override
+	public Object clone() {
+		return new FoundObjectWrapper((FoundObject)_foundObject.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.objtp.model.FoundObject foundObject) {
+
+		return _foundObject.compareTo(foundObject);
+	}
+
+	/**
+	 * Returns the category code of this found object.
+	 *
+	 * @return the category code of this found object
+	 */
+	@Override
+	public String getCategoryCode() {
+		return _foundObject.getCategoryCode();
+	}
+
+	/**
+	 * Returns the date of this found object.
+	 *
+	 * @return the date of this found object
+	 */
+	@Override
+	public Date getDate() {
+		return _foundObject.getDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _foundObject.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the image url of this found object.
+	 *
+	 * @return the image url of this found object
+	 */
+	@Override
+	public String getImageUrl() {
+		return _foundObject.getImageUrl();
+	}
+
+	/**
+	 * Returns the number of this found object.
+	 *
+	 * @return the number of this found object
+	 */
+	@Override
+	public String getNumber() {
+		return _foundObject.getNumber();
+	}
+
+	/**
+	 * Returns the primary key of this found object.
+	 *
+	 * @return the primary key of this found object
+	 */
+	@Override
+	public String getPrimaryKey() {
+		return _foundObject.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _foundObject.getPrimaryKeyObj();
+	}
+
+	@Override
+	public int hashCode() {
+		return _foundObject.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _foundObject.isCachedModel();
 	}
@@ -109,107 +186,6 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _foundObject.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.objtp.model.FoundObject> toCacheModel() {
-		return _foundObject.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.FoundObject toEscapedModel() {
-		return new FoundObjectWrapper(_foundObject.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.FoundObject toUnescapedModel() {
-		return new FoundObjectWrapper(_foundObject.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.objtp.model.FoundObject foundObject) {
-		return _foundObject.compareTo(foundObject);
-	}
-
-	@Override
-	public int hashCode() {
-		return _foundObject.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _foundObject.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new FoundObjectWrapper((FoundObject)_foundObject.clone());
-	}
-
-	/**
-	* Returns the category code of this found object.
-	*
-	* @return the category code of this found object
-	*/
-	@Override
-	public java.lang.String getCategoryCode() {
-		return _foundObject.getCategoryCode();
-	}
-
-	/**
-	* Returns the image url of this found object.
-	*
-	* @return the image url of this found object
-	*/
-	@Override
-	public java.lang.String getImageUrl() {
-		return _foundObject.getImageUrl();
-	}
-
-	/**
-	* Returns the number of this found object.
-	*
-	* @return the number of this found object
-	*/
-	@Override
-	public java.lang.String getNumber() {
-		return _foundObject.getNumber();
-	}
-
-	/**
-	* Returns the primary key of this found object.
-	*
-	* @return the primary key of this found object
-	*/
-	@Override
-	public java.lang.String getPrimaryKey() {
-		return _foundObject.getPrimaryKey();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _foundObject.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _foundObject.toXmlString();
-	}
-
-	/**
-	* Returns the date of this found object.
-	*
-	* @return the date of this found object
-	*/
-	@Override
-	public Date getDate() {
-		return _foundObject.getDate();
-	}
-
-	@Override
 	public void persist() {
 		_foundObject.persist();
 	}
@@ -220,23 +196,30 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	/**
-	* Sets the category code of this found object.
-	*
-	* @param categoryCode the category code of this found object
-	*/
+	 * Sets the category code of this found object.
+	 *
+	 * @param categoryCode the category code of this found object
+	 */
 	@Override
-	public void setCategoryCode(java.lang.String categoryCode) {
+	public void setCategoryCode(String categoryCode) {
 		_foundObject.setCategoryCode(categoryCode);
 	}
 
 	/**
-	* Sets the date of this found object.
-	*
-	* @param date the date of this found object
-	*/
+	 * Sets the date of this found object.
+	 *
+	 * @param date the date of this found object
+	 */
 	@Override
 	public void setDate(Date date) {
 		_foundObject.setDate(date);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_foundObject.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -245,23 +228,17 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_foundObject.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_foundObject.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the image url of this found object.
-	*
-	* @param imageUrl the image url of this found object
-	*/
+	 * Sets the image url of this found object.
+	 *
+	 * @param imageUrl the image url of this found object
+	 */
 	@Override
-	public void setImageUrl(java.lang.String imageUrl) {
+	public void setImageUrl(String imageUrl) {
 		_foundObject.setImageUrl(imageUrl);
 	}
 
@@ -271,28 +248,55 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	/**
-	* Sets the number of this found object.
-	*
-	* @param number the number of this found object
-	*/
+	 * Sets the number of this found object.
+	 *
+	 * @param number the number of this found object
+	 */
 	@Override
-	public void setNumber(java.lang.String number) {
+	public void setNumber(String number) {
 		_foundObject.setNumber(number);
 	}
 
 	/**
-	* Sets the primary key of this found object.
-	*
-	* @param primaryKey the primary key of this found object
-	*/
+	 * Sets the primary key of this found object.
+	 *
+	 * @param primaryKey the primary key of this found object
+	 */
 	@Override
-	public void setPrimaryKey(java.lang.String primaryKey) {
+	public void setPrimaryKey(String primaryKey) {
 		_foundObject.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_foundObject.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.objtp.model.FoundObject> toCacheModel() {
+
+		return _foundObject.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.objtp.model.FoundObject toEscapedModel() {
+		return new FoundObjectWrapper(_foundObject.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _foundObject.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.objtp.model.FoundObject toUnescapedModel() {
+		return new FoundObjectWrapper(_foundObject.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _foundObject.toXmlString();
 	}
 
 	@Override
@@ -335,4 +339,5 @@ public class FoundObjectWrapper implements FoundObject,
 	}
 
 	private final FoundObject _foundObject;
+
 }

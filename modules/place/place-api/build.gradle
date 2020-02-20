@@ -1,8 +1,9 @@
 dependencies {
-	compile group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
-	compile group: "com.liferay", name: "com.liferay.osgi.util"
-	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	compile group: "org.osgi", name: "org.osgi.core"
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+	compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "org.osgi", name: "org.osgi.core"
+
 	compile project(":modules:utils")
 	compile project(":modules:agenda:agenda-api")
 	compile project(":modules:video:video-api")

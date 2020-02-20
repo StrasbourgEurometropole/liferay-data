@@ -36,7 +36,7 @@
 						errorMessage="this-field-is-required" />
 				</aui:input>
 				
-				<aui:input label="price-price" name="price" />
+				<aui:input label="price-price" name="priceDescription" />
 				<!-- Hack pour ajouter une validation sur le prix -->
 				<div class="has-error">
 					<aui:input type="hidden" name="priceValidatorInputHelper" value="placeholder">

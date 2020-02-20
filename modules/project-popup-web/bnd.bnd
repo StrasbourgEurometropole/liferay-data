@@ -2,3 +2,12 @@ Bundle-Name: project-popup-web
 Bundle-SymbolicName: project.projectpopup
 Bundle-Version: 1.0.0
 Web-ContextPath: /projectpopupweb
+Import-Package: !com.sun.org.apache.xml.internal.utils,\
+    !com.sun.org.apache.xpath.internal.objects,\
+    !org.mozilla.javascript,\
+    !org.apache.log,\
+    !org.python.core,\
+    !org.python.util,\
+    !org.zeroturnaround.javarebel,\
+    !org.apache.jasper.runtime,\
+    !com.sun.org.apache.xpath.internal,*

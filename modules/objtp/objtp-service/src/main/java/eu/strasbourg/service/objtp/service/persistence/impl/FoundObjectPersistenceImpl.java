@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.objtp.exception.NoSuchFoundObjectException;
@@ -42,6 +41,7 @@ import eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,53 +60,32 @@ import java.util.Set;
  * </p>
  *
  * @author JeremyZwickert
- * @see FoundObjectPersistence
- * @see eu.strasbourg.service.objtp.service.persistence.FoundObjectUtil
  * @generated
  */
 @ProviderType
-public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
-	implements FoundObjectPersistence {
+public class FoundObjectPersistenceImpl
+	extends BasePersistenceImpl<FoundObject> implements FoundObjectPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link FoundObjectUtil} to access the found object persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>FoundObjectUtil</code> to access the found object persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = FoundObjectImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CATEGORYCODE =
-		new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCategoryCode",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CATEGORYCODE =
-		new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCategoryCode",
-			new String[] { String.class.getName() },
-			FoundObjectModelImpl.CATEGORYCODE_COLUMN_BITMASK |
-			FoundObjectModelImpl.DATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_CATEGORYCODE = new FinderPath(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCategoryCode",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		FoundObjectImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByCategoryCode;
+	private FinderPath _finderPathWithoutPaginationFindByCategoryCode;
+	private FinderPath _finderPathCountByCategoryCode;
 
 	/**
 	 * Returns all the found objects where categoryCode = &#63;.
@@ -116,15 +95,15 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 */
 	@Override
 	public List<FoundObject> findByCategoryCode(String categoryCode) {
-		return findByCategoryCode(categoryCode, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByCategoryCode(
+			categoryCode, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the found objects where categoryCode = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FoundObjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FoundObjectModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param categoryCode the category code
@@ -133,8 +112,9 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the range of matching found objects
 	 */
 	@Override
-	public List<FoundObject> findByCategoryCode(String categoryCode, int start,
-		int end) {
+	public List<FoundObject> findByCategoryCode(
+		String categoryCode, int start, int end) {
+
 		return findByCategoryCode(categoryCode, start, end, null);
 	}
 
@@ -142,7 +122,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Returns an ordered range of all the found objects where categoryCode = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FoundObjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FoundObjectModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param categoryCode the category code
@@ -152,17 +132,19 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the ordered range of matching found objects
 	 */
 	@Override
-	public List<FoundObject> findByCategoryCode(String categoryCode, int start,
-		int end, OrderByComparator<FoundObject> orderByComparator) {
-		return findByCategoryCode(categoryCode, start, end, orderByComparator,
-			true);
+	public List<FoundObject> findByCategoryCode(
+		String categoryCode, int start, int end,
+		OrderByComparator<FoundObject> orderByComparator) {
+
+		return findByCategoryCode(
+			categoryCode, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the found objects where categoryCode = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FoundObjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FoundObjectModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param categoryCode the category code
@@ -173,38 +155,40 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the ordered range of matching found objects
 	 */
 	@Override
-	public List<FoundObject> findByCategoryCode(String categoryCode, int start,
-		int end, OrderByComparator<FoundObject> orderByComparator,
+	public List<FoundObject> findByCategoryCode(
+		String categoryCode, int start, int end,
+		OrderByComparator<FoundObject> orderByComparator,
 		boolean retrieveFromCache) {
+
+		categoryCode = Objects.toString(categoryCode, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CATEGORYCODE;
-			finderArgs = new Object[] { categoryCode };
+			finderPath = _finderPathWithoutPaginationFindByCategoryCode;
+			finderArgs = new Object[] {categoryCode};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CATEGORYCODE;
+			finderPath = _finderPathWithPaginationFindByCategoryCode;
 			finderArgs = new Object[] {
-					categoryCode,
-					
-					start, end, orderByComparator
-				};
+				categoryCode, start, end, orderByComparator
+			};
 		}
 
 		List<FoundObject> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<FoundObject>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<FoundObject>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (FoundObject foundObject : list) {
-					if (!Objects.equals(categoryCode,
-								foundObject.getCategoryCode())) {
+					if (!categoryCode.equals(foundObject.getCategoryCode())) {
 						list = null;
 
 						break;
@@ -217,8 +201,8 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -228,10 +212,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 			boolean bindCategoryCode = false;
 
-			if (categoryCode == null) {
-				query.append(_FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_1);
-			}
-			else if (categoryCode.equals(StringPool.BLANK)) {
+			if (categoryCode.isEmpty()) {
 				query.append(_FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_3);
 			}
 			else {
@@ -241,11 +222,10 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(FoundObjectModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -265,16 +245,16 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 				}
 
 				if (!pagination) {
-					list = (List<FoundObject>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<FoundObject>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<FoundObject>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<FoundObject>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -303,11 +283,13 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @throws NoSuchFoundObjectException if a matching found object could not be found
 	 */
 	@Override
-	public FoundObject findByCategoryCode_First(String categoryCode,
-		OrderByComparator<FoundObject> orderByComparator)
+	public FoundObject findByCategoryCode_First(
+			String categoryCode,
+			OrderByComparator<FoundObject> orderByComparator)
 		throws NoSuchFoundObjectException {
-		FoundObject foundObject = fetchByCategoryCode_First(categoryCode,
-				orderByComparator);
+
+		FoundObject foundObject = fetchByCategoryCode_First(
+			categoryCode, orderByComparator);
 
 		if (foundObject != null) {
 			return foundObject;
@@ -320,7 +302,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		msg.append("categoryCode=");
 		msg.append(categoryCode);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchFoundObjectException(msg.toString());
 	}
@@ -333,10 +315,11 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the first matching found object, or <code>null</code> if a matching found object could not be found
 	 */
 	@Override
-	public FoundObject fetchByCategoryCode_First(String categoryCode,
-		OrderByComparator<FoundObject> orderByComparator) {
-		List<FoundObject> list = findByCategoryCode(categoryCode, 0, 1,
-				orderByComparator);
+	public FoundObject fetchByCategoryCode_First(
+		String categoryCode, OrderByComparator<FoundObject> orderByComparator) {
+
+		List<FoundObject> list = findByCategoryCode(
+			categoryCode, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -354,11 +337,13 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @throws NoSuchFoundObjectException if a matching found object could not be found
 	 */
 	@Override
-	public FoundObject findByCategoryCode_Last(String categoryCode,
-		OrderByComparator<FoundObject> orderByComparator)
+	public FoundObject findByCategoryCode_Last(
+			String categoryCode,
+			OrderByComparator<FoundObject> orderByComparator)
 		throws NoSuchFoundObjectException {
-		FoundObject foundObject = fetchByCategoryCode_Last(categoryCode,
-				orderByComparator);
+
+		FoundObject foundObject = fetchByCategoryCode_Last(
+			categoryCode, orderByComparator);
 
 		if (foundObject != null) {
 			return foundObject;
@@ -371,7 +356,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		msg.append("categoryCode=");
 		msg.append(categoryCode);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchFoundObjectException(msg.toString());
 	}
@@ -384,16 +369,17 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the last matching found object, or <code>null</code> if a matching found object could not be found
 	 */
 	@Override
-	public FoundObject fetchByCategoryCode_Last(String categoryCode,
-		OrderByComparator<FoundObject> orderByComparator) {
+	public FoundObject fetchByCategoryCode_Last(
+		String categoryCode, OrderByComparator<FoundObject> orderByComparator) {
+
 		int count = countByCategoryCode(categoryCode);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<FoundObject> list = findByCategoryCode(categoryCode, count - 1,
-				count, orderByComparator);
+		List<FoundObject> list = findByCategoryCode(
+			categoryCode, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -412,9 +398,13 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @throws NoSuchFoundObjectException if a found object with the primary key could not be found
 	 */
 	@Override
-	public FoundObject[] findByCategoryCode_PrevAndNext(String number,
-		String categoryCode, OrderByComparator<FoundObject> orderByComparator)
+	public FoundObject[] findByCategoryCode_PrevAndNext(
+			String number, String categoryCode,
+			OrderByComparator<FoundObject> orderByComparator)
 		throws NoSuchFoundObjectException {
+
+		categoryCode = Objects.toString(categoryCode, "");
+
 		FoundObject foundObject = findByPrimaryKey(number);
 
 		Session session = null;
@@ -424,13 +414,13 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 			FoundObject[] array = new FoundObjectImpl[3];
 
-			array[0] = getByCategoryCode_PrevAndNext(session, foundObject,
-					categoryCode, orderByComparator, true);
+			array[0] = getByCategoryCode_PrevAndNext(
+				session, foundObject, categoryCode, orderByComparator, true);
 
 			array[1] = foundObject;
 
-			array[2] = getByCategoryCode_PrevAndNext(session, foundObject,
-					categoryCode, orderByComparator, false);
+			array[2] = getByCategoryCode_PrevAndNext(
+				session, foundObject, categoryCode, orderByComparator, false);
 
 			return array;
 		}
@@ -442,14 +432,15 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		}
 	}
 
-	protected FoundObject getByCategoryCode_PrevAndNext(Session session,
-		FoundObject foundObject, String categoryCode,
+	protected FoundObject getByCategoryCode_PrevAndNext(
+		Session session, FoundObject foundObject, String categoryCode,
 		OrderByComparator<FoundObject> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -460,10 +451,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 		boolean bindCategoryCode = false;
 
-		if (categoryCode == null) {
-			query.append(_FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_1);
-		}
-		else if (categoryCode.equals(StringPool.BLANK)) {
+		if (categoryCode.isEmpty()) {
 			query.append(_FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_3);
 		}
 		else {
@@ -473,7 +461,8 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -545,10 +534,10 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(foundObject);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(foundObject)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -569,8 +558,10 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 */
 	@Override
 	public void removeByCategoryCode(String categoryCode) {
-		for (FoundObject foundObject : findByCategoryCode(categoryCode,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (FoundObject foundObject :
+				findByCategoryCode(
+					categoryCode, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(foundObject);
 		}
 	}
@@ -583,9 +574,11 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 */
 	@Override
 	public int countByCategoryCode(String categoryCode) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_CATEGORYCODE;
+		categoryCode = Objects.toString(categoryCode, "");
 
-		Object[] finderArgs = new Object[] { categoryCode };
+		FinderPath finderPath = _finderPathCountByCategoryCode;
+
+		Object[] finderArgs = new Object[] {categoryCode};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -596,10 +589,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 			boolean bindCategoryCode = false;
 
-			if (categoryCode == null) {
-				query.append(_FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_1);
-			}
-			else if (categoryCode.equals(StringPool.BLANK)) {
+			if (categoryCode.isEmpty()) {
 				query.append(_FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_3);
 			}
 			else {
@@ -640,21 +630,25 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_1 = "foundObject.categoryCode IS NULL";
-	private static final String _FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_2 = "foundObject.categoryCode = ?";
-	private static final String _FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_3 = "(foundObject.categoryCode IS NULL OR foundObject.categoryCode = '')";
+	private static final String _FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_2 =
+		"foundObject.categoryCode = ?";
+
+	private static final String _FINDER_COLUMN_CATEGORYCODE_CATEGORYCODE_3 =
+		"(foundObject.categoryCode IS NULL OR foundObject.categoryCode = '')";
 
 	public FoundObjectPersistenceImpl() {
 		setModelClass(FoundObject.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("number", "number_");
+		dbColumnNames.put("date", "date_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("number", "number_");
-			dbColumnNames.put("date", "date_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -672,8 +666,9 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 */
 	@Override
 	public void cacheResult(FoundObject foundObject) {
-		entityCache.putResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectImpl.class, foundObject.getPrimaryKey(), foundObject);
+		entityCache.putResult(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
+			foundObject.getPrimaryKey(), foundObject);
 
 		foundObject.resetOriginalValues();
 	}
@@ -687,8 +682,10 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	public void cacheResult(List<FoundObject> foundObjects) {
 		for (FoundObject foundObject : foundObjects) {
 			if (entityCache.getResult(
-						FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-						FoundObjectImpl.class, foundObject.getPrimaryKey()) == null) {
+					FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+					FoundObjectImpl.class, foundObject.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(foundObject);
 			}
 			else {
@@ -701,7 +698,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Clears the cache for all found objects.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -717,13 +714,14 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Clears the cache for the found object.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(FoundObject foundObject) {
-		entityCache.removeResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectImpl.class, foundObject.getPrimaryKey());
+		entityCache.removeResult(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
+			foundObject.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -735,7 +733,8 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (FoundObject foundObject : foundObjects) {
-			entityCache.removeResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
 				FoundObjectImpl.class, foundObject.getPrimaryKey());
 		}
 	}
@@ -778,21 +777,22 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	@Override
 	public FoundObject remove(Serializable primaryKey)
 		throws NoSuchFoundObjectException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			FoundObject foundObject = (FoundObject)session.get(FoundObjectImpl.class,
-					primaryKey);
+			FoundObject foundObject = (FoundObject)session.get(
+				FoundObjectImpl.class, primaryKey);
 
 			if (foundObject == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchFoundObjectException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchFoundObjectException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(foundObject);
@@ -810,16 +810,14 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 	@Override
 	protected FoundObject removeImpl(FoundObject foundObject) {
-		foundObject = toUnwrappedModel(foundObject);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(foundObject)) {
-				foundObject = (FoundObject)session.get(FoundObjectImpl.class,
-						foundObject.getPrimaryKeyObj());
+				foundObject = (FoundObject)session.get(
+					FoundObjectImpl.class, foundObject.getPrimaryKeyObj());
 			}
 
 			if (foundObject != null) {
@@ -842,11 +840,26 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 	@Override
 	public FoundObject updateImpl(FoundObject foundObject) {
-		foundObject = toUnwrappedModel(foundObject);
-
 		boolean isNew = foundObject.isNew();
 
-		FoundObjectModelImpl foundObjectModelImpl = (FoundObjectModelImpl)foundObject;
+		if (!(foundObject instanceof FoundObjectModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(foundObject.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(foundObject);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in foundObject proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom FoundObject implementation " +
+					foundObject.getClass());
+		}
+
+		FoundObjectModelImpl foundObjectModelImpl =
+			(FoundObjectModelImpl)foundObject;
 
 		Session session = null;
 
@@ -874,67 +887,51 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		if (!FoundObjectModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { foundObjectModelImpl.getCategoryCode() };
+		else if (isNew) {
+			Object[] args = new Object[] {
+				foundObjectModelImpl.getCategoryCode()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_CATEGORYCODE, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CATEGORYCODE,
-				args);
+			finderCache.removeResult(_finderPathCountByCategoryCode, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCategoryCode, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((foundObjectModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CATEGORYCODE.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByCategoryCode.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						foundObjectModelImpl.getOriginalCategoryCode()
-					};
+					foundObjectModelImpl.getOriginalCategoryCode()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CATEGORYCODE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CATEGORYCODE,
-					args);
+				finderCache.removeResult(_finderPathCountByCategoryCode, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCategoryCode, args);
 
-				args = new Object[] { foundObjectModelImpl.getCategoryCode() };
+				args = new Object[] {foundObjectModelImpl.getCategoryCode()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CATEGORYCODE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CATEGORYCODE,
-					args);
+				finderCache.removeResult(_finderPathCountByCategoryCode, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCategoryCode, args);
 			}
 		}
 
-		entityCache.putResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectImpl.class, foundObject.getPrimaryKey(), foundObject,
-			false);
+		entityCache.putResult(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
+			foundObject.getPrimaryKey(), foundObject, false);
 
 		foundObject.resetOriginalValues();
 
 		return foundObject;
 	}
 
-	protected FoundObject toUnwrappedModel(FoundObject foundObject) {
-		if (foundObject instanceof FoundObjectImpl) {
-			return foundObject;
-		}
-
-		FoundObjectImpl foundObjectImpl = new FoundObjectImpl();
-
-		foundObjectImpl.setNew(foundObject.isNew());
-		foundObjectImpl.setPrimaryKey(foundObject.getPrimaryKey());
-
-		foundObjectImpl.setNumber(foundObject.getNumber());
-		foundObjectImpl.setDate(foundObject.getDate());
-		foundObjectImpl.setImageUrl(foundObject.getImageUrl());
-		foundObjectImpl.setCategoryCode(foundObject.getCategoryCode());
-
-		return foundObjectImpl;
-	}
-
 	/**
-	 * Returns the found object with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the found object with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the found object
 	 * @return the found object
@@ -943,6 +940,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	@Override
 	public FoundObject findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchFoundObjectException {
+
 		FoundObject foundObject = fetchByPrimaryKey(primaryKey);
 
 		if (foundObject == null) {
@@ -950,15 +948,15 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchFoundObjectException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchFoundObjectException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return foundObject;
 	}
 
 	/**
-	 * Returns the found object with the primary key or throws a {@link NoSuchFoundObjectException} if it could not be found.
+	 * Returns the found object with the primary key or throws a <code>NoSuchFoundObjectException</code> if it could not be found.
 	 *
 	 * @param number the primary key of the found object
 	 * @return the found object
@@ -967,6 +965,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	@Override
 	public FoundObject findByPrimaryKey(String number)
 		throws NoSuchFoundObjectException {
+
 		return findByPrimaryKey((Serializable)number);
 	}
 
@@ -978,8 +977,9 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 */
 	@Override
 	public FoundObject fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-				FoundObjectImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -993,19 +993,21 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			try {
 				session = openSession();
 
-				foundObject = (FoundObject)session.get(FoundObjectImpl.class,
-						primaryKey);
+				foundObject = (FoundObject)session.get(
+					FoundObjectImpl.class, primaryKey);
 
 				if (foundObject != null) {
 					cacheResult(foundObject);
 				}
 				else {
-					entityCache.putResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
 						FoundObjectImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
 					FoundObjectImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1032,11 +1034,13 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	@Override
 	public Map<Serializable, FoundObject> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, FoundObject> map = new HashMap<Serializable, FoundObject>();
+		Map<Serializable, FoundObject> map =
+			new HashMap<Serializable, FoundObject>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -1055,8 +1059,9 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-					FoundObjectImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+				FoundObjectImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1076,20 +1081,20 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_FOUNDOBJECT_WHERE_PKS_IN);
 
 		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
-			query.append(StringPool.QUESTION);
+			query.append("?");
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1115,7 +1120,8 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
 					FoundObjectImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1143,7 +1149,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Returns a range of all the found objects.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FoundObjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FoundObjectModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of found objects
@@ -1159,7 +1165,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Returns an ordered range of all the found objects.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FoundObjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FoundObjectModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of found objects
@@ -1168,8 +1174,9 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the ordered range of found objects
 	 */
 	@Override
-	public List<FoundObject> findAll(int start, int end,
-		OrderByComparator<FoundObject> orderByComparator) {
+	public List<FoundObject> findAll(
+		int start, int end, OrderByComparator<FoundObject> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1177,7 +1184,7 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Returns an ordered range of all the found objects.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link FoundObjectModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>FoundObjectModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of found objects
@@ -1187,29 +1194,31 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * @return the ordered range of found objects
 	 */
 	@Override
-	public List<FoundObject> findAll(int start, int end,
-		OrderByComparator<FoundObject> orderByComparator,
+	public List<FoundObject> findAll(
+		int start, int end, OrderByComparator<FoundObject> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<FoundObject> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<FoundObject>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<FoundObject>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1217,13 +1226,13 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_FOUNDOBJECT);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1243,16 +1252,16 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<FoundObject>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<FoundObject>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<FoundObject>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<FoundObject>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1290,8 +1299,8 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1303,12 +1312,12 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1334,6 +1343,45 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 	 * Initializes the found object persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByCategoryCode = new FinderPath(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCategoryCode",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByCategoryCode = new FinderPath(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCategoryCode",
+			new String[] {String.class.getName()},
+			FoundObjectModelImpl.CATEGORYCODE_COLUMN_BITMASK |
+			FoundObjectModelImpl.DATE_COLUMN_BITMASK);
+
+		_finderPathCountByCategoryCode = new FinderPath(
+			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
+			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCategoryCode",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -1345,18 +1393,37 @@ public class FoundObjectPersistenceImpl extends BasePersistenceImpl<FoundObject>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_FOUNDOBJECT = "SELECT foundObject FROM FoundObject foundObject";
-	private static final String _SQL_SELECT_FOUNDOBJECT_WHERE_PKS_IN = "SELECT foundObject FROM FoundObject foundObject WHERE number_ IN (";
-	private static final String _SQL_SELECT_FOUNDOBJECT_WHERE = "SELECT foundObject FROM FoundObject foundObject WHERE ";
-	private static final String _SQL_COUNT_FOUNDOBJECT = "SELECT COUNT(foundObject) FROM FoundObject foundObject";
-	private static final String _SQL_COUNT_FOUNDOBJECT_WHERE = "SELECT COUNT(foundObject) FROM FoundObject foundObject WHERE ";
+
+	private static final String _SQL_SELECT_FOUNDOBJECT =
+		"SELECT foundObject FROM FoundObject foundObject";
+
+	private static final String _SQL_SELECT_FOUNDOBJECT_WHERE_PKS_IN =
+		"SELECT foundObject FROM FoundObject foundObject WHERE number_ IN (";
+
+	private static final String _SQL_SELECT_FOUNDOBJECT_WHERE =
+		"SELECT foundObject FROM FoundObject foundObject WHERE ";
+
+	private static final String _SQL_COUNT_FOUNDOBJECT =
+		"SELECT COUNT(foundObject) FROM FoundObject foundObject";
+
+	private static final String _SQL_COUNT_FOUNDOBJECT_WHERE =
+		"SELECT COUNT(foundObject) FROM FoundObject foundObject WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "foundObject.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No FoundObject exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No FoundObject exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(FoundObjectPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"number", "date"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No FoundObject exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No FoundObject exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		FoundObjectPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"number", "date"});
+
 }

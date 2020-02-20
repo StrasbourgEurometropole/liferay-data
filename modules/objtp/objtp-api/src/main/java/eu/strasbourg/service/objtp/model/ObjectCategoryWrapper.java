@@ -17,7 +17,6 @@ package eu.strasbourg.service.objtp.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -37,8 +36,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class ObjectCategoryWrapper implements ObjectCategory,
-	ModelWrapper<ObjectCategory> {
+public class ObjectCategoryWrapper
+	implements ObjectCategory, ModelWrapper<ObjectCategory> {
+
 	public ObjectCategoryWrapper(ObjectCategory objectCategory) {
 		_objectCategory = objectCategory;
 	}
@@ -79,6 +79,64 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 	}
 
 	@Override
+	public Object clone() {
+		return new ObjectCategoryWrapper(
+			(ObjectCategory)_objectCategory.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
+
+		return _objectCategory.compareTo(objectCategory);
+	}
+
+	/**
+	 * Returns the code of this object category.
+	 *
+	 * @return the code of this object category
+	 */
+	@Override
+	public String getCode() {
+		return _objectCategory.getCode();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _objectCategory.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the name of this object category.
+	 *
+	 * @return the name of this object category
+	 */
+	@Override
+	public String getName() {
+		return _objectCategory.getName();
+	}
+
+	/**
+	 * Returns the primary key of this object category.
+	 *
+	 * @return the primary key of this object category
+	 */
+	@Override
+	public String getPrimaryKey() {
+		return _objectCategory.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _objectCategory.getPrimaryKeyObj();
+	}
+
+	@Override
+	public int hashCode() {
+		return _objectCategory.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _objectCategory.isCachedModel();
 	}
@@ -94,87 +152,6 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _objectCategory.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.objtp.model.ObjectCategory> toCacheModel() {
-		return _objectCategory.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory toEscapedModel() {
-		return new ObjectCategoryWrapper(_objectCategory.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.ObjectCategory toUnescapedModel() {
-		return new ObjectCategoryWrapper(_objectCategory.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.objtp.model.ObjectCategory objectCategory) {
-		return _objectCategory.compareTo(objectCategory);
-	}
-
-	@Override
-	public int hashCode() {
-		return _objectCategory.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _objectCategory.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new ObjectCategoryWrapper((ObjectCategory)_objectCategory.clone());
-	}
-
-	/**
-	* Returns the code of this object category.
-	*
-	* @return the code of this object category
-	*/
-	@Override
-	public java.lang.String getCode() {
-		return _objectCategory.getCode();
-	}
-
-	/**
-	* Returns the name of this object category.
-	*
-	* @return the name of this object category
-	*/
-	@Override
-	public java.lang.String getName() {
-		return _objectCategory.getName();
-	}
-
-	/**
-	* Returns the primary key of this object category.
-	*
-	* @return the primary key of this object category
-	*/
-	@Override
-	public java.lang.String getPrimaryKey() {
-		return _objectCategory.getPrimaryKey();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _objectCategory.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _objectCategory.toXmlString();
-	}
-
-	@Override
 	public void persist() {
 		_objectCategory.persist();
 	}
@@ -185,13 +162,20 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 	}
 
 	/**
-	* Sets the code of this object category.
-	*
-	* @param code the code of this object category
-	*/
+	 * Sets the code of this object category.
+	 *
+	 * @param code the code of this object category
+	 */
 	@Override
-	public void setCode(java.lang.String code) {
+	public void setCode(String code) {
 		_objectCategory.setCode(code);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_objectCategory.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -200,23 +184,17 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_objectCategory.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_objectCategory.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the name of this object category.
-	*
-	* @param name the name of this object category
-	*/
+	 * Sets the name of this object category.
+	 *
+	 * @param name the name of this object category
+	 */
 	@Override
-	public void setName(java.lang.String name) {
+	public void setName(String name) {
 		_objectCategory.setName(name);
 	}
 
@@ -226,18 +204,45 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 	}
 
 	/**
-	* Sets the primary key of this object category.
-	*
-	* @param primaryKey the primary key of this object category
-	*/
+	 * Sets the primary key of this object category.
+	 *
+	 * @param primaryKey the primary key of this object category
+	 */
 	@Override
-	public void setPrimaryKey(java.lang.String primaryKey) {
+	public void setPrimaryKey(String primaryKey) {
 		_objectCategory.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_objectCategory.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.objtp.model.ObjectCategory> toCacheModel() {
+
+		return _objectCategory.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.objtp.model.ObjectCategory toEscapedModel() {
+		return new ObjectCategoryWrapper(_objectCategory.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _objectCategory.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.objtp.model.ObjectCategory toUnescapedModel() {
+		return new ObjectCategoryWrapper(_objectCategory.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _objectCategory.toXmlString();
 	}
 
 	@Override
@@ -250,10 +255,12 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 			return false;
 		}
 
-		ObjectCategoryWrapper objectCategoryWrapper = (ObjectCategoryWrapper)obj;
+		ObjectCategoryWrapper objectCategoryWrapper =
+			(ObjectCategoryWrapper)obj;
 
-		if (Objects.equals(_objectCategory,
-					objectCategoryWrapper._objectCategory)) {
+		if (Objects.equals(
+				_objectCategory, objectCategoryWrapper._objectCategory)) {
+
 			return true;
 		}
 
@@ -281,4 +288,5 @@ public class ObjectCategoryWrapper implements ObjectCategory,
 	}
 
 	private final ObjectCategory _objectCategory;
+
 }
