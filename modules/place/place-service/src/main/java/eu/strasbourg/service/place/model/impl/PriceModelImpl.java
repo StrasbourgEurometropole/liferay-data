@@ -82,7 +82,7 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		{"uuid_", Types.VARCHAR}, {"priceId", Types.BIGINT},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"title", Types.VARCHAR}, {"priceDescription", Types.VARCHAR}
+		{"title", Types.VARCHAR}, {"priceDescription", Types.CLOB}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -96,11 +96,11 @@ public class PriceModelImpl extends BaseModelImpl<Price> implements PriceModel {
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("priceDescription", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("priceDescription", Types.CLOB);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table place_Price (uuid_ VARCHAR(75) null,priceId LONG not null primary key,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,priceDescription STRING null)";
+		"create table place_Price (uuid_ VARCHAR(75) null,priceId LONG not null primary key,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,priceDescription TEXT null)";
 
 	public static final String TABLE_SQL_DROP = "drop table place_Price";
 
