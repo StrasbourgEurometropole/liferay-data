@@ -23,7 +23,9 @@ import eu.strasbourg.portlet.video.display.context.ViewGalleriesDisplayContext;
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/video-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/video-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
@@ -52,7 +54,7 @@ public class VideoBOPortlet extends MVCPortlet {
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(returnURL);
 		}
 
 		// On set le displayContext selon la page sur laquelle on se trouve
