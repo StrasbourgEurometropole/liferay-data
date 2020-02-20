@@ -29,15 +29,15 @@ import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 
 @Component(
 	property = { "item.selector.view.order:Integer=200" },
-	service = ItemSelectorView.class)
+	service = ItemSelectorView.class
+)
 public class VideoGalleryItemSelectorView
 	implements ItemSelectorView<VideoGalleryItemSelectorCriterion> {
 
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-		.unmodifiableList(ListUtil.fromArray(
-			new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+		.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
