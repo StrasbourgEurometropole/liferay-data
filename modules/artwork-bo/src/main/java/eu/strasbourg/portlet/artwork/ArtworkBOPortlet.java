@@ -24,6 +24,7 @@ import eu.strasbourg.portlet.artwork.display.context.ViewCollectionsDisplayConte
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/artwork-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/artwork-bo-main.css",
