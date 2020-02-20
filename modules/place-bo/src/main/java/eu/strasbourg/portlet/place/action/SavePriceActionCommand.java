@@ -66,8 +66,8 @@ public class SavePriceActionCommand implements MVCActionCommand {
 			price.setTitleMap(title);
 
 			Map<Locale, String> tarif = LocalizationUtil
-					.getLocalizationMap(request, "price");
-			price.setPriceMap(tarif);
+					.getLocalizationMap(request, "priceDescription");
+			price.setPriceDescriptionMap(tarif);
 
 			List<Place> oldplaces = price.getPlaces();
 			for (Place place : oldplaces) {
