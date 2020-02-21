@@ -56,12 +56,15 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
  */
 @Component(
 	immediate = true, 
-	property = { 
+	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/oidc-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/oidc-bo-main.css",
-		"com.liferay.portlet.single-page-application=false", "javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/oidc-bo-view.jsp", "javax.portlet.resource-bundle=content.Language",
+		"com.liferay.portlet.single-page-application=false",
+		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/oidc-bo-view.jsp",
+		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" 
 	}, 
 	service = Portlet.class
