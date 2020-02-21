@@ -38,7 +38,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-			.unmodifiableList(ListUtil.fromArray(new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+			.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
@@ -77,7 +77,8 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
-		portletURL.getRenderParameters().setValue("multiple", String.valueOf(multiple));
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
 				SearchContainer.DEFAULT_DELTA);
