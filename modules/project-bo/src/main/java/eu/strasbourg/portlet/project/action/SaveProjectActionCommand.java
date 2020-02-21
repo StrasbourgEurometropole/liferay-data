@@ -379,12 +379,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		result.append(":").append(request.getServerPort()).append("/");
 		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
 				|| themeDisplay.getScopeGroup().isStagingGroup()) {
-			try {
-				result.append("web").append(themeDisplay.getLayout().getGroup().getFriendlyURL()).append("/");
-			} catch (PortalException e) {
-				_log.error("erreur lors de la creation de l'url : ", e);
-				result.append("web/");
-			}
+			result.append("web").append(themeDisplay.getLayout().getGroup().getFriendlyURL()).append("/");
 		}
 		return result.toString();
 	}
