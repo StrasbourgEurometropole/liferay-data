@@ -22,7 +22,9 @@ import eu.strasbourg.portlet.official.display.context.ViewOfficialsDisplayContex
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/official-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/official-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
