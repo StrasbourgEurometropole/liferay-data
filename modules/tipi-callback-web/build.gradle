@@ -1,10 +1,16 @@
 dependencies {
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+
 	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compile group: "com.liferay.portal", name: "com.liferay.util.taglib"
+
 	compile group: "javax.portlet", name: "portlet-api"
+
 	compile group: "javax.servlet", name: "javax.servlet-api"
+
 	compile group: "jstl", name: "jstl"
-	compile group: "org.osgi", name: "org.osgi.compendium", version: "5.0.0"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project (':modules:utils')
 	compile project (':modules:tipi:tipi-api')
