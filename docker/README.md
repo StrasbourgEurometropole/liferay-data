@@ -8,8 +8,6 @@ Le processus de migration d'environnement permet de transformer un environnement
     * Le dump DB Liferay CE 7.0 au format `.sql` ou `.dump`
 * Dans le répertoire `images/liferay-custom-70dxp/sources` : 
     * Liferay DXP 7.0 sp12 : `liferay-dxp-digital-enterprise-tomcat-7.0.10.12-sp12-20191014182832691.tar.gz`
-    * Patching tool 2.0.15 : `patching-tool-2.0.15.zip`
-    * Fix Pack 89 : `liferay-fix-pack-de-89-7010.zip`
     * MYSQL Connector : `mysql-connector-java-5.1.47.jar`
 
 ## Images
@@ -29,10 +27,9 @@ Images à créer :
         ```
 * Créer l'image Liferay
     * Se placer dans le répertoire `images/liferay-custom-70dxp`
-    * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : ems-70dxp)
+    * Exécuter la commande suivante
         ```shell
-        $ docker image build -t liferay-portal:LFR_TAG .
+        $ docker image build -t liferay-portal:ems-70dx .
         ```
 
 # Migration base de données CE 7.0 > DXP 7.2
