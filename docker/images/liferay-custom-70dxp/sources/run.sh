@@ -16,7 +16,7 @@ shutdown_handler() {
     echo "shutdown_handler() clean up tasks!"
     
     echo "Shutdown Tomcat"
-    /liferay/tomcat-8.0.32/bin/shutdown.sh
+    /liferay/tomcat-8.0.53/bin/shutdown.sh
 
     local SLEEP_TIME=5
     local PATTERN=java
@@ -46,7 +46,7 @@ trap 'kill ${!}; shutdown_handler' INT
 # ----------------------------------------------------------------------------------------------------
 # LILFERAY STARTUP
 # ----------------------------------------------------------------------------------------------------
-/liferay/tomcat-8.0.32/bin/catalina.sh run &
+/liferay/tomcat-8.0.53/bin/catalina.sh run &
 
 pid="$!"
 # wait forever
