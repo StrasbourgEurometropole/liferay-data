@@ -7,6 +7,14 @@ dependencies {
 	compileOnly group: 'com.liferay', name: 'com.liferay.portal.dao.orm.custom.sql', version: '1.0.3'
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
 
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+
+	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project (':modules:utils')

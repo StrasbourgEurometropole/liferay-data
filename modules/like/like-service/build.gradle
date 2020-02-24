@@ -8,6 +8,10 @@ dependencies {
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
 	compile project(":modules:like:like-api")
 	compile project(":modules:utils")
 }

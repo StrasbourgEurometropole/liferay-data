@@ -9,6 +9,8 @@ dependencies {
 
 	compileOnly group: "javax.portlet", name: "portlet-api"
 
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
 	compile project(":modules:interest:interest-api")
 	compile project(":modules:notification:notification-api")
 	compile project(":modules:oidc:oidc-api")

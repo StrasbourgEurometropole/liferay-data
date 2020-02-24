@@ -1,5 +1,4 @@
 dependencies {
-	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib"
 	compileOnly group: "com.liferay", name: "com.liferay.map.api"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
 	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
@@ -8,8 +7,9 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.layout.item.selector.web"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.api"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.web"
+
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: 'com.liferay.portal', name: 'com.liferay.util.taglib'
 
 	compileOnly group: "javax.portlet", name: "portlet-api"
 

@@ -7,6 +7,12 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.exportimport.service"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
 
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 	
 	compile project (':modules:utils')
