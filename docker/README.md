@@ -1,6 +1,39 @@
-# Migration base de données CE 7.0 > DXP 7.0
+# Migration environnement CE 7.0 > DXP 7.0
 
-Le processus de migration de base de données permet de transformer un dump de base de données CE 7.0 en dump DXP 7.0.
+Le processus de migration d'environnement permet de transformer un environnement CE 7.0 en dump DXP 7.0 en appliquant les derniers correctifs de cette dernière.
+
+## Fichiers en entrée :
+
+* Dans le répertoire `images/mysql-custom/sources` :
+    * Le dump DB Liferay CE 7.0 au format `.sql` ou `.dump`
+* Dans le répertoire `images/liferay-custom-70dxp/sources` : 
+    * Liferay DXP 7.0 sp12 : `liferay-dxp-digital-enterprise-tomcat-7.0.10.12-sp12-20191014182832691.tar.gz`
+    * Patching tool 2.0.15 : `patching-tool-2.0.15.zip`
+    * Fix Pack 89 : `liferay-fix-pack-de-89-7010.zip`
+    * MYSQL Connector : `mysql-connector-java-5.1.47.jar`
+
+## Images
+
+Images à créer :
+
+* mysql-custom dans le dossier `images/mysql-custom`
+* liferay-portal dans le dossier `images/liferay-custom-70dxp`
+
+* Créer l'image MySQL
+    * Placer dans le répertoire `images/mysql-custom/sources` le fichier dump de la base de données.
+    * Se placer dans le répertoire `images/mysql-custom`
+    * Exécuter la commande suivante où :
+        * `FILE_NAME` est le nom du fichier dump.
+        ```shell
+        $ docker image build --build-arg DUMP_FILE_NAME=FILE_NAME -t mysql-custom:ems-70dxp .
+        ```
+* Créer l'image Liferay
+    * Se placer dans le répertoire `images/liferay-custom-70dxp`
+    * Exécuter la commande suivante où :
+        * `LFR_TAG` est le tag de l'image créé (ex : ems-70dxp)
+        ```shell
+        $ docker image build -t liferay-portal:LFR_TAG .
+        ```
 
 # Migration base de données CE 7.0 > DXP 7.2
 
