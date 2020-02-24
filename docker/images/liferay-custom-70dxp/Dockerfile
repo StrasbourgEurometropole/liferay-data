@@ -12,7 +12,7 @@ ENV LIFERAY_BUNDLE=liferay-dxp-digital-enterprise-tomcat-7.0.10.10-sp10-20190128
 COPY $SOURCES_PATH/$LIFERAY_BUNDLE /
 RUN set -x \
     && mkdir /tmp-liferay \
-    && tar xvzf $LIFERAY_BUNDLE -C /tmp-liferay \
+    && unzip -o $LIFERAY_BUNDLE -d /tmp-liferay \
     && mv $(ls -d /tmp-liferay/* | head -n 1) $LIFERAY_HOME \
     && rm /$LIFERAY_BUNDLE \
     && rm -rf /tmp-liferay \
