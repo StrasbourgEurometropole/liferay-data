@@ -6,7 +6,7 @@ services:
     image: liferay-portal:ems-70dxp
     volumes:
       - ${DATA}/configs/liferay-custom-70dxp/portal-ext.properties:/liferay/portal-ext.properties:ro
-      - ${DATA}/configs/liferay-custom-70dxp/setenv.sh:/liferay/tomcat-8.0.53/bin/setenv.sh:ro
+      - ${DATA}/configs/liferay-custom-70dxp/setenv.sh:/liferay/tomcat-8.0.32/bin/setenv.sh:ro
       - ${DATA}/configs/liferay-custom-70dxp/osgi:/liferay/osgi/configs
       - ${DATA}/liferay/deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
