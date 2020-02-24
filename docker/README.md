@@ -32,6 +32,46 @@ Images à créer :
         $ docker image build -t liferay-portal:ems-70dx .
         ```
 
+## Création des dossiers de persistance Docker
+
+Lancer la commande suivante permettant de créer les répertoires sur la machine hôtes où seront contenus les données persistantes de l'environnement DXP 7.0 où :
+    * `DATA_PATH` : est le chemin du répertoire où seront disposées les données.
+
+```shell
+$ sh build-env.sh DATA_PATH
+
+--> $ sh build-env.sh /data/ems-data
+```
+
+## Exécution
+
+### Démarrage de la stack des dépendances Liferay (MySQL + Traefik)
+
+* Se placer dans le répertoire `docker` et lancer la commande suivante où :
+    * `DATA_PATH` est le chemin vers le répertoire de persistance (cf. point "Création des dossiers de persistance Docker")
+
+```shell
+$ DATA=DATA_PATH docker stack deploy -c dc-lfr-base.yml liferay-base
+
+--> $ DATA=/data/ems-data docker stack deploy -c dc-70dxp-lfr-base.yml liferay-base
+```
+
+Attendre que le dump de la base de données soit interprété par MySQL avant de passer à l'atape suivante.
+Pour cela, suivre les logs et attendre la seconde apparition de la ligne `mysqld: ready for connections.`.
+
+Pour ce faire, lancer la commande `docker service ls` pour récupérer l'ID du service mysql-custom et suivre par la commande `docker service logs ID -f` en remplaçant `ID` par la valeur précédemment obtenue.
+
+### Démarrage de la stack Liferay
+
+* Se placer dans le répertoire `docker` et lancer la commande suivante où :
+    * `DATA_PATH` est le chemin vers le répertoire de persistance (cf. point "Création des dossiers de persistance Docker")
+
+```shell
+$ DATA=DATA_PATH docker stack deploy -c dc-70dxp-lfr-portal-custom.yml liferay-portal
+
+--> $ DATA=/data/ems-data docker stack deploy -c dc-70dxp-lfr-portal-custom.yml liferay-portal
+```
+
 # Migration base de données CE 7.0 > DXP 7.2
 
 Le processus de migration de base de données permet de transformer un dump de base de données CE 7.0 en dump DXP 7.2.
