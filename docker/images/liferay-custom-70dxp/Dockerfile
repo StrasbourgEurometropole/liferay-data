@@ -25,17 +25,6 @@ RUN set -x \
     && mkdir -p $LIFERAY_HOME/osgi/modules \
     && mkdir -p $LIFERAY_HOME/osgi/war
 
-ENV LIFERAY_PATCHING_TOOL=patching-tool-2.0.15.zip
-COPY $SOURCES_PATH/$LIFERAY_PATCHING_TOOL /
-RUN set -x \
-    && unzip -o $LIFERAY_PATCHING_TOOL -d $LIFERAY_HOME \
-    && rm /$LIFERAY_PATCHING_TOOL
-
-ENV LFR_FIX_PACK=liferay-fix-pack-de-89-7010.zip
-COPY $SOURCES_PATH/$LFR_FIX_PACK $LIFERAY_HOME/patching-tool/patches/
-RUN $LIFERAY_HOME/patching-tool/patching-tool.sh install \
-    && rm -rf $LIFERAY_HOME/osgi/state/*
-
 ENV MYSQL_CONNECTOR=mysql-connector-java-5.1.47.jar
 COPY $SOURCES_PATH/$MYSQL_CONNECTOR $CATALINA_HOME/lib/ext/mysql.jar
 
