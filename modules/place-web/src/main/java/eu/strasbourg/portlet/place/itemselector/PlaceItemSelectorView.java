@@ -37,8 +37,7 @@ public class PlaceItemSelectorView
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-		.unmodifiableList(ListUtil.fromArray(
-			new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+		.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
@@ -79,9 +78,9 @@ public class PlaceItemSelectorView
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		boolean multiple = GetterUtil
-			.getBoolean(servletRequest.getParameter("multiple"), false);
-		portletURL.getRenderParameters().setValue("multiple", String.valueOf(multiple));
+		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(
 			servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
@@ -104,8 +103,7 @@ public class PlaceItemSelectorView
 		servletRequest.setAttribute("total", placesCount);
 		servletRequest.setAttribute("places", places);
 		servletRequest.setAttribute("portletURL", portletURL);
-		servletRequest.setAttribute("itemSelectedEventName",
-			itemSelectedEventName);
+		servletRequest.setAttribute("itemSelectedEventName", itemSelectedEventName);
 		servletRequest.setAttribute("multiple", multiple);
 
 		ServletContext servletContext = getServletContext();
