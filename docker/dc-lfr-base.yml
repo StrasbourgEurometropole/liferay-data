@@ -6,7 +6,7 @@ services:
 # --- For Liferay vanilla ----
 #    image: mysql:5.7
 # --- For Liferay custom ----
-    image: mysql-custom
+    image: mysql-custom:${MYSQL_TAG}
     environment:
       - MYSQL_DATABASE=liferay-db
       - MYSQL_USER=liferay
