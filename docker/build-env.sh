@@ -20,4 +20,7 @@ else
     
     echo "Copy config files"
     cp -ru ./configs/* $deployPath/configs
+
+    echo "Adapt vm.max_map_count host config for ElasticSearch"
+    sysctl -w vm.max_map_count=262144
 fi
