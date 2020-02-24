@@ -1,6 +1,8 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compileOnly group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.twitter4j', version: '4.0.7_1'

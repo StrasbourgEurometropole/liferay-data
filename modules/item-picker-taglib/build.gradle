@@ -7,6 +7,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.layout.item.selector.web"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.api"
 	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.web"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: 'com.liferay.portal', name: 'com.liferay.util.taglib'
@@ -14,6 +15,7 @@ dependencies {
 	compileOnly group: "javax.portlet", name: "portlet-api"
 
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	
 	compileOnly group: "javax.servlet.jsp", name: "javax.servlet.jsp-api", version: "2.3.1"
 
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
