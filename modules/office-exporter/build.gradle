@@ -12,7 +12,7 @@ dependencies {
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
 	compileOnly group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
-	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
 	compileOnly group: 'org.apache.poi', name: 'poi', version: '3.17'
 	compileOnly group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
