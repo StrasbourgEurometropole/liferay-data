@@ -15,9 +15,6 @@ services:
       - --max-allowed-packet=1024M
     ports:
       - 3306:3306
-    volumes:
-      - ${DATA}/mysql/lib:/var/lib/mysql
-      - ${DATA}/mysql/log:/var/log/mysql
     networks:
       - upgrade-ems-net
 
