@@ -49,7 +49,7 @@ $ sh build-env.sh DATA_PATH
 
 ### Démarrage de l'image mysql-upgrade
 
-* Se placer dans le répertoire courant et lancer la commande suivante où :
+Se placer dans le répertoire courant et lancer la commande suivante où :
     * `DATA_PATH` est le chemin vers le répertoire de persistance (cf. point "Création des dossiers de persistance Docker")
 
 ```shell
@@ -69,19 +69,37 @@ Sortir du log dès le message apparu avec `Ctrl+C`
 
 ### Démarrage de la stack Liferay
 
-* Se placer dans le répertoire `docker` et lancer la commande suivante où :
+Se placer dans le répertoire courant et lancer la commande suivante où :
     * `DATA_PATH` est le chemin vers le répertoire de persistance (cf. point "Création des dossiers de persistance Docker")
-
-```shell
-$ DATA=DATA_PATH docker-compose -f dc-70dxp-lfr-upgrade.yml up -d mysql
-
---> $ DATA=/data/ems-data docker-compose -f dc-70dxp-lfr-upgrade.yml up -d mysql
-```
 
 ```shell
 $ DATA=DATA_PATH docker-compose -f dc-70dxp-lfr-upgrade.yml up -d liferay-portal
 
 --> $ DATA=/data/ems-data docker-compose -f dc-70dxp-lfr-upgrade.yml up -d liferay-portal
+```
+
+Suivre l'évolution de l'upgrade via la commande :
+
+```shell
+$ docker-compose -f dc-70dxp-lfr-upgrade.yml logs -f
+```
+
+### Extraction du dump migré en 7.0 DXP
+
+En guise de sécurité, il est préférable d'extraire un dump de la base de données dans le cas où la migration 7.2 ne passe pas et par extention, corrompt la bdd.
+
+Pour extraire le dump de la base migrée, exécuter la commande suivante en remplaçant `CONTAINER_ID` par l'identifiant du conteneur `mysql-upgrade` retrouvé via `docker ps`.
+
+```shell
+$ docker exec CONTAINER_ID /usr/bin/mysqldump -u liferay --password=sully liferay-db > output/migrated-70dxp-dump.sql
+```
+
+Le fichier `migrated-70dxp-dump.sql` se trouve désormais dans le répertoire `output` du répertoire courant.
+
+Couper le conteneur mysql via la commande suivante avec le même `CONTAINER_ID` que précédemment :
+
+```shell
+$ docker container rm CONTAINER_ID -f
 ```
 
 # Migration base de données CE 7.0 > DXP 7.2
