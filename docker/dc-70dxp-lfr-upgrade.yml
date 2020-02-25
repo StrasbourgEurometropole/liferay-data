@@ -25,11 +25,11 @@ services:
     image: liferay-portal:ems-70dxp
     volumes:
       - ${DATA}/liferay/doclib:/data/liferay/document_library
-      - ${DATA}/configs/liferay-upgrade-70dxp/portal-ext.properties:/liferay/portal-ext.properties:ro
-      - ${DATA}/configs/liferay-upgrade-70dxp/osgi:/liferay/osgi/configs
-      - ${DATA}/configs/liferay-upgrade-70dxp/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
-      - ${DATA}/configs/liferay-upgrade-70dxp/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
-      - ${DATA}/configs/liferay-upgrade-70dxp/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+      - ./configs/liferay-upgrade-70dxp/portal-ext.properties:/liferay/portal-ext.properties:ro
+      - ./configs/liferay-upgrade-70dxp/osgi:/liferay/osgi/configs
+      - ./configs/liferay-upgrade-70dxp/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
+      - ./configs/liferay-upgrade-70dxp/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
+      - ./configs/liferay-upgrade-70dxp/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
     entrypoint:
       - java
       - -jar
