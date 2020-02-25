@@ -39,6 +39,6 @@ services:
 
 networks:
 
-  upgrade-preim-net:
+  upgrade-ems-net:
     name: upgrade-ems-net
     driver: bridge
