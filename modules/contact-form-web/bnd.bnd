@@ -11,4 +11,4 @@ Import-Package: !com.sun.org.apache.xml.internal.utils,\
     !org.zeroturnaround.javarebel,\
     !org.apache.jasper.runtime,\
     !com.sun.org.apache.xpath.internal,*
-Javac-Encoding=UTF-8
+Javac-Encoding: UTF-8
