@@ -18,7 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
-import eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException;
+import eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 
 /**
@@ -108,12 +108,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByUuid_First(
 		java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the first form send record field signalement in the ordered set where uuid = &#63;.
@@ -132,12 +132,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByUuid_Last(
 		java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the last form send record field signalement in the ordered set where uuid = &#63;.
@@ -157,12 +157,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement[] findByUuid_PrevAndNext(
 		long signalementId, java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Removes all the form send record field signalements where uuid = &#63; from the database.
@@ -180,15 +180,15 @@ public interface FormSendRecordFieldSignalementPersistence
 	public int countByUuid(java.lang.String uuid);
 
 	/**
-	* Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchSignalementException} if it could not be found.
+	* Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchFormSendRecordFieldSignalementException} if it could not be found.
 	*
 	* @param uuid the uuid
 	* @param groupId the group ID
 	* @return the matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByUUID_G(java.lang.String uuid,
-		long groupId) throws NoSuchSignalementException;
+		long groupId) throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
@@ -219,7 +219,8 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @return the form send record field signalement that was removed
 	*/
 	public FormSendRecordFieldSignalement removeByUUID_G(
-		java.lang.String uuid, long groupId) throws NoSuchSignalementException;
+		java.lang.String uuid, long groupId)
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the number of form send record field signalements where uuid = &#63; and groupId = &#63;.
@@ -301,12 +302,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByUuid_C_First(
 		java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the first form send record field signalement in the ordered set where uuid = &#63; and companyId = &#63;.
@@ -327,12 +328,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByUuid_C_Last(
 		java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the last form send record field signalement in the ordered set where uuid = &#63; and companyId = &#63;.
@@ -354,12 +355,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement[] findByUuid_C_PrevAndNext(
 		long signalementId, java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Removes all the form send record field signalements where uuid = &#63; and companyId = &#63; from the database.
@@ -444,11 +445,11 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByGroupId_First(long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the first form send record field signalement in the ordered set where groupId = &#63;.
@@ -466,11 +467,11 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByGroupId_Last(long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the last form send record field signalement in the ordered set where groupId = &#63;.
@@ -489,12 +490,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param groupId the group ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement[] findByGroupId_PrevAndNext(
 		long signalementId, long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Removes all the form send record field signalements where groupId = &#63; from the database.
@@ -577,12 +578,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByPublikId_First(
 		java.lang.String publikId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the first form send record field signalement in the ordered set where publikId = &#63;.
@@ -601,12 +602,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByPublikId_Last(
 		java.lang.String publikId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the last form send record field signalement in the ordered set where publikId = &#63;.
@@ -626,12 +627,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param publikId the publik ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement[] findByPublikId_PrevAndNext(
 		long signalementId, java.lang.String publikId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Removes all the form send record field signalements where publikId = &#63; from the database.
@@ -714,12 +715,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param formSendRecordFieldId the form send record field ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByFormSendRecordFieldId_First(
 		long formSendRecordFieldId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the first form send record field signalement in the ordered set where formSendRecordFieldId = &#63;.
@@ -738,12 +739,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param formSendRecordFieldId the form send record field ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching form send record field signalement
-	* @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	*/
 	public FormSendRecordFieldSignalement findByFormSendRecordFieldId_Last(
 		long formSendRecordFieldId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the last form send record field signalement in the ordered set where formSendRecordFieldId = &#63;.
@@ -763,12 +764,12 @@ public interface FormSendRecordFieldSignalementPersistence
 	* @param formSendRecordFieldId the form send record field ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement[] findByFormSendRecordFieldId_PrevAndNext(
 		long signalementId, long formSendRecordFieldId,
 		com.liferay.portal.kernel.util.OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Removes all the form send record field signalements where formSendRecordFieldId = &#63; from the database.
@@ -814,23 +815,23 @@ public interface FormSendRecordFieldSignalementPersistence
 	*
 	* @param signalementId the primary key of the form send record field signalement
 	* @return the form send record field signalement that was removed
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement remove(long signalementId)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	public FormSendRecordFieldSignalement updateImpl(
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement);
 
 	/**
-	* Returns the form send record field signalement with the primary key or throws a {@link NoSuchSignalementException} if it could not be found.
+	* Returns the form send record field signalement with the primary key or throws a {@link NoSuchFormSendRecordFieldSignalementException} if it could not be found.
 	*
 	* @param signalementId the primary key of the form send record field signalement
 	* @return the form send record field signalement
-	* @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	* @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	*/
 	public FormSendRecordFieldSignalement findByPrimaryKey(long signalementId)
-		throws NoSuchSignalementException;
+		throws NoSuchFormSendRecordFieldSignalementException;
 
 	/**
 	* Returns the form send record field signalement with the primary key or returns <code>null</code> if it could not be found.

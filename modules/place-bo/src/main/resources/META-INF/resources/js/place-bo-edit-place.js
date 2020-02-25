@@ -20,6 +20,14 @@ jQuery(function() {
 		setFacebookConditionalValidators();
 	});
 
+	$(namespaceAUI + 'instagramLabel').on('change', function(e) {
+		setInstagramConditionalValidators();
+	});
+
+	$(namespaceAUI + 'instagramURL').on('change', function(e) {
+		setInstagramConditionalValidators();
+	});
+
 	// affichage ou non des périodes/exception et URL
     showScheduleBlock();
 	$(namespaceAUI + 'hasURLSchedule').on('change', function(e) {
@@ -40,6 +48,7 @@ jQuery(function() {
 
 		setSiteConditionalValidators(e);
 		setFacebookConditionalValidators(e);
+		setInstagramConditionalValidators();
         setScheduleConditionalValidators(e);
         if(!$(namespaceAUI + 'hasURLSchedule').is(':checked')){
             setScheduleExceptionValidators(e);
@@ -93,6 +102,30 @@ jQuery(function() {
 				} else {
 					rules[namespace + 'facebookLabel'].required = false;
 					rules[namespace + 'facebookURL'].required = false;
+				}
+			}
+		});
+	}
+
+	function setInstagramConditionalValidators(event) {
+		// Validation des champos obligatoires conditionnels
+		AUI().use('liferay-form',function() {
+			var rules = Liferay.Form.get(namespace + 'fm').formValidator
+					.get('rules');
+			var labelHasValue = $(
+					namespaceAUI + 'instagramLabel').val().length > 0;
+			var URLHasValue = $(namespaceAUI + 'instagramURL')
+					.val().length > 0;
+			if (labelHasValue && !URLHasValue) {
+				rules[namespace + 'instagramLabel'].required = false;
+				rules[namespace + 'instagramURL'].required = true;
+			} else {
+				if (!labelHasValue && URLHasValue) {
+					rules[namespace + 'instagramLabel'].required = true;
+					rules[namespace + 'instagramURL'].required = false;
+				} else {
+					rules[namespace + 'instagramLabel'].required = false;
+					rules[namespace + 'instagramURL'].required = false;
 				}
 			}
 		});
