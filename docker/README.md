@@ -6,8 +6,10 @@ Le processus de migration d'environnement permet de transformer un environnement
 
 * Dans le répertoire `images/mysql-custom/sources` :
     * Le dump DB Liferay CE 7.0 au format `.sql` ou `.dump`
-* Dans le répertoire `images/liferay-custom-70dxp/sources` : 
-    * Liferay DXP 7.0 sp12 : `liferay-dxp-digital-enterprise-tomcat-7.0.10.12-sp12-20191014182832691.tar.gz`
+* Dans le répertoire `images/liferay-upgrade-70dxp/sources` : 
+    * Liferay DXP 7.0 sp10 : `liferay-dxp-digital-enterprise-tomcat-7.0.10.10-sp10-20190128202135661.zip`
+    * Liferay Patching-tool 2.0.14 : `patching-tool-2.0.14.zip`
+    * Liferay Fixpack 86 : `liferay-fix-pack-de-86-7010.zip`
     * MYSQL Connector : `mysql-connector-java-5.1.47.jar`
 
 ## Images
@@ -15,7 +17,7 @@ Le processus de migration d'environnement permet de transformer un environnement
 Images à créer :
 
 * mysql-custom dans le dossier `images/mysql-custom`
-* liferay-portal dans le dossier `images/liferay-custom-70dxp`
+* liferay-portal dans le dossier `images/liferay-upgrade-70dxp`
 
 * Créer l'image MySQL
     * Placer dans le répertoire `images/mysql-custom/sources` le fichier dump de la base de données.
@@ -45,21 +47,25 @@ $ sh build-env.sh DATA_PATH
 
 ## Exécution
 
-### Démarrage de la stack des dépendances Liferay (MySQL + Traefik)
+### Démarrage de l'image mysql-upgrade
 
-* Se placer dans le répertoire `docker` et lancer la commande suivante où :
+* Se placer dans le répertoire courant et lancer la commande suivante où :
     * `DATA_PATH` est le chemin vers le répertoire de persistance (cf. point "Création des dossiers de persistance Docker")
 
 ```shell
-$ DATA=DATA_PATH docker stack deploy -c dc-lfr-base.yml liferay-base
+$ DATA=DATA_PATH docker-compose -f dc-70dxp-lfr-upgrade.yml up -d mysql
 
---> $ DATA=/data/ems-data docker stack deploy -c dc-70dxp-lfr-base.yml liferay-base
+--> $ DATA=/data/ems-data docker-compose -f dc-70dxp-lfr-upgrade.yml up -d mysql
 ```
 
 Attendre que le dump de la base de données soit interprété par MySQL avant de passer à l'atape suivante.
-Pour cela, suivre les logs et attendre la seconde apparition de la ligne `mysqld: ready for connections.`.
+Pour cela, suivre les logs et attendre la seconde apparition de la ligne `mysqld: ready for connections.` avec la commande 
 
-Pour ce faire, lancer la commande `docker service ls` pour récupérer l'ID du service mysql-custom et suivre par la commande `docker service logs ID -f` en remplaçant `ID` par la valeur précédemment obtenue.
+```shell
+$ docker-compose -fdc-70dxp-lfr-upgrade.yml logs -f.
+```
+
+Sortir du log dès le message apparu avec `Ctrl+C`
 
 ### Démarrage de la stack Liferay
 
@@ -67,9 +73,15 @@ Pour ce faire, lancer la commande `docker service ls` pour récupérer l'ID du s
     * `DATA_PATH` est le chemin vers le répertoire de persistance (cf. point "Création des dossiers de persistance Docker")
 
 ```shell
-$ DATA=DATA_PATH docker stack deploy -c dc-70dxp-lfr-portal-custom.yml liferay-portal
+$ DATA=DATA_PATH docker-compose -f dc-70dxp-lfr-upgrade.yml up -d mysql
 
---> $ DATA=/data/ems-data docker stack deploy -c dc-70dxp-lfr-portal-custom.yml liferay-portal
+--> $ DATA=/data/ems-data docker-compose -f dc-70dxp-lfr-upgrade.yml up -d mysql
+```
+
+```shell
+$ DATA=DATA_PATH docker-compose -f dc-70dxp-lfr-upgrade.yml up -d liferay-portal
+
+--> $ DATA=/data/ems-data docker-compose -f dc-70dxp-lfr-upgrade.yml up -d liferay-portal
 ```
 
 # Migration base de données CE 7.0 > DXP 7.2

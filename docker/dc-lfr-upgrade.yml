@@ -29,9 +29,11 @@ services:
       - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
       - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
     entrypoint:
-      - /liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
+      - java
+      - -jar
+      - /liferay/tools/portal-tools-db-upgrade-client/com.liferay.portal.tools.db.upgrade.client.jar
       - -j
-      - '-Xmx10G'
+      - -Xmx10240m
     networks:
       - upgrade-ems-net
 
