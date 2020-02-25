@@ -20,6 +20,11 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:form action="${saveManifestationURL}" method="post" name="fm">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
+
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
 			id="translationManager" />
