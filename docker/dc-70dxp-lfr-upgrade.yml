@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+
+  mysql:
+    image: mysql-custom:ems-70dxp
+    environment:
+      - MYSQL_DATABASE=liferay-db
+      - MYSQL_USER=liferay
+      - MYSQL_PASSWORD=sully
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
+      - --max-allowed-packet=1024M
+    ports:
+      - 3306:3306
+    volumes:
+      - ${DATA}/mysql/lib:/var/lib/mysql
+      - ${DATA}/mysql/log:/var/log/mysql
+    networks:
+      - upgrade-ems-net
+
+  liferay-portal:
+    image: liferay-portal:ems-70dxp
+    volumes:
+      - ${DATA}/liferay/doclib:/data/liferay/document_library
+      - ${DATA}/configs/liferay-upgrade-70dxp/portal-ext.properties:/liferay/portal-ext.properties:ro
+      - ${DATA}/configs/liferay-upgrade-70dxp/osgi:/liferay/osgi/configs
+      - ${DATA}/configs/liferay-upgrade-70dxp/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
+      - ${DATA}/configs/liferay-upgrade-70dxp/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
+      - ${DATA}/configs/liferay-upgrade-70dxp/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+    entrypoint:
+      - /liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
+      - -j
+      - '-Xmx10G'
+    networks:
+      - upgrade-ems-net
+
+
+networks:
+
+  upgrade-ems-net:
+    name: upgrade-ems-net
+    driver: bridge

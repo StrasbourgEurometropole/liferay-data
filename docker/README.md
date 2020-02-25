@@ -26,10 +26,10 @@ Images à créer :
         $ docker image build --build-arg DUMP_FILE_NAME=FILE_NAME -t mysql-custom:ems-70dxp .
         ```
 * Créer l'image Liferay
-    * Se placer dans le répertoire `images/liferay-custom-70dxp`
+    * Se placer dans le répertoire `images/liferay-upgrade-70dxp`
     * Exécuter la commande suivante
         ```shell
-        $ docker image build -t liferay-portal:ems-70dx .
+        $ docker image build -t liferay-portal:ems-70dxp .
         ```
 
 ## Création des dossiers de persistance Docker

@@ -18,7 +18,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - upgrade-preim-net
+      - upgrade-ems-net
 
   liferay-portal:
     image: liferay-portal:${LFR_TAG}
@@ -33,11 +33,11 @@ services:
       - -j
       - '-Xmx10G'
     networks:
-      - upgrade-preim-net
+      - upgrade-ems-net
 
 
 networks:
 
-  upgrade-preim-net:
-    name: upgrade-preim-net
+  upgrade-ems-net:
+    name: upgrade-ems-net
     driver: bridge
