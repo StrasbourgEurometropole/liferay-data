@@ -378,7 +378,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		}
 
 		// Description
-		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}
