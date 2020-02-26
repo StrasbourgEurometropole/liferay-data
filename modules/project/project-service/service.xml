@@ -342,7 +342,6 @@
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 	</entity>
 
-
 	<entity local-service="true" name="Signataire" remote-service="true" uuid="true">
 
 		<!-- PK fields -->
@@ -551,6 +550,8 @@
 		
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
+		<column name="imageTimeline" type="long" />
+		<column name="opacityImage" type="double" />
 		
 		<!-- coup de coeur -->
 		<column name="isCrush" type="boolean" />

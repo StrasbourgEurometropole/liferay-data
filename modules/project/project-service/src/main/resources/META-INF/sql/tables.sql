@@ -29,6 +29,8 @@ create table project_BudgetParticipatif (
 	citoyenBirthday DATE null,
 	hasCopyright BOOLEAN,
 	videoUrl VARCHAR(400) null,
+	imageTimeline LONG,
+	opacityImage DOUBLE,
 	isCrush BOOLEAN,
 	crushComment TEXT null,
 	publikId VARCHAR(75) null,

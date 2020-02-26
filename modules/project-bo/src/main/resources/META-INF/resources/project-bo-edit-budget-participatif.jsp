@@ -91,7 +91,7 @@
 				    </c:when>
 					<c:otherwise>
 						<%-- Champ : Au nom de --%>
-						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
+						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" required="true" />
 					</c:otherwise>
 				</c:choose>
 			</aui:fieldset>
@@ -227,9 +227,16 @@
 			<%-- Groupe de champs : Timeline --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="timeline">
 
-				<div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
+				<%-- Champ : URL de l'image --%>
+                <strasbourg-picker:image label="image" name="imageTimeline" required="false"
+                value="${dc.budgetParticipatif.imageTimeline}" global="false"/>
 
-				<%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
+                <%-- Champ : opacite de l'image --%>
+                <aui:input name="opacityImage" required="false" helpMessage="opacityHelp" />
+
+                <div class="timeline-label"><label><liferay-ui:message key="enter-a-timeline" /></label></div>
+
+                <%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
 				<div id="timeline-fields">
 
 					<c:if test="${empty dc.budgetParticipatif.budgetParticipatifTimelines}">

@@ -347,10 +347,13 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getAuthor(){
     	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
 			return this.getInTheNameOf();
-		} else {
+		} else if (this.getCitoyenFirstname() != "" && this.getCitoyenFirstname() != null
+				&& this.getCitoyenLastname() != "" && this.getCitoyenLastname() != null) {
     		return StringUtil.upperCaseFirstLetter(this.getCitoyenFirstname())
     				+ " "
     				+  StringUtil.toUpperCase(StringUtil.shorten(this.getCitoyenLastname(), 2, "."));
+		}else{
+    		return "";
 		}
     }
 	
@@ -688,6 +691,14 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		}
 		return URLs;
     }
+
+	/**
+	 * Retourne l'URL de l'image de la timeline à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageTimelineURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageTimeline());
+	}
 
     /**
 	 * Retourne la liste des entrées timelines du projet

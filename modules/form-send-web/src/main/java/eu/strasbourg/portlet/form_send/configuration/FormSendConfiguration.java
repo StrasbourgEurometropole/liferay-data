@@ -31,4 +31,7 @@ public interface FormSendConfiguration {
     @Meta.AD(name = "template", required = false)
     public String template();
 
+    @Meta.AD(name = "defaultSort", required = false, deflt = "asc")
+    public String defaultSort();
+
 }

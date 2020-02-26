@@ -65,7 +65,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(131);
+		StringBundler sb = new StringBundler(135);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -151,6 +151,10 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(facebookURL);
 		sb.append(", facebookLabel=");
 		sb.append(facebookLabel);
+		sb.append(", instagramURL=");
+		sb.append(instagramURL);
+		sb.append(", instagramLabel=");
+		sb.append(instagramLabel);
 		sb.append(", accesMap=");
 		sb.append(accesMap);
 		sb.append(", access=");
@@ -451,6 +455,20 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			placeImpl.setFacebookLabel(facebookLabel);
 		}
 
+		if (instagramURL == null) {
+			placeImpl.setInstagramURL(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setInstagramURL(instagramURL);
+		}
+
+		if (instagramLabel == null) {
+			placeImpl.setInstagramLabel(StringPool.BLANK);
+		}
+		else {
+			placeImpl.setInstagramLabel(instagramLabel);
+		}
+
 		if (accesMap == null) {
 			placeImpl.setAccesMap(StringPool.BLANK);
 		}
@@ -596,6 +614,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		siteLabel = objectInput.readUTF();
 		facebookURL = objectInput.readUTF();
 		facebookLabel = objectInput.readUTF();
+		instagramURL = objectInput.readUTF();
+		instagramLabel = objectInput.readUTF();
 		accesMap = objectInput.readUTF();
 		access = objectInput.readUTF();
 		accessForDisabled = objectInput.readUTF();
@@ -864,6 +884,20 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			objectOutput.writeUTF(facebookLabel);
 		}
 
+		if (instagramURL == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(instagramURL);
+		}
+
+		if (instagramLabel == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(instagramLabel);
+		}
+
 		if (accesMap == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -998,6 +1032,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String siteLabel;
 	public String facebookURL;
 	public String facebookLabel;
+	public String instagramURL;
+	public String instagramLabel;
 	public String accesMap;
 	public String access;
 	public String accessForDisabled;

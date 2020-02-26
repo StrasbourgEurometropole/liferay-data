@@ -3,7 +3,7 @@
 
 <service-builder package-path="eu.strasbourg.service.formSendRecordField">
     <author>Angélique Zunino</author>
-	<namespace>FormSendRecordField</namespace>
+	<namespace>formSendRecordField</namespace>
 
 	<entity local-service="true" name="FormSendRecordField" remote-service="true" uuid="true">
 

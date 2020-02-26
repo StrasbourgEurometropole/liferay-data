@@ -8,6 +8,7 @@
                 text-transform: uppercase;
                 margin-bottom: 10px;
                 display: inline-block;
+                word-break: break-word;
             }
 
             .ddl-form-builder-app .lfr-ddm-form-container .lfr-ddm-form-page {
@@ -286,3 +287,10 @@
     }
 } 
 // Fin style pour la sélection d'images et de documents
+
+// Style pour les alertes de modifications de budget participatifs
+[id*=ProjectPopupPortlet] .lfr-alert-container{ 
+    position: fixed;
+    top: 100px;
+} 
+// Fin style pour les alertes de modifications de budget participatifs

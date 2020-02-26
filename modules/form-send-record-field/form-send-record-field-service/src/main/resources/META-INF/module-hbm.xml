@@ -4,7 +4,7 @@
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="eu.strasbourg.service.formSendRecordField.model.FormSendRecordField" />
 	<import class="eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement" />
-	<class name="eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl" table="FormSendRecordField_FormSendRecordField">
+	<class name="eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldImpl" table="formSendRecordField_FormSendRecordField">
 		<id name="formSendRecordFieldId" type="long">
 			<generator class="assigned" />
 		</id>
@@ -25,7 +25,7 @@
 		<property name="instanceId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="responseUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl" table="FormSendRecordField_FormSendRecordFieldSignalement">
+	<class name="eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl" table="formSendRecordField_FormSendRecordFieldSignalement">
 		<id name="signalementId" type="long">
 			<generator class="assigned" />
 		</id>

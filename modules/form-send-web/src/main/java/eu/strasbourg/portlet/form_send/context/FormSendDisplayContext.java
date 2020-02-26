@@ -45,6 +45,7 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FormSendDisplayContext {
 
@@ -123,6 +124,13 @@ public class FormSendDisplayContext {
     public List<DDLRecord> getRecords() {
         if(Validator.isNull(this.records) && Validator.isNotNull(this.getRecordSet())) {
             this.records = this.recordSet.getRecords();
+        }
+
+        if(Validator.isNull(this.configuration.defaultSort()) || this.configuration.defaultSort().equals("asc")){
+            //trie par date antéchronologique
+            this.records = this.records.stream().sorted((r1, r2) -> r2.getCreateDate()
+                    .compareTo(r1.getCreateDate()))
+                    .collect(Collectors.toList());
         }
 
         return this.records;

@@ -101,6 +101,8 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		attributes.put("siteLabel", getSiteLabel());
 		attributes.put("facebookURL", getFacebookURL());
 		attributes.put("facebookLabel", getFacebookLabel());
+		attributes.put("instagramURL", getInstagramURL());
+		attributes.put("instagramLabel", getInstagramLabel());
 		attributes.put("accesMap", getAccesMap());
 		attributes.put("access", getAccess());
 		attributes.put("accessForDisabled", getAccessForDisabled());
@@ -386,6 +388,18 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 
 		if (facebookLabel != null) {
 			setFacebookLabel(facebookLabel);
+		}
+
+		String instagramURL = (String)attributes.get("instagramURL");
+
+		if (instagramURL != null) {
+			setInstagramURL(instagramURL);
+		}
+
+		String instagramLabel = (String)attributes.get("instagramLabel");
+
+		if (instagramLabel != null) {
+			setInstagramLabel(instagramLabel);
 		}
 
 		String accesMap = (String)attributes.get("accesMap");
@@ -1824,6 +1838,142 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
+	* Returns the instagram label of this place.
+	*
+	* @return the instagram label of this place
+	*/
+	@Override
+	public java.lang.String getInstagramLabel() {
+		return _place.getInstagramLabel();
+	}
+
+	/**
+	* Returns the localized instagram label of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized instagram label of this place
+	*/
+	@Override
+	public java.lang.String getInstagramLabel(java.lang.String languageId) {
+		return _place.getInstagramLabel(languageId);
+	}
+
+	/**
+	* Returns the localized instagram label of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized instagram label of this place
+	*/
+	@Override
+	public java.lang.String getInstagramLabel(java.lang.String languageId,
+		boolean useDefault) {
+		return _place.getInstagramLabel(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized instagram label of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized instagram label of this place
+	*/
+	@Override
+	public java.lang.String getInstagramLabel(java.util.Locale locale) {
+		return _place.getInstagramLabel(locale);
+	}
+
+	/**
+	* Returns the localized instagram label of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized instagram label of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getInstagramLabel(java.util.Locale locale,
+		boolean useDefault) {
+		return _place.getInstagramLabel(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getInstagramLabelCurrentLanguageId() {
+		return _place.getInstagramLabelCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getInstagramLabelCurrentValue() {
+		return _place.getInstagramLabelCurrentValue();
+	}
+
+	/**
+	* Returns the instagram url of this place.
+	*
+	* @return the instagram url of this place
+	*/
+	@Override
+	public java.lang.String getInstagramURL() {
+		return _place.getInstagramURL();
+	}
+
+	/**
+	* Returns the localized instagram url of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @return the localized instagram url of this place
+	*/
+	@Override
+	public java.lang.String getInstagramURL(java.lang.String languageId) {
+		return _place.getInstagramURL(languageId);
+	}
+
+	/**
+	* Returns the localized instagram url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param languageId the ID of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized instagram url of this place
+	*/
+	@Override
+	public java.lang.String getInstagramURL(java.lang.String languageId,
+		boolean useDefault) {
+		return _place.getInstagramURL(languageId, useDefault);
+	}
+
+	/**
+	* Returns the localized instagram url of this place in the language. Uses the default language if no localization exists for the requested language.
+	*
+	* @param locale the locale of the language
+	* @return the localized instagram url of this place
+	*/
+	@Override
+	public java.lang.String getInstagramURL(java.util.Locale locale) {
+		return _place.getInstagramURL(locale);
+	}
+
+	/**
+	* Returns the localized instagram url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	*
+	* @param locale the local of the language
+	* @param useDefault whether to use the default language if no localization exists for the requested language
+	* @return the localized instagram url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	*/
+	@Override
+	public java.lang.String getInstagramURL(java.util.Locale locale,
+		boolean useDefault) {
+		return _place.getInstagramURL(locale, useDefault);
+	}
+
+	@Override
+	public java.lang.String getInstagramURLCurrentLanguageId() {
+		return _place.getInstagramURLCurrentLanguageId();
+	}
+
+	@Override
+	public java.lang.String getInstagramURLCurrentValue() {
+		return _place.getInstagramURLCurrentValue();
+	}
+
+	/**
 	* Returns the mail of this place.
 	*
 	* @return the mail of this place
@@ -2776,6 +2926,26 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	public Map<java.lang.String, java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>> getHoraire(
 		Date dateJour, java.util.Locale locale) {
 		return _place.getHoraire(dateJour, locale);
+	}
+
+	/**
+	* Returns a map of the locales and localized instagram labels of this place.
+	*
+	* @return the locales and localized instagram labels of this place
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getInstagramLabelMap() {
+		return _place.getInstagramLabelMap();
+	}
+
+	/**
+	* Returns a map of the locales and localized instagram urls of this place.
+	*
+	* @return the locales and localized instagram urls of this place
+	*/
+	@Override
+	public Map<java.util.Locale, java.lang.String> getInstagramURLMap() {
+		return _place.getInstagramURLMap();
 	}
 
 	/**
@@ -3836,6 +4006,134 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public void setImageWidth(java.lang.Integer imageWidth) {
 		_place.setImageWidth(imageWidth);
+	}
+
+	/**
+	* Sets the instagram label of this place.
+	*
+	* @param instagramLabel the instagram label of this place
+	*/
+	@Override
+	public void setInstagramLabel(java.lang.String instagramLabel) {
+		_place.setInstagramLabel(instagramLabel);
+	}
+
+	/**
+	* Sets the localized instagram label of this place in the language.
+	*
+	* @param instagramLabel the localized instagram label of this place
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setInstagramLabel(java.lang.String instagramLabel,
+		java.util.Locale locale) {
+		_place.setInstagramLabel(instagramLabel, locale);
+	}
+
+	/**
+	* Sets the localized instagram label of this place in the language, and sets the default locale.
+	*
+	* @param instagramLabel the localized instagram label of this place
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setInstagramLabel(java.lang.String instagramLabel,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_place.setInstagramLabel(instagramLabel, locale, defaultLocale);
+	}
+
+	@Override
+	public void setInstagramLabelCurrentLanguageId(java.lang.String languageId) {
+		_place.setInstagramLabelCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized instagram labels of this place from the map of locales and localized instagram labels.
+	*
+	* @param instagramLabelMap the locales and localized instagram labels of this place
+	*/
+	@Override
+	public void setInstagramLabelMap(
+		Map<java.util.Locale, java.lang.String> instagramLabelMap) {
+		_place.setInstagramLabelMap(instagramLabelMap);
+	}
+
+	/**
+	* Sets the localized instagram labels of this place from the map of locales and localized instagram labels, and sets the default locale.
+	*
+	* @param instagramLabelMap the locales and localized instagram labels of this place
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setInstagramLabelMap(
+		Map<java.util.Locale, java.lang.String> instagramLabelMap,
+		java.util.Locale defaultLocale) {
+		_place.setInstagramLabelMap(instagramLabelMap, defaultLocale);
+	}
+
+	/**
+	* Sets the instagram url of this place.
+	*
+	* @param instagramURL the instagram url of this place
+	*/
+	@Override
+	public void setInstagramURL(java.lang.String instagramURL) {
+		_place.setInstagramURL(instagramURL);
+	}
+
+	/**
+	* Sets the localized instagram url of this place in the language.
+	*
+	* @param instagramURL the localized instagram url of this place
+	* @param locale the locale of the language
+	*/
+	@Override
+	public void setInstagramURL(java.lang.String instagramURL,
+		java.util.Locale locale) {
+		_place.setInstagramURL(instagramURL, locale);
+	}
+
+	/**
+	* Sets the localized instagram url of this place in the language, and sets the default locale.
+	*
+	* @param instagramURL the localized instagram url of this place
+	* @param locale the locale of the language
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setInstagramURL(java.lang.String instagramURL,
+		java.util.Locale locale, java.util.Locale defaultLocale) {
+		_place.setInstagramURL(instagramURL, locale, defaultLocale);
+	}
+
+	@Override
+	public void setInstagramURLCurrentLanguageId(java.lang.String languageId) {
+		_place.setInstagramURLCurrentLanguageId(languageId);
+	}
+
+	/**
+	* Sets the localized instagram urls of this place from the map of locales and localized instagram urls.
+	*
+	* @param instagramURLMap the locales and localized instagram urls of this place
+	*/
+	@Override
+	public void setInstagramURLMap(
+		Map<java.util.Locale, java.lang.String> instagramURLMap) {
+		_place.setInstagramURLMap(instagramURLMap);
+	}
+
+	/**
+	* Sets the localized instagram urls of this place from the map of locales and localized instagram urls, and sets the default locale.
+	*
+	* @param instagramURLMap the locales and localized instagram urls of this place
+	* @param defaultLocale the default locale
+	*/
+	@Override
+	public void setInstagramURLMap(
+		Map<java.util.Locale, java.lang.String> instagramURLMap,
+		java.util.Locale defaultLocale) {
+		_place.setInstagramURLMap(instagramURLMap, defaultLocale);
 	}
 
 	/**

@@ -551,7 +551,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 if (Validator.isNotNull(error)) {
                     switch (error){
                         case "unable-to-scan-file-for-viruses":
-                            this.message = "Le scanner de fichier n'a pas pu &ecirc;tre ex&eacute;ctut&eacute;";
+                            this.message = "L’analyse de s&eacute;curit&eacute; de vos documents n’a pas pu &ecirc;tre" +
+                                    "effectu&eacute;e. Le projet n'a pas &eacute;t&eacute; enregistr&eacute;";
                             break;
                         case "a-virus-was-detected-in-the-file":
                             this.message = "Fichier(s) suspect(s) d&eacute;tect&eacute;(s)";
