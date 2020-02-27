@@ -136,7 +136,7 @@ Images à créer :
 * Créer l'image Liferay
     * Se placer dans le répertoire `images/liferay-vanilla`
     * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-sp4-vanilla)
+        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
         ```shell
         $ docker image build -t liferay-portal:LFR_TAG .
         ```
@@ -176,10 +176,13 @@ $ touch output/upgrade.log
 ```
 
 Lancer l'image Liferay avec la commande suivante où :
-* `TAG` est le tag de l'image créé (ex : 7.2.10-dxp-sp4-vanilla)
+* `TAG` est le tag de l'image liNferay créé (ex : 7.2.10-dxp-fp4-vanilla).
+* `DATA_PATH` est le chemin vers le répertoire de persistance.
 
 ```shell
-$ LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+$ DATA=7.2.10-dxp-fp4-vanilla LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+
+--> $ DATA=/data/ems-data LFR_TAG=7.2.10-dxp-sp4-vanilla docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 ```
 
 Suivre l'évolution de l'upgrade via la commande :
