@@ -111,7 +111,7 @@ L.Control.ListMarkers = L.Control.extend({
 				a.innerHTML += '<div class="filtres__item__visuel" style="background-image: url(' + layer.feature.properties.visual + ');"></div>';
 			}
             if (layer.feature.properties.alert) {
-                a.innerHTML += '<div class="aroundme__marker-alert" style="position:static; float:left; margin-right:10px;"></div>';
+                a.innerHTML += '<div class="aroundme__marker-alert" style="position:static; float:right; margin-left:10px;"></div>';
             }
 			a.innerHTML += '<span>'+layer.options[this.options.label]+'</span>';
 			//TODO use related marker icon!
