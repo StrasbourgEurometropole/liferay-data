@@ -14,13 +14,14 @@
                 display:inline-block;
                 font-size:1em;
                 font-weight: bold;
-                width:2.5em;
+                min-width:2.5em;
                 height:2.5em;
                 line-height:2.5em;
                 text-align:center;
-                border-radius:20%;
+                border-radius:6px;
                 vertical-align:middle;
                 margin-right:0;
+                padding: 0 5px;
             }
         }
     

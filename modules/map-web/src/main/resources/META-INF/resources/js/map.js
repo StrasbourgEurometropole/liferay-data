@@ -220,74 +220,72 @@
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
-                        if(feature.properties['codeArret'] != ""){
+                        if(feature.properties.codeArret != ""){
                             // Chargement des prochains passages lors de l'ouverture de la popup
                             var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
-                            //var code = destinationList.data('code');
 
-                            Liferay.Service(
-                                '/gtfs.arret/get-arret-real-time', {
-                                    stopCode: feature.properties.codeArret
-                                },
-                                function(json) {
-                                    // On efface la liste
-                                    $(destinationList).empty();
+                            // On efface la liste
+                            $(destinationList).empty();
 
-                                    if (Object.keys(json).length != 0) {
-                                        // Parcours des horraires
-                                        var destinations = '';
-                                        json.forEach(function(visit, i) {
-                                            // On affiche que les 12 premiers resultats
-                                            if (i >= 12) return false;
+                            if(feature.properties.codeArret != "999"){
+                                Liferay.Service(
+                                    '/gtfs.arret/get-arret-real-time', {
+                                        stopCode: feature.properties.codeArret
+                                    },
+                                    function(json) {
+                                        if (Object.keys(json).length != 0) {
+                                            // Parcours des horraires
+                                            var destinations = '';
+                                            json.forEach(function(visit, i) {
+                                                // On affiche que les 4 premiers resultats
+                                                if (i >= 4) return false;
 
-                                            // Formatage de l'heure
-                                            var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
-                                            var timestr = datestr.toLocaleTimeString(navigator.language, {
-                                                hour: '2-digit',
-                                                minute:'2-digit'
+                                                // Formatage de l'heure
+                                                var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
+                                                var timestr = datestr.toLocaleTimeString(navigator.language, {
+                                                    hour: '2-digit',
+                                                    minute:'2-digit'
+                                                });
+
+                                                // Couleur de la ligne
+                                                var colors = findColors(visit.MonitoredVehicleJourney.LineRef);
+                                                var backgroundColor = colors != null && colors.backgroundColor != null ? colors.backgroundColor : "eeeeee";
+                                                var textColor = colors != null && colors.textColor != null ? colors.textColor : "000000";
+
+                                                // Formatage du nom de la destination
+                                                var destinationName = visit.MonitoredVehicleJourney.DestinationName
+                                                if (destinationName.length > 30) {
+                                                    destinationName = destinationName.substring(0, 30) + '...';
+                                                }
+
+                                                // Ajout des horraires dans la liste
+                                                destinations +=
+                                                '<div class="row tram-destination">' +
+                                                    '<p class="tram-destination-letter">' +
+                                                        '<span class="transport-letters-icon"' +
+                                                            'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
+                                                            visit.MonitoredVehicleJourney.PublishedLineName +
+                                                        '</span>' +
+                                                    '</p>' +
+                                                    '<div class="tram-destination-name"><p>' +
+                                                        destinationName +
+                                                    '</p></div>' +
+                                                    '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+                                                '</div>';
                                             });
-
-                                            // Couleur de la ligne
-                                            var colors = findColors(visit.MonitoredVehicleJourney.PublishedLineName);
-                                            var backgroundColor = colors.backgroundColor != null ? colors.backgroundColor : "000000";
-                                            var textColor = colors.textColor != null ? colors.textColor : "FFFFFF";
-
-                                            // Formatage du nom de la destination
-                                            var destinationName = visit.MonitoredVehicleJourney.DestinationName
-                                            if (destinationName.length > 30) {
-                                                destinationName = destinationName.substring(0, 30) + '...';
-                                            }
-
-                                            // Ajout des horraires dans la liste
-                                            destinations +=
-                                            '<div class="row tram-destination">' +
-                                                '<p class="tram-destination-letter">' +
-                                                    '<span class="transport-letters-icon"' +
-                                                        'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
-                                                        visit.MonitoredVehicleJourney.PublishedLineName +
-                                                    '</span>' +
-                                                '</p>' +
-                                                '<div class="tram-destination-name"><p>' +
-                                                    destinationName +
-                                                '</p></div>' +
-                                                '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
-                                            '</div>';
-                                        });
-                                        // Ajout de la scroll
-                                        $(destinationList).append(
-                                            '<a class="jspArrow jspArrowUp jspDisabled" data-scroll-id="scroll-pane-map"></a>' +
-                                                '<div class="scroll-pane" id="scroll-pane-map">' +
-                                                    destinations +
-                                                '</div>' +
-                                            '<a class="jspArrow jspArrowDown ' + ((Object.keys(json).length <= 4)?'jspDisabled':'') + '" data-scroll-id="scroll-pane-map"></a>');
-                                        $('.scroll-pane').jScrollPane({arrowButtonSpeed: 140});
-                                    } else {
-                                        $(destinationList).append(
-                                            '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
-                                        );
+                                            $(destinationList).append(destinations);
+                                        } else {
+                                            $(destinationList).append(
+                                                '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
+                                            );
+                                        }
                                     }
-                                }
-                            );
+                                );
+                            }else {
+                                 $(destinationList).append(
+                                     '<p>' + Liferay.Language.get("eu.no-real-time-for-stop") + '</p>'
+                                 );
+                             }
                         }
 
 

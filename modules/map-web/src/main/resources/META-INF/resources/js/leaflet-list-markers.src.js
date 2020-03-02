@@ -110,6 +110,9 @@ L.Control.ListMarkers = L.Control.extend({
 			if (layer.feature.properties.visual) {
 				a.innerHTML += '<div class="filtres__item__visuel" style="background-image: url(' + layer.feature.properties.visual + ');"></div>';
 			}
+            if (layer.feature.properties.alert) {
+                a.innerHTML += '<div class="aroundme__marker-alert" style="position:static; float:left; margin-right:10px;"></div>';
+            }
 			a.innerHTML += '<span>'+layer.options[this.options.label]+'</span>';
 			//TODO use related marker icon!
 			//TODO use template for item
@@ -146,8 +149,24 @@ L.Control.ListMarkers = L.Control.extend({
 		    a.insertAdjacentHTML('afterend', lienFavori);
 		}
 
-		if (layer.feature.properties.listeTypes || layer.feature.properties.type) {
-		    a.insertAdjacentHTML('afterend', '<p class="types">' + (layer.feature.properties.listeTypes || layer.feature.properties.type) + '</p>');
+		if (layer.feature.properties.listeTypes) {
+		    a.insertAdjacentHTML('afterend', '<p class="types">' + layer.feature.properties.listeTypes + '</p>');
+		}
+
+		if (layer.feature.properties.lignes) {
+            lignes =
+                "<div class='row tram-destination'>";
+            for (var i = 0; i < layer.feature.properties.lignes.length; i++) {
+                var ligne = layer.feature.properties.lignes[i];
+                lignes +=
+                    "<p class='tram-destination-letter'>" +
+                        "<span class='transport-letters-icon' style='background:#" + ligne.bgColor + "; color:#" + ligne.textColor + ";'>" +
+                            ligne.numero +
+                        "</span>" +
+                    "</p>";
+            }
+            lignes += "</div>";
+		    a.insertAdjacentHTML('afterend', '<div style="background-color: white; padding: 0px 8px;">' + lignes + '</div>');
 		}
 
 		return div;
