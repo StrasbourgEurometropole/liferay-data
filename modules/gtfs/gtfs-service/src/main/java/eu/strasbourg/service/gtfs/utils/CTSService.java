@@ -36,7 +36,7 @@ public class CTSService {
 	        // Construction de l'URL
 	        String url = urlSearch + STOP_MONITORING_FUNCTION 
 	        		+ "?" + STOP_MONITORING_PARAM_REF + "=" + HtmlUtil.escapeURL(stopCode)
-	        		+ "&" + STOP_MONITORING_PARAM_NB_VISIT + "=" + 5;
+	        		+ "&" + STOP_MONITORING_PARAM_NB_VISIT + "=" + 12;
 	        
 	        // Envoie de la requete
 	        JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd);
