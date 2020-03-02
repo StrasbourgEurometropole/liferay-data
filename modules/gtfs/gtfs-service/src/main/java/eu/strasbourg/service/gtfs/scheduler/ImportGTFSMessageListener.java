@@ -33,7 +33,7 @@ public class ImportGTFSMessageListener extends BaseSchedulerEntryMessageListener
 	protected void activate() {
 		// Tous les jours a 4h
 		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-			getEventListenerClass(), getEventListenerClass(), "0 0 4 * * ?"));
+			getEventListenerClass(), getEventListenerClass(), "0 0 3 * * ?"));
 		
 		_schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
