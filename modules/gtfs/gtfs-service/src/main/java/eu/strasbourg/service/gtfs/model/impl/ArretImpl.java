@@ -22,6 +22,9 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +39,7 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
@@ -104,8 +108,11 @@ public class ArretImpl extends ArretBaseImpl {
      */
     @Override
     public List<Alert> getAlertsActives() {
+		LocalDateTime now = LocalDate.now().atTime(0,0, 0, 0);
+		Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
         List<Alert> alerts = AlertLocalServiceUtil.getByArretId(this.getArretId()).stream()
-                .filter(a -> !a.getEndDate().before(new Date())).collect(Collectors.toList());
+                .filter(a -> !a.getEndDate().before(today))
+				.collect(Collectors.toList());
 
         return  alerts;
     }
@@ -157,6 +164,19 @@ public class ArretImpl extends ArretBaseImpl {
 		// vérifi si l'arrêt a une alerte
 		if(this.getAlertsActives().size() > 0)
 			properties.put("alert", true);
+
+		// récupère les numéros de lignes de l'arrêt
+		JSONArray lignes = JSONFactoryUtil.createJSONArray();
+		List<Ligne> lignesList = this.getDirections().stream().map(d -> d.getLigne())
+				.distinct().collect(Collectors.toList());
+		for (Ligne ligne : lignesList) {
+			JSONObject infoLigne = JSONFactoryUtil.createJSONObject();
+			infoLigne.put("bgColor",ligne.getBackgroundColor());
+			infoLigne.put("textColor",ligne.getTextColor());
+			infoLigne.put("numero",ligne.getShortName());
+			lignes.put(infoLigne);
+		}
+		properties.put("lignes", lignes);
 
 		// récupère l'url de détail du poi
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
