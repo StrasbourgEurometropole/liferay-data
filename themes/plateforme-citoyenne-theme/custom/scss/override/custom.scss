@@ -293,3 +293,17 @@
     top: 100px;
 } 
 // Fin style pour les alertes de modifications de budget participatifs
+
+
+/** 
+* START Adaptations migration 7.2 
+**/
+
+// Suppression des border-style sur les labels présents en 7.2
+#th-global .selectric .label {
+    border-style: none;
+}
+
+/** 
+* END Adaptations migration 7.2 
+**/
