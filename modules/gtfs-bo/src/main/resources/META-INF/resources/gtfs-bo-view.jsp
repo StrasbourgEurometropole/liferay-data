@@ -1,6 +1,6 @@
 <%@ include file="/gtfs-bo-init.jsp"%>
 
-<c:set var="tab" value="${not empty param.tab ? param.tab : 'import-historics' }" />
+<c:set var="tab" value="${not empty param.tab ? param.tab : 'arrets' }" />
 
 <!-- Declaration des URL de listing des entites -->
 <liferay-portlet:renderURL var="importHistoricsURL">
@@ -24,12 +24,12 @@
 
 	<!-- Liste des onglet -->
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${importHistoricsURL}" label="import-historics"
-			selected="${tab eq 'import-historics'}" />
-	</aui:nav>
-	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item href="${arretsURL}" label="arrets"
 			selected="${tab eq 'arrets'}" />
+	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${importHistoricsURL}" label="import-historics"
+			selected="${tab eq 'import-historics'}" />
 	</aui:nav>
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">

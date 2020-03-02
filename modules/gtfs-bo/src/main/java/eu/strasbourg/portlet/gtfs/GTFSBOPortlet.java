@@ -73,15 +73,15 @@ public class GTFSBOPortlet extends MVCPortlet {
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "arrets";
-		} else if (tab.equals("arrets")) {
+		} else if (tab.equals("import-historics")) {
+			ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+			title = "import-historics";
+		} else { // Else, we are on the import project list page
 			ViewArretsDisplayContext dc = new ViewArretsDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			title = "arrets";
-		} else { // Else, we are on the import project list page
-			ViewImportHistoricsDisplayContext dc = new ViewImportHistoricsDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-			title = "import-historics";
 		}
 
 		// Admin ou pas

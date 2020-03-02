@@ -64,11 +64,11 @@
 			}
 
 			.jspTrack{
-				background: #dde;
+				background: #ddd;
 				position: relative;
 
 				.jspDrag{
-					background: #777;
+					background: #7e7e7e;
 					cursor: pointer;
 					left: 0;
 					position: relative;
@@ -102,8 +102,8 @@
 			display: block;
 			content: '';
 			width: 100%;
-			height: 2px;
-			background-color: #eee;
+			height: 1px;
+			background-color: #ddd;
 		}
 		
 
@@ -113,14 +113,14 @@
 		}
 
 		&.jspArrowDown:before{
-			margin-top: 12px;
+			margin-top: 19px;
 		}
 
 		&:not(.jspDisabled):after{
 			display: block;
 			content: '';
-			width: 30px;
-			height: 30px;
+			width: 32px;
+			height: 32px;
 			background-size: contain;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -129,12 +129,12 @@
 
 		&.jspArrowUp:not(.jspDisabled):after{
 			margin-top: -30px;
-			background-image: url( svg-bg-uri($svg-arrow-up, $text-basis-color) );
+			background-image: url( svg-bg-uri($svg-arrow-up, #fff) );
 		}
 		
 		&.jspArrowDown:not(.jspDisabled):after{
-			margin-top: -18px;
-			background-image: url( svg-bg-uri($svg-arrow-down, $text-basis-color) );
+			margin-top: -16px;
+			background-image: url( svg-bg-uri($svg-arrow-down, #fff) );
 		}
 	} 
 
