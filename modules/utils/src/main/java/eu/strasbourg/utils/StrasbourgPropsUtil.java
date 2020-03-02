@@ -234,6 +234,23 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
 
+
+	public static String getGTFSPath() {
+		return PropsUtil.get("eu.strasbourg.gtfs.files.path");
+	}
+
+	public static String getGTFSImportReportMail() {
+		return PropsUtil.get("eu.strasbourg.gtfs.import.report.mail");
+	}
+
+	public static String getCTSServiceRealTimeURL() {
+		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.url");
+	}
+
+	public static String getCTSServiceRealTimeToken() {
+		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.token");
+	}
+
 	public static String getParticiperName() {
 		return PropsUtil.get("eu.strasbourg.participer.name");
 	}
@@ -265,4 +282,5 @@ public class StrasbourgPropsUtil {
 	public static String getGMBUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized");}
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
+
 }

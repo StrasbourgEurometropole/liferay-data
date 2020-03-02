@@ -85,7 +85,8 @@
             // Couche gui gère le clustering des points
             var markers = L.markerClusterGroup({
                 showCoverageOnHover: false,
-                chunkProgress: updateList
+                chunkProgress: updateList,
+                maxClusterRadius: 55
             });
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
@@ -157,13 +158,15 @@
                                 if (window.newTab) {
                                     newTabAttribute = 'target="_blank"';
                                 }
-                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + '><span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span></a>';
+                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + (feature.properties.alert?'class="alert-arret"':'') + ' title="'+Liferay.Language.get("know-more")+ (newTabAttribute!=''?Liferay.Language.get("eu.new-window"):'') +'">';
+                                formated_info += '<span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span>';
+                                formated_info += '</a>';
                             } else if (info_to_display == "like") {
                                 var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
                                 formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
                             } else if (info_to_display =="visual" && !feature.properties.amount) {//on n'affiche pas l'image si c'est un lieu avec des horaires
                                 formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
-                            } else if(info_to_display =="type") {
+                            } else if(info_to_display == "type") {
                     			var addedFavorite = false;
                     			if (window.userFavorites) {
                     				var i;
@@ -217,6 +220,75 @@
                     }
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
+                        if(feature.properties.codeArret != ""){
+                            // Chargement des prochains passages lors de l'ouverture de la popup
+                            var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
+
+                            // On efface la liste
+                            $(destinationList).empty();
+
+                            if(feature.properties.codeArret != "999"){
+                                Liferay.Service(
+                                    '/gtfs.arret/get-arret-real-time', {
+                                        stopCode: feature.properties.codeArret
+                                    },
+                                    function(json) {
+                                        if (Object.keys(json).length != 0) {
+                                            // Parcours des horraires
+                                            var destinations = '';
+                                            json.forEach(function(visit, i) {
+                                                // On affiche que les 4 premiers resultats
+                                                if (i >= 4) return false;
+
+                                                // Formatage de l'heure
+                                                var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
+                                                var timestr = datestr.toLocaleTimeString(navigator.language, {
+                                                    hour: '2-digit',
+                                                    minute:'2-digit'
+                                                });
+
+                                                // Couleur de la ligne
+                                                var colors = findColors(visit.MonitoredVehicleJourney.LineRef);
+                                                var backgroundColor = colors != null && colors.backgroundColor != null ? colors.backgroundColor : "eeeeee";
+                                                var textColor = colors != null && colors.textColor != null ? colors.textColor : "000000";
+
+                                                // Formatage du nom de la destination
+                                                var destinationName = visit.MonitoredVehicleJourney.DestinationName
+                                                if (destinationName.length > 30) {
+                                                    destinationName = destinationName.substring(0, 30) + '...';
+                                                }
+
+                                                // Ajout des horraires dans la liste
+                                                destinations +=
+                                                '<div class="row tram-destination">' +
+                                                    '<p class="tram-destination-letter">' +
+                                                        '<span class="transport-letters-icon"' +
+                                                            'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
+                                                            visit.MonitoredVehicleJourney.PublishedLineName +
+                                                        '</span>' +
+                                                    '</p>' +
+                                                    '<div class="tram-destination-name"><p>' +
+                                                        destinationName +
+                                                    '</p></div>' +
+                                                    '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+                                                '</div>';
+                                            });
+                                            $(destinationList).append(destinations);
+                                        } else {
+                                            $(destinationList).append(
+                                                '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
+                                            );
+                                        }
+                                    }
+                                );
+                            }else {
+                                 $(destinationList).append(
+                                     '<p>' + Liferay.Language.get("not-available-short") + '</p>'
+                                 );
+                             }
+                        }
+
+
                         var addFavoriteElement = $('.add-favorites', e.target._popup._contentNode);
                         var isFavorite = false;
                         var id = addFavoriteElement.data('id');
@@ -302,6 +374,14 @@
                             popupAnchor: [1, -49]
                         });
                         return L.marker(latlng, { icon: divIcon })
+                    } else if (feature.properties.alert) {
+                           var divIcon = new L.divIcon({
+                               html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-alert"></div>',
+                               iconSize: [35,49],
+                               iconAnchor: [17, 49],
+                               popupAnchor: [1, -49]
+                           });
+                           return L.marker(latlng, { icon: divIcon })
                     } else {
                         var markerIcon = new L.Icon({
                             iconUrl: feature.properties.icon,
@@ -712,4 +792,29 @@
             }
         }
     });
+
+    /**
+     * Recuperation des couleurs de lignes
+     */
+    var ligneColors;
+    Liferay.Service(
+            '/gtfs.ligne/get-ligne-colors',
+            {},
+            function(json) {
+            	ligneColors = json;
+            }
+    );
+
+    /**
+     * Cherche la ligne dans la liste des couleurs de lignes
+     */
+    function findColors(stopShortName) {
+    	for (var i = 0; i < ligneColors.length; i++) {
+    	    var ligne = ligneColors[i];
+    	    if (ligne.shortName === stopShortName) {
+    	    	return ligne;
+    	    }
+    	}
+    }
+
 }(jQuery));

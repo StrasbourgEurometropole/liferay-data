@@ -1,0 +1,5 @@
+Bundle-Name: gtfs-web
+Bundle-SymbolicName: gtfs.web
+Bundle-Version: 1.31.0
+Export-Package: eu.strasbourg.portlet.gtfs.itemselector
+Web-ContextPath: /gtfsweb

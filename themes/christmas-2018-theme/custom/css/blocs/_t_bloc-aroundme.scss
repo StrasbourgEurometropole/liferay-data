@@ -346,6 +346,15 @@
                 }
             }
             &__item{
+                @extend %tram-destination;            
+                .tram-destination{
+                    padding: 0 15px;
+                    flex-wrap: wrap;
+                    .tram-destination-letter{
+                        padding: 0 3px 10px;
+                    }
+                }
+
                 .add-favorites{
                     border-top: solid 1px #dddddd;
                     justify-content: center;
@@ -691,6 +700,19 @@
                 }
                 */
             }
+            
+            &-alert{
+                height: 21px;
+                width: 21px;
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-alert, red) );
+            }
+    
         }
 
 
@@ -810,6 +832,48 @@
                 padding-top: 10px;
                 padding-bottom: 10px;
                 display: flex;
+                 
+                .infowindow__contenu:not(:empty){
+                    width: 100%;
+     
+                    @extend %tram-destination;
+                    .tram-destination .tram-destination-name {
+                        padding: 0 5px 0 8px;
+                    }          
+    
+                    .popup-content-tram-list .row{
+                        height: 2.5em;
+                        margin-bottom: 5px;
+                    }
+    
+                    .no-visit-found {
+                        text-align: center;
+                    }
+    
+                    .loading {
+                        height: 180px
+                    }
+    
+                    .loading-circle, .loading-circle:after{
+                        position: absolute;
+                        width: 95px;
+                        height: 95px;
+                        border: 15px solid #00B1EB;
+                        border-top-color: transparent;
+                        border-radius: 50%;
+                    }
+    
+                    .loading-circle {
+                        top: 50%;
+                        left: 50%;
+                        animation: chargement 1s linear infinite;
+                    }
+    
+                    .loading-circle:after {
+                        transform: rotate(90deg);
+                    }
+                }
+
             }
             &__bottom{
                 border-top: solid 1px #dddddd;
@@ -902,6 +966,18 @@
                     display: block !important;
                     @extend %atom-btn-square--filled--core;
                     padding: 10px 20px;
+
+                    &.alert-arret span.flexbox:before {
+                        content: '';
+                        width: 21px;
+                        height: 21px;
+                        background-size: contain;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        margin-right: 12px;
+                        background-image: url( svg-bg-uri($svg-alert, #ff1818) );
+                    }
+    
                 }
             }
         }

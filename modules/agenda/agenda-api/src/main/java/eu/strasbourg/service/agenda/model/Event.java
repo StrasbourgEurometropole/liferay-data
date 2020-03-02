@@ -328,4 +328,10 @@ public interface Event extends EventModel, PersistedModel {
 	* @return
 	*/
 	public com.liferay.portal.kernel.json.JSONArray getSessionsFromRodrigueInJSON();
+
+	/**
+	* Renvoie le JSON de l'entite au format GeoJSON pour la map
+	*/
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId,
+		java.util.Locale locale);
 }

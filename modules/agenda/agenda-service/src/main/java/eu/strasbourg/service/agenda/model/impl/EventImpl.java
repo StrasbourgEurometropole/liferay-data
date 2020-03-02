@@ -14,26 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBElement;
-
+import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -41,29 +22,13 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.search.BooleanClause;
-import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
-import com.liferay.portal.kernel.search.BooleanClauseOccur;
-import com.liferay.portal.kernel.search.BooleanQuery;
-import com.liferay.portal.kernel.search.Document;
-import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
-import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.*;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.agenda.model.Event;
@@ -78,14 +43,18 @@ import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.FileEntryHelper;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.RodigueSOAPClient;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.RodrigueEventSession;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Event service. Represents a row in
@@ -1190,4 +1159,153 @@ public class EventImpl extends EventBaseImpl {
 		
 		return sessionsJSON;
 	}
+
+	/**
+	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
+	 */
+	@Override
+	public JSONObject getGeoJSON(long groupId, Locale locale) {
+
+		JSONObject feature = JSONFactoryUtil.createJSONObject();
+		feature.put("type", "Feature");
+
+		JSONObject properties = JSONFactoryUtil.createJSONObject();
+		properties.put("name", this.getTitle(locale));
+		properties.put("address", this.getPlaceAlias(locale) + " " + this.getPlaceAddress(locale)
+				+ "<br>" + this.getPlaceZipCode() + " " + this.getPlaceCity(locale));
+		properties.put("visual", this.getImageURL());
+		// récupère l'url de détail du poi
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+		if (group == null) {
+			group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
+		}
+		if (group != null) {
+			String url = "";
+			String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+			if (virtualHostName.isEmpty()) {
+				url = "/web" + group.getFriendlyURL() + "/";
+			} else {
+				url = "https://" + virtualHostName + "/";
+			}
+			url += "evenement/-/entity/id/" + this.getEventId();
+			properties.put("url", url);
+		}
+		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());
+		String types = "";
+		for (AssetCategory type : this.getTypes()) {
+			if (types.length() > 0) {
+				types += ", ";
+			}
+			types += type.getTitle(locale);
+		}
+		properties.put("listeTypes", types);
+
+		// pour les favoris
+		properties.put("type", "2");
+		properties.put("id", this.getEventId());
+
+		// Prochaine date
+		if (!this.getCurrentAndFuturePeriods().isEmpty()) {
+			String opened = LanguageUtil.get(locale, "eu.next-dates");
+			String schedule = "";
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			List<EventPeriod> currentAndFuturePeriods = this.getCurrentAndFuturePeriods();
+			if (!currentAndFuturePeriods.isEmpty()) {
+				EventPeriod period = currentAndFuturePeriods.get(0);
+				// Si ça n'est pas ue période mais un jour, afficher la période suivante
+				// if (period.getStartDate().equals(period.getEndDate())
+				// && period.getStartDate().compareTo(new Date()) == 0 &&
+				// currentAndFuturePeriods.size() > 1) {
+				// period = currentAndFuturePeriods.get(1);
+				// }
+				if (period.getStartDate().equals(period.getEndDate())) {
+					schedule = LanguageUtil.get(locale, "eu.event.the") +" " + sdf.format(period.getStartDate());
+				} else {
+					// if (period.getStartDate().compareTo(new Date()) <= 0) {
+					// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
+					// sdf.format(period.getEndDate());
+					// } else {
+					schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getEndDate());
+					// }
+				}
+			}
+			properties.put("opened", opened);
+			properties.put("schedules", schedule);
+		}
+
+		Place place = PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
+
+		// Icône (on le prend dans la catégorie type agenda)
+		AssetCategory category = null;
+		List<AssetCategory> categories = this.getTypes();
+		if (!categories.isEmpty()) {
+			category = categories.get(0);
+		} else {
+			categories = place.getTypes();
+			if (!categories.isEmpty()) {
+				category = categories.get(0);
+			}
+		}
+		String[] icons = null;
+		if (category != null) {
+			icons = category.getDescription(locale).split(";");
+		}
+		String icon = "";
+		// vérifi si le lieu dispose d'un horaire et s'il est fermé
+		if (place != null) {
+			if (place.hasScheduleTable() && !place.isOpenNow() && icons.length > 1) {
+				icon = icons[1];
+			} else {
+				if (icons.length > 0) {
+					icon = icons[0];
+
+				}
+			}
+		}
+		properties.put("icon", icon);
+
+		feature.put("properties", properties);
+
+		JSONObject geometry = JSONFactoryUtil.createJSONObject();
+		geometry.put("type", "Point");
+		JSONArray coordinates = JSONFactoryUtil.createJSONArray();
+		// récupère le marker du lieu ou se déroule l'évènement
+		if (place != null) {
+			coordinates.put(Float.valueOf(place.getMercatorX()));
+			coordinates.put(Float.valueOf(place.getMercatorY()));
+		} else {
+			// Si c'est un lieu manuel on récupère ses coordonnées
+			String address = this.getPlaceAddress(locale) + " " + this.getPlaceZipCode() + " "
+					+ this.getPlaceCity(locale);
+			coordinates = getCoordinateForAddress(address);
+		}
+		if (coordinates != null) {
+			geometry.put("coordinates", coordinates);
+			feature.put("geometry", geometry);
+		}
+
+		return feature;
+	}
+
+	/**
+	 * Retourne les coordonnées d'une adresse en JSon
+	 */
+	private static JSONArray getCoordinateForAddress(String address) {
+		JSONArray coordinates = null;
+		try {
+			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
+			String url = urlSearch + HtmlUtil.escapeURL(address);
+			JSONObject addresses = JSONHelper.readJsonFromURL(url);
+			JSONArray features = addresses.getJSONArray("features");
+			if (features.length() > 0) {
+				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
+				coordinates = geometry.getJSONArray("coordinates");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return coordinates;
+	}
+
 }

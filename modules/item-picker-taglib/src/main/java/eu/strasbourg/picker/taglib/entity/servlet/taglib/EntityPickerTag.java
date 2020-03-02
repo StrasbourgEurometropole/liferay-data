@@ -18,6 +18,8 @@ import eu.strasbourg.portlet.artwork.itemselector.ArtworkCollectionItemSelectorC
 import eu.strasbourg.portlet.artwork.itemselector.ArtworkItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionGalleryItemSelectorCriterion;
 import eu.strasbourg.portlet.edition.itemselector.EditionItemSelectorCriterion;
+import eu.strasbourg.portlet.gtfs.itemselector.ArretItemSelectorCriterion;
+import eu.strasbourg.portlet.gtfs.itemselector.LigneItemSelectorCriterion;
 import eu.strasbourg.portlet.link.itemselector.LinkItemSelectorCriterion;
 import eu.strasbourg.portlet.official.itemselector.OfficialItemSelectorCriterion;
 import eu.strasbourg.portlet.place.itemselector.PlaceItemSelectorCriterion;
@@ -337,6 +339,26 @@ public class EntityPickerTag extends IncludeTag {
 						.getItemSelectorURL(
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, InitiativeItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.gtfs.model.Arret":
+				ArretItemSelectorCriterion arretItemSelectorCriterion = new ArretItemSelectorCriterion();
+				arretItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, arretItemSelectorCriterion);
+				break;
+			case "eu.strasbourg.service.gtfs.model.Ligne":
+				LigneItemSelectorCriterion ligneItemSelectorCriterion = new LigneItemSelectorCriterion();
+				ligneItemSelectorCriterion
+						.setDesiredItemSelectorReturnTypes(
+								desiredItemSelectorReturnTypes);
+				itemSelectorURL = ServletContextUtil.getItemSelector()
+						.getItemSelectorURL(
+								RequestBackedPortletURLFactoryUtil.create(request),
+								"itemSelected" + _name, ligneItemSelectorCriterion);
 				break;
 		}
 		
