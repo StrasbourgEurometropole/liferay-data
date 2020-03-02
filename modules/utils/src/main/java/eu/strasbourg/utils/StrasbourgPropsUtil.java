@@ -293,5 +293,4 @@ public class StrasbourgPropsUtil {
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 
-
 }

@@ -29,9 +29,13 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
@@ -446,6 +450,26 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 				}catch (Exception e){
 					System.out.println(e.getMessage());
 				}
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les signalements
+		List<Signalement> signalements = SignalementLocalServiceUtil.getByPublikId(publikUser.getPublikId());
+		if (!signalements.isEmpty()) {
+			for (Signalement signalement : signalements) {
+				signalement.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				SignalementLocalServiceUtil.updateSignalement(signalement);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans les signalements de réponses à un formulaire
+		List<FormSendRecordFieldSignalement> formSendRecordFieldSignalements = FormSendRecordFieldSignalementLocalServiceUtil.getByPublikId(publikUser.getPublikId());
+		if (!signalements.isEmpty()) {
+			for (FormSendRecordFieldSignalement formSendRecordFieldSignalement : formSendRecordFieldSignalements) {
+				formSendRecordFieldSignalement.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(formSendRecordFieldSignalement);
 			}
 		}
 	}
