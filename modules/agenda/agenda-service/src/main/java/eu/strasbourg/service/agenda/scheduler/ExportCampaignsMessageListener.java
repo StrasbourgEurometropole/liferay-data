@@ -26,9 +26,9 @@ public class ExportCampaignsMessageListener
 	@Activate
 	@Modified
 	protected void activate() {
-		// Tous les jours à 2h
+		// Tous les jours à 1h45h
 		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-			getEventListenerClass(), getEventListenerClass(), "0 0 2 * * ?"));
+			getEventListenerClass(), getEventListenerClass(), "0 45 1 * * ?"));
 		schedulerEngineHelper.register(this, schedulerEntryImpl,
 				DestinationNames.SCHEDULER_DISPATCH);
 	}

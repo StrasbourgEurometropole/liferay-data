@@ -32,9 +32,9 @@ public class AccessTokenRefresh extends BaseSchedulerEntryMessageListener {
 	@Activate
 	@Modified
 	protected void activate() {
-        // Tous les jours à 2h
+        // Tous les jours à 4h45
         schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-                getEventListenerClass(), getEventListenerClass(), "0 0 2 * * ?"));
+                getEventListenerClass(), getEventListenerClass(), "0 45 4 * * ?"));
 		_schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
