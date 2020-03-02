@@ -98,9 +98,9 @@ public class OIDCAnonymiser {
             }else{
                 // on vérifi le nombre de résultats
                 JSONArray publikUsersToAnonymized = usersDeleted.getJSONArray("unknown_uuids");
-                if(publikUsersToAnonymized.length() > (publikUsers.size() * 0.01)){
+                if(publikUsersToAnonymized.length() > (publikUsers.size() * 0.5 / 100)){
                     resultat = "ERREUR";
-                    message = "L'API retourne plus de 1% d'utilisateurs &agrave; supprimer";
+                    message = "L'API retourne plus de 0.5% d'utilisateurs &agrave; supprimer";
                 }else{
                     if(publikUsersToAnonymized.length() == 0){
                         this.anonymisationHistoric.addNewOperation("Aucun compte utilisateur supprim&eacute;");
