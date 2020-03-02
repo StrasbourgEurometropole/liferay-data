@@ -283,7 +283,7 @@
                                 );
                             }else {
                                  $(destinationList).append(
-                                     '<p>' + Liferay.Language.get("eu.no-real-time-for-stop") + '</p>'
+                                     '<p>' + Liferay.Language.get("not-available-short") + '</p>'
                                  );
                              }
                         }
