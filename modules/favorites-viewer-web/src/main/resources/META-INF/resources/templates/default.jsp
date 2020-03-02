@@ -144,8 +144,8 @@
                                         <c:set var="ligneColors" value="${dc.ligneColors}" />
                                         <c:forEach items="${arretRealTime.subList(0,(arretRealTime.size() > 12)?12:arretRealTime.size())}" var="realTime">
                                             <c:set var="colors" value='${ligneColors.get(realTime.get("MonitoredVehicleJourney").get("PublishedLineName"))}' />
-                                            <c:set var="backgroundColor" value='${not empty colors[0] ? colors[0] : "000000"}' />
-                                            <c:set var="textColor" value='${not empty colors[1] ? colors[1] : "FFFFFF"}' />
+                                            <c:set var="backgroundColor" value='${not empty colors && not empty colors[0] ? colors[0] : "eeeeee"}' />
+                                            <c:set var="textColor" value='${not empty colors && not empty colors[1] ? colors[1] : "000000"}' />
                                             <div class="row tram-destination">
                                                 <p class="tram-destination-letter">
                                                     <span class="transport-letters-icon" style="background:#${backgroundColor}; color:#${textColor};">
