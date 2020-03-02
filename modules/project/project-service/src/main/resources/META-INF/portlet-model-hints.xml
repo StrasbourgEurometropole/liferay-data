@@ -52,6 +52,10 @@
 		<field name="videoUrl" type="String">
 			<hint name="max-length">400</hint>
 		</field>
+		<field name="imageTimeline" type="long" />
+		<field name="opacityImage" type="double">
+			<hint name="default-value">1.00</hint>
+		</field>
 		<field name="isCrush" type="boolean" />
 		<field name="crushComment" type="String">
 			<hint-collection name="EDITOR" />
@@ -355,6 +359,7 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="projectId" type="long" />
+		<field name="budgetParticipatifId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.project.model.Signataire">
 		<field name="uuid" type="String" />

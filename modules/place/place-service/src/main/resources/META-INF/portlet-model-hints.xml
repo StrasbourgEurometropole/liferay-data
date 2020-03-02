@@ -88,6 +88,8 @@
 		<field localized="true" name="siteLabel" type="String" />
 		<field localized="true" name="facebookURL" type="String" />
 		<field localized="true" name="facebookLabel" type="String" />
+		<field localized="true" name="instagramURL" type="String" />
+		<field localized="true" name="instagramLabel" type="String" />
 		<field localized="true" name="accesMap" type="String" />
 		<field localized="true" name="access" type="String">
 			<hint-collection name="EDITOR" />

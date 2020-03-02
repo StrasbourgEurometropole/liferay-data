@@ -106,7 +106,7 @@ public class EventCategoryDTO {
     }
 
     /**
-     *
+     * Est ce que la valeur est présente dans la liste des catégories parentes ?
      * @param name
      * @return
      */

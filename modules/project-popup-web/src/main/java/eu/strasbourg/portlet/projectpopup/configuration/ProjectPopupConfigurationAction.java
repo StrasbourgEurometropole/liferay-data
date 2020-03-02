@@ -42,6 +42,9 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
             throws Exception {
         String cmd = ParamUtil.getString(request,"cmd");
         if (cmd.equals("update")){
+
+            setPreference(request, "hasConfig", "true");
+
             // Popup à afficher
             String popupTemplateId = ParamUtil.getString(request,"popupTemplateId");
             request.setAttribute("popupTemplateId",popupTemplateId);
@@ -51,6 +54,21 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
             Boolean disable = ParamUtil.getBoolean(request,"disable");
             request.setAttribute("disable",disable);
             setPreference(request,"disable",String.valueOf(disable));
+
+            // Nombre de fichiers autorisés
+            int nbFiles = ParamUtil.getInteger(request,"nbFiles");
+            request.setAttribute("nbFiles",nbFiles>10?10:nbFiles);
+            setPreference(request,"nbFiles", ""+(nbFiles>10?10:nbFiles));
+
+            // Taille maximale des fichiers
+            int sizeFile = ParamUtil.getInteger(request,"sizeFile");
+            request.setAttribute("sizeFile",sizeFile>10?10:sizeFile);
+            setPreference(request,"sizeFile", ""+(sizeFile>10?10:sizeFile));
+
+            // Types de fichiers autorisés
+            String typesFiles = ParamUtil.getString(request,"typesFiles");
+            request.setAttribute("typesFiles",typesFiles.toLowerCase());
+            setPreference(request,"typesFiles",typesFiles.toLowerCase());
         }
         super.processAction(portletConfig, request, response);
     }
@@ -63,8 +81,15 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
     public void include(PortletConfig portletConfig, HttpServletRequest request, HttpServletResponse response) throws Exception {
         try{
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+
             ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
+
+            // Ce flag permet de savoir si une configuration du portlet a déjà
+            // été enregistrée
+            // Utile pour cocher les centres d'intéret par défaut
+            request.setAttribute("hasConfig", configuration.hasConfig());
+
             // Popup à afficher
             String popupTemplateId = configuration.popupTemplateId();
             request.setAttribute("popupTemplateId",popupTemplateId);
@@ -72,6 +97,18 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
             // Popup désactivée
             boolean disable = configuration.disable();
             request.setAttribute("disable",disable);
+
+            // Nombre de fichiers autorisés
+            String nbFiles = configuration.nbFiles();
+            request.setAttribute("nbFiles",nbFiles);
+
+            // Taille maximale des fichiers
+            String sizeFile = configuration.sizeFile();
+            request.setAttribute("sizeFile",sizeFile);
+
+            // Types de fichiers autorisés
+            String typesFiles = configuration.typesFiles();
+            request.setAttribute("typesFiles",typesFiles);
         }catch(Exception e){
             _log.error(e);
         }

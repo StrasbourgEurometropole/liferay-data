@@ -11,7 +11,11 @@
     <@liferay_util["include"] page=top_head_include />
     <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/strasbourg.css">
     <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/libraries.css">
-    <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/webmag.css">
+    <#assign isWebmag = (layout.getFriendlyURL() == "/lactu" || layout.getFriendlyURL()?starts_with("/lactu-")) />
+    <#if isWebmag>
+      <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/webmag.css">
+    </#if>
+
 
     <!-- Magnific Popup core JS file -->
     <script type="text/javascript" src="/o/strasbourg-theme/js/lightbox.js" charset="utf-8"></script> 
@@ -34,7 +38,6 @@
     </#if> 
     
     <#assign openGraph = {
-      "twitter:card":"summary",
       "og:type":"website",
       "og:locale":"${locale}",
       "og:url":"${currentUrlOG}",
@@ -48,10 +51,16 @@
     <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
         <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
         <#list openGraphCustom?keys as keyOG>  
-          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
+          <#if openGraphCustom[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraphCustom[keyOG]} >
+          </#if>
+          <#if !openGraphCustom[keyOG]?has_content && openGraph[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraph[keyOG]} >
+          </#if>
         </#list>
     </#if>
     
+    <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
       <#assign valueOG = openGraph[keyOG]> 
       <#if keyOG == "og:description" >
@@ -67,7 +76,6 @@
     </#list>
   </head>
 
-  <#assign isWebmag = (layout.getFriendlyURL() == "/lactu" || layout.getFriendlyURL()?starts_with("/lactu-")) />
   <#include "${full_templates_path}/nav_top.ftl" />
   <#include "${full_templates_path}/navigation.ftl" />
 

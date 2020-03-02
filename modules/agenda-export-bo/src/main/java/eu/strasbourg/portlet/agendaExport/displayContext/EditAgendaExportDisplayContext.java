@@ -15,6 +15,10 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -253,7 +257,8 @@ public class EditAgendaExportDisplayContext {
         if(
             type.toUpperCase().equals("TYPE") ||
             type.toUpperCase().equals("VOCABULARY") ||
-            type.toUpperCase().equals("CATEGORY")
+            type.toUpperCase().equals("CATEGORY") ||
+            type.toUpperCase().equals("CATEGORYFILTER")
         ) {
             Object value = sectionObject.get(type.toLowerCase());
             if(value != null) {
@@ -262,6 +267,17 @@ public class EditAgendaExportDisplayContext {
         }
 
         return null;
+    }
+
+    public String getAggregationCategoryFilter(String section) throws JSONException {
+
+        String result = this.getAggregationSavedValue(section, "CATEGORYFILTER");
+
+        if(result == null) {
+            return "true";
+        }
+
+        return result;
     }
 
     public String getAggregationCategoryName(String section) throws JSONException {
@@ -414,5 +430,36 @@ public class EditAgendaExportDisplayContext {
                 StrasbourgPortletKeys.AGENDA_EXPORT_BO,
                 StrasbourgPortletKeys.AGENDA_EXPORT_BO,
                 actionId);
+    }
+
+    public boolean canEditAdminContent(Long agendaExportId) throws PortalException {
+
+        if(agendaExportId == null) {
+            return true;
+        }
+
+        AgendaExport agendaExport = AgendaExportLocalServiceUtil.getAgendaExport(agendaExportId);
+        boolean createdByAdmin = false;
+        if(agendaExport != null) {
+            User user = UserServiceUtil.getUserById(agendaExport.getUserId());
+            if(user != null) {
+                createdByAdmin = isAdministrator(user);
+            }
+        }
+
+        //Si le user qui a créé l'entité est un admin, on doit vérifier que l'utilisateur courant a les droits de modifier cette entité
+        //lui aussi est un admin
+        if(createdByAdmin) {
+            return _themeDisplay.getPermissionChecker().isOmniadmin();
+        }
+
+        return true;
+    }
+
+    public boolean isAdministrator(User user){
+        boolean isAdministrator = false;
+        Role adminRole = RoleLocalServiceUtil.fetchRole(_themeDisplay.getCompanyId(), "Administrator");
+        isAdministrator = user.getRoles().contains(adminRole);
+        return isAdministrator;
     }
 }

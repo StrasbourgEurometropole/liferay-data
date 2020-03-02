@@ -441,16 +441,11 @@ public class EventDTO {
         }
 
         for(AssetCategory category : event.getCategories()) {
-//            for(EventCategoryDTO categoryDTO : filters.getCategories()) {
-//                if(category.getName().equals(categoryDTO.getName())) {
-                    EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
-                    newCategoryDTO.setName(category.getName());
-                    newCategoryDTO.setCategoryId(category.getCategoryId());
-                    newCategoryDTO.setVocabularyId(category.getVocabularyId());
-                    this.categories.add(newCategoryDTO);
-
-//                }
-//            }
+            EventCategoryDTO newCategoryDTO = new EventCategoryDTO();
+            newCategoryDTO.setName(category.getName());
+            newCategoryDTO.setCategoryId(category.getCategoryId());
+            newCategoryDTO.setVocabularyId(category.getVocabularyId());
+            this.categories.add(newCategoryDTO);
         }
     }
 
@@ -483,10 +478,27 @@ public class EventDTO {
      */
     public void updatePeriods(DateTimeFormatter formatter, String value) {
         for(PeriodDTO period : this.periods) {
-            LocalDateTime ldt = period.getStartDate().atStartOfDay();
-            if(ldt.format(formatter).equals(value)) {
+            LocalDateTime ldtStart = period.getStartDate().atStartOfDay().minusDays(1);
+            LocalDateTime ldtEnd = period.getEndDate().atStartOfDay().plusDays(1);
+            LocalDateTime dateToCompare = LocalDateTime.parse(value, formatter);
+
+            if(
+                (ldtStart.equals(ldtEnd) && ldtStart.equals(dateToCompare)) ||
+                dateTimeIsWithinRange(ldtStart, dateToCompare, ldtEnd)
+            ) {
                 this.period = period;
             }
         }
+    }
+
+    /**
+     * Est ce que la date est entre les 2 bornes temporelles ?
+     * @param startDate
+     * @param testDate
+     * @param endDate
+     * @return
+     */
+    private static boolean dateTimeIsWithinRange(LocalDateTime startDate, LocalDateTime testDate, LocalDateTime endDate) {
+        return !(testDate.isBefore(startDate) || testDate.isAfter(endDate));
     }
 }

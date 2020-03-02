@@ -57,6 +57,7 @@ create unique index IX_DB52A4F on project_Project (uuid_[$COLUMN_LENGTH:75$], gr
 create index IX_FC72391B on project_ProjectFollowed (projectId);
 create index IX_2A9E13B0 on project_ProjectFollowed (publikUserId[$COLUMN_LENGTH:75$], projectId);
 
+create index IX_C5DB5312 on project_ProjectTimeline (budgetParticipatifId);
 create index IX_6F4E9C8A on project_ProjectTimeline (projectId);
 
 create index IX_86C956F3 on project_Signataire (groupId);

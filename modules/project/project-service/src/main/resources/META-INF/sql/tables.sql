@@ -29,6 +29,8 @@ create table project_BudgetParticipatif (
 	citoyenBirthday DATE null,
 	hasCopyright BOOLEAN,
 	videoUrl VARCHAR(400) null,
+	imageTimeline LONG,
+	opacityImage DOUBLE,
 	isCrush BOOLEAN,
 	crushComment TEXT null,
 	publikId VARCHAR(75) null,
@@ -267,7 +269,8 @@ create table project_ProjectTimeline (
 	dateFormat VARCHAR(75) null,
 	title VARCHAR(400) null,
 	link VARCHAR(400) null,
-	projectId LONG
+	projectId LONG,
+	budgetParticipatifId LONG
 );
 
 create table project_Signataire (

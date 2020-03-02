@@ -16,6 +16,9 @@ public interface FormSendConfiguration {
     @Meta.AD(name = "nbEntries", deflt = "", required = false)
     public String nbEntries();
 
+    @Meta.AD(name = "message", deflt = "", required = false)
+    public String message();
+
     @Meta.AD(name = "recordSetId", deflt = "", required = false)
     public String recordSetId();
 
@@ -24,5 +27,11 @@ public interface FormSendConfiguration {
 
     @Meta.AD(name = "newLibs", required = false)
     public String newLibs();
+
+    @Meta.AD(name = "template", required = false)
+    public String template();
+
+    @Meta.AD(name = "defaultSort", required = false, deflt = "asc")
+    public String defaultSort();
 
 }

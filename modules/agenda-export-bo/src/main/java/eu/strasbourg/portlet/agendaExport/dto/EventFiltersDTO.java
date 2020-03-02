@@ -16,6 +16,10 @@ public class EventFiltersDTO {
     @XmlElement(name = "title")
     private String title;
 
+    /**
+     * Actuellement on ne stocke qu'une seule période
+     * On utilise déjà une liste pour simplifier une future évolution
+     */
     @XmlElementWrapper(name = "periods")
     @XmlElement(name = "period")
     private List<PeriodDTO> periods;
@@ -30,6 +34,9 @@ public class EventFiltersDTO {
     @XmlElementWrapper(name = "categories")
     @XmlElement(name = "category")
     private List<EventCategoryDTO> categories;
+
+    @XmlTransient
+    private List<EventCategoryDTO> acceptedCategories;
 
     @XmlElementWrapper(name = "tags")
     @XmlElement(name = "tag")
@@ -46,6 +53,12 @@ public class EventFiltersDTO {
 
     @XmlTransient
     private AggregationFilterDTO aggregationFilter;
+
+    @XmlTransient
+    private boolean firstCategoryFilter;
+
+    @XmlTransient
+    private boolean secondCategoryFilter;
 
     public EventFiltersDTO() {
     }
@@ -112,6 +125,15 @@ public class EventFiltersDTO {
         this.categories = categories;
     }
 
+    @JsonIgnore
+    public List<EventCategoryDTO> getAcceptedCategories() {
+        return acceptedCategories;
+    }
+
+    public void setAcceptedCategories(List<EventCategoryDTO> acceptedCategories) {
+        this.acceptedCategories = acceptedCategories;
+    }
+
     public List<String> getTags() {
         return tags;
     }
@@ -158,6 +180,28 @@ public class EventFiltersDTO {
         this.aggregationFilter = aggregationFilter;
     }
 
+    @JsonIgnore
+    public boolean isFirstCategoryFilter() {
+        return firstCategoryFilter;
+    }
+
+    public void setFirstCategoryFilter(boolean firstCategoryFilter) {
+        this.firstCategoryFilter = firstCategoryFilter;
+    }
+
+    @JsonIgnore
+    public boolean isSecondCategoryFilter() {
+        return secondCategoryFilter;
+    }
+
+    public void setSecondCategoryFilter(boolean secondCategoryFilter) {
+        this.secondCategoryFilter = secondCategoryFilter;
+    }
+
+    /**
+     * Rempli la liste des catégories (EventCategoryDTO) en fonction d'une liste d'AssetCategories
+     * @param categories
+     */
     public void addAssetCategories(List<AssetCategory> categories) {
 
         if(this.categories == null) {
@@ -165,8 +209,36 @@ public class EventFiltersDTO {
         }
 
         for(AssetCategory category : categories) {
-            this.categories.add(new EventCategoryDTO(category.getName()));
+            EventCategoryDTO categoryDTO = new EventCategoryDTO(category.getName());
+            categoryDTO.setCategoryId(category.getCategoryId());
+            this.categories.add(categoryDTO);
         }
+    }
+
+    /**
+     * Rempli la liste des catégories (EventCategoryDTO) en fonction d'une liste d'AssetCategories
+     * @param categories
+     */
+    public void addAcceptedAssetCategories(List<AssetCategory> categories) {
+        if(this.acceptedCategories == null) {
+            this.acceptedCategories = new ArrayList<>();
+        }
+
+        for(AssetCategory category : categories) {
+            this.acceptedCategories.add(new EventCategoryDTO(category.getName()));
+        }
+    }
+
+    /**
+     * Ajoute une nouvelle catégorie
+     * @param category
+     */
+    public void addAcceptedAssetCategory(EventCategoryDTO category) {
+        if(this.acceptedCategories == null) {
+            this.acceptedCategories = new ArrayList<>();
+        }
+
+        this.acceptedCategories.add(category);
     }
 
     /**
@@ -208,5 +280,38 @@ public class EventFiltersDTO {
         }
 
         return null;
+    }
+
+    /**
+     * Renvoit la première période de la liste des périodes
+     * @return
+     */
+    public PeriodDTO getFirstPeriod() {
+
+        if(this.getPeriods() == null) {
+            return null;
+        }
+
+        return this.getPeriods().get(0);
+    }
+
+    /**
+     * Est ce que la valeur
+     * @param category
+     * @return
+     */
+    public boolean isInAcceptedCategories(EventCategoryDTO category) {
+
+        if(this.acceptedCategories == null) {
+            return false;
+        }
+
+        for(EventCategoryDTO categoryDTO : this.acceptedCategories) {
+            if(categoryDTO.getName().equals(category.getName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

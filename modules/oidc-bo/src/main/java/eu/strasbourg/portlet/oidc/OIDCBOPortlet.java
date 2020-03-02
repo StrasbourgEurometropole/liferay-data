@@ -1,28 +1,51 @@
 package eu.strasbourg.portlet.oidc;
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.oidc.display.context.EditAnonymisationHistoricsDisplayContext;
+
 import eu.strasbourg.portlet.oidc.display.context.EditPublikUserDisplayContext;
-import eu.strasbourg.portlet.oidc.display.context.ViewAnonymisationHistoricsDisplayContext;
 import eu.strasbourg.portlet.oidc.display.context.ViewPublikUsersDisplayContext;
+import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import org.osgi.service.component.annotations.Component;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import java.io.IOException;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 
 /**
  * @author cedric.henry

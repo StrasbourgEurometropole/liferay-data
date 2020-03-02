@@ -63,5 +63,13 @@ public class ProjectTimelineLocalServiceImpl
 	public List<ProjectTimeline> getByProjectId(long projectIdId) {
 		return this.projectTimelinePersistence.findByProjectId(projectIdId, -1, -1, null, false);
 	}
+
+	/**
+	 * Retourne les timeLine d'un budget participatif
+	 */
+	@Override
+	public List<ProjectTimeline> getByBudgetParticipatifId(long budgetParticipatifId) {
+		return this.projectTimelinePersistence.findByBudgetParticipatifId(budgetParticipatifId, -1, -1, null, false);
+	}
 	
 }

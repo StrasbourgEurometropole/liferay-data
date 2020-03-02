@@ -90,6 +90,8 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		attributes.put("citoyenBirthday", getCitoyenBirthday());
 		attributes.put("hasCopyright", getHasCopyright());
 		attributes.put("videoUrl", getVideoUrl());
+		attributes.put("imageTimeline", getImageTimeline());
+		attributes.put("opacityImage", getOpacityImage());
 		attributes.put("isCrush", getIsCrush());
 		attributes.put("crushComment", getCrushComment());
 		attributes.put("publikId", getPublikId());
@@ -283,6 +285,18 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 			setVideoUrl(videoUrl);
 		}
 
+		Long imageTimeline = (Long)attributes.get("imageTimeline");
+
+		if (imageTimeline != null) {
+			setImageTimeline(imageTimeline);
+		}
+
+		Double opacityImage = (Double)attributes.get("opacityImage");
+
+		if (opacityImage != null) {
+			setOpacityImage(opacityImage);
+		}
+
 		Boolean isCrush = (Boolean)attributes.get("isCrush");
 
 		if (isCrush != null) {
@@ -324,6 +338,11 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 		if (parentId != null) {
 			setParentId(parentId);
 		}
+	}
+
+	@Override
+	public BudgetPhase getPhase() {
+		return _budgetParticipatif.getPhase();
 	}
 
 	/**
@@ -563,6 +582,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Returns the opacity image of this budget participatif.
+	*
+	* @return the opacity image of this budget participatif
+	*/
+	@Override
+	public double getOpacityImage() {
+		return _budgetParticipatif.getOpacityImage();
+	}
+
+	/**
 	* Retourne l'auteur en publik user
 	*
 	* @return
@@ -598,11 +627,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif toUnescapedModel() {
 		return new BudgetParticipatifWrapper(_budgetParticipatif.toUnescapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetPhase getPhase() {
-		return _budgetParticipatif.getPhase();
 	}
 
 	@Override
@@ -830,6 +854,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne l'URL de l'image de la timeline à partir de l'id du DLFileEntry
+	*/
+	@Override
+	public java.lang.String getImageTimelineURL() {
+		return _budgetParticipatif.getImageTimelineURL();
+	}
+
+	/**
 	* Retourne l'URL de l'image à partir de l'id du DLFileEntry
 	*/
 	@Override
@@ -1052,6 +1084,14 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la liste des entrées timelines du projet
+	*/
+	@Override
+	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines() {
+		return _budgetParticipatif.getBudgetParticipatifTimelines();
+	}
+
+	/**
 	* retourne les catégories
 	*
 	* @return
@@ -1064,8 +1104,6 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	/**
 	* Retourne X suggestions max pour un BP
 	*
-	* @param request la requete
-	* @param nbSuggestions le nombre de suggestions.
 	* @return la liste de bp.
 	*/
 	@Override
@@ -1084,10 +1122,18 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Retourne la liste des URLs des documents
+	*/
+	@Override
+	public java.util.List<java.lang.String> getFilesURLs() {
+		return _budgetParticipatif.getFilesURLs();
+	}
+
+	/**
 	* Retourne la liste des lieux placit liés
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces() {
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return _budgetParticipatif.getPlacitPlaces();
 	}
 
@@ -1112,7 +1158,7 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	* @return Liste des soutiens
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport> getSupports() {
+	public java.util.List<BudgetSupport> getSupports() {
 		return _budgetParticipatif.getSupports();
 	}
 
@@ -1190,6 +1236,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public long getImageId() {
 		return _budgetParticipatif.getImageId();
+	}
+
+	/**
+	* Returns the image timeline of this budget participatif.
+	*
+	* @return the image timeline of this budget participatif
+	*/
+	@Override
+	public long getImageTimeline() {
+		return _budgetParticipatif.getImageTimeline();
 	}
 
 	/**
@@ -1481,6 +1537,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	}
 
 	/**
+	* Sets the image timeline of this budget participatif.
+	*
+	* @param imageTimeline the image timeline of this budget participatif
+	*/
+	@Override
+	public void setImageTimeline(long imageTimeline) {
+		_budgetParticipatif.setImageTimeline(imageTimeline);
+	}
+
+	/**
 	* Sets the in the name of of this budget participatif.
 	*
 	* @param inTheNameOf the in the name of of this budget participatif
@@ -1523,6 +1589,16 @@ public class BudgetParticipatifWrapper implements BudgetParticipatif,
 	@Override
 	public void setNew(boolean n) {
 		_budgetParticipatif.setNew(n);
+	}
+
+	/**
+	* Sets the opacity image of this budget participatif.
+	*
+	* @param opacityImage the opacity image of this budget participatif
+	*/
+	@Override
+	public void setOpacityImage(double opacityImage) {
+		_budgetParticipatif.setOpacityImage(opacityImage);
 	}
 
 	/**

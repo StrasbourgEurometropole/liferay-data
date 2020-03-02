@@ -47,6 +47,8 @@
 		<property name="citoyenBirthday" type="org.hibernate.type.TimestampType" />
 		<property name="hasCopyright" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="videoUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="imageTimeline" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="opacityImage" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
 		<property name="isCrush" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="crushComment" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="publikId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -296,6 +298,7 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="link" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="budgetParticipatifId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.project.model.impl.SignataireImpl" table="project_Signataire">
 		<id name="signataireId" type="long">

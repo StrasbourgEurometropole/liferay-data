@@ -42,6 +42,7 @@ public class ProjectTimelineSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setLink(model.getLink());
 		soapModel.setProjectId(model.getProjectId());
+		soapModel.setBudgetParticipatifId(model.getBudgetParticipatifId());
 
 		return soapModel;
 	}
@@ -160,6 +161,14 @@ public class ProjectTimelineSoap implements Serializable {
 		_projectId = projectId;
 	}
 
+	public long getBudgetParticipatifId() {
+		return _budgetParticipatifId;
+	}
+
+	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		_budgetParticipatifId = budgetParticipatifId;
+	}
+
 	private long _projectTimelineId;
 	private int _startDay;
 	private int _spacing;
@@ -168,4 +177,5 @@ public class ProjectTimelineSoap implements Serializable {
 	private String _title;
 	private String _link;
 	private long _projectId;
+	private long _budgetParticipatifId;
 }

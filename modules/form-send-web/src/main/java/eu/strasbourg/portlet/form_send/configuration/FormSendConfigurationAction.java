@@ -66,6 +66,10 @@ public class FormSendConfigurationAction
             String nbEntries = ParamUtil.getString(request, "nbEntries");
             setPreference(request, "nbEntries", nbEntries);
 
+            // Message de modération
+            String message = ParamUtil.getString(request, "message");
+            setPreference(request, "message", message);
+
             // Formulaire sélectionnés
             String recordSetId = ParamUtil.getString(request, "recordSetId");
             setPreference(request, "recordSetId", recordSetId);
@@ -94,6 +98,16 @@ public class FormSendConfigurationAction
             }
             setPreference(request, "fieldsSelected", fieldsSelectedString);
             setPreference(request, "newLibs", newLibsString);
+
+            // Template à afficher
+            String template = ParamUtil.getString(request, "template",
+                    "general");
+            setPreference(request, "template", template);
+
+            // Tri par défaut
+            String defaultSort = ParamUtil.getString(request,
+                    "defaultSort");
+            setPreference(request, "defaultSort", defaultSort);
 
         }
         super.processAction(portletConfig, request, response);
@@ -139,6 +153,17 @@ public class FormSendConfigurationAction
                 }
             }
             request.setAttribute("nbEntries", nbEntries);
+
+            // Message de modération
+            String message;
+            String messageParam = ParamUtil.getString(request,
+                    "message");
+            if (Validator.isNotNull(messageParam)) {
+                message = messageParam;
+            } else {
+                message = configuration.message();
+            }
+            request.setAttribute("message", message);
 
             // Formulaires disponibles
             List<Formulaire> formulaireList = new ArrayList<Formulaire>();
@@ -193,6 +218,14 @@ public class FormSendConfigurationAction
             }
             request.setAttribute("fieldsSelected", fieldsSelectedString);
             request.setAttribute("newLibs", newLibsString);
+
+            // Template à afficher
+            String template = ParamUtil.getString(request, "template", configuration.template());
+            request.setAttribute("template", template);
+
+            // Tri par défaut
+            String defaultSort = configuration.defaultSort();
+            request.setAttribute("defaultSort", defaultSort);
 
         } catch (ConfigurationException e) {
             _log.error(e);

@@ -61,6 +61,7 @@ import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import aQute.bnd.annotation.ProviderType;
@@ -70,14 +71,8 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.constants.PhaseState;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.BudgetSupport;
-import eu.strasbourg.service.project.model.PlacitPlace;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
-import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
+import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -352,10 +347,13 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getAuthor(){
     	if (this.getInTheNameOf() != "" && this.getInTheNameOf() != null) {
 			return this.getInTheNameOf();
-		} else {
+		} else if (this.getCitoyenFirstname() != "" && this.getCitoyenFirstname() != null
+				&& this.getCitoyenLastname() != "" && this.getCitoyenLastname() != null) {
     		return StringUtil.upperCaseFirstLetter(this.getCitoyenFirstname())
     				+ " "
     				+  StringUtil.toUpperCase(StringUtil.shorten(this.getCitoyenLastname(), 2, "."));
+		}else{
+    		return "";
 		}
     }
 	
@@ -650,8 +648,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     /**
      * Retourne X suggestions max pour un BP
      *
-     * @param request la requete
-     * @param nbSuggestions le nombre de suggestions.
      * @return la liste de bp.
      */
     @Override
@@ -679,6 +675,39 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	
     	return result;
     }
+
+	/**
+	 * Retourne la liste des URLs des documents
+	 */
+	@Override
+	public List<String> getFilesURLs() {
+		List<String> URLs = new ArrayList<String>();
+		for (String fileIdStr : this.getFilesIds().split(",")) {
+			Long fileId = GetterUtil.getLong(fileIdStr);
+			if (Validator.isNotNull(fileId)) {
+				String fileURL = FileEntryHelper.getFileEntryURL(fileId);
+				URLs.add(fileURL);
+			}
+		}
+		return URLs;
+    }
+
+	/**
+	 * Retourne l'URL de l'image de la timeline à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageTimelineURL() {
+		return FileEntryHelper.getFileEntryURL(this.getImageTimeline());
+	}
+
+    /**
+	 * Retourne la liste des entrées timelines du projet
+	 */
+	@Override
+	public List<ProjectTimeline> getBudgetParticipatifTimelines() {
+		List<ProjectTimeline> projectTimelines = ProjectTimelineLocalServiceUtil.getByBudgetParticipatifId(this.getBudgetParticipatifId());
+		return projectTimelines;
+	}
     
     /**
      * Retourne la version JSON de l'entité
@@ -688,6 +717,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
         // Initialisation des variables tempons et resultantes
         JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
         JSONArray jsonPlacitPlaces = JSONFactoryUtil.createJSONArray();
+		JSONArray jsonBPTimelines = JSONFactoryUtil.createJSONArray();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         jsonBudget.put("id", this.getBudgetParticipatifId());
@@ -723,6 +753,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
             jsonPlacitPlaces.put(placitPlace.toJSON());
         }
         jsonBudget.put("placitPlaces", jsonPlacitPlaces);
+
+		// Timeline
+		for (ProjectTimeline projectTimeline : this.getBudgetParticipatifTimelines()) {
+			jsonBPTimelines.put(projectTimeline.toJSON());
+		}
+		jsonBudget.put("BPTimelines", jsonBPTimelines);
 
         // Liste des Ids des catégories Thématiques
         JSONArray jsonThematics = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThematicCategories());
