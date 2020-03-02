@@ -23,9 +23,9 @@ public class SynchronisePlaceToGMB extends BaseSchedulerEntryMessageListener {
     @Activate
     @Modified
     protected void activate() {
-        // Tous les jours a 4h
+        // Tous les jours a 3h45
         schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-                getEventListenerClass(), getEventListenerClass(), "0 0 4 * * ?"));
+                getEventListenerClass(), getEventListenerClass(), "0 45 3 * * ?"));
         _schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
     }
 
