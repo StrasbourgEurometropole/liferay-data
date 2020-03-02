@@ -263,6 +263,16 @@ public class StrasbourgPropsUtil {
 	public static String getRodrigueAPIURL() {
 		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
 	}
-	
 
+	public static String getGMBClientId() {return PropsUtil.get("eu.strasbourg.google.synchronized.id_client");}
+
+	public static String getGMBSecretCode() {return PropsUtil.get("eu.strasbourg.google.synchronized.code_secret");}
+
+	public static String getGMBAccessTokenURL() {return PropsUtil.get("eu.strasbourg.google.access-token-url");}
+
+	public static String getGMBActivated() {return PropsUtil.get("eu.strasbourg.google.synchronized.activated");}
+
+	public static String getGMBUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized");}
+
+	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 }

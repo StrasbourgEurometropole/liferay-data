@@ -104,6 +104,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			{ "mercatorY", Types.VARCHAR },
 			{ "RGF93X", Types.VARCHAR },
 			{ "RGF93Y", Types.VARCHAR },
+			{ "locationId", Types.VARCHAR },
 			{ "alias_", Types.VARCHAR },
 			{ "presentation", Types.CLOB },
 			{ "serviceAndActivities", Types.CLOB },
@@ -175,6 +176,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("mercatorY", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("RGF93X", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("RGF93Y", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("locationId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("alias_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("presentation", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("serviceAndActivities", Types.CLOB);
@@ -220,7 +222,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("documentsIds", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,instagramURL STRING null,instagramLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
+	public static final String TABLE_SQL_CREATE = "create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,locationId VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,instagramURL STRING null,instagramLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 	public static final String ORDER_BY_JPQL = " ORDER BY place.placeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY place_Place.placeId ASC";
@@ -281,6 +283,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setMercatorY(soapModel.getMercatorY());
 		model.setRGF93X(soapModel.getRGF93X());
 		model.setRGF93Y(soapModel.getRGF93Y());
+		model.setLocationId(soapModel.getLocationId());
 		model.setAlias(soapModel.getAlias());
 		model.setPresentation(soapModel.getPresentation());
 		model.setServiceAndActivities(soapModel.getServiceAndActivities());
@@ -412,6 +415,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		attributes.put("mercatorY", getMercatorY());
 		attributes.put("RGF93X", getRGF93X());
 		attributes.put("RGF93Y", getRGF93Y());
+		attributes.put("locationId", getLocationId());
 		attributes.put("alias", getAlias());
 		attributes.put("presentation", getPresentation());
 		attributes.put("serviceAndActivities", getServiceAndActivities());
@@ -607,6 +611,12 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if (RGF93Y != null) {
 			setRGF93Y(RGF93Y);
+		}
+
+		String locationId = (String)attributes.get("locationId");
+
+		if (locationId != null) {
+			setLocationId(locationId);
 		}
 
 		String alias = (String)attributes.get("alias");
@@ -1297,6 +1307,22 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	@Override
 	public void setRGF93Y(String RGF93Y) {
 		_RGF93Y = RGF93Y;
+	}
+
+	@JSON
+	@Override
+	public String getLocationId() {
+		if (_locationId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _locationId;
+		}
+	}
+
+	@Override
+	public void setLocationId(String locationId) {
+		_locationId = locationId;
 	}
 
 	@JSON
@@ -4078,6 +4104,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setMercatorY(getMercatorY());
 		placeImpl.setRGF93X(getRGF93X());
 		placeImpl.setRGF93Y(getRGF93Y());
+		placeImpl.setLocationId(getLocationId());
 		placeImpl.setAlias(getAlias());
 		placeImpl.setPresentation(getPresentation());
 		placeImpl.setServiceAndActivities(getServiceAndActivities());
@@ -4371,6 +4398,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.RGF93Y = null;
 		}
 
+		placeCacheModel.locationId = getLocationId();
+
+		String locationId = placeCacheModel.locationId;
+
+		if ((locationId != null) && (locationId.length() == 0)) {
+			placeCacheModel.locationId = null;
+		}
+
 		placeCacheModel.alias = getAlias();
 
 		String alias = placeCacheModel.alias;
@@ -4629,7 +4664,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(135);
+		StringBundler sb = new StringBundler(137);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -4679,6 +4714,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(getRGF93X());
 		sb.append(", RGF93Y=");
 		sb.append(getRGF93Y());
+		sb.append(", locationId=");
+		sb.append(getLocationId());
 		sb.append(", alias=");
 		sb.append(getAlias());
 		sb.append(", presentation=");
@@ -4772,7 +4809,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(205);
+		StringBundler sb = new StringBundler(208);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.place.model.Place");
@@ -4873,6 +4910,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		sb.append(
 			"<column><column-name>RGF93Y</column-name><column-value><![CDATA[");
 		sb.append(getRGF93Y());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>locationId</column-name><column-value><![CDATA[");
+		sb.append(getLocationId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>alias</column-name><column-value><![CDATA[");
@@ -5088,6 +5129,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _mercatorY;
 	private String _RGF93X;
 	private String _RGF93Y;
+	private String _locationId;
 	private String _alias;
 	private String _aliasCurrentLanguageId;
 	private String _presentation;
