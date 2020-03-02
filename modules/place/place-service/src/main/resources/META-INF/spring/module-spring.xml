@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="eu.strasbourg.service.place.service.impl.GoogleMyBusinessHistoricLocalServiceImpl" id="eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.GoogleMyBusinessHistoricPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.place.service.impl.PeriodLocalServiceImpl" id="eu.strasbourg.service.place.service.PeriodLocalService" />
 	<bean class="eu.strasbourg.service.place.service.persistence.impl.PeriodPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.PeriodPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.place.service.impl.PlaceLocalServiceImpl" id="eu.strasbourg.service.place.service.PlaceLocalService" />

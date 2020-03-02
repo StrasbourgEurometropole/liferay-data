@@ -7,6 +7,8 @@ dependencies {
 	compile project(":modules:video:video-api")
 	compile project(":modules:agenda:agenda-api")
 	compileOnly group: 'org.json', name: 'org.json', version: '2.0'
+	compile group: "com.liferay", name: "org.freemarker", version: "2.3.23.LIFERAY-PATCHED-2"
+
 }
 
 buildService {

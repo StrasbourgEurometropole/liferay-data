@@ -1,29 +1,23 @@
 package eu.strasbourg.portlet.place;
 
-import java.io.IOException;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import org.osgi.service.component.annotations.Component;
-
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.service.TicketLocalServiceUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.display.context.*;
+import org.osgi.service.component.annotations.Component;
 
-import eu.strasbourg.portlet.place.display.context.EditPlaceDisplayContext;
-import eu.strasbourg.portlet.place.display.context.EditPriceDisplayContext;
-import eu.strasbourg.portlet.place.display.context.EditPublicHolidayDisplayContext;
-import eu.strasbourg.portlet.place.display.context.EditSubPlaceDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewPlacesDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewPricesDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewPublicHolidaysDisplayContext;
-import eu.strasbourg.portlet.place.display.context.ViewSubPlacesDisplayContext;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
 
 @Component(immediate = true, property = {
 		"com.liferay.portlet.instanceable=false",
@@ -36,14 +30,23 @@ import eu.strasbourg.portlet.place.display.context.ViewSubPlacesDisplayContext;
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class PlaceBOPortlet extends MVCPortlet {
 
+	public ThemeDisplay _themeDisplay;
+	public ServiceContext _serviceContext;
+
 	@Override
 	public void render(RenderRequest renderRequest,
 			RenderResponse renderResponse)
 			throws IOException, PortletException {
 
-		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest
+		_themeDisplay = (ThemeDisplay) renderRequest
 				.getAttribute(WebKeys.THEME_DISPLAY);
-		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+		PortletDisplay portletDisplay = _themeDisplay.getPortletDisplay();
+
+		try {
+			_serviceContext = ServiceContextFactory.getInstance(renderRequest);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
@@ -75,6 +78,10 @@ public class PlaceBOPortlet extends MVCPortlet {
 			EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("editGoogle")) {
+			EditGoogleDisplayContext dc = new EditGoogleDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("prices")) {
 			ViewPricesDisplayContext dc = new ViewPricesDisplayContext(
 					renderRequest, renderResponse);
@@ -87,6 +94,22 @@ public class PlaceBOPortlet extends MVCPortlet {
 			ViewSubPlacesDisplayContext dc = new ViewSubPlacesDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("google")) {
+			ViewGoogleDisplayContext dc = new ViewGoogleDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("token")) {
+			if (cmd.equals("saveRefreshToken")) {
+				// met à jour le refreshToken
+				// il suffit de faire un ajout unique avec comme valeurs obligatoire
+				// className = "" , classPK = 0, type = 98
+				String refreshToken = ParamUtil.getString(renderRequest, "refresh-token");
+				TicketLocalServiceUtil.addDistinctTicket(_themeDisplay.getCompanyId(),"",0,98,
+						refreshToken,null, _serviceContext);
+			}
+			ViewTokenDisplayContext dc = new ViewTokenDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the places list page
 			ViewPlacesDisplayContext dc = new ViewPlacesDisplayContext(
 					renderRequest, renderResponse);
@@ -94,7 +117,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 		}
 		
 		// Admin ou pas
-		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
+		renderRequest.setAttribute("isAdmin", _themeDisplay.getPermissionChecker().isOmniadmin());
 
 		super.render(renderRequest, renderResponse);
 	}
