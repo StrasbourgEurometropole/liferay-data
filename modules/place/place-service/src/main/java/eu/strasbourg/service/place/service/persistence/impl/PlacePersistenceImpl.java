@@ -3721,6 +3721,8 @@ public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
 		placeImpl.setSiteLabel(place.getSiteLabel());
 		placeImpl.setFacebookURL(place.getFacebookURL());
 		placeImpl.setFacebookLabel(place.getFacebookLabel());
+		placeImpl.setInstagramURL(place.getInstagramURL());
+		placeImpl.setInstagramLabel(place.getInstagramLabel());
 		placeImpl.setAccesMap(place.getAccesMap());
 		placeImpl.setAccess(place.getAccess());
 		placeImpl.setAccessForDisabled(place.getAccessForDisabled());

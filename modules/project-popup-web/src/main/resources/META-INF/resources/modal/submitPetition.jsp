@@ -75,19 +75,19 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" required="true" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValuesSubmitPetition();" onChange="checkValuesSubmitPetition();"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input id="address" name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();"/>
+                            <aui:input id="address" name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesSubmitPetition();"/>
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" maxlength="256" onInput="checkValues();"/>
+                                <aui:input id="city" name="city" label="modal.user.city" required="true" placeholder="Strasbourg" maxlength="256" onInput="checkValuesSubmitPetition();"/>
                             </div>
                             <div class="form-code">
-                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" maxlength="5" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValues();"/>
+                                <aui:input id="postalcode" name="postalcode" label="modal.user.postalcode" required="true" type="number" maxlength="5" pattern="[0-9]{5}" placeholder="67XXX" onInput="checkValuesSubmitPetition();"/>
                             </div>
                         </div>
                     </div>
@@ -96,10 +96,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" maxlength="20" onInput="checkValues();"/>
+                            <aui:input id="phone" name="phone" label="modal.user.phone" placeholder="0311111111" maxlength="20" onInput="checkValuesSubmitPetition();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValues();"/>
+                            <aui:input id="mobile" name="mobile" label="modal.user.mobile" placeholder="0611111111" maxlength="20" onInput="checkValuesSubmitPetition();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo">
@@ -183,7 +183,7 @@
 
 <script type="text/javascript">
 
-	var namespace = "<portlet:namespace />";
+	var namespaceSubmitPetition = "<portlet:namespace />";
 	var saved_address = "${userConnected.get('address')}";
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
@@ -197,32 +197,32 @@
         $('#checkboxSaveInfo').hide();
 		
         $('#buttonDeposer').click(function(event){
-            resetValues();
+            resetValuesSubmitPetition();
         });
     });
 
     $("#sendPetition").click(function(event){
         event.preventDefault();
 
-        var response = validateForm();
+        var response = validateFormSubmitPetition();
         if (response){
-            var petitionTitleValue = $("#"+namespace+"petitiontitle").val();
-            var petitionDescriptionValue = $("#"+namespace+"petitiondescription").val();
-            var birthdayValue = $("#"+namespace+"birthday").val();
-            var addressValue = $("#"+namespace+"address").val();
-            var cityValue = $("#"+namespace+"city").val();
-            var postalcodeValue = $("#"+namespace+"postalcode").val();
-            var phoneValue = $("#"+namespace+"phone").val();
-            var mobileValue = $("#"+namespace+"mobile").val();
-            var projectValue = $("#"+namespace+"project").val();
-            var quartierValue = $("#"+namespace+"quartier").val();
-            var themeValue = $("#"+namespace+"theme").val();
-            var consultationPlacesTextValue = $("#"+namespace+"petitionlieux").val();
+            var petitionTitleValue = $("#"+namespaceSubmitPetition+"petitiontitle").val();
+            var petitionDescriptionValue = $("#"+namespaceSubmitPetition+"petitiondescription").val();
+            var birthdayValue = $("#"+namespaceSubmitPetition+"birthday").val();
+            var addressValue = $("#"+namespaceSubmitPetition+"address").val();
+            var cityValue = $("#"+namespaceSubmitPetition+"city").val();
+            var postalcodeValue = $("#"+namespaceSubmitPetition+"postalcode").val();
+            var phoneValue = $("#"+namespaceSubmitPetition+"phone").val();
+            var mobileValue = $("#"+namespaceSubmitPetition+"mobile").val();
+            var projectValue = $("#"+namespaceSubmitPetition+"project").val();
+            var quartierValue = $("#"+namespaceSubmitPetition+"quartier").val();
+            var themeValue = $("#"+namespaceSubmitPetition+"theme").val();
+            var consultationPlacesTextValue = $("#"+namespaceSubmitPetition+"petitionlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
-            var lastNameValue = $("#"+namespace+"username").val();
-            var firstNameValue = $("#"+namespace+"firstname").val();
-            var inTheNameOf = $("#"+namespace+"petitionInTheNameOf").val();
-            var emailValue = $("#"+namespace+"mail").val();
+            var lastNameValue = $("#"+namespaceSubmitPetition+"username").val();
+            var firstNameValue = $("#"+namespaceSubmitPetition+"firstname").val();
+            var inTheNameOf = $("#"+namespaceSubmitPetition+"petitionInTheNameOf").val();
+            var emailValue = $("#"+namespaceSubmitPetition+"mail").val();
             AUI().use('aui-io-request', function(A) {
                 A.io.request('${submitPetitionURL}', {
                     method : 'POST',
@@ -252,21 +252,21 @@
                             if(data.result){
                                 $('#modalPetition').modal('hide');
                                 if(data.savedInfo){
-                                    saved_dateNaiss = $("#"+namespace+"birthday").val();
-                                    saved_city = $("#"+namespace+"city").val();
-                                    saved_address = $("#"+namespace+"address").val();
-                                    saved_zipCode = $("#"+namespace+"postalcode").val();
-                                    if($("#"+namespace+"phone").val() != "")
-                                        saved_phone = $("#"+namespace+"phone").val();
-                                    if($("#"+namespace+"mobile").val() != "")
-                                        saved_mobile = $("#"+namespace+"mobile").val();
+                                    saved_dateNaiss = $("#"+namespaceSubmitPetition+"birthday").val();
+                                    saved_city = $("#"+namespaceSubmitPetition+"city").val();
+                                    saved_address = $("#"+namespaceSubmitPetition+"address").val();
+                                    saved_zipCode = $("#"+namespaceSubmitPetition+"postalcode").val();
+                                    if($("#"+namespaceSubmitPetition+"phone").val() != "")
+                                        saved_phone = $("#"+namespaceSubmitPetition+"phone").val();
+                                    if($("#"+namespaceSubmitPetition+"mobile").val() != "")
+                                        saved_mobile = $("#"+namespaceSubmitPetition+"mobile").val();
                                 }
                                 $('#modalConfirmerPetition').modal('show');
                             }else{
                                 $("#modalErrorPetition h4").text(data.message);
                                 $('#modalErrorPetition').modal('show');
                             }
-                            resetValues();
+                            resetValuesSubmitPetition();
                         }
                     }
                 });
@@ -282,28 +282,28 @@
         $('#modalErrorPetition').modal('hide');
     });
 
-    function resetValues()
+    function resetValuesSubmitPetition()
     {
-        $("#"+namespace+"petitiontitle").val("");
-        $("#"+namespace+"petitiondescription").val("");
-        $("#"+namespace+"petitionInTheNameOf").val("");
-        $("#"+namespace+"petitionlieux").val("");
-        $("#"+namespace+"project option[value='0']").prop('selected', true);
-        $("#"+namespace+"project").selectric();
-        $("#"+namespace+"quartier option[value='0']").prop('selected', true);
-        $("#"+namespace+"quartier").selectric();
-        $("#"+namespace+"theme option[value='0']").prop('selected', true);
-        $("#"+namespace+"theme").selectric();
+        $("#"+namespaceSubmitPetition+"petitiontitle").val("");
+        $("#"+namespaceSubmitPetition+"petitiondescription").val("");
+        $("#"+namespaceSubmitPetition+"petitionInTheNameOf").val("");
+        $("#"+namespaceSubmitPetition+"petitionlieux").val("");
+        $("#"+namespaceSubmitPetition+"project option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitPetition+"project").selectric();
+        $("#"+namespaceSubmitPetition+"quartier option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitPetition+"quartier").selectric();
+        $("#"+namespaceSubmitPetition+"theme option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitPetition+"theme").selectric();
         $('#checkboxSaveInfo #save-info').prop('checked', false);
         $('#checkboxSaveInfo').hide();
         $("#submit-petition-legalage").prop("checked", false);
         $("#submit-petition-cnil").prop("checked", false);
-        $("#"+namespace+"birthday").val(saved_dateNaiss);
-        $("#"+namespace+"city").val(saved_city);
-        $("#"+namespace+"address").val(saved_address);
-        $("#"+namespace+"postalcode").val(saved_zipCode);
-        $("#"+namespace+"phone").val(saved_phone);
-        $("#"+namespace+"mobile").val(saved_mobile);
+        $("#"+namespaceSubmitPetition+"birthday").val(saved_dateNaiss);
+        $("#"+namespaceSubmitPetition+"city").val(saved_city);
+        $("#"+namespaceSubmitPetition+"address").val(saved_address);
+        $("#"+namespaceSubmitPetition+"postalcode").val(saved_zipCode);
+        $("#"+namespaceSubmitPetition+"phone").val(saved_phone);
+        $("#"+namespaceSubmitPetition+"mobile").val(saved_mobile);
     }
 
     function getAge(dateString) {
@@ -318,10 +318,10 @@
         return age;
     }
 
-    function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
-        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile){
+    function checkValuesSubmitPetition(){
+        if($("#"+namespaceSubmitPetition+"birthday").val() != saved_dateNaiss || $("#"+namespaceSubmitPetition+"address").val() != saved_address ||
+        $("#"+namespaceSubmitPetition+"city").val() != saved_city || $("#"+namespaceSubmitPetition+"postalcode").val() != saved_zipCode ||
+        $("#"+namespaceSubmitPetition+"phone").val() != saved_phone || $("#"+namespaceSubmitPetition+"mobile").val() != saved_mobile){
             $('#checkboxSaveInfo #save-info').prop('checked', true);
             $('#checkboxSaveInfo').show();
         }else{
@@ -330,58 +330,58 @@
         }
     }
 
-    function validateForm(){
+    function validateFormSubmitPetition(){
         var result = true;
-        var petitiontitle = $("#"+namespace+"petitiontitle").val();
-        var petitiondescription = $("#"+namespace+"petitiondescription").val();
-        var birthday = $("#"+namespace+"birthday").val();
-        var city = $("#"+namespace+"city").val();
-        var address = $("#"+namespace+"address").val();
-        var postalcode = $("#"+namespace+"postalcode").val();
+        var petitiontitle = $("#"+namespaceSubmitPetition+"petitiontitle").val();
+        var petitiondescription = $("#"+namespaceSubmitPetition+"petitiondescription").val();
+        var birthday = $("#"+namespaceSubmitPetition+"birthday").val();
+        var city = $("#"+namespaceSubmitPetition+"city").val();
+        var address = $("#"+namespaceSubmitPetition+"address").val();
+        var postalcode = $("#"+namespaceSubmitPetition+"postalcode").val();
         var legalage = $("#submit-petition-legalage").is(":checked");
         var cnil = $("#submit-petition-cnil").is(":checked");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (petitiontitle==null || petitiontitle==""){
-            $("#"+namespace+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"petitiontitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"petitiontitle").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitPetition+"petitiontitle").css({ "box-shadow" : "" });
 
         if (petitiondescription==null || petitiondescription==""){
-            $("#"+namespace+"petitiondescription").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"petitiondescription").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"petitiondescription").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitPetition+"petitiondescription").css({ "box-shadow" : "" });
 
         if (birthday==null || birthday==""){
-            $("#"+namespace+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"birthday").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"birthday").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitPetition+"birthday").css({ "box-shadow" : "" });
 
         if (city==null || city==""){
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitPetition+"city").css({ "box-shadow" : "" });
 
         /* if (city.toLowerCase()!=="strasbourg"){
             $("#submitalertcity").removeClass("hidden");
-            $("#"+namespaceSign+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         } else $("#submitalertcity").addClass("hidden"); */
 
         if (address==null || address==""){
-            $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"address").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitPetition+"address").css({ "box-shadow" : "" });
 
         if (postalcode==null || postalcode==""){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else if(!regex.test(postalcode)){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitPetition+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
         }
-        else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+        else $("#"+namespaceSubmitPetition+"postalcode").css({ "box-shadow" : "" });
 
         if (!legalage)
             result = false;

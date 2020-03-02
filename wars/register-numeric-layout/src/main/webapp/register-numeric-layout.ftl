@@ -6,7 +6,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href=".propositions" aria-controls="propositions" role="tab" data-toggle="tab" title="Onglet de
                         propositions" aria-expanded="true">Propositions</a></li>
-                    <li role="presentation" class=""><a href=".recus" aria-controls="recus" role="tab" data-toggle="tab" title="Onglet de Reçus par mail/courrier" aria-expanded="false">Reçus
+                    <li role="presentation" class="courriers-tab"><a href=".recus" aria-controls="recus" role="tab" data-toggle="tab" title="Onglet de Reçus par mail/courrier" aria-expanded="false">Reçus
                             par mail/courrier</a></li>
                 </ul>
 
@@ -18,7 +18,7 @@
                         <div id="numeric-form" class="pro-wrapper-numeric-form col-md-12 portlet-column">
                             ${processor.processColumn("numeric-form", "portlet-column-content")}
                         </div>
-                        
+
 						<!-- WRAPPER LISTING PROPOSITIONS -->
                         <div id="formulaires-envoyes" class="pro-wrapper-propositions pro-bloc-texte col-md-12 portlet-column">
                         	${processor.processColumn("formulaires-envoyes", "portlet-column-content")}
@@ -30,8 +30,7 @@
                     <div role="tabpanel" class="tab-pane fade pro-bloc-texte recus portlet-layout row">
                         <div class="pro-page-registre">
                             <div class="pro-wrapper-propositions pro-bloc-texte">
-                                <h2 class="pro-title-propositions">Reçus par mail/courrier</h2>
-                                <div id="courriers" class="col-md-12 portlet-column">
+                                <div id="courriers" class="col-md-12 portlet-column courriers-zone">
                                     ${processor.processColumn("courriers", "portlet-column-content")}
                                 </div>
                             </div>
@@ -47,3 +46,17 @@
         </div>
     </div>
 </div>
+
+<script>
+// on n'affiche l'onglet courrier que si il y en a et que l'utilisateur n'est pas connecté Liferay
+
+(function ($) {
+    $(document).ready(function(){
+        if(!themeDisplay.isSignedIn()){
+            if($(".courriers-zone .portlet-dropzone").hasClass("empty")){
+                $(".courriers-tab").hide();
+            }
+        }
+    });
+ }(jQuery));
+</script>

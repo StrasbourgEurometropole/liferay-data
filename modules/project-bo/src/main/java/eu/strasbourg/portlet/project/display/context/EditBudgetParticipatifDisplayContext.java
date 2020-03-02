@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -51,6 +52,18 @@ public class EditBudgetParticipatifDisplayContext {
         if (_budgetParticipatif == null && budgetParticipatifId > 0)
             _budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(budgetParticipatifId);
         return _budgetParticipatif;
+    }
+
+    public String getDefaultTimelineIndexes() throws PortalException {
+        if (this.getBudgetParticipatif() != null) {
+            List<ProjectTimeline> timelines = this.getBudgetParticipatif().getBudgetParticipatifTimelines();
+            String indexes = "0";
+            for (int i = 1; i <= timelines.size(); i++) {
+                indexes += "," + i;
+            }
+            return indexes;
+        }
+        return "";
     }
 
     /**

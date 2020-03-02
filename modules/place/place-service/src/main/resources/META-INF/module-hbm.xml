@@ -95,6 +95,8 @@
 		<property name="siteLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="facebookURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="facebookLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="instagramURL" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="instagramLabel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="accesMap" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="access_" name="access" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="accessForDisabled" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />

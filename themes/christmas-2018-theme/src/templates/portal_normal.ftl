@@ -57,7 +57,6 @@
     </#if> 
     
     <#assign openGraph = {
-      "twitter:card":"summary",
       "og:type":"website",
       "og:locale":"${locale}",
       "og:url":"${currentUrlOG}",
@@ -70,8 +69,13 @@
 
     <#if request.getAttribute("LIFERAY_SHARED_OPENGRAPH")?has_content>
         <#assign openGraphCustom = request.getAttribute("LIFERAY_SHARED_OPENGRAPH")>   
-        <#list openGraphCustom?keys as keyOG>  
-          <#assign openGraph = openGraph + {keyOG : (openGraphCustom[keyOG]?has_content)?then(openGraphCustom[keyOG],openGraph[keyOG])} > 
+        <#list openGraphCustom?keys as keyOG> 
+          <#if openGraphCustom[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraphCustom[keyOG]} >
+          </#if>
+          <#if !openGraphCustom[keyOG]?has_content && openGraph[keyOG]?has_content>
+            <#assign openGraph = openGraph + {keyOG : openGraph[keyOG]} >
+          </#if>  
         </#list>
     </#if>
 
@@ -80,7 +84,7 @@
 		<!-- Magnific Popup core JS file -->
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
 
-    
+    <meta name="twitter:card" content="summary" />
     <#list openGraph?keys as keyOG>
       <#assign valueOG = openGraph[keyOG]> 
       <#if keyOG == "og:description" >
@@ -182,24 +186,31 @@
 
        
     </main>
-    <#if !isExperientiel>
-    <!-- Bouton de partage -->
-    <div class="mns-share-button fadein">
-        <input class="toggle-input" id="toggle-input" type="checkbox">
-        <label for="toggle-input" class="toggle"></label>
+    
+    <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
+    <div class="social-share">
+        <input class="toggle-input" id="toggle-input" type="checkbox" /> 
+        <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
+          <span>Réseaux sociaux</span>
+        </label>
         <ul class="network-list">
-            <li class="facebook">
-                <a href="https://www.facebook.com/Marche.Noel.Strasbourg/">Share on Facebook</a>
-                <span>230</span>
-            </li>
-            <li class="twitter">
-                <a href="https://twitter.com/strasbourg?lang=fr">Share on Twitter</a>
-                <span>320</span>
-            </li>
+          <li class="facebook">
+            <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
+          </li>
+          <li class="twitter">
+            <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
+          </li>
+          <li class="linkedin">
+            <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>
+          </li>
+          <li class="mail">
+            <a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a>
+          </li>
         </ul>
     </div>
 
-    <!-- Footer -->
+    <#if !isExperientiel>
+      <!-- Footer -->
         <footer id="mns-footer">
             <@liferay_portlet["runtime"]
                 portletProviderAction=portletProviderAction.VIEW
@@ -223,6 +234,16 @@
       if ($(window).width() >= 1280) {
         $(window).stellar();
       }
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function(){
+            var url = window.location.toString();
+            document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
+            document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+            document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
+        }
     </script>
 
     <style>

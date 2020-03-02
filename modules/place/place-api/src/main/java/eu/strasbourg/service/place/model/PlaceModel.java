@@ -1901,6 +1901,208 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 		Locale defaultLocale);
 
 	/**
+	 * Returns the instagram url of this place.
+	 *
+	 * @return the instagram url of this place
+	 */
+	public String getInstagramURL();
+
+	/**
+	 * Returns the localized instagram url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized instagram url of this place
+	 */
+	@AutoEscape
+	public String getInstagramURL(Locale locale);
+
+	/**
+	 * Returns the localized instagram url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized instagram url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getInstagramURL(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized instagram url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized instagram url of this place
+	 */
+	@AutoEscape
+	public String getInstagramURL(String languageId);
+
+	/**
+	 * Returns the localized instagram url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized instagram url of this place
+	 */
+	@AutoEscape
+	public String getInstagramURL(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getInstagramURLCurrentLanguageId();
+
+	@AutoEscape
+	public String getInstagramURLCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized instagram urls of this place.
+	 *
+	 * @return the locales and localized instagram urls of this place
+	 */
+	public Map<Locale, String> getInstagramURLMap();
+
+	/**
+	 * Sets the instagram url of this place.
+	 *
+	 * @param instagramURL the instagram url of this place
+	 */
+	public void setInstagramURL(String instagramURL);
+
+	/**
+	 * Sets the localized instagram url of this place in the language.
+	 *
+	 * @param instagramURL the localized instagram url of this place
+	 * @param locale the locale of the language
+	 */
+	public void setInstagramURL(String instagramURL, Locale locale);
+
+	/**
+	 * Sets the localized instagram url of this place in the language, and sets the default locale.
+	 *
+	 * @param instagramURL the localized instagram url of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setInstagramURL(String instagramURL, Locale locale,
+		Locale defaultLocale);
+
+	public void setInstagramURLCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized instagram urls of this place from the map of locales and localized instagram urls.
+	 *
+	 * @param instagramURLMap the locales and localized instagram urls of this place
+	 */
+	public void setInstagramURLMap(Map<Locale, String> instagramURLMap);
+
+	/**
+	 * Sets the localized instagram urls of this place from the map of locales and localized instagram urls, and sets the default locale.
+	 *
+	 * @param instagramURLMap the locales and localized instagram urls of this place
+	 * @param defaultLocale the default locale
+	 */
+	public void setInstagramURLMap(Map<Locale, String> instagramURLMap,
+		Locale defaultLocale);
+
+	/**
+	 * Returns the instagram label of this place.
+	 *
+	 * @return the instagram label of this place
+	 */
+	public String getInstagramLabel();
+
+	/**
+	 * Returns the localized instagram label of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized instagram label of this place
+	 */
+	@AutoEscape
+	public String getInstagramLabel(Locale locale);
+
+	/**
+	 * Returns the localized instagram label of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized instagram label of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getInstagramLabel(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized instagram label of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized instagram label of this place
+	 */
+	@AutoEscape
+	public String getInstagramLabel(String languageId);
+
+	/**
+	 * Returns the localized instagram label of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized instagram label of this place
+	 */
+	@AutoEscape
+	public String getInstagramLabel(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getInstagramLabelCurrentLanguageId();
+
+	@AutoEscape
+	public String getInstagramLabelCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized instagram labels of this place.
+	 *
+	 * @return the locales and localized instagram labels of this place
+	 */
+	public Map<Locale, String> getInstagramLabelMap();
+
+	/**
+	 * Sets the instagram label of this place.
+	 *
+	 * @param instagramLabel the instagram label of this place
+	 */
+	public void setInstagramLabel(String instagramLabel);
+
+	/**
+	 * Sets the localized instagram label of this place in the language.
+	 *
+	 * @param instagramLabel the localized instagram label of this place
+	 * @param locale the locale of the language
+	 */
+	public void setInstagramLabel(String instagramLabel, Locale locale);
+
+	/**
+	 * Sets the localized instagram label of this place in the language, and sets the default locale.
+	 *
+	 * @param instagramLabel the localized instagram label of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setInstagramLabel(String instagramLabel, Locale locale,
+		Locale defaultLocale);
+
+	public void setInstagramLabelCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized instagram labels of this place from the map of locales and localized instagram labels.
+	 *
+	 * @param instagramLabelMap the locales and localized instagram labels of this place
+	 */
+	public void setInstagramLabelMap(Map<Locale, String> instagramLabelMap);
+
+	/**
+	 * Sets the localized instagram labels of this place from the map of locales and localized instagram labels, and sets the default locale.
+	 *
+	 * @param instagramLabelMap the locales and localized instagram labels of this place
+	 * @param defaultLocale the default locale
+	 */
+	public void setInstagramLabelMap(Map<Locale, String> instagramLabelMap,
+		Locale defaultLocale);
+
+	/**
 	 * Returns the acces map of this place.
 	 *
 	 * @return the acces map of this place

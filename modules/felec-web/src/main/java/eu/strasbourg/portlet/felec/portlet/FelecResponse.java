@@ -16,6 +16,7 @@ public class FelecResponse {
     public String stationLabel;
     public String center;
     public String centerCountry;
+    public String codeList;
     public String list;
     public String startDate;
     public String endDate;
@@ -35,6 +36,7 @@ public class FelecResponse {
         stationLabel = json.getString("libelle_du_bureau");
         center = json.getString("centre_de_vote");
         centerCountry = json.getString("pays_centre_de_vote");
+        codeList = json.getString("code_liste");
         list = json.getString("libelle_liste");
         startDate = json.getString("debut_validite_centre");
         endDate = json.getString("fin_validite_centre");
@@ -154,5 +156,13 @@ public class FelecResponse {
     }
     public void setApplicationDate(String applicationDate) {
         this.applicationDate = applicationDate;
+    }
+
+    public String getCodeList() {
+        return codeList;
+    }
+
+    public void setCodeList(String codeList) {
+        this.codeList = codeList;
     }
 }

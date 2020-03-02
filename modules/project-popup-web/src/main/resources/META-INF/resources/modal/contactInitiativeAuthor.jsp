@@ -164,7 +164,7 @@ $("#" + namespaceContactAuthor + "submitContactButton").click(function(event){
 function sendInitiativeAuthorMessage () {
 	
     event.preventDefault();
-    var response = validateForm();
+    var response = validateFormContactAuthor();
     
     if (response){
     	var entryId = $("#<portlet:namespace />entryId").val();
@@ -217,7 +217,7 @@ function sendInitiativeAuthorMessage () {
 /*
 * Verifie la conformite des elements avant l'envoie du formulaire
 */
-function validateForm()
+function validateFormContactAuthor()
 {
     var result = true;
     

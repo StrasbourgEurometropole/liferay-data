@@ -3288,6 +3288,17 @@ a.fn.owlCarousel.Constructor.Plugins.Animate=e}(window.Zepto||window.jQuery,wind
     return Pikaday;
 }));
 
+/* Detect the scroll of the page and animate the menu */
+$(window).on('scroll', function (e) {
+    var st = $(this).scrollTop();
+
+    if (st > 100) {
+        $('.social-share').addClass('fadein');
+    }
+    else {
+        $('.social-share').removeClass('fadein');
+    }
+});
 var th_dropdown = {
 
     $last: null,

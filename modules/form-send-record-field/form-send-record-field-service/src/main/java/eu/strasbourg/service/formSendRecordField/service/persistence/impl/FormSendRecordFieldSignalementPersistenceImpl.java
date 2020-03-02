@@ -39,7 +39,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import eu.strasbourg.service.formSendRecordField.exception.NoSuchSignalementException;
+import eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl;
 import eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementModelImpl;
@@ -307,12 +307,12 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByUuid_First(String uuid,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByUuid_First(uuid,
 				orderByComparator);
 
@@ -329,7 +329,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -358,12 +358,12 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByUuid_Last(String uuid,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByUuid_Last(uuid,
 				orderByComparator);
 
@@ -380,7 +380,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -416,13 +416,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement[] findByUuid_PrevAndNext(
 		long signalementId, String uuid,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByPrimaryKey(signalementId);
 
 		Session session = null;
@@ -670,16 +670,16 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 			new String[] { String.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchSignalementException} if it could not be found.
+	 * Returns the form send record field signalement where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchFormSendRecordFieldSignalementException} if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
 	 * @return the matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByUUID_G(String uuid, long groupId)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByUUID_G(uuid,
 				groupId);
 
@@ -700,7 +700,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				_log.debug(msg.toString());
 			}
 
-			throw new NoSuchSignalementException(msg.toString());
+			throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 		}
 
 		return formSendRecordFieldSignalement;
@@ -836,7 +836,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 */
 	@Override
 	public FormSendRecordFieldSignalement removeByUUID_G(String uuid,
-		long groupId) throws NoSuchSignalementException {
+		long groupId) throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByUUID_G(uuid,
 				groupId);
 
@@ -1146,13 +1146,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByUuid_C_First(String uuid,
 		long companyId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByUuid_C_First(uuid,
 				companyId, orderByComparator);
 
@@ -1172,7 +1172,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -1204,13 +1204,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByUuid_C_Last(String uuid,
 		long companyId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByUuid_C_Last(uuid,
 				companyId, orderByComparator);
 
@@ -1230,7 +1230,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -1269,13 +1269,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement[] findByUuid_C_PrevAndNext(
 		long signalementId, String uuid, long companyId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByPrimaryKey(signalementId);
 
 		Session session = null;
@@ -1716,12 +1716,12 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByGroupId_First(long groupId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByGroupId_First(groupId,
 				orderByComparator);
 
@@ -1738,7 +1738,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -1767,12 +1767,12 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByGroupId_Last(long groupId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByGroupId_Last(groupId,
 				orderByComparator);
 
@@ -1789,7 +1789,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -1825,13 +1825,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param groupId the group ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement[] findByGroupId_PrevAndNext(
 		long signalementId, long groupId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByPrimaryKey(signalementId);
 
 		Session session = null;
@@ -2247,13 +2247,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param publikId the publik ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByPublikId_First(
 		String publikId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByPublikId_First(publikId,
 				orderByComparator);
 
@@ -2270,7 +2270,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -2300,12 +2300,12 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param publikId the publik ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByPublikId_Last(String publikId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByPublikId_Last(publikId,
 				orderByComparator);
 
@@ -2322,7 +2322,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -2359,13 +2359,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param publikId the publik ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement[] findByPublikId_PrevAndNext(
 		long signalementId, String publikId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByPrimaryKey(signalementId);
 
 		Session session = null;
@@ -2807,13 +2807,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param formSendRecordFieldId the form send record field ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByFormSendRecordFieldId_First(
 		long formSendRecordFieldId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByFormSendRecordFieldId_First(formSendRecordFieldId,
 				orderByComparator);
 
@@ -2830,7 +2830,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -2860,13 +2860,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param formSendRecordFieldId the form send record field ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching form send record field signalement
-	 * @throws NoSuchSignalementException if a matching form send record field signalement could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a matching form send record field signalement could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByFormSendRecordFieldId_Last(
 		long formSendRecordFieldId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByFormSendRecordFieldId_Last(formSendRecordFieldId,
 				orderByComparator);
 
@@ -2883,7 +2883,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
-		throw new NoSuchSignalementException(msg.toString());
+		throw new NoSuchFormSendRecordFieldSignalementException(msg.toString());
 	}
 
 	/**
@@ -2920,13 +2920,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * @param formSendRecordFieldId the form send record field ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement[] findByFormSendRecordFieldId_PrevAndNext(
 		long signalementId, long formSendRecordFieldId,
 		OrderByComparator<FormSendRecordFieldSignalement> orderByComparator)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = findByPrimaryKey(signalementId);
 
 		Session session = null;
@@ -3314,11 +3314,11 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 *
 	 * @param signalementId the primary key of the form send record field signalement
 	 * @return the form send record field signalement that was removed
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement remove(long signalementId)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		return remove((Serializable)signalementId);
 	}
 
@@ -3327,11 +3327,11 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 *
 	 * @param primaryKey the primary key of the form send record field signalement
 	 * @return the form send record field signalement that was removed
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement remove(Serializable primaryKey)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		Session session = null;
 
 		try {
@@ -3345,13 +3345,13 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchSignalementException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+				throw new NoSuchFormSendRecordFieldSignalementException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
 					primaryKey);
 			}
 
 			return remove(formSendRecordFieldSignalement);
 		}
-		catch (NoSuchSignalementException nsee) {
+		catch (NoSuchFormSendRecordFieldSignalementException nsee) {
 			throw nsee;
 		}
 		catch (Exception e) {
@@ -3658,11 +3658,12 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 *
 	 * @param primaryKey the primary key of the form send record field signalement
 	 * @return the form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByPrimaryKey(
-		Serializable primaryKey) throws NoSuchSignalementException {
+		Serializable primaryKey)
+		throws NoSuchFormSendRecordFieldSignalementException {
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement = fetchByPrimaryKey(primaryKey);
 
 		if (formSendRecordFieldSignalement == null) {
@@ -3670,7 +3671,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchSignalementException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+			throw new NoSuchFormSendRecordFieldSignalementException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
 				primaryKey);
 		}
 
@@ -3678,15 +3679,15 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	}
 
 	/**
-	 * Returns the form send record field signalement with the primary key or throws a {@link NoSuchSignalementException} if it could not be found.
+	 * Returns the form send record field signalement with the primary key or throws a {@link NoSuchFormSendRecordFieldSignalementException} if it could not be found.
 	 *
 	 * @param signalementId the primary key of the form send record field signalement
 	 * @return the form send record field signalement
-	 * @throws NoSuchSignalementException if a form send record field signalement with the primary key could not be found
+	 * @throws NoSuchFormSendRecordFieldSignalementException if a form send record field signalement with the primary key could not be found
 	 */
 	@Override
 	public FormSendRecordFieldSignalement findByPrimaryKey(long signalementId)
-		throws NoSuchSignalementException {
+		throws NoSuchFormSendRecordFieldSignalementException {
 		return findByPrimaryKey((Serializable)signalementId);
 	}
 

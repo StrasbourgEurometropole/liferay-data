@@ -54,19 +54,29 @@
             </aui:fieldset>
         </c:forEach>
 
-            <!-- Affichage -->
-            <aui:fieldset collapsed="true" collapsible="true"
-                label="display">
-                <!-- Template d'affichage -->
-                <aui:select name="template">
-                    <aui:option value="general" selected="${template eq 'general'}">
-                        <liferay-ui:message key="general" />
-                    </aui:option>
-                    <aui:option value="placIt" selected="${template eq 'placIt'}">
-                        <liferay-ui:message key="placIt" />
-                    </aui:option>
-                </aui:select>
-            </aui:fieldset>
+        <!-- Affichage -->
+        <aui:fieldset collapsed="true" collapsible="true"
+            label="display">
+            <!-- Template d'affichage -->
+            <aui:select name="template">
+                <aui:option value="general" selected="${template eq 'general'}">
+                    <liferay-ui:message key="general" />
+                </aui:option>
+                <aui:option value="placIt" selected="${template eq 'placIt'}">
+                    <liferay-ui:message key="placIt" />
+                </aui:option>
+            </aui:select>
+        </aui:fieldset>
+
+        <!-- Tri par defaut -->
+        <aui:select name="defaultSort">
+            <aui:option value="asc" selected="${defaultSort eq 'asc'}">
+                <liferay-ui:message key="asc-sorting" />
+            </aui:option>
+            <aui:option value="desc" selected="${defaultSort eq 'desc'}">
+                <liferay-ui:message key="desc-sorting" />
+            </aui:option>
+        </aui:select>
 
 
 		<aui:button-row>

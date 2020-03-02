@@ -8,6 +8,7 @@
                 text-transform: uppercase;
                 margin-bottom: 10px;
                 display: inline-block;
+                word-break: break-word;
             }
 
             .ddl-form-builder-app .lfr-ddm-form-container .lfr-ddm-form-page {
@@ -243,3 +244,53 @@
     }
 }
 // Fin style pour la pagination
+
+// Style pour la sélection d'image et de documents
+.pro-bloc-pcs-form {
+    .upload-image, .upload-file {
+        padding-right: 35px;
+        border-radius: 4px;
+    }
+
+    .documentSelected{
+        width: 100%;
+        margin-bottom: 10px;
+        position: relative;
+    
+        .browsePicture{
+            padding-top: 0;
+    
+            .form-group{
+                margin-bottom: 0;
+            }
+        }
+    } 
+    
+    .deleteImage, .deleteFile {
+        font-family: 'icomoon' !important; 
+        position: absolute;
+        margin-top: -28px;
+        right: 10px;
+        cursor: pointer;
+        
+        &::before {
+            content: "\e91b";
+        }
+    }
+
+    .help-block + .deleteImage, .help-block + .deleteFile{
+        margin-top: calc(-1em - 43px);
+    }
+
+    .btn:hover ~ .deleteImage, .btn:focus ~ .deleteImage, .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
+        color: $c_main;
+    }
+} 
+// Fin style pour la sélection d'images et de documents
+
+// Style pour les alertes de modifications de budget participatifs
+[id*=ProjectPopupPortlet] .lfr-alert-container{ 
+    position: fixed;
+    top: 100px;
+} 
+// Fin style pour les alertes de modifications de budget participatifs

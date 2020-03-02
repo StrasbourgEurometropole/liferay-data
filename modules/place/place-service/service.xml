@@ -63,6 +63,8 @@
 		<column name="siteLabel" type="String" localized="true" />
 		<column name="facebookURL" type="String" localized="true" />
 		<column name="facebookLabel" type="String" localized="true" />
+		<column name="instagramURL" type="String" localized="true" />
+		<column name="instagramLabel" type="String" localized="true" />
 
 		<!-- Accès -->
 		<column name="accesMap" type="String" localized="true" />

@@ -567,6 +567,34 @@ public interface BudgetParticipatifModel extends BaseModel<BudgetParticipatif>,
 	public void setVideoUrl(String videoUrl);
 
 	/**
+	 * Returns the image timeline of this budget participatif.
+	 *
+	 * @return the image timeline of this budget participatif
+	 */
+	public long getImageTimeline();
+
+	/**
+	 * Sets the image timeline of this budget participatif.
+	 *
+	 * @param imageTimeline the image timeline of this budget participatif
+	 */
+	public void setImageTimeline(long imageTimeline);
+
+	/**
+	 * Returns the opacity image of this budget participatif.
+	 *
+	 * @return the opacity image of this budget participatif
+	 */
+	public double getOpacityImage();
+
+	/**
+	 * Sets the opacity image of this budget participatif.
+	 *
+	 * @param opacityImage the opacity image of this budget participatif
+	 */
+	public void setOpacityImage(double opacityImage);
+
+	/**
 	 * Returns the is crush of this budget participatif.
 	 *
 	 * @return the is crush of this budget participatif

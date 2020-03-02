@@ -15,7 +15,7 @@
             </div>
 
             <aui:form name="uploadForm" enctype="multipart/form-data">
-                <div class="pro-wrapper">
+                <div id="uploadDiv" class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
                         <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
@@ -65,7 +65,7 @@
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
                                 <aui:input name="budgetPhoto" type="file" label="modal.submitbudget.information.picture"
-                                    cssClass="btn btn-default btn-choose">
+                                    cssClass="btn btn-default btn-choose upload-image">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
                             </span>
@@ -76,6 +76,19 @@
                             <aui:input id="budgetVideo" name="budgetVideo" label="modal.submitbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
+                    <c:if test="${nbFiles gt 0}">
+                        <label for="projets"><liferay-ui:message key="modal.submitbudget.information.sizeFile-x" arguments="${sizeFile}"/></label>
+                        <div class="pro-row">
+                            <div class="form-group form-two-tiers">
+                                <span class="browsePicture input-group-btn">
+                                    <aui:input name="budgetFile" type="file" label="modal.submitbudget.information.file"
+                                        cssClass="btn btn-default btn-choose upload-file">
+                                        <aui:validator name="acceptFiles">'${typesFiles}'</aui:validator>
+                                    </aui:input>
+                                </span>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
                 <div class="pro-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.user"/></h4>
@@ -91,19 +104,19 @@
 	                            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValuesSubmitBudget();" onChange="checkValuesSubmitBudget();"/>
                         </div>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValuesSubmitBudget();"/>
                             </div>
                         </div>
                     </div>
@@ -112,10 +125,10 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
@@ -194,13 +207,16 @@
 
 <script type="text/javascript">
 
-	var namespace = "<portlet:namespace />";
+	var namespaceSubmitBudget = "<portlet:namespace />";
 	var saved_address = "${userConnected.get('address')}";
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
 	var saved_dateNaiss = "${formattedDate}";
 	var saved_phone = "${userConnected.get('phone')}" != 'null' ? "${userConnected.get('phone')}" : " ";
 	var saved_mobile = "${userConnected.get('mobile')}" != 'null' ? "${userConnected.get('mobile')}" : " ";
+	var saved_nbFiles = "${nbFiles}";
+	var saved_typesFiles = "${typesFiles}";
+	var saved_sizeFile = "${sizeFile}";
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');
@@ -209,35 +225,38 @@
     });
     
     $('#buttonDeposer').click(function(event){
-        resetValues();
+        resetValuesSubmitBudget();
     });
 
     $("#sendBudget").click(function(event){
         event.preventDefault();
-        var response = validateForm();
+        var response = validateFormSubmitBudget();
         if (response){
-            var budgetTitleValue = $("#"+namespace+"budgettitle").val();           
+            var budgetTitleValue = $("#"+namespaceSubmitBudget+"budgettitle").val();
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
-            $("#"+namespace+"budgetdescription").val(budgetDescriptionValue);
-            var budgetSummaryValue = $("#"+namespace+"budgetsummary").val(); 
-            var addressValue = $("#"+namespace+"address").val();
-            var cityValue = $("#"+namespace+"city").val();
-            var postalcodeValue = $("#"+namespace+"postalcode").val();
-            var birthdayValue = $("#"+namespace+"birthday").val();
-            var phoneValue = $("#"+namespace+"phone").val();
-            var mobileValue = $("#"+namespace+"mobile").val();
-            var projectValue = $("#"+namespace+"project").val();
-            var quartierValue = $("#"+namespace+"quartier").val();
-            var themeValue = $("#"+namespace+"theme").val();
-            var budgetlieuxValue = $("#"+namespace+"budgetlieux").val();
+            $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
+            var budgetSummaryValue = $("#"+namespaceSubmitBudget+"budgetsummary").val();
+            var addressValue = $("#"+namespaceSubmitBudget+"address").val();
+            var cityValue = $("#"+namespaceSubmitBudget+"city").val();
+            var postalcodeValue = $("#"+namespaceSubmitBudget+"postalcode").val();
+            var birthdayValue = $("#"+namespaceSubmitBudget+"birthday").val();
+            var phoneValue = $("#"+namespaceSubmitBudget+"phone").val();
+            var mobileValue = $("#"+namespaceSubmitBudget+"mobile").val();
+            var projectValue = $("#"+namespaceSubmitBudget+"project").val();
+            var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
+            var themeValue = $("#"+namespaceSubmitBudget+"theme").val();
+            var budgetlieuxValue = $("#"+namespaceSubmitBudget+"budgetlieux").val();
             var saveInfoValue = $("#save-info").is(":checked");
-            var lastNameValue = $("#"+namespace+"username").val();
-            var photoValue = $("#"+namespace+"budgetPhoto").val();
-            var videoValue = $("#"+namespace+"budgetVideo").val();
-            var firstNameValue = $("#"+namespace+"firstname").val();
-            var emailValue = $("#"+namespace+"mail").val();
+            var lastNameValue = $("#"+namespaceSubmitBudget+"username").val();
+            var photoValue = $("#"+namespaceSubmitBudget+"budgetPhoto").val();
+            var videoValue = $("#"+namespaceSubmitBudget+"budgetVideo").val();
+            var nbFileMaxValue = saved_nbFiles;
+            var typesFilesValue = saved_typesFiles;
+            var sizeFileValue = saved_sizeFile;
+            var firstNameValue = $("#"+namespaceSubmitBudget+"firstname").val();
+            var emailValue = $("#"+namespaceSubmitBudget+"mail").val();
             AUI().use('aui-io-request', function(A) {
                 var uploadForm = A.one("#<portlet:namespace />uploadForm");
                 try {
@@ -264,6 +283,9 @@
                             <portlet:namespace />theme:themeValue,
                             <portlet:namespace />photo:photoValue,
                             <portlet:namespace />video:videoValue,
+                            <portlet:namespace />nbFileMax:nbFileMaxValue,
+                            <portlet:namespace />typesFiles:typesFilesValue,
+                            <portlet:namespace />sizeFile:sizeFileValue,
                             <portlet:namespace />budgetLieux:budgetlieuxValue,
                             <portlet:namespace />saveinfo:saveInfoValue,
                             <portlet:namespace />lastname:lastNameValue,
@@ -278,16 +300,16 @@
                                     $('#modalBudget').modal('hide');
                                     if(data.savedInfo){
                                         saved_dateNaiss = birthdayValue;
-                                        saved_city = $("#"+namespace+"city").val();
-                                        saved_address = $("#"+namespace+"address").val();
-                                        saved_zipCode = $("#"+namespace+"postalcode").val();
-                                        if($("#"+namespace+"phone").val() != "")
-                                            saved_phone = $("#"+namespace+"phone").val();
-                                        if($("#"+namespace+"mobile").val() != "")
-                                            saved_mobile = $("#"+namespace+"mobile").val();
+                                        saved_city = $("#"+namespaceSubmitBudget+"city").val();
+                                        saved_address = $("#"+namespaceSubmitBudget+"address").val();
+                                        saved_zipCode = $("#"+namespaceSubmitBudget+"postalcode").val();
+                                        if($("#"+namespaceSubmitBudget+"phone").val() != "")
+                                            saved_phone = $("#"+namespaceSubmitBudget+"phone").val();
+                                        if($("#"+namespaceSubmitBudget+"mobile").val() != "")
+                                            saved_mobile = $("#"+namespaceSubmitBudget+"mobile").val();
                                     }
                                     $('#modalConfirmerBudget').modal('show');
-                                    resetValues();
+                                    resetValuesSubmitBudget();
                                 }else{
                                     $("#modalErrorBudget h4").text(data.message);
                                     $('#modalErrorBudget').modal('show');
@@ -313,40 +335,139 @@
         $('#modalErrorBudget').modal('hide');
     });
 
-    function resetValues()
+    function gestionSelectSubmitBudget(){
+        // ajoute un sélecteur s'il y a lieu
+        if($(".upload-file").length < saved_nbFiles
+            && $(".upload-file").length == $("#uploadDiv .deleteFile").length){
+            selector =
+                '<div class="pro-row"> ' +
+                    '<div class="form-group form-two-tiers"> ' +
+                        '<span class="browsePicture input-group-btn"> ' +
+                            '<div class="form-group input-text-wrapper"> ' +
+                                '<label class="control-label" for="'+namespaceSubmitBudget+'budgetFile"> Ajouter un document </label> ' +
+                                '<input class="field btn btn-default btn-choose upload-file form-control" id="'+namespaceSubmitBudget+'budgetFile" ' +
+                                    'name="'+namespaceSubmitBudget+'budgetFile" type="file" value="" aria-describedby="'+namespaceSubmitBudget+'budgetFileHelper" /> ' +
+                            '</div> ' +
+                        '</span> ' +
+                    '</div> ' +
+                '</div>'
+            ;
+            $("#uploadDiv").append(selector);
+        }
+
+        // gestion de la sélection d'un fichier
+        inputs = $(".upload-file");
+        inputs.each(function(){
+            this.addEventListener('change', function (event) {
+                selectFileSubmitBudget(this, event);
+            });
+        });
+    };
+
+    function deleteFileSubmitBudget(elt, e){
+        // supprime le fichier
+        $(elt).closest(".pro-row").remove();
+        e.preventDefault();
+
+        //gestion des sélecteurs
+        gestionSelectSubmitBudget();
+    };
+
+    function selectFileSubmitBudget(elt, e){
+        if($(elt).val() != ""){
+            // ajout de la croix s'il y a lieu
+            if($(elt).parent().find(".deleteFile").length == 0){
+                $(elt).parent().append("<div class='deleteFile'></div>");
+            }
+            // gestion des suppressions
+            btnsDeleteFiles = $(".deleteFile");
+            btnsDeleteFiles.each(function(){
+                this.addEventListener('click', function (event) {
+                    deleteFileSubmitBudget(this, event);
+                });
+            });
+
+            // Gestions des sélecteurs
+            gestionSelectSubmitBudget();
+        }else{
+            // supprime le fichier
+            deleteFileSubmitBudget(elt,e);
+        }
+    };
+
+    // Gestions des sélecteurs de documents
+    gestionSelectSubmitBudget();
+
+
+
+    // gestion de la sélection d'une image
+    $(".upload-image")[0].addEventListener('change', function (event) {
+        if($(this).val() != ""){
+            // ajout de la croix s'il y a lieu
+            if($(this).parent().find(".deleteImage").length == 0){
+                $(this).parent().append("<div class='deleteImage'></div>");
+            }
+            // gestion des suppressions
+            $(".deleteImage")[0].addEventListener('click', function (event) {
+                $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
+                $(".deleteImage").remove();
+                $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
+            });
+        }else{
+            $(".deleteImage").remove();
+            $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
+        }
+    });
+
+    function resetValuesSubmitBudget()
     {
-        $("#"+namespace+"budgettitle").val("");
-        $("#"+namespace+"budgetsummary").val("");
-        $("#"+namespace+"budgetdescription").val("");
-        $("#"+namespace+"budgetlieux").val("");
-        $("#"+namespace+"project option[value='0']").prop('selected', true);
-        $("#"+namespace+"project").selectric();
-        $("#"+namespace+"quartier option[value='0']").prop('selected', true);
-        $("#"+namespace+"quartier").selectric();
-        $("#"+namespace+"theme option[value='0']").prop('selected', true);
-        $("#"+namespace+"theme").selectric();
+        $("#"+namespaceSubmitBudget+"budgettitle").val("");
+        $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetsummary").val("");
+        $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetdescription").val("");
+        $("#"+namespaceSubmitBudget+"budgetlieux").val("");
+        $("#"+namespaceSubmitBudget+"project option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitBudget+"project").selectric();
+        $("#"+namespaceSubmitBudget+"quartier option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitBudget+"quartier").selectric();
+        $("#"+namespaceSubmitBudget+"theme option[value='0']").prop('selected', true);
+        $("#"+namespaceSubmitBudget+"theme").selectric();
         $('#checkboxSaveInfo #save-info').prop('checked', false);
         $('#checkboxSaveInfo').hide();
         $("#submit-budget-legalage").prop("checked", false);
         $("#submit-budget-cnil").prop("checked", false);
-        $("#"+namespace+"city").val(saved_city);
-        $("#"+namespace+"address").val(saved_address);
-        $("#"+namespace+"budgetPhoto").val("");
-        $("#"+namespace+"budgetVideo").val("");
-        $("#"+namespace+"postalcode").val(saved_zipCode);
-        $("#"+namespace+"phone").val(saved_phone);
-        $("#"+namespace+"mobile").val(saved_mobile);
-        $("#"+namespace+"birthday").val(saved_dateNaiss);
+        $("#"+namespaceSubmitBudget+"city").val(saved_city);
+        $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"address").val(saved_address);
+        $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
+        $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"budgetVideo").val("");
+        // on supprime les sélecteurs de document
+        $(".upload-file").each(function(){
+            $(this).closest(".pro-row").remove();
+        });
+        //on ajoute un sélecteur de document
+        gestionSelectSubmitBudget();
+        $("#"+namespaceSubmitBudget+"postalcode").val(saved_zipCode);
+        $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"phone").val(saved_phone);
+        $("#"+namespaceSubmitBudget+"mobile").val(saved_mobile);
+        $("#"+namespaceSubmitBudget+"birthday").val(saved_dateNaiss);
         
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;
     	editor.setHTML('');
+        $(iframe).css({ "box-shadow" : "" });
+
+    	$("#sendalert").addClass("hidden");
     }
 
-    function checkValues(){
-        if($("#"+namespace+"birthday").val() != saved_dateNaiss || $("#"+namespace+"address").val() != saved_address ||
-        $("#"+namespace+"city").val() != saved_city || $("#"+namespace+"postalcode").val() != saved_zipCode ||
-        $("#"+namespace+"phone").val() != saved_phone || $("#"+namespace+"mobile").val() != saved_mobile) {
+    function checkValuesSubmitBudget(){
+        if($("#"+namespaceSubmitBudget+"birthday").val() != saved_dateNaiss || $("#"+namespaceSubmitBudget+"address").val() != saved_address ||
+        $("#"+namespaceSubmitBudget+"city").val() != saved_city || $("#"+namespaceSubmitBudget+"postalcode").val() != saved_zipCode ||
+        $("#"+namespaceSubmitBudget+"phone").val() != saved_phone || $("#"+namespaceSubmitBudget+"mobile").val() != saved_mobile) {
             $('#checkboxSaveInfo #save-info').prop('checked', true);
             $('#checkboxSaveInfo').show();
         }else{
@@ -355,45 +476,59 @@
         }
     }
 
-    function validateForm()
+    function validateFormSubmitBudget()
     {
         var result = true;
-        var quartierValue = $("#"+namespace+"quartier").val();
-        var budgettitle = $("#"+namespace+"budgettitle").val();
-        var budgetsummary = $("#"+namespace+"budgetsummary").val();
+        var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
+        var budgettitle = $("#"+namespaceSubmitBudget+"budgettitle").val();
+        var budgetsummary = $("#"+namespaceSubmitBudget+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;       	
         var budgetdescription = editor.getHTML();
-        var city = $("#"+namespace+"city").val();
-        var address = $("#"+namespace+"address").val();
-        var postalcode = $("#"+namespace+"postalcode").val();
+        var city = $("#"+namespaceSubmitBudget+"city").val();
+        var address = $("#"+namespaceSubmitBudget+"address").val();
+        var postalcode = $("#"+namespaceSubmitBudget+"postalcode").val();
         var legalage = $("#submit-budget-legalage").is(":checked");
         var cnil = $("#submit-budget-cnil").is(":checked");
-        var photo = $("#"+namespace+"budgetPhoto").val();
+        var photo = $("#"+namespaceSubmitBudget+"budgetPhoto").val();
+        var files = $(".upload-file");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
         if (quartierValue==0){
-            $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+                $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
-            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+            }else $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
         }
 
+        files.each(function(){
+            var file = $(this).val();
+            if (file!=null && file!==""){
+                var ext = file.split(".").pop().toLowerCase();
+                if(saved_typesFiles.indexOf(ext) == -1) {
+                    $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
+                    result = false;
+                }else{
+                    $(this).css({ "box-shadow" : "" });
+                }
+            }
+        });
+
         if (budgettitle===null || budgettitle===""){
-            $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
         
         if (budgetsummary===null || budgetsummary===""){
-            $("#"+namespace+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "" });
              
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -401,24 +536,24 @@
         }else $(iframe).css({ "box-shadow" : "" });
 
         if (city===null || city===""){
-            $("#"+namespace+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"city").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
 
         if (address===null || address===""){
-            $("#"+namespace+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"address").css({ "box-shadow" : "" });
+        }else $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
 
         if (postalcode===null || postalcode===""){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else if(!regex.test(postalcode)){
-            $("#"+namespace+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
         }
-        else $("#"+namespace+"postalcode").css({ "box-shadow" : "" });
+        else $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "" });
 
         if (!legalage)
             result = false;

@@ -6,6 +6,24 @@
 <portlet:actionURL name="editBudget" var="editBudgetURL">
 	<portlet:param name="redirectURL" value="${redirectURL}"/>
 </portlet:actionURL>
+<liferay-ui:error key="user" message="modal.editbudget.error.user-unknow" />
+<liferay-ui:error key="banned" message="modal.editbudget.error.user-banned" />
+<liferay-ui:error key="pact" message="modal.editbudget.error.pact" />
+<liferay-ui:error key="phase" message="modal.editbudget.error.phase" />
+<liferay-ui:error key="title" message="modal.editbudget.error.title" />
+<liferay-ui:error key="summary" message="modal.editbudget.error.summary" />
+<liferay-ui:error key="description" message="modal.editbudget.error.description" />
+<liferay-ui:error key="image" message="modal.editbudget.error.image" />
+<liferay-ui:error key="too-much" message="modal.editbudget.error.too-much" />
+<liferay-ui:error key="extension" message="modal.editbudget.error.extension" />
+<liferay-ui:error key="big" >
+    <liferay-ui:message key="modal.editbudget.error.big-x" arguments="${sizeFile}" />
+</liferay-ui:error>
+<liferay-ui:error key="unable-to-scan-file-for-viruses" message="modal.editbudget.error.unable-to-scan" />
+<liferay-ui:error key="a-virus-was-detected-in-the-file" message="modal.editbudget.error.virus-detected" />
+<liferay-ui:error key="an-unexpected-error-occurred-while-scanning-for-viruses" message="modal.editbudget.error.virus-error" />
+<liferay-ui:error key="read" message="modal.editbudget.error.read" />
+
 
 <!-- MODIFIER UN BUDGET -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalEditBudget" tabindex="-1" role="dialog" aria-labelledby="modalEditBudget"
@@ -88,6 +106,8 @@
                             <aui:input id="budgetVideo" name="budgetVideo" label="modal.editbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
+                    <div class="form-group budgetDocuments">
+                    </div>
                 </div>
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -110,7 +130,7 @@
                 <input type="hidden" id="<portlet:namespace />deletePhoto" name="<portlet:namespace />deletePhoto" value="false"/>
                 <input type="hidden" id="<portlet:namespace />entryId" name="<portlet:namespace />entryId" value="${entryId}"/>
                 <div class="pro-form-submit">
-                    <button id="sendBudget" type="submit" class="btn btn-default"><liferay-ui:message key="modal.editbudget.submit"/></button>
+                    <button id="sendBudget" type="button" class="btn btn-default"><liferay-ui:message key="modal.editbudget.submit"/></button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -118,51 +138,71 @@
 </div><!-- /.modal -->
 
 
-<!-- CONFIRMATION MODIFICATION BUDGET -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalConfirmerBudget" tabindex="-1" role="dialog" aria-labelledby="modalConfirmerBudget">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='confirm-budget'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4><liferay-ui:message key='submit-budget-ok'/></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn" value=<liferay-ui:message key="button-petition-ok"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- ERREUR MODIFICATION BUDGET -->
-<div class="pro-modal pro-bloc-pcs-form fade" id="modalErrorBudget" tabindex="-1" role="dialog" aria-labelledby="modalErrorBudget">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="pro-modal-top">
-                <h3><liferay-ui:message key='error-budget'/></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><span class="icon-multiply"></span></span></button>
-            </div>
-            <div class="pro-wrapper">
-                <h4></h4>
-                <div class="centerButtonValidation">
-                    <input id="buttonConfirm" type="submit" class="pro-btn-yellow" value=<liferay-ui:message key="button-budget-ok"/> />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
 
-	var namespace = "<portlet:namespace />";
+	var namespaceEditBudget = "<portlet:namespace />";
+	var saved_nbFiles = "${nbFiles}";
+	var saved_typesFiles = "${typesFiles}";
 
-    $(document).ready(function(){
-        $('#modalConfirmerBudget').modal('hide');
-        $('#modalErrorBudget').modal('hide');
-    });
+
+    function deleteFileEditBudget(elt, e){
+        // supprime le fichier
+        $(elt).closest(".documentSelected").remove();
+
+        e.preventDefault();
+
+        //gestion des sélecteurs
+        gestionSelectEditBudget();
+    };
+
+    function selectFileEditBudget(elt, e){
+        if($(elt).val() != ""){
+            // ajout de la croix s'il y a lieu
+            if($(elt).parent().find(".deleteFile").length == 0){
+                $(elt).parent().append("<div class='deleteFile'></div>");
+            }
+
+            // Gestions des sélecteurs
+            gestionSelectEditBudget();
+        }else{
+            // supprime le fichier
+            deleteFileSeEditBudget(elt,e);
+        }
+    };
+
+    function gestionSelectEditBudget(){
+        // gestion des suppressions
+        btnsDeleteFiles = $(".deleteFile");
+        btnsDeleteFiles.each(function(){
+            this.addEventListener('click', function (event) {
+                deleteFileEditBudget(this, event);
+            });
+        });
+
+        // ajoute un sélecteur s'il y a lieu
+        if($(".upload-file").length < saved_nbFiles
+            && $(".upload-file").length == $(".deleteFile").length){
+            selector =
+                '<div class="documentSelected"> ' +
+                    '<span class="browsePicture input-group-btn"> ' +
+                        '<div class="form-group input-text-wrapper"> ' +
+                            '<input class="field btn btn-default btn-choose upload-file form-control download" id="'+namespaceEditBudget+'budgetFile" ' +
+                                'name="'+namespaceEditBudget+'budgetFile" type="file" value="" aria-describedby="'+namespaceEditBudget+'budgetFileHelper" /> ' +
+                        '</div> ' +
+                    '</span> ' +
+                '</div> '
+            ;
+            $(".budgetDocuments").append(selector);
+        }
+
+        // gestion de la sélection d'un fichier
+        inputs = $(".upload-file.download");
+        inputs.each(function(){
+            this.addEventListener('change', function (event) {
+                selectFileEditBudget(this, event);
+            });
+        });
+    };
     
     
     /*
@@ -170,8 +210,8 @@
 	*/
 	$(document).on("click", "[href='#showModalEditBudget']", function(event) {
 		event.preventDefault();
-		resetValues();
-		var entryId = $("#"+namespace+"entryId").val();
+		resetValuesEditBudget();
+		var entryId = $("#"+namespaceEditBudget+"entryId").val();
 		
 		AUI().use('aui-io-request', function(A) {
             try {
@@ -183,29 +223,57 @@
                     },
                     on: {
                     	success: function(e) {
-	                        	var data = this.get('responseData');
-	                        	
-	                        	$("#"+namespace+"budgettitle").val(data.title);
-	                        	var iframe = $('.Squire-UI').next('iframe').first()[0];
-	                        	var editor = iframe.contentWindow.editor;
-	                        	editor.setHTML(data.description);
-	                        	$("#"+namespace+"budgetsummary").val(data.summary);
-	                        	$("#"+namespace+"quartier").val(data.quartier).change().selectric('refresh');
-	                        	$("#"+namespace+"budgetlieux").val(data.placeText);
-	                        	$("#"+namespace+"project").val(data.projectId).change().selectric('refresh');
-	                        	$("#"+namespace+"theme").val(data.themeId).change().selectric('refresh');
-	                        	$("#"+namespace+"budgetVideo").val(data.videoURL);
-	                        	
-	                        	if(data.hasImage) {
-	                        		$("#budgetPhotoID").hide();
-	                        	}else {
-	                        		$("#editPhotoID").hide();
-	                        		$("#budgetPhotoMessageID").hide();
-	                        	}
+                            var data = this.get('responseData');
+
+                            $("#"+namespaceEditBudget+"budgettitle").val(data.title);
+                            var iframe = $('.Squire-UI').next('iframe').first()[0];
+                            var editor = iframe.contentWindow.editor;
+                            editor.setHTML(data.description);
+                            $("#"+namespaceEditBudget+"budgetsummary").val(data.summary);
+                            $("#"+namespaceEditBudget+"quartier").val(data.quartier).change().selectric('refresh');
+                            $("#"+namespaceEditBudget+"budgetlieux").val(data.placeText);
+                            $("#"+namespaceEditBudget+"project").val(data.projectId).change().selectric('refresh');
+                            $("#"+namespaceEditBudget+"theme").val(data.themeId).change().selectric('refresh');
+                            $("#"+namespaceEditBudget+"budgetVideo").val(data.videoURL);
+
+                            if(data.hasImage) {
+                                $("#budgetPhotoID").hide();
+                                $("#editPhotoID").show();
+                                $("#budgetPhotoMessageID").show();
+                            }else {
+                                $("#editPhotoID").hide();
+                                $("#budgetPhotoMessageID").hide();
+                                $("#budgetPhotoID").show();
+                            }
+
+                            //on initialise les documents
+                            $('.budgetDocuments').html("");
+                            var documentHTML = "";
+                            // on affiche les documents si il peut y en avoir
+                            if(saved_nbFiles > 0){
+                                documentHTML = '<label class="control-label">Documents</label> ';
+                            }
+                            if(data.documents.length > 0) {
+                                // on affiche les documents
+                                $.each(data.documents, function(index, elt){
+                                    documentHTML +=
+                                        '<div class="documentSelected">' +
+                                            '<input id="'+namespaceEditBudget+'budgetFileId" ' +
+                                            'name="'+namespaceEditBudget+'budgetFileId" type="hidden" value="'+  elt.id  +'" /> ' +
+                                            '<input class="field upload-file form-control" id="'+namespaceEditBudget+'budgetFile" ' +
+                                            'name="'+namespaceEditBudget+'budgetFile" type="text" value="'+  elt.name  +'" readonly="true" /> ' +
+                                            '<div class="deleteFile"></div>' +
+                                        '</div>';
+                                });
+                            }
+                            $(".budgetDocuments").append(documentHTML);
+
+                            // gestion des sélecteurs/documents
+                            gestionSelectEditBudget();
                         }
                      }
                 });
-                
+
             }
             catch(error) {
                 if(!(error instanceof TypeError)){
@@ -219,12 +287,11 @@
 	* Lors du click sur le bouton de validation du formulaire
 	*/
     $("#sendBudget").click(function(event){
-        event.preventDefault();
-        var response = validateForm();
+        var response = validateFormEditBudget();
         if (response){
         	var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;
-        	$("#"+namespace+"budgetdescription").val(editor.getHTML());
+        	$("#"+namespaceEditBudget+"budgetdescription").val(editor.getHTML());
         	$("#uploadForm").submit();
         }
     });
@@ -232,78 +299,67 @@
     /*
 	* Lors du click sur le bouton de pour modifier ou supprimer la photo
 	*/
-    $("#"+namespace+"editPhoto").click(function(event){
-    	$("#"+namespace+"deletePhoto").val("true");
+    $("#"+namespaceEditBudget+"editPhoto").click(function(event){
+    	$("#"+namespaceEditBudget+"deletePhoto").val("true");
     	$("#editPhotoID").hide();
     	$("#budgetPhotoID").show();
     });
-    
 
-    $('#modalConfirmerBudget #buttonConfirm').click(function(event){
-        $('#modalConfirmerBudget').modal('hide');
-    });
-
-    $('#modalErrorBudget #buttonConfirm').click(function(event){
-        $('#modalErrorBudget').modal('hide');
-    });
-
-    function resetValues()
+    function resetValuesEditBudget()
     {
-        $("#"+namespace+"budgettitle").val("");
-        $("#"+namespace+"budgetsummary").val("");
-        $("#"+namespace+"budgetdescription").val("");
-        $("#"+namespace+"budgetlieux").val("");
-        $("#"+namespace+"project option[value='0']").prop('selected', true);
-        $("#"+namespace+"project").selectric();
-        $("#"+namespace+"quartier option[value='0']").prop('selected', true);
-        $("#"+namespace+"quartier").selectric();
-        $("#"+namespace+"theme option[value='0']").prop('selected', true);
-        $("#"+namespace+"theme").selectric();
+        $("#"+namespaceEditBudget+"budgetdescription").val("");
+        $("#"+namespaceEditBudget+"budgetPhoto").val("");
         $("#edit-budget-legalage").prop("checked", false);
         $("#edit-budget-cnil").prop("checked", false);
-        $("#"+namespace+"budgetPhoto").val("");
-        $("#"+namespace+"budgetVideo").val("");
-        
-        var iframe = $('.Squire-UI').next('iframe').first()[0];
-    	var editor = iframe.contentWindow.editor;
-    	editor.setHTML('');
     }
 
-    function validateForm()
+    function validateFormEditBudget()
     {
         var result = true;
-        var budgettitle = $("#"+namespace+"budgettitle").val();
-        var budgetsummary = $("#"+namespace+"budgetsummary").val();
+        var budgettitle = $("#"+namespaceEditBudget+"budgettitle").val();
+        var budgetsummary = $("#"+namespaceEditBudget+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
     	var editor = iframe.contentWindow.editor;       	
         var budgetdescription = editor.getHTML();
-        var photo = $("#"+namespace+"budgetPhoto").val();
+        var photo = $("#"+namespaceEditBudget+"budgetPhoto").val();
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
         var legalage = $("#edit-budget-legalage").is(":checked");
         var cnil = $("#edit-budget-cnil").is(":checked");
+        var files = $(".upload-file.download");
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
-            $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceEditBudget+"budgetPhoto").css({ "box-shadow" : "0 0 10px #CC0000" });
                 result = false;
-            }else $("#"+namespace+"budgetPhoto").css({ "box-shadow" : "" });
+            }else $("#"+namespaceEditBudget+"budgetPhoto").css({ "box-shadow" : "" });
         }
 
         if (budgettitle===null || budgettitle===""){
-            $("#"+namespace+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceEditBudget+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgettitle").css({ "box-shadow" : "" });
+        }else $("#"+namespaceEditBudget+"budgettitle").css({ "box-shadow" : "" });
         
         if (budgetsummary===null || budgetsummary===""){
-            $("#"+namespace+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
+            $("#"+namespaceEditBudget+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
-        }else $("#"+namespace+"budgetsummary").css({ "box-shadow" : "" });
+        }else $("#"+namespaceEditBudget+"budgetsummary").css({ "box-shadow" : "" });
 
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $(iframe).css({ "box-shadow" : "" });
+
+        files.each(function(){
+            var file = $(this).val();
+            if (file!=null && file!==""){
+                var ext = file.split(".").pop().toLowerCase();
+                if(saved_typesFiles.indexOf(ext) == -1) {
+                    $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
+                    result = false;
+                }else $(this).css({ "box-shadow" : "" });
+            }
+        });
 
         if (!legalage)
             result = false;

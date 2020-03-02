@@ -83,7 +83,7 @@
 					            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
                             <aui:input id="birthday" name="birthday" cssClass="frm_date" label="modal.user.birthday" 
-                            placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValues();" onChange="checkValues();"/>
+                            placeholder="jj/mm/aaaa" maxlength="10" onInput="checkValuesGiveInitiativeHelp();" onChange="checkValuesGiveInitiativeHelp();"/>
                         </div>
                         
                     </div>
@@ -93,7 +93,7 @@
                     
                     	<%-- Champ : Adresse --%>
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValues();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValuesGiveInitiativeHelp();" />
                         </div>
                         
                         <%-- Groupe de champs : (note : utilise pour la sous division d'une meme ligne en plus petit champ) --%>
@@ -101,12 +101,12 @@
                         
                         	<%-- Champ : Ville --%>
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" maxlength="256" onInput="checkValues();" />
+                                <aui:input name="city" label="modal.user.city" maxlength="256" onInput="checkValuesGiveInitiativeHelp();" />
                             </div>
                             
                             <%-- Champ : Code postal --%>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" maxlength="5" onInput="checkValues();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" maxlength="5" onInput="checkValuesGiveInitiativeHelp();"/>
                             </div>
                             
                         </div>
@@ -123,12 +123,12 @@
                     
                     	<%-- Champ : Telephone --%>
                         <div class="form-group form-half">
-                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="phone" label="modal.user.phone" maxlength="20" value="" onInput="checkValuesGiveInitiativeHelp();"/>
                         </div>
                         
                         <%-- Champ : Mobile --%>
                         <div class="form-group form-half">
-                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValues();"/>
+                            <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesGiveInitiativeHelp();"/>
                         </div>
                     </div>
                     
@@ -254,7 +254,7 @@
 <script type="text/javascript">
 	
 	// Variables tempons des informations utilisateur et contexte namespace
-	var namespace = "<portlet:namespace />";
+	var namespaceGiveInitiativeHelp = "<portlet:namespace />";
 	var saved_address = "${userConnected.get('address')}";
 	var saved_zipCode = "${userConnected.get('zipcode')}";
 	var saved_city = "${userConnected.get('city')}";
@@ -419,7 +419,7 @@
     /*
 	* Affiche la demande de sauvegarde des informations dans Publik
 	*/
-    function checkValues(){
+    function checkValuesGiveInitiativeHelp(){
         if($("#<portlet:namespace />birthday").val() != saved_dateNaiss 
         		|| $("#<portlet:namespace />address").val() != saved_address 
         		|| $("#<portlet:namespace />city").val() != saved_city 

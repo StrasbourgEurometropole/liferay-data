@@ -175,6 +175,14 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					"facebookURL");
 			place.setFacebookURLMap(facebookURLs);
 
+			Map<Locale, String> instagramLabels = LocalizationUtil.getLocalizationMap(request,
+					"instagramLabel");
+			place.setInstagramLabelMap(instagramLabels);
+
+			Map<Locale, String> instagramURLs = LocalizationUtil.getLocalizationMap(request,
+					"instagramURL");
+			place.setInstagramURLMap(instagramURLs);
+
 			// ---------------------------------------------------------------
 			// ---------------------------- ACCES ----------------------------
 			// ---------------------------------------------------------------

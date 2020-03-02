@@ -202,6 +202,15 @@
 							<aui:validator name="require" errorMessage="this-field-is-required" />
 						</aui:input>
 
+						<aui:input name="instagramLabel" >
+					        <aui:validator name="require" errorMessage="this-field-is-required" />
+						</aui:input>
+
+						<aui:input name="instagramURL">
+							<aui:validator name="url"/>
+							<aui:validator name="require" errorMessage="this-field-is-required" />
+						</aui:input>
+
 			</aui:fieldset>
 				
 			<!-- Accès -->
@@ -464,7 +473,7 @@
                 </c:if>
 
             </aui:fieldset>
-				
+
 			<!-- Sous lieux -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="sub-places">
