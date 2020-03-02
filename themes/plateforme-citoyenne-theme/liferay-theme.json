@@ -5,7 +5,7 @@
     "deployPath": "C:\\liferay\\ems-workspace\\liferay-workspace\\bundles\\deploy",
     "url": "http://localhost:8080",
     "appServerPathPlugin": "C:\\liferay\\ems-workspace\\liferay-workspace\\bundles\\tomcat-9.0.17\\webapps\\plateforme-citoyenne-theme",
-    "deployed": false,
+    "deployed": true,
     "pluginName": "plateforme-citoyenne-theme"
   }
 }
