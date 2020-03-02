@@ -1,3 +1,25 @@
+create table publik_AnonymisationHistoric (
+	uuid_ VARCHAR(75) null,
+	anonymisationHistoricId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	lastPublishDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	result INTEGER,
+	operations TEXT null,
+	errorDescription TEXT null,
+	errorStackTrace TEXT null,
+	startDate DATE null,
+	finishDate DATE null
+);
+
 create table publik_PublikUser (
 	uuid_ VARCHAR(75) null,
 	publikUserLiferayId LONG not null primary key,

@@ -213,6 +213,15 @@ public class UserNotificationChannelLocalServiceWrapper
 	}
 
 	/**
+	* Retourne la liste des statuts de notification pour un utilisateur
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.notification.model.UserNotificationChannel> getByPublikUserId(
+		java.lang.String publikUserId) {
+		return _userNotificationChannelLocalService.getByPublikUserId(publikUserId);
+	}
+
+	/**
 	* Returns a range of all the user notification channels.
 	*
 	* <p>

@@ -196,6 +196,13 @@ public interface UserNotificationChannelLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne la liste des statuts de notification pour un utilisateur
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<UserNotificationChannel> getByPublikUserId(
+		java.lang.String publikUserId);
+
+	/**
 	* Returns a range of all the user notification channels.
 	*
 	* <p>
