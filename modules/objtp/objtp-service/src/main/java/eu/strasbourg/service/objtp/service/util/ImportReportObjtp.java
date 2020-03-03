@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -168,40 +169,43 @@ public class ImportReportObjtp {
 		String mailAddresses = StrasbourgPropsUtil.getObjtpImportMails();
 
 		StringWriter out = new StringWriter();
-		String subject;
-		String body;
+		String mailSubject;
+		String mailBody;
 
 		try {
 			// Chargement du template contenant le sujet du mail
 			TemplateResource templateResourceSubject = new URLTemplateResource(
 					"0",
-					this.getClass().getClassLoader().getResource("/templates/import-notification-mail-subject.ftl.ftl"));
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/import-notification-mail-subject.ftl")));
 			Template subjectTemplate = TemplateManagerUtil.getTemplate(
 					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
 
 			// Traitement du template sujet
 			subjectTemplate.put("environment", environment);
 			subjectTemplate.processTemplate(out);
-			subject = out.toString();
+			mailSubject = out.toString();
 
 			//Chargement du template contenant le corps du mail
 			TemplateResource templateResourceBody = new URLTemplateResource(
 					"0",
-					this.getClass().getClassLoader().getResource("/templates/import-notification-mail-body.ftl"));
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/import-notification-mail-body.ftl")));
 			Template bodyTemplate = TemplateManagerUtil.getTemplate(
-					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 
 			// Traitement du template corps
+			out.flush();
 			bodyTemplate.put("report", this);
 			bodyTemplate.processTemplate(out);
-			body = out.toString();
+			mailBody = out.toString();
 
 			String adminEmailFromAddress = PrefsPropsUtil.getString(
 				PortalUtil.getDefaultCompanyId(),
 				PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
 
 			// Envoi du mail
-			MailHelper.sendMailWithPlainText(adminEmailFromAddress, mailAddresses, subject, body);
+			MailHelper.sendMailWithPlainText(adminEmailFromAddress, mailAddresses, mailSubject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 		}
