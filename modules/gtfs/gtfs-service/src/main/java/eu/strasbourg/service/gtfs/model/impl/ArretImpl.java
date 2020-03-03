@@ -59,8 +59,8 @@ public class ArretImpl extends ArretBaseImpl {
 
 	private static final long serialVersionUID = 3843907860876078856L;
 	
-	public static final String TYPE_BUS = "bus";
-	public static final String TYPE_TRAM = "tram";
+	public static final String TYPE_BUS = "Bus";
+	public static final String TYPE_TRAM = "Tram";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -159,7 +159,7 @@ public class ArretImpl extends ArretBaseImpl {
 				"			</div>";
 		properties.put("contenu", contenu);
 
-		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText() + ".png");
+		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText().toLowerCase() + ".png");
 
 		// vérifi si l'arrêt a une alerte
 		if(this.getAlertsActives().size() > 0)
