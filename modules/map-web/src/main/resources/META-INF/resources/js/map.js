@@ -224,15 +224,15 @@
                             // Chargement des prochains passages lors de l'ouverture de la popup
                             var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
 
-                            // On efface la liste
-                            $(destinationList).empty();
-
                             if(feature.properties.codeArret != "999"){
                                 Liferay.Service(
                                     '/gtfs.arret/get-arret-real-time', {
                                         stopCode: feature.properties.codeArret
                                     },
                                     function(json) {
+                                        // On efface la liste
+                                        $(destinationList).empty();
+
                                         if (Object.keys(json).length != 0) {
                                             // Parcours des horraires
                                             var destinations = '';
