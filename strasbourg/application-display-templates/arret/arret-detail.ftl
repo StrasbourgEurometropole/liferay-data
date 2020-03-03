@@ -76,41 +76,56 @@
                         <h2 class="schedule"><span><@liferay_ui.message key="eu.arret.next-bus-stop" /></span></h2>
                     </button>
                     <div class="seu-collapsing-box">
-                        <div class="rte">
-                            <#assign arretRealTime = entry.arretRealTime/>
-                            <#if arretRealTime?size == 0>
-                                <p><@liferay_ui.message key="eu.no-visit-found" /></p>
-                            </#if>
-                            <#if arretRealTime?size != 0>
-                                <#assign ligneService = serviceLocator.findService("eu.strasbourg.service.gtfs.service.LigneService") />
-                                <#assign ligneColors = ligneService.getLigneColorsFreemarker() />
-                                <#list arretRealTime as realTime>
-                                    <#if realTime?counter gt 12>
-                                        <#break>
+                        <div class="seu-wi seu-wi-schedules">
+                            <div class="tab-content tabbed">
+                                <ul class="schedule-list"> 
+                                    <#if entry.code == "999">
+                                        <li><@liferay_ui.message key="eu.no-real-time-for-stop" /></li>
                                     </#if>
-                                    <#assign colors = ligneColors[realTime.MonitoredVehicleJourney.PublishedLineName] />
-                                    <#assign backgroundColor = (colors[0]?has_content)?then(colors[0],"000000") />
-                                    <#assign textColor = (colors[1]?has_content)?then(colors[1],"FFFFFF") />
-
-                                    <div class="row tram-destination">
-                                        <p class="tram-destination-letter">
-                                            <span class="transport-letters-icon" style="background:#${backgroundColor}; color:#${textColor};">
-                                                    ${realTime.MonitoredVehicleJourney.PublishedLineName}
-                                            </span>
-                                        </p>
-                                        <div class="tram-destination-name">
-                                            <p data-dot="2">
-                                                ${realTime.MonitoredVehicleJourney.DestinationName}
-                                            </p>
-                                        </div>
-                                        <p class="tram-destination-schedule">
-                                            <strong>
-                                                    ${realTime.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime?datetime.xs?string["HH:mm"]}
-                                            </strong>
-                                        </p>
-                                    </div>
-                                </#list>
-                            </#if>
+                                    <#if entry.code != "999">
+                                        <#assign arretRealTime = entry.arretRealTime/>
+                                        <#if arretRealTime?size == 0>
+                                            <li><@liferay_ui.message key="eu.no-visit-found" /></li>
+                                        </#if>
+                                        <#if arretRealTime?size != 0>
+                                            <#assign ligneService = serviceLocator.findService("eu.strasbourg.service.gtfs.service.LigneService") />
+                                            <#assign ligneColors = ligneService.getLigneColorsFreemarker() />
+                                            <#list arretRealTime as realTime>
+                                                <#if realTime?counter gt 12>
+                                                    <#break>
+                                                </#if>
+                                                <#if ligneColors[realTime.MonitoredVehicleJourney.LineRef]??>
+                                                    <#assign colors = ligneColors[realTime.MonitoredVehicleJourney.LineRef] />
+                                                </#if>
+                                                <#if !ligneColors[realTime.MonitoredVehicleJourney.LineRef]??>
+                                                    <#assign colors = "" />
+                                                </#if>
+                                                <#assign backgroundColor = (colors?has_content && colors[0]?has_content)?then(colors[0],"eeeeee") />
+                                                <#assign textColor = (colors?has_content && colors[1]?has_content)?then(colors[1],"000000") />
+                                                <li style="display:block;">
+                                                    <div class="row tram-destination">
+                                                        <p class="tram-destination-letter">
+                                                            <span class="transport-letters-icon" style="background:#${backgroundColor}; color:#${textColor};">
+                                                                    ${realTime.MonitoredVehicleJourney.PublishedLineName}
+                                                            </span>
+                                                        </p>
+                                                        <div class="tram-destination-name">
+                                                            <p data-dot="2" style="font-size: inherit;">
+                                                                ${realTime.MonitoredVehicleJourney.DestinationName}
+                                                            </p>
+                                                        </div>
+                                                        <p class="tram-destination-schedule">
+                                                            <strong>
+                                                                    ${realTime.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime?datetime.xs?string["HH:mm"]}
+                                                            </strong>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            </#list>
+                                        </#if>
+                                    </#if>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,15 +149,14 @@
                         <div class="seu-collapsing-box">
                             <#list alerts as alert>
                                 <div class="rte">
-                                    <strong>
+                                    <h3>
                                         <#if alert.startDate?date == alert.endDate?date>
                                             <@liferay_ui.message key="eu.event.the" /> ${alert.startDate?date?string.short?replace('/', '.')}
                                         <#else>
                                             <@liferay_ui.message key="eu.event.from-date" /> ${alert.startDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${alert.endDate?date?string.short?replace('/', '.')}
                                         </#if>
-                                    </strong>
-                                    <br>
-                                    <strong>${alert.getLigneAndDirection(locale)}</strong>
+                                    </h3>
+                                    <h4>${alert.getLigneAndDirection(locale)}</h4>
                                     <p>${alert.getPerturbation(locale)}</p>
                                 </div>
                             </#list>
