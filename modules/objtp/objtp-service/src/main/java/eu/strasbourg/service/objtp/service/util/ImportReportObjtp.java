@@ -3,20 +3,18 @@ package eu.strasbourg.service.objtp.service.util;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
+
 
 public class ImportReportObjtp {
 
@@ -35,9 +33,9 @@ public class ImportReportObjtp {
 	private Date endDate;
 	
 	public ImportReportObjtp() {
-		this.reportLinesObjectCategory = new ArrayList<ImportReportLineObjtp>();
-		this.reportLinesFoundObject = new ArrayList<ImportReportLineObjtp>();
-		this.reportLinesNoImage = new ArrayList<ImportReportLineObjtp>();
+		this.reportLinesObjectCategory = new ArrayList<>();
+		this.reportLinesFoundObject = new ArrayList<>();
+		this.reportLinesNoImage = new ArrayList<>();
 		this.setFoundObjectStatus(ImportReportStatusObjtp.SUCCESS);
 		this.setObjectCategoryStatus(ImportReportStatusObjtp.SUCCESS);
 	}
@@ -167,33 +165,43 @@ public class ImportReportObjtp {
 	public void sendMail() {
 		String environment = StrasbourgPropsUtil.getEnvironment();
 
-
-		
 		String mailAddresses = StrasbourgPropsUtil.getObjtpImportMails();
-		Map<String, Object> context = new HashMap<>();
-		context.put("report", this);
-		context.put("environment", environment);
 
-		Configuration configuration = new Configuration(
-			Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(),
-			"/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+		StringWriter out = new StringWriter();
+		String subject;
+		String body;
+
 		try {
-			Template subjectTemplate = configuration
-				.getTemplate("import-notification-mail-subject.ftl");
-			Template bodyTemplate = configuration
-				.getTemplate("import-notification-mail-body.ftl");
-			StringWriter subjectWriter = new StringWriter();
-			StringWriter bodyWriter = new StringWriter();
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
+			// Chargement du template contenant le sujet du mail
+			TemplateResource templateResourceSubject = new URLTemplateResource(
+					"0",
+					this.getClass().getClassLoader().getResource("/templates/import-notification-mail-subject.ftl.ftl"));
+			Template subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template sujet
+			subjectTemplate.put("environment", environment);
+			subjectTemplate.processTemplate(out);
+			subject = out.toString();
+
+			//Chargement du template contenant le corps du mail
+			TemplateResource templateResourceBody = new URLTemplateResource(
+					"0",
+					this.getClass().getClassLoader().getResource("/templates/import-notification-mail-body.ftl"));
+			Template bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template corps
+			bodyTemplate.put("report", this);
+			bodyTemplate.processTemplate(out);
+			body = out.toString();
+
 			String adminEmailFromAddress = PrefsPropsUtil.getString(
 				PortalUtil.getDefaultCompanyId(),
 				PropsKeys.ADMIN_EMAIL_FROM_ADDRESS);
-			MailHelper.sendMailWithPlainText(adminEmailFromAddress,
-				mailAddresses,
-				subjectWriter.toString(), bodyWriter.toString());
+
+			// Envoi du mail
+			MailHelper.sendMailWithPlainText(adminEmailFromAddress, mailAddresses, subject, body);
 		} catch (Exception e) {
 			_log.error(e);
 		}
