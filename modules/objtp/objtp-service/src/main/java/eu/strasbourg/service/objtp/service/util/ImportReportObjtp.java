@@ -195,7 +195,7 @@ public class ImportReportObjtp {
 					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 
 			// Traitement du template corps
-			out.flush();
+			out = new StringWriter();
 			bodyTemplate.put("report", this);
 			bodyTemplate.processTemplate(out);
 			mailBody = out.toString();
