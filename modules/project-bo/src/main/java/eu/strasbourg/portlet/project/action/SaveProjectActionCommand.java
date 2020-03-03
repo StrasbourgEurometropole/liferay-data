@@ -313,7 +313,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 							TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 
 					// Traitement du template corps
-					out.flush();
+					out = new StringWriter();
 					bodyTemplate.put("link", urlBuilded.toString());
 					bodyTemplate.put("headerImage", headerImage.toString());
 					bodyTemplate.put("footerImage", btnImage.toString());
