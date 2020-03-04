@@ -13,6 +13,8 @@
 
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
+    <h1><liferay-ui:message key="gmb-synchro-title" /></h1>
+    <br>
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="importHistoricsSearchContainer"
@@ -67,6 +69,7 @@
    			</c:if>
    			<c:if test="${not cd.canSynchronise() || not isAdmin}">
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize"  disabled="true" />
+   			    <div class="tooltip-inner"><liferay-ui:message key="no-synchronise" /></div>
    			</c:if>
    		</aui:button-row>
    	</form>
