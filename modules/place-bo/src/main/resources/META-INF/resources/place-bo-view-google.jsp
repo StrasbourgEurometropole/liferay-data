@@ -69,7 +69,7 @@
    			</c:if>
    			<c:if test="${not cd.canSynchronise() || not isAdmin}">
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize"  disabled="true" />
-   			    <div class="tooltip-inner"><liferay-ui:message key="no-synchronise" /></div>
+   			    <div class="tooltip-inner"><liferay-ui:message key="synchronise-forbidden" /></div>
    			</c:if>
    		</aui:button-row>
    	</form>
