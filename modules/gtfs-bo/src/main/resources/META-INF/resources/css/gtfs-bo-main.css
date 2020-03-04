@@ -52,3 +52,14 @@
 .tram-destination-name {
     margin: auto 1px;
 }
+
+.tooltip-inner {
+    display: none;
+    left: 170px;
+    position: absolute;
+    bottom: 60px;
+}
+
+button.disabled:hover + .tooltip-inner{
+    display: block;
+}

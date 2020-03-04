@@ -60,9 +60,13 @@
     </liferay-portlet:resourceURL>
 	
 	<form method="POST" action="${importGTFSURL}">
-   		<aui:button-row>
-   			<aui:button cssClass="btn-lg" type="submit" value="import-gtfs" />
-   		</aui:button-row>
+        <c:if test="${isAdmin}">
+            <aui:button cssClass="btn-lg" type="submit" value="import-gtfs" />
+        </c:if>
+        <c:if test="${not isAdmin}">
+            <aui:button cssClass="btn-lg" type="submit" value="import-gtfs"  disabled="true" />
+            <div class="tooltip-inner"><liferay-ui:message key="no-import" /></div>
+        </c:if>
    	</form>
    	
 </div>
