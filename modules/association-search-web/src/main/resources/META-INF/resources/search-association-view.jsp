@@ -228,6 +228,15 @@
 </main>
 
 
+<script>
+	$(document).ready(function() {
+        if($("#seu-grid--list01 li").length > 0) {
+            $('html,body').animate({scrollTop: $(".seu-view-results").offset().top - (($('.seu-nav-bottom #seu-main-menu').length > 0)?115:55)});
+        }
+	});
+
+</script>
+
 <liferay-util:body-top>
     <aui:script>
 		var homeURL = '${homeURL}';
