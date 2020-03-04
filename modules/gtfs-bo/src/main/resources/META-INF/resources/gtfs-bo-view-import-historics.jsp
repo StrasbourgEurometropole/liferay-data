@@ -65,7 +65,7 @@
         </c:if>
         <c:if test="${not isAdmin}">
             <aui:button cssClass="btn-lg" type="submit" value="import-gtfs"  disabled="true" />
-            <div class="tooltip-inner"><liferay-ui:message key="no-import" /></div>
+            <div class="tooltip-inner"><liferay-ui:message key="import-forbidden" /></div>
         </c:if>
    	</form>
    	
