@@ -1,16 +1,20 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.HttpUtil;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.HttpUtil;
 
 public class PublikApiClient {
 
@@ -38,8 +42,67 @@ public class PublikApiClient {
 	}
 
 	/**
+	 * Retourne les utilisateur supprimés
+	 *
+	 * @param userPublikIds
+	 *            Identifiant Publik des utilisateurs
+	 * @return
+	 */
+	public static JSONObject getUsersDeleted(JSONArray userPublikIds) {
+		JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
+		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
+		String endpoint = StrasbourgPropsUtil.getPublikApiSynchronization();
+		String basicAuthUser = StrasbourgPropsUtil.getPublikClientId();
+		String basicAuthPassword = StrasbourgPropsUtil.getPublikClientSecret();
+
+		try {
+
+			URL u = new URL(baseUrl + endpoint);
+			HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json; utf-8");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setDoOutput(true);
+			conn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+			conn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+			if (basicAuthUser != null && basicAuthPassword != null) {
+				String encoded = Base64.getEncoder()
+						.encodeToString((basicAuthUser + ":" + basicAuthPassword).getBytes(Charset.forName("UTF-8")));
+				conn.setRequestProperty("Authorization", "Basic " + encoded);
+			}
+
+			JSONObject json = JSONFactoryUtil.createJSONObject();
+			json.put("known_uuids", userPublikIds);
+			String jsonInputString = json.toJSONString();
+
+			OutputStream os = conn.getOutputStream();
+			byte[] input = jsonInputString.getBytes("utf-8");
+			os.write(input, 0, input.length);
+
+			InputStream is;
+			if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+				is = conn.getInputStream();
+			} else {
+				/* error from server */
+				is = conn.getErrorStream();
+			}
+			Reader in = new BufferedReader(	new InputStreamReader(is, "UTF-8"));
+			StringBuilder sb = new StringBuilder();
+			for (int c; (c = in.read()) >= 0;)
+				sb.append((char) c);
+			String response = sb.toString();
+			jsonResponse = JSONFactoryUtil.createJSONObject(response);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return jsonResponse;
+	}
+
+	/**
 	 * Signe l'URL avant d'appeler le web service
-	 * 
+	 *
 	 * @param endpoint
 	 *            Endpoint à appeler (doit commencer par "/")
 	 * @param queryString

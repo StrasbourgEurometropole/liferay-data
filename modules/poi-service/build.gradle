@@ -8,5 +8,6 @@ dependencies {
 	compile project (":modules:utils")
 	compile project (':modules:interest:interest-api')
 	compile project (':modules:place:place-api')
+	compile project (':modules:gtfs:gtfs-api')
 	compile project (':modules:favorite:favorite-api')
 }

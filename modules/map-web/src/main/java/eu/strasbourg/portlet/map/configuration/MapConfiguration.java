@@ -88,5 +88,4 @@ public interface MapConfiguration {
 
 	@Meta.AD(name = "linkInterestId", deflt = "", required = false)
 	public String linkInterestId();
-
 }

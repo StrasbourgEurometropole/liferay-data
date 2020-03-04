@@ -11,6 +11,14 @@
             margin-bottom: 0 !important;
         }
     }
+
+                
+    .scroll-pane{
+        max-height: 205px;  
+    } 
+
+    @extend %jscrollpane;
+
     padding-bottom: 60px;
     position: relative;
     &:after {
@@ -29,12 +37,26 @@
     &__link {
         text-decoration: none;
         display: block;
+        position: relative;
+
         &:hover,
         &:focus {
             text-decoration: none;
             .favoris-teaser__title {
                 text-decoration: underline;
             }
+        }
+            
+        .alert{
+            height: 21px;
+            width: 21px;
+            position: absolute;
+            top: 20px;
+            right: 20px;            
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-alert, $error) );
         }
     }
 
