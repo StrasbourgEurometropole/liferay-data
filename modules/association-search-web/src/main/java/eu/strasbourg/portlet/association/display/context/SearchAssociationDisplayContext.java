@@ -29,10 +29,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -195,6 +192,8 @@ public class SearchAssociationDisplayContext {
                     associationList.add(practice.getAssociationId());
                 }
             }
+            // on tri les associations par nom
+            results.sort(Comparator.comparing(AssetEntry::getTitle));
             this.getSearchContainer().setTotal(results.size());
         }
 
