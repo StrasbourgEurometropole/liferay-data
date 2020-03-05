@@ -24,13 +24,19 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
-@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration", property = {
-		"com.liferay.portlet.display-category=Strasbourg", "com.liferay.portlet.instanceable=true",
-		"com.liferay.portlet.requires-namespaced-parameters=false",
-		"com.liferay.portlet.css-class-wrapper=contact-form-portlet", "javax.portlet.init-param.template-path=/",
-		"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+@Component(
+		immediate = true,
+		configurationPid = "eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration",
+		property = {
+			"com.liferay.portlet.display-category=Strasbourg", "com.liferay.portlet.instanceable=true",
+			"com.liferay.portlet.requires-namespaced-parameters=false",
+			"com.liferay.portlet.css-class-wrapper=contact-form-portlet", "javax.portlet.init-param.template-path=/",
+			"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
+			"javax.portlet.resource-bundle=content.Language",
+			"javax.portlet.security-role-ref=power-user,user"
+		},
+		service = Portlet.class
+)
 public class ContactFormPortlet extends MVCPortlet {
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());
