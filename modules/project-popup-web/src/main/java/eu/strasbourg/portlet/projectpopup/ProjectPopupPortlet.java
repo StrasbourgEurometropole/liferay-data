@@ -33,6 +33,7 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
 @Component(
         immediate = true,
         property = {
+                "javax.portlet.version=3.0",
                 "com.liferay.portlet.display-category=Strasbourg",
                 "com.liferay.portlet.instanceable=true",
                 "com.liferay.portlet.css-class-wrapper=project-popup-portlet",
