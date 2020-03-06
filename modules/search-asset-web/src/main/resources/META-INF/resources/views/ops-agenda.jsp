@@ -22,7 +22,7 @@
 					<c:set var="className" value="${entry.className}" />
 					<liferay-ddm:template-renderer className="${className}" contextObjects="${dc.getTemplateContextObjects(entry)}"
 						displayStyle="${dc.templatesMap[entry.className]}" displayStyleGroupId="${themeDisplay.scopeGroupId}" entries="${dc.templateEntries }">
-						<liferay-ui:asset-display assetEntry="${entry}" assetRenderer="${entry.assetRenderer}" assetRendererFactory="${entry.assetRendererFactory}"
+						<liferay-asset:asset-display assetEntry="${entry}" assetRenderer="${entry.assetRenderer}" assetRendererFactory="${entry.assetRendererFactory}"
 							template="abstract" />
 					</liferay-ddm:template-renderer>
 				</liferay-ui:search-container-row>
