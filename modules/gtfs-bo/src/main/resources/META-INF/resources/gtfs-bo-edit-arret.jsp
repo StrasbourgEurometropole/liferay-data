@@ -35,15 +35,15 @@
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="lignes-directions">
 
-                <c:forEach items="${dc.arret.directions}" var="direction" varStatus="status">
+                <c:forEach items="${dc.arret.directionsUniques}" var="direction" varStatus="status">
                     <div class="ligne-direction">
                         <p class="tram-destination-letter">
-                            <span class="transport-letters-icon" style="background:#${direction.ligne.backgroundColor}; color:#${direction.ligne.textColor};">
-                                ${direction.ligne.shortName}
+                            <span class="transport-letters-icon" style="background:#${direction.value[0]}; color:#${direction.value[1]};">
+                                ${direction.key}
                             </span>
                         </p>
                         <p class="tram-destination-name">
-                            ${direction.destinationName}
+                            ${direction.value[2]}
                         </p>
                     </div>
 				</c:forEach>

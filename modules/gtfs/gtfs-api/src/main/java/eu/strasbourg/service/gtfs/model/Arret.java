@@ -86,6 +86,11 @@ public interface Arret extends ArretModel, PersistedModel {
 	public java.lang.String getTypeText();
 
 	/**
+	* Renvoie les directions sans doublon shortName, [bgColor, textColor, destinationName]
+	*/
+	public java.util.Map<java.lang.String, java.lang.String[]> getDirectionsUniques();
+
+	/**
 	* Renvoie les prochains passages
 	*/
 	public java.util.List<com.liferay.portal.kernel.json.JSONObject> getArretRealTime();
