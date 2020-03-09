@@ -64,7 +64,7 @@ public class StartSynchronizedActionCommand implements MVCActionCommand {
                 // Envoie du mail de rapport
                 googleMyBusinessHistoric.sendMail();
             }else{
-                SessionErrors.add(request, "no-synchronise");
+                SessionErrors.add(request, "synchronise-forbidden");
                 return false;
             }
 
