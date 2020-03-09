@@ -55,6 +55,8 @@ public class SynchronisePlaceToGMB extends BaseSchedulerEntryMessageListener {
 
             // Envoie du mail de rapport
             googleMyBusinessHistoric.sendMail();
+        }else{
+            this._log.info("La synchronisation des lieux est désactivée - Fin du traitement ");
         }
 
         this._log.info("Finish synchronise");

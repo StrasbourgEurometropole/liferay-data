@@ -9,7 +9,7 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
-<liferay-ui:error key="no-synchronise" message="no-synchronise" />
+<liferay-ui:error key="synchronise-forbidden" message="synchronise-forbidden />
 
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
