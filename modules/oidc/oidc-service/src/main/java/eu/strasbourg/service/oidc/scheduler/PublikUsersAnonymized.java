@@ -11,12 +11,18 @@ import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
+import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.*;
 
 import java.util.Date;
@@ -51,30 +57,35 @@ public class PublikUsersAnonymized extends BaseSchedulerEntryMessageListener {
 	protected void doReceive(Message message) throws Exception {
 		log.info("Start anonymisation");
 
-		// Creation du contexte de la requete pour effectuer les actions dans Global
-		ServiceContext sc = new ServiceContext();
-		try {
-			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
-			sc.setCompanyId(defaultCompany.getCompanyId());
-			sc.setScopeGroupId(defaultCompany.getGroup().getGroupId());
-			sc.setUserId(UserLocalServiceUtil.getDefaultUserId(sc.getCompanyId()));
-			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-			sc.setModifiedDate(new Date());
-		} catch (PortalException e) {
-			_log.error(e);
+		if(Boolean.parseBoolean(StrasbourgPropsUtil.getAnonymisationActivated())) {
+
+			// Creation du contexte de la requete pour effectuer les actions dans Global
+			ServiceContext sc = new ServiceContext();
+			try {
+				Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+				sc.setCompanyId(defaultCompany.getCompanyId());
+				sc.setScopeGroupId(defaultCompany.getGroup().getGroupId());
+				sc.setUserId(UserLocalServiceUtil.getDefaultUserId(sc.getCompanyId()));
+				sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+				sc.setModifiedDate(new Date());
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+
+			// Creation de l'entree d'historique d'anonymisation
+			AnonymisationHistoric anonymisationHistoric = AnonymisationHistoricLocalServiceUtil.createAnonymisationHistoric(sc);
+
+			// Effectue l'anonymisation
+			this._anonymisationHistoricLocalService.doAnonymisation(sc, anonymisationHistoric);
+
+			// Sauvegarde de l'entree d'historique d'anonymisation
+			this._anonymisationHistoricLocalService.updateAnonymisationHistoric(anonymisationHistoric, sc);
+
+			// Envoie du mail de rapport
+			anonymisationHistoric.sendMail();
+		}else{
+			log.info("L’anonymisation utilisateur est désactivée - Fin du traitement ");
 		}
-
-		// Creation de l'entree d'historique d'anonymisation
-		AnonymisationHistoric anonymisationHistoric = AnonymisationHistoricLocalServiceUtil.createAnonymisationHistoric(sc);
-
-		// Effectue l'anonymisation
-		this._anonymisationHistoricLocalService.doAnonymisation(sc, anonymisationHistoric);
-
-		// Sauvegarde de l'entree d'historique d'anonymisation
-		this._anonymisationHistoricLocalService.updateAnonymisationHistoric(anonymisationHistoric, sc);
-
-		// Envoie du mail de rapport
-		anonymisationHistoric.sendMail();
 
 		log.info("Finish anonymisation");
 	}
