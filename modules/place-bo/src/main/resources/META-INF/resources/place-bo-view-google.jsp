@@ -9,10 +9,12 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
-<liferay-ui:error key="no-synchronise" message="no-synchronise" />
+<liferay-ui:error key="synchronise-forbidden" message="synchronise-forbidden />
 
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
+    <h1><liferay-ui:message key="gmb-synchro-title" /></h1>
+    <br>
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="importHistoricsSearchContainer"
@@ -62,11 +64,12 @@
     </liferay-portlet:actionURL>
 	<form action="${startSynchronizedURL}" method="POST">
    		<aui:button-row>
-   			<c:if test="${cd.canSynchronise() && isAdmin}">
+   			<c:if test="${dc.canSynchronise() && isAdmin}">
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize" />
    			</c:if>
-   			<c:if test="${not cd.canSynchronise() || not isAdmin}">
+   			<c:if test="${not dc.canSynchronise() || not isAdmin}">
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize"  disabled="true" />
+   			    <div class="tooltip-inner"><liferay-ui:message key="synchronise-forbidden" /></div>
    			</c:if>
    		</aui:button-row>
    	</form>
