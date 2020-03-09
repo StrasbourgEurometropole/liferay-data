@@ -64,10 +64,10 @@
     </liferay-portlet:actionURL>
 	<form action="${startSynchronizedURL}" method="POST">
    		<aui:button-row>
-   			<c:if test="${cd.canSynchronise() && isAdmin}">
+   			<c:if test="${dc.canSynchronise() && isAdmin}">
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize" />
    			</c:if>
-   			<c:if test="${not cd.canSynchronise() || not isAdmin}">
+   			<c:if test="${not dc.canSynchronise() || not isAdmin}">
    			    <aui:button cssClass="btn-lg" type="submit" value="synchronize"  disabled="true" />
    			    <div class="tooltip-inner"><liferay-ui:message key="synchronise-forbidden" /></div>
    			</c:if>
