@@ -138,6 +138,8 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.key");
 	}
 
+	public static String getAnonymisationActivated() {return PropsUtil.get("eu.strasbourg.publik.anonymisation.activated");}
+
 	public static String getPublikUserAnonymisationMails() {
 		return PropsUtil.get("eu.strasbourg.publik.mail");
 	}

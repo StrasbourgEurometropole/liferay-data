@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.RenderRequest;
@@ -41,6 +42,13 @@ public class ViewAnonymisationHistoricsDisplayContext extends ViewListBaseDispla
 			this._anonymisationHistorics = results;
 		}
 		return this._anonymisationHistorics;
+	}
+
+	/**
+	 * @return True si on peut faire l'anonymisation
+	 */
+	public boolean canAnonymise() {
+		return Boolean.parseBoolean(StrasbourgPropsUtil.getAnonymisationActivated());
 	}
 
 }

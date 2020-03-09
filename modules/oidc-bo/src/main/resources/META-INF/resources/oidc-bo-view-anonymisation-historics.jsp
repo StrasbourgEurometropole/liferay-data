@@ -9,6 +9,7 @@
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
+<liferay-ui:error key="anonymisation-forbidden" message="anonymisation-forbidden" />
 
 <%-- Composant : tableau de visualisation des entites --%>
 <div class="container-fluid-1280 main-content-body">
@@ -56,12 +57,19 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="anonymisationURL" id="anonymisation">
-    </liferay-portlet:resourceURL>
+	<liferay-portlet:actionURL var="anonymisationURL" name="anonymisation">
+        <portlet:param name="tab" value="anonymisationHistorics" />
+    </liferay-portlet:actionURL>
 
 	<form method="POST" action="${anonymisationURL}">
    		<aui:button-row>
-   			<aui:button cssClass="btn-lg" type="submit" value="anonymisation" />
+            <c:if test="${cd.canAnonymise() && isAdmin}">
+                <aui:button cssClass="btn-lg" type="submit" value="anonymisation" />
+            </c:if>
+            <c:if test="${not cd.canAnonymise() || not isAdmin}">
+                <aui:button cssClass="btn-lg" type="submit" value="anonymisation"  disabled="true" />
+   			    <div class="tooltip-inner"><liferay-ui:message key="anonymisation-forbidden" /></div>
+            </c:if>
    		</aui:button-row>
    	</form>
 
