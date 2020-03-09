@@ -491,10 +491,10 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("Nb. updated stops : " + nbUpdatedStops);
 			this.importHistoric.addNewOperation("Nb. unpublished stops : " + arretsToUnpublish.size());
 			this.importHistoric.addNewOperation("Nb. republished stops : " + nbRepublishedStops);
-			this.importHistoric.addNewOperation("Nb. new lines : " + nbNewLines);
-			this.importHistoric.addNewOperation("Nb. updated lines : " + nbUpdatedLines);
-			this.importHistoric.addNewOperation("Nb. unpublished lines : " + lignesToUnpublish.size());
-			this.importHistoric.addNewOperation("Nb. republished lines : " + nbRepublishedLines);
+			this.importHistoric.addNewOperation("Nb. new routes : " + nbNewLines);
+			this.importHistoric.addNewOperation("Nb. updated routes : " + nbUpdatedLines);
+			this.importHistoric.addNewOperation("Nb. unpublished routes : " + lignesToUnpublish.size());
+			this.importHistoric.addNewOperation("Nb. republished routes : " + nbRepublishedLines);
 			this.importHistoric.addNewOperation("Nb. new direction links : " + directionsToSave.size());
 			this.importHistoric.addNewOperation("Nb. removed direction links : " + directionsToRemove.size());
 			

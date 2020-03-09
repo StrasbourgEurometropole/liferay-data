@@ -25,10 +25,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import aQute.bnd.annotation.ProviderType;
@@ -59,8 +56,8 @@ public class ArretImpl extends ArretBaseImpl {
 
 	private static final long serialVersionUID = 3843907860876078856L;
 	
-	public static final String TYPE_BUS = "bus";
-	public static final String TYPE_TRAM = "tram";
+	public static final String TYPE_BUS = "Bus";
+	public static final String TYPE_TRAM = "Tram";
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -126,6 +123,31 @@ public class ArretImpl extends ArretBaseImpl {
 	}
 
 	/**
+	 * Renvoie les directions sans doublon de lignes shortName, [bgColor, textColor, destinationName]
+	 */
+	@Override
+	public Map<String, String[]> getDirectionsUniques() {
+		Map<String, String[]> directions = new HashMap<String, String[]>();
+		for (Direction direction : this.getDirections()) {
+			Ligne ligne = direction.getLigne();
+			// vérifie si la ligne existe déjà
+			if(!directions.containsKey(ligne.getShortName())) {
+				String[] ligneString = {ligne.getBackgroundColor(), ligne.getTextColor(), direction.getDestinationName()};
+				directions.put(ligne.getShortName(),ligneString);
+			}else{
+				String destinations = directions.get(ligne.getShortName())[2];
+				destinations = destinations.split(" \\(Variable suivant dates\\)")[0];
+				// vérifie si la destination existe déjà
+				if(!destinations.contains(direction.getDestinationName())){
+					directions.get(ligne.getShortName())[2] = destinations + " / " + direction.getDestinationName()
+							+ " (Variable suivant dates)";
+				}
+			}
+		}
+		return directions;
+	}
+
+	/**
 	 * Renvoie les prochains passages
 	 */
 	@Override
@@ -159,7 +181,7 @@ public class ArretImpl extends ArretBaseImpl {
 				"			</div>";
 		properties.put("contenu", contenu);
 
-		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText() + ".png");
+		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText().toLowerCase() + ".png");
 
 		// vérifi si l'arrêt a une alerte
 		if(this.getAlertsActives().size() > 0)
@@ -167,13 +189,13 @@ public class ArretImpl extends ArretBaseImpl {
 
 		// récupère les numéros de lignes de l'arrêt
 		JSONArray lignes = JSONFactoryUtil.createJSONArray();
-		List<Ligne> lignesList = this.getDirections().stream().map(d -> d.getLigne())
-				.distinct().collect(Collectors.toList());
-		for (Ligne ligne : lignesList) {
+		// retourne clé = shortName, value = [bgColor, textColor, destination]
+		Map<String, String[]> lignesMap = this.getDirectionsUniques();
+		for (Map.Entry<String, String[]> ligne : lignesMap.entrySet()) {
 			JSONObject infoLigne = JSONFactoryUtil.createJSONObject();
-			infoLigne.put("bgColor",ligne.getBackgroundColor());
-			infoLigne.put("textColor",ligne.getTextColor());
-			infoLigne.put("numero",ligne.getShortName());
+			infoLigne.put("bgColor",ligne.getValue()[0]);
+			infoLigne.put("textColor",ligne.getValue()[1]);
+			infoLigne.put("numero",ligne.getKey());
 			lignes.put(infoLigne);
 		}
 		properties.put("lignes", lignes);

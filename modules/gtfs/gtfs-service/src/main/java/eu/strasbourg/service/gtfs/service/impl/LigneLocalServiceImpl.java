@@ -221,7 +221,8 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	@Override
 	public void unpublishLignes(List<Ligne> lignes, ImportHistoric importHistoric, ServiceContext sc) throws PortalException {
 		for (Ligne ligne : lignes) {
-			importHistoric.addNewOperation("Unpublished ligne : " + ligne.getShortName());
+			importHistoric.addNewOperation("Unpublished route : " + ligne.getShortName()
+					+ "(" + ligne.getRouteId() + " - " + ligne.getTitle() + ")");
 			this.updateStatus(ligne, WorkflowConstants.STATUS_DRAFT);
 		}
 	}
