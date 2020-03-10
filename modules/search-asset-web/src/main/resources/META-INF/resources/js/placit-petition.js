@@ -43,7 +43,7 @@ function getSelectedEntries() {
     var selectedEndDay;
     var selectedEndMonth ;
     var selectedEndYear;
-	if($('.pro-facette-date').size() > 0){
+	if($('.pro-facette-date').length > 0){
         selectedStartDay = $('input[data-name="fromDay"]')[0].value;
         selectedStartMonth = $('input[data-name="fromMonth"]')[0].value;
         selectedStartYear = $('input[data-name="fromYear"]')[0].value;

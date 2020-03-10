@@ -1,13 +1,13 @@
 Bundle-SymbolicName: search.asset.web
 Bundle-Version: 1.31.0
 Web-ContextPath: /searchassetweb
-Bundle-ClassPath:\
+Bundle-ClassPath: \
   .,\
  lib/kernel.jar, lib/layout.jar, lib/io.jar, lib/forms.jar, lib/pdfa.jar, lib/svg.jar, \
     lib/bcpkix-jdk15on.jar, lib/bcprov-jdk15on.jar, lib/html2pdf.jar, lib/styled-xml-parser.jar
 
 
--includeresource:\
+-includeresource: \
  lib/kernel.jar=kernel-7.1.3.jar,\
  lib/layout.jar=layout-7.1.3.jar,\
  lib/io.jar=io-7.1.3.jar,\
@@ -18,5 +18,3 @@ Bundle-ClassPath:\
  lib/html2pdf.jar=html2pdf-2.1.0.jar,\
  lib/styled-xml-parser.jar=styled-xml-parser-7.1.3.jar,\
  lib/svg.jar=svg-7.1.3.jar
- 
- 

@@ -26,6 +26,7 @@ import eu.strasbourg.portlet.place.display.context.ViewPublicHolidaysDisplayCont
 import eu.strasbourg.portlet.place.display.context.ViewSubPlacesDisplayContext;
 
 @Component(immediate = true, property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/place-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/place-bo-main.css",
@@ -47,15 +48,14 @@ public class PlaceBOPortlet extends MVCPortlet {
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
-
-		renderResponse.setTitle("Places");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
 		boolean showBackButton = Validator.isNotNull(returnURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(returnURL);
 		}
 
 		// On set le displayContext selon la page sur laquelle on est
@@ -71,7 +71,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 			EditPublicHolidayDisplayContext dc = new EditPublicHolidayDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editSubPlace")) {
+		} else if (cmd.equals("editSubPlace") || mvcPath.equals("/place-bo-edit-subplace.jsp")) {
 			EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

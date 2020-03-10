@@ -3,5 +3,4 @@ Bundle-SymbolicName: eu.strasbourg.portlet.agendaExport
 Bundle-Version: 1.0.0
 Web-ContextPath: /agendaexportbo
 
-
 Import-Package: *;resolution:=optional
