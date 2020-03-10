@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="pro-listing-video" data-egalize="> * > a">
+                    <div class="pro-listing-video" data-egalize="> * > a" data-row="true">
                     </div>
                 </div>
 

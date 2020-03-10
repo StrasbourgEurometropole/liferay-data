@@ -24188,12 +24188,23 @@ function getResult(searchPage, data) {
     if(data != null){
         var nbEntries = data.entries.length;
         // afficahge résultat
-        $('.pro-listing-' + searchPage).html('');
-        var listing = '<div class="row pro-wi-grid unstyled" data-page="1">';
+        var proListing = $('.pro-listing-' + searchPage);
+        var row = proListing.data('row');
+        proListing.html('');
+        var listing;
+        if(row == true) {
+            listing = '<div class="row pro-wi-grid unstyled" data-page="1">';
+        } else {
+            listing = '<div class="pro-wi-grid unstyled" data-page="1">';
+        }
         var indexGrid = 2;
         $.each(data.entries,function(index, json) {
             if(index > 0 && index % delta == 0){
-                listing += '</div><div class="pro-wi-grid hidden unstyled" data-page="' + indexGrid + '">';
+                if(row == true) {
+                    listing += '</div><div class="row pro-wi-grid hidden unstyled" data-page="' + indexGrid + '">';
+                } else {
+                    listing += '</div><div class="pro-wi-grid hidden unstyled" data-page="' + indexGrid + '">';
+                }
                 indexGrid++;
             }
 
