@@ -20,6 +20,11 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:form action="${saveManifestationURL}" method="post" name="fm">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
+
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
 			id="translationManager" />
@@ -67,7 +72,8 @@
 							function (val, fieldNode, ruleValue) {
 								var validate = $('#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_agenda_AgendaBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
+									event.preventDefault();
 								}
 								return validate;
 							}

@@ -57,17 +57,24 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
-        "com.liferay.portlet.display-category=Strasbourg",
-        "com.liferay.portlet.instanceable=false",
-        "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
-        "com.liferay.portlet.single-page-application=false",
-        "javax.portlet.init-param.template-path=/",
-        "javax.portlet.init-param.view-template=/search-asset-view.jsp",
-        "javax.portlet.init-param.check-auth-token=false",
-        "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
-        "javax.portlet.resource-bundle=content.Language",
-        "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
+@Component(
+        immediate = true,
+        configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration",
+        property = {
+            "com.liferay.portlet.display-category=Strasbourg",
+            "com.liferay.portlet.instanceable=false",
+            "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
+            "com.liferay.portlet.single-page-application=false",
+            "javax.portlet.version=3.0",
+            "javax.portlet.init-param.template-path=/",
+            "javax.portlet.init-param.view-template=/search-asset-view.jsp",
+            "javax.portlet.init-param.check-auth-token=false",
+            "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
+            "javax.portlet.resource-bundle=content.Language",
+            "javax.portlet.security-role-ref=power-user,user"
+        },
+        service = Portlet.class
+)
 public class SearchAssetPortlet extends MVCPortlet {
 
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";

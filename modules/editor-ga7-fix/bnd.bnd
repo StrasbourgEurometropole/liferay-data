@@ -1,4 +1,0 @@
-Bundle-Name: editor-ga7-fix
-Bundle-SymbolicName: editor-ga7-fix
-Bundle-Version: 1.0.0
-Fragment-Host: com.liferay.frontend.editor.ckeditor.web;bundle-version="1.0.44"

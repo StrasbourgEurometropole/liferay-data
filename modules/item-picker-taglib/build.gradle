@@ -1,20 +1,24 @@
 dependencies {
-	compile group: "com.liferay", name: "com.liferay.frontend.taglib"
-	compile group: "com.liferay", name: "com.liferay.map.api"
-	compile group: "com.liferay", name: "com.liferay.journal.api"
-	compile group: "com.liferay", name: "com.liferay.item.selector.api"
-	compile group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
-	compile group: "com.liferay", name: "com.liferay.layout.item.selector.api"
-	compile group: "com.liferay", name: "com.liferay.layout.item.selector.web"
-	compile group: "com.liferay", name: "com.liferay.journal.item.selector.api"
-	compile group: "com.liferay", name: "com.liferay.journal.item.selector.web"
-	compile group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	
-	compile group: "javax.portlet", name: "portlet-api"
-	compile group: "javax.servlet", name: "javax.servlet-api"
-	compile group: "javax.servlet.jsp", name: "javax.servlet.jsp-api", version: "2.3.1"
+	compileOnly group: "com.liferay", name: "com.liferay.map.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.item.selector.web"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.web"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
 
-	compile group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: 'com.liferay.portal', name: 'com.liferay.util.taglib'
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
+	compileOnly group: "javax.servlet.jsp", name: "javax.servlet.jsp-api", version: "2.3.2-b01"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project(":modules:edition-web")
 	compile project(":modules:artwork-web")

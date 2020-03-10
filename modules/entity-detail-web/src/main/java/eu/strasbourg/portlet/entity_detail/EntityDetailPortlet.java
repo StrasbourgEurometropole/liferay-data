@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.entity_detail;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -9,7 +10,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration;
@@ -28,16 +28,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.requires-namespaced-parameters=false",
-		"com.liferay.portlet.css-class-wrapper=entity-detail-portlet",
-		"com.liferay.portlet.footer-portlet-javascript=/js/entity-detail-main.js",
-		"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
-		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/entity-detail-view.jsp",
-		"javax.portlet.init-param.config-template=/entity-detail-configuration.jsp",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.supported-public-render-parameter=message"}, service = Portlet.class)
+@Component(
+		immediate = true,
+		property = {
+			"javax.portlet.version=3.0",
+			"com.liferay.portlet.display-category=Strasbourg",
+			"com.liferay.portlet.instanceable=false", "com.liferay.portlet.requires-namespaced-parameters=false",
+			"com.liferay.portlet.css-class-wrapper=entity-detail-portlet",
+			"com.liferay.portlet.footer-portlet-javascript=/js/entity-detail-main.js",
+			"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
+			"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/entity-detail-view.jsp",
+			"javax.portlet.init-param.config-template=/entity-detail-configuration.jsp",
+			"javax.portlet.resource-bundle=content.Language",
+			"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.supported-public-render-parameter=message"
+		},
+		service = Portlet.class
+)
 public class EntityDetailPortlet extends MVCPortlet {
 
 	@Override

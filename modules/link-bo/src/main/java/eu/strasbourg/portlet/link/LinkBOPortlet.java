@@ -22,6 +22,7 @@ import eu.strasbourg.portlet.link.display.context.ViewLinksDisplayContext;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/link-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/link-bo-main.css",

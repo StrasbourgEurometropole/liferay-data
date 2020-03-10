@@ -30,7 +30,9 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.header-portlet-css=/css/vendors/daterangepicker.css",
 		"com.liferay.portlet.header-portlet-css=/css/agenda-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
@@ -70,7 +72,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 			EditEventDisplayContext dc = new EditEventDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editManifestation")) {
+		} else if (cmd.equals("editManifestation") || mvcPath.equals("/agenda-bo-edit-manifestation.jsp")) {
 			EditManifestationDisplayContext dc = new EditManifestationDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
