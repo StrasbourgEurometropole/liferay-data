@@ -45,13 +45,13 @@
 <div class="pro-page-budget-participatif">
 
     <section class="container">
-        <div class="row">
+        <div>
 
             <div class="col-xs-12 pro-wrapper-title">
                 <h1>${rightTitle.getData()}</h1>
             </div>
 
-            <div class="pro-wrapper-content">
+            <div class="row pro-wrapper-content">
 
                 <div class="col-sm-6">
                     <div class="pro-preambule">
