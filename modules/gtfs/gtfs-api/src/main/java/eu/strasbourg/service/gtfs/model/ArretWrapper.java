@@ -554,7 +554,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Renvoie les directions sans doublon shortName, [bgColor, textColor, destinationName]
+	* Renvoie les directions sans doublon de lignes shortName, [bgColor, textColor, destinationName]
 	*/
 	@Override
 	public Map<java.lang.String, java.lang.String[]> getDirectionsUniques() {

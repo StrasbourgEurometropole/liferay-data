@@ -16,6 +16,7 @@ package eu.strasbourg.service.agenda.model;
 
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.util.Accessor;
 
 import aQute.bnd.annotation.ProviderType;
@@ -312,8 +313,8 @@ public interface Event extends EventModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
 		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
 		java.lang.String tag, java.lang.String category)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.search.SearchException;
+		throws SearchException,
+			com.liferay.portal.kernel.exception.PortalException;
 
 	/**
 	* Renvoi les sessions de l'evenement obtenues par le webService Rodrigue
