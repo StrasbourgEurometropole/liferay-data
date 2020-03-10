@@ -30,8 +30,8 @@
             </div>
 
             <!-- Résultat -->
-            <aui:form method="post" name="fm">
-                <div class="col-md-9 pro-wrapper-listing-video">
+            <aui:form method="post" name="fm" cssClass="col-md-9">
+                <div class="pro-wrapper-listing-video">
                     <div class="pro-wrapper">
                         <h2><liferay-ui:message key="eu.all-videos" /></h2>
                         <div class="pro-sort pro-dropdown">
@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div class="row pro-listing-video" data-egalize="> * > a">
+                    <div class="pro-listing-video" data-egalize="> * > a">
                     </div>
                 </div>
 

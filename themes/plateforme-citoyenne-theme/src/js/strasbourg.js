@@ -24189,7 +24189,7 @@ function getResult(searchPage, data) {
         var nbEntries = data.entries.length;
         // afficahge résultat
         $('.pro-listing-' + searchPage).html('');
-        var listing = '<div class="pro-wi-grid unstyled" data-page="1">';
+        var listing = '<div class="row pro-wi-grid unstyled" data-page="1">';
         var indexGrid = 2;
         $.each(data.entries,function(index, json) {
             if(index > 0 && index % delta == 0){
