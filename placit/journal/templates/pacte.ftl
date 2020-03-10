@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <div class="pro-preambule">
                         <h2 class="pro-title">Préambule</h2>
                         <p>Le présent pacte pour la démocratie à Strasbourg s’inscrit dans la continuité d’une dynamique de participation citoyenne engagée de longue date.</p>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <div class="pro-annexes">
                         <h3>Annexes à télécharger</h3>
                         <ul>

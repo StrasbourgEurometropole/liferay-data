@@ -53,14 +53,14 @@
 
             <div class="row pro-wrapper-content">
 
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <div class="pro-preambule">
                         <h2 class="pro-title">${leftTitle.getData()}</h2>
                         ${leftTitle.getChild("leftText").getData()}
                     </div>
                 </div>
 
-                <div class="col-sm-6 pro-annexes">
+                <div class="col-md-6 pro-annexes">
                     <div>
                         <h3>Annexes à télécharger</h3>
                         <ul>
