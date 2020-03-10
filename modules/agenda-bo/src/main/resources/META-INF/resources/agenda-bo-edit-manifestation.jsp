@@ -109,6 +109,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
+								    	event.preventDefault();
 								    	break;
 								    }
 								}
