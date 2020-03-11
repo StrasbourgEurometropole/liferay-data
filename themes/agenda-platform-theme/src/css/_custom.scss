@@ -4,7 +4,7 @@ body {
 	background-color: $bg-color;
 }
 
-.container-fluid-1280 .row {
+.container-fluid .row {
 	margin-left: 15px;
 	margin-right: 15px;
 }
@@ -31,7 +31,7 @@ body {
 		}
 	}
 
-	.navbar-toggle {
+	.navbar-toggler {
 		margin: 12px 0 12px 6px;
 	}
 

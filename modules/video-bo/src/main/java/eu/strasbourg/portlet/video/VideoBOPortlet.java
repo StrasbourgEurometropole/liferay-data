@@ -46,6 +46,7 @@ public class VideoBOPortlet extends MVCPortlet {
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		renderResponse.setTitle("Videos");
 
@@ -58,11 +59,11 @@ public class VideoBOPortlet extends MVCPortlet {
 		}
 
 		// On set le displayContext selon la page sur laquelle on se trouve
-		if (cmd.equals("editVideo")) {
+		if (cmd.equals("editVideo") || mvcPath.equals("/video-bo-edit-video.jsp")) {
 			EditVideoDisplayContext dc = new EditVideoDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editGallery")) {
+		} else if (cmd.equals("editGallery") || mvcPath.equals("/video-bo-edit-gallery.jsp")) {
 			EditGalleryDisplayContext dc = new EditGalleryDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
