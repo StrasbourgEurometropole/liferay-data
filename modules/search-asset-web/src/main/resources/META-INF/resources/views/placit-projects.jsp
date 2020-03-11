@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="row pro-listing-video pro-listing-project" data-egalize="> * > a" data-row="true">
+                    <div class="pro-listing-video pro-listing-project" data-egalize="> * > a" data-row="true">
                     </div>
                 </div>
             </aui:form>
