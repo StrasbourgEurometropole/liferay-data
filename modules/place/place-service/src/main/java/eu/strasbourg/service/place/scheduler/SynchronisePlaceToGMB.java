@@ -1,13 +1,21 @@
 package eu.strasbourg.service.place.scheduler;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
 import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import java.util.Date;
+
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -43,7 +51,18 @@ public class SynchronisePlaceToGMB extends BaseSchedulerEntryMessageListener {
         if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
             // Creation du contexte de la requete pour effectuer les actions dans Global
             ServiceContext sc = new ServiceContext();
-
+            
+            try {
+    			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+    			sc.setCompanyId(defaultCompany.getCompanyId());
+    			sc.setScopeGroupId(defaultCompany.getGroup().getGroupId());
+    			sc.setUserId(UserLocalServiceUtil.getDefaultUserId(sc.getCompanyId()));
+    			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+    			sc.setModifiedDate(new Date());
+    		} catch (PortalException e) {
+    			_log.error(e);
+    		}
+            
             // Creation de l'entree d'historique de synchronisation
             GoogleMyBusinessHistoric googleMyBusinessHistoric = this._gmbHistoricLocalService.createGoogleMyBusinessHistoric(sc);
 
