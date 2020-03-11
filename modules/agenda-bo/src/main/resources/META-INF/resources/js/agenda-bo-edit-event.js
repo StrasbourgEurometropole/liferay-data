@@ -38,11 +38,11 @@ jQuery(function() {
 			if (!!window.editEvent) {
 				var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
 				if (jQuery('.manual').is(':visible')) {
-					rules[namespace + 'selectedPlace'].required = false;
+					rules[namespace + 'selectedPlace2'].required = false;
 					rules[namespace + 'placeName'].required = true;
 					rules[namespace + 'placeCity'].required = true;
 				} else {
-					rules[namespace + 'selectedPlace'].required = true;
+					rules[namespace + 'selectedPlace2'].required = true;
 					rules[namespace + 'placeName'].required = false;
 					rules[namespace + 'placeCity'].required = false;
 				}
@@ -103,7 +103,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	// Options du date range picker répétable
 	var options = { 
 		autoApply: false,
-		parentEl: '.portlet-body',
+		parentEl: '#portlet_eu_strasbourg_portlet_agenda_AgendaBOPortlet .portlet-body',
 		opens: 'right',
 		showDates: true,
 		autoUpdateInput: false,
@@ -166,7 +166,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	// Activation du RangePicker 
 	$('#' + namespace + 'periodGenerator').daterangepicker({
 		autoApply: false,
-		parentEl: '.portlet-body',
+		parentEl: '#portlet_eu_strasbourg_portlet_agenda_AgendaBOPortlet .portlet-body',
 		locale: dateRangePickerLocaleSettings
 	});
 	// Lors du clic sur le bouton "Appliquer
@@ -295,6 +295,7 @@ jQuery(function() {
 			onSelect : function(suggestion) {
 				jQuery('#place-autocomplete-hidden-value input').val(
 						suggestion.data);
+			    jQuery('input.selected-place2').val(suggestion.value);
 				jQuery('input.selected-place').val(suggestion.value);
 			},
 			appendTo : '.place-autocomplete-input-wrapper'

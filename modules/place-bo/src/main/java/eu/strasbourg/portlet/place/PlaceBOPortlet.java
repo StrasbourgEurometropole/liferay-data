@@ -48,6 +48,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		// Si on est sur la page d'ajout, on affiche un lien de retour
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
@@ -70,7 +71,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 			EditPublicHolidayDisplayContext dc = new EditPublicHolidayDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editSubPlace")) {
+		} else if (cmd.equals("editSubPlace") || mvcPath.equals("/place-bo-edit-subplace.jsp")) {
 			EditSubPlaceDisplayContext dc = new EditSubPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

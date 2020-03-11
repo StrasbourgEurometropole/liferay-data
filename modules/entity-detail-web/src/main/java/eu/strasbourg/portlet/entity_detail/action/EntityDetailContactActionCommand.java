@@ -20,11 +20,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
+import com.liferay.portal.kernel.template.*;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
@@ -40,23 +42,23 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
-@Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB,
-		"mvc.command.name=contact" }, service = MVCActionCommand.class)
+@Component(
+		immediate = true,
+		property = {
+				"javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB,
+				"mvc.command.name=contact"
+		},
+		service = MVCActionCommand.class
+)
 public class EntityDetailContactActionCommand implements MVCActionCommand {
 
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
 		request.setAttribute("fromContactForm", true);
-		
+
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		Configuration configuration = new Configuration(Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
 		
 		Map<String, Object> context = new HashMap<>();
 		
@@ -82,16 +84,44 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		context.put("emailFrom", email);
 		context.put("type", type);
 		context.put("title", title);
+
+		TemplateResource templateResourceSubject;
+		Template subjectTemplate;
+		TemplateResource templateResourceBody;
+		Template bodyTemplate;
+		String mailSubject;
+		String mailBody;
+
 		try {
-			Template subjectTemplate = configuration.getTemplate("contact-mail-subject.ftl");
-			Template bodyTemplate = configuration.getTemplate("contact-mail-body.ftl");
-			StringWriter subjectWriter = new StringWriter();
-			StringWriter bodyWriter = new StringWriter();
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
-			
+			StringWriter out = new StringWriter();
+
+			// Chargement du template contenant le sujet du mail
+			templateResourceSubject = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/contact-mail-subject.ftl")));
+			subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template sujet
+			subjectTemplate.putAll(context);
+			subjectTemplate.processTemplate(out);
+			mailSubject = out.toString();
+
+			//Chargement du template contenant le corps du mail
+			templateResourceBody = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/contact-mail-body.ftl")));
+			bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+			// Traitement du template corps
+			out = new StringWriter();
+			bodyTemplate.putAll(context);
+			bodyTemplate.processTemplate(out);
+			mailBody = out.toString();
+
 			// Validation
-			String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+			//String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
 			boolean hasError = false;
 		/*	if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
 				SessionErrors.add(request, "recaptcha-error");
@@ -112,13 +142,14 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			if (!hasError) {
 				SessionMessages.add(request, "mail-success");
 				request.setAttribute("mailSent", true);
-				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, to, subjectWriter.toString(), bodyWriter.toString());
+				boolean success = MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, to,
+						mailSubject, mailBody);
 	
 				// Envoi du mail à l'utilisateur
 				if (success && notificationEmail) {
 					ExpandoBridge ed = themeDisplay.getScopeGroup().getExpandoBridge();
-					String headerImage = "";
-					String footerImage = "";
+					String headerImage;
+					String footerImage;
 					try {
 						headerImage = GetterUtil.getString(ed.getAttribute("image_header_mail_contact"));
 						footerImage = GetterUtil.getString(ed.getAttribute("image_footer_mail_contact"));
@@ -127,17 +158,34 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 					} catch (Exception ex) {
 						_log.error("Missing expando field");
 					}
-	
-					Template subjectCopyTemplate = configuration
-							.getTemplate("contact-mail-copy-subject.ftl");
-					Template bodyCopyTemplate = configuration
-							.getTemplate("contact-mail-copy-body.ftl");
-					StringWriter subjectCopyWriter = new StringWriter();
-					StringWriter bodyCopyWriter = new StringWriter();
-					subjectCopyTemplate.process(context, subjectCopyWriter);
-					bodyCopyTemplate.process(context, bodyCopyWriter);
+
+					// Chargement du template contenant le sujet du mail
+					templateResourceSubject = new URLTemplateResource("0",
+							Objects.requireNonNull(this.getClass().getClassLoader()
+									.getResource("/templates/contact-mail-copy-subject.ft")));
+					subjectTemplate = TemplateManagerUtil.getTemplate(
+							TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+					// Traitement du template sujet
+					subjectTemplate.putAll(context);
+					subjectTemplate.processTemplate(out);
+					mailSubject = out.toString();
+
+					//Chargement du template contenant le corps du mail
+					templateResourceBody = new URLTemplateResource("0",
+							Objects.requireNonNull(this.getClass().getClassLoader()
+									.getResource("/templates/contact-mail-copy-body.ftl")));
+					bodyTemplate = TemplateManagerUtil.getTemplate(
+							TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+					// Traitement du template corps
+					out = new StringWriter();
+					bodyTemplate.putAll(context);
+					bodyTemplate.processTemplate(out);
+					mailBody = out.toString();
 					
-					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, email, subjectCopyWriter.toString(), bodyCopyWriter.toString());
+					MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", websiteName, email,
+							mailSubject, mailBody);
 				}
 				return success;
 			}
@@ -153,8 +201,10 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		request.setAttribute("message", message);
 		request.setAttribute("notificationEmail", notificationEmail);
 		request.setAttribute("mailSent", false);
+
 		return false;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
 }

@@ -1,5 +1,16 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetRenderer;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 
 import javax.imageio.ImageIO;
@@ -31,5 +42,35 @@ public class AssetPublisherTemplateHelper {
 
         return taille;
     }
+
+    /**
+     * Récupère l'URL d'une image à partir des données fournies par la Structure d'un WebContent
+     */
+    public static String getDocumentUrl(String documentStructure, ThemeDisplay themeDisplay){
+
+        String documentUrl = "";
+
+        try {
+            // Parse les données JSON
+            JSONObject documentJSONObject = JSONFactoryUtil.createJSONObject(documentStructure);
+
+            String uuid = documentJSONObject.getString("uuid");
+            Long groupId = documentJSONObject.getLong("groupId");
+
+            // On cherche l'assetEntry associé au DLFileEntry de l'image
+            DLFileEntry documentdlFileEntry = DLFileEntryLocalServiceUtil.getDLFileEntryByUuidAndGroupId(uuid, groupId);
+
+            AssetEntry documentAssetEntry = AssetEntryLocalServiceUtil.getEntry(DLFileEntry.class.getName(), documentdlFileEntry.getFileEntryId());
+
+            // Ce qui permet de récupèrer l'AssetRenderer qui généère l'URL de l'image
+            AssetRenderer documentAssetRenderer = documentAssetEntry.getAssetRenderer();
+            documentUrl = documentAssetRenderer.getURLDownload(themeDisplay);
+        } catch (PortalException e) {
+           // _log.error("Une erreur est survenue lors de la récupération de l'URL d'un document : ", e);
+        }
+
+        return documentUrl;
+    }
+
 
 }

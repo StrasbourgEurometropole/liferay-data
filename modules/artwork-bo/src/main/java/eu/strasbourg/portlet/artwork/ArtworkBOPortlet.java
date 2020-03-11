@@ -47,6 +47,7 @@ public class ArtworkBOPortlet extends MVCPortlet {
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
 		String tab = ParamUtil.getString(renderRequest, "tab");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		
 		renderResponse.setTitle("Oeuvres");
 		
@@ -59,10 +60,10 @@ public class ArtworkBOPortlet extends MVCPortlet {
 		}
 		
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editArtwork")) {
+		if (cmd.equals("editArtwork")|| mvcPath.equals("/artwork-bo-edit-artwork.jsp")) {
 			EditArtworkDisplayContext dc = new EditArtworkDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editCollection")) {
+		} else if (cmd.equals("editCollection")|| mvcPath.equals("/artwork-bo-edit-collection.jsp")) {
 			EditCollectionDisplayContext dc = new EditCollectionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("collections")) {

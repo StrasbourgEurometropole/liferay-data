@@ -1,9 +1,13 @@
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+
 	compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 
-	compileOnly project(":modules:oidc:oidc-api")
-	compileOnly project(":modules:like:like-api")
+	compile project(":modules:oidc:oidc-api")
+	compile project(":modules:like:like-api")
 }

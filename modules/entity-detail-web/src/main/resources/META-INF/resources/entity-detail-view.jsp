@@ -8,13 +8,13 @@
 	    displayStyleGroupId="${displayStyleGroupId}"
 	    entries="${entries}"
 	>
-		<liferay-ui:asset-display
+		<liferay-asset:asset-display
 			assetEntry="${entry}"
 			assetRenderer="${entry.assetRenderer}"
 			assetRendererFactory="${entry.assetRendererFactory}"
 			template="full_content"
 		/>
-		
+
 	</liferay-ddm:template-renderer>
 </c:if>
 <c:if test="${empty entry}">

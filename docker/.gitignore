@@ -5,4 +5,5 @@
 *.7z
 *.zip
 *.aatf
+*.tar.gz
 !images/mysql-upgrade/sources/pre-upgrade.sql

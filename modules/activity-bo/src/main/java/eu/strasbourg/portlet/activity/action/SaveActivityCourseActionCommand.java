@@ -317,6 +317,12 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 			isValid = false;
 		}
 
+		// Activité
+		if (Validator.isNull(ParamUtil.getLong(request, "activityId"))) {
+			SessionErrors.add(request, "activity-error");
+			isValid = false;
+		}
+
 		// Service / Organisateur
 		if (Validator.isNull(ParamUtil.getLong(request, "organizerId"))) {
 			SessionErrors.add(request, "service-error");
@@ -326,20 +332,25 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 		// Lieux
 		String activityPlacesIndexesString = ParamUtil.getString(request,
 			"placeIndexes");
-		for (String activityPlaceIndex : activityPlacesIndexesString
-			.split(",")) {
-			if (Validator.isNotNull(activityPlaceIndex)) {
-				String placeSIGId = ParamUtil.getString(request,
-					"placeSIGId" + activityPlaceIndex);
-				String placeName = ParamUtil.getString(request,
-					"placeName" + activityPlaceIndex);
-				long placeCityId = ParamUtil.getLong(request,
-					"placeCityId" + activityPlaceIndex);
-				if (Validator.isNull(placeSIGId) && (Validator.isNull(placeName)
-					|| Validator.isNull(placeCityId))) {
-					SessionErrors.add(request, "place-error");
-					isValid = false;
-					break;
+		if (Validator.isNull(activityPlacesIndexesString)) {
+			SessionErrors.add(request, "place-error");
+			isValid = false;
+		}else {
+			for (String activityPlaceIndex : activityPlacesIndexesString
+					.split(",")) {
+				if (Validator.isNotNull(activityPlaceIndex)) {
+					String placeSIGId = ParamUtil.getString(request,
+							"placeSIGId" + activityPlaceIndex);
+					String placeName = ParamUtil.getString(request,
+							"placeName" + activityPlaceIndex);
+					long placeCityId = ParamUtil.getLong(request,
+							"placeCityId" + activityPlaceIndex);
+					if (Validator.isNull(placeSIGId) && (Validator.isNull(placeName)
+							|| Validator.isNull(placeCityId))) {
+						SessionErrors.add(request, "place-error");
+						isValid = false;
+						break;
+					}
 				}
 			}
 		}
