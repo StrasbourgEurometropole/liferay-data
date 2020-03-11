@@ -16,6 +16,7 @@ package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -243,7 +244,7 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*
 	* @param start Debut de l'index de recherche pour la pagination
 	* @param end Fin de l'index de recherche pour la pagination
-	* @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	* @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	* @param sortField Champ de tri utilisé
 	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	* @return Liste des utilisateurs trouvés
@@ -271,9 +272,7 @@ public interface PublikUserLocalService extends BaseLocalService,
 	* Rechercher tous les utilisateurs Publik directement via l'outil de persistance
 	* avec recherche mais sans pagination
 	*
-	* @param start Debut de l'index de recherche pour la pagination
-	* @param end Fin de l'index de recherche pour la pagination
-	* @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	* @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	* @param sortField Champ de tri utilisé
 	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	* @return Liste des utilisateurs trouvés
@@ -286,8 +285,6 @@ public interface PublikUserLocalService extends BaseLocalService,
 	* Rechercher des utilisateurs Publik directement via l'outil de persistance
 	* sans pagination
 	*
-	* @param start Debut de l'index de recherche pour la pagination
-	* @param end Fin de l'index de recherche pour la pagination
 	* @param sortField Champ de tri utilisé
 	* @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	* @return Liste des utilisateurs trouvés
@@ -321,4 +318,15 @@ public interface PublikUserLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getCountUserHasSignedPacte();
+
+	/**
+	* Anonymise l'utilisateur pour placit
+	* suppression de la signature du pacte,
+	* anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
+	*     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
+	*
+	* @return
+	*/
+	public void anonymisedUserPlacit(PublikUser anonymUser,
+		PublikUser publikUser);
 }

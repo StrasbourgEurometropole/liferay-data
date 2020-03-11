@@ -128,12 +128,24 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.base");
 	}
 
+	public static String getPublikApiSynchronization() { return PropsUtil.get("eu.strasbourg.publik.url.api.synchronization");	}
+
 	public static String getPublikApiOrigin() {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.origin");
 	}
 
 	public static String getPublikApiKey() {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.auth.key");
+	}
+
+	public static String getAnonymisationActivated() {return PropsUtil.get("eu.strasbourg.publik.anonymisation.activated");}
+
+	public static String getPublikUserAnonymisationMails() {
+		return PropsUtil.get("eu.strasbourg.publik.mail");
+	}
+
+	public static String getAnonymUserId() {
+		return PropsUtil.get("eu.strasbourg.publik.anonym.user.id");
 	}
 
 	public static String getInternalSecret() {
@@ -234,6 +246,23 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
 
+
+	public static String getGTFSPath() {
+		return PropsUtil.get("eu.strasbourg.gtfs.files.path");
+	}
+
+	public static String getGTFSImportReportMail() {
+		return PropsUtil.get("eu.strasbourg.gtfs.import.report.mail");
+	}
+
+	public static String getCTSServiceRealTimeURL() {
+		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.url");
+	}
+
+	public static String getCTSServiceRealTimeToken() {
+		return PropsUtil.get("eu.strasbourg.gtfs.cts.real.time.service.token");
+	}
+
 	public static String getParticiperName() {
 		return PropsUtil.get("eu.strasbourg.participer.name");
 	}
@@ -253,6 +282,17 @@ public class StrasbourgPropsUtil {
 	public static String getRodrigueAPIURL() {
 		return PropsUtil.get("eu.strasbourg.ops.rodrigue.api.url");
 	}
-	
+
+	public static String getGMBClientId() {return PropsUtil.get("eu.strasbourg.google.synchronized.id_client");}
+
+	public static String getGMBSecretCode() {return PropsUtil.get("eu.strasbourg.google.synchronized.code_secret");}
+
+	public static String getGMBAccessTokenURL() {return PropsUtil.get("eu.strasbourg.google.access-token-url");}
+
+	public static String getGMBActivated() {return PropsUtil.get("eu.strasbourg.google.synchronized.activated");}
+
+	public static String getGMBUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized");}
+
+	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 
 }

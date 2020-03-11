@@ -84,7 +84,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Config par défaut
 			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
 
-			// Config par défaut
+			// mode mon quartier
 			setPreference(request, "districtMod", String.valueOf(mode.equals("district")));
 
 			// Choix du site vers lequel les liens redirigent
@@ -170,25 +170,32 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				// Choix afficher l'info trafic
 				String showTraffic = ParamUtil.getString(request, "showTraffic");
 				setPreference(request, "showTraffic", showTraffic);
-				if(mode.equals("normal") || mode.equals("district")) {
-					// Liaison de l'info trafic à une catégorie
-					String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
-					setPreference(request, "linkCategoryId", linkCategoryId);
-					// récupère le nom de la catégorie
-					String categoryTitle = "";
-					if (Validator.isNotNull(linkCategoryId)) {
-						AssetCategory category = AssetCategoryLocalServiceUtil
-								.fetchAssetCategory(Long.parseLong(linkCategoryId));
-						if (Validator.isNotNull(category)) {
-							categoryTitle = category.getTitle(Locale.FRANCE);
+				if(Boolean.parseBoolean(showTraffic)){
+					if(mode.equals("normal") || mode.equals("district")) {
+						// Liaison de l'info trafic à une catégorie
+						String linkCategoryId = ParamUtil.getString(request, "linkCategoryId");
+						setPreference(request, "linkCategoryId", linkCategoryId);
+						// récupère le nom de la catégorie
+						String categoryTitle = "";
+						if (Validator.isNotNull(linkCategoryId)) {
+							AssetCategory category = AssetCategoryLocalServiceUtil
+									.fetchAssetCategory(Long.parseLong(linkCategoryId));
+							if (Validator.isNotNull(category)) {
+								categoryTitle = category.getTitle(Locale.FRANCE);
+							}
 						}
+						setPreference(request, "categoryTitle", categoryTitle);
+					}else {
+						// Liaison de l'info trafic à un CI
+						String linkInterestId = ParamUtil.getString(request, "linkInterestId");
+						setPreference(request, "linkInterestId", linkInterestId);
+						json.put("trafficInterestId", linkInterestId);
 					}
-					setPreference(request, "categoryTitle", categoryTitle);
-				}else {
-					// Liaison de l'info trafic à un CI
-					String linkInterestId = ParamUtil.getString(request, "linkInterestId");
-					setPreference(request, "linkInterestId", linkInterestId);
-					json.put("trafficInterestId", linkInterestId);
+				}else{
+					setPreference(request, "linkCategoryId", "");
+					setPreference(request, "categoryTitle", "");
+					setPreference(request, "linkInterestId", "");
+					json.put("trafficInterestId", "");
 				}
 			}
 
@@ -474,7 +481,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Liaison de l'info trafic à un CI
 			request.setAttribute("linkInterestId", configuration.linkInterestId());
-
+			
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}

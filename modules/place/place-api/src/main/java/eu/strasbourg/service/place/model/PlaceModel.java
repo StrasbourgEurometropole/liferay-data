@@ -477,6 +477,21 @@ public interface PlaceModel extends BaseModel<Place>, LocalizedModel,
 	public void setRGF93Y(String RGF93Y);
 
 	/**
+	 * Returns the location ID of this place.
+	 *
+	 * @return the location ID of this place
+	 */
+	@AutoEscape
+	public String getLocationId();
+
+	/**
+	 * Sets the location ID of this place.
+	 *
+	 * @param locationId the location ID of this place
+	 */
+	public void setLocationId(String locationId);
+
+	/**
 	 * Returns the alias of this place.
 	 *
 	 * @return the alias of this place

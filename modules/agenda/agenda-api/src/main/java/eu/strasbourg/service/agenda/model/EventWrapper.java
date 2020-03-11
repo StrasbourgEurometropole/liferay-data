@@ -17,6 +17,7 @@ package eu.strasbourg.service.agenda.model;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -584,6 +585,15 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getSessionsFromRodrigueInJSON() {
 		return _event.getSessionsFromRodrigueInJSON();
+	}
+
+	/**
+	* Renvoie le JSON de l'entite au format GeoJSON pour la map
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId,
+		java.util.Locale locale) {
+		return _event.getGeoJSON(groupId, locale);
 	}
 
 	/**
@@ -2183,8 +2193,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
 		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
 		java.lang.String tag, java.lang.String category)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.search.SearchException {
+		throws SearchException,
+			com.liferay.portal.kernel.exception.PortalException {
 		return _event.getSuggestions(request, nbSuggestions, tag, category);
 	}
 

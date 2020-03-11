@@ -123,3 +123,14 @@
 .slot-content:not(:last-of-type) .icon-trash {
     visibility: hidden;
 }
+
+.tooltip-inner{
+    display: none;
+    left: 170px;
+    position: absolute;
+    bottom: 60px;
+}
+
+button.disabled:hover + .tooltip-inner{
+    display: block;
+}

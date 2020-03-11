@@ -447,6 +447,15 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			place.setRTExternalId(RTExternalId);
 
 			// ----------------------------------------------------------------
+			// ---------------------- GOOGLE MY BUSINESS ----------------------
+			// ----------------------------------------------------------------
+
+			String locationId = ParamUtil.getString(request, "locationId");
+			if(Validator.isNull(locationId))
+				locationId = ParamUtil.getString(request, "locationId2");
+			place.setLocationId(locationId);
+
+			// ----------------------------------------------------------------
 			// -------------------------- SOUS LIEUX --------------------------
 			// ----------------------------------------------------------------
 
