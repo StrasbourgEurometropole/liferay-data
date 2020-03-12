@@ -256,7 +256,7 @@ jQuery(function() {
 
                                 // on vérifie que l'heure de début soit < à l'heure de fin
                                 if(startHour != "" && endHour != "" && !comparHour(startHour, endHour)){
-                                    $('.place-schedule-incorrect-hour' + i, $(scheduleLabel).parent()).show();
+                                    $('.place-schedule-incorrect-hour' + j, $(scheduleLabel).parent()).show();
                                     if(allValidate){
                                         $('html,body').animate({scrollTop: $(namespaceAUI + "startHour" + j + "_" + index).offset().top - 100}, 'slow');
                                         allValidate = false;

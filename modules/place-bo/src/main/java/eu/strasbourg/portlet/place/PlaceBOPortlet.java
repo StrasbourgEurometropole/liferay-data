@@ -59,15 +59,15 @@ public class PlaceBOPortlet extends MVCPortlet {
 		}
 
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editPlace")) {
+		if (cmd.equals("editPlace") || mvcPath.equals("/place-bo-edit-place.jsp")) {
 			EditPlaceDisplayContext dc = new EditPlaceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editPrice")) {
+		} else if (cmd.equals("editPrice") || mvcPath.equals("/place-bo-edit-price.jsp")) {
 			EditPriceDisplayContext dc = new EditPriceDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editPublicHoliday")) {
+		} else if (cmd.equals("editPublicHoliday") || mvcPath.equals("/place-bo-edit-public-holiday.jsp")) {
 			EditPublicHolidayDisplayContext dc = new EditPublicHolidayDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
