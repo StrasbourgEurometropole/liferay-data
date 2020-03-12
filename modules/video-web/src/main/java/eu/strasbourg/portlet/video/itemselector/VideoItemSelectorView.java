@@ -92,7 +92,8 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		if (filterGroupId == 0) {
 			filterGroupId = themeDisplay.getScopeGroupId();
 		}
-		portletURL.getRenderParameters().setValue("filterGroupId", String.valueOf(filterGroupId));
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+		portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 
 		List<Video> videos = VideoLocalServiceUtil.findByKeyword(keywords, filterGroupId, (delta * cur) - delta,
 				(delta * cur));
@@ -126,13 +127,15 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		List<ManagementBarFilterItem> items = new ArrayList<>();
 		for (Group group : groups) {
 			boolean isActive = group.getGroupId() == filterGroupId;
-			portletURL.getRenderParameters().setValue("filterGroupId", String.valueOf(group.getGroupId()));
+			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
 			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
 				ManagementBarFilterItem item = new ManagementBarFilterItem(isActive, group.getName(Locale.FRANCE),
 						portletURL.toString());
 				items.add(item);
 			}
-			portletURL.getRenderParameters().setValue("filterGroupId", String.valueOf(filterGroupId));
+			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 		}
 		return items;
 	}
