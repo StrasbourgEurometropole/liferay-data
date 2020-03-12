@@ -46,7 +46,7 @@
 								    displayStyleGroupId="${themeDisplay.scopeGroupId}"
 								    entries="${dc.templateEntries }"
 								>
-									<liferay-ui:asset-display
+									<liferay-asset:asset-display
 										assetEntry="${entry}"
 										assetRenderer="${entry.assetRenderer}"
 										assetRendererFactory="${entry.assetRendererFactory}"

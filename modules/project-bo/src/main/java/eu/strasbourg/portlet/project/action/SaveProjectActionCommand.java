@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -28,9 +29,6 @@ import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -44,10 +42,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_BO,
@@ -282,6 +277,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 						.map(publikID -> PublikApiClient.getUserDetails(publikID)).collect(Collectors.toList());
 				List<String> mails = publikUsers.stream().map(user -> user.getString("email"))
 						.collect(Collectors.toList());
+
 				if (!mails.isEmpty()) {
 					// récupération de l'url du projet
 					StringBuilder urlBuilded = new StringBuilder(getHomeURL(request));
@@ -295,23 +291,37 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 					StringBuilder btnImage = new StringBuilder(hostUrl)
 							.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
 
-					// préparation du template de mail
-					Map<String, Object> context = new HashMap<>();
-					context.put("link", urlBuilded.toString());
-					context.put("headerImage", headerImage.toString());
-					context.put("footerImage", btnImage.toString());
-					context.put("projectTitle", project.getTitle());
-					context.put("projectDescription", project.getDescription());
-					Configuration configuration = new Configuration(Configuration.getVersion());
-					configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
-					configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-					boolean success = false;
-					Template subjectTemplate = configuration.getTemplate("contact-mail-copy-subject-fr_FR.ftl");
-					Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
-					StringWriter subjectWriter = new StringWriter();
-					StringWriter bodyWriter = new StringWriter();
-					subjectTemplate.process(context, subjectWriter);
-					bodyTemplate.process(context, bodyWriter);
+					StringWriter out = new StringWriter();
+
+					// Chargement du template contenant le sujet du mail
+					TemplateResource templateResourceSubject = new URLTemplateResource(
+							"0",
+							Objects.requireNonNull(this.getClass().getClassLoader()
+									.getResource("/templates/contact-mail-copy-subject-fr_FR.ftl")));
+					Template subjectTemplate = TemplateManagerUtil.getTemplate(
+							TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+					// Traitement du template sujet
+					subjectTemplate.processTemplate(out);
+					String mailSubject = out.toString();
+
+					//Chargement du template contenant le corps du mail
+					TemplateResource templateResourceBody = new URLTemplateResource("0",
+							Objects.requireNonNull(this.getClass().getClassLoader()
+									.getResource("/templates/contact-mail-copy-body-fr_FR.ftl")));
+					Template bodyTemplate = TemplateManagerUtil.getTemplate(
+							TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+					// Traitement du template corps
+					out = new StringWriter();
+					bodyTemplate.put("link", urlBuilded.toString());
+					bodyTemplate.put("headerImage", headerImage.toString());
+					bodyTemplate.put("footerImage", btnImage.toString());
+					bodyTemplate.put("projectTitle", project.getTitle());
+					bodyTemplate.put("projectDescription", project.getDescription());
+					bodyTemplate.processTemplate(out);
+					String mailBody = out.toString();
+
 					ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 					InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
 							themeDisplay.getScopeGroup().getName(request.getLocale()));
@@ -320,9 +330,10 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 						InternetAddress address = new InternetAddress(mail);
 						toAddresses = ArrayUtil.append(toAddresses, address);
 					}
+
 					// envoi du mail aux utilisateurs
-					success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(),
-							bodyWriter.toString());
+					boolean success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, mailSubject, mailBody);
+
 					if (success) {
 						SessionMessages.add(request, "mail-success");
 					} else {
@@ -335,7 +346,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 
 			_projectLocalService.updateProject(project, sc);
 
-		} catch (PortalException | TemplateException | IOException | AddressException e) {
+		} catch (PortalException | IOException | AddressException e) {
 			_log.error(e);
 		}
 		return true;

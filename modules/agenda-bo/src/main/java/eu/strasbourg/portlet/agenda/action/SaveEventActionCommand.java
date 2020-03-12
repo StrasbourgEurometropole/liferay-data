@@ -404,9 +404,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		}
 
 		// Lieu
-		String placeSIGId = ParamUtil.getString(request, "placeSIGId");
-		boolean isManualPlace = Validator.isNull(placeSIGId);
-		if (isManualPlace) {
+		String placeType = ParamUtil.getString(request, "placeType");
+		if (placeType.equals("sig")) {
+			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
+			if (Validator.isNull(placeSIGId)) {
+				SessionErrors.add(request, "place-selected-error");
+				isValid = false;
+			}
+		}else{
 			String placeName = ParamUtil.getString(request, "placeName");
 			String placeCity = ParamUtil.getString(request, "placeCity");
 			if (Validator.isNull(placeName)) {

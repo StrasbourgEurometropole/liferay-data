@@ -171,7 +171,7 @@
 			}
 		}
 
-		.navbar-header {
+		.sully-navbar-header {
 			float: left;
 			margin-top: 15px;
 			@include mobile {
@@ -225,7 +225,7 @@
 			}
 		}
 
-		.navbar-toggle{
+		.navbar-toggler{
 			right: 15px;
 			top: 18px;
 			.icon-bar{
@@ -513,7 +513,7 @@
 				}
 			}
 
-			.navbar-toggle.collapsed .icon-bar, .navbar-toggle .icon-bar {
+			.navbar-toggler.collapsed .icon-bar, .navbar-toggler .icon-bar {
 				background: $c_txt;
 			}
 
@@ -619,7 +619,7 @@
 	}
 
 	@include tablet_portrait{
-		.navbar-header {
+		.sully-navbar-header {
 			float: none;
 			background: white;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
@@ -627,7 +627,7 @@
 		.navbar-left,.navbar-right {
 			float: none !important;
 		}
-		.mns-nav .navbar-toggle {
+		.mns-nav .navbar-toggler {
 			display: block;
 			top: 24px;
 			right: 0;
@@ -635,7 +635,7 @@
 				top: 15px;
 			}
 		}
-		.mns-nav.mns-nav-scroll .navbar-toggle {
+		.mns-nav.mns-nav-scroll .navbar-toggler {
 			top: 15px;
 		}
 		.navbar-collapse {
@@ -660,7 +660,7 @@
 				color: black;
 			}
 		}
-		.mns-nav .navbar-toggle .icon-bar {
+		.mns-nav .navbar-toggler .icon-bar {
 			background: black;
 		}
 
@@ -684,7 +684,7 @@
 	}
 
 	@include mobile {
-		.navbar-header {
+		.sully-navbar-header{
 			background: white;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 		}
@@ -694,7 +694,7 @@
 				color: black;
 			}
 		}
-		.mns-nav .navbar-toggle .icon-bar {
+		.mns-nav .navbar-toggler .icon-bar {
 			background: black;
 		}
 	}
