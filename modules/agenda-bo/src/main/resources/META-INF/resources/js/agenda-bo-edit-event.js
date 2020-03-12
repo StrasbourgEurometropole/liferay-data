@@ -3,7 +3,7 @@ jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
 	var namespaceAUI = "#" + namespace;
 
-	$('[name=placeType]').on('click change', function(e) {
+	$('[name='+namespace+'placeType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
 		var classOfDivToHide = 'sigmanual'.replace(classOfDivToShow, '');
 		$('.sig, .manual').hide();
