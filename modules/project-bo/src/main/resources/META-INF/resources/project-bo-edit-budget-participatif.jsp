@@ -91,7 +91,7 @@
 				    </c:when>
 					<c:otherwise>
 						<%-- Champ : Au nom de --%>
-						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" />
+						<aui:input name="inTheNameOf" label="in-the-name-of" disabled="false" required="true" />
 					</c:otherwise>
 				</c:choose>
 			</aui:fieldset>
