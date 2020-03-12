@@ -1,7 +1,7 @@
 Bundle-SymbolicName: edition-api
 Bundle-Version: 1.31.0
-Export-Package:\
-	eu.strasbourg.service.edition.exception,\
-	eu.strasbourg.service.edition.model,\
-	eu.strasbourg.service.edition.service,\
-	eu.strasbourg.service.edition.service.persistence
+Export-Package: \
+    eu.strasbourg.service.edition.exception,\
+    eu.strasbourg.service.edition.model,\
+    eu.strasbourg.service.edition.service,\
+    eu.strasbourg.service.edition.service.persistence

@@ -44,6 +44,7 @@ public class LinkBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		
 		renderResponse.setTitle("Liens");
 		
@@ -56,7 +57,7 @@ public class LinkBOPortlet extends MVCPortlet {
 		}
 		
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editLink")) {
+		if (cmd.equals("editLink")|| mvcPath.equals("/link-bo-edit-link.jsp")) {
 			EditLinkDisplayContext dc = new EditLinkDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);		
 		} else {

@@ -2,4 +2,4 @@ Bundle-SymbolicName: place-service
 Bundle-Version: 1.31.0
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
-Javac-Encoding=UTF-8
+Javac-Encoding: UTF-8

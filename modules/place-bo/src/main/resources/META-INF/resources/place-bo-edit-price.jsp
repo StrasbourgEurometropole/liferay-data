@@ -18,6 +18,9 @@
 </liferay-portlet:actionURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="price-error" message="price-error" />
+
 	<aui:form action="${savePriceURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -42,9 +45,10 @@
 					<aui:input type="hidden" name="priceValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-price-error">
 							function (val, fieldNode, ruleValue) {
-								var validate = $('#_eu_strasbourg_portlet_place_PlaceBOPortlet_price_fr_FR').val().length > 0;
+								var validate = $('#_eu_strasbourg_portlet_place_PlaceBOPortlet_priceDescription_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_place_PlaceBOPortlet_priceContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_place_PlaceBOPortlet_priceDescriptionEditorContainer").get(0).scrollIntoView();
+									event.preventDefault();
 								}
 								return validate;
 							}

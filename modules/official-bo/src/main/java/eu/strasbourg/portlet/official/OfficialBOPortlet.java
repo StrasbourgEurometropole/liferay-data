@@ -44,6 +44,7 @@ public class OfficialBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		renderResponse.setTitle("Officials");
 
@@ -58,7 +59,7 @@ public class OfficialBOPortlet extends MVCPortlet {
 
 		// If we are on the Edition edition page, we add the corresponding
 		// display context
-		if (cmd.equals("editOfficial")) {
+		if (cmd.equals("editOfficial") || mvcPath.equals("/official-bo-edit-official.jsp")) {
 			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

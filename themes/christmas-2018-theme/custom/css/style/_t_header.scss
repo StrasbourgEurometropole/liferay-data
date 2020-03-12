@@ -249,7 +249,7 @@
 		.mns-navbar-wrapper {
 			top: 0;
 			@include an(all, 0.3);
-			.navbar-header{
+			.sully-navbar-header{
 				margin: 0;
 			}
 			.navbar-collapse{
@@ -297,7 +297,7 @@
 				}
 			}
 
-			.navbar-toggle.collapsed .icon-bar, .navbar-toggle .icon-bar {
+			.navbar-toggler.collapsed .icon-bar, .navbar-toggler .icon-bar {
 				background: $c_txt;
 			}
 
@@ -366,7 +366,7 @@
 			}
 		}
 
-		.navbar-toggle {
+		.navbar-toggler {
 			right: 15px;
 			top: 18px;
 			.icon-bar {
@@ -711,7 +711,7 @@
 					font-size: 24px;
 				}
 			}
-			.navbar-toggle {
+			.navbar-toggler {
 				.icon-bar {
 					background: $c_txt;
 				}
@@ -795,13 +795,13 @@
 
 
 	@include tablet_portrait {
-		.navbar-header {
+		.sully-navbar-header {
 			float: none;
 		}
 		.navbar-left, .navbar-right {
 			float: none !important;
 		}
-		.mns-nav .navbar-toggle {
+		.mns-nav .navbar-toggler {
 			display: block;
 			top: 24px;
 			right: 0;
@@ -811,7 +811,7 @@
 				top: 15px;
 			}
 		}
-		.mns-nav.mns-nav-scroll .navbar-toggle {
+		.mns-nav.mns-nav-scroll .navbar-toggler {
 			top: 15px;
 		}
 		.navbar-collapse {
