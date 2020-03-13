@@ -299,90 +299,43 @@
         event.preventDefault();
         var response = validateFormInitiative();
         if (response){
-            var title = $("#<portlet:namespace />title").val();
-            var description = $("#<portlet:namespace />description").val();
-            var photo = $("#<portlet:namespace />photo").val();
-            var video = $("#<portlet:namespace />video").val();
-            var project = $("#<portlet:namespace />project").val();
-            var district = $("#<portlet:namespace />quartier").val();
-            var thematic = $("#<portlet:namespace />theme").val();
-            var place = $("#<portlet:namespace />place").val();
-            var lastname = $("#<portlet:namespace />astname").val();
-            var firstname = $("#<portlet:namespace />firstname").val();
-            var address = $("#<portlet:namespace />address").val();
-            var city = $("#<portlet:namespace />city").val();
-            var postalCode = $("#<portlet:namespace />postalcode").val();
-            var birthday = $("#<portlet:namespace />birthday").val();
-            var phone = $("#<portlet:namespace />phone").val();
-            var mobile = $("#<portlet:namespace />mobile").val();
-            var email = $("#<portlet:namespace />mail").val();
-            var saveInfo = $("#<portlet:namespace />saveInfo").is(":checked");
-            var inTheNameOf = $("#<portlet:namespace />initiativeInTheNameOf").val();
-            
-            AUI().use('aui-io-request', function(A) {
-                var uploadForm = A.one("#<portlet:namespace />uploadForm");
-                try {
-                    A.io.request('${submitInitiativeURL}', {
-                        method : 'POST',
-                        form: {
-                            id: uploadForm,
-                            upload: true
-                        },
-                        sync: true,
-                        dataType: 'json',
-                        data:{
-                            <portlet:namespace/>title: 			title,
-                            <portlet:namespace/>description: 	description,
-                            <portlet:namespace/>address:		address,
-                            <portlet:namespace/>city: 			city,
-                            <portlet:namespace/>postalcode: 	postalCode,
-                            <portlet:namespace/>phone: 			phone,
-                            <portlet:namespace/>mobile:	 		mobile,
-                            <portlet:namespace/>birthday: 		birthday,
-                            <portlet:namespace />project: 		project,
-                            <portlet:namespace />district: 		district,
-                            <portlet:namespace />thematic: 		thematic,
-                            <portlet:namespace />photo: 		photo,
-                            <portlet:namespace />video: 		video,
-                            <portlet:namespace />place: 		place,
-                            <portlet:namespace />saveinfo: 		saveInfo,
-                            <portlet:namespace />lastname: 		lastname,
-                            <portlet:namespace />firstname: 	firstname,
-                            <portlet:namespace />email: 		email,
-                            <portlet:namespace />inTheNameOf: 	inTheNameOf
-                        },
-                        on: {
-                            complete: function(e) {
-                                // var data = this.get('responseData');
-                                var data = JSON.parse(e.details[1].responseText);
-                                if(data.result){
-                                    $("#modalSubmitInitiative").modal('hide');
-                                    if(data.savedInfo){
-                                        saved_dateNaiss = birthday;
-                                        saved_city = $("#<portlet:namespace />city").val();
-                                        saved_address = $("#<portlet:namespace />address").val();
-                                        saved_zipCode = $("#<portlet:namespace />postalcode").val();
-                                        if($("#<portlet:namespace />phone").val() != "")
-                                            saved_phone = $("#<portlet:namespace />phone").val();
-                                        if($("#<portlet:namespace />mobile").val() != "")
-                                            saved_mobile = $("#<portlet:namespace />mobile").val();
-                                    }
-                                    $("#<portlet:namespace />modalConfirm").modal('show');
-                                    resetValuesInitiative();
-                                }else{
-                                    $("#<portlet:namespace />modalError h4").text(data.message);
-                                    $("#<portlet:namespace />modalError").modal('show');
-                                }
-                            }
+                        
+            var request = new XMLHttpRequest();
+            var formElement = $("#<portlet:namespace />uploadForm");
+            request.open('POST', '${submitInitiativeURL}', true);
+            //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    // Success!
+                    var data = JSON.parse(this.response);
+                    // var data = this.get('responseData');
+                    //var data = JSON.parse(e.details[1].responseText);
+                    if(data.result){
+                        $("#modalSubmitInitiative").modal('hide');
+                        if(data.savedInfo){
+                            saved_dateNaiss = birthday;
+                            saved_city = $("#<portlet:namespace />city").val();
+                            saved_address = $("#<portlet:namespace />address").val();
+                            saved_zipCode = $("#<portlet:namespace />postalcode").val();
+                            if($("#<portlet:namespace />phone").val() != "")
+                                saved_phone = $("#<portlet:namespace />phone").val();
+                            if($("#<portlet:namespace />mobile").val() != "")
+                                saved_mobile = $("#<portlet:namespace />mobile").val();
                         }
-                    });
+                        $("#<portlet:namespace />modalConfirm").modal('show');
+                        resetValuesInitiative();
+                    }else{
+                        $("#<portlet:namespace />modalError h4").text(data.message);
+                        $("#<portlet:namespace />modalError").modal('show');
+                    }
+                } else {
+                    // We reached our target server, but it returned an error
                 }
-                catch(error) {
-                    if(!(error instanceof TypeError)){
-                        console.log(error);
-                    } else console.log("petite erreur sans importance")
-                }
-            });
+            };
+
+            request.send(new FormData(formElement[0]));
+          
         }
     });
 

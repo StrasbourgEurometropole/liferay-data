@@ -74,8 +74,8 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	private static final String TITLE = "title";
 	private static final String DESCRIPTION = "description";
 	private static final String IN_THE_NAME_OF = "inTheNameOf";
-	private static final String DISTRICT = "district";
-	private static final String THEMATIC = "thematic";
+	private static final String DISTRICT = "quartier";
+	private static final String THEMATIC = "theme";
 	private static final String PROJECT = "project";
 	private static final String PLACE = "place";
 	private static final String PHOTO = "photo";
