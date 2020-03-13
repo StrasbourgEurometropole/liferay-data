@@ -23,7 +23,7 @@
 </#if>
 
 <div class="top-header">
-	<div class="container-fluid-1280">
+	<div class="container-fluid">
 		<div class="row">
 			<a href="http://strasbourg.eu">
 				<img src="/o/agenda-platform-theme/images/strasbourg-logo.png" alt="Strasbourg.eu" />
@@ -42,12 +42,12 @@
 
 <div id="wrapper">
 	<header class="main-header">
-		<div class="container-fluid-1280">
+		<div class="container-fluid">
 			Plateforme de saisie d'événements
 		</div>
 	</header>
 
-	<section class="container-fluid-1280" id="content">
+	<section class="container-fluid" id="content">
 		<h1 class="hide-accessible">${the_title}</h1>
 		<#if selectable>
 			<@liferay_util["include"] page=content_include />
@@ -63,7 +63,7 @@
 	</section>
 
 	<footer id="footer" role="contentinfo">
-		<div class="container-fluid-1280">
+		<div class="container-fluid">
 			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 			<@liferay_portlet["runtime"]
 				defaultPreferences="${freeMarkerPortletPreferences}"

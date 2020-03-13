@@ -78,9 +78,9 @@ public class VideoGalleryItemSelectorView
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		boolean multiple = GetterUtil
-			.getBoolean(servletRequest.getParameter("multiple"), false);
-		portletURL.getRenderParameters().setValue("multiple", String.valueOf(multiple));
+		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(
 			servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
@@ -103,8 +103,7 @@ public class VideoGalleryItemSelectorView
 		servletRequest.setAttribute("total", galleriesCount);
 		servletRequest.setAttribute("galleries", galleries);
 		servletRequest.setAttribute("portletURL", portletURL);
-		servletRequest.setAttribute("itemSelectedEventName",
-			itemSelectedEventName);
+		servletRequest.setAttribute("itemSelectedEventName", itemSelectedEventName);
 		servletRequest.setAttribute("multiple", multiple);
 
 		ServletContext servletContext = getServletContext();

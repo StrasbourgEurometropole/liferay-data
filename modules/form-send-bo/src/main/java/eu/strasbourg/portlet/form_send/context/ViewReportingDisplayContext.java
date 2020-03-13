@@ -33,11 +33,7 @@ import java.util.stream.Collectors;
 
 public class ViewReportingDisplayContext extends ViewListBaseDisplayContext<FormSendRecordFieldSignalement>{
 
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
-    private ThemeDisplay _themeDisplay;
     private List<FormSendRecordFieldSignalement> _allSignalements;
-    private List<FormSendRecordFieldSignalement> _signalements;
 
     public ViewReportingDisplayContext(RenderRequest request, RenderResponse response) {
         super(FormSendRecordFieldSignalement.class, request, response);

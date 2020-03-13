@@ -70,7 +70,6 @@
           <div class="region-banner" style="background-image: url(${layoutImage})">
           </div>
         </#if>
-        <@liferay.breadcrumbs />
       </div>
     </#if>
 

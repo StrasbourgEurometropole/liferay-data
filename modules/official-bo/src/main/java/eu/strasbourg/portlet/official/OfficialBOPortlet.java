@@ -22,7 +22,9 @@ import eu.strasbourg.portlet.official.display.context.ViewOfficialsDisplayContex
 
 @Component(
 	immediate = true,
-	property = { "com.liferay.portlet.instanceable=false",
+	property = {
+		"javax.portlet.version=3.0",
+		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/official-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/official-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
@@ -42,6 +44,7 @@ public class OfficialBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
 		renderResponse.setTitle("Officials");
 
@@ -56,7 +59,7 @@ public class OfficialBOPortlet extends MVCPortlet {
 
 		// If we are on the Edition edition page, we add the corresponding
 		// display context
-		if (cmd.equals("editOfficial")) {
+		if (cmd.equals("editOfficial") || mvcPath.equals("/official-bo-edit-official.jsp")) {
 			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

@@ -47,7 +47,7 @@
 				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Description --%>
-				<aui:input name="description" required="false" />
+				<aui:input name="description" required="true" />
 				
 			</aui:fieldset>
 			
@@ -103,6 +103,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
+		                                event.preventDefault();
 								    	break;
 								    }
 								}

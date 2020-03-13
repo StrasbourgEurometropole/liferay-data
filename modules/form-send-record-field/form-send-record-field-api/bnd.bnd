@@ -1,10 +1,10 @@
 Bundle-Name: form-send-record-field-api
 Bundle-SymbolicName: eu.strasbourg.service.formSendRecordField.api
 Bundle-Version: 1.0.0
-Export-Package:\
-	eu.strasbourg.service.formSendRecordField.exception,\
-	eu.strasbourg.service.formSendRecordField.model,\
-	eu.strasbourg.service.formSendRecordField.service,\
-	eu.strasbourg.service.formSendRecordField.service.persistence
+Export-Package: \
+    eu.strasbourg.service.formSendRecordField.exception,\
+    eu.strasbourg.service.formSendRecordField.model,\
+    eu.strasbourg.service.formSendRecordField.service,\
+    eu.strasbourg.service.formSendRecordField.service.persistence
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../form-send-record-field-service/service.xml

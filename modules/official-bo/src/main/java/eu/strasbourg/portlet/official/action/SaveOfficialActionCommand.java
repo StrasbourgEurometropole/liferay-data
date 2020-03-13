@@ -20,10 +20,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -38,10 +39,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalService;
@@ -63,6 +60,28 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			sc.setScopeGroupId(
 					((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY))
 							.getScopeGroupId());
+
+			// Validation
+			boolean isValid = validate(request);
+			if (!isValid) {
+				// Si pas valide : on reste sur la page d'édition
+				PortalUtil.copyRequestParameters(request, response);
+
+				ThemeDisplay themeDisplay = (ThemeDisplay) request
+						.getAttribute(WebKeys.THEME_DISPLAY);
+				String portletName = (String) request
+						.getAttribute(WebKeys.PORTLET_ID);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+						portletName, themeDisplay.getPlid(),
+						PortletRequest.RENDER_PHASE);
+				returnURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("mvcPath",
+						"/official-bo-edit-official.jsp");
+				return false;
+			}
+
 			long officialId = ParamUtil.getLong(request, "officialId");
 			Official official;
 			if (officialId == 0) {
@@ -187,6 +206,34 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		// Nom
+		if (Validator.isNull(ParamUtil.getString(request, "lastName"))) {
+			SessionErrors.add(request, "name-error");
+			isValid = false;
+		}
+
+		// Prénom
+		if (Validator.isNull(ParamUtil.getString(request, "firstName"))) {
+			SessionErrors.add(request, "name-error");
+			isValid = false;
+		}
+
+		// Photo
+		Long imageId = ParamUtil.getLong(request, "imageId");
+		if (imageId == 0) {
+			SessionErrors.add(request, "image-error");
+			isValid = false;
+		}
+
+		return isValid;
 	}
 
 	private OfficialLocalService _officialLocalService;

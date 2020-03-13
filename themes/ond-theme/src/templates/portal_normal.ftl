@@ -121,10 +121,7 @@
 								<#if layout.getFriendlyURL() != "/accueil">
 			                    	<a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}"><@liferay_ui.message key='breadcrumb-home' /></a> >
 								</#if> 
-							</p> 
-							<div class="breadcrumbs-bar">
-								<@liferay.breadcrumbs />
-							</div>
+							</p>
 		                </div>
 		                <aside class="quick-links-medias">
 		                    <ul>

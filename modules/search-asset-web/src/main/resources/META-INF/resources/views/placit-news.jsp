@@ -27,7 +27,7 @@
     <!-- Listing -->
 
     <aui:form method="post" name="fm">
-        <section class="container pro-listing pro-listing-news" data-egalize=" > *">
+        <section class="container pro-listing pro-listing-news" data-egalize=" > *" data-row="true">
         </section>
     </aui:form>
 

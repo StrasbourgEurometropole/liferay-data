@@ -19,6 +19,7 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/objtp-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/objtp-bo-main.css",
@@ -26,8 +27,7 @@ import org.osgi.service.component.annotations.Component;
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/objtp-bo-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.name=" + StrasbourgPortletKeys.OBJTP_BO
+		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
 )

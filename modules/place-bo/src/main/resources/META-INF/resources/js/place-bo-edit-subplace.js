@@ -17,13 +17,13 @@ jQuery(function() {
 
 	function setPeriodValidators(event) {
 		var periodLabels = $('.tab-content > div[id*=period]');
-		var nbPeriodDefault = 0;
+		//var nbPeriodDefault = 0;
 		var periodsIndexes = "";
 		for (var i = 0; i < periodLabels.length; i++) {
 			var periodLabel = periodLabels[i];
 			var index = $(periodLabel).children('input[id*=numPeriod]').val();
 			periodsIndexes += index + ",";
-			var nom = $(namespaceAUI + "namePeriod" + index).val();			
+			/*var nom = $(namespaceAUI + "namePeriod" + index).val();
 			if (nom == "") {
 				$('.place-period-name', $(periodLabel).parent()).show();
 				if(allValidate){
@@ -34,10 +34,10 @@ jQuery(function() {
 			}else{
 				$('.place-period-name', $(periodLabel).parent()).hide();
 			}
-			
+
 			var periodDefault = $(namespaceAUI + "defaultPeriod" + index).get(0).checked;
 			if (periodDefault) {
-				$('.place-period-start-date', $(periodLabel).parent()).hide();
+				/*$('.place-period-start-date', $(periodLabel).parent()).hide();
 				$('.place-period-end-date', $(periodLabel).parent()).hide();
 				if (nbPeriodDefault == 0) {
 					nbPeriodDefault++;
@@ -86,7 +86,7 @@ jQuery(function() {
 				}else{
 					$('.place-period-incorrect-date', $(periodLabel).parent()).hide();
 				}
-			}
+			}*/
 			setSlotValidators(index, periodLabel);
 		}
 
@@ -256,7 +256,7 @@ jQuery(function() {
 
                                 // on vérifie que l'heure de début soit < à l'heure de fin
                                 if(startHour != "" && endHour != "" && !comparHour(startHour, endHour)){
-                                    $('.place-schedule-incorrect-hour' + i, $(scheduleLabel).parent()).show();
+                                    $('.place-schedule-incorrect-hour' + j, $(scheduleLabel).parent()).show();
                                     if(allValidate){
                                         $('html,body').animate({scrollTop: $(namespaceAUI + "startHour" + j + "_" + index).offset().top - 100}, 'slow');
                                         allValidate = false;

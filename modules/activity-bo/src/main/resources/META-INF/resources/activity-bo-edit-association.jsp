@@ -77,6 +77,7 @@
                                     if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.icon-asterisk').length > 0
                                         && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
                                         validated = false;
+								    	event.preventDefault();
                                         break;
                                     }
                                 }
@@ -149,13 +150,6 @@
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script
 		src="/o/activitybo/js/activity-bo-edit-associations.js"
 		type="text/javascript"></script>

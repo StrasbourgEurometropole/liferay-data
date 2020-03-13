@@ -72,7 +72,7 @@ public class AgendaBOPortlet extends MVCPortlet {
 			EditEventDisplayContext dc = new EditEventDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editManifestation")) {
+		} else if (cmd.equals("editManifestation") || mvcPath.equals("/agenda-bo-edit-manifestation.jsp")) {
 			EditManifestationDisplayContext dc = new EditManifestationDisplayContext(
 				renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);

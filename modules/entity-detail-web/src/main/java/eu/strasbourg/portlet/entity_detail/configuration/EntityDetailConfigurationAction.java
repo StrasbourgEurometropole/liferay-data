@@ -11,6 +11,7 @@ import javax.portlet.PortletPreferences;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.petra.string.StringPool;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -25,10 +26,8 @@ import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -97,25 +96,9 @@ public class EntityDetailConfigurationAction
 								themeDisplay.getCompany().getCompanyId()).stream()
 								.filter(a -> a.isCategorizable() && a.getClassName().startsWith("eu.strasbourg"))
 								.collect(Collectors.toList());
-//				List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
-//						.filter(
-//								AssetRendererFactoryRegistryUtil
-//										.getAssetRendererFactories(
-//												themeDisplay.getCompany().getCompanyId()),
-//								new Predicate<AssetRendererFactory<?>>() {
-//
-//									@Override
-//									public boolean filter(
-//											AssetRendererFactory<?> assetRendererFactory) {
-//										return assetRendererFactory.isCategorizable()
-//												&& assetRendererFactory.getClassName()
-//												.startsWith("eu.strasbourg");
-//									}
-//
-//								});
 
-				List<String> classNames = new ArrayList<String>();
-				List<String> classNamesLabels = new ArrayList<String>();
+				List<String> classNames = new ArrayList<>();
+				List<String> classNamesLabels = new ArrayList<>();
 				for (AssetRendererFactory<?> assetRendererFactory : availableAssetRendererFactories) {
 					classNames.add(assetRendererFactory.getClassName());
 					String classNameLabel = ResourceActionsUtil
@@ -179,8 +162,7 @@ public class EntityDetailConfigurationAction
 		request.setAttribute("classNameLabel", classNameLabel);
 
 		// JSP
-		response.setRenderParameter("jspPage",
-			"/entity-detail-configuration-selectors.jsp");
+		response.getRenderParameters().setValue("jspPage", "/entity-detail-configuration-selectors.jsp");
 	}
 
 	/**

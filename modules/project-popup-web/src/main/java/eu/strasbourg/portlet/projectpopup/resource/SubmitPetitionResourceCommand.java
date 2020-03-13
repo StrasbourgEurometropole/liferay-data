@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -28,8 +29,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -42,11 +41,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -274,14 +269,20 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 			context.put("footerImage", btnImage.toString());
 			context.put("Title", this.title);
 			context.put("Message", this.description);
-			
-		  	Configuration configuration = new Configuration(Configuration.getVersion());
-			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
-			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-			
-			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
-			StringWriter bodyWriter = new StringWriter();
-			bodyTemplate.process(context, bodyWriter);
+
+            StringWriter out = new StringWriter();
+
+            //Chargement du template contenant le corps du mail
+            TemplateResource templateResourceBody = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("/templates/contact-mail-copy-body-fr_FR.ftl")));
+            Template bodyTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+            // Traitement du template corps
+            bodyTemplate.putAll(context);
+            bodyTemplate.processTemplate(out);
+            String mailBody = out.toString();
 			
 			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitPetition.mail.information");
 			
@@ -293,8 +294,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
-					bodyWriter.toString());
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();
