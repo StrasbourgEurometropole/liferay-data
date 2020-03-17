@@ -66,8 +66,8 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
     private static final String POSTALCODE = "postalcode";
     private static final String PHONE = "phone";
     private static final String MOBILE = "mobile";
-    private static final String PETITIONTITLE = "petitiontitle";
-    private static final String PETITIONDESCRIPTION = "petitiondescription";
+    private static final String PETITIONTITLE = "title";
+    private static final String PETITIONDESCRIPTION = "description";
     private static final String IN_THE_NAME_OF = "inTheNameOf";
     private static final String LIEU = "consultationPlacesText";
     private static final String PROJECT = "project";
@@ -253,7 +253,6 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
     	
     	try {
 	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-	    	
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());

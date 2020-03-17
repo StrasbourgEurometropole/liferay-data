@@ -74,7 +74,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String BUDGETTITLE = "title";
     private static final String BUDGETSUMMARY = "summary";
-    private static final String SQUIREDESCRIPTION = "description";
+    private static final String SQUIREDESCRIPTION = "squiredescription";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";

@@ -24,8 +24,7 @@
                         <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                    	<aui:input id="budgetdescription" name="description" type="hidden"/>
-                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
+                    	<aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -231,99 +230,46 @@
     $("#sendBudget").click(function(event){
         event.preventDefault();
         var response = validateFormSubmitBudget();
-        if (response){
-            var budgetTitleValue = $("#"+namespaceSubmitBudget+"budgettitle").val();
-            var iframe = $('.Squire-UI').next('iframe').first()[0];
-        	var editor = iframe.contentWindow.editor;       	
-            var budgetDescriptionValue = editor.getHTML();
-            $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
-            var budgetSummaryValue = $("#"+namespaceSubmitBudget+"budgetsummary").val();
-            var addressValue = $("#"+namespaceSubmitBudget+"address").val();
-            var cityValue = $("#"+namespaceSubmitBudget+"city").val();
-            var postalcodeValue = $("#"+namespaceSubmitBudget+"postalcode").val();
-            var birthdayValue = $("#"+namespaceSubmitBudget+"birthday").val();
-            var phoneValue = $("#"+namespaceSubmitBudget+"phone").val();
-            var mobileValue = $("#"+namespaceSubmitBudget+"mobile").val();
-            var projectValue = $("#"+namespaceSubmitBudget+"project").val();
-            var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
-            var themeValue = $("#"+namespaceSubmitBudget+"theme").val();
-            var budgetlieuxValue = $("#"+namespaceSubmitBudget+"budgetlieux").val();
-            var saveInfoValue = $("#save-info").is(":checked");
-            var lastNameValue = $("#"+namespaceSubmitBudget+"username").val();
-            var photoValue = $("#"+namespaceSubmitBudget+"budgetPhoto").val();
-            var videoValue = $("#"+namespaceSubmitBudget+"budgetVideo").val();
-            var nbFileMaxValue = saved_nbFiles;
-            var typesFilesValue = saved_typesFiles;
-            var sizeFileValue = saved_sizeFile;
-            var firstNameValue = $("#"+namespaceSubmitBudget+"firstname").val();
-            var emailValue = $("#"+namespaceSubmitBudget+"mail").val();
-            AUI().use('aui-io-request', function(A) {
-                var uploadForm = A.one("#<portlet:namespace />uploadForm");
-                try {
-                    A.io.request('${submitBudgetURL}', {
-                        method : 'POST',
-                        form: {
-                            id: uploadForm,
-                            upload: true
-                        },
-                        sync: true,
-                        dataType: 'json',
-                        data:{
-                            <portlet:namespace/>title:budgetTitleValue,
-                            <portlet:namespace/>description:budgetDescriptionValue,
-                            <portlet:namespace/>summary:budgetSummaryValue,
-                            <portlet:namespace/>address:addressValue,
-                            <portlet:namespace/>city:cityValue,
-                            <portlet:namespace/>postalcode:postalcodeValue,
-                            <portlet:namespace/>phone:phoneValue,
-                            <portlet:namespace/>mobile:mobileValue,
-                            <portlet:namespace/>birthday:birthdayValue,
-                            <portlet:namespace />project:projectValue,
-                            <portlet:namespace />quartier:quartierValue,
-                            <portlet:namespace />theme:themeValue,
-                            <portlet:namespace />photo:photoValue,
-                            <portlet:namespace />video:videoValue,
-                            <portlet:namespace />nbFileMax:nbFileMaxValue,
-                            <portlet:namespace />typesFiles:typesFilesValue,
-                            <portlet:namespace />sizeFile:sizeFileValue,
-                            <portlet:namespace />budgetLieux:budgetlieuxValue,
-                            <portlet:namespace />saveinfo:saveInfoValue,
-                            <portlet:namespace />lastname:lastNameValue,
-                            <portlet:namespace />firstname:firstNameValue,
-                            <portlet:namespace />email:emailValue
-                        },
-                        on: {
-                            complete: function(e) {
-                                // var data = this.get('responseData');
-                                var data = JSON.parse(e.details[1].responseText);
-                                if(data.result){
-                                    $('#modalBudget').modal('hide');
-                                    if(data.savedInfo){
-                                        saved_dateNaiss = birthdayValue;
-                                        saved_city = $("#"+namespaceSubmitBudget+"city").val();
-                                        saved_address = $("#"+namespaceSubmitBudget+"address").val();
-                                        saved_zipCode = $("#"+namespaceSubmitBudget+"postalcode").val();
-                                        if($("#"+namespaceSubmitBudget+"phone").val() != "")
-                                            saved_phone = $("#"+namespaceSubmitBudget+"phone").val();
-                                        if($("#"+namespaceSubmitBudget+"mobile").val() != "")
-                                            saved_mobile = $("#"+namespaceSubmitBudget+"mobile").val();
-                                    }
-                                    $('#modalConfirmerBudget').modal('show');
-                                    resetValuesSubmitBudget();
-                                }else{
-                                    $("#modalErrorBudget h4").text(data.message);
-                                    $('#modalErrorBudget').modal('show');
-                                }
-                            }
+        if (response){            
+            var request = new XMLHttpRequest();
+            var formElement = $("#<portlet:namespace />uploadForm");
+            request.open('POST', '${submitBudgetURL}', true);
+            //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    // Success!
+                    var data = JSON.parse(this.response);
+                    // var data = this.get('responseData');
+                    //var data = JSON.parse(e.details[1].responseText);
+                    if(data.result){
+                        $('#modalBudget').modal('hide');
+                        if(data.savedInfo){
+                            saved_dateNaiss = $("#<portlet:namespace />birthday").val();
+                            saved_city = $("#<portlet:namespace />city").val();
+                            saved_address = $("#<portlet:namespace />address").val();
+                            saved_zipCode = $("#<portlet:namespace />postalcode").val();
+                            if($("#<portlet:namespace />phone").val() != "")
+                                saved_phone = $("#<portlet:namespace />phone").val();
+                            if($("#<portlet:namespace />mobile").val() != "")
+                                saved_mobile = $("#<portlet:namespace />mobile").val();
                         }
-                    });
+                        $('#modalConfirmerBudget').modal('show');
+                        resetValuesSubmitBudget();
+                    }else{
+                        $("#modalErrorBudget h4").text(data.message);
+                        $('#modalErrorBudget').modal('show');
+                    }
+                } else {
+                    // We reached our target server, but it returned an error
                 }
-                catch(error) {
-                    if(!(error instanceof TypeError)){
-                        console.log(error);
-                    } else console.log("petite erreur sans importance")
-                }
-            });
+            };
+            var formData = new FormData(formElement[0]);
+            var budgetDescription = $("#"+namespaceSubmitBudget+"squiredescription").val();
+            var nbFileMaxValue = saved_nbFiles;
+            formData.append("<portlet:namespace/>nbFileMax", nbFileMaxValue); 
+            formData.append("<portlet:namespace/>squiredescription", budgetDescription);         
+            request.send(formData);
         }
     });
 
