@@ -15,7 +15,7 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
-    <portlet:param name="recordSetId" value="${recordSetId}" />
+    <portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
     <portlet:param name="returnURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
@@ -24,7 +24,7 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
-    <portlet:param name="recordSetId" value="${recordSetId}" />
+    <portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
     <portlet:param name="returnURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
@@ -36,7 +36,7 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
-    <portlet:param name="recordSetId" value="${recordSetId}" />
+    <portlet:param name="formInstanceId" value="${formInstanceId}" />
     <portlet:param name="returnURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
 
@@ -44,7 +44,7 @@
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<!-- Liste des onglet -->
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${viewFormSendsURL}" label="${recordSetName}"
+		<aui:nav-item href="${viewFormSendsURL}" label="${formInstanceName}"
 			selected="${tab eq 'viewFormSends'}" />
 		<aui:nav-item href="${viewReportingsURL}" label="reportings"
 			selected="${tab eq 'viewReportings'}" />
