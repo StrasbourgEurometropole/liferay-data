@@ -274,7 +274,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
             //Chargement du template contenant le corps du mail
             TemplateResource templateResourceBody = new URLTemplateResource("0",
                     Objects.requireNonNull(this.getClass().getClassLoader()
-                            .getResource("/templates/contact-mail-copy-body-fr_FR.ftl")));
+                            .getResource("META-INF/resources/templates/contact-mail-copy-body-fr_FR.ftl")));
             Template bodyTemplate = TemplateManagerUtil.getTemplate(
                     TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
 

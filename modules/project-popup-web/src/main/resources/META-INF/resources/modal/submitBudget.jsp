@@ -267,15 +267,19 @@
             };
             var formData = new FormData(formElement[0]);
             var nbFileMaxValue = saved_nbFiles;
-            
+            var typesFilesValue = saved_typesFiles;
+            var videoValue = $("#"+namespaceSubmitBudget+"budgetVideo").val();
+            var lieuValue =$("#"+namespaceSubmitBudget+"budgetlieux").val();
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
             $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
-            
             var budgetDescription = $("#"+namespaceSubmitBudget+"budgetdescription").val();
+            formData.append("<portlet:namespace/>video", videoValue);
+            formData.append("<portlet:namespace/>budgetLieux", lieuValue);
             formData.append("<portlet:namespace/>squiredescription", budgetDescription);
             formData.append("<portlet:namespace/>nbFileMax", nbFileMaxValue); 
+            formData.append("<portlet:namespace/>typesFiles", typesFilesValue); 
             request.send(formData);
         }
     });
