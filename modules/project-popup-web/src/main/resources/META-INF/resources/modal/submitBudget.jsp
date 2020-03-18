@@ -24,7 +24,8 @@
                         <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                    	<aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
+                        <aui:input id="budgetdescription" name="description" type="hidden"/>
+                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -265,10 +266,16 @@
                 }
             };
             var formData = new FormData(formElement[0]);
-            var budgetDescription = $("#"+namespaceSubmitBudget+"squiredescription").val();
             var nbFileMaxValue = saved_nbFiles;
+            
+            var iframe = $('.Squire-UI').next('iframe').first()[0];
+        	var editor = iframe.contentWindow.editor;       	
+            var budgetDescriptionValue = editor.getHTML();
+            $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
+            
+            var budgetDescription = $("#"+namespaceSubmitBudget+"budgetdescription").val();
+            formData.append("<portlet:namespace/>squiredescription", budgetDescription);
             formData.append("<portlet:namespace/>nbFileMax", nbFileMaxValue); 
-            formData.append("<portlet:namespace/>squiredescription", budgetDescription);         
             request.send(formData);
         }
     });
