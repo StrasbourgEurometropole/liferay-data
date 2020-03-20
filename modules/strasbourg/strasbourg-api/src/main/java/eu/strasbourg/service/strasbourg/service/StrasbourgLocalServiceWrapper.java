@@ -26,16 +26,78 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class StrasbourgLocalServiceWrapper implements StrasbourgLocalService,
-	ServiceWrapper<StrasbourgLocalService> {
+public class StrasbourgLocalServiceWrapper
+	implements StrasbourgLocalService, ServiceWrapper<StrasbourgLocalService> {
+
 	public StrasbourgLocalServiceWrapper(
 		StrasbourgLocalService strasbourgLocalService) {
+
 		_strasbourgLocalService = strasbourgLocalService;
 	}
 
+	/**
+	 * Adds the strasbourg to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param strasbourg the strasbourg
+	 * @return the strasbourg that was added
+	 */
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return _strasbourgLocalService.getActionableDynamicQuery();
+	public eu.strasbourg.service.strasbourg.model.Strasbourg addStrasbourg(
+		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
+
+		return _strasbourgLocalService.addStrasbourg(strasbourg);
+	}
+
+	/**
+	 * Creates a new strasbourg with the primary key. Does not add the strasbourg to the database.
+	 *
+	 * @param id the primary key for the new strasbourg
+	 * @return the new strasbourg
+	 */
+	@Override
+	public eu.strasbourg.service.strasbourg.model.Strasbourg createStrasbourg(
+		long id) {
+
+		return _strasbourgLocalService.createStrasbourg(id);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
+			com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _strasbourgLocalService.deletePersistedModel(persistedModel);
+	}
+
+	/**
+	 * Deletes the strasbourg with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param id the primary key of the strasbourg
+	 * @return the strasbourg that was removed
+	 * @throws PortalException if a strasbourg with the primary key could not be found
+	 */
+	@Override
+	public eu.strasbourg.service.strasbourg.model.Strasbourg deleteStrasbourg(
+			long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _strasbourgLocalService.deleteStrasbourg(id);
+	}
+
+	/**
+	 * Deletes the strasbourg from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param strasbourg the strasbourg
+	 * @return the strasbourg that was removed
+	 */
+	@Override
+	public eu.strasbourg.service.strasbourg.model.Strasbourg deleteStrasbourg(
+		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
+
+		return _strasbourgLocalService.deleteStrasbourg(strasbourg);
 	}
 
 	@Override
@@ -43,223 +105,184 @@ public class StrasbourgLocalServiceWrapper implements StrasbourgLocalService,
 		return _strasbourgLocalService.dynamicQuery();
 	}
 
+	/**
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return _strasbourgLocalService.getIndexableActionableDynamicQuery();
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _strasbourgLocalService.dynamicQuery(dynamicQuery);
 	}
 
 	/**
-	* @throws PortalException
-	*/
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @return the range of matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
-		com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _strasbourgLocalService.deletePersistedModel(persistedModel);
-	}
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
-	@Override
-	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _strasbourgLocalService.getPersistedModel(primaryKeyObj);
-	}
-
-	/**
-	* Adds the strasbourg to the database. Also notifies the appropriate model listeners.
-	*
-	* @param strasbourg the strasbourg
-	* @return the strasbourg that was added
-	*/
-	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg addStrasbourg(
-		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
-		return _strasbourgLocalService.addStrasbourg(strasbourg);
+		return _strasbourgLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
 	/**
-	* Creates a new strasbourg with the primary key. Does not add the strasbourg to the database.
-	*
-	* @param id the primary key for the new strasbourg
-	* @return the new strasbourg
-	*/
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching rows
+	 */
 	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg createStrasbourg(
-		long id) {
-		return _strasbourgLocalService.createStrasbourg(id);
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+
+		return _strasbourgLocalService.dynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
-	* Deletes the strasbourg from the database. Also notifies the appropriate model listeners.
-	*
-	* @param strasbourg the strasbourg
-	* @return the strasbourg that was removed
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg deleteStrasbourg(
-		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
-		return _strasbourgLocalService.deleteStrasbourg(strasbourg);
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _strasbourgLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
-	* Deletes the strasbourg with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param id the primary key of the strasbourg
-	* @return the strasbourg that was removed
-	* @throws PortalException if a strasbourg with the primary key could not be found
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param projection the projection to apply to the query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg deleteStrasbourg(
-		long id) throws com.liferay.portal.kernel.exception.PortalException {
-		return _strasbourgLocalService.deleteStrasbourg(id);
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
+
+		return _strasbourgLocalService.dynamicQueryCount(
+			dynamicQuery, projection);
 	}
 
 	@Override
 	public eu.strasbourg.service.strasbourg.model.Strasbourg fetchStrasbourg(
 		long id) {
+
 		return _strasbourgLocalService.fetchStrasbourg(id);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
+		getActionableDynamicQuery() {
+
+		return _strasbourgLocalService.getActionableDynamicQuery();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
+
+		return _strasbourgLocalService.getIndexableActionableDynamicQuery();
+	}
+
 	/**
-	* Returns the strasbourg with the primary key.
-	*
-	* @param id the primary key of the strasbourg
-	* @return the strasbourg
-	* @throws PortalException if a strasbourg with the primary key could not be found
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _strasbourgLocalService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _strasbourgLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	/**
+	 * Returns the strasbourg with the primary key.
+	 *
+	 * @param id the primary key of the strasbourg
+	 * @return the strasbourg
+	 * @throws PortalException if a strasbourg with the primary key could not be found
+	 */
 	@Override
 	public eu.strasbourg.service.strasbourg.model.Strasbourg getStrasbourg(
-		long id) throws com.liferay.portal.kernel.exception.PortalException {
+			long id)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _strasbourgLocalService.getStrasbourg(id);
 	}
 
 	/**
-	* Updates the strasbourg in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param strasbourg the strasbourg
-	* @return the strasbourg that was updated
-	*/
+	 * Returns a range of all the strasbourgs.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of strasbourgs
+	 * @param end the upper bound of the range of strasbourgs (not inclusive)
+	 * @return the range of strasbourgs
+	 */
 	@Override
-	public eu.strasbourg.service.strasbourg.model.Strasbourg updateStrasbourg(
-		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
-		return _strasbourgLocalService.updateStrasbourg(strasbourg);
+	public java.util.List<eu.strasbourg.service.strasbourg.model.Strasbourg>
+		getStrasbourgs(int start, int end) {
+
+		return _strasbourgLocalService.getStrasbourgs(start, end);
 	}
 
 	/**
-	* Returns the number of strasbourgs.
-	*
-	* @return the number of strasbourgs
-	*/
+	 * Returns the number of strasbourgs.
+	 *
+	 * @return the number of strasbourgs
+	 */
 	@Override
 	public int getStrasbourgsCount() {
 		return _strasbourgLocalService.getStrasbourgsCount();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Updates the strasbourg in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * @param strasbourg the strasbourg
+	 * @return the strasbourg that was updated
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _strasbourgLocalService.getOSGiServiceIdentifier();
-	}
+	public eu.strasbourg.service.strasbourg.model.Strasbourg updateStrasbourg(
+		eu.strasbourg.service.strasbourg.model.Strasbourg strasbourg) {
 
-	/**
-	* Performs a dynamic query on the database and returns the matching rows.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _strasbourgLocalService.dynamicQuery(dynamicQuery);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns a range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @return the range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
-		return _strasbourgLocalService.dynamicQuery(dynamicQuery, start, end);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
-		return _strasbourgLocalService.dynamicQuery(dynamicQuery, start, end,
-			orderByComparator);
-	}
-
-	/**
-	* Returns a range of all the strasbourgs.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of strasbourgs
-	* @param end the upper bound of the range of strasbourgs (not inclusive)
-	* @return the range of strasbourgs
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.strasbourg.model.Strasbourg> getStrasbourgs(
-		int start, int end) {
-		return _strasbourgLocalService.getStrasbourgs(start, end);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _strasbourgLocalService.dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection) {
-		return _strasbourgLocalService.dynamicQueryCount(dynamicQuery,
-			projection);
+		return _strasbourgLocalService.updateStrasbourg(strasbourg);
 	}
 
 	@Override
@@ -268,9 +291,12 @@ public class StrasbourgLocalServiceWrapper implements StrasbourgLocalService,
 	}
 
 	@Override
-	public void setWrappedService(StrasbourgLocalService strasbourgLocalService) {
+	public void setWrappedService(
+		StrasbourgLocalService strasbourgLocalService) {
+
 		_strasbourgLocalService = strasbourgLocalService;
 	}
 
 	private StrasbourgLocalService _strasbourgLocalService;
+
 }

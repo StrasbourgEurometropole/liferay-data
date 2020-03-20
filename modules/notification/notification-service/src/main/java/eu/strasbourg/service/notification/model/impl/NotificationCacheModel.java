@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.notification.model.Notification;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Notification in entity cache.
  *
  * @author BenjaminBini
- * @see Notification
  * @generated
  */
 @ProviderType
-public class NotificationCacheModel implements CacheModel<Notification>,
-	Externalizable {
+public class NotificationCacheModel
+	implements CacheModel<Notification>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 			return false;
 		}
 
-		NotificationCacheModel notificationCacheModel = (NotificationCacheModel)obj;
+		NotificationCacheModel notificationCacheModel =
+			(NotificationCacheModel)obj;
 
 		if (notificationId == notificationCacheModel.notificationId) {
 			return true;
@@ -102,21 +102,21 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 		notificationImpl.setNotificationId(notificationId);
 
 		if (title == null) {
-			notificationImpl.setTitle(StringPool.BLANK);
+			notificationImpl.setTitle("");
 		}
 		else {
 			notificationImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			notificationImpl.setDescription(StringPool.BLANK);
+			notificationImpl.setDescription("");
 		}
 		else {
 			notificationImpl.setDescription(description);
 		}
 
 		if (url == null) {
-			notificationImpl.setUrl(StringPool.BLANK);
+			notificationImpl.setUrl("");
 		}
 		else {
 			notificationImpl.setUrl(url);
@@ -126,7 +126,7 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 		notificationImpl.setSingleUser(singleUser);
 
 		if (singleUserId == null) {
-			notificationImpl.setSingleUserId(StringPool.BLANK);
+			notificationImpl.setSingleUserId("");
 		}
 		else {
 			notificationImpl.setSingleUserId(singleUserId);
@@ -174,26 +174,25 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(notificationId);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (url == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(url);
@@ -204,7 +203,7 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 		objectOutput.writeBoolean(singleUser);
 
 		if (singleUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(singleUserId);
@@ -229,4 +228,5 @@ public class NotificationCacheModel implements CacheModel<Notification>,
 	public long expirationDate;
 	public int status;
 	public long typeId;
+
 }

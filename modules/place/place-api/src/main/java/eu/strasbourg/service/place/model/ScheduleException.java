@@ -25,19 +25,23 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Angelique Zunino Champougny
  * @see ScheduleExceptionModel
- * @see eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl
- * @see eu.strasbourg.service.place.model.impl.ScheduleExceptionModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl"
+)
 @ProviderType
-public interface ScheduleException extends ScheduleExceptionModel, PersistedModel {
+public interface ScheduleException
+	extends PersistedModel, ScheduleExceptionModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ScheduleException, Long> EXCEPTION_ID_ACCESSOR = new Accessor<ScheduleException, Long>() {
+	public static final Accessor<ScheduleException, Long>
+		EXCEPTION_ID_ACCESSOR = new Accessor<ScheduleException, Long>() {
+
 			@Override
 			public Long get(ScheduleException scheduleException) {
 				return scheduleException.getExceptionId();
@@ -52,30 +56,34 @@ public interface ScheduleException extends ScheduleExceptionModel, PersistedMode
 			public Class<ScheduleException> getTypeClass() {
 				return ScheduleException.class;
 			}
+
 		};
 
 	/**
-	* Retourne la version JSON des exceptions
-	*/
+	 * Retourne la version JSON des exceptions
+	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
 	/**
-	* Retourne la liste des horaires d'ouvertures d'une exception
-	*/
-	public java.util.List<eu.strasbourg.utils.models.Pair<java.time.LocalTime, java.time.LocalTime>> getOpeningLocalTimes();
+	 * Retourne la liste des horaires d'ouvertures d'une exception
+	 */
+	public java.util.List
+		<eu.strasbourg.utils.models.Pair
+			<java.time.LocalTime, java.time.LocalTime>> getOpeningLocalTimes();
 
 	/**
-	* Retourne la Nème heure de début
-	*/
+	 * Retourne la Nème heure de début
+	 */
 	public java.time.LocalTime getStartHour(int index);
 
 	/**
-	* Retourne la Nème heure de début
-	*/
+	 * Retourne la Nème heure de début
+	 */
 	public java.time.LocalTime getEndHour(int index);
 
 	/**
-	* Retourne liste des commentaires
-	*/
-	public java.lang.String[] getComments();
+	 * Retourne liste des commentaires
+	 */
+	public String[] getComments();
+
 }

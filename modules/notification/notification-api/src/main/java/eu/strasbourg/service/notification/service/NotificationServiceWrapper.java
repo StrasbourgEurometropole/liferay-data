@@ -26,80 +26,86 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class NotificationServiceWrapper implements NotificationService,
-	ServiceWrapper<NotificationService> {
+public class NotificationServiceWrapper
+	implements NotificationService, ServiceWrapper<NotificationService> {
+
 	public NotificationServiceWrapper(NotificationService notificationService) {
 		_notificationService = notificationService;
 	}
 
 	/**
-	* Envoie une notification à un utilisateur
-	*/
+	 * Envoie une notification à un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addNotification(
-		java.lang.String userId, boolean isGlobal, java.lang.String title,
-		java.lang.String description, java.lang.String url,
-		java.lang.String publicationDate, java.lang.String expirationDate,
-		java.lang.String typeId) {
-		return _notificationService.addNotification(userId, isGlobal, title,
-			description, url, publicationDate, expirationDate, typeId);
+		String userId, boolean isGlobal, String title, String description,
+		String url, String publicationDate, String expirationDate,
+		String typeId) {
+
+		return _notificationService.addNotification(
+			userId, isGlobal, title, description, url, publicationDate,
+			expirationDate, typeId);
 	}
 
 	/**
-	* Retourne la liste des canaux de notifications
-	*/
+	 * Retourne la liste des canaux de notifications
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getChannels() {
 		return _notificationService.getChannels();
 	}
 
 	/**
-	* Retourne la liste des types de notifications
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _notificationService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	 * Retourne la liste des types de notifications
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTypes()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _notificationService.getTypes();
 	}
 
 	/**
-	* Retourne la liste des notifications d'un utilisateur
-	*/
+	 * Retourne la liste des notifications d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserNotifications(
-		java.lang.String userId) {
+		String userId) {
+
 		return _notificationService.getUserNotifications(userId);
 	}
 
 	/**
-	* Retourne la liste des types et des canaux de communication d'un
-	* utilisateur
-	*/
+	 * Retourne la liste des types et des canaux de communication d'un
+	 * utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserSettings(
-		java.lang.String userId) {
+		String userId) {
+
 		return _notificationService.getUserSettings(userId);
 	}
 
 	/**
-	* Modification des abonnements et des canaux de communication d'un
-	* utilisateur
-	*/
+	 * Modification des abonnements et des canaux de communication d'un
+	 * utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject setUserSettings(
-		java.lang.String userId, java.lang.String typeIds,
-		java.lang.String channelIds) {
-		return _notificationService.setUserSettings(userId, typeIds, channelIds);
-	}
+		String userId, String typeIds, String channelIds) {
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _notificationService.getOSGiServiceIdentifier();
+		return _notificationService.setUserSettings(
+			userId, typeIds, channelIds);
 	}
 
 	@Override
@@ -113,4 +119,5 @@ public class NotificationServiceWrapper implements NotificationService,
 	}
 
 	private NotificationService _notificationService;
+
 }

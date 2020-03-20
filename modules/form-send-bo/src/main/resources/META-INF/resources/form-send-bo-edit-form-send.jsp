@@ -4,7 +4,7 @@
 <liferay-portlet:actionURL name="saveFormSend" varImpl="saveFormSendURL">
     <portlet:param name="tab" value="viewFormSends" />
     <portlet:param name="cmd" value="saveFormSend" />
-    <portlet:param name="recordSetId" value="${recordSetId}" />
+    <portlet:param name="formInstanceId" value="${formInstanceId}" />
 </liferay-portlet:actionURL>
 
 
@@ -18,7 +18,7 @@
         <aui:fieldset-group markupView="lexicon">
 
             <%-- Champ : (cache) PK de l'entite --%>
-            <aui:input name="recordId" type="hidden" value="${dc.record.recordId}"/>
+            <aui:input name="recordId" type="hidden" value="${dc.record.formInstanceRecordId}"/>
 
             <c:forEach items="${dc.getRecordFields(locale)}" var="recordField">
                 <aui:fieldset collapsed="false" collapsible="true" label="${recordField[0]}">

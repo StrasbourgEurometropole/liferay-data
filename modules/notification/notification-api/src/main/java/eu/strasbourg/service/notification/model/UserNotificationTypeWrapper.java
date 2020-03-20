@@ -17,7 +17,6 @@ package eu.strasbourg.service.notification.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -37,10 +36,12 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class UserNotificationTypeWrapper implements UserNotificationType,
-	ModelWrapper<UserNotificationType> {
+public class UserNotificationTypeWrapper
+	implements UserNotificationType, ModelWrapper<UserNotificationType> {
+
 	public UserNotificationTypeWrapper(
 		UserNotificationType userNotificationType) {
+
 		_userNotificationType = userNotificationType;
 	}
 
@@ -80,6 +81,67 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	@Override
+	public Object clone() {
+		return new UserNotificationTypeWrapper(
+			(UserNotificationType)_userNotificationType.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.notification.model.UserNotificationType
+			userNotificationType) {
+
+		return _userNotificationType.compareTo(userNotificationType);
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _userNotificationType.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the primary key of this user notification type.
+	 *
+	 * @return the primary key of this user notification type
+	 */
+	@Override
+	public eu.strasbourg.service.notification.service.persistence.
+		UserNotificationTypePK getPrimaryKey() {
+
+		return _userNotificationType.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _userNotificationType.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this user notification type.
+	 *
+	 * @return the publik user ID of this user notification type
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _userNotificationType.getPublikUserId();
+	}
+
+	/**
+	 * Returns the type ID of this user notification type.
+	 *
+	 * @return the type ID of this user notification type
+	 */
+	@Override
+	public long getTypeId() {
+		return _userNotificationType.getTypeId();
+	}
+
+	@Override
+	public int hashCode() {
+		return _userNotificationType.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _userNotificationType.isCachedModel();
 	}
@@ -95,87 +157,6 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userNotificationType.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.notification.model.UserNotificationType> toCacheModel() {
-		return _userNotificationType.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationType toEscapedModel() {
-		return new UserNotificationTypeWrapper(_userNotificationType.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationType toUnescapedModel() {
-		return new UserNotificationTypeWrapper(_userNotificationType.toUnescapedModel());
-	}
-
-	/**
-	* Returns the primary key of this user notification type.
-	*
-	* @return the primary key of this user notification type
-	*/
-	@Override
-	public eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK getPrimaryKey() {
-		return _userNotificationType.getPrimaryKey();
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notification.model.UserNotificationType userNotificationType) {
-		return _userNotificationType.compareTo(userNotificationType);
-	}
-
-	@Override
-	public int hashCode() {
-		return _userNotificationType.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userNotificationType.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new UserNotificationTypeWrapper((UserNotificationType)_userNotificationType.clone());
-	}
-
-	/**
-	* Returns the publik user ID of this user notification type.
-	*
-	* @return the publik user ID of this user notification type
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _userNotificationType.getPublikUserId();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _userNotificationType.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _userNotificationType.toXmlString();
-	}
-
-	/**
-	* Returns the type ID of this user notification type.
-	*
-	* @return the type ID of this user notification type
-	*/
-	@Override
-	public long getTypeId() {
-		return _userNotificationType.getTypeId();
-	}
-
-	@Override
 	public void persist() {
 		_userNotificationType.persist();
 	}
@@ -186,14 +167,15 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userNotificationType.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_userNotificationType.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_userNotificationType.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_userNotificationType.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -207,13 +189,15 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	/**
-	* Sets the primary key of this user notification type.
-	*
-	* @param primaryKey the primary key of this user notification type
-	*/
+	 * Sets the primary key of this user notification type.
+	 *
+	 * @param primaryKey the primary key of this user notification type
+	 */
 	@Override
 	public void setPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK primaryKey) {
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationTypePK primaryKey) {
+
 		_userNotificationType.setPrimaryKey(primaryKey);
 	}
 
@@ -223,23 +207,57 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	/**
-	* Sets the publik user ID of this user notification type.
-	*
-	* @param publikUserId the publik user ID of this user notification type
-	*/
+	 * Sets the publik user ID of this user notification type.
+	 *
+	 * @param publikUserId the publik user ID of this user notification type
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_userNotificationType.setPublikUserId(publikUserId);
 	}
 
 	/**
-	* Sets the type ID of this user notification type.
-	*
-	* @param typeId the type ID of this user notification type
-	*/
+	 * Sets the type ID of this user notification type.
+	 *
+	 * @param typeId the type ID of this user notification type
+	 */
 	@Override
 	public void setTypeId(long typeId) {
 		_userNotificationType.setTypeId(typeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.notification.model.UserNotificationType>
+			toCacheModel() {
+
+		return _userNotificationType.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.notification.model.UserNotificationType
+		toEscapedModel() {
+
+		return new UserNotificationTypeWrapper(
+			_userNotificationType.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _userNotificationType.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.notification.model.UserNotificationType
+		toUnescapedModel() {
+
+		return new UserNotificationTypeWrapper(
+			_userNotificationType.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _userNotificationType.toXmlString();
 	}
 
 	@Override
@@ -252,10 +270,13 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 			return false;
 		}
 
-		UserNotificationTypeWrapper userNotificationTypeWrapper = (UserNotificationTypeWrapper)obj;
+		UserNotificationTypeWrapper userNotificationTypeWrapper =
+			(UserNotificationTypeWrapper)obj;
 
-		if (Objects.equals(_userNotificationType,
-					userNotificationTypeWrapper._userNotificationType)) {
+		if (Objects.equals(
+				_userNotificationType,
+				userNotificationTypeWrapper._userNotificationType)) {
+
 			return true;
 		}
 
@@ -283,4 +304,5 @@ public class UserNotificationTypeWrapper implements UserNotificationType,
 	}
 
 	private final UserNotificationType _userNotificationType;
+
 }

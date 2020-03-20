@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.Campaign;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Campaign in entity cache.
  *
  * @author BenjaminBini
- * @see Campaign
  * @generated
  */
 @ProviderType
-public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable {
+public class CampaignCacheModel
+	implements CacheModel<Campaign>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -117,7 +117,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		CampaignImpl campaignImpl = new CampaignImpl();
 
 		if (uuid == null) {
-			campaignImpl.setUuid(StringPool.BLANK);
+			campaignImpl.setUuid("");
 		}
 		else {
 			campaignImpl.setUuid(uuid);
@@ -129,7 +129,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		campaignImpl.setUserId(userId);
 
 		if (userName == null) {
-			campaignImpl.setUserName(StringPool.BLANK);
+			campaignImpl.setUserName("");
 		}
 		else {
 			campaignImpl.setUserName(userName);
@@ -160,7 +160,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		campaignImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			campaignImpl.setStatusByUserName(StringPool.BLANK);
+			campaignImpl.setStatusByUserName("");
 		}
 		else {
 			campaignImpl.setStatusByUserName(statusByUserName);
@@ -174,7 +174,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		}
 
 		if (title == null) {
-			campaignImpl.setTitle(StringPool.BLANK);
+			campaignImpl.setTitle("");
 		}
 		else {
 			campaignImpl.setTitle(title);
@@ -183,14 +183,14 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		campaignImpl.setDefaultImageId(defaultImageId);
 
 		if (defaultImageCopyright == null) {
-			campaignImpl.setDefaultImageCopyright(StringPool.BLANK);
+			campaignImpl.setDefaultImageCopyright("");
 		}
 		else {
 			campaignImpl.setDefaultImageCopyright(defaultImageCopyright);
 		}
 
 		if (managersIds == null) {
-			campaignImpl.setManagersIds(StringPool.BLANK);
+			campaignImpl.setManagersIds("");
 		}
 		else {
 			campaignImpl.setManagersIds(managersIds);
@@ -250,10 +250,9 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -268,7 +267,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -283,7 +282,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -292,7 +291,7 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
@@ -301,14 +300,14 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 		objectOutput.writeLong(defaultImageId);
 
 		if (defaultImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(defaultImageCopyright);
 		}
 
 		if (managersIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(managersIds);
@@ -339,4 +338,5 @@ public class CampaignCacheModel implements CacheModel<Campaign>, Externalizable 
 	public boolean exportEnabled;
 	public long startDate;
 	public long endDate;
+
 }

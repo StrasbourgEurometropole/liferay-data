@@ -33,10 +33,11 @@ import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
  */
 @ProviderType
 public abstract class PriceBaseImpl extends PriceModelImpl implements Price {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a price model instance should use the {@link Price} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a price model instance should use the <code>Price</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class PriceBaseImpl extends PriceModelImpl implements Price {
 			PriceLocalServiceUtil.updatePrice(this);
 		}
 	}
+
 }

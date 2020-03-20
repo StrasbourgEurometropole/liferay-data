@@ -16,38 +16,37 @@ package eu.strasbourg.service.tipi.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for TipiEntry. This utility wraps
- * {@link eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Angelique Zunino Champougny
  * @see TipiEntryService
- * @see eu.strasbourg.service.tipi.service.base.TipiEntryServiceBaseImpl
- * @see eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl
  * @generated
  */
 @ProviderType
 public class TipiEntryServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.tipi.service.impl.TipiEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,19 @@ public class TipiEntryServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<TipiEntryService, TipiEntryService> _serviceTracker =
-		ServiceTrackerFactory.open(TipiEntryService.class);
+	private static ServiceTracker<TipiEntryService, TipiEntryService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(TipiEntryService.class);
+
+		ServiceTracker<TipiEntryService, TipiEntryService> serviceTracker =
+			new ServiceTracker<TipiEntryService, TipiEntryService>(
+				bundle.getBundleContext(), TipiEntryService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

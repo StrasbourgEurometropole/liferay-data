@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.agenda.service.http.EventServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.agenda.service.http.EventServiceSoap
  * @generated
  */
 @ProviderType
 public class EventSoap implements Serializable {
+
 	public static EventSoap toSoapModel(Event model) {
 		EventSoap soapModel = new EventSoap();
 
@@ -626,4 +626,5 @@ public class EventSoap implements Serializable {
 	private Date _firstStartDate;
 	private Date _lastEndDate;
 	private Long _imageId;
+
 }

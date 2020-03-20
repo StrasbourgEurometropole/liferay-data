@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.Petition;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Petition in entity cache.
  *
  * @author Cedric Henry
- * @see Petition
  * @generated
  */
 @ProviderType
-public class PetitionCacheModel implements CacheModel<Petition>, Externalizable {
+public class PetitionCacheModel
+	implements CacheModel<Petition>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -153,7 +153,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		PetitionImpl petitionImpl = new PetitionImpl();
 
 		if (uuid == null) {
-			petitionImpl.setUuid(StringPool.BLANK);
+			petitionImpl.setUuid("");
 		}
 		else {
 			petitionImpl.setUuid(uuid);
@@ -165,7 +165,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setUserId(userId);
 
 		if (userName == null) {
-			petitionImpl.setUserName(StringPool.BLANK);
+			petitionImpl.setUserName("");
 		}
 		else {
 			petitionImpl.setUserName(userName);
@@ -189,7 +189,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			petitionImpl.setStatusByUserName(StringPool.BLANK);
+			petitionImpl.setStatusByUserName("");
 		}
 		else {
 			petitionImpl.setStatusByUserName(statusByUserName);
@@ -203,28 +203,28 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		}
 
 		if (title == null) {
-			petitionImpl.setTitle(StringPool.BLANK);
+			petitionImpl.setTitle("");
 		}
 		else {
 			petitionImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			petitionImpl.setDescription(StringPool.BLANK);
+			petitionImpl.setDescription("");
 		}
 		else {
 			petitionImpl.setDescription(description);
 		}
 
 		if (placeTextArea == null) {
-			petitionImpl.setPlaceTextArea(StringPool.BLANK);
+			petitionImpl.setPlaceTextArea("");
 		}
 		else {
 			petitionImpl.setPlaceTextArea(placeTextArea);
 		}
 
 		if (filesDownload == null) {
-			petitionImpl.setFilesDownload(StringPool.BLANK);
+			petitionImpl.setFilesDownload("");
 		}
 		else {
 			petitionImpl.setFilesDownload(filesDownload);
@@ -254,21 +254,21 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setQuotaSignature(quotaSignature);
 
 		if (inTheNameOf == null) {
-			petitionImpl.setInTheNameOf(StringPool.BLANK);
+			petitionImpl.setInTheNameOf("");
 		}
 		else {
 			petitionImpl.setInTheNameOf(inTheNameOf);
 		}
 
 		if (petitionnaireLastname == null) {
-			petitionImpl.setPetitionnaireLastname(StringPool.BLANK);
+			petitionImpl.setPetitionnaireLastname("");
 		}
 		else {
 			petitionImpl.setPetitionnaireLastname(petitionnaireLastname);
 		}
 
 		if (petitionnaireFirstname == null) {
-			petitionImpl.setPetitionnaireFirstname(StringPool.BLANK);
+			petitionImpl.setPetitionnaireFirstname("");
 		}
 		else {
 			petitionImpl.setPetitionnaireFirstname(petitionnaireFirstname);
@@ -278,12 +278,12 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 			petitionImpl.setPetitionnaireBirthday(null);
 		}
 		else {
-			petitionImpl.setPetitionnaireBirthday(new Date(
-					petitionnaireBirthday));
+			petitionImpl.setPetitionnaireBirthday(
+				new Date(petitionnaireBirthday));
 		}
 
 		if (petitionnaireAdresse == null) {
-			petitionImpl.setPetitionnaireAdresse(StringPool.BLANK);
+			petitionImpl.setPetitionnaireAdresse("");
 		}
 		else {
 			petitionImpl.setPetitionnaireAdresse(petitionnaireAdresse);
@@ -292,21 +292,21 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setPetitionnairePostalCode(petitionnairePostalCode);
 
 		if (petitionnaireCity == null) {
-			petitionImpl.setPetitionnaireCity(StringPool.BLANK);
+			petitionImpl.setPetitionnaireCity("");
 		}
 		else {
 			petitionImpl.setPetitionnaireCity(petitionnaireCity);
 		}
 
 		if (petitionnairePhone == null) {
-			petitionImpl.setPetitionnairePhone(StringPool.BLANK);
+			petitionImpl.setPetitionnairePhone("");
 		}
 		else {
 			petitionImpl.setPetitionnairePhone(petitionnairePhone);
 		}
 
 		if (petitionnaireEmail == null) {
-			petitionImpl.setPetitionnaireEmail(StringPool.BLANK);
+			petitionImpl.setPetitionnaireEmail("");
 		}
 		else {
 			petitionImpl.setPetitionnaireEmail(petitionnaireEmail);
@@ -315,28 +315,28 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setIsSupported(isSupported);
 
 		if (supportedBy == null) {
-			petitionImpl.setSupportedBy(StringPool.BLANK);
+			petitionImpl.setSupportedBy("");
 		}
 		else {
 			petitionImpl.setSupportedBy(supportedBy);
 		}
 
 		if (videoUrl == null) {
-			petitionImpl.setVideoUrl(StringPool.BLANK);
+			petitionImpl.setVideoUrl("");
 		}
 		else {
 			petitionImpl.setVideoUrl(videoUrl);
 		}
 
 		if (externalImageURL == null) {
-			petitionImpl.setExternalImageURL(StringPool.BLANK);
+			petitionImpl.setExternalImageURL("");
 		}
 		else {
 			petitionImpl.setExternalImageURL(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			petitionImpl.setExternalImageCopyright(StringPool.BLANK);
+			petitionImpl.setExternalImageCopyright("");
 		}
 		else {
 			petitionImpl.setExternalImageCopyright(externalImageCopyright);
@@ -345,7 +345,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setMediaChoice(mediaChoice);
 
 		if (publikId == null) {
-			petitionImpl.setPublikId(StringPool.BLANK);
+			petitionImpl.setPublikId("");
 		}
 		else {
 			petitionImpl.setPublikId(publikId);
@@ -354,7 +354,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		petitionImpl.setImageId(imageId);
 
 		if (filesIds == null) {
-			petitionImpl.setFilesIds(StringPool.BLANK);
+			petitionImpl.setFilesIds("");
 		}
 		else {
 			petitionImpl.setFilesIds(filesIds);
@@ -419,10 +419,9 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -437,7 +436,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -451,7 +450,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -460,28 +459,28 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (placeTextArea == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeTextArea);
 		}
 
 		if (filesDownload == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filesDownload);
@@ -494,21 +493,21 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(quotaSignature);
 
 		if (inTheNameOf == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(inTheNameOf);
 		}
 
 		if (petitionnaireLastname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(petitionnaireLastname);
 		}
 
 		if (petitionnaireFirstname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(petitionnaireFirstname);
@@ -517,7 +516,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(petitionnaireBirthday);
 
 		if (petitionnaireAdresse == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(petitionnaireAdresse);
@@ -526,21 +525,21 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(petitionnairePostalCode);
 
 		if (petitionnaireCity == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(petitionnaireCity);
 		}
 
 		if (petitionnairePhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(petitionnairePhone);
 		}
 
 		if (petitionnaireEmail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(petitionnaireEmail);
@@ -549,28 +548,28 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeBoolean(isSupported);
 
 		if (supportedBy == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(supportedBy);
 		}
 
 		if (videoUrl == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videoUrl);
 		}
 
 		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
@@ -579,7 +578,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeBoolean(mediaChoice);
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
@@ -588,7 +587,7 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 		objectOutput.writeLong(imageId);
 
 		if (filesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filesIds);
@@ -633,4 +632,5 @@ public class PetitionCacheModel implements CacheModel<Petition>, Externalizable 
 	public String publikId;
 	public long imageId;
 	public String filesIds;
+
 }

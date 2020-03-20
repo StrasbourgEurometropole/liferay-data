@@ -12,8 +12,8 @@
 	<h2>
 		<liferay-ui:message key="javax.portlet.title" />
 	</h2>
-	<div>
-		<div class="col-md-8">
+	<div class="row">
+		<div class="col-lg-8">
 			<c:forEach var="comment" items="${comments}">
 				
 				<portlet:actionURL name="hideComment" var="hideComment">
@@ -40,7 +40,7 @@
 							</span>
 						</c:if>
 						<div class="pro-comment">
-							<p id="comment-${comment.commentId}">${comment.comment}</p>
+							<p id="comment-${comment.commentId}">${comment.text}</p>
 							<div class="pro-interactions">
 								<c:choose>
 									<c:when test="${isAssetCommentable}">
@@ -155,7 +155,7 @@
 											value="${commentAnswer.createDate}"
 											pattern="dd MMM yyyy" />
 									</p>
-									<p id="comment-${commentAnswer.commentId}">${commentAnswer.comment}</p>
+									<p id="comment-${commentAnswer.commentId}">${commentAnswer.text}</p>
 									<div class="pro-interactions">
 									
 										<c:choose>
@@ -229,7 +229,7 @@
 
 		<c:choose>
 			<c:when test="${!isUserBanned && isAssetCommentable}">
-				<div class="col-md-4">
+				<div class="col-lg-4">
 					<div class="pro-reagir">
 						<div>
 							<form id="form-comments" method="post" action="${postComment}"
@@ -266,7 +266,7 @@
 				</div>
 			</c:when>
 		    <c:otherwise>
-		    	<div class="col-md-4">
+		    	<div class="col-lg-4">
 					<div class="pro-reagir">
 						<div>
 							<form>

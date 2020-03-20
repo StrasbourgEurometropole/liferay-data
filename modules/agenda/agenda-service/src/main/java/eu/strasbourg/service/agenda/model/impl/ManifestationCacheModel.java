@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Manifestation in entity cache.
  *
  * @author BenjaminBini
- * @see Manifestation
  * @generated
  */
 @ProviderType
-public class ManifestationCacheModel implements CacheModel<Manifestation>,
-	Externalizable {
+public class ManifestationCacheModel
+	implements CacheModel<Manifestation>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 			return false;
 		}
 
-		ManifestationCacheModel manifestationCacheModel = (ManifestationCacheModel)obj;
+		ManifestationCacheModel manifestationCacheModel =
+			(ManifestationCacheModel)obj;
 
 		if (manifestationId == manifestationCacheModel.manifestationId) {
 			return true;
@@ -124,7 +124,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		ManifestationImpl manifestationImpl = new ManifestationImpl();
 
 		if (uuid == null) {
-			manifestationImpl.setUuid(StringPool.BLANK);
+			manifestationImpl.setUuid("");
 		}
 		else {
 			manifestationImpl.setUuid(uuid);
@@ -136,7 +136,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		manifestationImpl.setUserId(userId);
 
 		if (userName == null) {
-			manifestationImpl.setUserName(StringPool.BLANK);
+			manifestationImpl.setUserName("");
 		}
 		else {
 			manifestationImpl.setUserName(userName);
@@ -167,7 +167,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		manifestationImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			manifestationImpl.setStatusByUserName(StringPool.BLANK);
+			manifestationImpl.setStatusByUserName("");
 		}
 		else {
 			manifestationImpl.setStatusByUserName(statusByUserName);
@@ -183,28 +183,28 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		manifestationImpl.setImageId(imageId);
 
 		if (title == null) {
-			manifestationImpl.setTitle(StringPool.BLANK);
+			manifestationImpl.setTitle("");
 		}
 		else {
 			manifestationImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			manifestationImpl.setDescription(StringPool.BLANK);
+			manifestationImpl.setDescription("");
 		}
 		else {
 			manifestationImpl.setDescription(description);
 		}
 
 		if (externalImageURL == null) {
-			manifestationImpl.setExternalImageURL(StringPool.BLANK);
+			manifestationImpl.setExternalImageURL("");
 		}
 		else {
 			manifestationImpl.setExternalImageURL(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			manifestationImpl.setExternalImageCopyright(StringPool.BLANK);
+			manifestationImpl.setExternalImageCopyright("");
 		}
 		else {
 			manifestationImpl.setExternalImageCopyright(externalImageCopyright);
@@ -225,14 +225,14 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		}
 
 		if (source == null) {
-			manifestationImpl.setSource(StringPool.BLANK);
+			manifestationImpl.setSource("");
 		}
 		else {
 			manifestationImpl.setSource(source);
 		}
 
 		if (idSource == null) {
-			manifestationImpl.setIdSource(StringPool.BLANK);
+			manifestationImpl.setIdSource("");
 		}
 		else {
 			manifestationImpl.setIdSource(idSource);
@@ -285,10 +285,9 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -303,7 +302,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -318,7 +317,7 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -329,28 +328,28 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		objectOutput.writeLong(imageId);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
@@ -360,14 +359,14 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 		objectOutput.writeLong(endDate);
 
 		if (source == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(source);
 		}
 
 		if (idSource == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(idSource);
@@ -399,4 +398,5 @@ public class ManifestationCacheModel implements CacheModel<Manifestation>,
 	public String source;
 	public String idSource;
 	public long publicationDate;
+
 }

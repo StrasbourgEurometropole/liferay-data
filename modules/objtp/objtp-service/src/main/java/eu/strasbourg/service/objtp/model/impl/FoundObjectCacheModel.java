@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.objtp.model.FoundObject;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing FoundObject in entity cache.
  *
  * @author JeremyZwickert
- * @see FoundObject
  * @generated
  */
 @ProviderType
-public class FoundObjectCacheModel implements CacheModel<FoundObject>,
-	Externalizable {
+public class FoundObjectCacheModel
+	implements CacheModel<FoundObject>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 			return false;
 		}
 
-		FoundObjectCacheModel foundObjectCacheModel = (FoundObjectCacheModel)obj;
+		FoundObjectCacheModel foundObjectCacheModel =
+			(FoundObjectCacheModel)obj;
 
 		if (number.equals(foundObjectCacheModel.number)) {
 			return true;
@@ -86,7 +86,7 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 		FoundObjectImpl foundObjectImpl = new FoundObjectImpl();
 
 		if (number == null) {
-			foundObjectImpl.setNumber(StringPool.BLANK);
+			foundObjectImpl.setNumber("");
 		}
 		else {
 			foundObjectImpl.setNumber(number);
@@ -100,14 +100,14 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 		}
 
 		if (imageUrl == null) {
-			foundObjectImpl.setImageUrl(StringPool.BLANK);
+			foundObjectImpl.setImageUrl("");
 		}
 		else {
 			foundObjectImpl.setImageUrl(imageUrl);
 		}
 
 		if (categoryCode == null) {
-			foundObjectImpl.setCategoryCode(StringPool.BLANK);
+			foundObjectImpl.setCategoryCode("");
 		}
 		else {
 			foundObjectImpl.setCategoryCode(categoryCode);
@@ -127,10 +127,9 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (number == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(number);
@@ -139,14 +138,14 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 		objectOutput.writeLong(date);
 
 		if (imageUrl == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imageUrl);
 		}
 
 		if (categoryCode == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(categoryCode);
@@ -157,4 +156,5 @@ public class FoundObjectCacheModel implements CacheModel<FoundObject>,
 	public long date;
 	public String imageUrl;
 	public String categoryCode;
+
 }

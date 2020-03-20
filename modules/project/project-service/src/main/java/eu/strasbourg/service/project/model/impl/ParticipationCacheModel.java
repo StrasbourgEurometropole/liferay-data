@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.Participation;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing Participation in entity cache.
  *
  * @author Cedric Henry
- * @see Participation
  * @generated
  */
 @ProviderType
-public class ParticipationCacheModel implements CacheModel<Participation>,
-	Externalizable {
+public class ParticipationCacheModel
+	implements CacheModel<Participation>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 			return false;
 		}
 
-		ParticipationCacheModel participationCacheModel = (ParticipationCacheModel)obj;
+		ParticipationCacheModel participationCacheModel =
+			(ParticipationCacheModel)obj;
 
 		if (participationId == participationCacheModel.participationId) {
 			return true;
@@ -136,7 +136,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		ParticipationImpl participationImpl = new ParticipationImpl();
 
 		if (uuid == null) {
-			participationImpl.setUuid(StringPool.BLANK);
+			participationImpl.setUuid("");
 		}
 		else {
 			participationImpl.setUuid(uuid);
@@ -148,7 +148,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		participationImpl.setUserId(userId);
 
 		if (userName == null) {
-			participationImpl.setUserName(StringPool.BLANK);
+			participationImpl.setUserName("");
 		}
 		else {
 			participationImpl.setUserName(userName);
@@ -172,7 +172,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		participationImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			participationImpl.setStatusByUserName(StringPool.BLANK);
+			participationImpl.setStatusByUserName("");
 		}
 		else {
 			participationImpl.setStatusByUserName(statusByUserName);
@@ -186,56 +186,56 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		}
 
 		if (title == null) {
-			participationImpl.setTitle(StringPool.BLANK);
+			participationImpl.setTitle("");
 		}
 		else {
 			participationImpl.setTitle(title);
 		}
 
 		if (contactName == null) {
-			participationImpl.setContactName(StringPool.BLANK);
+			participationImpl.setContactName("");
 		}
 		else {
 			participationImpl.setContactName(contactName);
 		}
 
 		if (contactLine1 == null) {
-			participationImpl.setContactLine1(StringPool.BLANK);
+			participationImpl.setContactLine1("");
 		}
 		else {
 			participationImpl.setContactLine1(contactLine1);
 		}
 
 		if (contactLine2 == null) {
-			participationImpl.setContactLine2(StringPool.BLANK);
+			participationImpl.setContactLine2("");
 		}
 		else {
 			participationImpl.setContactLine2(contactLine2);
 		}
 
 		if (contactPhoneNumber == null) {
-			participationImpl.setContactPhoneNumber(StringPool.BLANK);
+			participationImpl.setContactPhoneNumber("");
 		}
 		else {
 			participationImpl.setContactPhoneNumber(contactPhoneNumber);
 		}
 
 		if (videoUrl == null) {
-			participationImpl.setVideoUrl(StringPool.BLANK);
+			participationImpl.setVideoUrl("");
 		}
 		else {
 			participationImpl.setVideoUrl(videoUrl);
 		}
 
 		if (externalImageURL == null) {
-			participationImpl.setExternalImageURL(StringPool.BLANK);
+			participationImpl.setExternalImageURL("");
 		}
 		else {
 			participationImpl.setExternalImageURL(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			participationImpl.setExternalImageCopyright(StringPool.BLANK);
+			participationImpl.setExternalImageCopyright("");
 		}
 		else {
 			participationImpl.setExternalImageCopyright(externalImageCopyright);
@@ -244,21 +244,21 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		participationImpl.setMediaChoice(mediaChoice);
 
 		if (descriptionChapeau == null) {
-			participationImpl.setDescriptionChapeau(StringPool.BLANK);
+			participationImpl.setDescriptionChapeau("");
 		}
 		else {
 			participationImpl.setDescriptionChapeau(descriptionChapeau);
 		}
 
 		if (descriptionBody == null) {
-			participationImpl.setDescriptionBody(StringPool.BLANK);
+			participationImpl.setDescriptionBody("");
 		}
 		else {
 			participationImpl.setDescriptionBody(descriptionBody);
 		}
 
 		if (consultationPlacesBody == null) {
-			participationImpl.setConsultationPlacesBody(StringPool.BLANK);
+			participationImpl.setConsultationPlacesBody("");
 		}
 		else {
 			participationImpl.setConsultationPlacesBody(consultationPlacesBody);
@@ -267,14 +267,14 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		participationImpl.setImageId(imageId);
 
 		if (filesIds == null) {
-			participationImpl.setFilesIds(StringPool.BLANK);
+			participationImpl.setFilesIds("");
 		}
 		else {
 			participationImpl.setFilesIds(filesIds);
 		}
 
 		if (eventsIds == null) {
-			participationImpl.setEventsIds(StringPool.BLANK);
+			participationImpl.setEventsIds("");
 		}
 		else {
 			participationImpl.setEventsIds(eventsIds);
@@ -341,10 +341,9 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -359,7 +358,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -373,7 +372,7 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -382,56 +381,56 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (contactName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactName);
 		}
 
 		if (contactLine1 == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactLine1);
 		}
 
 		if (contactLine2 == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactLine2);
 		}
 
 		if (contactPhoneNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contactPhoneNumber);
 		}
 
 		if (videoUrl == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videoUrl);
 		}
 
 		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
@@ -440,21 +439,21 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		objectOutput.writeBoolean(mediaChoice);
 
 		if (descriptionChapeau == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(descriptionChapeau);
 		}
 
 		if (descriptionBody == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(descriptionBody);
 		}
 
 		if (consultationPlacesBody == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(consultationPlacesBody);
@@ -463,14 +462,14 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 		objectOutput.writeLong(imageId);
 
 		if (filesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filesIds);
 		}
 
 		if (eventsIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(eventsIds);
@@ -509,4 +508,5 @@ public class ParticipationCacheModel implements CacheModel<Participation>,
 	public String eventsIds;
 	public long publicationDate;
 	public long expirationDate;
+
 }

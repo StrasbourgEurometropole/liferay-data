@@ -26,20 +26,23 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ArtworkCollectionServiceWrapper implements ArtworkCollectionService,
-	ServiceWrapper<ArtworkCollectionService> {
+public class ArtworkCollectionServiceWrapper
+	implements ArtworkCollectionService,
+			   ServiceWrapper<ArtworkCollectionService> {
+
 	public ArtworkCollectionServiceWrapper(
 		ArtworkCollectionService artworkCollectionService) {
+
 		_artworkCollectionService = artworkCollectionService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _artworkCollectionService.getOSGiServiceIdentifier();
 	}
 
@@ -51,8 +54,10 @@ public class ArtworkCollectionServiceWrapper implements ArtworkCollectionService
 	@Override
 	public void setWrappedService(
 		ArtworkCollectionService artworkCollectionService) {
+
 		_artworkCollectionService = artworkCollectionService;
 	}
 
 	private ArtworkCollectionService _artworkCollectionService;
+
 }

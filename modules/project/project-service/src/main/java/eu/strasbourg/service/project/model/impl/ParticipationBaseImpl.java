@@ -32,12 +32,13 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ParticipationBaseImpl extends ParticipationModelImpl
-	implements Participation {
+public abstract class ParticipationBaseImpl
+	extends ParticipationModelImpl implements Participation {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a participation model instance should use the {@link Participation} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a participation model instance should use the <code>Participation</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ParticipationBaseImpl extends ParticipationModelImpl
 			ParticipationLocalServiceUtil.updateParticipation(this);
 		}
 	}
+
 }

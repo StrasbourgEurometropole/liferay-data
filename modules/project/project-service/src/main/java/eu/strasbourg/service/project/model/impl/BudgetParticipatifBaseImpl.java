@@ -34,10 +34,11 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 @ProviderType
 public abstract class BudgetParticipatifBaseImpl
 	extends BudgetParticipatifModelImpl implements BudgetParticipatif {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a budget participatif model instance should use the {@link BudgetParticipatif} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a budget participatif model instance should use the <code>BudgetParticipatif</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class BudgetParticipatifBaseImpl
 			BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(this);
 		}
 	}
+
 }

@@ -33,10 +33,11 @@ import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
  */
 @ProviderType
 public abstract class SlotBaseImpl extends SlotModelImpl implements Slot {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a slot model instance should use the {@link Slot} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a slot model instance should use the <code>Slot</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class SlotBaseImpl extends SlotModelImpl implements Slot {
 			SlotLocalServiceUtil.updateSlot(this);
 		}
 	}
+
 }

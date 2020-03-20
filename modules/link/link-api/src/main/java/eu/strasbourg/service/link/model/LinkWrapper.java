@@ -17,9 +17,7 @@ package eu.strasbourg.service.link.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -41,6 +39,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class LinkWrapper implements Link, ModelWrapper<Link> {
+
 	public LinkWrapper(Link link) {
 		_link = link;
 	}
@@ -178,11 +177,461 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new LinkWrapper((Link)_link.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.link.model.Link link) {
+		return _link.compareTo(link);
+	}
+
 	/**
-	* Returns <code>true</code> if this link is approved.
-	*
-	* @return <code>true</code> if this link is approved; <code>false</code> otherwise
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _link.getAssetEntry();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return _link.getAvailableLanguageIds();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return _link.getCategories();
+	}
+
+	/**
+	 * Returns the company ID of this link.
+	 *
+	 * @return the company ID of this link
+	 */
+	@Override
+	public long getCompanyId() {
+		return _link.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this link.
+	 *
+	 * @return the create date of this link
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _link.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return _link.getDefaultLanguageId();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _link.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the group ID of this link.
+	 *
+	 * @return the group ID of this link
+	 */
+	@Override
+	public long getGroupId() {
+		return _link.getGroupId();
+	}
+
+	/**
+	 * Returns the hover text of this link.
+	 *
+	 * @return the hover text of this link
+	 */
+	@Override
+	public String getHoverText() {
+		return _link.getHoverText();
+	}
+
+	/**
+	 * Returns the localized hover text of this link in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized hover text of this link
+	 */
+	@Override
+	public String getHoverText(java.util.Locale locale) {
+		return _link.getHoverText(locale);
+	}
+
+	/**
+	 * Returns the localized hover text of this link in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized hover text of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getHoverText(java.util.Locale locale, boolean useDefault) {
+		return _link.getHoverText(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized hover text of this link in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized hover text of this link
+	 */
+	@Override
+	public String getHoverText(String languageId) {
+		return _link.getHoverText(languageId);
+	}
+
+	/**
+	 * Returns the localized hover text of this link in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized hover text of this link
+	 */
+	@Override
+	public String getHoverText(String languageId, boolean useDefault) {
+		return _link.getHoverText(languageId, useDefault);
+	}
+
+	@Override
+	public String getHoverTextCurrentLanguageId() {
+		return _link.getHoverTextCurrentLanguageId();
+	}
+
+	@Override
+	public String getHoverTextCurrentValue() {
+		return _link.getHoverTextCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized hover texts of this link.
+	 *
+	 * @return the locales and localized hover texts of this link
+	 */
+	@Override
+	public Map<java.util.Locale, String> getHoverTextMap() {
+		return _link.getHoverTextMap();
+	}
+
+	/**
+	 * Returns the last publish date of this link.
+	 *
+	 * @return the last publish date of this link
+	 */
+	@Override
+	public Date getLastPublishDate() {
+		return _link.getLastPublishDate();
+	}
+
+	/**
+	 * Returns the link ID of this link.
+	 *
+	 * @return the link ID of this link
+	 */
+	@Override
+	public long getLinkId() {
+		return _link.getLinkId();
+	}
+
+	/**
+	 * Renvoie la version live du lien, si elle existe
+	 */
+	@Override
+	public eu.strasbourg.service.link.model.Link getLiveVersion() {
+		return _link.getLiveVersion();
+	}
+
+	/**
+	 * Returns the modified date of this link.
+	 *
+	 * @return the modified date of this link
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _link.getModifiedDate();
+	}
+
+	/**
+	 * Returns the primary key of this link.
+	 *
+	 * @return the primary key of this link
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _link.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _link.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the status of this link.
+	 *
+	 * @return the status of this link
+	 */
+	@Override
+	public int getStatus() {
+		return _link.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this link.
+	 *
+	 * @return the status by user ID of this link
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _link.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this link.
+	 *
+	 * @return the status by user name of this link
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _link.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this link.
+	 *
+	 * @return the status by user uuid of this link
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _link.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this link.
+	 *
+	 * @return the status date of this link
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _link.getStatusDate();
+	}
+
+	/**
+	 * Returns the title of this link.
+	 *
+	 * @return the title of this link
+	 */
+	@Override
+	public String getTitle() {
+		return _link.getTitle();
+	}
+
+	/**
+	 * Returns the localized title of this link in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized title of this link
+	 */
+	@Override
+	public String getTitle(java.util.Locale locale) {
+		return _link.getTitle(locale);
+	}
+
+	/**
+	 * Returns the localized title of this link in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getTitle(java.util.Locale locale, boolean useDefault) {
+		return _link.getTitle(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized title of this link in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized title of this link
+	 */
+	@Override
+	public String getTitle(String languageId) {
+		return _link.getTitle(languageId);
+	}
+
+	/**
+	 * Returns the localized title of this link in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized title of this link
+	 */
+	@Override
+	public String getTitle(String languageId, boolean useDefault) {
+		return _link.getTitle(languageId, useDefault);
+	}
+
+	@Override
+	public String getTitleCurrentLanguageId() {
+		return _link.getTitleCurrentLanguageId();
+	}
+
+	@Override
+	public String getTitleCurrentValue() {
+		return _link.getTitleCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized titles of this link.
+	 *
+	 * @return the locales and localized titles of this link
+	 */
+	@Override
+	public Map<java.util.Locale, String> getTitleMap() {
+		return _link.getTitleMap();
+	}
+
+	/**
+	 * Returns the url of this link.
+	 *
+	 * @return the url of this link
+	 */
+	@Override
+	public String getURL() {
+		return _link.getURL();
+	}
+
+	/**
+	 * Returns the localized url of this link in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized url of this link
+	 */
+	@Override
+	public String getURL(java.util.Locale locale) {
+		return _link.getURL(locale);
+	}
+
+	/**
+	 * Returns the localized url of this link in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized url of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getURL(java.util.Locale locale, boolean useDefault) {
+		return _link.getURL(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized url of this link in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized url of this link
+	 */
+	@Override
+	public String getURL(String languageId) {
+		return _link.getURL(languageId);
+	}
+
+	/**
+	 * Returns the localized url of this link in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized url of this link
+	 */
+	@Override
+	public String getURL(String languageId, boolean useDefault) {
+		return _link.getURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getURLCurrentLanguageId() {
+		return _link.getURLCurrentLanguageId();
+	}
+
+	@Override
+	public String getURLCurrentValue() {
+		return _link.getURLCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized urls of this link.
+	 *
+	 * @return the locales and localized urls of this link
+	 */
+	@Override
+	public Map<java.util.Locale, String> getURLMap() {
+		return _link.getURLMap();
+	}
+
+	/**
+	 * Returns the user ID of this link.
+	 *
+	 * @return the user ID of this link
+	 */
+	@Override
+	public long getUserId() {
+		return _link.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this link.
+	 *
+	 * @return the user name of this link
+	 */
+	@Override
+	public String getUserName() {
+		return _link.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this link.
+	 *
+	 * @return the user uuid of this link
+	 */
+	@Override
+	public String getUserUuid() {
+		return _link.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this link.
+	 *
+	 * @return the uuid of this link
+	 */
+	@Override
+	public String getUuid() {
+		return _link.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _link.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this link is approved.
+	 *
+	 * @return <code>true</code> if this link is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _link.isApproved();
@@ -194,20 +643,20 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns <code>true</code> if this link is denied.
-	*
-	* @return <code>true</code> if this link is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is denied.
+	 *
+	 * @return <code>true</code> if this link is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _link.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this link is a draft.
-	*
-	* @return <code>true</code> if this link is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is a draft.
+	 *
+	 * @return <code>true</code> if this link is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _link.isDraft();
@@ -219,30 +668,30 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns <code>true</code> if this link is expired.
-	*
-	* @return <code>true</code> if this link is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is expired.
+	 *
+	 * @return <code>true</code> if this link is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _link.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this link is inactive.
-	*
-	* @return <code>true</code> if this link is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is inactive.
+	 *
+	 * @return <code>true</code> if this link is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _link.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this link is incomplete.
-	*
-	* @return <code>true</code> if this link is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is incomplete.
+	 *
+	 * @return <code>true</code> if this link is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _link.isIncomplete();
@@ -254,500 +703,23 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Returns <code>true</code> if this link is pending.
-	*
-	* @return <code>true</code> if this link is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is pending.
+	 *
+	 * @return <code>true</code> if this link is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _link.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this link is scheduled.
-	*
-	* @return <code>true</code> if this link is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this link is scheduled.
+	 *
+	 * @return <code>true</code> if this link is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _link.isScheduled();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _link.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _link.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.link.model.Link> toCacheModel() {
-		return _link.toCacheModel();
-	}
-
-	/**
-	* Renvoie la version live du lien, si elle existe
-	*/
-	@Override
-	public eu.strasbourg.service.link.model.Link getLiveVersion() {
-		return _link.getLiveVersion();
-	}
-
-	@Override
-	public eu.strasbourg.service.link.model.Link toEscapedModel() {
-		return new LinkWrapper(_link.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.link.model.Link toUnescapedModel() {
-		return new LinkWrapper(_link.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.link.model.Link link) {
-		return _link.compareTo(link);
-	}
-
-	/**
-	* Returns the status of this link.
-	*
-	* @return the status of this link
-	*/
-	@Override
-	public int getStatus() {
-		return _link.getStatus();
-	}
-
-	@Override
-	public int hashCode() {
-		return _link.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _link.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new LinkWrapper((Link)_link.clone());
-	}
-
-	@Override
-	public java.lang.String getDefaultLanguageId() {
-		return _link.getDefaultLanguageId();
-	}
-
-	/**
-	* Returns the hover text of this link.
-	*
-	* @return the hover text of this link
-	*/
-	@Override
-	public java.lang.String getHoverText() {
-		return _link.getHoverText();
-	}
-
-	/**
-	* Returns the localized hover text of this link in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized hover text of this link
-	*/
-	@Override
-	public java.lang.String getHoverText(java.lang.String languageId) {
-		return _link.getHoverText(languageId);
-	}
-
-	/**
-	* Returns the localized hover text of this link in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized hover text of this link
-	*/
-	@Override
-	public java.lang.String getHoverText(java.lang.String languageId,
-		boolean useDefault) {
-		return _link.getHoverText(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized hover text of this link in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized hover text of this link
-	*/
-	@Override
-	public java.lang.String getHoverText(java.util.Locale locale) {
-		return _link.getHoverText(locale);
-	}
-
-	/**
-	* Returns the localized hover text of this link in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized hover text of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getHoverText(java.util.Locale locale,
-		boolean useDefault) {
-		return _link.getHoverText(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getHoverTextCurrentLanguageId() {
-		return _link.getHoverTextCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getHoverTextCurrentValue() {
-		return _link.getHoverTextCurrentValue();
-	}
-
-	/**
-	* Returns the status by user name of this link.
-	*
-	* @return the status by user name of this link
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _link.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this link.
-	*
-	* @return the status by user uuid of this link
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _link.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the title of this link.
-	*
-	* @return the title of this link
-	*/
-	@Override
-	public java.lang.String getTitle() {
-		return _link.getTitle();
-	}
-
-	/**
-	* Returns the localized title of this link in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized title of this link
-	*/
-	@Override
-	public java.lang.String getTitle(java.lang.String languageId) {
-		return _link.getTitle(languageId);
-	}
-
-	/**
-	* Returns the localized title of this link in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized title of this link
-	*/
-	@Override
-	public java.lang.String getTitle(java.lang.String languageId,
-		boolean useDefault) {
-		return _link.getTitle(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized title of this link in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized title of this link
-	*/
-	@Override
-	public java.lang.String getTitle(java.util.Locale locale) {
-		return _link.getTitle(locale);
-	}
-
-	/**
-	* Returns the localized title of this link in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized title of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _link.getTitle(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getTitleCurrentLanguageId() {
-		return _link.getTitleCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getTitleCurrentValue() {
-		return _link.getTitleCurrentValue();
-	}
-
-	/**
-	* Returns the url of this link.
-	*
-	* @return the url of this link
-	*/
-	@Override
-	public java.lang.String getURL() {
-		return _link.getURL();
-	}
-
-	/**
-	* Returns the localized url of this link in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized url of this link
-	*/
-	@Override
-	public java.lang.String getURL(java.lang.String languageId) {
-		return _link.getURL(languageId);
-	}
-
-	/**
-	* Returns the localized url of this link in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized url of this link
-	*/
-	@Override
-	public java.lang.String getURL(java.lang.String languageId,
-		boolean useDefault) {
-		return _link.getURL(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized url of this link in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized url of this link
-	*/
-	@Override
-	public java.lang.String getURL(java.util.Locale locale) {
-		return _link.getURL(locale);
-	}
-
-	/**
-	* Returns the localized url of this link in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized url of this link. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getURL(java.util.Locale locale, boolean useDefault) {
-		return _link.getURL(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getURLCurrentLanguageId() {
-		return _link.getURLCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getURLCurrentValue() {
-		return _link.getURLCurrentValue();
-	}
-
-	/**
-	* Returns the user name of this link.
-	*
-	* @return the user name of this link
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _link.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this link.
-	*
-	* @return the user uuid of this link
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _link.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this link.
-	*
-	* @return the uuid of this link
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _link.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _link.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _link.toXmlString();
-	}
-
-	@Override
-	public java.lang.String[] getAvailableLanguageIds() {
-		return _link.getAvailableLanguageIds();
-	}
-
-	/**
-	* Returns the create date of this link.
-	*
-	* @return the create date of this link
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _link.getCreateDate();
-	}
-
-	/**
-	* Returns the last publish date of this link.
-	*
-	* @return the last publish date of this link
-	*/
-	@Override
-	public Date getLastPublishDate() {
-		return _link.getLastPublishDate();
-	}
-
-	/**
-	* Returns the modified date of this link.
-	*
-	* @return the modified date of this link
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _link.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this link.
-	*
-	* @return the status date of this link
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _link.getStatusDate();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _link.getCategories();
-	}
-
-	/**
-	* Returns a map of the locales and localized hover texts of this link.
-	*
-	* @return the locales and localized hover texts of this link
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getHoverTextMap() {
-		return _link.getHoverTextMap();
-	}
-
-	/**
-	* Returns a map of the locales and localized titles of this link.
-	*
-	* @return the locales and localized titles of this link
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getTitleMap() {
-		return _link.getTitleMap();
-	}
-
-	/**
-	* Returns a map of the locales and localized urls of this link.
-	*
-	* @return the locales and localized urls of this link
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getURLMap() {
-		return _link.getURLMap();
-	}
-
-	/**
-	* Returns the company ID of this link.
-	*
-	* @return the company ID of this link
-	*/
-	@Override
-	public long getCompanyId() {
-		return _link.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this link.
-	*
-	* @return the group ID of this link
-	*/
-	@Override
-	public long getGroupId() {
-		return _link.getGroupId();
-	}
-
-	/**
-	* Returns the link ID of this link.
-	*
-	* @return the link ID of this link
-	*/
-	@Override
-	public long getLinkId() {
-		return _link.getLinkId();
-	}
-
-	/**
-	* Returns the primary key of this link.
-	*
-	* @return the primary key of this link
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _link.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status by user ID of this link.
-	*
-	* @return the status by user ID of this link
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _link.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this link.
-	*
-	* @return the user ID of this link
-	*/
-	@Override
-	public long getUserId() {
-		return _link.getUserId();
 	}
 
 	@Override
@@ -758,13 +730,15 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_link.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport(
-		java.util.Locale defaultImportLocale)
+			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_link.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
@@ -774,23 +748,30 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the company ID of this link.
-	*
-	* @param companyId the company ID of this link
-	*/
+	 * Sets the company ID of this link.
+	 *
+	 * @param companyId the company ID of this link
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_link.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this link.
-	*
-	* @param createDate the create date of this link
-	*/
+	 * Sets the create date of this link.
+	 *
+	 * @param createDate the create date of this link
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_link.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_link.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -799,114 +780,110 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_link.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_link.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this link.
-	*
-	* @param groupId the group ID of this link
-	*/
+	 * Sets the group ID of this link.
+	 *
+	 * @param groupId the group ID of this link
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_link.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the hover text of this link.
-	*
-	* @param hoverText the hover text of this link
-	*/
+	 * Sets the hover text of this link.
+	 *
+	 * @param hoverText the hover text of this link
+	 */
 	@Override
-	public void setHoverText(java.lang.String hoverText) {
+	public void setHoverText(String hoverText) {
 		_link.setHoverText(hoverText);
 	}
 
 	/**
-	* Sets the localized hover text of this link in the language.
-	*
-	* @param hoverText the localized hover text of this link
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized hover text of this link in the language.
+	 *
+	 * @param hoverText the localized hover text of this link
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setHoverText(java.lang.String hoverText, java.util.Locale locale) {
+	public void setHoverText(String hoverText, java.util.Locale locale) {
 		_link.setHoverText(hoverText, locale);
 	}
 
 	/**
-	* Sets the localized hover text of this link in the language, and sets the default locale.
-	*
-	* @param hoverText the localized hover text of this link
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized hover text of this link in the language, and sets the default locale.
+	 *
+	 * @param hoverText the localized hover text of this link
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setHoverText(java.lang.String hoverText,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
+	public void setHoverText(
+		String hoverText, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
 		_link.setHoverText(hoverText, locale, defaultLocale);
 	}
 
 	@Override
-	public void setHoverTextCurrentLanguageId(java.lang.String languageId) {
+	public void setHoverTextCurrentLanguageId(String languageId) {
 		_link.setHoverTextCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized hover texts of this link from the map of locales and localized hover texts.
-	*
-	* @param hoverTextMap the locales and localized hover texts of this link
-	*/
+	 * Sets the localized hover texts of this link from the map of locales and localized hover texts.
+	 *
+	 * @param hoverTextMap the locales and localized hover texts of this link
+	 */
 	@Override
-	public void setHoverTextMap(
-		Map<java.util.Locale, java.lang.String> hoverTextMap) {
+	public void setHoverTextMap(Map<java.util.Locale, String> hoverTextMap) {
 		_link.setHoverTextMap(hoverTextMap);
 	}
 
 	/**
-	* Sets the localized hover texts of this link from the map of locales and localized hover texts, and sets the default locale.
-	*
-	* @param hoverTextMap the locales and localized hover texts of this link
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized hover texts of this link from the map of locales and localized hover texts, and sets the default locale.
+	 *
+	 * @param hoverTextMap the locales and localized hover texts of this link
+	 * @param defaultLocale the default locale
+	 */
 	@Override
 	public void setHoverTextMap(
-		Map<java.util.Locale, java.lang.String> hoverTextMap,
+		Map<java.util.Locale, String> hoverTextMap,
 		java.util.Locale defaultLocale) {
+
 		_link.setHoverTextMap(hoverTextMap, defaultLocale);
 	}
 
 	/**
-	* Sets the last publish date of this link.
-	*
-	* @param lastPublishDate the last publish date of this link
-	*/
+	 * Sets the last publish date of this link.
+	 *
+	 * @param lastPublishDate the last publish date of this link
+	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
 		_link.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
-	* Sets the link ID of this link.
-	*
-	* @param linkId the link ID of this link
-	*/
+	 * Sets the link ID of this link.
+	 *
+	 * @param linkId the link ID of this link
+	 */
 	@Override
 	public void setLinkId(long linkId) {
 		_link.setLinkId(linkId);
 	}
 
 	/**
-	* Sets the modified date of this link.
-	*
-	* @param modifiedDate the modified date of this link
-	*/
+	 * Sets the modified date of this link.
+	 *
+	 * @param modifiedDate the modified date of this link
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_link.setModifiedDate(modifiedDate);
@@ -918,10 +895,10 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the primary key of this link.
-	*
-	* @param primaryKey the primary key of this link
-	*/
+	 * Sets the primary key of this link.
+	 *
+	 * @param primaryKey the primary key of this link
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_link.setPrimaryKey(primaryKey);
@@ -933,215 +910,247 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	/**
-	* Sets the status of this link.
-	*
-	* @param status the status of this link
-	*/
+	 * Sets the status of this link.
+	 *
+	 * @param status the status of this link
+	 */
 	@Override
 	public void setStatus(int status) {
 		_link.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this link.
-	*
-	* @param statusByUserId the status by user ID of this link
-	*/
+	 * Sets the status by user ID of this link.
+	 *
+	 * @param statusByUserId the status by user ID of this link
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_link.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this link.
-	*
-	* @param statusByUserName the status by user name of this link
-	*/
+	 * Sets the status by user name of this link.
+	 *
+	 * @param statusByUserName the status by user name of this link
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_link.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this link.
-	*
-	* @param statusByUserUuid the status by user uuid of this link
-	*/
+	 * Sets the status by user uuid of this link.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this link
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_link.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this link.
-	*
-	* @param statusDate the status date of this link
-	*/
+	 * Sets the status date of this link.
+	 *
+	 * @param statusDate the status date of this link
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_link.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the title of this link.
-	*
-	* @param title the title of this link
-	*/
+	 * Sets the title of this link.
+	 *
+	 * @param title the title of this link
+	 */
 	@Override
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		_link.setTitle(title);
 	}
 
 	/**
-	* Sets the localized title of this link in the language.
-	*
-	* @param title the localized title of this link
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized title of this link in the language.
+	 *
+	 * @param title the localized title of this link
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setTitle(java.lang.String title, java.util.Locale locale) {
+	public void setTitle(String title, java.util.Locale locale) {
 		_link.setTitle(title, locale);
 	}
 
 	/**
-	* Sets the localized title of this link in the language, and sets the default locale.
-	*
-	* @param title the localized title of this link
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized title of this link in the language, and sets the default locale.
+	 *
+	 * @param title the localized title of this link
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setTitle(java.lang.String title, java.util.Locale locale,
-		java.util.Locale defaultLocale) {
+	public void setTitle(
+		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
+
 		_link.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
-	public void setTitleCurrentLanguageId(java.lang.String languageId) {
+	public void setTitleCurrentLanguageId(String languageId) {
 		_link.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized titles of this link from the map of locales and localized titles.
-	*
-	* @param titleMap the locales and localized titles of this link
-	*/
+	 * Sets the localized titles of this link from the map of locales and localized titles.
+	 *
+	 * @param titleMap the locales and localized titles of this link
+	 */
 	@Override
-	public void setTitleMap(Map<java.util.Locale, java.lang.String> titleMap) {
+	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
 		_link.setTitleMap(titleMap);
 	}
 
 	/**
-	* Sets the localized titles of this link from the map of locales and localized titles, and sets the default locale.
-	*
-	* @param titleMap the locales and localized titles of this link
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized titles of this link from the map of locales and localized titles, and sets the default locale.
+	 *
+	 * @param titleMap the locales and localized titles of this link
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setTitleMap(Map<java.util.Locale, java.lang.String> titleMap,
+	public void setTitleMap(
+		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
+
 		_link.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
-	* Sets the url of this link.
-	*
-	* @param URL the url of this link
-	*/
+	 * Sets the url of this link.
+	 *
+	 * @param URL the url of this link
+	 */
 	@Override
-	public void setURL(java.lang.String URL) {
+	public void setURL(String URL) {
 		_link.setURL(URL);
 	}
 
 	/**
-	* Sets the localized url of this link in the language.
-	*
-	* @param URL the localized url of this link
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized url of this link in the language.
+	 *
+	 * @param URL the localized url of this link
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setURL(java.lang.String URL, java.util.Locale locale) {
+	public void setURL(String URL, java.util.Locale locale) {
 		_link.setURL(URL, locale);
 	}
 
 	/**
-	* Sets the localized url of this link in the language, and sets the default locale.
-	*
-	* @param URL the localized url of this link
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized url of this link in the language, and sets the default locale.
+	 *
+	 * @param URL the localized url of this link
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setURL(java.lang.String URL, java.util.Locale locale,
-		java.util.Locale defaultLocale) {
+	public void setURL(
+		String URL, java.util.Locale locale, java.util.Locale defaultLocale) {
+
 		_link.setURL(URL, locale, defaultLocale);
 	}
 
 	@Override
-	public void setURLCurrentLanguageId(java.lang.String languageId) {
+	public void setURLCurrentLanguageId(String languageId) {
 		_link.setURLCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized urls of this link from the map of locales and localized urls.
-	*
-	* @param URLMap the locales and localized urls of this link
-	*/
+	 * Sets the localized urls of this link from the map of locales and localized urls.
+	 *
+	 * @param URLMap the locales and localized urls of this link
+	 */
 	@Override
-	public void setURLMap(Map<java.util.Locale, java.lang.String> URLMap) {
+	public void setURLMap(Map<java.util.Locale, String> URLMap) {
 		_link.setURLMap(URLMap);
 	}
 
 	/**
-	* Sets the localized urls of this link from the map of locales and localized urls, and sets the default locale.
-	*
-	* @param URLMap the locales and localized urls of this link
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized urls of this link from the map of locales and localized urls, and sets the default locale.
+	 *
+	 * @param URLMap the locales and localized urls of this link
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setURLMap(Map<java.util.Locale, java.lang.String> URLMap,
-		java.util.Locale defaultLocale) {
+	public void setURLMap(
+		Map<java.util.Locale, String> URLMap, java.util.Locale defaultLocale) {
+
 		_link.setURLMap(URLMap, defaultLocale);
 	}
 
 	/**
-	* Sets the user ID of this link.
-	*
-	* @param userId the user ID of this link
-	*/
+	 * Sets the user ID of this link.
+	 *
+	 * @param userId the user ID of this link
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_link.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this link.
-	*
-	* @param userName the user name of this link
-	*/
+	 * Sets the user name of this link.
+	 *
+	 * @param userName the user name of this link
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_link.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this link.
-	*
-	* @param userUuid the user uuid of this link
-	*/
+	 * Sets the user uuid of this link.
+	 *
+	 * @param userUuid the user uuid of this link
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_link.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this link.
-	*
-	* @param uuid the uuid of this link
-	*/
+	 * Sets the uuid of this link.
+	 *
+	 * @param uuid the uuid of this link
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_link.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.link.model.Link> toCacheModel() {
+
+		return _link.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.link.model.Link toEscapedModel() {
+		return new LinkWrapper(_link.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _link.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.link.model.Link toUnescapedModel() {
+		return new LinkWrapper(_link.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _link.toXmlString();
 	}
 
 	@Override
@@ -1189,4 +1198,5 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	private final Link _link;
+
 }

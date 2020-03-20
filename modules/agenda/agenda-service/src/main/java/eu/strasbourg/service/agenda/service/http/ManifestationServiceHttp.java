@@ -27,10 +27,11 @@ import eu.strasbourg.service.agenda.service.ManifestationServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link ManifestationServiceUtil} service utility. The
+ * <code>ManifestationServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,18 +50,19 @@ import eu.strasbourg.service.agenda.service.ManifestationServiceUtil;
  *
  * @author BenjaminBini
  * @see ManifestationServiceSoap
- * @see HttpPrincipal
- * @see ManifestationServiceUtil
  * @generated
  */
 @ProviderType
 public class ManifestationServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONObject getManifestation(
-		HttpPrincipal httpPrincipal, long id)
+			HttpPrincipal httpPrincipal, long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(ManifestationServiceUtil.class,
-					"getManifestation", _getManifestationParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				ManifestationServiceUtil.class, "getManifestation",
+				_getManifestationParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, id);
 
@@ -70,11 +72,15 @@ public class ManifestationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -87,11 +93,13 @@ public class ManifestationServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getManifestations(
-		HttpPrincipal httpPrincipal)
+			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(ManifestationServiceUtil.class,
-					"getManifestations", _getManifestationsParameterTypes1);
+			MethodKey methodKey = new MethodKey(
+				ManifestationServiceUtil.class, "getManifestations",
+				_getManifestationsParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -101,11 +109,15 @@ public class ManifestationServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -117,11 +129,12 @@ public class ManifestationServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(ManifestationServiceHttp.class);
-	private static final Class<?>[] _getManifestationParameterTypes0 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _getManifestationsParameterTypes1 = new Class[] {
-			
-		};
+	private static Log _log = LogFactoryUtil.getLog(
+		ManifestationServiceHttp.class);
+
+	private static final Class<?>[] _getManifestationParameterTypes0 =
+		new Class[] {long.class};
+	private static final Class<?>[] _getManifestationsParameterTypes1 =
+		new Class[] {};
+
 }

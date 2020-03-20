@@ -17,12 +17,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -35,6 +30,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -57,12 +53,6 @@ import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.LegacyPlace;
-import freemarker.core.ParseException;
-import freemarker.template.Configuration;
-import freemarker.template.MalformedTemplateNameException;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateNotFoundException;
 
 /**
  * The extended model implementation for the CampaignEvent service. Represents a
@@ -255,7 +245,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	 */
 	@Override
 	public List<AssetCategory> getThemes() {
-		List<AssetCategory> themes = new ArrayList<AssetCategory>();
+		List<AssetCategory> themes = new ArrayList<>();
 		String themesIds = this.getThemesIds();
 		if (Validator.isNotNull(themesIds)) {
 			for (String themeIdString : themesIds.split(",")) {
@@ -415,7 +405,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		String userMailAddress = user.getEmailAddress();
 
 		try {
-			sendMail("deletion-denied-subject-template.ftl", "deletion-denied-template.ftl", context, userMailAddress);
+			this.sendMail("deletion-denied-subject-template.ftl", "deletion-denied-template.ftl", context, userMailAddress);
 		} catch (IOException | TemplateException e) {
 			log.error(e);
 		}
@@ -479,19 +469,37 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	}
 
 	private void sendMail(String subjectTemplatePath, String bodyTemplatePath, Map<String, Object> context, String mail)
-			throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException,
-			TemplateException {
-		Configuration configuration = new Configuration(Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(), "/templates/campaign");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-		Template subjectTemplate = configuration.getTemplate(subjectTemplatePath);
-		Template bodyTemplate = configuration.getTemplate(bodyTemplatePath);
-		StringWriter subjectWriter = new StringWriter();
-		StringWriter bodyWriter = new StringWriter();
-		subjectTemplate.process(context, subjectWriter);
-		bodyTemplate.process(context, bodyWriter);
-		MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", mail, subjectWriter.toString(),
-				bodyWriter.toString());
+			throws IOException, TemplateException
+	{
+		StringWriter out = new StringWriter();
+
+		// Chargement du template contenant le sujet du mail
+		TemplateResource templateResourceSubject = new URLTemplateResource(
+				"0",
+				Objects.requireNonNull(this.getClass().getClassLoader()
+						.getResource("/templates/campaign/" + subjectTemplatePath)));
+		Template subjectTemplate = TemplateManagerUtil.getTemplate(
+				TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+		// Traitement du template sujet
+		subjectTemplate.putAll(context);
+		subjectTemplate.processTemplate(out);
+		String mailSubject = out.toString();
+
+		//Chargement du template contenant le corps du mail
+		TemplateResource templateResourceBody = new URLTemplateResource("0",
+				Objects.requireNonNull(this.getClass().getClassLoader()
+						.getResource("/templates/campaign/" + bodyTemplatePath)));
+		Template bodyTemplate = TemplateManagerUtil.getTemplate(
+				TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+		// Traitement du template corps
+		out = new StringWriter();
+		bodyTemplate.putAll(context);
+		bodyTemplate.processTemplate(out);
+		String mailBody = out.toString();
+
+		MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", mail, mailSubject, mailBody);
 	}
 
 	/**
@@ -517,7 +525,7 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	@Override
 	public LegacyPlace getLegacyPlace(Locale locale) {
 		if (locale_legacyPlace == null) {
-			locale_legacyPlace = new HashMap<Locale, LegacyPlace>();
+			locale_legacyPlace = new HashMap<>();
 		}
 		if (locale_legacyPlace.get(locale) == null) {
 			LegacyPlace legacyPlace = LegacyPlace.fromSIGId(this.getPlaceSIGId(), locale);

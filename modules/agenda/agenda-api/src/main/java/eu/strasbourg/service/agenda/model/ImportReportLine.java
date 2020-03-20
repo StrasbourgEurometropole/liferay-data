@@ -25,19 +25,23 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see ImportReportLineModel
- * @see eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl
- * @see eu.strasbourg.service.agenda.model.impl.ImportReportLineModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl"
+)
 @ProviderType
-public interface ImportReportLine extends ImportReportLineModel, PersistedModel {
+public interface ImportReportLine
+	extends ImportReportLineModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ImportReportLine, Long> LINE_ID_ACCESSOR = new Accessor<ImportReportLine, Long>() {
+	public static final Accessor<ImportReportLine, Long> LINE_ID_ACCESSOR =
+		new Accessor<ImportReportLine, Long>() {
+
 			@Override
 			public Long get(ImportReportLine importReportLine) {
 				return importReportLine.getLineId();
@@ -52,9 +56,11 @@ public interface ImportReportLine extends ImportReportLineModel, PersistedModel 
 			public Class<ImportReportLine> getTypeClass() {
 				return ImportReportLine.class;
 			}
+
 		};
 
-	public void error(java.lang.String cause);
+	public void error(String cause);
 
 	public boolean hasError();
+
 }

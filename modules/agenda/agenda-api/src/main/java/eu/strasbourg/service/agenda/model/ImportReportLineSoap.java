@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class ImportReportLineSoap implements Serializable {
+
 	public static ImportReportLineSoap toSoapModel(ImportReportLine model) {
 		ImportReportLineSoap soapModel = new ImportReportLineSoap();
 
@@ -45,8 +46,11 @@ public class ImportReportLineSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static ImportReportLineSoap[] toSoapModels(ImportReportLine[] models) {
-		ImportReportLineSoap[] soapModels = new ImportReportLineSoap[models.length];
+	public static ImportReportLineSoap[] toSoapModels(
+		ImportReportLine[] models) {
+
+		ImportReportLineSoap[] soapModels =
+			new ImportReportLineSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -57,10 +61,12 @@ public class ImportReportLineSoap implements Serializable {
 
 	public static ImportReportLineSoap[][] toSoapModels(
 		ImportReportLine[][] models) {
+
 		ImportReportLineSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ImportReportLineSoap[models.length][models[0].length];
+			soapModels =
+				new ImportReportLineSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ImportReportLineSoap[0][0];
@@ -75,7 +81,9 @@ public class ImportReportLineSoap implements Serializable {
 
 	public static ImportReportLineSoap[] toSoapModels(
 		List<ImportReportLine> models) {
-		List<ImportReportLineSoap> soapModels = new ArrayList<ImportReportLineSoap>(models.size());
+
+		List<ImportReportLineSoap> soapModels =
+			new ArrayList<ImportReportLineSoap>(models.size());
 
 		for (ImportReportLine model : models) {
 			soapModels.add(toSoapModel(model));
@@ -176,4 +184,5 @@ public class ImportReportLineSoap implements Serializable {
 	private String _entityExternalId;
 	private long _entityId;
 	private long _reportId;
+
 }

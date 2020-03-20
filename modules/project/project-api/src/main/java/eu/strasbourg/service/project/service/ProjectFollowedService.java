@@ -38,42 +38,49 @@ import java.util.List;
  *
  * @author Cedric Henry
  * @see ProjectFollowedServiceUtil
- * @see eu.strasbourg.service.project.service.base.ProjectFollowedServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=project", "json.web.service.context.path=ProjectFollowed"}, service = ProjectFollowedService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=project",
+		"json.web.service.context.path=ProjectFollowed"
+	},
+	service = ProjectFollowedService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ProjectFollowedService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ProjectFollowedServiceUtil} to access the project followed remote service. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ProjectFollowedServiceUtil} to access the project followed remote service. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Ajoute un projet à un utilisateur
-	*/
+	 * Ajoute un projet à un utilisateur
+	 */
 	public JSONObject addFollowerLink(long projectId, long groupId);
 
+	public List<ProjectFollowed> findProjectFollowedByPublikUserId(
+		String publikId);
+
 	/**
-	* Verifie si l'utilisateur courant suit le projet
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
+	/**
+	 * Verifie si l'utilisateur courant suit le projet
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject isFollower(long projectId);
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
-
-	public List<ProjectFollowed> findProjectFollowedByPublikUserId(
-		java.lang.String publikId);
 }

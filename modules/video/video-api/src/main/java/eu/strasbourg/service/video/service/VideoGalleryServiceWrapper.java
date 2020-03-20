@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class VideoGalleryServiceWrapper implements VideoGalleryService,
-	ServiceWrapper<VideoGalleryService> {
+public class VideoGalleryServiceWrapper
+	implements VideoGalleryService, ServiceWrapper<VideoGalleryService> {
+
 	public VideoGalleryServiceWrapper(VideoGalleryService videoGalleryService) {
 		_videoGalleryService = videoGalleryService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _videoGalleryService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class VideoGalleryServiceWrapper implements VideoGalleryService,
 	}
 
 	private VideoGalleryService _videoGalleryService;
+
 }

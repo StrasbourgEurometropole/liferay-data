@@ -36,7 +36,6 @@ import com.liferay.portal.kernel.util.Validator;
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.place.MairieStateSOAPClient;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -1178,8 +1177,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // Tarifs
-        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPrice())) {
-            jsonPlace.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
+        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPriceDescription())) {
+            jsonPlace.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceDescriptionMap()));
         }
 
         // Mail
@@ -1375,8 +1374,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         // Tarifs
-        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPrice())) {
-            properties.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceMap()));
+        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPriceDescription())) {
+            properties.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceDescriptionMap()));
         }
 
         // Mail
@@ -1523,7 +1522,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("accessHandicap", accessForDisabled);
 
         jsonPlace.put("urlSiteInternet", this.getSiteURL(Locale.FRANCE));
-        jsonPlace.put("tarifs", this.getPrice() != null ? this.getPrice().getPrice(Locale.FRANCE) : "");
+        jsonPlace.put("tarifs", this.getPrice() != null ? this.getPrice().getPriceDescription(Locale.FRANCE) : "");
         jsonPlace.put("adresse", this.getAddressStreet() + " " + this.getAddressComplement() + "<br />"
                 + this.getAddressZipCode() + " " + this.getCity(Locale.FRANCE) + "<br />" + this.getAddressCountry());
         jsonPlace.put("rue", this.getAddressStreet());

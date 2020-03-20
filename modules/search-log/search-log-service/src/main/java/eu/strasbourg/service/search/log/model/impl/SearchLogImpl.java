@@ -20,13 +20,14 @@ import aQute.bnd.annotation.ProviderType;
  * The extended model implementation for the SearchLog service. Represents a row in the &quot;search_SearchLog&quot; database table, with each column mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.search.log.model.SearchLog} interface.
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.search.log.model.SearchLog<code> interface.
  * </p>
  *
  * @author BenjaminBini
  */
 @ProviderType
 public class SearchLogImpl extends SearchLogBaseImpl {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -34,4 +35,5 @@ public class SearchLogImpl extends SearchLogBaseImpl {
 	 */
 	public SearchLogImpl() {
 	}
+
 }

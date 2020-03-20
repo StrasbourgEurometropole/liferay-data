@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -67,51 +67,32 @@ import java.util.Set;
  * </p>
  *
  * @author Cedric Henry
- * @see PetitionPersistence
- * @see eu.strasbourg.service.project.service.persistence.PetitionUtil
  * @generated
  */
 @ProviderType
-public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
-	implements PetitionPersistence {
+public class PetitionPersistenceImpl
+	extends BasePersistenceImpl<Petition> implements PetitionPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link PetitionUtil} to access the petition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>PetitionUtil</code> to access the petition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = PetitionImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			PetitionModelImpl.UUID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		PetitionImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the petitions where uuid = &#63;.
@@ -128,7 +109,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns a range of all the petitions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -145,7 +126,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -155,8 +136,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByUuid(String uuid, int start, int end,
+	public List<Petition> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Petition> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -164,7 +147,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -175,32 +158,38 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByUuid(String uuid, int start, int end,
-		OrderByComparator<Petition> orderByComparator, boolean retrieveFromCache) {
+	public List<Petition> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Petition> orderByComparator,
+		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Petition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Petition>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Petition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Petition petition : list) {
-					if (!Objects.equals(uuid, petition.getUuid())) {
+					if (!uuid.equals(petition.getUuid())) {
 						list = null;
 
 						break;
@@ -213,8 +202,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -224,10 +213,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -237,11 +223,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PetitionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -261,16 +246,16 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				}
 
 				if (!pagination) {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -299,9 +284,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByUuid_First(String uuid,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByUuid_First(
+			String uuid, OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByUuid_First(uuid, orderByComparator);
 
 		if (petition != null) {
@@ -315,7 +301,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -328,8 +314,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the first matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByUuid_First(String uuid,
-		OrderByComparator<Petition> orderByComparator) {
+	public Petition fetchByUuid_First(
+		String uuid, OrderByComparator<Petition> orderByComparator) {
+
 		List<Petition> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -348,9 +335,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByUuid_Last(String uuid,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByUuid_Last(
+			String uuid, OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (petition != null) {
@@ -364,7 +352,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -377,16 +365,17 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the last matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByUuid_Last(String uuid,
-		OrderByComparator<Petition> orderByComparator) {
+	public Petition fetchByUuid_Last(
+		String uuid, OrderByComparator<Petition> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Petition> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Petition> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -405,9 +394,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a petition with the primary key could not be found
 	 */
 	@Override
-	public Petition[] findByUuid_PrevAndNext(long petitionId, String uuid,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition[] findByUuid_PrevAndNext(
+			long petitionId, String uuid,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Petition petition = findByPrimaryKey(petitionId);
 
 		Session session = null;
@@ -417,13 +410,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			Petition[] array = new PetitionImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, petition, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, petition, uuid, orderByComparator, true);
 
 			array[1] = petition;
 
-			array[2] = getByUuid_PrevAndNext(session, petition, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, petition, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -435,14 +428,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 	}
 
-	protected Petition getByUuid_PrevAndNext(Session session,
-		Petition petition, String uuid,
+	protected Petition getByUuid_PrevAndNext(
+		Session session, Petition petition, String uuid,
 		OrderByComparator<Petition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -453,10 +447,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -466,7 +457,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -538,10 +530,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(petition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(petition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -562,8 +554,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Petition petition : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Petition petition :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(petition);
 		}
 	}
@@ -576,9 +569,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -589,10 +584,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -633,22 +625,17 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "petition.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "petition.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(petition.uuid IS NULL OR petition.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			PetitionModelImpl.UUID_COLUMN_BITMASK |
-			PetitionModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"petition.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(petition.uuid IS NULL OR petition.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the petition where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchPetitionException} if it could not be found.
+	 * Returns the petition where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchPetitionException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -658,6 +645,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public Petition findByUUID_G(String uuid, long groupId)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByUUID_G(uuid, groupId);
 
 		if (petition == null) {
@@ -671,7 +659,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -704,22 +692,26 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Petition fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Petition) {
 			Petition petition = (Petition)result;
 
 			if (!Objects.equals(uuid, petition.getUuid()) ||
-					(groupId != petition.getGroupId())) {
+				(groupId != petition.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -731,10 +723,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -765,8 +754,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				List<Petition> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Petition petition = list.get(0);
@@ -774,17 +763,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 					result = petition;
 
 					cacheResult(petition);
-
-					if ((petition.getUuid() == null) ||
-							!petition.getUuid().equals(uuid) ||
-							(petition.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, petition);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -811,6 +793,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public Petition removeByUUID_G(String uuid, long groupId)
 		throws NoSuchPetitionException {
+
 		Petition petition = findByUUID_G(uuid, groupId);
 
 		return remove(petition);
@@ -825,9 +808,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -838,10 +823,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -886,31 +868,18 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "petition.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "petition.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(petition.uuid IS NULL OR petition.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "petition.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			PetitionModelImpl.UUID_COLUMN_BITMASK |
-			PetitionModelImpl.COMPANYID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"petition.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(petition.uuid IS NULL OR petition.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"petition.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the petitions where uuid = &#63; and companyId = &#63;.
@@ -921,15 +890,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public List<Petition> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the petitions where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -939,8 +908,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByUuid_C(String uuid, long companyId, int start,
-		int end) {
+	public List<Petition> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -948,7 +918,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -959,16 +929,19 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Petition> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Petition> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Petition> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the petitions where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -980,38 +953,42 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Petition> orderByComparator,
+	public List<Petition> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Petition> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Petition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Petition>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Petition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Petition petition : list) {
-					if (!Objects.equals(uuid, petition.getUuid()) ||
-							(companyId != petition.getCompanyId())) {
+					if (!uuid.equals(petition.getUuid()) ||
+						(companyId != petition.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1024,8 +1001,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1035,10 +1012,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1050,11 +1024,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PetitionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1076,16 +1049,16 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1115,11 +1088,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
-		Petition petition = fetchByUuid_C_First(uuid, companyId,
-				orderByComparator);
+
+		Petition petition = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (petition != null) {
 			return petition;
@@ -1135,7 +1110,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -1149,10 +1124,12 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the first matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByUuid_C_First(String uuid, long companyId,
+	public Petition fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Petition> orderByComparator) {
-		List<Petition> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<Petition> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1171,11 +1148,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
-		Petition petition = fetchByUuid_C_Last(uuid, companyId,
-				orderByComparator);
+
+		Petition petition = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (petition != null) {
 			return petition;
@@ -1191,7 +1170,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -1205,16 +1184,18 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the last matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByUuid_C_Last(String uuid, long companyId,
+	public Petition fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Petition> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Petition> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Petition> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1234,9 +1215,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a petition with the primary key could not be found
 	 */
 	@Override
-	public Petition[] findByUuid_C_PrevAndNext(long petitionId, String uuid,
-		long companyId, OrderByComparator<Petition> orderByComparator)
+	public Petition[] findByUuid_C_PrevAndNext(
+			long petitionId, String uuid, long companyId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Petition petition = findByPrimaryKey(petitionId);
 
 		Session session = null;
@@ -1246,13 +1231,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			Petition[] array = new PetitionImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, petition, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, petition, uuid, companyId, orderByComparator, true);
 
 			array[1] = petition;
 
-			array[2] = getByUuid_C_PrevAndNext(session, petition, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, petition, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1264,14 +1249,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 	}
 
-	protected Petition getByUuid_C_PrevAndNext(Session session,
-		Petition petition, String uuid, long companyId,
+	protected Petition getByUuid_C_PrevAndNext(
+		Session session, Petition petition, String uuid, long companyId,
 		OrderByComparator<Petition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1282,10 +1268,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1297,7 +1280,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1371,10 +1355,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(petition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(petition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1396,8 +1380,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Petition petition : findByUuid_C(uuid, companyId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Petition petition :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(petition);
 		}
 	}
@@ -1411,9 +1398,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1424,10 +1413,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1472,30 +1458,18 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "petition.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "petition.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(petition.uuid IS NULL OR petition.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "petition.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			PetitionModelImpl.GROUPID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"petition.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(petition.uuid IS NULL OR petition.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"petition.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the petitions where groupId = &#63;.
@@ -1505,14 +1479,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public List<Petition> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the petitions where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1529,7 +1504,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1539,8 +1514,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByGroupId(long groupId, int start, int end,
+	public List<Petition> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Petition> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1548,7 +1525,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1559,28 +1536,32 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByGroupId(long groupId, int start, int end,
-		OrderByComparator<Petition> orderByComparator, boolean retrieveFromCache) {
+	public List<Petition> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<Petition> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<Petition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Petition>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Petition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Petition petition : list) {
@@ -1597,8 +1578,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1609,11 +1590,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PetitionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1631,16 +1611,16 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1669,9 +1649,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByGroupId_First(long groupId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByGroupId_First(
+			long groupId, OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByGroupId_First(groupId, orderByComparator);
 
 		if (petition != null) {
@@ -1685,7 +1666,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -1698,8 +1679,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the first matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByGroupId_First(long groupId,
-		OrderByComparator<Petition> orderByComparator) {
+	public Petition fetchByGroupId_First(
+		long groupId, OrderByComparator<Petition> orderByComparator) {
+
 		List<Petition> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1718,9 +1700,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByGroupId_Last(long groupId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByGroupId_Last(
+			long groupId, OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (petition != null) {
@@ -1734,7 +1717,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -1747,16 +1730,17 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the last matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByGroupId_Last(long groupId,
-		OrderByComparator<Petition> orderByComparator) {
+	public Petition fetchByGroupId_Last(
+		long groupId, OrderByComparator<Petition> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Petition> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<Petition> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1775,9 +1759,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a petition with the primary key could not be found
 	 */
 	@Override
-	public Petition[] findByGroupId_PrevAndNext(long petitionId, long groupId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition[] findByGroupId_PrevAndNext(
+			long petitionId, long groupId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = findByPrimaryKey(petitionId);
 
 		Session session = null;
@@ -1787,13 +1773,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			Petition[] array = new PetitionImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, petition, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, petition, groupId, orderByComparator, true);
 
 			array[1] = petition;
 
-			array[2] = getByGroupId_PrevAndNext(session, petition, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, petition, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1805,14 +1791,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 	}
 
-	protected Petition getByGroupId_PrevAndNext(Session session,
-		Petition petition, long groupId,
+	protected Petition getByGroupId_PrevAndNext(
+		Session session, Petition petition, long groupId,
 		OrderByComparator<Petition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1824,7 +1811,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1894,10 +1882,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(petition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(petition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1918,8 +1906,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (Petition petition : findByGroupId(groupId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Petition petition :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(petition);
 		}
 	}
@@ -1932,9 +1922,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1975,31 +1965,12 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "petition.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSANDGROUPID =
-		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
-			new String[] {
-				Integer.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID =
-		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByStatusAndGroupId",
-			new String[] { Integer.class.getName(), Long.class.getName() },
-			PetitionModelImpl.STATUS_COLUMN_BITMASK |
-			PetitionModelImpl.GROUPID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_STATUSANDGROUPID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByStatusAndGroupId",
-			new String[] { Integer.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"petition.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByStatusAndGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByStatusAndGroupId;
+	private FinderPath _finderPathCountByStatusAndGroupId;
 
 	/**
 	 * Returns all the petitions where status = &#63; and groupId = &#63;.
@@ -2010,15 +1981,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public List<Petition> findByStatusAndGroupId(int status, long groupId) {
-		return findByStatusAndGroupId(status, groupId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByStatusAndGroupId(
+			status, groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the petitions where status = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -2028,8 +1999,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByStatusAndGroupId(int status, long groupId,
-		int start, int end) {
+	public List<Petition> findByStatusAndGroupId(
+		int status, long groupId, int start, int end) {
+
 		return findByStatusAndGroupId(status, groupId, start, end, null);
 	}
 
@@ -2037,7 +2009,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where status = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -2048,17 +2020,19 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByStatusAndGroupId(int status, long groupId,
-		int start, int end, OrderByComparator<Petition> orderByComparator) {
-		return findByStatusAndGroupId(status, groupId, start, end,
-			orderByComparator, true);
+	public List<Petition> findByStatusAndGroupId(
+		int status, long groupId, int start, int end,
+		OrderByComparator<Petition> orderByComparator) {
+
+		return findByStatusAndGroupId(
+			status, groupId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the petitions where status = &#63; and groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param status the status
@@ -2070,38 +2044,40 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByStatusAndGroupId(int status, long groupId,
-		int start, int end, OrderByComparator<Petition> orderByComparator,
+	public List<Petition> findByStatusAndGroupId(
+		int status, long groupId, int start, int end,
+		OrderByComparator<Petition> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID;
-			finderArgs = new Object[] { status, groupId };
+			finderPath = _finderPathWithoutPaginationFindByStatusAndGroupId;
+			finderArgs = new Object[] {status, groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_STATUSANDGROUPID;
+			finderPath = _finderPathWithPaginationFindByStatusAndGroupId;
 			finderArgs = new Object[] {
-					status, groupId,
-					
-					start, end, orderByComparator
-				};
+				status, groupId, start, end, orderByComparator
+			};
 		}
 
 		List<Petition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Petition>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Petition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Petition petition : list) {
 					if ((status != petition.getStatus()) ||
-							(groupId != petition.getGroupId())) {
+						(groupId != petition.getGroupId())) {
+
 						list = null;
 
 						break;
@@ -2114,8 +2090,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2128,11 +2104,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PetitionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2152,16 +2127,16 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2191,11 +2166,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByStatusAndGroupId_First(int status, long groupId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByStatusAndGroupId_First(
+			int status, long groupId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
-		Petition petition = fetchByStatusAndGroupId_First(status, groupId,
-				orderByComparator);
+
+		Petition petition = fetchByStatusAndGroupId_First(
+			status, groupId, orderByComparator);
 
 		if (petition != null) {
 			return petition;
@@ -2211,7 +2188,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append(", groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -2225,10 +2202,12 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the first matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByStatusAndGroupId_First(int status, long groupId,
+	public Petition fetchByStatusAndGroupId_First(
+		int status, long groupId,
 		OrderByComparator<Petition> orderByComparator) {
-		List<Petition> list = findByStatusAndGroupId(status, groupId, 0, 1,
-				orderByComparator);
+
+		List<Petition> list = findByStatusAndGroupId(
+			status, groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2247,11 +2226,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByStatusAndGroupId_Last(int status, long groupId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByStatusAndGroupId_Last(
+			int status, long groupId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
-		Petition petition = fetchByStatusAndGroupId_Last(status, groupId,
-				orderByComparator);
+
+		Petition petition = fetchByStatusAndGroupId_Last(
+			status, groupId, orderByComparator);
 
 		if (petition != null) {
 			return petition;
@@ -2267,7 +2248,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append(", groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -2281,16 +2262,18 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the last matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByStatusAndGroupId_Last(int status, long groupId,
+	public Petition fetchByStatusAndGroupId_Last(
+		int status, long groupId,
 		OrderByComparator<Petition> orderByComparator) {
+
 		int count = countByStatusAndGroupId(status, groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Petition> list = findByStatusAndGroupId(status, groupId,
-				count - 1, count, orderByComparator);
+		List<Petition> list = findByStatusAndGroupId(
+			status, groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2310,9 +2293,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a petition with the primary key could not be found
 	 */
 	@Override
-	public Petition[] findByStatusAndGroupId_PrevAndNext(long petitionId,
-		int status, long groupId, OrderByComparator<Petition> orderByComparator)
+	public Petition[] findByStatusAndGroupId_PrevAndNext(
+			long petitionId, int status, long groupId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = findByPrimaryKey(petitionId);
 
 		Session session = null;
@@ -2322,13 +2307,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			Petition[] array = new PetitionImpl[3];
 
-			array[0] = getByStatusAndGroupId_PrevAndNext(session, petition,
-					status, groupId, orderByComparator, true);
+			array[0] = getByStatusAndGroupId_PrevAndNext(
+				session, petition, status, groupId, orderByComparator, true);
 
 			array[1] = petition;
 
-			array[2] = getByStatusAndGroupId_PrevAndNext(session, petition,
-					status, groupId, orderByComparator, false);
+			array[2] = getByStatusAndGroupId_PrevAndNext(
+				session, petition, status, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -2340,14 +2325,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 	}
 
-	protected Petition getByStatusAndGroupId_PrevAndNext(Session session,
-		Petition petition, int status, long groupId,
+	protected Petition getByStatusAndGroupId_PrevAndNext(
+		Session session, Petition petition, int status, long groupId,
 		OrderByComparator<Petition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2361,7 +2347,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		query.append(_FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2433,10 +2420,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(petition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(petition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2458,8 +2445,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public void removeByStatusAndGroupId(int status, long groupId) {
-		for (Petition petition : findByStatusAndGroupId(status, groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Petition petition :
+				findByStatusAndGroupId(
+					status, groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(petition);
 		}
 	}
@@ -2473,9 +2463,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countByStatusAndGroupId(int status, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_STATUSANDGROUPID;
+		FinderPath finderPath = _finderPathCountByStatusAndGroupId;
 
-		Object[] finderArgs = new Object[] { status, groupId };
+		Object[] finderArgs = new Object[] {status, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2520,28 +2510,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_STATUSANDGROUPID_STATUS_2 = "petition.status = ? AND ";
-	private static final String _FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2 = "petition.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID =
-		new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
-			new String[] { String.class.getName() },
-			PetitionModelImpl.PUBLIKID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKID = new FinderPath(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_STATUSANDGROUPID_STATUS_2 =
+		"petition.status = ? AND ";
+
+	private static final String _FINDER_COLUMN_STATUSANDGROUPID_GROUPID_2 =
+		"petition.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByPublikId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikId;
+	private FinderPath _finderPathCountByPublikId;
 
 	/**
 	 * Returns all the petitions where publikId = &#63;.
@@ -2551,15 +2528,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public List<Petition> findByPublikId(String publikId) {
-		return findByPublikId(publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findByPublikId(
+			publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the petitions where publikId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikId the publik ID
@@ -2576,7 +2553,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where publikId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikId the publik ID
@@ -2586,8 +2563,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByPublikId(String publikId, int start, int end,
+	public List<Petition> findByPublikId(
+		String publikId, int start, int end,
 		OrderByComparator<Petition> orderByComparator) {
+
 		return findByPublikId(publikId, start, end, orderByComparator, true);
 	}
 
@@ -2595,7 +2574,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions where publikId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikId the publik ID
@@ -2606,32 +2585,38 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of matching petitions
 	 */
 	@Override
-	public List<Petition> findByPublikId(String publikId, int start, int end,
-		OrderByComparator<Petition> orderByComparator, boolean retrieveFromCache) {
+	public List<Petition> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<Petition> orderByComparator,
+		boolean retrieveFromCache) {
+
+		publikId = Objects.toString(publikId, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID;
-			finderArgs = new Object[] { publikId };
+			finderPath = _finderPathWithoutPaginationFindByPublikId;
+			finderArgs = new Object[] {publikId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKID;
-			finderArgs = new Object[] { publikId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByPublikId;
+			finderArgs = new Object[] {publikId, start, end, orderByComparator};
 		}
 
 		List<Petition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Petition>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Petition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Petition petition : list) {
-					if (!Objects.equals(publikId, petition.getPublikId())) {
+					if (!publikId.equals(petition.getPublikId())) {
 						list = null;
 
 						break;
@@ -2644,8 +2629,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2655,10 +2640,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindPublikId = false;
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
+			if (publikId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
@@ -2668,11 +2650,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PetitionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2692,16 +2673,16 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				}
 
 				if (!pagination) {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2730,9 +2711,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByPublikId_First(String publikId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByPublikId_First(
+			String publikId, OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByPublikId_First(publikId, orderByComparator);
 
 		if (petition != null) {
@@ -2746,7 +2728,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append("publikId=");
 		msg.append(publikId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -2759,8 +2741,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the first matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByPublikId_First(String publikId,
-		OrderByComparator<Petition> orderByComparator) {
+	public Petition fetchByPublikId_First(
+		String publikId, OrderByComparator<Petition> orderByComparator) {
+
 		List<Petition> list = findByPublikId(publikId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2779,9 +2762,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a matching petition could not be found
 	 */
 	@Override
-	public Petition findByPublikId_Last(String publikId,
-		OrderByComparator<Petition> orderByComparator)
+	public Petition findByPublikId_Last(
+			String publikId, OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByPublikId_Last(publikId, orderByComparator);
 
 		if (petition != null) {
@@ -2795,7 +2779,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		msg.append("publikId=");
 		msg.append(publikId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPetitionException(msg.toString());
 	}
@@ -2808,16 +2792,17 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the last matching petition, or <code>null</code> if a matching petition could not be found
 	 */
 	@Override
-	public Petition fetchByPublikId_Last(String publikId,
-		OrderByComparator<Petition> orderByComparator) {
+	public Petition fetchByPublikId_Last(
+		String publikId, OrderByComparator<Petition> orderByComparator) {
+
 		int count = countByPublikId(publikId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Petition> list = findByPublikId(publikId, count - 1, count,
-				orderByComparator);
+		List<Petition> list = findByPublikId(
+			publikId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2836,9 +2821,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @throws NoSuchPetitionException if a petition with the primary key could not be found
 	 */
 	@Override
-	public Petition[] findByPublikId_PrevAndNext(long petitionId,
-		String publikId, OrderByComparator<Petition> orderByComparator)
+	public Petition[] findByPublikId_PrevAndNext(
+			long petitionId, String publikId,
+			OrderByComparator<Petition> orderByComparator)
 		throws NoSuchPetitionException {
+
+		publikId = Objects.toString(publikId, "");
+
 		Petition petition = findByPrimaryKey(petitionId);
 
 		Session session = null;
@@ -2848,13 +2837,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			Petition[] array = new PetitionImpl[3];
 
-			array[0] = getByPublikId_PrevAndNext(session, petition, publikId,
-					orderByComparator, true);
+			array[0] = getByPublikId_PrevAndNext(
+				session, petition, publikId, orderByComparator, true);
 
 			array[1] = petition;
 
-			array[2] = getByPublikId_PrevAndNext(session, petition, publikId,
-					orderByComparator, false);
+			array[2] = getByPublikId_PrevAndNext(
+				session, petition, publikId, orderByComparator, false);
 
 			return array;
 		}
@@ -2866,14 +2855,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 	}
 
-	protected Petition getByPublikId_PrevAndNext(Session session,
-		Petition petition, String publikId,
+	protected Petition getByPublikId_PrevAndNext(
+		Session session, Petition petition, String publikId,
 		OrderByComparator<Petition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2884,10 +2874,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 		boolean bindPublikId = false;
 
-		if (publikId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-		}
-		else if (publikId.equals(StringPool.BLANK)) {
+		if (publikId.isEmpty()) {
 			query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 		}
 		else {
@@ -2897,7 +2884,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2969,10 +2957,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(petition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(petition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2993,8 +2981,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public void removeByPublikId(String publikId) {
-		for (Petition petition : findByPublikId(publikId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Petition petition :
+				findByPublikId(
+					publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(petition);
 		}
 	}
@@ -3007,9 +2997,11 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countByPublikId(String publikId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKID;
+		publikId = Objects.toString(publikId, "");
 
-		Object[] finderArgs = new Object[] { publikId };
+		FinderPath finderPath = _finderPathCountByPublikId;
+
+		Object[] finderArgs = new Object[] {publikId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3020,10 +3012,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 			boolean bindPublikId = false;
 
-			if (publikId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_1);
-			}
-			else if (publikId.equals(StringPool.BLANK)) {
+			if (publikId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
 			}
 			else {
@@ -3064,20 +3053,24 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_1 = "petition.publikId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 = "petition.publikId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 = "(petition.publikId IS NULL OR petition.publikId = '')";
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 =
+		"petition.publikId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 =
+		"(petition.publikId IS NULL OR petition.publikId = '')";
 
 	public PetitionPersistenceImpl() {
 		setModelClass(Petition.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -3095,11 +3088,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public void cacheResult(Petition petition) {
-		entityCache.putResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionImpl.class, petition.getPrimaryKey(), petition);
+		entityCache.putResult(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+			petition.getPrimaryKey(), petition);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { petition.getUuid(), petition.getGroupId() }, petition);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {petition.getUuid(), petition.getGroupId()}, petition);
 
 		petition.resetOriginalValues();
 	}
@@ -3112,8 +3107,10 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public void cacheResult(List<Petition> petitions) {
 		for (Petition petition : petitions) {
-			if (entityCache.getResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-						PetitionImpl.class, petition.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+					petition.getPrimaryKey()) == null) {
+
 				cacheResult(petition);
 			}
 			else {
@@ -3126,7 +3123,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Clears the cache for all petitions.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -3142,13 +3139,14 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Clears the cache for the petition.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Petition petition) {
-		entityCache.removeResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionImpl.class, petition.getPrimaryKey());
+		entityCache.removeResult(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+			petition.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3162,44 +3160,49 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Petition petition : petitions) {
-			entityCache.removeResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-				PetitionImpl.class, petition.getPrimaryKey());
+			entityCache.removeResult(
+				PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+				petition.getPrimaryKey());
 
 			clearUniqueFindersCache((PetitionModelImpl)petition, true);
 		}
 	}
 
-	protected void cacheUniqueFindersCache(PetitionModelImpl petitionModelImpl) {
-		Object[] args = new Object[] {
-				petitionModelImpl.getUuid(), petitionModelImpl.getGroupId()
-			};
+	protected void cacheUniqueFindersCache(
+		PetitionModelImpl petitionModelImpl) {
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			petitionModelImpl, false);
+		Object[] args = new Object[] {
+			petitionModelImpl.getUuid(), petitionModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, petitionModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		PetitionModelImpl petitionModelImpl, boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					petitionModelImpl.getUuid(), petitionModelImpl.getGroupId()
-				};
+				petitionModelImpl.getUuid(), petitionModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((petitionModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					petitionModelImpl.getOriginalUuid(),
-					petitionModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				petitionModelImpl.getOriginalUuid(),
+				petitionModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -3247,21 +3250,22 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public Petition remove(Serializable primaryKey)
 		throws NoSuchPetitionException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Petition petition = (Petition)session.get(PetitionImpl.class,
-					primaryKey);
+			Petition petition = (Petition)session.get(
+				PetitionImpl.class, primaryKey);
 
 			if (petition == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchPetitionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchPetitionException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(petition);
@@ -3279,16 +3283,14 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 	@Override
 	protected Petition removeImpl(Petition petition) {
-		petition = toUnwrappedModel(petition);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(petition)) {
-				petition = (Petition)session.get(PetitionImpl.class,
-						petition.getPrimaryKeyObj());
+				petition = (Petition)session.get(
+					PetitionImpl.class, petition.getPrimaryKeyObj());
 			}
 
 			if (petition != null) {
@@ -3311,9 +3313,23 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 	@Override
 	public Petition updateImpl(Petition petition) {
-		petition = toUnwrappedModel(petition);
-
 		boolean isNew = petition.isNew();
+
+		if (!(petition instanceof PetitionModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(petition.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(petition);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in petition proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Petition implementation " +
+					petition.getClass());
+		}
 
 		PetitionModelImpl petitionModelImpl = (PetitionModelImpl)petition;
 
@@ -3323,7 +3339,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			petition.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -3371,146 +3388,155 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		if (!PetitionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { petitionModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {petitionModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				petitionModelImpl.getUuid(), petitionModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {petitionModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			args = new Object[] {
+				petitionModelImpl.getStatus(), petitionModelImpl.getGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByStatusAndGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByStatusAndGroupId, args);
+
+			args = new Object[] {petitionModelImpl.getPublikId()};
+
+			finderCache.removeResult(_finderPathCountByPublikId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublikId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((petitionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					petitionModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {petitionModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((petitionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					petitionModelImpl.getOriginalUuid(),
+					petitionModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					petitionModelImpl.getUuid(),
 					petitionModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
 
-			args = new Object[] { petitionModelImpl.getGroupId() };
+			if ((petitionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
+				Object[] args = new Object[] {
+					petitionModelImpl.getOriginalGroupId()
+				};
 
-			args = new Object[] {
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+
+				args = new Object[] {petitionModelImpl.getGroupId()};
+
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+			}
+
+			if ((petitionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByStatusAndGroupId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					petitionModelImpl.getOriginalStatus(),
+					petitionModelImpl.getOriginalGroupId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByStatusAndGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
+
+				args = new Object[] {
 					petitionModelImpl.getStatus(),
 					petitionModelImpl.getGroupId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUSANDGROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID,
-				args);
-
-			args = new Object[] { petitionModelImpl.getPublikId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((petitionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { petitionModelImpl.getOriginalUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { petitionModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByStatusAndGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
 			}
 
 			if ((petitionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByPublikId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						petitionModelImpl.getOriginalUuid(),
-						petitionModelImpl.getOriginalCompanyId()
-					};
+					petitionModelImpl.getOriginalPublikId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikId, args);
 
-				args = new Object[] {
-						petitionModelImpl.getUuid(),
-						petitionModelImpl.getCompanyId()
-					};
+				args = new Object[] {petitionModelImpl.getPublikId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						petitionModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { petitionModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						petitionModelImpl.getOriginalStatus(),
-						petitionModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUSANDGROUPID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID,
-					args);
-
-				args = new Object[] {
-						petitionModelImpl.getStatus(),
-						petitionModelImpl.getGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_STATUSANDGROUPID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_STATUSANDGROUPID,
-					args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						petitionModelImpl.getOriginalPublikId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
-					args);
-
-				args = new Object[] { petitionModelImpl.getPublikId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKID,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikId, args);
 			}
 		}
 
-		entityCache.putResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionImpl.class, petition.getPrimaryKey(), petition, false);
+		entityCache.putResult(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+			petition.getPrimaryKey(), petition, false);
 
 		clearUniqueFindersCache(petitionModelImpl, false);
 		cacheUniqueFindersCache(petitionModelImpl);
@@ -3520,60 +3546,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		return petition;
 	}
 
-	protected Petition toUnwrappedModel(Petition petition) {
-		if (petition instanceof PetitionImpl) {
-			return petition;
-		}
-
-		PetitionImpl petitionImpl = new PetitionImpl();
-
-		petitionImpl.setNew(petition.isNew());
-		petitionImpl.setPrimaryKey(petition.getPrimaryKey());
-
-		petitionImpl.setUuid(petition.getUuid());
-		petitionImpl.setPetitionId(petition.getPetitionId());
-		petitionImpl.setGroupId(petition.getGroupId());
-		petitionImpl.setCompanyId(petition.getCompanyId());
-		petitionImpl.setUserId(petition.getUserId());
-		petitionImpl.setUserName(petition.getUserName());
-		petitionImpl.setCreateDate(petition.getCreateDate());
-		petitionImpl.setModifiedDate(petition.getModifiedDate());
-		petitionImpl.setStatus(petition.getStatus());
-		petitionImpl.setStatusByUserId(petition.getStatusByUserId());
-		petitionImpl.setStatusByUserName(petition.getStatusByUserName());
-		petitionImpl.setStatusDate(petition.getStatusDate());
-		petitionImpl.setTitle(petition.getTitle());
-		petitionImpl.setDescription(petition.getDescription());
-		petitionImpl.setPlaceTextArea(petition.getPlaceTextArea());
-		petitionImpl.setFilesDownload(petition.getFilesDownload());
-		petitionImpl.setPublicationDate(petition.getPublicationDate());
-		petitionImpl.setExpirationDate(petition.getExpirationDate());
-		petitionImpl.setExtensionDate(petition.getExtensionDate());
-		petitionImpl.setQuotaSignature(petition.getQuotaSignature());
-		petitionImpl.setInTheNameOf(petition.getInTheNameOf());
-		petitionImpl.setPetitionnaireLastname(petition.getPetitionnaireLastname());
-		petitionImpl.setPetitionnaireFirstname(petition.getPetitionnaireFirstname());
-		petitionImpl.setPetitionnaireBirthday(petition.getPetitionnaireBirthday());
-		petitionImpl.setPetitionnaireAdresse(petition.getPetitionnaireAdresse());
-		petitionImpl.setPetitionnairePostalCode(petition.getPetitionnairePostalCode());
-		petitionImpl.setPetitionnaireCity(petition.getPetitionnaireCity());
-		petitionImpl.setPetitionnairePhone(petition.getPetitionnairePhone());
-		petitionImpl.setPetitionnaireEmail(petition.getPetitionnaireEmail());
-		petitionImpl.setIsSupported(petition.isIsSupported());
-		petitionImpl.setSupportedBy(petition.getSupportedBy());
-		petitionImpl.setVideoUrl(petition.getVideoUrl());
-		petitionImpl.setExternalImageURL(petition.getExternalImageURL());
-		petitionImpl.setExternalImageCopyright(petition.getExternalImageCopyright());
-		petitionImpl.setMediaChoice(petition.isMediaChoice());
-		petitionImpl.setPublikId(petition.getPublikId());
-		petitionImpl.setImageId(petition.getImageId());
-		petitionImpl.setFilesIds(petition.getFilesIds());
-
-		return petitionImpl;
-	}
-
 	/**
-	 * Returns the petition with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the petition with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the petition
 	 * @return the petition
@@ -3582,6 +3556,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public Petition findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchPetitionException {
+
 		Petition petition = fetchByPrimaryKey(primaryKey);
 
 		if (petition == null) {
@@ -3589,15 +3564,15 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchPetitionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchPetitionException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return petition;
 	}
 
 	/**
-	 * Returns the petition with the primary key or throws a {@link NoSuchPetitionException} if it could not be found.
+	 * Returns the petition with the primary key or throws a <code>NoSuchPetitionException</code> if it could not be found.
 	 *
 	 * @param petitionId the primary key of the petition
 	 * @return the petition
@@ -3606,6 +3581,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public Petition findByPrimaryKey(long petitionId)
 		throws NoSuchPetitionException {
+
 		return findByPrimaryKey((Serializable)petitionId);
 	}
 
@@ -3617,8 +3593,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public Petition fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-				PetitionImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -3632,19 +3609,22 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			try {
 				session = openSession();
 
-				petition = (Petition)session.get(PetitionImpl.class, primaryKey);
+				petition = (Petition)session.get(
+					PetitionImpl.class, primaryKey);
 
 				if (petition != null) {
 					cacheResult(petition);
 				}
 				else {
-					entityCache.putResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						PetitionModelImpl.ENTITY_CACHE_ENABLED,
 						PetitionImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-					PetitionImpl.class, primaryKey);
+				entityCache.removeResult(
+					PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -3670,6 +3650,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	@Override
 	public Map<Serializable, Petition> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -3693,8 +3674,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-					PetitionImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3714,20 +3696,20 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_PETITION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -3747,8 +3729,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(PetitionModelImpl.ENTITY_CACHE_ENABLED,
-					PetitionImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -3775,7 +3758,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns a range of all the petitions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of petitions
@@ -3791,7 +3774,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of petitions
@@ -3800,8 +3783,9 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of petitions
 	 */
 	@Override
-	public List<Petition> findAll(int start, int end,
-		OrderByComparator<Petition> orderByComparator) {
+	public List<Petition> findAll(
+		int start, int end, OrderByComparator<Petition> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -3809,7 +3793,7 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Returns an ordered range of all the petitions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PetitionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PetitionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of petitions
@@ -3819,28 +3803,31 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * @return the ordered range of petitions
 	 */
 	@Override
-	public List<Petition> findAll(int start, int end,
-		OrderByComparator<Petition> orderByComparator, boolean retrieveFromCache) {
+	public List<Petition> findAll(
+		int start, int end, OrderByComparator<Petition> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Petition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Petition>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<Petition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -3848,13 +3835,13 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PETITION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -3874,16 +3861,16 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Petition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Petition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3921,8 +3908,8 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -3934,12 +3921,12 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -3965,6 +3952,156 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 	 * Initializes the petition persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			PetitionModelImpl.UUID_COLUMN_BITMASK |
+			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			PetitionModelImpl.UUID_COLUMN_BITMASK |
+			PetitionModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			PetitionModelImpl.UUID_COLUMN_BITMASK |
+			PetitionModelImpl.COMPANYID_COLUMN_BITMASK |
+			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			PetitionModelImpl.GROUPID_COLUMN_BITMASK |
+			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByStatusAndGroupId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
+			new String[] {
+				Integer.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByStatusAndGroupId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatusAndGroupId",
+			new String[] {Integer.class.getName(), Long.class.getName()},
+			PetitionModelImpl.STATUS_COLUMN_BITMASK |
+			PetitionModelImpl.GROUPID_COLUMN_BITMASK |
+			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByStatusAndGroupId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByStatusAndGroupId",
+			new String[] {Integer.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByPublikId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
+			new String[] {String.class.getName()},
+			PetitionModelImpl.PUBLIKID_COLUMN_BITMASK |
+			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+
+		_finderPathCountByPublikId = new FinderPath(
+			PetitionModelImpl.ENTITY_CACHE_ENABLED,
+			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -3976,20 +4113,40 @@ public class PetitionPersistenceImpl extends BasePersistenceImpl<Petition>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_PETITION = "SELECT petition FROM Petition petition";
-	private static final String _SQL_SELECT_PETITION_WHERE_PKS_IN = "SELECT petition FROM Petition petition WHERE petitionId IN (";
-	private static final String _SQL_SELECT_PETITION_WHERE = "SELECT petition FROM Petition petition WHERE ";
-	private static final String _SQL_COUNT_PETITION = "SELECT COUNT(petition) FROM Petition petition";
-	private static final String _SQL_COUNT_PETITION_WHERE = "SELECT COUNT(petition) FROM Petition petition WHERE ";
+
+	private static final String _SQL_SELECT_PETITION =
+		"SELECT petition FROM Petition petition";
+
+	private static final String _SQL_SELECT_PETITION_WHERE_PKS_IN =
+		"SELECT petition FROM Petition petition WHERE petitionId IN (";
+
+	private static final String _SQL_SELECT_PETITION_WHERE =
+		"SELECT petition FROM Petition petition WHERE ";
+
+	private static final String _SQL_COUNT_PETITION =
+		"SELECT COUNT(petition) FROM Petition petition";
+
+	private static final String _SQL_COUNT_PETITION_WHERE =
+		"SELECT COUNT(petition) FROM Petition petition WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "petition.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Petition exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Petition exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(PetitionPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Petition exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Petition exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PetitionPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

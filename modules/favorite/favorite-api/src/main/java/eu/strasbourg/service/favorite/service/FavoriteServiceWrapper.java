@@ -26,76 +26,83 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class FavoriteServiceWrapper implements FavoriteService,
-	ServiceWrapper<FavoriteService> {
+public class FavoriteServiceWrapper
+	implements FavoriteService, ServiceWrapper<FavoriteService> {
+
 	public FavoriteServiceWrapper(FavoriteService favoriteService) {
 		_favoriteService = favoriteService;
 	}
 
 	/**
-	* Ajoute un favoris à un utilisateur
-	*/
+	 * Ajoute un favoris à un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addFavorite(
-		java.lang.String title, java.lang.String url, long typeId,
-		java.lang.String userId, long entityId) {
-		return _favoriteService.addFavorite(title, url, typeId, userId, entityId);
+		String title, String url, long typeId, String userId, long entityId) {
+
+		return _favoriteService.addFavorite(
+			title, url, typeId, userId, entityId);
 	}
 
 	/**
-	* Ajoute un favori à un utilisateur
-	*/
+	 * Ajoute un favori à un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addFavoriteLink(
-		java.lang.String title, java.lang.String url, long typeId,
-		long entityId, long entityGroupId) {
-		return _favoriteService.addFavoriteLink(title, url, typeId, entityId,
-			entityGroupId);
+		String title, String url, long typeId, long entityId,
+		long entityGroupId) {
+
+		return _favoriteService.addFavoriteLink(
+			title, url, typeId, entityId, entityGroupId);
 	}
 
 	/**
-	* Supprime un favoris d'un utilisateur
-	*/
+	 * Supprime un favoris d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject deleteFavorite(
-		java.lang.String userId, long favoriteId) {
+		String userId, long favoriteId) {
+
 		return _favoriteService.deleteFavorite(userId, favoriteId);
 	}
 
 	/**
-	* Supprime un favoris d'un utilisateur
-	*/
+	 * Supprime un favoris d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject deleteFavoriteLink(
-		java.lang.String title, java.lang.String url, long typeId, long entityId) {
-		return _favoriteService.deleteFavoriteLink(title, url, typeId, entityId);
+		String title, String url, long typeId, long entityId) {
+
+		return _favoriteService.deleteFavoriteLink(
+			title, url, typeId, entityId);
 	}
 
 	/**
-	* Retourne la liste des types de favoris
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _favoriteService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	 * Retourne la liste des types de favoris
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTypes() {
 		return _favoriteService.getTypes();
 	}
 
 	/**
-	* Retourne les favoris d'un utilisateur
-	*/
+	 * Retourne les favoris d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserFavorites(
-		java.lang.String userId) {
-		return _favoriteService.getUserFavorites(userId);
-	}
+		String userId) {
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _favoriteService.getOSGiServiceIdentifier();
+		return _favoriteService.getUserFavorites(userId);
 	}
 
 	@Override
@@ -109,4 +116,5 @@ public class FavoriteServiceWrapper implements FavoriteService,
 	}
 
 	private FavoriteService _favoriteService;
+
 }

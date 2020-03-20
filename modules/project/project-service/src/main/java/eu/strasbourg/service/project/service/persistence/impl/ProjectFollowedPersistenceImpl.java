@@ -27,8 +27,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
@@ -39,6 +39,8 @@ import eu.strasbourg.service.project.model.impl.ProjectFollowedModelImpl;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 
 import java.io.Serializable;
+
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,56 +59,33 @@ import java.util.Set;
  * </p>
  *
  * @author Cedric Henry
- * @see ProjectFollowedPersistence
- * @see eu.strasbourg.service.project.service.persistence.ProjectFollowedUtil
  * @generated
  */
 @ProviderType
-public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectFollowed>
+public class ProjectFollowedPersistenceImpl
+	extends BasePersistenceImpl<ProjectFollowed>
 	implements ProjectFollowedPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link ProjectFollowedUtil} to access the project followed persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>ProjectFollowedUtil</code> to access the project followed persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = ProjectFollowedImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublikUserId",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID =
-		new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
-			new String[] { String.class.getName() },
-			ProjectFollowedModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERID = new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		ProjectFollowedImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByPublikUserId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikUserId;
+	private FinderPath _finderPathCountByPublikUserId;
 
 	/**
 	 * Returns all the project followeds where publikUserId = &#63;.
@@ -116,15 +95,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public List<ProjectFollowed> findByPublikUserId(String publikUserId) {
-		return findByPublikUserId(publikUserId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByPublikUserId(
+			publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the project followeds where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -133,8 +112,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the range of matching project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findByPublikUserId(String publikUserId,
-		int start, int end) {
+	public List<ProjectFollowed> findByPublikUserId(
+		String publikUserId, int start, int end) {
+
 		return findByPublikUserId(publikUserId, start, end, null);
 	}
 
@@ -142,7 +122,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Returns an ordered range of all the project followeds where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -152,17 +132,19 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the ordered range of matching project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findByPublikUserId(String publikUserId,
-		int start, int end, OrderByComparator<ProjectFollowed> orderByComparator) {
-		return findByPublikUserId(publikUserId, start, end, orderByComparator,
-			true);
+	public List<ProjectFollowed> findByPublikUserId(
+		String publikUserId, int start, int end,
+		OrderByComparator<ProjectFollowed> orderByComparator) {
+
+		return findByPublikUserId(
+			publikUserId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the project followeds where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -173,39 +155,42 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the ordered range of matching project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findByPublikUserId(String publikUserId,
-		int start, int end,
+	public List<ProjectFollowed> findByPublikUserId(
+		String publikUserId, int start, int end,
 		OrderByComparator<ProjectFollowed> orderByComparator,
 		boolean retrieveFromCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID;
-			finderArgs = new Object[] { publikUserId };
+			finderPath = _finderPathWithoutPaginationFindByPublikUserId;
+			finderArgs = new Object[] {publikUserId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLIKUSERID;
+			finderPath = _finderPathWithPaginationFindByPublikUserId;
 			finderArgs = new Object[] {
-					publikUserId,
-					
-					start, end, orderByComparator
-				};
+				publikUserId, start, end, orderByComparator
+			};
 		}
 
 		List<ProjectFollowed> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ProjectFollowed>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ProjectFollowed>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ProjectFollowed projectFollowed : list) {
-					if (!Objects.equals(publikUserId,
-								projectFollowed.getPublikUserId())) {
+					if (!publikUserId.equals(
+							projectFollowed.getPublikUserId())) {
+
 						list = null;
 
 						break;
@@ -218,8 +203,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -229,10 +214,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -242,11 +224,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ProjectFollowedModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -266,16 +247,16 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 				}
 
 				if (!pagination) {
-					list = (List<ProjectFollowed>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ProjectFollowed>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ProjectFollowed>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ProjectFollowed>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -304,11 +285,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @throws NoSuchProjectFollowedException if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed findByPublikUserId_First(String publikUserId,
-		OrderByComparator<ProjectFollowed> orderByComparator)
+	public ProjectFollowed findByPublikUserId_First(
+			String publikUserId,
+			OrderByComparator<ProjectFollowed> orderByComparator)
 		throws NoSuchProjectFollowedException {
-		ProjectFollowed projectFollowed = fetchByPublikUserId_First(publikUserId,
-				orderByComparator);
+
+		ProjectFollowed projectFollowed = fetchByPublikUserId_First(
+			publikUserId, orderByComparator);
 
 		if (projectFollowed != null) {
 			return projectFollowed;
@@ -321,7 +304,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProjectFollowedException(msg.toString());
 	}
@@ -334,10 +317,12 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the first matching project followed, or <code>null</code> if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed fetchByPublikUserId_First(String publikUserId,
+	public ProjectFollowed fetchByPublikUserId_First(
+		String publikUserId,
 		OrderByComparator<ProjectFollowed> orderByComparator) {
-		List<ProjectFollowed> list = findByPublikUserId(publikUserId, 0, 1,
-				orderByComparator);
+
+		List<ProjectFollowed> list = findByPublikUserId(
+			publikUserId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -355,11 +340,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @throws NoSuchProjectFollowedException if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed findByPublikUserId_Last(String publikUserId,
-		OrderByComparator<ProjectFollowed> orderByComparator)
+	public ProjectFollowed findByPublikUserId_Last(
+			String publikUserId,
+			OrderByComparator<ProjectFollowed> orderByComparator)
 		throws NoSuchProjectFollowedException {
-		ProjectFollowed projectFollowed = fetchByPublikUserId_Last(publikUserId,
-				orderByComparator);
+
+		ProjectFollowed projectFollowed = fetchByPublikUserId_Last(
+			publikUserId, orderByComparator);
 
 		if (projectFollowed != null) {
 			return projectFollowed;
@@ -372,7 +359,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		msg.append("publikUserId=");
 		msg.append(publikUserId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProjectFollowedException(msg.toString());
 	}
@@ -385,16 +372,18 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the last matching project followed, or <code>null</code> if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed fetchByPublikUserId_Last(String publikUserId,
+	public ProjectFollowed fetchByPublikUserId_Last(
+		String publikUserId,
 		OrderByComparator<ProjectFollowed> orderByComparator) {
+
 		int count = countByPublikUserId(publikUserId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ProjectFollowed> list = findByPublikUserId(publikUserId,
-				count - 1, count, orderByComparator);
+		List<ProjectFollowed> list = findByPublikUserId(
+			publikUserId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -414,9 +403,12 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public ProjectFollowed[] findByPublikUserId_PrevAndNext(
-		long projectFollowedId, String publikUserId,
-		OrderByComparator<ProjectFollowed> orderByComparator)
+			long projectFollowedId, String publikUserId,
+			OrderByComparator<ProjectFollowed> orderByComparator)
 		throws NoSuchProjectFollowedException {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
 		ProjectFollowed projectFollowed = findByPrimaryKey(projectFollowedId);
 
 		Session session = null;
@@ -426,13 +418,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			ProjectFollowed[] array = new ProjectFollowedImpl[3];
 
-			array[0] = getByPublikUserId_PrevAndNext(session, projectFollowed,
-					publikUserId, orderByComparator, true);
+			array[0] = getByPublikUserId_PrevAndNext(
+				session, projectFollowed, publikUserId, orderByComparator,
+				true);
 
 			array[1] = projectFollowed;
 
-			array[2] = getByPublikUserId_PrevAndNext(session, projectFollowed,
-					publikUserId, orderByComparator, false);
+			array[2] = getByPublikUserId_PrevAndNext(
+				session, projectFollowed, publikUserId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -444,14 +438,16 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		}
 	}
 
-	protected ProjectFollowed getByPublikUserId_PrevAndNext(Session session,
-		ProjectFollowed projectFollowed, String publikUserId,
-		OrderByComparator<ProjectFollowed> orderByComparator, boolean previous) {
+	protected ProjectFollowed getByPublikUserId_PrevAndNext(
+		Session session, ProjectFollowed projectFollowed, String publikUserId,
+		OrderByComparator<ProjectFollowed> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -462,10 +458,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 		boolean bindPublikUserId = false;
 
-		if (publikUserId == null) {
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-		}
-		else if (publikUserId.equals(StringPool.BLANK)) {
+		if (publikUserId.isEmpty()) {
 			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 		}
 		else {
@@ -475,7 +468,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -547,10 +541,11 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(projectFollowed);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						projectFollowed)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -571,8 +566,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public void removeByPublikUserId(String publikUserId) {
-		for (ProjectFollowed projectFollowed : findByPublikUserId(
-				publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ProjectFollowed projectFollowed :
+				findByPublikUserId(
+					publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(projectFollowed);
 		}
 	}
@@ -585,9 +582,11 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public int countByPublikUserId(String publikUserId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERID;
+		publikUserId = Objects.toString(publikUserId, "");
 
-		Object[] finderArgs = new Object[] { publikUserId };
+		FinderPath finderPath = _finderPathCountByPublikUserId;
+
+		Object[] finderArgs = new Object[] {publikUserId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -598,10 +597,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
+			if (publikUserId.isEmpty()) {
 				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
@@ -642,31 +638,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_1 = "projectFollowed.publikUserId IS NULL";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 = "projectFollowed.publikUserId = ?";
-	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 = "(projectFollowed.publikUserId IS NULL OR projectFollowed.publikUserId = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PROJECTID =
-		new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByProjectId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID =
-		new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByProjectId",
-			new String[] { Long.class.getName() },
-			ProjectFollowedModelImpl.PROJECTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PROJECTID = new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProjectId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 =
+		"projectFollowed.publikUserId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 =
+		"(projectFollowed.publikUserId IS NULL OR projectFollowed.publikUserId = '')";
+
+	private FinderPath _finderPathWithPaginationFindByProjectId;
+	private FinderPath _finderPathWithoutPaginationFindByProjectId;
+	private FinderPath _finderPathCountByProjectId;
 
 	/**
 	 * Returns all the project followeds where projectId = &#63;.
@@ -676,15 +656,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public List<ProjectFollowed> findByProjectId(long projectId) {
-		return findByProjectId(projectId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+		return findByProjectId(
+			projectId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the project followeds where projectId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param projectId the project ID
@@ -693,8 +673,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the range of matching project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findByProjectId(long projectId, int start,
-		int end) {
+	public List<ProjectFollowed> findByProjectId(
+		long projectId, int start, int end) {
+
 		return findByProjectId(projectId, start, end, null);
 	}
 
@@ -702,7 +683,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Returns an ordered range of all the project followeds where projectId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param projectId the project ID
@@ -712,8 +693,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the ordered range of matching project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findByProjectId(long projectId, int start,
-		int end, OrderByComparator<ProjectFollowed> orderByComparator) {
+	public List<ProjectFollowed> findByProjectId(
+		long projectId, int start, int end,
+		OrderByComparator<ProjectFollowed> orderByComparator) {
+
 		return findByProjectId(projectId, start, end, orderByComparator, true);
 	}
 
@@ -721,7 +704,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Returns an ordered range of all the project followeds where projectId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param projectId the project ID
@@ -732,29 +715,34 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the ordered range of matching project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findByProjectId(long projectId, int start,
-		int end, OrderByComparator<ProjectFollowed> orderByComparator,
+	public List<ProjectFollowed> findByProjectId(
+		long projectId, int start, int end,
+		OrderByComparator<ProjectFollowed> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID;
-			finderArgs = new Object[] { projectId };
+			finderPath = _finderPathWithoutPaginationFindByProjectId;
+			finderArgs = new Object[] {projectId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PROJECTID;
-			finderArgs = new Object[] { projectId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByProjectId;
+			finderArgs = new Object[] {
+				projectId, start, end, orderByComparator
+			};
 		}
 
 		List<ProjectFollowed> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ProjectFollowed>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ProjectFollowed>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ProjectFollowed projectFollowed : list) {
@@ -771,8 +759,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -783,11 +771,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			query.append(_FINDER_COLUMN_PROJECTID_PROJECTID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ProjectFollowedModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -805,16 +792,16 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 				qPos.add(projectId);
 
 				if (!pagination) {
-					list = (List<ProjectFollowed>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ProjectFollowed>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ProjectFollowed>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ProjectFollowed>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -843,11 +830,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @throws NoSuchProjectFollowedException if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed findByProjectId_First(long projectId,
-		OrderByComparator<ProjectFollowed> orderByComparator)
+	public ProjectFollowed findByProjectId_First(
+			long projectId,
+			OrderByComparator<ProjectFollowed> orderByComparator)
 		throws NoSuchProjectFollowedException {
-		ProjectFollowed projectFollowed = fetchByProjectId_First(projectId,
-				orderByComparator);
+
+		ProjectFollowed projectFollowed = fetchByProjectId_First(
+			projectId, orderByComparator);
 
 		if (projectFollowed != null) {
 			return projectFollowed;
@@ -860,7 +849,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		msg.append("projectId=");
 		msg.append(projectId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProjectFollowedException(msg.toString());
 	}
@@ -873,10 +862,11 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the first matching project followed, or <code>null</code> if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed fetchByProjectId_First(long projectId,
-		OrderByComparator<ProjectFollowed> orderByComparator) {
-		List<ProjectFollowed> list = findByProjectId(projectId, 0, 1,
-				orderByComparator);
+	public ProjectFollowed fetchByProjectId_First(
+		long projectId, OrderByComparator<ProjectFollowed> orderByComparator) {
+
+		List<ProjectFollowed> list = findByProjectId(
+			projectId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -894,11 +884,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @throws NoSuchProjectFollowedException if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed findByProjectId_Last(long projectId,
-		OrderByComparator<ProjectFollowed> orderByComparator)
+	public ProjectFollowed findByProjectId_Last(
+			long projectId,
+			OrderByComparator<ProjectFollowed> orderByComparator)
 		throws NoSuchProjectFollowedException {
-		ProjectFollowed projectFollowed = fetchByProjectId_Last(projectId,
-				orderByComparator);
+
+		ProjectFollowed projectFollowed = fetchByProjectId_Last(
+			projectId, orderByComparator);
 
 		if (projectFollowed != null) {
 			return projectFollowed;
@@ -911,7 +903,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		msg.append("projectId=");
 		msg.append(projectId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchProjectFollowedException(msg.toString());
 	}
@@ -924,16 +916,17 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the last matching project followed, or <code>null</code> if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed fetchByProjectId_Last(long projectId,
-		OrderByComparator<ProjectFollowed> orderByComparator) {
+	public ProjectFollowed fetchByProjectId_Last(
+		long projectId, OrderByComparator<ProjectFollowed> orderByComparator) {
+
 		int count = countByProjectId(projectId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ProjectFollowed> list = findByProjectId(projectId, count - 1,
-				count, orderByComparator);
+		List<ProjectFollowed> list = findByProjectId(
+			projectId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -953,9 +946,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public ProjectFollowed[] findByProjectId_PrevAndNext(
-		long projectFollowedId, long projectId,
-		OrderByComparator<ProjectFollowed> orderByComparator)
+			long projectFollowedId, long projectId,
+			OrderByComparator<ProjectFollowed> orderByComparator)
 		throws NoSuchProjectFollowedException {
+
 		ProjectFollowed projectFollowed = findByPrimaryKey(projectFollowedId);
 
 		Session session = null;
@@ -965,13 +959,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			ProjectFollowed[] array = new ProjectFollowedImpl[3];
 
-			array[0] = getByProjectId_PrevAndNext(session, projectFollowed,
-					projectId, orderByComparator, true);
+			array[0] = getByProjectId_PrevAndNext(
+				session, projectFollowed, projectId, orderByComparator, true);
 
 			array[1] = projectFollowed;
 
-			array[2] = getByProjectId_PrevAndNext(session, projectFollowed,
-					projectId, orderByComparator, false);
+			array[2] = getByProjectId_PrevAndNext(
+				session, projectFollowed, projectId, orderByComparator, false);
 
 			return array;
 		}
@@ -983,14 +977,16 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		}
 	}
 
-	protected ProjectFollowed getByProjectId_PrevAndNext(Session session,
-		ProjectFollowed projectFollowed, long projectId,
-		OrderByComparator<ProjectFollowed> orderByComparator, boolean previous) {
+	protected ProjectFollowed getByProjectId_PrevAndNext(
+		Session session, ProjectFollowed projectFollowed, long projectId,
+		OrderByComparator<ProjectFollowed> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1002,7 +998,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		query.append(_FINDER_COLUMN_PROJECTID_PROJECTID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1072,10 +1069,11 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		qPos.add(projectId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(projectFollowed);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						projectFollowed)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1096,8 +1094,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public void removeByProjectId(long projectId) {
-		for (ProjectFollowed projectFollowed : findByProjectId(projectId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ProjectFollowed projectFollowed :
+				findByProjectId(
+					projectId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(projectFollowed);
 		}
 	}
@@ -1110,9 +1110,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public int countByProjectId(long projectId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PROJECTID;
+		FinderPath finderPath = _finderPathCountByProjectId;
 
-		Object[] finderArgs = new Object[] { projectId };
+		Object[] finderArgs = new Object[] {projectId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1153,24 +1153,14 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PROJECTID_PROJECTID_2 = "projectFollowed.projectId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID =
-		new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPublikUserIdAndProjectId",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ProjectFollowedModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			ProjectFollowedModelImpl.PROJECTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDPROJECTID =
-		new FinderPath(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPublikUserIdAndProjectId",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_PROJECTID_PROJECTID_2 =
+		"projectFollowed.projectId = ?";
+
+	private FinderPath _finderPathFetchByPublikUserIdAndProjectId;
+	private FinderPath _finderPathCountByPublikUserIdAndProjectId;
 
 	/**
-	 * Returns the project followed where publikUserId = &#63; and projectId = &#63; or throws a {@link NoSuchProjectFollowedException} if it could not be found.
+	 * Returns the project followed where publikUserId = &#63; and projectId = &#63; or throws a <code>NoSuchProjectFollowedException</code> if it could not be found.
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param projectId the project ID
@@ -1178,10 +1168,12 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @throws NoSuchProjectFollowedException if a matching project followed could not be found
 	 */
 	@Override
-	public ProjectFollowed findByPublikUserIdAndProjectId(String publikUserId,
-		long projectId) throws NoSuchProjectFollowedException {
-		ProjectFollowed projectFollowed = fetchByPublikUserIdAndProjectId(publikUserId,
-				projectId);
+	public ProjectFollowed findByPublikUserIdAndProjectId(
+			String publikUserId, long projectId)
+		throws NoSuchProjectFollowedException {
+
+		ProjectFollowed projectFollowed = fetchByPublikUserIdAndProjectId(
+			publikUserId, projectId);
 
 		if (projectFollowed == null) {
 			StringBundler msg = new StringBundler(6);
@@ -1194,7 +1186,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			msg.append(", projectId=");
 			msg.append(projectId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -1216,6 +1208,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public ProjectFollowed fetchByPublikUserIdAndProjectId(
 		String publikUserId, long projectId) {
+
 		return fetchByPublikUserIdAndProjectId(publikUserId, projectId, true);
 	}
 
@@ -1230,20 +1223,25 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public ProjectFollowed fetchByPublikUserIdAndProjectId(
 		String publikUserId, long projectId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { publikUserId, projectId };
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		Object[] finderArgs = new Object[] {publikUserId, projectId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByPublikUserIdAndProjectId, finderArgs, this);
 		}
 
 		if (result instanceof ProjectFollowed) {
 			ProjectFollowed projectFollowed = (ProjectFollowed)result;
 
-			if (!Objects.equals(publikUserId, projectFollowed.getPublikUserId()) ||
-					(projectId != projectFollowed.getProjectId())) {
+			if (!Objects.equals(
+					publikUserId, projectFollowed.getPublikUserId()) ||
+				(projectId != projectFollowed.getProjectId())) {
+
 				result = null;
 			}
 		}
@@ -1255,16 +1253,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_3);
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_2);
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PROJECTID_2);
@@ -1289,8 +1286,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 				List<ProjectFollowed> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByPublikUserIdAndProjectId, finderArgs,
+						list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -1299,8 +1297,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"ProjectFollowedPersistenceImpl.fetchByPublikUserIdAndProjectId(String, long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -1309,19 +1307,11 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 					result = projectFollowed;
 
 					cacheResult(projectFollowed);
-
-					if ((projectFollowed.getPublikUserId() == null) ||
-							!projectFollowed.getPublikUserId()
-												.equals(publikUserId) ||
-							(projectFollowed.getProjectId() != projectId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-							finderArgs, projectFollowed);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-					finderArgs);
+				finderCache.removeResult(
+					_finderPathFetchByPublikUserIdAndProjectId, finderArgs);
 
 				throw processException(e);
 			}
@@ -1347,10 +1337,11 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public ProjectFollowed removeByPublikUserIdAndProjectId(
-		String publikUserId, long projectId)
+			String publikUserId, long projectId)
 		throws NoSuchProjectFollowedException {
-		ProjectFollowed projectFollowed = findByPublikUserIdAndProjectId(publikUserId,
-				projectId);
+
+		ProjectFollowed projectFollowed = findByPublikUserIdAndProjectId(
+			publikUserId, projectId);
 
 		return remove(projectFollowed);
 	}
@@ -1363,11 +1354,14 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the number of matching project followeds
 	 */
 	@Override
-	public int countByPublikUserIdAndProjectId(String publikUserId,
-		long projectId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDPROJECTID;
+	public int countByPublikUserIdAndProjectId(
+		String publikUserId, long projectId) {
 
-		Object[] finderArgs = new Object[] { publikUserId, projectId };
+		publikUserId = Objects.toString(publikUserId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikUserIdAndProjectId;
+
+		Object[] finderArgs = new Object[] {publikUserId, projectId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1378,16 +1372,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			boolean bindPublikUserId = false;
 
-			if (publikUserId == null) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_1);
-			}
-			else if (publikUserId.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_3);
+			if (publikUserId.isEmpty()) {
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_2);
+				query.append(
+					_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PROJECTID_2);
@@ -1426,14 +1419,17 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_1 =
-		"projectFollowed.publikUserId IS NULL AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_2 =
-		"projectFollowed.publikUserId = ? AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_3 =
-		"(projectFollowed.publikUserId IS NULL OR projectFollowed.publikUserId = '') AND ";
-	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PROJECTID_2 =
-		"projectFollowed.projectId = ?";
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_2 =
+			"projectFollowed.publikUserId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PUBLIKUSERID_3 =
+			"(projectFollowed.publikUserId IS NULL OR projectFollowed.publikUserId = '') AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDPROJECTID_PROJECTID_2 =
+			"projectFollowed.projectId = ?";
 
 	public ProjectFollowedPersistenceImpl() {
 		setModelClass(ProjectFollowed.class);
@@ -1446,15 +1442,18 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public void cacheResult(ProjectFollowed projectFollowed) {
-		entityCache.putResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectFollowedImpl.class, projectFollowed.getPrimaryKey(),
 			projectFollowed);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
+		finderCache.putResult(
+			_finderPathFetchByPublikUserIdAndProjectId,
 			new Object[] {
 				projectFollowed.getPublikUserId(),
 				projectFollowed.getProjectId()
-			}, projectFollowed);
+			},
+			projectFollowed);
 
 		projectFollowed.resetOriginalValues();
 	}
@@ -1468,9 +1467,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	public void cacheResult(List<ProjectFollowed> projectFolloweds) {
 		for (ProjectFollowed projectFollowed : projectFolloweds) {
 			if (entityCache.getResult(
-						ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-						ProjectFollowedImpl.class,
-						projectFollowed.getPrimaryKey()) == null) {
+					ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+					ProjectFollowedImpl.class,
+					projectFollowed.getPrimaryKey()) == null) {
+
 				cacheResult(projectFollowed);
 			}
 			else {
@@ -1483,7 +1483,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Clears the cache for all project followeds.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1499,18 +1499,20 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Clears the cache for the project followed.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(ProjectFollowed projectFollowed) {
-		entityCache.removeResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectFollowedImpl.class, projectFollowed.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ProjectFollowedModelImpl)projectFollowed, true);
+		clearUniqueFindersCache(
+			(ProjectFollowedModelImpl)projectFollowed, true);
 	}
 
 	@Override
@@ -1519,52 +1521,60 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (ProjectFollowed projectFollowed : projectFolloweds) {
-			entityCache.removeResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 				ProjectFollowedImpl.class, projectFollowed.getPrimaryKey());
 
-			clearUniqueFindersCache((ProjectFollowedModelImpl)projectFollowed,
-				true);
+			clearUniqueFindersCache(
+				(ProjectFollowedModelImpl)projectFollowed, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
 		ProjectFollowedModelImpl projectFollowedModelImpl) {
+
 		Object[] args = new Object[] {
+			projectFollowedModelImpl.getPublikUserId(),
+			projectFollowedModelImpl.getProjectId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByPublikUserIdAndProjectId, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(
+			_finderPathFetchByPublikUserIdAndProjectId, args,
+			projectFollowedModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		ProjectFollowedModelImpl projectFollowedModelImpl,
+		boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				projectFollowedModelImpl.getPublikUserId(),
 				projectFollowedModelImpl.getProjectId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDPROJECTID,
-			args, Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-			args, projectFollowedModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ProjectFollowedModelImpl projectFollowedModelImpl, boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					projectFollowedModelImpl.getPublikUserId(),
-					projectFollowedModelImpl.getProjectId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDPROJECTID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-				args);
+			finderCache.removeResult(
+				_finderPathCountByPublikUserIdAndProjectId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikUserIdAndProjectId, args);
 		}
 
 		if ((projectFollowedModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					projectFollowedModelImpl.getOriginalPublikUserId(),
-					projectFollowedModelImpl.getOriginalProjectId()
-				};
+			 _finderPathFetchByPublikUserIdAndProjectId.getColumnBitmask()) !=
+				 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERIDANDPROJECTID,
-				args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_PUBLIKUSERIDANDPROJECTID,
-				args);
+			Object[] args = new Object[] {
+				projectFollowedModelImpl.getOriginalPublikUserId(),
+				projectFollowedModelImpl.getOriginalProjectId()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByPublikUserIdAndProjectId, args);
+			finderCache.removeResult(
+				_finderPathFetchByPublikUserIdAndProjectId, args);
 		}
 	}
 
@@ -1594,6 +1604,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public ProjectFollowed remove(long projectFollowedId)
 		throws NoSuchProjectFollowedException {
+
 		return remove((Serializable)projectFollowedId);
 	}
 
@@ -1607,21 +1618,22 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public ProjectFollowed remove(Serializable primaryKey)
 		throws NoSuchProjectFollowedException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			ProjectFollowed projectFollowed = (ProjectFollowed)session.get(ProjectFollowedImpl.class,
-					primaryKey);
+			ProjectFollowed projectFollowed = (ProjectFollowed)session.get(
+				ProjectFollowedImpl.class, primaryKey);
 
 			if (projectFollowed == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchProjectFollowedException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchProjectFollowedException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(projectFollowed);
@@ -1639,16 +1651,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 	@Override
 	protected ProjectFollowed removeImpl(ProjectFollowed projectFollowed) {
-		projectFollowed = toUnwrappedModel(projectFollowed);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(projectFollowed)) {
-				projectFollowed = (ProjectFollowed)session.get(ProjectFollowedImpl.class,
-						projectFollowed.getPrimaryKeyObj());
+				projectFollowed = (ProjectFollowed)session.get(
+					ProjectFollowedImpl.class,
+					projectFollowed.getPrimaryKeyObj());
 			}
 
 			if (projectFollowed != null) {
@@ -1671,11 +1682,27 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 	@Override
 	public ProjectFollowed updateImpl(ProjectFollowed projectFollowed) {
-		projectFollowed = toUnwrappedModel(projectFollowed);
-
 		boolean isNew = projectFollowed.isNew();
 
-		ProjectFollowedModelImpl projectFollowedModelImpl = (ProjectFollowedModelImpl)projectFollowed;
+		if (!(projectFollowed instanceof ProjectFollowedModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(projectFollowed.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					projectFollowed);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in projectFollowed proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom ProjectFollowed implementation " +
+					projectFollowed.getClass());
+		}
+
+		ProjectFollowedModelImpl projectFollowedModelImpl =
+			(ProjectFollowedModelImpl)projectFollowed;
 
 		Session session = null;
 
@@ -1688,7 +1715,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 				projectFollowed.setNew(false);
 			}
 			else {
-				projectFollowed = (ProjectFollowed)session.merge(projectFollowed);
+				projectFollowed = (ProjectFollowed)session.merge(
+					projectFollowed);
 			}
 		}
 		catch (Exception e) {
@@ -1703,64 +1731,69 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		if (!ProjectFollowedModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
+		else if (isNew) {
 			Object[] args = new Object[] {
+				projectFollowedModelImpl.getPublikUserId()
+			};
+
+			finderCache.removeResult(_finderPathCountByPublikUserId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublikUserId, args);
+
+			args = new Object[] {projectFollowedModelImpl.getProjectId()};
+
+			finderCache.removeResult(_finderPathCountByProjectId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByProjectId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((projectFollowedModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByPublikUserId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					projectFollowedModelImpl.getOriginalPublikUserId()
+				};
+
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
+
+				args = new Object[] {
 					projectFollowedModelImpl.getPublikUserId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-				args);
-
-			args = new Object[] { projectFollowedModelImpl.getProjectId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PROJECTID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((projectFollowedModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						projectFollowedModelImpl.getOriginalPublikUserId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
-
-				args = new Object[] { projectFollowedModelImpl.getPublikUserId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PUBLIKUSERID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PUBLIKUSERID,
-					args);
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
 			}
 
 			if ((projectFollowedModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByProjectId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						projectFollowedModelImpl.getOriginalProjectId()
-					};
+					projectFollowedModelImpl.getOriginalProjectId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PROJECTID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID,
-					args);
+				finderCache.removeResult(_finderPathCountByProjectId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByProjectId, args);
 
-				args = new Object[] { projectFollowedModelImpl.getProjectId() };
+				args = new Object[] {projectFollowedModelImpl.getProjectId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PROJECTID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PROJECTID,
-					args);
+				finderCache.removeResult(_finderPathCountByProjectId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByProjectId, args);
 			}
 		}
 
-		entityCache.putResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectFollowedImpl.class, projectFollowed.getPrimaryKey(),
 			projectFollowed, false);
 
@@ -1772,27 +1805,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		return projectFollowed;
 	}
 
-	protected ProjectFollowed toUnwrappedModel(ProjectFollowed projectFollowed) {
-		if (projectFollowed instanceof ProjectFollowedImpl) {
-			return projectFollowed;
-		}
-
-		ProjectFollowedImpl projectFollowedImpl = new ProjectFollowedImpl();
-
-		projectFollowedImpl.setNew(projectFollowed.isNew());
-		projectFollowedImpl.setPrimaryKey(projectFollowed.getPrimaryKey());
-
-		projectFollowedImpl.setProjectFollowedId(projectFollowed.getProjectFollowedId());
-		projectFollowedImpl.setCreateDate(projectFollowed.getCreateDate());
-		projectFollowedImpl.setPublikUserId(projectFollowed.getPublikUserId());
-		projectFollowedImpl.setProjectId(projectFollowed.getProjectId());
-		projectFollowedImpl.setGroupId(projectFollowed.getGroupId());
-
-		return projectFollowedImpl;
-	}
-
 	/**
-	 * Returns the project followed with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the project followed with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the project followed
 	 * @return the project followed
@@ -1801,6 +1815,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public ProjectFollowed findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchProjectFollowedException {
+
 		ProjectFollowed projectFollowed = fetchByPrimaryKey(primaryKey);
 
 		if (projectFollowed == null) {
@@ -1808,15 +1823,15 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchProjectFollowedException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchProjectFollowedException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return projectFollowed;
 	}
 
 	/**
-	 * Returns the project followed with the primary key or throws a {@link NoSuchProjectFollowedException} if it could not be found.
+	 * Returns the project followed with the primary key or throws a <code>NoSuchProjectFollowedException</code> if it could not be found.
 	 *
 	 * @param projectFollowedId the primary key of the project followed
 	 * @return the project followed
@@ -1825,6 +1840,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public ProjectFollowed findByPrimaryKey(long projectFollowedId)
 		throws NoSuchProjectFollowedException {
+
 		return findByPrimaryKey((Serializable)projectFollowedId);
 	}
 
@@ -1836,8 +1852,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public ProjectFollowed fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectFollowedImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -1851,19 +1868,21 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			try {
 				session = openSession();
 
-				projectFollowed = (ProjectFollowed)session.get(ProjectFollowedImpl.class,
-						primaryKey);
+				projectFollowed = (ProjectFollowed)session.get(
+					ProjectFollowedImpl.class, primaryKey);
 
 				if (projectFollowed != null) {
 					cacheResult(projectFollowed);
 				}
 				else {
-					entityCache.putResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 						ProjectFollowedImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 					ProjectFollowedImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1890,11 +1909,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	@Override
 	public Map<Serializable, ProjectFollowed> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, ProjectFollowed> map = new HashMap<Serializable, ProjectFollowed>();
+		Map<Serializable, ProjectFollowed> map =
+			new HashMap<Serializable, ProjectFollowed>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -1913,8 +1934,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-					ProjectFollowedImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+				ProjectFollowedImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1934,20 +1956,20 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_PROJECTFOLLOWED_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1958,7 +1980,9 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 			Query q = session.createQuery(sql);
 
-			for (ProjectFollowed projectFollowed : (List<ProjectFollowed>)q.list()) {
+			for (ProjectFollowed projectFollowed :
+					(List<ProjectFollowed>)q.list()) {
+
 				map.put(projectFollowed.getPrimaryKeyObj(), projectFollowed);
 
 				cacheResult(projectFollowed);
@@ -1967,7 +1991,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 					ProjectFollowedImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1995,7 +2020,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Returns a range of all the project followeds.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of project followeds
@@ -2011,7 +2036,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Returns an ordered range of all the project followeds.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of project followeds
@@ -2020,8 +2045,10 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the ordered range of project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findAll(int start, int end,
+	public List<ProjectFollowed> findAll(
+		int start, int end,
 		OrderByComparator<ProjectFollowed> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2029,7 +2056,7 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Returns an ordered range of all the project followeds.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProjectFollowedModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ProjectFollowedModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of project followeds
@@ -2039,29 +2066,32 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * @return the ordered range of project followeds
 	 */
 	@Override
-	public List<ProjectFollowed> findAll(int start, int end,
+	public List<ProjectFollowed> findAll(
+		int start, int end,
 		OrderByComparator<ProjectFollowed> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<ProjectFollowed> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ProjectFollowed>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ProjectFollowed>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2069,13 +2099,13 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PROJECTFOLLOWED);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2095,16 +2125,16 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<ProjectFollowed>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ProjectFollowed>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ProjectFollowed>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ProjectFollowed>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2142,8 +2172,8 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2155,12 +2185,12 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2181,6 +2211,88 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 	 * Initializes the project followed persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByPublikUserId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
+			new String[] {String.class.getName()},
+			ProjectFollowedModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByProjectId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByProjectId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByProjectId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByProjectId",
+			new String[] {Long.class.getName()},
+			ProjectFollowedModelImpl.PROJECTID_COLUMN_BITMASK);
+
+		_finderPathCountByProjectId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProjectId",
+			new String[] {Long.class.getName()});
+
+		_finderPathFetchByPublikUserIdAndProjectId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
+			ProjectFollowedImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByPublikUserIdAndProjectId",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ProjectFollowedModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
+			ProjectFollowedModelImpl.PROJECTID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserIdAndProjectId = new FinderPath(
+			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByPublikUserIdAndProjectId",
+			new String[] {String.class.getName(), Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2192,15 +2304,34 @@ public class ProjectFollowedPersistenceImpl extends BasePersistenceImpl<ProjectF
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_PROJECTFOLLOWED = "SELECT projectFollowed FROM ProjectFollowed projectFollowed";
-	private static final String _SQL_SELECT_PROJECTFOLLOWED_WHERE_PKS_IN = "SELECT projectFollowed FROM ProjectFollowed projectFollowed WHERE projectFollowedId IN (";
-	private static final String _SQL_SELECT_PROJECTFOLLOWED_WHERE = "SELECT projectFollowed FROM ProjectFollowed projectFollowed WHERE ";
-	private static final String _SQL_COUNT_PROJECTFOLLOWED = "SELECT COUNT(projectFollowed) FROM ProjectFollowed projectFollowed";
-	private static final String _SQL_COUNT_PROJECTFOLLOWED_WHERE = "SELECT COUNT(projectFollowed) FROM ProjectFollowed projectFollowed WHERE ";
+
+	private static final String _SQL_SELECT_PROJECTFOLLOWED =
+		"SELECT projectFollowed FROM ProjectFollowed projectFollowed";
+
+	private static final String _SQL_SELECT_PROJECTFOLLOWED_WHERE_PKS_IN =
+		"SELECT projectFollowed FROM ProjectFollowed projectFollowed WHERE projectFollowedId IN (";
+
+	private static final String _SQL_SELECT_PROJECTFOLLOWED_WHERE =
+		"SELECT projectFollowed FROM ProjectFollowed projectFollowed WHERE ";
+
+	private static final String _SQL_COUNT_PROJECTFOLLOWED =
+		"SELECT COUNT(projectFollowed) FROM ProjectFollowed projectFollowed";
+
+	private static final String _SQL_COUNT_PROJECTFOLLOWED_WHERE =
+		"SELECT COUNT(projectFollowed) FROM ProjectFollowed projectFollowed WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "projectFollowed.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ProjectFollowed exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ProjectFollowed exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(ProjectFollowedPersistenceImpl.class);
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No ProjectFollowed exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No ProjectFollowed exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProjectFollowedPersistenceImpl.class);
+
 }

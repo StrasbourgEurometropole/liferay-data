@@ -26,20 +26,22 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class BudgetSupportServiceWrapper implements BudgetSupportService,
-	ServiceWrapper<BudgetSupportService> {
+public class BudgetSupportServiceWrapper
+	implements BudgetSupportService, ServiceWrapper<BudgetSupportService> {
+
 	public BudgetSupportServiceWrapper(
 		BudgetSupportService budgetSupportService) {
+
 		_budgetSupportService = budgetSupportService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _budgetSupportService.getOSGiServiceIdentifier();
 	}
 
@@ -54,4 +56,5 @@ public class BudgetSupportServiceWrapper implements BudgetSupportService,
 	}
 
 	private BudgetSupportService _budgetSupportService;
+
 }

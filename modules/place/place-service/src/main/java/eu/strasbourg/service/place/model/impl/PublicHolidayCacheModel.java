@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.PublicHoliday;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing PublicHoliday in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see PublicHoliday
  * @generated
  */
 @ProviderType
-public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
-	Externalizable {
+public class PublicHolidayCacheModel
+	implements CacheModel<PublicHoliday>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
 			return false;
 		}
 
-		PublicHolidayCacheModel publicHolidayCacheModel = (PublicHolidayCacheModel)obj;
+		PublicHolidayCacheModel publicHolidayCacheModel =
+			(PublicHolidayCacheModel)obj;
 
 		if (publicHolidayId == publicHolidayCacheModel.publicHolidayId) {
 			return true;
@@ -88,7 +88,7 @@ public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
 		PublicHolidayImpl publicHolidayImpl = new PublicHolidayImpl();
 
 		if (uuid == null) {
-			publicHolidayImpl.setUuid(StringPool.BLANK);
+			publicHolidayImpl.setUuid("");
 		}
 		else {
 			publicHolidayImpl.setUuid(uuid);
@@ -97,7 +97,7 @@ public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
 		publicHolidayImpl.setPublicHolidayId(publicHolidayId);
 
 		if (name == null) {
-			publicHolidayImpl.setName(StringPool.BLANK);
+			publicHolidayImpl.setName("");
 		}
 		else {
 			publicHolidayImpl.setName(name);
@@ -129,10 +129,9 @@ public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -141,7 +140,7 @@ public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
 		objectOutput.writeLong(publicHolidayId);
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
@@ -157,4 +156,5 @@ public class PublicHolidayCacheModel implements CacheModel<PublicHoliday>,
 	public String name;
 	public long date;
 	public boolean recurrent;
+
 }

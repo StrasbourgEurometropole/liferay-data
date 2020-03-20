@@ -16,38 +16,37 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for InitiativeHelp. This utility wraps
- * {@link eu.strasbourg.service.project.service.impl.InitiativeHelpServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.project.service.impl.InitiativeHelpServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Cedric Henry
  * @see InitiativeHelpService
- * @see eu.strasbourg.service.project.service.base.InitiativeHelpServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.InitiativeHelpServiceImpl
  * @generated
  */
 @ProviderType
 public class InitiativeHelpServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.InitiativeHelpServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.InitiativeHelpServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,22 @@ public class InitiativeHelpServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<InitiativeHelpService, InitiativeHelpService> _serviceTracker =
-		ServiceTrackerFactory.open(InitiativeHelpService.class);
+	private static ServiceTracker<InitiativeHelpService, InitiativeHelpService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(InitiativeHelpService.class);
+
+		ServiceTracker<InitiativeHelpService, InitiativeHelpService>
+			serviceTracker =
+				new ServiceTracker
+					<InitiativeHelpService, InitiativeHelpService>(
+						bundle.getBundleContext(), InitiativeHelpService.class,
+						null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

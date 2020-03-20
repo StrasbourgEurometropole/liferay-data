@@ -18,6 +18,7 @@ public class VideoAssetRenderer extends BaseJSPAssetRenderer<Video> {
 	
 	public VideoAssetRenderer(Video entry) {
 		_entry = entry;
+		_entry.getModelClassName();
 	}
 	
 	@Override
@@ -65,6 +66,8 @@ public class VideoAssetRenderer extends BaseJSPAssetRenderer<Video> {
 	public String getTitle(Locale locale) {
 		return _entry.getTitle(locale);
 	}
+
+
 	
 	@Override
 	public String getJspPath(HttpServletRequest request, String template) {
@@ -91,5 +94,5 @@ public class VideoAssetRenderer extends BaseJSPAssetRenderer<Video> {
 	public Video getVideo() {
 		return this._entry;
 	}
-	
+
 }

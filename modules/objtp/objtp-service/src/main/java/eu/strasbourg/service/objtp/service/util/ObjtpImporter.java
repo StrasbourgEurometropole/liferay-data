@@ -1,9 +1,9 @@
 package eu.strasbourg.service.objtp.service.util;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,9 +75,6 @@ public class ObjtpImporter {
 
 	/**
 	 * Lance l'import des catégories d'objet
-	 * @throws MalformedURLException 
-	 * @throws IOException 
-	 * @throws JSONException 
 	 */
 	@Transactional(isolation = Isolation.DEFAULT, rollbackFor = {PortalException.class, SystemException.class,IOException.class,JSONException.class})
 	public ImportReportObjtp doObjectCategoriesImport(ImportReportObjtp report) throws JSONException, IOException {
@@ -167,10 +164,6 @@ public class ObjtpImporter {
 	
 	/**
 	 * Lance l'import des objets trouvés
-	 * @throws MalformedURLException 
-	 * @throws IOException 
-	 * @throws PortalException 
-	 * @throws ParseException 
 	 */
 	@Transactional(isolation = Isolation.DEFAULT, rollbackFor = {PortalException.class, SystemException.class,IOException.class,JSONException.class})
 	public ImportReportObjtp doFoundObjectsImport(ImportReportObjtp report) throws PortalException, IOException, ParseException {
@@ -251,7 +244,7 @@ public class ObjtpImporter {
 		String depotDate = objectJSON.getString("date_depot");
 		if (Validator.isNull(depotDate)) {
 			reportLine.error(LanguageUtil.get(bundle, "found-object-date-field-missing"));
-		}	
+		}
 		String codeCategory = objectJSON.getString("code_categorie");
 		if (Validator.isNull(codeCategory)) {
 			reportLine.error(LanguageUtil.get(bundle, "found-object-code-field-missing"));
@@ -313,7 +306,7 @@ public class ObjtpImporter {
 				String imageBase64 = image.getString("image");
 				
 				// On convertit l'image base64 en série de Bytes
-				byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(imageBase64);
+				byte[] imageBytes = Base64.getDecoder().decode(imageBase64);
 				
 				// Récupère les différents ID nécessaires aux manipulations de dossiers
 				Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");

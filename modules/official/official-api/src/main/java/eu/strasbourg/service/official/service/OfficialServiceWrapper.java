@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class OfficialServiceWrapper implements OfficialService,
-	ServiceWrapper<OfficialService> {
+public class OfficialServiceWrapper
+	implements OfficialService, ServiceWrapper<OfficialService> {
+
 	public OfficialServiceWrapper(OfficialService officialService) {
 		_officialService = officialService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _officialService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class OfficialServiceWrapper implements OfficialService,
 	}
 
 	private OfficialService _officialService;
+
 }

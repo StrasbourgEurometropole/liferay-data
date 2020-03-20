@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see SearchLogModel
- * @see eu.strasbourg.service.search.log.model.impl.SearchLogImpl
- * @see eu.strasbourg.service.search.log.model.impl.SearchLogModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.search.log.model.impl.SearchLogImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.search.log.model.impl.SearchLogImpl"
+)
 @ProviderType
-public interface SearchLog extends SearchLogModel, PersistedModel {
+public interface SearchLog extends PersistedModel, SearchLogModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.search.log.model.impl.SearchLogImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.search.log.model.impl.SearchLogImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<SearchLog, Long> SEARCH_LOG_ID_ACCESSOR = new Accessor<SearchLog, Long>() {
+	public static final Accessor<SearchLog, Long> SEARCH_LOG_ID_ACCESSOR =
+		new Accessor<SearchLog, Long>() {
+
 			@Override
 			public Long get(SearchLog searchLog) {
 				return searchLog.getSearchLogId();
@@ -52,5 +55,7 @@ public interface SearchLog extends SearchLogModel, PersistedModel {
 			public Class<SearchLog> getTypeClass() {
 				return SearchLog.class;
 			}
+
 		};
+
 }

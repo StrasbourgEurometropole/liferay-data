@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing BudgetParticipatif in entity cache.
  *
  * @author Cedric Henry
- * @see BudgetParticipatif
  * @generated
  */
 @ProviderType
-public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipatif>,
-	Externalizable {
+public class BudgetParticipatifCacheModel
+	implements CacheModel<BudgetParticipatif>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			return false;
 		}
 
-		BudgetParticipatifCacheModel budgetParticipatifCacheModel = (BudgetParticipatifCacheModel)obj;
+		BudgetParticipatifCacheModel budgetParticipatifCacheModel =
+			(BudgetParticipatifCacheModel)obj;
 
-		if (budgetParticipatifId == budgetParticipatifCacheModel.budgetParticipatifId) {
+		if (budgetParticipatifId ==
+				budgetParticipatifCacheModel.budgetParticipatifId) {
+
 			return true;
 		}
 
@@ -153,10 +155,11 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 
 	@Override
 	public BudgetParticipatif toEntityModel() {
-		BudgetParticipatifImpl budgetParticipatifImpl = new BudgetParticipatifImpl();
+		BudgetParticipatifImpl budgetParticipatifImpl =
+			new BudgetParticipatifImpl();
 
 		if (uuid == null) {
-			budgetParticipatifImpl.setUuid(StringPool.BLANK);
+			budgetParticipatifImpl.setUuid("");
 		}
 		else {
 			budgetParticipatifImpl.setUuid(uuid);
@@ -168,7 +171,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		budgetParticipatifImpl.setUserId(userId);
 
 		if (userName == null) {
-			budgetParticipatifImpl.setUserName(StringPool.BLANK);
+			budgetParticipatifImpl.setUserName("");
 		}
 		else {
 			budgetParticipatifImpl.setUserName(userName);
@@ -192,7 +195,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		budgetParticipatifImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			budgetParticipatifImpl.setStatusByUserName(StringPool.BLANK);
+			budgetParticipatifImpl.setStatusByUserName("");
 		}
 		else {
 			budgetParticipatifImpl.setStatusByUserName(statusByUserName);
@@ -206,70 +209,70 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		}
 
 		if (title == null) {
-			budgetParticipatifImpl.setTitle(StringPool.BLANK);
+			budgetParticipatifImpl.setTitle("");
 		}
 		else {
 			budgetParticipatifImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			budgetParticipatifImpl.setDescription(StringPool.BLANK);
+			budgetParticipatifImpl.setDescription("");
 		}
 		else {
 			budgetParticipatifImpl.setDescription(description);
 		}
 
 		if (summary == null) {
-			budgetParticipatifImpl.setSummary(StringPool.BLANK);
+			budgetParticipatifImpl.setSummary("");
 		}
 		else {
 			budgetParticipatifImpl.setSummary(summary);
 		}
 
 		if (budget == null) {
-			budgetParticipatifImpl.setBudget(StringPool.BLANK);
+			budgetParticipatifImpl.setBudget("");
 		}
 		else {
 			budgetParticipatifImpl.setBudget(budget);
 		}
 
 		if (motif == null) {
-			budgetParticipatifImpl.setMotif(StringPool.BLANK);
+			budgetParticipatifImpl.setMotif("");
 		}
 		else {
 			budgetParticipatifImpl.setMotif(motif);
 		}
 
 		if (placeTextArea == null) {
-			budgetParticipatifImpl.setPlaceTextArea(StringPool.BLANK);
+			budgetParticipatifImpl.setPlaceTextArea("");
 		}
 		else {
 			budgetParticipatifImpl.setPlaceTextArea(placeTextArea);
 		}
 
 		if (inTheNameOf == null) {
-			budgetParticipatifImpl.setInTheNameOf(StringPool.BLANK);
+			budgetParticipatifImpl.setInTheNameOf("");
 		}
 		else {
 			budgetParticipatifImpl.setInTheNameOf(inTheNameOf);
 		}
 
 		if (citoyenLastname == null) {
-			budgetParticipatifImpl.setCitoyenLastname(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenLastname("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenLastname(citoyenLastname);
 		}
 
 		if (citoyenFirstname == null) {
-			budgetParticipatifImpl.setCitoyenFirstname(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenFirstname("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenFirstname(citoyenFirstname);
 		}
 
 		if (citoyenAdresse == null) {
-			budgetParticipatifImpl.setCitoyenAdresse(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenAdresse("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenAdresse(citoyenAdresse);
@@ -278,28 +281,28 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		budgetParticipatifImpl.setCitoyenPostalCode(citoyenPostalCode);
 
 		if (citoyenCity == null) {
-			budgetParticipatifImpl.setCitoyenCity(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenCity("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenCity(citoyenCity);
 		}
 
 		if (citoyenPhone == null) {
-			budgetParticipatifImpl.setCitoyenPhone(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenPhone("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenPhone(citoyenPhone);
 		}
 
 		if (citoyenMobile == null) {
-			budgetParticipatifImpl.setCitoyenMobile(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenMobile("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenMobile(citoyenMobile);
 		}
 
 		if (citoyenEmail == null) {
-			budgetParticipatifImpl.setCitoyenEmail(StringPool.BLANK);
+			budgetParticipatifImpl.setCitoyenEmail("");
 		}
 		else {
 			budgetParticipatifImpl.setCitoyenEmail(citoyenEmail);
@@ -309,13 +312,14 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 			budgetParticipatifImpl.setCitoyenBirthday(null);
 		}
 		else {
-			budgetParticipatifImpl.setCitoyenBirthday(new Date(citoyenBirthday));
+			budgetParticipatifImpl.setCitoyenBirthday(
+				new Date(citoyenBirthday));
 		}
 
 		budgetParticipatifImpl.setHasCopyright(hasCopyright);
 
 		if (videoUrl == null) {
-			budgetParticipatifImpl.setVideoUrl(StringPool.BLANK);
+			budgetParticipatifImpl.setVideoUrl("");
 		}
 		else {
 			budgetParticipatifImpl.setVideoUrl(videoUrl);
@@ -326,14 +330,14 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		budgetParticipatifImpl.setIsCrush(isCrush);
 
 		if (crushComment == null) {
-			budgetParticipatifImpl.setCrushComment(StringPool.BLANK);
+			budgetParticipatifImpl.setCrushComment("");
 		}
 		else {
 			budgetParticipatifImpl.setCrushComment(crushComment);
 		}
 
 		if (publikId == null) {
-			budgetParticipatifImpl.setPublikId(StringPool.BLANK);
+			budgetParticipatifImpl.setPublikId("");
 		}
 		else {
 			budgetParticipatifImpl.setPublikId(publikId);
@@ -342,7 +346,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		budgetParticipatifImpl.setImageId(imageId);
 
 		if (filesIds == null) {
-			budgetParticipatifImpl.setFilesIds(StringPool.BLANK);
+			budgetParticipatifImpl.setFilesIds("");
 		}
 		else {
 			budgetParticipatifImpl.setFilesIds(filesIds);
@@ -414,10 +418,9 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -432,7 +435,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -446,7 +449,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -455,70 +458,70 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (summary == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(summary);
 		}
 
 		if (budget == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(budget);
 		}
 
 		if (motif == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(motif);
 		}
 
 		if (placeTextArea == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeTextArea);
 		}
 
 		if (inTheNameOf == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(inTheNameOf);
 		}
 
 		if (citoyenLastname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenLastname);
 		}
 
 		if (citoyenFirstname == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenFirstname);
 		}
 
 		if (citoyenAdresse == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenAdresse);
@@ -527,28 +530,28 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeLong(citoyenPostalCode);
 
 		if (citoyenCity == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenCity);
 		}
 
 		if (citoyenPhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenPhone);
 		}
 
 		if (citoyenMobile == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenMobile);
 		}
 
 		if (citoyenEmail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(citoyenEmail);
@@ -559,7 +562,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeBoolean(hasCopyright);
 
 		if (videoUrl == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videoUrl);
@@ -572,14 +575,14 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeBoolean(isCrush);
 
 		if (crushComment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(crushComment);
 		}
 
 		if (publikId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikId);
@@ -588,7 +591,7 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 		objectOutput.writeLong(imageId);
 
 		if (filesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(filesIds);
@@ -638,4 +641,5 @@ public class BudgetParticipatifCacheModel implements CacheModel<BudgetParticipat
 	public String filesIds;
 	public long budgetPhaseId;
 	public long parentId;
+
 }

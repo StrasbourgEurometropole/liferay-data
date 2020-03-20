@@ -25,72 +25,81 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityCourseScheduleModel
- * @see eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleImpl
- * @see eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleImpl"
+)
 @ProviderType
-public interface ActivityCourseSchedule extends ActivityCourseScheduleModel,
-	PersistedModel {
+public interface ActivityCourseSchedule
+	extends ActivityCourseScheduleModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ActivityCourseSchedule, Long> ACTIVITY_COURSE_SCHEDULE_ID_ACCESSOR =
-		new Accessor<ActivityCourseSchedule, Long>() {
-			@Override
-			public Long get(ActivityCourseSchedule activityCourseSchedule) {
-				return activityCourseSchedule.getActivityCourseScheduleId();
-			}
+	public static final Accessor<ActivityCourseSchedule, Long>
+		ACTIVITY_COURSE_SCHEDULE_ID_ACCESSOR =
+			new Accessor<ActivityCourseSchedule, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(ActivityCourseSchedule activityCourseSchedule) {
+					return activityCourseSchedule.getActivityCourseScheduleId();
+				}
 
-			@Override
-			public Class<ActivityCourseSchedule> getTypeClass() {
-				return ActivityCourseSchedule.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
 
-	/**
-	* Retourne le lieu de l'horaire
-	*/
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace getActivityCoursePlace();
+				@Override
+				public Class<ActivityCourseSchedule> getTypeClass() {
+					return ActivityCourseSchedule.class;
+				}
+
+			};
 
 	/**
-	* Retourne la version live de cette entité
-	*/
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule getLiveVersion();
+	 * Retourne le lieu de l'horaire
+	 */
+	public eu.strasbourg.service.activity.model.ActivityCoursePlace
+		getActivityCoursePlace();
 
 	/**
-	* Retourne l'AssetEntry rattaché à cette entité
-	*/
+	 * Retourne la version live de cette entité
+	 */
+	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
+		getLiveVersion();
+
+	/**
+	 * Retourne l'AssetEntry rattaché à cette entité
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cette entité (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cette entité (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
-	* jour, false sinon
-	*/
+	 * Renvoie un tableau de 7 booléens valant true si l'horaire concerne le
+	 * jour, false sinon
+	 */
 	public boolean[] getWeekDays();
 
 	/**
-	* Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
-	* 0 et 6)
-	*/
+	 * Renvoie true si l'horaire concerne le jour passé en paramètre (jour entre
+	 * 0 et 6)
+	 */
 	public boolean hasScheduleOnDay(int day);
 
 	/**
-	* Retourne les périodes du schedule
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getPeriods();
+	 * Retourne les périodes du schedule
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getPeriods();
+
 }

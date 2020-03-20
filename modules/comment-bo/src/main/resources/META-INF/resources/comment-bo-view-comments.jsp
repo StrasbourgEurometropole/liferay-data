@@ -85,7 +85,7 @@
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
 														 href="${editCommentURL}" name="comment" truncate="true" orderable="true"
-														 value="${comment.comment}" />
+														 value="${comment.text}" />
 				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${comment.modifiedDate}"

@@ -32,12 +32,13 @@ import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class SearchLogBaseImpl extends SearchLogModelImpl
-	implements SearchLog {
+public abstract class SearchLogBaseImpl
+	extends SearchLogModelImpl implements SearchLog {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a search log model instance should use the {@link SearchLog} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a search log model instance should use the <code>SearchLog</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class SearchLogBaseImpl extends SearchLogModelImpl
 			SearchLogLocalServiceUtil.updateSearchLog(this);
 		}
 	}
+
 }

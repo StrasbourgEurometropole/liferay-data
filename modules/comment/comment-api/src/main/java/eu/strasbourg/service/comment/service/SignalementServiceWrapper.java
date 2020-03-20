@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class SignalementServiceWrapper implements SignalementService,
-	ServiceWrapper<SignalementService> {
+public class SignalementServiceWrapper
+	implements SignalementService, ServiceWrapper<SignalementService> {
+
 	public SignalementServiceWrapper(SignalementService signalementService) {
 		_signalementService = signalementService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _signalementService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class SignalementServiceWrapper implements SignalementService,
 	}
 
 	private SignalementService _signalementService;
+
 }

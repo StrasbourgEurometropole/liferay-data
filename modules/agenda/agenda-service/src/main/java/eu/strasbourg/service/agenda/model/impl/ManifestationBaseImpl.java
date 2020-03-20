@@ -32,12 +32,13 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ManifestationBaseImpl extends ManifestationModelImpl
-	implements Manifestation {
+public abstract class ManifestationBaseImpl
+	extends ManifestationModelImpl implements Manifestation {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a manifestation model instance should use the {@link Manifestation} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a manifestation model instance should use the <code>Manifestation</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ManifestationBaseImpl extends ManifestationModelImpl
 			ManifestationLocalServiceUtil.updateManifestation(this);
 		}
 	}
+
 }

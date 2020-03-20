@@ -36,10 +36,9 @@ import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -54,6 +53,7 @@ import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
@@ -75,51 +75,32 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see EditionPersistence
- * @see eu.strasbourg.service.edition.service.persistence.EditionUtil
  * @generated
  */
 @ProviderType
-public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
-	implements EditionPersistence {
+public class EditionPersistenceImpl
+	extends BasePersistenceImpl<Edition> implements EditionPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link EditionUtil} to access the edition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>EditionUtil</code> to access the edition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = EditionImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			EditionModelImpl.UUID_COLUMN_BITMASK |
-			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		EditionImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the editions where uuid = &#63;.
@@ -136,7 +117,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns a range of all the editions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -153,7 +134,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -163,8 +144,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByUuid(String uuid, int start, int end,
+	public List<Edition> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Edition> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -172,7 +155,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -183,32 +166,38 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByUuid(String uuid, int start, int end,
-		OrderByComparator<Edition> orderByComparator, boolean retrieveFromCache) {
+	public List<Edition> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Edition> orderByComparator,
+		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Edition edition : list) {
-					if (!Objects.equals(uuid, edition.getUuid())) {
+					if (!uuid.equals(edition.getUuid())) {
 						list = null;
 
 						break;
@@ -221,8 +210,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -232,10 +221,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -245,11 +231,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EditionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -269,16 +254,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				}
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -307,9 +292,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByUuid_First(String uuid,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByUuid_First(
+			String uuid, OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByUuid_First(uuid, orderByComparator);
 
 		if (edition != null) {
@@ -323,7 +309,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -336,8 +322,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the first matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByUuid_First(String uuid,
-		OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByUuid_First(
+		String uuid, OrderByComparator<Edition> orderByComparator) {
+
 		List<Edition> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -356,9 +343,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByUuid_Last(String uuid,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByUuid_Last(
+			String uuid, OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (edition != null) {
@@ -372,7 +360,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -385,16 +373,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the last matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByUuid_Last(String uuid,
-		OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByUuid_Last(
+		String uuid, OrderByComparator<Edition> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Edition> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<Edition> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -413,9 +402,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a edition with the primary key could not be found
 	 */
 	@Override
-	public Edition[] findByUuid_PrevAndNext(long editionId, String uuid,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition[] findByUuid_PrevAndNext(
+			long editionId, String uuid,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Edition edition = findByPrimaryKey(editionId);
 
 		Session session = null;
@@ -425,13 +418,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			Edition[] array = new EditionImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, edition, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, edition, uuid, orderByComparator, true);
 
 			array[1] = edition;
 
-			array[2] = getByUuid_PrevAndNext(session, edition, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, edition, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -443,14 +436,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 	}
 
-	protected Edition getByUuid_PrevAndNext(Session session, Edition edition,
-		String uuid, OrderByComparator<Edition> orderByComparator,
-		boolean previous) {
+	protected Edition getByUuid_PrevAndNext(
+		Session session, Edition edition, String uuid,
+		OrderByComparator<Edition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -461,10 +455,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -474,7 +465,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -546,10 +538,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(edition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(edition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -570,8 +562,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Edition edition : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Edition edition :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(edition);
 		}
 	}
@@ -584,9 +577,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -597,10 +592,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -641,22 +633,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "edition.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "edition.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(edition.uuid IS NULL OR edition.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			EditionModelImpl.UUID_COLUMN_BITMASK |
-			EditionModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(edition.uuid IS NULL OR edition.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the edition where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchEditionException} if it could not be found.
+	 * Returns the edition where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchEditionException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -666,6 +652,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public Edition findByUUID_G(String uuid, long groupId)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByUUID_G(uuid, groupId);
 
 		if (edition == null) {
@@ -679,7 +666,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -712,22 +699,26 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public Edition fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof Edition) {
 			Edition edition = (Edition)result;
 
 			if (!Objects.equals(uuid, edition.getUuid()) ||
-					(groupId != edition.getGroupId())) {
+				(groupId != edition.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -739,10 +730,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -773,8 +761,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				List<Edition> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					Edition edition = list.get(0);
@@ -782,17 +770,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 					result = edition;
 
 					cacheResult(edition);
-
-					if ((edition.getUuid() == null) ||
-							!edition.getUuid().equals(uuid) ||
-							(edition.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, edition);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -819,6 +800,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public Edition removeByUUID_G(String uuid, long groupId)
 		throws NoSuchEditionException {
+
 		Edition edition = findByUUID_G(uuid, groupId);
 
 		return remove(edition);
@@ -833,9 +815,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -846,10 +830,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -894,31 +875,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "edition.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "edition.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(edition.uuid IS NULL OR edition.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "edition.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			EditionModelImpl.UUID_COLUMN_BITMASK |
-			EditionModelImpl.COMPANYID_COLUMN_BITMASK |
-			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"edition.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(edition.uuid IS NULL OR edition.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"edition.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the editions where uuid = &#63; and companyId = &#63;.
@@ -929,15 +897,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public List<Edition> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the editions where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -947,8 +915,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the range of matching editions
 	 */
 	@Override
-	public List<Edition> findByUuid_C(String uuid, long companyId, int start,
-		int end) {
+	public List<Edition> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -956,7 +925,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -967,16 +936,19 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Edition> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	public List<Edition> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Edition> orderByComparator) {
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the editions where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -988,38 +960,42 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByUuid_C(String uuid, long companyId, int start,
-		int end, OrderByComparator<Edition> orderByComparator,
+	public List<Edition> findByUuid_C(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Edition> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Edition edition : list) {
-					if (!Objects.equals(uuid, edition.getUuid()) ||
-							(companyId != edition.getCompanyId())) {
+					if (!uuid.equals(edition.getUuid()) ||
+						(companyId != edition.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1032,8 +1008,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1043,10 +1019,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1058,11 +1031,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EditionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1084,16 +1056,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1123,10 +1095,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
-		Edition edition = fetchByUuid_C_First(uuid, companyId, orderByComparator);
+
+		Edition edition = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (edition != null) {
 			return edition;
@@ -1142,7 +1117,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -1156,10 +1131,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the first matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByUuid_C_First(String uuid, long companyId,
+	public Edition fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<Edition> orderByComparator) {
-		List<Edition> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<Edition> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1178,10 +1155,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
-		Edition edition = fetchByUuid_C_Last(uuid, companyId, orderByComparator);
+
+		Edition edition = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (edition != null) {
 			return edition;
@@ -1197,7 +1177,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -1211,16 +1191,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the last matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByUuid_C_Last(String uuid, long companyId,
+	public Edition fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<Edition> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Edition> list = findByUuid_C(uuid, companyId, count - 1, count,
-				orderByComparator);
+		List<Edition> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1240,9 +1222,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a edition with the primary key could not be found
 	 */
 	@Override
-	public Edition[] findByUuid_C_PrevAndNext(long editionId, String uuid,
-		long companyId, OrderByComparator<Edition> orderByComparator)
+	public Edition[] findByUuid_C_PrevAndNext(
+			long editionId, String uuid, long companyId,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Edition edition = findByPrimaryKey(editionId);
 
 		Session session = null;
@@ -1252,13 +1238,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			Edition[] array = new EditionImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, edition, uuid,
-					companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, edition, uuid, companyId, orderByComparator, true);
 
 			array[1] = edition;
 
-			array[2] = getByUuid_C_PrevAndNext(session, edition, uuid,
-					companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, edition, uuid, companyId, orderByComparator, false);
 
 			return array;
 		}
@@ -1270,14 +1256,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 	}
 
-	protected Edition getByUuid_C_PrevAndNext(Session session, Edition edition,
-		String uuid, long companyId,
+	protected Edition getByUuid_C_PrevAndNext(
+		Session session, Edition edition, String uuid, long companyId,
 		OrderByComparator<Edition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1288,10 +1275,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1303,7 +1287,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1377,10 +1362,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(edition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(edition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1402,8 +1387,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Edition edition : findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Edition edition :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(edition);
 		}
 	}
@@ -1417,9 +1405,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1430,10 +1420,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1478,29 +1465,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "edition.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "edition.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(edition.uuid IS NULL OR edition.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "edition.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLE = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTitle",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTitle",
-			new String[] { String.class.getName() },
-			EditionModelImpl.TITLE_COLUMN_BITMASK |
-			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_TITLE = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTitle",
-			new String[] { String.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"edition.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(edition.uuid IS NULL OR edition.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"edition.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByTitle;
+	private FinderPath _finderPathWithoutPaginationFindByTitle;
+	private FinderPath _finderPathCountByTitle;
 
 	/**
 	 * Returns all the editions where title = &#63;.
@@ -1517,7 +1493,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns a range of all the editions where title = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param title the title
@@ -1534,7 +1510,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where title = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param title the title
@@ -1544,8 +1520,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByTitle(String title, int start, int end,
+	public List<Edition> findByTitle(
+		String title, int start, int end,
 		OrderByComparator<Edition> orderByComparator) {
+
 		return findByTitle(title, start, end, orderByComparator, true);
 	}
 
@@ -1553,7 +1531,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where title = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param title the title
@@ -1564,32 +1542,38 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByTitle(String title, int start, int end,
-		OrderByComparator<Edition> orderByComparator, boolean retrieveFromCache) {
+	public List<Edition> findByTitle(
+		String title, int start, int end,
+		OrderByComparator<Edition> orderByComparator,
+		boolean retrieveFromCache) {
+
+		title = Objects.toString(title, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE;
-			finderArgs = new Object[] { title };
+			finderPath = _finderPathWithoutPaginationFindByTitle;
+			finderArgs = new Object[] {title};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TITLE;
-			finderArgs = new Object[] { title, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByTitle;
+			finderArgs = new Object[] {title, start, end, orderByComparator};
 		}
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Edition edition : list) {
-					if (!Objects.equals(title, edition.getTitle())) {
+					if (!title.equals(edition.getTitle())) {
 						list = null;
 
 						break;
@@ -1602,8 +1586,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1613,10 +1597,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindTitle = false;
 
-			if (title == null) {
-				query.append(_FINDER_COLUMN_TITLE_TITLE_1);
-			}
-			else if (title.equals(StringPool.BLANK)) {
+			if (title.isEmpty()) {
 				query.append(_FINDER_COLUMN_TITLE_TITLE_3);
 			}
 			else {
@@ -1626,11 +1607,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EditionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1650,16 +1630,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				}
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1688,9 +1668,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByTitle_First(String title,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByTitle_First(
+			String title, OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByTitle_First(title, orderByComparator);
 
 		if (edition != null) {
@@ -1704,7 +1685,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append("title=");
 		msg.append(title);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -1717,8 +1698,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the first matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByTitle_First(String title,
-		OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByTitle_First(
+		String title, OrderByComparator<Edition> orderByComparator) {
+
 		List<Edition> list = findByTitle(title, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1737,9 +1719,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByTitle_Last(String title,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByTitle_Last(
+			String title, OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByTitle_Last(title, orderByComparator);
 
 		if (edition != null) {
@@ -1753,7 +1736,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append("title=");
 		msg.append(title);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -1766,16 +1749,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the last matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByTitle_Last(String title,
-		OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByTitle_Last(
+		String title, OrderByComparator<Edition> orderByComparator) {
+
 		int count = countByTitle(title);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Edition> list = findByTitle(title, count - 1, count,
-				orderByComparator);
+		List<Edition> list = findByTitle(
+			title, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1794,9 +1778,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a edition with the primary key could not be found
 	 */
 	@Override
-	public Edition[] findByTitle_PrevAndNext(long editionId, String title,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition[] findByTitle_PrevAndNext(
+			long editionId, String title,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
+		title = Objects.toString(title, "");
+
 		Edition edition = findByPrimaryKey(editionId);
 
 		Session session = null;
@@ -1806,13 +1794,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			Edition[] array = new EditionImpl[3];
 
-			array[0] = getByTitle_PrevAndNext(session, edition, title,
-					orderByComparator, true);
+			array[0] = getByTitle_PrevAndNext(
+				session, edition, title, orderByComparator, true);
 
 			array[1] = edition;
 
-			array[2] = getByTitle_PrevAndNext(session, edition, title,
-					orderByComparator, false);
+			array[2] = getByTitle_PrevAndNext(
+				session, edition, title, orderByComparator, false);
 
 			return array;
 		}
@@ -1824,14 +1812,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 	}
 
-	protected Edition getByTitle_PrevAndNext(Session session, Edition edition,
-		String title, OrderByComparator<Edition> orderByComparator,
-		boolean previous) {
+	protected Edition getByTitle_PrevAndNext(
+		Session session, Edition edition, String title,
+		OrderByComparator<Edition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1842,10 +1831,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 		boolean bindTitle = false;
 
-		if (title == null) {
-			query.append(_FINDER_COLUMN_TITLE_TITLE_1);
-		}
-		else if (title.equals(StringPool.BLANK)) {
+		if (title.isEmpty()) {
 			query.append(_FINDER_COLUMN_TITLE_TITLE_3);
 		}
 		else {
@@ -1855,7 +1841,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1927,10 +1914,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(edition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(edition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1951,8 +1938,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeByTitle(String title) {
-		for (Edition edition : findByTitle(title, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Edition edition :
+				findByTitle(
+					title, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(edition);
 		}
 	}
@@ -1965,9 +1954,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countByTitle(String title) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_TITLE;
+		title = Objects.toString(title, "");
 
-		Object[] finderArgs = new Object[] { title };
+		FinderPath finderPath = _finderPathCountByTitle;
+
+		Object[] finderArgs = new Object[] {title};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1978,10 +1969,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindTitle = false;
 
-			if (title == null) {
-				query.append(_FINDER_COLUMN_TITLE_TITLE_1);
-			}
-			else if (title.equals(StringPool.BLANK)) {
+			if (title.isEmpty()) {
 				query.append(_FINDER_COLUMN_TITLE_TITLE_3);
 			}
 			else {
@@ -2022,29 +2010,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TITLE_TITLE_1 = "edition.title IS NULL";
-	private static final String _FINDER_COLUMN_TITLE_TITLE_2 = "edition.title = ?";
-	private static final String _FINDER_COLUMN_TITLE_TITLE_3 = "(edition.title IS NULL OR edition.title = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			EditionModelImpl.GROUPID_COLUMN_BITMASK |
-			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_TITLE_TITLE_2 =
+		"edition.title = ?";
+
+	private static final String _FINDER_COLUMN_TITLE_TITLE_3 =
+		"(edition.title IS NULL OR edition.title = '')";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the editions where groupId = &#63;.
@@ -2054,14 +2028,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public List<Edition> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the editions where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2078,7 +2053,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2088,8 +2063,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByGroupId(long groupId, int start, int end,
+	public List<Edition> findByGroupId(
+		long groupId, int start, int end,
 		OrderByComparator<Edition> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -2097,7 +2074,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2108,28 +2085,32 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByGroupId(long groupId, int start, int end,
-		OrderByComparator<Edition> orderByComparator, boolean retrieveFromCache) {
+	public List<Edition> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<Edition> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Edition edition : list) {
@@ -2146,8 +2127,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2158,11 +2139,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EditionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2180,16 +2160,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2218,9 +2198,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByGroupId_First(long groupId,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByGroupId_First(
+			long groupId, OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByGroupId_First(groupId, orderByComparator);
 
 		if (edition != null) {
@@ -2234,7 +2215,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -2247,8 +2228,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the first matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByGroupId_First(long groupId,
-		OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByGroupId_First(
+		long groupId, OrderByComparator<Edition> orderByComparator) {
+
 		List<Edition> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2267,9 +2249,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByGroupId_Last(long groupId,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByGroupId_Last(
+			long groupId, OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (edition != null) {
@@ -2283,7 +2266,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -2296,16 +2279,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the last matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByGroupId_Last(long groupId,
-		OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByGroupId_Last(
+		long groupId, OrderByComparator<Edition> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Edition> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<Edition> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2324,9 +2308,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a edition with the primary key could not be found
 	 */
 	@Override
-	public Edition[] findByGroupId_PrevAndNext(long editionId, long groupId,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition[] findByGroupId_PrevAndNext(
+			long editionId, long groupId,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = findByPrimaryKey(editionId);
 
 		Session session = null;
@@ -2336,13 +2322,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			Edition[] array = new EditionImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, edition, groupId,
-					orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, edition, groupId, orderByComparator, true);
 
 			array[1] = edition;
 
-			array[2] = getByGroupId_PrevAndNext(session, edition, groupId,
-					orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, edition, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -2354,14 +2340,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 	}
 
-	protected Edition getByGroupId_PrevAndNext(Session session,
-		Edition edition, long groupId,
+	protected Edition getByGroupId_PrevAndNext(
+		Session session, Edition edition, long groupId,
 		OrderByComparator<Edition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2373,7 +2360,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2443,10 +2431,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(edition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(edition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -2467,8 +2455,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (Edition edition : findByGroupId(groupId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Edition edition :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(edition);
 		}
 	}
@@ -2481,9 +2471,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2524,30 +2514,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "edition.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPIDANDTITLE =
-		new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndTitle",
-			new String[] {
-				Long.class.getName(), String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE =
-		new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupIdAndTitle",
-			new String[] { Long.class.getName(), String.class.getName() },
-			EditionModelImpl.GROUPID_COLUMN_BITMASK |
-			EditionModelImpl.TITLE_COLUMN_BITMASK |
-			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPIDANDTITLE = new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupIdAndTitle",
-			new String[] { Long.class.getName(), String.class.getName() });
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"edition.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupIdAndTitle;
+	private FinderPath _finderPathWithoutPaginationFindByGroupIdAndTitle;
+	private FinderPath _finderPathCountByGroupIdAndTitle;
 
 	/**
 	 * Returns all the editions where groupId = &#63; and title = &#63;.
@@ -2558,15 +2530,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public List<Edition> findByGroupIdAndTitle(long groupId, String title) {
-		return findByGroupIdAndTitle(groupId, title, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByGroupIdAndTitle(
+			groupId, title, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the editions where groupId = &#63; and title = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2576,8 +2548,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the range of matching editions
 	 */
 	@Override
-	public List<Edition> findByGroupIdAndTitle(long groupId, String title,
-		int start, int end) {
+	public List<Edition> findByGroupIdAndTitle(
+		long groupId, String title, int start, int end) {
+
 		return findByGroupIdAndTitle(groupId, title, start, end, null);
 	}
 
@@ -2585,7 +2558,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions where groupId = &#63; and title = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2596,17 +2569,19 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByGroupIdAndTitle(long groupId, String title,
-		int start, int end, OrderByComparator<Edition> orderByComparator) {
-		return findByGroupIdAndTitle(groupId, title, start, end,
-			orderByComparator, true);
+	public List<Edition> findByGroupIdAndTitle(
+		long groupId, String title, int start, int end,
+		OrderByComparator<Edition> orderByComparator) {
+
+		return findByGroupIdAndTitle(
+			groupId, title, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the editions where groupId = &#63; and title = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -2618,38 +2593,42 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByGroupIdAndTitle(long groupId, String title,
-		int start, int end, OrderByComparator<Edition> orderByComparator,
+	public List<Edition> findByGroupIdAndTitle(
+		long groupId, String title, int start, int end,
+		OrderByComparator<Edition> orderByComparator,
 		boolean retrieveFromCache) {
+
+		title = Objects.toString(title, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE;
-			finderArgs = new Object[] { groupId, title };
+			finderPath = _finderPathWithoutPaginationFindByGroupIdAndTitle;
+			finderArgs = new Object[] {groupId, title};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPIDANDTITLE;
+			finderPath = _finderPathWithPaginationFindByGroupIdAndTitle;
 			finderArgs = new Object[] {
-					groupId, title,
-					
-					start, end, orderByComparator
-				};
+				groupId, title, start, end, orderByComparator
+			};
 		}
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Edition edition : list) {
 					if ((groupId != edition.getGroupId()) ||
-							!Objects.equals(title, edition.getTitle())) {
+						!title.equals(edition.getTitle())) {
+
 						list = null;
 
 						break;
@@ -2662,8 +2641,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -2675,10 +2654,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindTitle = false;
 
-			if (title == null) {
-				query.append(_FINDER_COLUMN_GROUPIDANDTITLE_TITLE_1);
-			}
-			else if (title.equals(StringPool.BLANK)) {
+			if (title.isEmpty()) {
 				query.append(_FINDER_COLUMN_GROUPIDANDTITLE_TITLE_3);
 			}
 			else {
@@ -2688,11 +2664,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EditionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2714,16 +2689,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				}
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2753,11 +2728,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByGroupIdAndTitle_First(long groupId, String title,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByGroupIdAndTitle_First(
+			long groupId, String title,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
-		Edition edition = fetchByGroupIdAndTitle_First(groupId, title,
-				orderByComparator);
+
+		Edition edition = fetchByGroupIdAndTitle_First(
+			groupId, title, orderByComparator);
 
 		if (edition != null) {
 			return edition;
@@ -2773,7 +2750,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append(", title=");
 		msg.append(title);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -2787,10 +2764,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the first matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByGroupIdAndTitle_First(long groupId, String title,
+	public Edition fetchByGroupIdAndTitle_First(
+		long groupId, String title,
 		OrderByComparator<Edition> orderByComparator) {
-		List<Edition> list = findByGroupIdAndTitle(groupId, title, 0, 1,
-				orderByComparator);
+
+		List<Edition> list = findByGroupIdAndTitle(
+			groupId, title, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2809,11 +2788,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByGroupIdAndTitle_Last(long groupId, String title,
-		OrderByComparator<Edition> orderByComparator)
+	public Edition findByGroupIdAndTitle_Last(
+			long groupId, String title,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
-		Edition edition = fetchByGroupIdAndTitle_Last(groupId, title,
-				orderByComparator);
+
+		Edition edition = fetchByGroupIdAndTitle_Last(
+			groupId, title, orderByComparator);
 
 		if (edition != null) {
 			return edition;
@@ -2829,7 +2810,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append(", title=");
 		msg.append(title);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -2843,16 +2824,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the last matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByGroupIdAndTitle_Last(long groupId, String title,
+	public Edition fetchByGroupIdAndTitle_Last(
+		long groupId, String title,
 		OrderByComparator<Edition> orderByComparator) {
+
 		int count = countByGroupIdAndTitle(groupId, title);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Edition> list = findByGroupIdAndTitle(groupId, title, count - 1,
-				count, orderByComparator);
+		List<Edition> list = findByGroupIdAndTitle(
+			groupId, title, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2872,9 +2855,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a edition with the primary key could not be found
 	 */
 	@Override
-	public Edition[] findByGroupIdAndTitle_PrevAndNext(long editionId,
-		long groupId, String title, OrderByComparator<Edition> orderByComparator)
+	public Edition[] findByGroupIdAndTitle_PrevAndNext(
+			long editionId, long groupId, String title,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
+		title = Objects.toString(title, "");
+
 		Edition edition = findByPrimaryKey(editionId);
 
 		Session session = null;
@@ -2884,13 +2871,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			Edition[] array = new EditionImpl[3];
 
-			array[0] = getByGroupIdAndTitle_PrevAndNext(session, edition,
-					groupId, title, orderByComparator, true);
+			array[0] = getByGroupIdAndTitle_PrevAndNext(
+				session, edition, groupId, title, orderByComparator, true);
 
 			array[1] = edition;
 
-			array[2] = getByGroupIdAndTitle_PrevAndNext(session, edition,
-					groupId, title, orderByComparator, false);
+			array[2] = getByGroupIdAndTitle_PrevAndNext(
+				session, edition, groupId, title, orderByComparator, false);
 
 			return array;
 		}
@@ -2902,14 +2889,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 	}
 
-	protected Edition getByGroupIdAndTitle_PrevAndNext(Session session,
-		Edition edition, long groupId, String title,
+	protected Edition getByGroupIdAndTitle_PrevAndNext(
+		Session session, Edition edition, long groupId, String title,
 		OrderByComparator<Edition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2922,10 +2910,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 		boolean bindTitle = false;
 
-		if (title == null) {
-			query.append(_FINDER_COLUMN_GROUPIDANDTITLE_TITLE_1);
-		}
-		else if (title.equals(StringPool.BLANK)) {
+		if (title.isEmpty()) {
 			query.append(_FINDER_COLUMN_GROUPIDANDTITLE_TITLE_3);
 		}
 		else {
@@ -2935,7 +2920,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -3009,10 +2995,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(edition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(edition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -3034,8 +3020,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeByGroupIdAndTitle(long groupId, String title) {
-		for (Edition edition : findByGroupIdAndTitle(groupId, title,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (Edition edition :
+				findByGroupIdAndTitle(
+					groupId, title, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(edition);
 		}
 	}
@@ -3049,9 +3038,11 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countByGroupIdAndTitle(long groupId, String title) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPIDANDTITLE;
+		title = Objects.toString(title, "");
 
-		Object[] finderArgs = new Object[] { groupId, title };
+		FinderPath finderPath = _finderPathCountByGroupIdAndTitle;
+
+		Object[] finderArgs = new Object[] {groupId, title};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3064,10 +3055,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			boolean bindTitle = false;
 
-			if (title == null) {
-				query.append(_FINDER_COLUMN_GROUPIDANDTITLE_TITLE_1);
-			}
-			else if (title.equals(StringPool.BLANK)) {
+			if (title.isEmpty()) {
 				query.append(_FINDER_COLUMN_GROUPIDANDTITLE_TITLE_3);
 			}
 			else {
@@ -3110,27 +3098,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_GROUPID_2 = "edition.groupId = ? AND ";
-	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_TITLE_1 = "edition.title IS NULL";
-	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_TITLE_2 = "edition.title = ?";
-	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_TITLE_3 = "(edition.title IS NULL OR edition.title = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS =
-		new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublicationDateAndStatus",
-			new String[] {
-				Date.class.getName(), Integer.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS =
-		new FinderPath(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"countByPublicationDateAndStatus",
-			new String[] { Date.class.getName(), Integer.class.getName() });
+	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_GROUPID_2 =
+		"edition.groupId = ? AND ";
+
+	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_TITLE_2 =
+		"edition.title = ?";
+
+	private static final String _FINDER_COLUMN_GROUPIDANDTITLE_TITLE_3 =
+		"(edition.title IS NULL OR edition.title = '')";
+
+	private FinderPath _finderPathWithPaginationFindByPublicationDateAndStatus;
+	private FinderPath _finderPathWithPaginationCountByPublicationDateAndStatus;
 
 	/**
 	 * Returns all the editions where publicationDate &lt; &#63; and status = &#63;.
@@ -3140,17 +3118,19 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the matching editions
 	 */
 	@Override
-	public List<Edition> findByPublicationDateAndStatus(Date publicationDate,
-		int status) {
-		return findByPublicationDateAndStatus(publicationDate, status,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<Edition> findByPublicationDateAndStatus(
+		Date publicationDate, int status) {
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
 	}
 
 	/**
 	 * Returns a range of all the editions where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -3160,17 +3140,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the range of matching editions
 	 */
 	@Override
-	public List<Edition> findByPublicationDateAndStatus(Date publicationDate,
-		int status, int start, int end) {
-		return findByPublicationDateAndStatus(publicationDate, status, start,
-			end, null);
+	public List<Edition> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end) {
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, start, end, null);
 	}
 
 	/**
 	 * Returns an ordered range of all the editions where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -3181,18 +3162,19 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByPublicationDateAndStatus(Date publicationDate,
-		int status, int start, int end,
+	public List<Edition> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
 		OrderByComparator<Edition> orderByComparator) {
-		return findByPublicationDateAndStatus(publicationDate, status, start,
-			end, orderByComparator, true);
+
+		return findByPublicationDateAndStatus(
+			publicationDate, status, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the editions where publicationDate &lt; &#63; and status = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param publicationDate the publication date
@@ -3204,31 +3186,32 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of matching editions
 	 */
 	@Override
-	public List<Edition> findByPublicationDateAndStatus(Date publicationDate,
-		int status, int start, int end,
-		OrderByComparator<Edition> orderByComparator, boolean retrieveFromCache) {
+	public List<Edition> findByPublicationDateAndStatus(
+		Date publicationDate, int status, int start, int end,
+		OrderByComparator<Edition> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PUBLICATIONDATEANDSTATUS;
+		finderPath = _finderPathWithPaginationFindByPublicationDateAndStatus;
 		finderArgs = new Object[] {
-				publicationDate, status,
-				
-				start, end, orderByComparator
-			};
+			_getTime(publicationDate), status, start, end, orderByComparator
+		};
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Edition edition : list) {
-					if ((publicationDate.getTime() <= edition.getPublicationDate()
-																 .getTime()) ||
-							(status != edition.getStatus())) {
+					if ((publicationDate.getTime() <=
+							edition.getPublicationDate().getTime()) ||
+						(status != edition.getStatus())) {
+
 						list = null;
 
 						break;
@@ -3241,8 +3224,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -3253,22 +3236,23 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			boolean bindPublicationDate = false;
 
 			if (publicationDate == null) {
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 			}
 			else {
 				bindPublicationDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EditionModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -3290,16 +3274,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				qPos.add(status);
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -3329,11 +3313,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByPublicationDateAndStatus_First(Date publicationDate,
-		int status, OrderByComparator<Edition> orderByComparator)
+	public Edition findByPublicationDateAndStatus_First(
+			Date publicationDate, int status,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
-		Edition edition = fetchByPublicationDateAndStatus_First(publicationDate,
-				status, orderByComparator);
+
+		Edition edition = fetchByPublicationDateAndStatus_First(
+			publicationDate, status, orderByComparator);
 
 		if (edition != null) {
 			return edition;
@@ -3349,7 +3335,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -3363,10 +3349,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the first matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByPublicationDateAndStatus_First(Date publicationDate,
-		int status, OrderByComparator<Edition> orderByComparator) {
-		List<Edition> list = findByPublicationDateAndStatus(publicationDate,
-				status, 0, 1, orderByComparator);
+	public Edition fetchByPublicationDateAndStatus_First(
+		Date publicationDate, int status,
+		OrderByComparator<Edition> orderByComparator) {
+
+		List<Edition> list = findByPublicationDateAndStatus(
+			publicationDate, status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3385,11 +3373,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @throws NoSuchEditionException if a matching edition could not be found
 	 */
 	@Override
-	public Edition findByPublicationDateAndStatus_Last(Date publicationDate,
-		int status, OrderByComparator<Edition> orderByComparator)
+	public Edition findByPublicationDateAndStatus_Last(
+			Date publicationDate, int status,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
-		Edition edition = fetchByPublicationDateAndStatus_Last(publicationDate,
-				status, orderByComparator);
+
+		Edition edition = fetchByPublicationDateAndStatus_Last(
+			publicationDate, status, orderByComparator);
 
 		if (edition != null) {
 			return edition;
@@ -3405,7 +3395,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		msg.append(", status=");
 		msg.append(status);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEditionException(msg.toString());
 	}
@@ -3419,16 +3409,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the last matching edition, or <code>null</code> if a matching edition could not be found
 	 */
 	@Override
-	public Edition fetchByPublicationDateAndStatus_Last(Date publicationDate,
-		int status, OrderByComparator<Edition> orderByComparator) {
+	public Edition fetchByPublicationDateAndStatus_Last(
+		Date publicationDate, int status,
+		OrderByComparator<Edition> orderByComparator) {
+
 		int count = countByPublicationDateAndStatus(publicationDate, status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Edition> list = findByPublicationDateAndStatus(publicationDate,
-				status, count - 1, count, orderByComparator);
+		List<Edition> list = findByPublicationDateAndStatus(
+			publicationDate, status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3449,9 +3441,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public Edition[] findByPublicationDateAndStatus_PrevAndNext(
-		long editionId, Date publicationDate, int status,
-		OrderByComparator<Edition> orderByComparator)
+			long editionId, Date publicationDate, int status,
+			OrderByComparator<Edition> orderByComparator)
 		throws NoSuchEditionException {
+
 		Edition edition = findByPrimaryKey(editionId);
 
 		Session session = null;
@@ -3461,13 +3454,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 			Edition[] array = new EditionImpl[3];
 
-			array[0] = getByPublicationDateAndStatus_PrevAndNext(session,
-					edition, publicationDate, status, orderByComparator, true);
+			array[0] = getByPublicationDateAndStatus_PrevAndNext(
+				session, edition, publicationDate, status, orderByComparator,
+				true);
 
 			array[1] = edition;
 
-			array[2] = getByPublicationDateAndStatus_PrevAndNext(session,
-					edition, publicationDate, status, orderByComparator, false);
+			array[2] = getByPublicationDateAndStatus_PrevAndNext(
+				session, edition, publicationDate, status, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -3482,11 +3477,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	protected Edition getByPublicationDateAndStatus_PrevAndNext(
 		Session session, Edition edition, Date publicationDate, int status,
 		OrderByComparator<Edition> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -3498,18 +3494,21 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		boolean bindPublicationDate = false;
 
 		if (publicationDate == null) {
-			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 		}
 		else {
 			bindPublicationDate = true;
 
-			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 		}
 
 		query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -3583,10 +3582,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		qPos.add(status);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(edition);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(edition)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -3607,10 +3606,14 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @param status the status
 	 */
 	@Override
-	public void removeByPublicationDateAndStatus(Date publicationDate,
-		int status) {
-		for (Edition edition : findByPublicationDateAndStatus(publicationDate,
-				status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+	public void removeByPublicationDateAndStatus(
+		Date publicationDate, int status) {
+
+		for (Edition edition :
+				findByPublicationDateAndStatus(
+					publicationDate, status, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
 			remove(edition);
 		}
 	}
@@ -3623,10 +3626,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the number of matching editions
 	 */
 	@Override
-	public int countByPublicationDateAndStatus(Date publicationDate, int status) {
-		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_PUBLICATIONDATEANDSTATUS;
+	public int countByPublicationDateAndStatus(
+		Date publicationDate, int status) {
 
-		Object[] finderArgs = new Object[] { publicationDate, status };
+		FinderPath finderPath =
+			_finderPathWithPaginationCountByPublicationDateAndStatus;
+
+		Object[] finderArgs = new Object[] {_getTime(publicationDate), status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3638,12 +3644,14 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			boolean bindPublicationDate = false;
 
 			if (publicationDate == null) {
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1);
 			}
 			else {
 				bindPublicationDate = true;
 
-				query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2);
 			}
 
 			query.append(_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2);
@@ -3682,23 +3690,29 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
-		"edition.publicationDate IS NULL AND ";
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
-		"edition.publicationDate < ? AND ";
-	private static final String _FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 =
-		"edition.status = ?";
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_1 =
+			"edition.publicationDate IS NULL AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_PUBLICATIONDATE_2 =
+			"edition.publicationDate < ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 = "edition.status = ?";
 
 	public EditionPersistenceImpl() {
 		setModelClass(Edition.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -3716,11 +3730,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void cacheResult(Edition edition) {
-		entityCache.putResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionImpl.class, edition.getPrimaryKey(), edition);
+		entityCache.putResult(
+			EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+			edition.getPrimaryKey(), edition);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { edition.getUuid(), edition.getGroupId() }, edition);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
+			new Object[] {edition.getUuid(), edition.getGroupId()}, edition);
 
 		edition.resetOriginalValues();
 	}
@@ -3733,8 +3749,10 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public void cacheResult(List<Edition> editions) {
 		for (Edition edition : editions) {
-			if (entityCache.getResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-						EditionImpl.class, edition.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+					edition.getPrimaryKey()) == null) {
+
 				cacheResult(edition);
 			}
 			else {
@@ -3747,7 +3765,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Clears the cache for all editions.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -3763,13 +3781,14 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Clears the cache for the edition.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Edition edition) {
-		entityCache.removeResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionImpl.class, edition.getPrimaryKey());
+		entityCache.removeResult(
+			EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+			edition.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3783,8 +3802,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Edition edition : editions) {
-			entityCache.removeResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-				EditionImpl.class, edition.getPrimaryKey());
+			entityCache.removeResult(
+				EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+				edition.getPrimaryKey());
 
 			clearUniqueFindersCache((EditionModelImpl)edition, true);
 		}
@@ -3792,35 +3812,37 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 	protected void cacheUniqueFindersCache(EditionModelImpl editionModelImpl) {
 		Object[] args = new Object[] {
+			editionModelImpl.getUuid(), editionModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, editionModelImpl, false);
+	}
+
+	protected void clearUniqueFindersCache(
+		EditionModelImpl editionModelImpl, boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
 				editionModelImpl.getUuid(), editionModelImpl.getGroupId()
 			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			editionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(EditionModelImpl editionModelImpl,
-		boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					editionModelImpl.getUuid(), editionModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((editionModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					editionModelImpl.getOriginalUuid(),
-					editionModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				editionModelImpl.getOriginalUuid(),
+				editionModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -3868,20 +3890,22 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public Edition remove(Serializable primaryKey)
 		throws NoSuchEditionException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Edition edition = (Edition)session.get(EditionImpl.class, primaryKey);
+			Edition edition = (Edition)session.get(
+				EditionImpl.class, primaryKey);
 
 			if (edition == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchEditionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchEditionException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(edition);
@@ -3899,9 +3923,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 	@Override
 	protected Edition removeImpl(Edition edition) {
-		edition = toUnwrappedModel(edition);
-
-		editionToEditionGalleryTableMapper.deleteLeftPrimaryKeyTableMappings(edition.getPrimaryKey());
+		editionToEditionGalleryTableMapper.deleteLeftPrimaryKeyTableMappings(
+			edition.getPrimaryKey());
 
 		Session session = null;
 
@@ -3909,8 +3932,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			session = openSession();
 
 			if (!session.contains(edition)) {
-				edition = (Edition)session.get(EditionImpl.class,
-						edition.getPrimaryKeyObj());
+				edition = (Edition)session.get(
+					EditionImpl.class, edition.getPrimaryKeyObj());
 			}
 
 			if (edition != null) {
@@ -3933,9 +3956,23 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 	@Override
 	public Edition updateImpl(Edition edition) {
-		edition = toUnwrappedModel(edition);
-
 		boolean isNew = edition.isNew();
+
+		if (!(edition instanceof EditionModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(edition.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(edition);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in edition proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Edition implementation " +
+					edition.getClass());
+		}
 
 		EditionModelImpl editionModelImpl = (EditionModelImpl)edition;
 
@@ -3945,7 +3982,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			edition.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -3993,142 +4031,153 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		if (!EditionModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { editionModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {editionModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				editionModelImpl.getUuid(), editionModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {editionModelImpl.getTitle()};
+
+			finderCache.removeResult(_finderPathCountByTitle, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByTitle, args);
+
+			args = new Object[] {editionModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			args = new Object[] {
+				editionModelImpl.getGroupId(), editionModelImpl.getTitle()
+			};
+
+			finderCache.removeResult(_finderPathCountByGroupIdAndTitle, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupIdAndTitle, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((editionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					editionModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {editionModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((editionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					editionModelImpl.getOriginalUuid(),
+					editionModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					editionModelImpl.getUuid(), editionModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
 
-			args = new Object[] { editionModelImpl.getTitle() };
+			if ((editionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByTitle.getColumnBitmask()) !=
+					 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_TITLE, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE,
-				args);
+				Object[] args = new Object[] {
+					editionModelImpl.getOriginalTitle()
+				};
 
-			args = new Object[] { editionModelImpl.getGroupId() };
+				finderCache.removeResult(_finderPathCountByTitle, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByTitle, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
+				args = new Object[] {editionModelImpl.getTitle()};
 
-			args = new Object[] {
+				finderCache.removeResult(_finderPathCountByTitle, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByTitle, args);
+			}
+
+			if ((editionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					editionModelImpl.getOriginalGroupId()
+				};
+
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+
+				args = new Object[] {editionModelImpl.getGroupId()};
+
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
+			}
+
+			if ((editionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByGroupIdAndTitle.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					editionModelImpl.getOriginalGroupId(),
+					editionModelImpl.getOriginalTitle()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByGroupIdAndTitle, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupIdAndTitle, args);
+
+				args = new Object[] {
 					editionModelImpl.getGroupId(), editionModelImpl.getTitle()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDTITLE, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((editionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { editionModelImpl.getOriginalUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { editionModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-			}
-
-			if ((editionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						editionModelImpl.getOriginalUuid(),
-						editionModelImpl.getOriginalCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-
-				args = new Object[] {
-						editionModelImpl.getUuid(),
-						editionModelImpl.getCompanyId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((editionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { editionModelImpl.getOriginalTitle() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_TITLE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE,
-					args);
-
-				args = new Object[] { editionModelImpl.getTitle() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_TITLE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TITLE,
-					args);
-			}
-
-			if ((editionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						editionModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { editionModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-			}
-
-			if ((editionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						editionModelImpl.getOriginalGroupId(),
-						editionModelImpl.getOriginalTitle()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDTITLE,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE,
-					args);
-
-				args = new Object[] {
-						editionModelImpl.getGroupId(),
-						editionModelImpl.getTitle()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPIDANDTITLE,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPIDANDTITLE,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByGroupIdAndTitle, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupIdAndTitle, args);
 			}
 		}
 
-		entityCache.putResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-			EditionImpl.class, edition.getPrimaryKey(), edition, false);
+		entityCache.putResult(
+			EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+			edition.getPrimaryKey(), edition, false);
 
 		clearUniqueFindersCache(editionModelImpl, false);
 		cacheUniqueFindersCache(editionModelImpl);
@@ -4138,53 +4187,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		return edition;
 	}
 
-	protected Edition toUnwrappedModel(Edition edition) {
-		if (edition instanceof EditionImpl) {
-			return edition;
-		}
-
-		EditionImpl editionImpl = new EditionImpl();
-
-		editionImpl.setNew(edition.isNew());
-		editionImpl.setPrimaryKey(edition.getPrimaryKey());
-
-		editionImpl.setUuid(edition.getUuid());
-		editionImpl.setEditionId(edition.getEditionId());
-		editionImpl.setGroupId(edition.getGroupId());
-		editionImpl.setCompanyId(edition.getCompanyId());
-		editionImpl.setUserId(edition.getUserId());
-		editionImpl.setUserName(edition.getUserName());
-		editionImpl.setCreateDate(edition.getCreateDate());
-		editionImpl.setModifiedDate(edition.getModifiedDate());
-		editionImpl.setLastPublishDate(edition.getLastPublishDate());
-		editionImpl.setStatus(edition.getStatus());
-		editionImpl.setStatusByUserId(edition.getStatusByUserId());
-		editionImpl.setStatusByUserName(edition.getStatusByUserName());
-		editionImpl.setStatusDate(edition.getStatusDate());
-		editionImpl.setTitle(edition.getTitle());
-		editionImpl.setSubtitle(edition.getSubtitle());
-		editionImpl.setDescription(edition.getDescription());
-		editionImpl.setURL(edition.getURL());
-		editionImpl.setAuthor(edition.getAuthor());
-		editionImpl.setEditor(edition.getEditor());
-		editionImpl.setDistribution(edition.getDistribution());
-		editionImpl.setISBN(edition.getISBN());
-		editionImpl.setPrice(edition.getPrice());
-		editionImpl.setAvailableForExchange(edition.isAvailableForExchange());
-		editionImpl.setInStock(edition.isInStock());
-		editionImpl.setDiffusionDateYear(edition.getDiffusionDateYear());
-		editionImpl.setDiffusionDateMonth(edition.getDiffusionDateMonth());
-		editionImpl.setPageNumber(edition.getPageNumber());
-		editionImpl.setPictureNumber(edition.getPictureNumber());
-		editionImpl.setPublicationDate(edition.getPublicationDate());
-		editionImpl.setImageId(edition.getImageId());
-		editionImpl.setFileId(edition.getFileId());
-
-		return editionImpl;
-	}
-
 	/**
-	 * Returns the edition with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the edition with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the edition
 	 * @return the edition
@@ -4193,6 +4197,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public Edition findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchEditionException {
+
 		Edition edition = fetchByPrimaryKey(primaryKey);
 
 		if (edition == null) {
@@ -4200,15 +4205,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchEditionException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchEditionException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return edition;
 	}
 
 	/**
-	 * Returns the edition with the primary key or throws a {@link NoSuchEditionException} if it could not be found.
+	 * Returns the edition with the primary key or throws a <code>NoSuchEditionException</code> if it could not be found.
 	 *
 	 * @param editionId the primary key of the edition
 	 * @return the edition
@@ -4217,6 +4222,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public Edition findByPrimaryKey(long editionId)
 		throws NoSuchEditionException {
+
 		return findByPrimaryKey((Serializable)editionId);
 	}
 
@@ -4228,8 +4234,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public Edition fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-				EditionImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -4249,13 +4256,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 					cacheResult(edition);
 				}
 				else {
-					entityCache.putResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						EditionModelImpl.ENTITY_CACHE_ENABLED,
 						EditionImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-					EditionImpl.class, primaryKey);
+				entityCache.removeResult(
+					EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -4281,6 +4290,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	@Override
 	public Map<Serializable, Edition> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -4304,8 +4314,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-					EditionImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -4325,20 +4336,20 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_EDITION_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -4358,8 +4369,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(EditionModelImpl.ENTITY_CACHE_ENABLED,
-					EditionImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					EditionModelImpl.ENTITY_CACHE_ENABLED, EditionImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -4386,7 +4398,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns a range of all the editions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of editions
@@ -4402,7 +4414,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of editions
@@ -4411,8 +4423,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of editions
 	 */
 	@Override
-	public List<Edition> findAll(int start, int end,
-		OrderByComparator<Edition> orderByComparator) {
+	public List<Edition> findAll(
+		int start, int end, OrderByComparator<Edition> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -4420,7 +4433,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the editions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of editions
@@ -4430,28 +4443,31 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of editions
 	 */
 	@Override
-	public List<Edition> findAll(int start, int end,
-		OrderByComparator<Edition> orderByComparator, boolean retrieveFromCache) {
+	public List<Edition> findAll(
+		int start, int end, OrderByComparator<Edition> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Edition> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Edition>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Edition>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -4459,13 +4475,13 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_EDITION);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -4485,16 +4501,16 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Edition>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<Edition>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -4532,8 +4548,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -4545,12 +4561,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -4582,8 +4598,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the edition galleries associated with the edition
 	 */
 	@Override
-	public List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries(
-		long pk) {
+	public List<eu.strasbourg.service.edition.model.EditionGallery>
+		getEditionGalleries(long pk) {
+
 		return getEditionGalleries(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 	}
 
@@ -4591,7 +4608,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns a range of all the edition galleries associated with the edition.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param pk the primary key of the edition
@@ -4600,8 +4617,9 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the range of edition galleries associated with the edition
 	 */
 	@Override
-	public List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries(
-		long pk, int start, int end) {
+	public List<eu.strasbourg.service.edition.model.EditionGallery>
+		getEditionGalleries(long pk, int start, int end) {
+
 		return getEditionGalleries(pk, start, end, null);
 	}
 
@@ -4609,7 +4627,7 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Returns an ordered range of all the edition galleries associated with the edition.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EditionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EditionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param pk the primary key of the edition
@@ -4619,11 +4637,15 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @return the ordered range of edition galleries associated with the edition
 	 */
 	@Override
-	public List<eu.strasbourg.service.edition.model.EditionGallery> getEditionGalleries(
-		long pk, int start, int end,
-		OrderByComparator<eu.strasbourg.service.edition.model.EditionGallery> orderByComparator) {
-		return editionToEditionGalleryTableMapper.getRightBaseModels(pk, start,
-			end, orderByComparator);
+	public List<eu.strasbourg.service.edition.model.EditionGallery>
+		getEditionGalleries(
+			long pk, int start, int end,
+			OrderByComparator
+				<eu.strasbourg.service.edition.model.EditionGallery>
+					orderByComparator) {
+
+		return editionToEditionGalleryTableMapper.getRightBaseModels(
+			pk, start, end, orderByComparator);
 	}
 
 	/**
@@ -4648,8 +4670,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public boolean containsEditionGallery(long pk, long editionGalleryPK) {
-		return editionToEditionGalleryTableMapper.containsTableMapping(pk,
-			editionGalleryPK);
+		return editionToEditionGalleryTableMapper.containsTableMapping(
+			pk, editionGalleryPK);
 	}
 
 	/**
@@ -4679,12 +4701,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 		Edition edition = fetchByPrimaryKey(pk);
 
 		if (edition == null) {
-			editionToEditionGalleryTableMapper.addTableMapping(companyProvider.getCompanyId(),
-				pk, editionGalleryPK);
+			editionToEditionGalleryTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk, editionGalleryPK);
 		}
 		else {
-			editionToEditionGalleryTableMapper.addTableMapping(edition.getCompanyId(),
-				pk, editionGalleryPK);
+			editionToEditionGalleryTableMapper.addTableMapping(
+				edition.getCompanyId(), pk, editionGalleryPK);
 		}
 	}
 
@@ -4695,17 +4717,20 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @param editionGallery the edition gallery
 	 */
 	@Override
-	public void addEditionGallery(long pk,
+	public void addEditionGallery(
+		long pk,
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
+
 		Edition edition = fetchByPrimaryKey(pk);
 
 		if (edition == null) {
-			editionToEditionGalleryTableMapper.addTableMapping(companyProvider.getCompanyId(),
-				pk, editionGallery.getPrimaryKey());
+			editionToEditionGalleryTableMapper.addTableMapping(
+				companyProvider.getCompanyId(), pk,
+				editionGallery.getPrimaryKey());
 		}
 		else {
-			editionToEditionGalleryTableMapper.addTableMapping(edition.getCompanyId(),
-				pk, editionGallery.getPrimaryKey());
+			editionToEditionGalleryTableMapper.addTableMapping(
+				edition.getCompanyId(), pk, editionGallery.getPrimaryKey());
 		}
 	}
 
@@ -4728,8 +4753,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			companyId = edition.getCompanyId();
 		}
 
-		editionToEditionGalleryTableMapper.addTableMappings(companyId, pk,
-			editionGalleryPKs);
+		editionToEditionGalleryTableMapper.addTableMappings(
+			companyId, pk, editionGalleryPKs);
 	}
 
 	/**
@@ -4739,11 +4764,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @param editionGalleries the edition galleries
 	 */
 	@Override
-	public void addEditionGalleries(long pk,
-		List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
-		addEditionGalleries(pk,
-			ListUtil.toLongArray(editionGalleries,
-				eu.strasbourg.service.edition.model.EditionGallery.GALLERY_ID_ACCESSOR));
+	public void addEditionGalleries(
+		long pk,
+		List<eu.strasbourg.service.edition.model.EditionGallery>
+			editionGalleries) {
+
+		addEditionGalleries(
+			pk,
+			ListUtil.toLongArray(
+				editionGalleries,
+				eu.strasbourg.service.edition.model.EditionGallery.
+					GALLERY_ID_ACCESSOR));
 	}
 
 	/**
@@ -4753,7 +4784,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void clearEditionGalleries(long pk) {
-		editionToEditionGalleryTableMapper.deleteLeftPrimaryKeyTableMappings(pk);
+		editionToEditionGalleryTableMapper.deleteLeftPrimaryKeyTableMappings(
+			pk);
 	}
 
 	/**
@@ -4764,8 +4796,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeEditionGallery(long pk, long editionGalleryPK) {
-		editionToEditionGalleryTableMapper.deleteTableMapping(pk,
-			editionGalleryPK);
+		editionToEditionGalleryTableMapper.deleteTableMapping(
+			pk, editionGalleryPK);
 	}
 
 	/**
@@ -4775,10 +4807,12 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @param editionGallery the edition gallery
 	 */
 	@Override
-	public void removeEditionGallery(long pk,
+	public void removeEditionGallery(
+		long pk,
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
-		editionToEditionGalleryTableMapper.deleteTableMapping(pk,
-			editionGallery.getPrimaryKey());
+
+		editionToEditionGalleryTableMapper.deleteTableMapping(
+			pk, editionGallery.getPrimaryKey());
 	}
 
 	/**
@@ -4789,8 +4823,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void removeEditionGalleries(long pk, long[] editionGalleryPKs) {
-		editionToEditionGalleryTableMapper.deleteTableMappings(pk,
-			editionGalleryPKs);
+		editionToEditionGalleryTableMapper.deleteTableMappings(
+			pk, editionGalleryPKs);
 	}
 
 	/**
@@ -4800,11 +4834,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @param editionGalleries the edition galleries
 	 */
 	@Override
-	public void removeEditionGalleries(long pk,
-		List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
-		removeEditionGalleries(pk,
-			ListUtil.toLongArray(editionGalleries,
-				eu.strasbourg.service.edition.model.EditionGallery.GALLERY_ID_ACCESSOR));
+	public void removeEditionGalleries(
+		long pk,
+		List<eu.strasbourg.service.edition.model.EditionGallery>
+			editionGalleries) {
+
+		removeEditionGalleries(
+			pk,
+			ListUtil.toLongArray(
+				editionGalleries,
+				eu.strasbourg.service.edition.model.EditionGallery.
+					GALLERY_ID_ACCESSOR));
 	}
 
 	/**
@@ -4815,16 +4855,18 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 */
 	@Override
 	public void setEditionGalleries(long pk, long[] editionGalleryPKs) {
-		Set<Long> newEditionGalleryPKsSet = SetUtil.fromArray(editionGalleryPKs);
-		Set<Long> oldEditionGalleryPKsSet = SetUtil.fromArray(editionToEditionGalleryTableMapper.getRightPrimaryKeys(
-					pk));
+		Set<Long> newEditionGalleryPKsSet = SetUtil.fromArray(
+			editionGalleryPKs);
+		Set<Long> oldEditionGalleryPKsSet = SetUtil.fromArray(
+			editionToEditionGalleryTableMapper.getRightPrimaryKeys(pk));
 
-		Set<Long> removeEditionGalleryPKsSet = new HashSet<Long>(oldEditionGalleryPKsSet);
+		Set<Long> removeEditionGalleryPKsSet = new HashSet<Long>(
+			oldEditionGalleryPKsSet);
 
 		removeEditionGalleryPKsSet.removeAll(newEditionGalleryPKsSet);
 
-		editionToEditionGalleryTableMapper.deleteTableMappings(pk,
-			ArrayUtil.toLongArray(removeEditionGalleryPKsSet));
+		editionToEditionGalleryTableMapper.deleteTableMappings(
+			pk, ArrayUtil.toLongArray(removeEditionGalleryPKsSet));
 
 		newEditionGalleryPKsSet.removeAll(oldEditionGalleryPKsSet);
 
@@ -4839,8 +4881,8 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 			companyId = edition.getCompanyId();
 		}
 
-		editionToEditionGalleryTableMapper.addTableMappings(companyId, pk,
-			ArrayUtil.toLongArray(newEditionGalleryPKsSet));
+		editionToEditionGalleryTableMapper.addTableMappings(
+			companyId, pk, ArrayUtil.toLongArray(newEditionGalleryPKsSet));
 	}
 
 	/**
@@ -4850,14 +4892,17 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * @param editionGalleries the edition galleries to be associated with the edition
 	 */
 	@Override
-	public void setEditionGalleries(long pk,
-		List<eu.strasbourg.service.edition.model.EditionGallery> editionGalleries) {
+	public void setEditionGalleries(
+		long pk,
+		List<eu.strasbourg.service.edition.model.EditionGallery>
+			editionGalleries) {
+
 		try {
 			long[] editionGalleryPKs = new long[editionGalleries.size()];
 
 			for (int i = 0; i < editionGalleries.size(); i++) {
-				eu.strasbourg.service.edition.model.EditionGallery editionGallery =
-					editionGalleries.get(i);
+				eu.strasbourg.service.edition.model.EditionGallery
+					editionGallery = editionGalleries.get(i);
 
 				editionGalleryPKs[i] = editionGallery.getPrimaryKey();
 			}
@@ -4883,9 +4928,179 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 	 * Initializes the edition persistence.
 	 */
 	public void afterPropertiesSet() {
-		editionToEditionGalleryTableMapper = TableMapperFactory.getTableMapper("edition_EditionToEditionGallery",
-				"companyId", "editionId", "galleryId", this,
-				editionGalleryPersistence);
+		editionToEditionGalleryTableMapper = TableMapperFactory.getTableMapper(
+			"edition_EditionToEditionGallery", "companyId", "editionId",
+			"galleryId", this, editionGalleryPersistence);
+
+		_finderPathWithPaginationFindAll = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			EditionModelImpl.UUID_COLUMN_BITMASK |
+			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			EditionModelImpl.UUID_COLUMN_BITMASK |
+			EditionModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			EditionModelImpl.UUID_COLUMN_BITMASK |
+			EditionModelImpl.COMPANYID_COLUMN_BITMASK |
+			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByTitle = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTitle",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByTitle = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTitle",
+			new String[] {String.class.getName()},
+			EditionModelImpl.TITLE_COLUMN_BITMASK |
+			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByTitle = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTitle",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			EditionModelImpl.GROUPID_COLUMN_BITMASK |
+			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupIdAndTitle = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndTitle",
+			new String[] {
+				Long.class.getName(), String.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupIdAndTitle = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupIdAndTitle",
+			new String[] {Long.class.getName(), String.class.getName()},
+			EditionModelImpl.GROUPID_COLUMN_BITMASK |
+			EditionModelImpl.TITLE_COLUMN_BITMASK |
+			EditionModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+
+		_finderPathCountByGroupIdAndTitle = new FinderPath(
+			EditionModelImpl.ENTITY_CACHE_ENABLED,
+			EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupIdAndTitle",
+			new String[] {Long.class.getName(), String.class.getName()});
+
+		_finderPathWithPaginationFindByPublicationDateAndStatus =
+			new FinderPath(
+				EditionModelImpl.ENTITY_CACHE_ENABLED,
+				EditionModelImpl.FINDER_CACHE_ENABLED, EditionImpl.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"findByPublicationDateAndStatus",
+				new String[] {
+					Date.class.getName(), Integer.class.getName(),
+					Integer.class.getName(), Integer.class.getName(),
+					OrderByComparator.class.getName()
+				});
+
+		_finderPathWithPaginationCountByPublicationDateAndStatus =
+			new FinderPath(
+				EditionModelImpl.ENTITY_CACHE_ENABLED,
+				EditionModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countByPublicationDateAndStatus",
+				new String[] {Date.class.getName(), Integer.class.getName()});
 	}
 
 	public void destroy() {
@@ -4899,23 +5114,55 @@ public class EditionPersistenceImpl extends BasePersistenceImpl<Edition>
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
 	@BeanReference(type = EditionGalleryPersistence.class)
 	protected EditionGalleryPersistence editionGalleryPersistence;
-	protected TableMapper<Edition, eu.strasbourg.service.edition.model.EditionGallery> editionToEditionGalleryTableMapper;
-	private static final String _SQL_SELECT_EDITION = "SELECT edition FROM Edition edition";
-	private static final String _SQL_SELECT_EDITION_WHERE_PKS_IN = "SELECT edition FROM Edition edition WHERE editionId IN (";
-	private static final String _SQL_SELECT_EDITION_WHERE = "SELECT edition FROM Edition edition WHERE ";
-	private static final String _SQL_COUNT_EDITION = "SELECT COUNT(edition) FROM Edition edition";
-	private static final String _SQL_COUNT_EDITION_WHERE = "SELECT COUNT(edition) FROM Edition edition WHERE ";
+
+	protected TableMapper
+		<Edition, eu.strasbourg.service.edition.model.EditionGallery>
+			editionToEditionGalleryTableMapper;
+
+	private Long _getTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		return date.getTime();
+	}
+
+	private static final String _SQL_SELECT_EDITION =
+		"SELECT edition FROM Edition edition";
+
+	private static final String _SQL_SELECT_EDITION_WHERE_PKS_IN =
+		"SELECT edition FROM Edition edition WHERE editionId IN (";
+
+	private static final String _SQL_SELECT_EDITION_WHERE =
+		"SELECT edition FROM Edition edition WHERE ";
+
+	private static final String _SQL_COUNT_EDITION =
+		"SELECT COUNT(edition) FROM Edition edition";
+
+	private static final String _SQL_COUNT_EDITION_WHERE =
+		"SELECT COUNT(edition) FROM Edition edition WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "edition.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Edition exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Edition exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(EditionPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Edition exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Edition exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EditionPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.agenda.service.http.ManifestationServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.agenda.service.http.ManifestationServiceSoap
  * @generated
  */
 @ProviderType
 public class ManifestationSoap implements Serializable {
+
 	public static ManifestationSoap toSoapModel(Manifestation model) {
 		ManifestationSoap soapModel = new ManifestationSoap();
 
@@ -89,7 +89,8 @@ public class ManifestationSoap implements Serializable {
 	}
 
 	public static ManifestationSoap[] toSoapModels(List<Manifestation> models) {
-		List<ManifestationSoap> soapModels = new ArrayList<ManifestationSoap>(models.size());
+		List<ManifestationSoap> soapModels = new ArrayList<ManifestationSoap>(
+			models.size());
 
 		for (Manifestation model : models) {
 			soapModels.add(toSoapModel(model));
@@ -316,4 +317,5 @@ public class ManifestationSoap implements Serializable {
 	private String _source;
 	private String _idSource;
 	private Date _publicationDate;
+
 }

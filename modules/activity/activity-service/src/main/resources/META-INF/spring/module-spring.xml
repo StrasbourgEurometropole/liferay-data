@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
 	<bean class="eu.strasbourg.service.activity.service.impl.ActivityLocalServiceImpl" id="eu.strasbourg.service.activity.service.ActivityLocalService" />
 	<bean class="eu.strasbourg.service.activity.service.impl.ActivityServiceImpl" id="eu.strasbourg.service.activity.service.ActivityService" />
 	<bean class="eu.strasbourg.service.activity.service.persistence.impl.ActivityPersistenceImpl" id="eu.strasbourg.service.activity.service.persistence.ActivityPersistence" parent="basePersistence" />

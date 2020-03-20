@@ -26,15 +26,84 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class SlotLocalServiceWrapper implements SlotLocalService,
-	ServiceWrapper<SlotLocalService> {
+public class SlotLocalServiceWrapper
+	implements SlotLocalService, ServiceWrapper<SlotLocalService> {
+
 	public SlotLocalServiceWrapper(SlotLocalService slotLocalService) {
 		_slotLocalService = slotLocalService;
 	}
 
+	/**
+	 * Adds the slot to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param slot the slot
+	 * @return the slot that was added
+	 */
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return _slotLocalService.getActionableDynamicQuery();
+	public eu.strasbourg.service.place.model.Slot addSlot(
+		eu.strasbourg.service.place.model.Slot slot) {
+
+		return _slotLocalService.addSlot(slot);
+	}
+
+	/**
+	 * Creates a new slot with the primary key. Does not add the slot to the database.
+	 *
+	 * @param slotId the primary key for the new slot
+	 * @return the new slot
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.Slot createSlot(long slotId) {
+		return _slotLocalService.createSlot(slotId);
+	}
+
+	/**
+	 * Crée un slot vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.Slot createSlot(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _slotLocalService.createSlot(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
+			com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _slotLocalService.deletePersistedModel(persistedModel);
+	}
+
+	/**
+	 * Deletes the slot with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param slotId the primary key of the slot
+	 * @return the slot that was removed
+	 * @throws PortalException if a slot with the primary key could not be found
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.Slot deleteSlot(long slotId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _slotLocalService.deleteSlot(slotId);
+	}
+
+	/**
+	 * Deletes the slot from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param slot the slot
+	 * @return the slot that was removed
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.Slot deleteSlot(
+		eu.strasbourg.service.place.model.Slot slot) {
+
+		return _slotLocalService.deleteSlot(slot);
 	}
 
 	@Override
@@ -42,84 +111,88 @@ public class SlotLocalServiceWrapper implements SlotLocalService,
 		return _slotLocalService.dynamicQuery();
 	}
 
+	/**
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return _slotLocalService.getIndexableActionableDynamicQuery();
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _slotLocalService.dynamicQuery(dynamicQuery);
 	}
 
 	/**
-	* @throws PortalException
-	*/
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @return the range of matching rows
+	 */
 	@Override
-	public com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
-		com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _slotLocalService.deletePersistedModel(persistedModel);
-	}
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
 
-	@Override
-	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _slotLocalService.getPersistedModel(primaryKeyObj);
-	}
-
-	/**
-	* Adds the slot to the database. Also notifies the appropriate model listeners.
-	*
-	* @param slot the slot
-	* @return the slot that was added
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.Slot addSlot(
-		eu.strasbourg.service.place.model.Slot slot) {
-		return _slotLocalService.addSlot(slot);
+		return _slotLocalService.dynamicQuery(dynamicQuery, start, end);
 	}
 
 	/**
-	* Crée un slot vide avec une PK, non ajouté à la base de donnée
-	*/
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching rows
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.Slot createSlot(
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _slotLocalService.createSlot(sc);
+	public <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+
+		return _slotLocalService.dynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
-	* Creates a new slot with the primary key. Does not add the slot to the database.
-	*
-	* @param slotId the primary key for the new slot
-	* @return the new slot
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.Slot createSlot(long slotId) {
-		return _slotLocalService.createSlot(slotId);
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return _slotLocalService.dynamicQueryCount(dynamicQuery);
 	}
 
 	/**
-	* Deletes the slot from the database. Also notifies the appropriate model listeners.
-	*
-	* @param slot the slot
-	* @return the slot that was removed
-	*/
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param projection the projection to apply to the query
+	 * @return the number of rows matching the dynamic query
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.Slot deleteSlot(
-		eu.strasbourg.service.place.model.Slot slot) {
-		return _slotLocalService.deleteSlot(slot);
-	}
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
-	/**
-	* Deletes the slot with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param slotId the primary key of the slot
-	* @return the slot that was removed
-	* @throws PortalException if a slot with the primary key could not be found
-	*/
-	@Override
-	public eu.strasbourg.service.place.model.Slot deleteSlot(long slotId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _slotLocalService.deleteSlot(slotId);
+		return _slotLocalService.dynamicQueryCount(dynamicQuery, projection);
 	}
 
 	@Override
@@ -127,154 +200,101 @@ public class SlotLocalServiceWrapper implements SlotLocalService,
 		return _slotLocalService.fetchSlot(slotId);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
+		getActionableDynamicQuery() {
+
+		return _slotLocalService.getActionableDynamicQuery();
+	}
+
 	/**
-	* Returns the slot with the primary key.
-	*
-	* @param slotId the primary key of the slot
-	* @return the slot
-	* @throws PortalException if a slot with the primary key could not be found
-	*/
+	 * Retourne les slots rattachées à une période
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Slot> getByPeriodId(
+		long slotId) {
+
+		return _slotLocalService.getByPeriodId(slotId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
+
+		return _slotLocalService.getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _slotLocalService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _slotLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	/**
+	 * Returns the slot with the primary key.
+	 *
+	 * @param slotId the primary key of the slot
+	 * @return the slot
+	 * @throws PortalException if a slot with the primary key could not be found
+	 */
 	@Override
 	public eu.strasbourg.service.place.model.Slot getSlot(long slotId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _slotLocalService.getSlot(slotId);
 	}
 
 	/**
-	* Updates the slot in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param slot the slot
-	* @return the slot that was updated
-	*/
+	 * Returns a range of all the slots.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.SlotModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of slots
+	 * @param end the upper bound of the range of slots (not inclusive)
+	 * @return the range of slots
+	 */
 	@Override
-	public eu.strasbourg.service.place.model.Slot updateSlot(
-		eu.strasbourg.service.place.model.Slot slot) {
-		return _slotLocalService.updateSlot(slot);
+	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
+		int start, int end) {
+
+		return _slotLocalService.getSlots(start, end);
 	}
 
 	/**
-	* Returns the number of slots.
-	*
-	* @return the number of slots
-	*/
+	 * Returns the number of slots.
+	 *
+	 * @return the number of slots
+	 */
 	@Override
 	public int getSlotsCount() {
 		return _slotLocalService.getSlotsCount();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Updates the slot in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * @param slot the slot
+	 * @return the slot that was updated
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _slotLocalService.getOSGiServiceIdentifier();
-	}
+	public eu.strasbourg.service.place.model.Slot updateSlot(
+		eu.strasbourg.service.place.model.Slot slot) {
 
-	/**
-	* Performs a dynamic query on the database and returns the matching rows.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _slotLocalService.dynamicQuery(dynamicQuery);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns a range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @return the range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
-		return _slotLocalService.dynamicQuery(dynamicQuery, start, end);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching rows
-	*/
-	@Override
-	public <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
-		return _slotLocalService.dynamicQuery(dynamicQuery, start, end,
-			orderByComparator);
-	}
-
-	/**
-	* Retourne les slots rattachées à une période
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Slot> getByPeriodId(
-		long slotId) {
-		return _slotLocalService.getByPeriodId(slotId);
-	}
-
-	/**
-	* Returns a range of all the slots.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.SlotModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of slots
-	* @param end the upper bound of the range of slots (not inclusive)
-	* @return the range of slots
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
-		int start, int end) {
-		return _slotLocalService.getSlots(start, end);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return _slotLocalService.dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows matching the dynamic query
-	*/
-	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection) {
-		return _slotLocalService.dynamicQueryCount(dynamicQuery, projection);
+		return _slotLocalService.updateSlot(slot);
 	}
 
 	@Override
@@ -288,4 +308,5 @@ public class SlotLocalServiceWrapper implements SlotLocalService,
 	}
 
 	private SlotLocalService _slotLocalService;
+
 }

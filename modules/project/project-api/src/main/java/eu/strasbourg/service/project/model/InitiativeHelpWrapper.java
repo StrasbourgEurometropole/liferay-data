@@ -17,7 +17,6 @@ package eu.strasbourg.service.project.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,8 +37,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class InitiativeHelpWrapper implements InitiativeHelp,
-	ModelWrapper<InitiativeHelp> {
+public class InitiativeHelpWrapper
+	implements InitiativeHelp, ModelWrapper<InitiativeHelp> {
+
 	public InitiativeHelpWrapper(InitiativeHelp initiativeHelp) {
 		_initiativeHelp = initiativeHelp;
 	}
@@ -66,7 +66,7 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		attributes.put("helpTypes", getHelpTypes());
 		attributes.put("groupId", getGroupId());
 		attributes.put("message", getMessage());
-		attributes.put("helpDisplay", getHelpDisplay());
+		attributes.put("helpDisplay", isHelpDisplay());
 
 		return attributes;
 	}
@@ -128,14 +128,187 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new InitiativeHelpWrapper(
+			(InitiativeHelp)_initiativeHelp.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.project.model.InitiativeHelp initiativeHelp) {
+
+		return _initiativeHelp.compareTo(initiativeHelp);
+	}
+
 	/**
-	* Returns the help display of this initiative help.
-	*
-	* @return the help display of this initiative help
-	*/
+	 * Retourne l'utilisateur Publik depositaire
+	 *
+	 * @return
+	 */
+	@Override
+	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
+		return _initiativeHelp.getAuthor();
+	}
+
+	/**
+	 * Retourne l'URL de l'image de l'utilisateur
+	 */
+	@Override
+	public String getAuthorImageURL() {
+		return _initiativeHelp.getAuthorImageURL();
+	}
+
+	/**
+	 * Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
+	 */
+	@Override
+	public String getAuthorLabel() {
+		return _initiativeHelp.getAuthorLabel();
+	}
+
+	/**
+	 * Returns the create date of this initiative help.
+	 *
+	 * @return the create date of this initiative help
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _initiativeHelp.getCreateDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _initiativeHelp.getExpandoBridge();
+	}
+
+	/**
+	 * Retourne le message d'accompagnement sans les balises et autres fioritures
+	 *
+	 * @return
+	 */
+	@Override
+	public String getFormatedMessage() {
+		return _initiativeHelp.getFormatedMessage();
+	}
+
+	/**
+	 * Returns the group ID of this initiative help.
+	 *
+	 * @return the group ID of this initiative help
+	 */
+	@Override
+	public long getGroupId() {
+		return _initiativeHelp.getGroupId();
+	}
+
+	/**
+	 * Returns the help display of this initiative help.
+	 *
+	 * @return the help display of this initiative help
+	 */
 	@Override
 	public boolean getHelpDisplay() {
 		return _initiativeHelp.getHelpDisplay();
+	}
+
+	/**
+	 * Returns the help types of this initiative help.
+	 *
+	 * @return the help types of this initiative help
+	 */
+	@Override
+	public String getHelpTypes() {
+		return _initiativeHelp.getHelpTypes();
+	}
+
+	/**
+	 * Retourne l'initiative de l'aide
+	 *
+	 * @return
+	 * @throws PortalException
+	 */
+	@Override
+	public eu.strasbourg.service.project.model.Initiative getInitiative() {
+		return _initiativeHelp.getInitiative();
+	}
+
+	/**
+	 * Returns the initiative help ID of this initiative help.
+	 *
+	 * @return the initiative help ID of this initiative help
+	 */
+	@Override
+	public long getInitiativeHelpId() {
+		return _initiativeHelp.getInitiativeHelpId();
+	}
+
+	/**
+	 * Returns the initiative ID of this initiative help.
+	 *
+	 * @return the initiative ID of this initiative help
+	 */
+	@Override
+	public long getInitiativeId() {
+		return _initiativeHelp.getInitiativeId();
+	}
+
+	/**
+	 * Returns the message of this initiative help.
+	 *
+	 * @return the message of this initiative help
+	 */
+	@Override
+	public String getMessage() {
+		return _initiativeHelp.getMessage();
+	}
+
+	/**
+	 * Returns the primary key of this initiative help.
+	 *
+	 * @return the primary key of this initiative help
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _initiativeHelp.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _initiativeHelp.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this initiative help.
+	 *
+	 * @return the publik user ID of this initiative help
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _initiativeHelp.getPublikUserId();
+	}
+
+	/**
+	 * Retourne le label des types d'aide
+	 */
+	@Override
+	public String getTypesLabel() {
+		return _initiativeHelp.getTypesLabel();
+	}
+
+	/**
+	 * Returns the uuid of this initiative help.
+	 *
+	 * @return the uuid of this initiative help
+	 */
+	@Override
+	public String getUuid() {
+		return _initiativeHelp.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _initiativeHelp.hashCode();
 	}
 
 	@Override
@@ -149,10 +322,10 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
-	* Returns <code>true</code> if this initiative help is help display.
-	*
-	* @return <code>true</code> if this initiative help is help display; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this initiative help is help display.
+	 *
+	 * @return <code>true</code> if this initiative help is help display; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isHelpDisplay() {
 		return _initiativeHelp.isHelpDisplay();
@@ -161,202 +334,6 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	@Override
 	public boolean isNew() {
 		return _initiativeHelp.isNew();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _initiativeHelp.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.project.model.InitiativeHelp> toCacheModel() {
-		return _initiativeHelp.toCacheModel();
-	}
-
-	/**
-	* Retourne l'utilisateur Publik depositaire
-	*
-	* @return
-	*/
-	@Override
-	public eu.strasbourg.service.oidc.model.PublikUser getAuthor() {
-		return _initiativeHelp.getAuthor();
-	}
-
-	/**
-	* Retourne l'initiative de l'aide
-	*
-	* @return
-	* @throws PortalException
-	*/
-	@Override
-	public eu.strasbourg.service.project.model.Initiative getInitiative() {
-		return _initiativeHelp.getInitiative();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.InitiativeHelp toEscapedModel() {
-		return new InitiativeHelpWrapper(_initiativeHelp.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.InitiativeHelp toUnescapedModel() {
-		return new InitiativeHelpWrapper(_initiativeHelp.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.InitiativeHelp initiativeHelp) {
-		return _initiativeHelp.compareTo(initiativeHelp);
-	}
-
-	@Override
-	public int hashCode() {
-		return _initiativeHelp.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _initiativeHelp.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new InitiativeHelpWrapper((InitiativeHelp)_initiativeHelp.clone());
-	}
-
-	/**
-	* Retourne l'URL de l'image de l'utilisateur
-	*/
-	@Override
-	public java.lang.String getAuthorImageURL() {
-		return _initiativeHelp.getAuthorImageURL();
-	}
-
-	/**
-	* Retourne le nom de du depositaire sous forme "Truc M." ou le "Au nom de ..."
-	*/
-	@Override
-	public java.lang.String getAuthorLabel() {
-		return _initiativeHelp.getAuthorLabel();
-	}
-
-	/**
-	* Retourne le message d'accompagnement sans les balises et autres fioritures
-	*
-	* @return
-	*/
-	@Override
-	public java.lang.String getFormatedMessage() {
-		return _initiativeHelp.getFormatedMessage();
-	}
-
-	/**
-	* Returns the help types of this initiative help.
-	*
-	* @return the help types of this initiative help
-	*/
-	@Override
-	public java.lang.String getHelpTypes() {
-		return _initiativeHelp.getHelpTypes();
-	}
-
-	/**
-	* Returns the message of this initiative help.
-	*
-	* @return the message of this initiative help
-	*/
-	@Override
-	public java.lang.String getMessage() {
-		return _initiativeHelp.getMessage();
-	}
-
-	/**
-	* Returns the publik user ID of this initiative help.
-	*
-	* @return the publik user ID of this initiative help
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _initiativeHelp.getPublikUserId();
-	}
-
-	/**
-	* Retourne le label des types d'aide
-	*/
-	@Override
-	public java.lang.String getTypesLabel() {
-		return _initiativeHelp.getTypesLabel();
-	}
-
-	/**
-	* Returns the uuid of this initiative help.
-	*
-	* @return the uuid of this initiative help
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _initiativeHelp.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _initiativeHelp.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _initiativeHelp.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this initiative help.
-	*
-	* @return the create date of this initiative help
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _initiativeHelp.getCreateDate();
-	}
-
-	/**
-	* Returns the group ID of this initiative help.
-	*
-	* @return the group ID of this initiative help
-	*/
-	@Override
-	public long getGroupId() {
-		return _initiativeHelp.getGroupId();
-	}
-
-	/**
-	* Returns the initiative help ID of this initiative help.
-	*
-	* @return the initiative help ID of this initiative help
-	*/
-	@Override
-	public long getInitiativeHelpId() {
-		return _initiativeHelp.getInitiativeHelpId();
-	}
-
-	/**
-	* Returns the initiative ID of this initiative help.
-	*
-	* @return the initiative ID of this initiative help
-	*/
-	@Override
-	public long getInitiativeId() {
-		return _initiativeHelp.getInitiativeId();
-	}
-
-	/**
-	* Returns the primary key of this initiative help.
-	*
-	* @return the primary key of this initiative help
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _initiativeHelp.getPrimaryKey();
 	}
 
 	@Override
@@ -370,13 +347,20 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
-	* Sets the create date of this initiative help.
-	*
-	* @param createDate the create date of this initiative help
-	*/
+	 * Sets the create date of this initiative help.
+	 *
+	 * @param createDate the create date of this initiative help
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_initiativeHelp.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_initiativeHelp.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -385,73 +369,67 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_initiativeHelp.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_initiativeHelp.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this initiative help.
-	*
-	* @param groupId the group ID of this initiative help
-	*/
+	 * Sets the group ID of this initiative help.
+	 *
+	 * @param groupId the group ID of this initiative help
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_initiativeHelp.setGroupId(groupId);
 	}
 
 	/**
-	* Sets whether this initiative help is help display.
-	*
-	* @param helpDisplay the help display of this initiative help
-	*/
+	 * Sets whether this initiative help is help display.
+	 *
+	 * @param helpDisplay the help display of this initiative help
+	 */
 	@Override
 	public void setHelpDisplay(boolean helpDisplay) {
 		_initiativeHelp.setHelpDisplay(helpDisplay);
 	}
 
 	/**
-	* Sets the help types of this initiative help.
-	*
-	* @param helpTypes the help types of this initiative help
-	*/
+	 * Sets the help types of this initiative help.
+	 *
+	 * @param helpTypes the help types of this initiative help
+	 */
 	@Override
-	public void setHelpTypes(java.lang.String helpTypes) {
+	public void setHelpTypes(String helpTypes) {
 		_initiativeHelp.setHelpTypes(helpTypes);
 	}
 
 	/**
-	* Sets the initiative help ID of this initiative help.
-	*
-	* @param initiativeHelpId the initiative help ID of this initiative help
-	*/
+	 * Sets the initiative help ID of this initiative help.
+	 *
+	 * @param initiativeHelpId the initiative help ID of this initiative help
+	 */
 	@Override
 	public void setInitiativeHelpId(long initiativeHelpId) {
 		_initiativeHelp.setInitiativeHelpId(initiativeHelpId);
 	}
 
 	/**
-	* Sets the initiative ID of this initiative help.
-	*
-	* @param initiativeId the initiative ID of this initiative help
-	*/
+	 * Sets the initiative ID of this initiative help.
+	 *
+	 * @param initiativeId the initiative ID of this initiative help
+	 */
 	@Override
 	public void setInitiativeId(long initiativeId) {
 		_initiativeHelp.setInitiativeId(initiativeId);
 	}
 
 	/**
-	* Sets the message of this initiative help.
-	*
-	* @param message the message of this initiative help
-	*/
+	 * Sets the message of this initiative help.
+	 *
+	 * @param message the message of this initiative help
+	 */
 	@Override
-	public void setMessage(java.lang.String message) {
+	public void setMessage(String message) {
 		_initiativeHelp.setMessage(message);
 	}
 
@@ -461,10 +439,10 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
-	* Sets the primary key of this initiative help.
-	*
-	* @param primaryKey the primary key of this initiative help
-	*/
+	 * Sets the primary key of this initiative help.
+	 *
+	 * @param primaryKey the primary key of this initiative help
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_initiativeHelp.setPrimaryKey(primaryKey);
@@ -476,23 +454,52 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	/**
-	* Sets the publik user ID of this initiative help.
-	*
-	* @param publikUserId the publik user ID of this initiative help
-	*/
+	 * Sets the publik user ID of this initiative help.
+	 *
+	 * @param publikUserId the publik user ID of this initiative help
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_initiativeHelp.setPublikUserId(publikUserId);
 	}
 
 	/**
-	* Sets the uuid of this initiative help.
-	*
-	* @param uuid the uuid of this initiative help
-	*/
+	 * Sets the uuid of this initiative help.
+	 *
+	 * @param uuid the uuid of this initiative help
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_initiativeHelp.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.project.model.InitiativeHelp> toCacheModel() {
+
+		return _initiativeHelp.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.InitiativeHelp toEscapedModel() {
+		return new InitiativeHelpWrapper(_initiativeHelp.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _initiativeHelp.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.project.model.InitiativeHelp
+		toUnescapedModel() {
+
+		return new InitiativeHelpWrapper(_initiativeHelp.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _initiativeHelp.toXmlString();
 	}
 
 	@Override
@@ -505,10 +512,12 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 			return false;
 		}
 
-		InitiativeHelpWrapper initiativeHelpWrapper = (InitiativeHelpWrapper)obj;
+		InitiativeHelpWrapper initiativeHelpWrapper =
+			(InitiativeHelpWrapper)obj;
 
-		if (Objects.equals(_initiativeHelp,
-					initiativeHelpWrapper._initiativeHelp)) {
+		if (Objects.equals(
+				_initiativeHelp, initiativeHelpWrapper._initiativeHelp)) {
+
 			return true;
 		}
 
@@ -536,4 +545,5 @@ public class InitiativeHelpWrapper implements InitiativeHelp,
 	}
 
 	private final InitiativeHelp _initiativeHelp;
+
 }

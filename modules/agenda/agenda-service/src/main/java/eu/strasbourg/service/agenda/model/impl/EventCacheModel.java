@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.Event;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Event in entity cache.
  *
  * @author BenjaminBini
- * @see Event
  * @generated
  */
 @ProviderType
 public class EventCacheModel implements CacheModel<Event>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -185,7 +184,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		EventImpl eventImpl = new EventImpl();
 
 		if (uuid == null) {
-			eventImpl.setUuid(StringPool.BLANK);
+			eventImpl.setUuid("");
 		}
 		else {
 			eventImpl.setUuid(uuid);
@@ -197,7 +196,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		eventImpl.setUserId(userId);
 
 		if (userName == null) {
-			eventImpl.setUserName(StringPool.BLANK);
+			eventImpl.setUserName("");
 		}
 		else {
 			eventImpl.setUserName(userName);
@@ -228,7 +227,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		eventImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			eventImpl.setStatusByUserName(StringPool.BLANK);
+			eventImpl.setStatusByUserName("");
 		}
 		else {
 			eventImpl.setStatusByUserName(statusByUserName);
@@ -242,35 +241,35 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 
 		if (title == null) {
-			eventImpl.setTitle(StringPool.BLANK);
+			eventImpl.setTitle("");
 		}
 		else {
 			eventImpl.setTitle(title);
 		}
 
 		if (subtitle == null) {
-			eventImpl.setSubtitle(StringPool.BLANK);
+			eventImpl.setSubtitle("");
 		}
 		else {
 			eventImpl.setSubtitle(subtitle);
 		}
 
 		if (description == null) {
-			eventImpl.setDescription(StringPool.BLANK);
+			eventImpl.setDescription("");
 		}
 		else {
 			eventImpl.setDescription(description);
 		}
 
 		if (externalImageURL == null) {
-			eventImpl.setExternalImageURL(StringPool.BLANK);
+			eventImpl.setExternalImageURL("");
 		}
 		else {
 			eventImpl.setExternalImageURL(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			eventImpl.setExternalImageCopyright(StringPool.BLANK);
+			eventImpl.setExternalImageCopyright("");
 		}
 		else {
 			eventImpl.setExternalImageCopyright(externalImageCopyright);
@@ -280,63 +279,63 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		eventImpl.setImageHeight(imageHeight);
 
 		if (placeSIGId == null) {
-			eventImpl.setPlaceSIGId(StringPool.BLANK);
+			eventImpl.setPlaceSIGId("");
 		}
 		else {
 			eventImpl.setPlaceSIGId(placeSIGId);
 		}
 
 		if (placeName == null) {
-			eventImpl.setPlaceName(StringPool.BLANK);
+			eventImpl.setPlaceName("");
 		}
 		else {
 			eventImpl.setPlaceName(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			eventImpl.setPlaceStreetNumber(StringPool.BLANK);
+			eventImpl.setPlaceStreetNumber("");
 		}
 		else {
 			eventImpl.setPlaceStreetNumber(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			eventImpl.setPlaceStreetName(StringPool.BLANK);
+			eventImpl.setPlaceStreetName("");
 		}
 		else {
 			eventImpl.setPlaceStreetName(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			eventImpl.setPlaceZipCode(StringPool.BLANK);
+			eventImpl.setPlaceZipCode("");
 		}
 		else {
 			eventImpl.setPlaceZipCode(placeZipCode);
 		}
 
 		if (placeCity == null) {
-			eventImpl.setPlaceCity(StringPool.BLANK);
+			eventImpl.setPlaceCity("");
 		}
 		else {
 			eventImpl.setPlaceCity(placeCity);
 		}
 
 		if (placeCountry == null) {
-			eventImpl.setPlaceCountry(StringPool.BLANK);
+			eventImpl.setPlaceCountry("");
 		}
 		else {
 			eventImpl.setPlaceCountry(placeCountry);
 		}
 
 		if (access == null) {
-			eventImpl.setAccess(StringPool.BLANK);
+			eventImpl.setAccess("");
 		}
 		else {
 			eventImpl.setAccess(access);
 		}
 
 		if (accessForDisabled == null) {
-			eventImpl.setAccessForDisabled(StringPool.BLANK);
+			eventImpl.setAccessForDisabled("");
 		}
 		else {
 			eventImpl.setAccessForDisabled(accessForDisabled);
@@ -349,35 +348,35 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		eventImpl.setAccessForDeficient(accessForDeficient);
 
 		if (promoter == null) {
-			eventImpl.setPromoter(StringPool.BLANK);
+			eventImpl.setPromoter("");
 		}
 		else {
 			eventImpl.setPromoter(promoter);
 		}
 
 		if (phone == null) {
-			eventImpl.setPhone(StringPool.BLANK);
+			eventImpl.setPhone("");
 		}
 		else {
 			eventImpl.setPhone(phone);
 		}
 
 		if (email == null) {
-			eventImpl.setEmail(StringPool.BLANK);
+			eventImpl.setEmail("");
 		}
 		else {
 			eventImpl.setEmail(email);
 		}
 
 		if (websiteURL == null) {
-			eventImpl.setWebsiteURL(StringPool.BLANK);
+			eventImpl.setWebsiteURL("");
 		}
 		else {
 			eventImpl.setWebsiteURL(websiteURL);
 		}
 
 		if (websiteName == null) {
-			eventImpl.setWebsiteName(StringPool.BLANK);
+			eventImpl.setWebsiteName("");
 		}
 		else {
 			eventImpl.setWebsiteName(websiteName);
@@ -386,42 +385,42 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		eventImpl.setFree(free);
 
 		if (price == null) {
-			eventImpl.setPrice(StringPool.BLANK);
+			eventImpl.setPrice("");
 		}
 		else {
 			eventImpl.setPrice(price);
 		}
 
 		if (bookingDescription == null) {
-			eventImpl.setBookingDescription(StringPool.BLANK);
+			eventImpl.setBookingDescription("");
 		}
 		else {
 			eventImpl.setBookingDescription(bookingDescription);
 		}
 
 		if (bookingURL == null) {
-			eventImpl.setBookingURL(StringPool.BLANK);
+			eventImpl.setBookingURL("");
 		}
 		else {
 			eventImpl.setBookingURL(bookingURL);
 		}
 
 		if (subscriptionURL == null) {
-			eventImpl.setSubscriptionURL(StringPool.BLANK);
+			eventImpl.setSubscriptionURL("");
 		}
 		else {
 			eventImpl.setSubscriptionURL(subscriptionURL);
 		}
 
 		if (source == null) {
-			eventImpl.setSource(StringPool.BLANK);
+			eventImpl.setSource("");
 		}
 		else {
 			eventImpl.setSource(source);
 		}
 
 		if (idSource == null) {
-			eventImpl.setIdSource(StringPool.BLANK);
+			eventImpl.setIdSource("");
 		}
 		else {
 			eventImpl.setIdSource(idSource);
@@ -435,28 +434,28 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 
 		if (distribution == null) {
-			eventImpl.setDistribution(StringPool.BLANK);
+			eventImpl.setDistribution("");
 		}
 		else {
 			eventImpl.setDistribution(distribution);
 		}
 
 		if (composer == null) {
-			eventImpl.setComposer(StringPool.BLANK);
+			eventImpl.setComposer("");
 		}
 		else {
 			eventImpl.setComposer(composer);
 		}
 
 		if (concertId == null) {
-			eventImpl.setConcertId(StringPool.BLANK);
+			eventImpl.setConcertId("");
 		}
 		else {
 			eventImpl.setConcertId(concertId);
 		}
 
 		if (program == null) {
-			eventImpl.setProgram(StringPool.BLANK);
+			eventImpl.setProgram("");
 		}
 		else {
 			eventImpl.setProgram(program);
@@ -557,10 +556,9 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -575,7 +573,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -590,7 +588,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -599,35 +597,35 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (subtitle == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(subtitle);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
 
 		if (externalImageURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
 		}
 
 		if (externalImageCopyright == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(externalImageCopyright);
@@ -638,63 +636,63 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeInt(imageHeight);
 
 		if (placeSIGId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeSIGId);
 		}
 
 		if (placeName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeZipCode);
 		}
 
 		if (placeCity == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeCity);
 		}
 
 		if (placeCountry == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeCountry);
 		}
 
 		if (access == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(access);
 		}
 
 		if (accessForDisabled == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(accessForDisabled);
@@ -711,35 +709,35 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeBoolean(accessForDeficient);
 
 		if (promoter == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(promoter);
 		}
 
 		if (phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(phone);
 		}
 
 		if (email == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(email);
 		}
 
 		if (websiteURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(websiteURL);
 		}
 
 		if (websiteName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(websiteName);
@@ -748,42 +746,42 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeInt(free);
 
 		if (price == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(price);
 		}
 
 		if (bookingDescription == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(bookingDescription);
 		}
 
 		if (bookingURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(bookingURL);
 		}
 
 		if (subscriptionURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(subscriptionURL);
 		}
 
 		if (source == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(source);
 		}
 
 		if (idSource == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(idSource);
@@ -792,28 +790,28 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeLong(publicationDate);
 
 		if (distribution == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(distribution);
 		}
 
 		if (composer == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(composer);
 		}
 
 		if (concertId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(concertId);
 		}
 
 		if (program == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(program);
@@ -879,4 +877,5 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public long firstStartDate;
 	public long lastEndDate;
 	public long imageId;
+
 }

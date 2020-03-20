@@ -32,12 +32,13 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class SignalementBaseImpl extends SignalementModelImpl
-	implements Signalement {
+public abstract class SignalementBaseImpl
+	extends SignalementModelImpl implements Signalement {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a signalement model instance should use the {@link Signalement} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a signalement model instance should use the <code>Signalement</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class SignalementBaseImpl extends SignalementModelImpl
 			SignalementLocalServiceUtil.updateSignalement(this);
 		}
 	}
+
 }

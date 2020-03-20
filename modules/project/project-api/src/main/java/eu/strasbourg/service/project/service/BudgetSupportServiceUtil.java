@@ -16,38 +16,37 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for BudgetSupport. This utility wraps
- * {@link eu.strasbourg.service.project.service.impl.BudgetSupportServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.project.service.impl.BudgetSupportServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Cedric Henry
  * @see BudgetSupportService
- * @see eu.strasbourg.service.project.service.base.BudgetSupportServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.BudgetSupportServiceImpl
  * @generated
  */
 @ProviderType
 public class BudgetSupportServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.BudgetSupportServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.BudgetSupportServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,21 @@ public class BudgetSupportServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<BudgetSupportService, BudgetSupportService> _serviceTracker =
-		ServiceTrackerFactory.open(BudgetSupportService.class);
+	private static ServiceTracker<BudgetSupportService, BudgetSupportService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(BudgetSupportService.class);
+
+		ServiceTracker<BudgetSupportService, BudgetSupportService>
+			serviceTracker =
+				new ServiceTracker<BudgetSupportService, BudgetSupportService>(
+					bundle.getBundleContext(), BudgetSupportService.class,
+					null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

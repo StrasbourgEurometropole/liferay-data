@@ -28,19 +28,21 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 @ProviderType
 public class ActivityCourseScheduleServiceWrapper
 	implements ActivityCourseScheduleService,
-		ServiceWrapper<ActivityCourseScheduleService> {
+			   ServiceWrapper<ActivityCourseScheduleService> {
+
 	public ActivityCourseScheduleServiceWrapper(
 		ActivityCourseScheduleService activityCourseScheduleService) {
+
 		_activityCourseScheduleService = activityCourseScheduleService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _activityCourseScheduleService.getOSGiServiceIdentifier();
 	}
 
@@ -52,8 +54,10 @@ public class ActivityCourseScheduleServiceWrapper
 	@Override
 	public void setWrappedService(
 		ActivityCourseScheduleService activityCourseScheduleService) {
+
 		_activityCourseScheduleService = activityCourseScheduleService;
 	}
 
 	private ActivityCourseScheduleService _activityCourseScheduleService;
+
 }

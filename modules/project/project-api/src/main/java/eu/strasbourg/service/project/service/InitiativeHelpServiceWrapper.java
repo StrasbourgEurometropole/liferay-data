@@ -26,20 +26,22 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class InitiativeHelpServiceWrapper implements InitiativeHelpService,
-	ServiceWrapper<InitiativeHelpService> {
+public class InitiativeHelpServiceWrapper
+	implements InitiativeHelpService, ServiceWrapper<InitiativeHelpService> {
+
 	public InitiativeHelpServiceWrapper(
 		InitiativeHelpService initiativeHelpService) {
+
 		_initiativeHelpService = initiativeHelpService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _initiativeHelpService.getOSGiServiceIdentifier();
 	}
 
@@ -54,4 +56,5 @@ public class InitiativeHelpServiceWrapper implements InitiativeHelpService,
 	}
 
 	private InitiativeHelpService _initiativeHelpService;
+
 }

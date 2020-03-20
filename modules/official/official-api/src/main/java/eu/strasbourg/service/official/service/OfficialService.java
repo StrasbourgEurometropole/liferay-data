@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author AngeliqueZUNINO
  * @see OfficialServiceUtil
- * @see eu.strasbourg.service.official.service.base.OfficialServiceBaseImpl
- * @see eu.strasbourg.service.official.service.impl.OfficialServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=official", "json.web.service.context.path=Official"}, service = OfficialService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=official",
+		"json.web.service.context.path=Official"
+	},
+	service = OfficialService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface OfficialService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link OfficialServiceUtil} to access the official remote service. Add custom service methods to {@link eu.strasbourg.service.official.service.impl.OfficialServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link OfficialServiceUtil} to access the official remote service. Add custom service methods to <code>eu.strasbourg.service.official.service.impl.OfficialServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

@@ -23,15 +23,17 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.formSendRecordField.service.http.FormSendRecordFieldServiceSoap}.
+ * This class is used by SOAP remote services.
  *
  * @author Angélique Zunino
- * @see eu.strasbourg.service.formSendRecordField.service.http.FormSendRecordFieldServiceSoap
  * @generated
  */
 @ProviderType
 public class FormSendRecordFieldSoap implements Serializable {
-	public static FormSendRecordFieldSoap toSoapModel(FormSendRecordField model) {
+
+	public static FormSendRecordFieldSoap toSoapModel(
+		FormSendRecordField model) {
+
 		FormSendRecordFieldSoap soapModel = new FormSendRecordFieldSoap();
 
 		soapModel.setUuid(model.getUuid());
@@ -57,7 +59,9 @@ public class FormSendRecordFieldSoap implements Serializable {
 
 	public static FormSendRecordFieldSoap[] toSoapModels(
 		FormSendRecordField[] models) {
-		FormSendRecordFieldSoap[] soapModels = new FormSendRecordFieldSoap[models.length];
+
+		FormSendRecordFieldSoap[] soapModels =
+			new FormSendRecordFieldSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -68,10 +72,12 @@ public class FormSendRecordFieldSoap implements Serializable {
 
 	public static FormSendRecordFieldSoap[][] toSoapModels(
 		FormSendRecordField[][] models) {
+
 		FormSendRecordFieldSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new FormSendRecordFieldSoap[models.length][models[0].length];
+			soapModels =
+				new FormSendRecordFieldSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new FormSendRecordFieldSoap[0][0];
@@ -86,13 +92,16 @@ public class FormSendRecordFieldSoap implements Serializable {
 
 	public static FormSendRecordFieldSoap[] toSoapModels(
 		List<FormSendRecordField> models) {
-		List<FormSendRecordFieldSoap> soapModels = new ArrayList<FormSendRecordFieldSoap>(models.size());
+
+		List<FormSendRecordFieldSoap> soapModels =
+			new ArrayList<FormSendRecordFieldSoap>(models.size());
 
 		for (FormSendRecordField model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new FormSendRecordFieldSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new FormSendRecordFieldSoap[soapModels.size()]);
 	}
 
 	public FormSendRecordFieldSoap() {
@@ -259,4 +268,5 @@ public class FormSendRecordFieldSoap implements Serializable {
 	private long _contentId;
 	private String _instanceId;
 	private long _responseUserId;
+
 }

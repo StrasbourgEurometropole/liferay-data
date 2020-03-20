@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersi
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,54 +62,33 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see CampaignEventStatusPersistence
- * @see eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusUtil
  * @generated
  */
 @ProviderType
-public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<CampaignEventStatus>
+public class CampaignEventStatusPersistenceImpl
+	extends BasePersistenceImpl<CampaignEventStatus>
 	implements CampaignEventStatusPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link CampaignEventStatusUtil} to access the campaign event status persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>CampaignEventStatusUtil</code> to access the campaign event status persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = CampaignEventStatusImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			CampaignEventStatusModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		CampaignEventStatusImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the campaign event statuses where uuid = &#63;.
@@ -126,7 +105,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns a range of all the campaign event statuses where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -135,7 +114,9 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the range of matching campaign event statuses
 	 */
 	@Override
-	public List<CampaignEventStatus> findByUuid(String uuid, int start, int end) {
+	public List<CampaignEventStatus> findByUuid(
+		String uuid, int start, int end) {
+
 		return findByUuid(uuid, start, end, null);
 	}
 
@@ -143,7 +124,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns an ordered range of all the campaign event statuses where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -153,8 +134,10 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the ordered range of matching campaign event statuses
 	 */
 	@Override
-	public List<CampaignEventStatus> findByUuid(String uuid, int start,
-		int end, OrderByComparator<CampaignEventStatus> orderByComparator) {
+	public List<CampaignEventStatus> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<CampaignEventStatus> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -162,7 +145,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns an ordered range of all the campaign event statuses where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -173,33 +156,38 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the ordered range of matching campaign event statuses
 	 */
 	@Override
-	public List<CampaignEventStatus> findByUuid(String uuid, int start,
-		int end, OrderByComparator<CampaignEventStatus> orderByComparator,
+	public List<CampaignEventStatus> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<CampaignEventStatus> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<CampaignEventStatus> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CampaignEventStatus>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<CampaignEventStatus>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (CampaignEventStatus campaignEventStatus : list) {
-					if (!Objects.equals(uuid, campaignEventStatus.getUuid())) {
+					if (!uuid.equals(campaignEventStatus.getUuid())) {
 						list = null;
 
 						break;
@@ -212,8 +200,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -223,10 +211,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -236,11 +221,10 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(CampaignEventStatusModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -260,16 +244,16 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 				}
 
 				if (!pagination) {
-					list = (List<CampaignEventStatus>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<CampaignEventStatus>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CampaignEventStatus>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<CampaignEventStatus>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -298,11 +282,13 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @throws NoSuchCampaignEventStatusException if a matching campaign event status could not be found
 	 */
 	@Override
-	public CampaignEventStatus findByUuid_First(String uuid,
-		OrderByComparator<CampaignEventStatus> orderByComparator)
+	public CampaignEventStatus findByUuid_First(
+			String uuid,
+			OrderByComparator<CampaignEventStatus> orderByComparator)
 		throws NoSuchCampaignEventStatusException {
-		CampaignEventStatus campaignEventStatus = fetchByUuid_First(uuid,
-				orderByComparator);
+
+		CampaignEventStatus campaignEventStatus = fetchByUuid_First(
+			uuid, orderByComparator);
 
 		if (campaignEventStatus != null) {
 			return campaignEventStatus;
@@ -315,7 +301,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchCampaignEventStatusException(msg.toString());
 	}
@@ -328,10 +314,11 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the first matching campaign event status, or <code>null</code> if a matching campaign event status could not be found
 	 */
 	@Override
-	public CampaignEventStatus fetchByUuid_First(String uuid,
-		OrderByComparator<CampaignEventStatus> orderByComparator) {
-		List<CampaignEventStatus> list = findByUuid(uuid, 0, 1,
-				orderByComparator);
+	public CampaignEventStatus fetchByUuid_First(
+		String uuid, OrderByComparator<CampaignEventStatus> orderByComparator) {
+
+		List<CampaignEventStatus> list = findByUuid(
+			uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -349,11 +336,13 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @throws NoSuchCampaignEventStatusException if a matching campaign event status could not be found
 	 */
 	@Override
-	public CampaignEventStatus findByUuid_Last(String uuid,
-		OrderByComparator<CampaignEventStatus> orderByComparator)
+	public CampaignEventStatus findByUuid_Last(
+			String uuid,
+			OrderByComparator<CampaignEventStatus> orderByComparator)
 		throws NoSuchCampaignEventStatusException {
-		CampaignEventStatus campaignEventStatus = fetchByUuid_Last(uuid,
-				orderByComparator);
+
+		CampaignEventStatus campaignEventStatus = fetchByUuid_Last(
+			uuid, orderByComparator);
 
 		if (campaignEventStatus != null) {
 			return campaignEventStatus;
@@ -366,7 +355,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchCampaignEventStatusException(msg.toString());
 	}
@@ -379,16 +368,17 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the last matching campaign event status, or <code>null</code> if a matching campaign event status could not be found
 	 */
 	@Override
-	public CampaignEventStatus fetchByUuid_Last(String uuid,
-		OrderByComparator<CampaignEventStatus> orderByComparator) {
+	public CampaignEventStatus fetchByUuid_Last(
+		String uuid, OrderByComparator<CampaignEventStatus> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<CampaignEventStatus> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<CampaignEventStatus> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -407,9 +397,13 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @throws NoSuchCampaignEventStatusException if a campaign event status with the primary key could not be found
 	 */
 	@Override
-	public CampaignEventStatus[] findByUuid_PrevAndNext(long statusId,
-		String uuid, OrderByComparator<CampaignEventStatus> orderByComparator)
+	public CampaignEventStatus[] findByUuid_PrevAndNext(
+			long statusId, String uuid,
+			OrderByComparator<CampaignEventStatus> orderByComparator)
 		throws NoSuchCampaignEventStatusException {
+
+		uuid = Objects.toString(uuid, "");
+
 		CampaignEventStatus campaignEventStatus = findByPrimaryKey(statusId);
 
 		Session session = null;
@@ -419,13 +413,13 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 			CampaignEventStatus[] array = new CampaignEventStatusImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, campaignEventStatus,
-					uuid, orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, campaignEventStatus, uuid, orderByComparator, true);
 
 			array[1] = campaignEventStatus;
 
-			array[2] = getByUuid_PrevAndNext(session, campaignEventStatus,
-					uuid, orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, campaignEventStatus, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -437,15 +431,16 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		}
 	}
 
-	protected CampaignEventStatus getByUuid_PrevAndNext(Session session,
-		CampaignEventStatus campaignEventStatus, String uuid,
+	protected CampaignEventStatus getByUuid_PrevAndNext(
+		Session session, CampaignEventStatus campaignEventStatus, String uuid,
 		OrderByComparator<CampaignEventStatus> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -456,10 +451,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -469,7 +461,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -541,10 +534,11 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(campaignEventStatus);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						campaignEventStatus)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -565,8 +559,9 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (CampaignEventStatus campaignEventStatus : findByUuid(uuid,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (CampaignEventStatus campaignEventStatus :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(campaignEventStatus);
 		}
 	}
@@ -579,9 +574,11 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -592,10 +589,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -636,31 +630,15 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "campaignEventStatus.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "campaignEventStatus.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(campaignEventStatus.uuid IS NULL OR campaignEventStatus.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CAMPAIGNEVENTID =
-		new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID =
-		new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
-			new String[] { Long.class.getName() },
-			CampaignEventStatusModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID = new FinderPath(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCampaignEventId", new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"campaignEventStatus.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(campaignEventStatus.uuid IS NULL OR campaignEventStatus.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByCampaignEventId;
+	private FinderPath _finderPathWithoutPaginationFindByCampaignEventId;
+	private FinderPath _finderPathCountByCampaignEventId;
 
 	/**
 	 * Returns all the campaign event statuses where campaignEventId = &#63;.
@@ -669,16 +647,18 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the matching campaign event statuses
 	 */
 	@Override
-	public List<CampaignEventStatus> findByCampaignEventId(long campaignEventId) {
-		return findByCampaignEventId(campaignEventId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public List<CampaignEventStatus> findByCampaignEventId(
+		long campaignEventId) {
+
+		return findByCampaignEventId(
+			campaignEventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the campaign event statuses where campaignEventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param campaignEventId the campaign event ID
@@ -689,6 +669,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public List<CampaignEventStatus> findByCampaignEventId(
 		long campaignEventId, int start, int end) {
+
 		return findByCampaignEventId(campaignEventId, start, end, null);
 	}
 
@@ -696,7 +677,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns an ordered range of all the campaign event statuses where campaignEventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param campaignEventId the campaign event ID
@@ -709,15 +690,16 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	public List<CampaignEventStatus> findByCampaignEventId(
 		long campaignEventId, int start, int end,
 		OrderByComparator<CampaignEventStatus> orderByComparator) {
-		return findByCampaignEventId(campaignEventId, start, end,
-			orderByComparator, true);
+
+		return findByCampaignEventId(
+			campaignEventId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the campaign event statuses where campaignEventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param campaignEventId the campaign event ID
@@ -732,34 +714,36 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		long campaignEventId, int start, int end,
 		OrderByComparator<CampaignEventStatus> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID;
-			finderArgs = new Object[] { campaignEventId };
+			finderPath = _finderPathWithoutPaginationFindByCampaignEventId;
+			finderArgs = new Object[] {campaignEventId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CAMPAIGNEVENTID;
+			finderPath = _finderPathWithPaginationFindByCampaignEventId;
 			finderArgs = new Object[] {
-					campaignEventId,
-					
-					start, end, orderByComparator
-				};
+				campaignEventId, start, end, orderByComparator
+			};
 		}
 
 		List<CampaignEventStatus> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CampaignEventStatus>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<CampaignEventStatus>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (CampaignEventStatus campaignEventStatus : list) {
-					if ((campaignEventId != campaignEventStatus.getCampaignEventId())) {
+					if ((campaignEventId !=
+							campaignEventStatus.getCampaignEventId())) {
+
 						list = null;
 
 						break;
@@ -772,8 +756,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -784,11 +768,10 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(CampaignEventStatusModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -806,16 +789,16 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 				qPos.add(campaignEventId);
 
 				if (!pagination) {
-					list = (List<CampaignEventStatus>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<CampaignEventStatus>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CampaignEventStatus>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<CampaignEventStatus>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -845,11 +828,12 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public CampaignEventStatus findByCampaignEventId_First(
-		long campaignEventId,
-		OrderByComparator<CampaignEventStatus> orderByComparator)
+			long campaignEventId,
+			OrderByComparator<CampaignEventStatus> orderByComparator)
 		throws NoSuchCampaignEventStatusException {
-		CampaignEventStatus campaignEventStatus = fetchByCampaignEventId_First(campaignEventId,
-				orderByComparator);
+
+		CampaignEventStatus campaignEventStatus = fetchByCampaignEventId_First(
+			campaignEventId, orderByComparator);
 
 		if (campaignEventStatus != null) {
 			return campaignEventStatus;
@@ -862,7 +846,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		msg.append("campaignEventId=");
 		msg.append(campaignEventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchCampaignEventStatusException(msg.toString());
 	}
@@ -878,8 +862,9 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	public CampaignEventStatus fetchByCampaignEventId_First(
 		long campaignEventId,
 		OrderByComparator<CampaignEventStatus> orderByComparator) {
-		List<CampaignEventStatus> list = findByCampaignEventId(campaignEventId,
-				0, 1, orderByComparator);
+
+		List<CampaignEventStatus> list = findByCampaignEventId(
+			campaignEventId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -898,11 +883,12 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public CampaignEventStatus findByCampaignEventId_Last(
-		long campaignEventId,
-		OrderByComparator<CampaignEventStatus> orderByComparator)
+			long campaignEventId,
+			OrderByComparator<CampaignEventStatus> orderByComparator)
 		throws NoSuchCampaignEventStatusException {
-		CampaignEventStatus campaignEventStatus = fetchByCampaignEventId_Last(campaignEventId,
-				orderByComparator);
+
+		CampaignEventStatus campaignEventStatus = fetchByCampaignEventId_Last(
+			campaignEventId, orderByComparator);
 
 		if (campaignEventStatus != null) {
 			return campaignEventStatus;
@@ -915,7 +901,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		msg.append("campaignEventId=");
 		msg.append(campaignEventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchCampaignEventStatusException(msg.toString());
 	}
@@ -931,14 +917,15 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	public CampaignEventStatus fetchByCampaignEventId_Last(
 		long campaignEventId,
 		OrderByComparator<CampaignEventStatus> orderByComparator) {
+
 		int count = countByCampaignEventId(campaignEventId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<CampaignEventStatus> list = findByCampaignEventId(campaignEventId,
-				count - 1, count, orderByComparator);
+		List<CampaignEventStatus> list = findByCampaignEventId(
+			campaignEventId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -958,9 +945,10 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public CampaignEventStatus[] findByCampaignEventId_PrevAndNext(
-		long statusId, long campaignEventId,
-		OrderByComparator<CampaignEventStatus> orderByComparator)
+			long statusId, long campaignEventId,
+			OrderByComparator<CampaignEventStatus> orderByComparator)
 		throws NoSuchCampaignEventStatusException {
+
 		CampaignEventStatus campaignEventStatus = findByPrimaryKey(statusId);
 
 		Session session = null;
@@ -970,15 +958,15 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 			CampaignEventStatus[] array = new CampaignEventStatusImpl[3];
 
-			array[0] = getByCampaignEventId_PrevAndNext(session,
-					campaignEventStatus, campaignEventId, orderByComparator,
-					true);
+			array[0] = getByCampaignEventId_PrevAndNext(
+				session, campaignEventStatus, campaignEventId,
+				orderByComparator, true);
 
 			array[1] = campaignEventStatus;
 
-			array[2] = getByCampaignEventId_PrevAndNext(session,
-					campaignEventStatus, campaignEventId, orderByComparator,
-					false);
+			array[2] = getByCampaignEventId_PrevAndNext(
+				session, campaignEventStatus, campaignEventId,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -995,11 +983,12 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		long campaignEventId,
 		OrderByComparator<CampaignEventStatus> orderByComparator,
 		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1011,7 +1000,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1081,10 +1071,11 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		qPos.add(campaignEventId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(campaignEventStatus);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						campaignEventStatus)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1105,8 +1096,11 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public void removeByCampaignEventId(long campaignEventId) {
-		for (CampaignEventStatus campaignEventStatus : findByCampaignEventId(
-				campaignEventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (CampaignEventStatus campaignEventStatus :
+				findByCampaignEventId(
+					campaignEventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(campaignEventStatus);
 		}
 	}
@@ -1119,9 +1113,9 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public int countByCampaignEventId(long campaignEventId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID;
+		FinderPath finderPath = _finderPathCountByCampaignEventId;
 
-		Object[] finderArgs = new Object[] { campaignEventId };
+		Object[] finderArgs = new Object[] {campaignEventId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1162,21 +1156,24 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2 =
-		"campaignEventStatus.campaignEventId = ?";
+	private static final String
+		_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2 =
+			"campaignEventStatus.campaignEventId = ?";
 
 	public CampaignEventStatusPersistenceImpl() {
 		setModelClass(CampaignEventStatus.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("comment", "comment_");
+		dbColumnNames.put("date", "date_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("comment", "comment_");
-			dbColumnNames.put("date", "date_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1194,7 +1191,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public void cacheResult(CampaignEventStatus campaignEventStatus) {
-		entityCache.putResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignEventStatusImpl.class, campaignEventStatus.getPrimaryKey(),
 			campaignEventStatus);
 
@@ -1210,9 +1208,10 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	public void cacheResult(List<CampaignEventStatus> campaignEventStatuses) {
 		for (CampaignEventStatus campaignEventStatus : campaignEventStatuses) {
 			if (entityCache.getResult(
-						CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-						CampaignEventStatusImpl.class,
-						campaignEventStatus.getPrimaryKey()) == null) {
+					CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+					CampaignEventStatusImpl.class,
+					campaignEventStatus.getPrimaryKey()) == null) {
+
 				cacheResult(campaignEventStatus);
 			}
 			else {
@@ -1225,7 +1224,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Clears the cache for all campaign event statuses.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1241,12 +1240,13 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Clears the cache for the campaign event status.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(CampaignEventStatus campaignEventStatus) {
-		entityCache.removeResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignEventStatusImpl.class, campaignEventStatus.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
@@ -1259,7 +1259,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (CampaignEventStatus campaignEventStatus : campaignEventStatuses) {
-			entityCache.removeResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 				CampaignEventStatusImpl.class,
 				campaignEventStatus.getPrimaryKey());
 		}
@@ -1295,6 +1296,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public CampaignEventStatus remove(long statusId)
 		throws NoSuchCampaignEventStatusException {
+
 		return remove((Serializable)statusId);
 	}
 
@@ -1308,21 +1310,23 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public CampaignEventStatus remove(Serializable primaryKey)
 		throws NoSuchCampaignEventStatusException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CampaignEventStatus campaignEventStatus = (CampaignEventStatus)session.get(CampaignEventStatusImpl.class,
-					primaryKey);
+			CampaignEventStatus campaignEventStatus =
+				(CampaignEventStatus)session.get(
+					CampaignEventStatusImpl.class, primaryKey);
 
 			if (campaignEventStatus == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchCampaignEventStatusException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchCampaignEventStatusException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(campaignEventStatus);
@@ -1341,7 +1345,6 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	protected CampaignEventStatus removeImpl(
 		CampaignEventStatus campaignEventStatus) {
-		campaignEventStatus = toUnwrappedModel(campaignEventStatus);
 
 		Session session = null;
 
@@ -1349,8 +1352,9 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			session = openSession();
 
 			if (!session.contains(campaignEventStatus)) {
-				campaignEventStatus = (CampaignEventStatus)session.get(CampaignEventStatusImpl.class,
-						campaignEventStatus.getPrimaryKeyObj());
+				campaignEventStatus = (CampaignEventStatus)session.get(
+					CampaignEventStatusImpl.class,
+					campaignEventStatus.getPrimaryKeyObj());
 			}
 
 			if (campaignEventStatus != null) {
@@ -1374,11 +1378,28 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public CampaignEventStatus updateImpl(
 		CampaignEventStatus campaignEventStatus) {
-		campaignEventStatus = toUnwrappedModel(campaignEventStatus);
 
 		boolean isNew = campaignEventStatus.isNew();
 
-		CampaignEventStatusModelImpl campaignEventStatusModelImpl = (CampaignEventStatusModelImpl)campaignEventStatus;
+		if (!(campaignEventStatus instanceof CampaignEventStatusModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(campaignEventStatus.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					campaignEventStatus);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in campaignEventStatus proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom CampaignEventStatus implementation " +
+					campaignEventStatus.getClass());
+		}
+
+		CampaignEventStatusModelImpl campaignEventStatusModelImpl =
+			(CampaignEventStatusModelImpl)campaignEventStatus;
 
 		if (Validator.isNull(campaignEventStatus.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -1397,7 +1418,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 				campaignEventStatus.setNew(false);
 			}
 			else {
-				campaignEventStatus = (CampaignEventStatus)session.merge(campaignEventStatus);
+				campaignEventStatus = (CampaignEventStatus)session.merge(
+					campaignEventStatus);
 			}
 		}
 		catch (Exception e) {
@@ -1412,68 +1434,73 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		if (!CampaignEventStatusModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { campaignEventStatusModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {
+				campaignEventStatusModelImpl.getUuid()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				campaignEventStatusModelImpl.getCampaignEventId()
+			};
+
+			finderCache.removeResult(_finderPathCountByCampaignEventId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCampaignEventId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((campaignEventStatusModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					campaignEventStatusModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {campaignEventStatusModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((campaignEventStatusModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByCampaignEventId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					campaignEventStatusModelImpl.getOriginalCampaignEventId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByCampaignEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCampaignEventId, args);
+
+				args = new Object[] {
 					campaignEventStatusModelImpl.getCampaignEventId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((campaignEventStatusModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						campaignEventStatusModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { campaignEventStatusModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-			}
-
-			if ((campaignEventStatusModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						campaignEventStatusModelImpl.getOriginalCampaignEventId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
-					args);
-
-				args = new Object[] {
-						campaignEventStatusModelImpl.getCampaignEventId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByCampaignEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCampaignEventId, args);
 			}
 		}
 
-		entityCache.putResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignEventStatusImpl.class, campaignEventStatus.getPrimaryKey(),
 			campaignEventStatus, false);
 
@@ -1482,33 +1509,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		return campaignEventStatus;
 	}
 
-	protected CampaignEventStatus toUnwrappedModel(
-		CampaignEventStatus campaignEventStatus) {
-		if (campaignEventStatus instanceof CampaignEventStatusImpl) {
-			return campaignEventStatus;
-		}
-
-		CampaignEventStatusImpl campaignEventStatusImpl = new CampaignEventStatusImpl();
-
-		campaignEventStatusImpl.setNew(campaignEventStatus.isNew());
-		campaignEventStatusImpl.setPrimaryKey(campaignEventStatus.getPrimaryKey());
-
-		campaignEventStatusImpl.setUuid(campaignEventStatus.getUuid());
-		campaignEventStatusImpl.setStatusId(campaignEventStatus.getStatusId());
-		campaignEventStatusImpl.setStatus(campaignEventStatus.getStatus());
-		campaignEventStatusImpl.setComment(campaignEventStatus.getComment());
-		campaignEventStatusImpl.setDeletionDenied(campaignEventStatus.getDeletionDenied());
-		campaignEventStatusImpl.setDate(campaignEventStatus.getDate());
-		campaignEventStatusImpl.setCampaignEventId(campaignEventStatus.getCampaignEventId());
-		campaignEventStatusImpl.setPreviousStatusId(campaignEventStatus.getPreviousStatusId());
-		campaignEventStatusImpl.setUserId(campaignEventStatus.getUserId());
-		campaignEventStatusImpl.setUserName(campaignEventStatus.getUserName());
-
-		return campaignEventStatusImpl;
-	}
-
 	/**
-	 * Returns the campaign event status with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the campaign event status with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the campaign event status
 	 * @return the campaign event status
@@ -1517,6 +1519,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public CampaignEventStatus findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchCampaignEventStatusException {
+
 		CampaignEventStatus campaignEventStatus = fetchByPrimaryKey(primaryKey);
 
 		if (campaignEventStatus == null) {
@@ -1524,15 +1527,15 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchCampaignEventStatusException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchCampaignEventStatusException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return campaignEventStatus;
 	}
 
 	/**
-	 * Returns the campaign event status with the primary key or throws a {@link NoSuchCampaignEventStatusException} if it could not be found.
+	 * Returns the campaign event status with the primary key or throws a <code>NoSuchCampaignEventStatusException</code> if it could not be found.
 	 *
 	 * @param statusId the primary key of the campaign event status
 	 * @return the campaign event status
@@ -1541,6 +1544,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public CampaignEventStatus findByPrimaryKey(long statusId)
 		throws NoSuchCampaignEventStatusException {
+
 		return findByPrimaryKey((Serializable)statusId);
 	}
 
@@ -1552,14 +1556,16 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public CampaignEventStatus fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-				CampaignEventStatusImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
 		}
 
-		CampaignEventStatus campaignEventStatus = (CampaignEventStatus)serializable;
+		CampaignEventStatus campaignEventStatus =
+			(CampaignEventStatus)serializable;
 
 		if (campaignEventStatus == null) {
 			Session session = null;
@@ -1567,19 +1573,21 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			try {
 				session = openSession();
 
-				campaignEventStatus = (CampaignEventStatus)session.get(CampaignEventStatusImpl.class,
-						primaryKey);
+				campaignEventStatus = (CampaignEventStatus)session.get(
+					CampaignEventStatusImpl.class, primaryKey);
 
 				if (campaignEventStatus != null) {
 					cacheResult(campaignEventStatus);
 				}
 				else {
-					entityCache.putResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 						CampaignEventStatusImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 					CampaignEventStatusImpl.class, primaryKey);
 
 				throw processException(e);
@@ -1606,18 +1614,21 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	@Override
 	public Map<Serializable, CampaignEventStatus> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, CampaignEventStatus> map = new HashMap<Serializable, CampaignEventStatus>();
+		Map<Serializable, CampaignEventStatus> map =
+			new HashMap<Serializable, CampaignEventStatus>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
 
 			Serializable primaryKey = iterator.next();
 
-			CampaignEventStatus campaignEventStatus = fetchByPrimaryKey(primaryKey);
+			CampaignEventStatus campaignEventStatus = fetchByPrimaryKey(
+				primaryKey);
 
 			if (campaignEventStatus != null) {
 				map.put(primaryKey, campaignEventStatus);
@@ -1629,8 +1640,9 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-					CampaignEventStatusImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+				CampaignEventStatusImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1650,20 +1662,20 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1674,17 +1686,22 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 			Query q = session.createQuery(sql);
 
-			for (CampaignEventStatus campaignEventStatus : (List<CampaignEventStatus>)q.list()) {
-				map.put(campaignEventStatus.getPrimaryKeyObj(),
+			for (CampaignEventStatus campaignEventStatus :
+					(List<CampaignEventStatus>)q.list()) {
+
+				map.put(
+					campaignEventStatus.getPrimaryKeyObj(),
 					campaignEventStatus);
 
 				cacheResult(campaignEventStatus);
 
-				uncachedPrimaryKeys.remove(campaignEventStatus.getPrimaryKeyObj());
+				uncachedPrimaryKeys.remove(
+					campaignEventStatus.getPrimaryKeyObj());
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 					CampaignEventStatusImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -1712,7 +1729,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns a range of all the campaign event statuses.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of campaign event statuses
@@ -1728,7 +1745,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns an ordered range of all the campaign event statuses.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of campaign event statuses
@@ -1737,8 +1754,10 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the ordered range of campaign event statuses
 	 */
 	@Override
-	public List<CampaignEventStatus> findAll(int start, int end,
+	public List<CampaignEventStatus> findAll(
+		int start, int end,
 		OrderByComparator<CampaignEventStatus> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1746,7 +1765,7 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Returns an ordered range of all the campaign event statuses.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CampaignEventStatusModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CampaignEventStatusModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of campaign event statuses
@@ -1756,29 +1775,32 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * @return the ordered range of campaign event statuses
 	 */
 	@Override
-	public List<CampaignEventStatus> findAll(int start, int end,
+	public List<CampaignEventStatus> findAll(
+		int start, int end,
 		OrderByComparator<CampaignEventStatus> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<CampaignEventStatus> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CampaignEventStatus>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<CampaignEventStatus>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1786,13 +1808,13 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_CAMPAIGNEVENTSTATUS);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1800,7 +1822,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 				sql = _SQL_SELECT_CAMPAIGNEVENTSTATUS;
 
 				if (pagination) {
-					sql = sql.concat(CampaignEventStatusModelImpl.ORDER_BY_JPQL);
+					sql = sql.concat(
+						CampaignEventStatusModelImpl.ORDER_BY_JPQL);
 				}
 			}
 
@@ -1812,16 +1835,16 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<CampaignEventStatus>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<CampaignEventStatus>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CampaignEventStatus>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<CampaignEventStatus>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1859,8 +1882,8 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1872,12 +1895,12 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1903,6 +1926,72 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 	 * Initializes the campaign event status persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
+			CampaignEventStatusImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
+			CampaignEventStatusImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
+			CampaignEventStatusImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
+			CampaignEventStatusImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			CampaignEventStatusModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByCampaignEventId = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
+			CampaignEventStatusImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByCampaignEventId = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
+			CampaignEventStatusImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
+			new String[] {Long.class.getName()},
+			CampaignEventStatusModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
+
+		_finderPathCountByCampaignEventId = new FinderPath(
+			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
+			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCampaignEventId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -1914,18 +2003,37 @@ public class CampaignEventStatusPersistenceImpl extends BasePersistenceImpl<Camp
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS = "SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus";
-	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE_PKS_IN = "SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus WHERE statusId IN (";
-	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE = "SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus WHERE ";
-	private static final String _SQL_COUNT_CAMPAIGNEVENTSTATUS = "SELECT COUNT(campaignEventStatus) FROM CampaignEventStatus campaignEventStatus";
-	private static final String _SQL_COUNT_CAMPAIGNEVENTSTATUS_WHERE = "SELECT COUNT(campaignEventStatus) FROM CampaignEventStatus campaignEventStatus WHERE ";
+
+	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS =
+		"SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus";
+
+	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE_PKS_IN =
+		"SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus WHERE statusId IN (";
+
+	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE =
+		"SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus WHERE ";
+
+	private static final String _SQL_COUNT_CAMPAIGNEVENTSTATUS =
+		"SELECT COUNT(campaignEventStatus) FROM CampaignEventStatus campaignEventStatus";
+
+	private static final String _SQL_COUNT_CAMPAIGNEVENTSTATUS_WHERE =
+		"SELECT COUNT(campaignEventStatus) FROM CampaignEventStatus campaignEventStatus WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "campaignEventStatus.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No CampaignEventStatus exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No CampaignEventStatus exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(CampaignEventStatusPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "comment", "date"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No CampaignEventStatus exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No CampaignEventStatus exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		CampaignEventStatusPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid", "comment", "date"});
+
 }

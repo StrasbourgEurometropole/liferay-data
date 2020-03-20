@@ -181,6 +181,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
+		                                event.preventDefault();
 								    	break;
 								    }
 								}
@@ -260,14 +261,7 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
-	</aui:script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script src="/o/projectbo/js/project-bo-edit-petition.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

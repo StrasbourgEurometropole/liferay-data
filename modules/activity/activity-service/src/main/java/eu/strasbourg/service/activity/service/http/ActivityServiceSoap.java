@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link ActivityServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>ActivityServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.activity.model.ActivitySoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.activity.model.Activity}, that is translated to a
- * {@link eu.strasbourg.service.activity.model.ActivitySoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.activity.model.ActivitySoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.activity.model.Activity</code>, that is translated to a
+ * <code>eu.strasbourg.service.activity.model.ActivitySoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,18 +60,18 @@ import java.rmi.RemoteException;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityServiceHttp
- * @see eu.strasbourg.service.activity.model.ActivitySoap
- * @see ActivityServiceUtil
  * @generated
  */
 @ProviderType
 public class ActivityServiceSoap {
-	public static java.lang.String getActivities(long groupId,
-		java.lang.String name, java.lang.String language)
+
+	public static String getActivities(
+			long groupId, String name, String language)
 		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONArray returnValue = ActivityServiceUtil.getActivities(groupId,
-					name, language);
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				ActivityServiceUtil.getActivities(groupId, name, language);
 
 			return returnValue.toString();
 		}
@@ -82,4 +83,5 @@ public class ActivityServiceSoap {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ActivityServiceSoap.class);
+
 }

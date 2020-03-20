@@ -32,12 +32,13 @@ import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class PracticeBaseImpl extends PracticeModelImpl
-	implements Practice {
+public abstract class PracticeBaseImpl
+	extends PracticeModelImpl implements Practice {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a practice model instance should use the {@link Practice} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a practice model instance should use the <code>Practice</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class PracticeBaseImpl extends PracticeModelImpl
 			PracticeLocalServiceUtil.updatePractice(this);
 		}
 	}
+
 }

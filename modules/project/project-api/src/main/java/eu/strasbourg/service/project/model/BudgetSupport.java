@@ -25,20 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see BudgetSupportModel
- * @see eu.strasbourg.service.project.model.impl.BudgetSupportImpl
- * @see eu.strasbourg.service.project.model.impl.BudgetSupportModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.project.model.impl.BudgetSupportImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.project.model.impl.BudgetSupportImpl"
+)
 @ProviderType
 public interface BudgetSupport extends BudgetSupportModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.project.model.impl.BudgetSupportImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.project.model.impl.BudgetSupportImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<BudgetSupport, Long> BUDGET_SUPPORT_ID_ACCESSOR =
-		new Accessor<BudgetSupport, Long>() {
+	public static final Accessor<BudgetSupport, Long>
+		BUDGET_SUPPORT_ID_ACCESSOR = new Accessor<BudgetSupport, Long>() {
+
 			@Override
 			public Long get(BudgetSupport budgetSupport) {
 				return budgetSupport.getBudgetSupportId();
@@ -53,5 +55,7 @@ public interface BudgetSupport extends BudgetSupportModel, PersistedModel {
 			public Class<BudgetSupport> getTypeClass() {
 				return BudgetSupport.class;
 			}
+
 		};
+
 }

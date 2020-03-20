@@ -33,10 +33,11 @@ import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
  */
 @ProviderType
 public abstract class PeriodBaseImpl extends PeriodModelImpl implements Period {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a period model instance should use the {@link Period} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a period model instance should use the <code>Period</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class PeriodBaseImpl extends PeriodModelImpl implements Period {
 			PeriodLocalServiceUtil.updatePeriod(this);
 		}
 	}
+
 }

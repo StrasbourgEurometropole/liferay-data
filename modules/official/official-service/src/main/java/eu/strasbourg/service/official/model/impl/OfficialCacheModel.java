@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.official.model.Official;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Official in entity cache.
  *
  * @author AngeliqueZUNINO
- * @see Official
  * @generated
  */
 @ProviderType
-public class OfficialCacheModel implements CacheModel<Official>, Externalizable {
+public class OfficialCacheModel
+	implements CacheModel<Official>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -123,7 +123,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		OfficialImpl officialImpl = new OfficialImpl();
 
 		if (uuid == null) {
-			officialImpl.setUuid(StringPool.BLANK);
+			officialImpl.setUuid("");
 		}
 		else {
 			officialImpl.setUuid(uuid);
@@ -135,7 +135,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setUserId(userId);
 
 		if (userName == null) {
-			officialImpl.setUserName(StringPool.BLANK);
+			officialImpl.setUserName("");
 		}
 		else {
 			officialImpl.setUserName(userName);
@@ -166,7 +166,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			officialImpl.setStatusByUserName(StringPool.BLANK);
+			officialImpl.setStatusByUserName("");
 		}
 		else {
 			officialImpl.setStatusByUserName(statusByUserName);
@@ -182,28 +182,28 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setGender(gender);
 
 		if (lastName == null) {
-			officialImpl.setLastName(StringPool.BLANK);
+			officialImpl.setLastName("");
 		}
 		else {
 			officialImpl.setLastName(lastName);
 		}
 
 		if (firstName == null) {
-			officialImpl.setFirstName(StringPool.BLANK);
+			officialImpl.setFirstName("");
 		}
 		else {
 			officialImpl.setFirstName(firstName);
 		}
 
 		if (thematicDelegation == null) {
-			officialImpl.setThematicDelegation(StringPool.BLANK);
+			officialImpl.setThematicDelegation("");
 		}
 		else {
 			officialImpl.setThematicDelegation(thematicDelegation);
 		}
 
 		if (missions == null) {
-			officialImpl.setMissions(StringPool.BLANK);
+			officialImpl.setMissions("");
 		}
 		else {
 			officialImpl.setMissions(missions);
@@ -212,7 +212,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setWasMinister(wasMinister);
 
 		if (contact == null) {
-			officialImpl.setContact(StringPool.BLANK);
+			officialImpl.setContact("");
 		}
 		else {
 			officialImpl.setContact(contact);
@@ -266,10 +266,9 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -284,7 +283,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -299,7 +298,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -310,28 +309,28 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeInt(gender);
 
 		if (lastName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(lastName);
 		}
 
 		if (firstName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(firstName);
 		}
 
 		if (thematicDelegation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(thematicDelegation);
 		}
 
 		if (missions == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(missions);
@@ -340,7 +339,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeBoolean(wasMinister);
 
 		if (contact == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contact);
@@ -376,4 +375,5 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public int orderDeputyMayor;
 	public int orderVicePresident;
 	public long imageId;
+
 }

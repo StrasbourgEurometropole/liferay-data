@@ -26,121 +26,135 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class PlaceServiceWrapper implements PlaceService,
-	ServiceWrapper<PlaceService> {
+public class PlaceServiceWrapper
+	implements PlaceService, ServiceWrapper<PlaceService> {
+
 	public PlaceServiceWrapper(PlaceService placeService) {
 		_placeService = placeService;
 	}
 
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlaces()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlaces();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
-		java.lang.String name, java.lang.String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlacesByNameAndLanguage(name, language);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
-		java.lang.String territoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlacesByTerritory(territoryId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlacesByTerritoryAndType(
-		java.lang.String territoryId, java.lang.String typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlacesByTerritoryAndType(territoryId, typeId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlacesByType(
-		java.lang.String typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlacesByType(typeId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
-		java.util.List<java.lang.String> typesId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getPlacesByTypes(typesId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _placeService.getTypes();
-	}
-
 	/**
-	* Retourne l'ancien web service LR6 concernant les Types de lieu
-	*/
+	 * Retourne l'ancien web service LR6 concernant les Types de lieu
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getLegacyCategoriesJSON();
 	}
 
 	/**
-	* Retourne l'horrible ancien web service LR6
-	*/
+	 * Retourne l'horrible ancien web service LR6
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getLegacyJSON() {
 		return _placeService.getLegacyJSON();
 	}
 
 	/**
-	* Retourne l'ancien web service LR6 concernant les Territoires
-	*/
+	 * Retourne l'ancien web service LR6 concernant les Territoires
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getLegacyTerritoriesJSON();
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _placeService.getOSGiServiceIdentifier();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getPlaceById(id);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-		java.lang.String sigId)
+			String sigId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getPlaceByIdSIG(sigId);
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlaces()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getPlaces();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
+			String name, String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getPlacesByNameAndLanguage(name, language);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
+			String territoryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getPlacesByTerritory(territoryId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByTerritoryAndType(
+			String territoryId, String typeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getPlacesByTerritoryAndType(territoryId, typeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByType(
+			String typeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getPlacesByType(typeId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
+			java.util.List<String> typesId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getPlacesByTypes(typesId);
+	}
+
 	/**
-	* Retourne le géoJSON des lieux
-	*/
+	 * Retourne le géoJSON des lieux
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getPlacesGeoJSON();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getRealtime()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getRealtime();
 	}
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _placeService.getOSGiServiceIdentifier();
+	public com.liferay.portal.kernel.json.JSONArray getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getTypes();
 	}
 
 	@Override
@@ -154,4 +168,5 @@ public class PlaceServiceWrapper implements PlaceService,
 	}
 
 	private PlaceService _placeService;
+
 }

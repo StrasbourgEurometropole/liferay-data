@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.portlet.PortletPreferences;
 
+import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.xml.Element;
 
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.model.impl.OfficialImpl;
-import eu.strasbourg.service.official.service.OfficialLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
@@ -31,9 +30,6 @@ public class OfficialPortletDataHandler extends BasePortletDataHandler {
 	public static final String NAMESPACE = "strasbourg-official";
 
 	public static final String SCHEMA_VERSION = "1.0.0";
-
-	@Reference
-	private OfficialLocalService officialLocalService;
 
 	@Override
 	public String getSchemaVersion() {
@@ -62,7 +58,7 @@ public class OfficialPortletDataHandler extends BasePortletDataHandler {
 		// fait rien
 		if (portletDataContext.getBooleanParameter(NAMESPACE,
 			"Official entity")) {
-			ExportActionableDynamicQuery entryActionableDynamicQuery = this.officialLocalService
+			ExportActionableDynamicQuery entryActionableDynamicQuery = OfficialLocalServiceUtil
 				.getExportActionableDynamicQuery(portletDataContext);
 			entryActionableDynamicQuery
 				.setGroupId(portletDataContext.getScopeGroupId()); // ?

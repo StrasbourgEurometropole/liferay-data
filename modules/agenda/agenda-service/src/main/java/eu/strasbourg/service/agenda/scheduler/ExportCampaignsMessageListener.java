@@ -1,5 +1,7 @@
 package eu.strasbourg.service.agenda.scheduler;
 
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
+import com.liferay.portal.kernel.scheduler.*;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -11,45 +13,64 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
 
 /**
  * Exporte automatiquement les campagnes au format JSON et les place dans le dossier d'import.
  */
-@Component(immediate = true, service = CheckEventMessageListener.class)
+@Component(immediate = true, service = ExportCampaignsMessageListener.class)
 public class ExportCampaignsMessageListener
-		extends BaseSchedulerEntryMessageListener {
+		extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		// Tous les jours à 2h
-		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-			getEventListenerClass(), getEventListenerClass(), "0 0 2 * * ?"));
-		schedulerEngineHelper.register(this, schedulerEntryImpl,
-				DestinationNames.SCHEDULER_DISPATCH);
+		String listenerClass = getClass().getName();
+
+		// Création du trigger "Tous les jours à 2h"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, null, null,
+				"0 0 2 * * ?");
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate
 	protected void deactivate() {
-		schedulerEngineHelper.unregister(this);
+		_schedulerEngineHelper.unregister(this);
 	}
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		this.log.info("Start exporting campaigns");
-		campaignLocalService.exportCampaigns();
+		_campaignLocalService.exportCampaigns();
 		this.log.info("Finish exporting campaigns");
 	}
 
 	@Reference(unbind = "-")
-	private volatile SchedulerEngineHelper schedulerEngineHelper;
-	
-	@Reference(unbind = "-")
-	private CampaignLocalService campaignLocalService;
+	protected void setCampaignLocalService(CampaignLocalService campaignLocalService) {
+		_campaignLocalService = campaignLocalService;
+	}
 
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
+
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	private CampaignLocalService _campaignLocalService;
+	private TriggerFactory _triggerFactory;
 	private final Log log = LogFactoryUtil.getLog(this.getClass());
 }

@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.ProjectServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.ProjectServiceSoap
  * @generated
  */
 @ProviderType
 public class ProjectSoap implements Serializable {
+
 	public static ProjectSoap toSoapModel(Project model) {
 		ProjectSoap soapModel = new ProjectSoap();
 
@@ -93,7 +93,8 @@ public class ProjectSoap implements Serializable {
 	}
 
 	public static ProjectSoap[] toSoapModels(List<Project> models) {
-		List<ProjectSoap> soapModels = new ArrayList<ProjectSoap>(models.size());
+		List<ProjectSoap> soapModels = new ArrayList<ProjectSoap>(
+			models.size());
 
 		for (Project model : models) {
 			soapModels.add(toSoapModel(model));
@@ -356,4 +357,5 @@ public class ProjectSoap implements Serializable {
 	private String _contactLine2;
 	private String _contactPhoneNumber;
 	private long _imageId;
+
 }

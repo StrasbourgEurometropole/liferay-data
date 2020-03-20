@@ -16,66 +16,85 @@ package eu.strasbourg.service.project.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for ProjectFollowed. This utility wraps
- * {@link eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Cedric Henry
  * @see ProjectFollowedService
- * @see eu.strasbourg.service.project.service.base.ProjectFollowedServiceBaseImpl
- * @see eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl
  * @generated
  */
 @ProviderType
 public class ProjectFollowedServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Ajoute un projet à un utilisateur
-	*/
+	 * Ajoute un projet à un utilisateur
+	 */
 	public static com.liferay.portal.kernel.json.JSONObject addFollowerLink(
 		long projectId, long groupId) {
+
 		return getService().addFollowerLink(projectId, groupId);
 	}
 
-	/**
-	* Verifie si l'utilisateur courant suit le projet
-	*/
-	public static com.liferay.portal.kernel.json.JSONObject isFollower(
-		long projectId) {
-		return getService().isFollower(projectId);
+	public static java.util.List
+		<eu.strasbourg.service.project.model.ProjectFollowed>
+			findProjectFollowedByPublikUserId(String publikId) {
+
+		return getService().findProjectFollowedByPublikUserId(publikId);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.ProjectFollowed> findProjectFollowedByPublikUserId(
-		java.lang.String publikId) {
-		return getService().findProjectFollowedByPublikUserId(publikId);
+	/**
+	 * Verifie si l'utilisateur courant suit le projet
+	 */
+	public static com.liferay.portal.kernel.json.JSONObject isFollower(
+		long projectId) {
+
+		return getService().isFollower(projectId);
 	}
 
 	public static ProjectFollowedService getService() {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<ProjectFollowedService, ProjectFollowedService> _serviceTracker =
-		ServiceTrackerFactory.open(ProjectFollowedService.class);
+	private static ServiceTracker
+		<ProjectFollowedService, ProjectFollowedService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(ProjectFollowedService.class);
+
+		ServiceTracker<ProjectFollowedService, ProjectFollowedService>
+			serviceTracker =
+				new ServiceTracker
+					<ProjectFollowedService, ProjectFollowedService>(
+						bundle.getBundleContext(), ProjectFollowedService.class,
+						null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

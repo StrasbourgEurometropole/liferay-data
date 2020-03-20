@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
 import com.liferay.portal.kernel.util.*;
@@ -34,8 +35,6 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
@@ -75,7 +74,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String MOBILE = "mobile";
     private static final String BUDGETTITLE = "title";
     private static final String BUDGETSUMMARY = "summary";
-    private static final String SQUIREDESCRIPTION = "description";
+    private static final String SQUIREDESCRIPTION = "squiredescription";
     private static final String LIEU = "budgetLieux";
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
@@ -291,14 +290,20 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			context.put("footerImage", btnImage.toString());
 			context.put("Title", this.title);
 			context.put("Message", this.squiredescription);
-			
-		  	Configuration configuration = new Configuration(Configuration.getVersion());
-			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
-			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-			
-			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
-			StringWriter bodyWriter = new StringWriter();
-			bodyTemplate.process(context, bodyWriter);
+
+            StringWriter out = new StringWriter();
+
+            //Chargement du template contenant le corps du mail
+            TemplateResource templateResourceBody = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("META-INF/resources/templates/contact-mail-copy-body-fr_FR.ftl")));
+            Template bodyTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+            // Traitement du template corps
+            bodyTemplate.putAll(context);
+            bodyTemplate.processTemplate(out);
+            String mailBody = out.toString();
 			
 			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitbudget.mail.information");
 			
@@ -310,8 +315,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
-					bodyWriter.toString());
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();

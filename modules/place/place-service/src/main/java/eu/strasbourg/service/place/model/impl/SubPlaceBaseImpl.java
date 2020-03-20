@@ -32,12 +32,13 @@ import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class SubPlaceBaseImpl extends SubPlaceModelImpl
-	implements SubPlace {
+public abstract class SubPlaceBaseImpl
+	extends SubPlaceModelImpl implements SubPlace {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a sub place model instance should use the {@link SubPlace} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a sub place model instance should use the <code>SubPlace</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class SubPlaceBaseImpl extends SubPlaceModelImpl
 			SubPlaceLocalServiceUtil.updateSubPlace(this);
 		}
 	}
+
 }

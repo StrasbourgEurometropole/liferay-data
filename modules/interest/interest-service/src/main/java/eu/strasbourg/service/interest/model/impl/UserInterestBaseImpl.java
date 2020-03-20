@@ -32,12 +32,13 @@ import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class UserInterestBaseImpl extends UserInterestModelImpl
-	implements UserInterest {
+public abstract class UserInterestBaseImpl
+	extends UserInterestModelImpl implements UserInterest {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a user interest model instance should use the {@link UserInterest} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a user interest model instance should use the <code>UserInterest</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class UserInterestBaseImpl extends UserInterestModelImpl
 			UserInterestLocalServiceUtil.updateUserInterest(this);
 		}
 	}
+
 }

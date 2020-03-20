@@ -31,10 +31,9 @@ import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -48,6 +47,7 @@ import eu.strasbourg.service.activity.service.persistence.ActivityOrganizerPersi
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -67,54 +67,33 @@ import java.util.Set;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see ActivityOrganizerPersistence
- * @see eu.strasbourg.service.activity.service.persistence.ActivityOrganizerUtil
  * @generated
  */
 @ProviderType
-public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<ActivityOrganizer>
+public class ActivityOrganizerPersistenceImpl
+	extends BasePersistenceImpl<ActivityOrganizer>
 	implements ActivityOrganizerPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link ActivityOrganizerUtil} to access the activity organizer persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>ActivityOrganizerUtil</code> to access the activity organizer persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = ActivityOrganizerImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			ActivityOrganizerModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		ActivityOrganizerImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the activity organizers where uuid = &#63;.
@@ -131,7 +110,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns a range of all the activity organizers where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -148,7 +127,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -158,8 +137,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByUuid(String uuid, int start, int end,
+	public List<ActivityOrganizer> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<ActivityOrganizer> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -167,7 +148,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -178,33 +159,38 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByUuid(String uuid, int start, int end,
+	public List<ActivityOrganizer> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<ActivityOrganizer> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<ActivityOrganizer> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ActivityOrganizer>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ActivityOrganizer>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ActivityOrganizer activityOrganizer : list) {
-					if (!Objects.equals(uuid, activityOrganizer.getUuid())) {
+					if (!uuid.equals(activityOrganizer.getUuid())) {
 						list = null;
 
 						break;
@@ -217,8 +203,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -228,10 +214,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -241,11 +224,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ActivityOrganizerModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -265,16 +247,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				}
 
 				if (!pagination) {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -303,11 +285,12 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @throws NoSuchActivityOrganizerException if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer findByUuid_First(String uuid,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+	public ActivityOrganizer findByUuid_First(
+			String uuid, OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = fetchByUuid_First(uuid,
-				orderByComparator);
+
+		ActivityOrganizer activityOrganizer = fetchByUuid_First(
+			uuid, orderByComparator);
 
 		if (activityOrganizer != null) {
 			return activityOrganizer;
@@ -320,7 +303,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchActivityOrganizerException(msg.toString());
 	}
@@ -333,9 +316,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the first matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByUuid_First(String uuid,
-		OrderByComparator<ActivityOrganizer> orderByComparator) {
-		List<ActivityOrganizer> list = findByUuid(uuid, 0, 1, orderByComparator);
+	public ActivityOrganizer fetchByUuid_First(
+		String uuid, OrderByComparator<ActivityOrganizer> orderByComparator) {
+
+		List<ActivityOrganizer> list = findByUuid(
+			uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -353,11 +338,12 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @throws NoSuchActivityOrganizerException if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer findByUuid_Last(String uuid,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+	public ActivityOrganizer findByUuid_Last(
+			String uuid, OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = fetchByUuid_Last(uuid,
-				orderByComparator);
+
+		ActivityOrganizer activityOrganizer = fetchByUuid_Last(
+			uuid, orderByComparator);
 
 		if (activityOrganizer != null) {
 			return activityOrganizer;
@@ -370,7 +356,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchActivityOrganizerException(msg.toString());
 	}
@@ -383,16 +369,17 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the last matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByUuid_Last(String uuid,
-		OrderByComparator<ActivityOrganizer> orderByComparator) {
+	public ActivityOrganizer fetchByUuid_Last(
+		String uuid, OrderByComparator<ActivityOrganizer> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ActivityOrganizer> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<ActivityOrganizer> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -412,10 +399,14 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public ActivityOrganizer[] findByUuid_PrevAndNext(
-		long activityOrganizerId, String uuid,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+			long activityOrganizerId, String uuid,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = findByPrimaryKey(activityOrganizerId);
+
+		uuid = Objects.toString(uuid, "");
+
+		ActivityOrganizer activityOrganizer = findByPrimaryKey(
+			activityOrganizerId);
 
 		Session session = null;
 
@@ -424,13 +415,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			ActivityOrganizer[] array = new ActivityOrganizerImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, activityOrganizer, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, activityOrganizer, uuid, orderByComparator, true);
 
 			array[1] = activityOrganizer;
 
-			array[2] = getByUuid_PrevAndNext(session, activityOrganizer, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, activityOrganizer, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -442,14 +433,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		}
 	}
 
-	protected ActivityOrganizer getByUuid_PrevAndNext(Session session,
-		ActivityOrganizer activityOrganizer, String uuid,
-		OrderByComparator<ActivityOrganizer> orderByComparator, boolean previous) {
+	protected ActivityOrganizer getByUuid_PrevAndNext(
+		Session session, ActivityOrganizer activityOrganizer, String uuid,
+		OrderByComparator<ActivityOrganizer> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -460,10 +453,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -473,7 +463,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -545,10 +536,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(activityOrganizer);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						activityOrganizer)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -569,8 +561,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (ActivityOrganizer activityOrganizer : findByUuid(uuid,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ActivityOrganizer activityOrganizer :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(activityOrganizer);
 		}
 	}
@@ -583,9 +576,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -596,10 +591,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -640,23 +632,17 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "activityOrganizer.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "activityOrganizer.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(activityOrganizer.uuid IS NULL OR activityOrganizer.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ActivityOrganizerModelImpl.UUID_COLUMN_BITMASK |
-			ActivityOrganizerModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"activityOrganizer.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(activityOrganizer.uuid IS NULL OR activityOrganizer.uuid = '')";
+
+	private FinderPath _finderPathFetchByUUID_G;
+	private FinderPath _finderPathCountByUUID_G;
 
 	/**
-	 * Returns the activity organizer where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchActivityOrganizerException} if it could not be found.
+	 * Returns the activity organizer where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchActivityOrganizerException</code> if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -666,6 +652,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public ActivityOrganizer findByUUID_G(String uuid, long groupId)
 		throws NoSuchActivityOrganizerException {
+
 		ActivityOrganizer activityOrganizer = fetchByUUID_G(uuid, groupId);
 
 		if (activityOrganizer == null) {
@@ -679,7 +666,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
+			msg.append("}");
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -712,22 +699,26 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
+	public ActivityOrganizer fetchByUUID_G(
+		String uuid, long groupId, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
 		if (result instanceof ActivityOrganizer) {
 			ActivityOrganizer activityOrganizer = (ActivityOrganizer)result;
 
 			if (!Objects.equals(uuid, activityOrganizer.getUuid()) ||
-					(groupId != activityOrganizer.getGroupId())) {
+				(groupId != activityOrganizer.getGroupId())) {
+
 				result = null;
 			}
 		}
@@ -739,10 +730,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -773,8 +761,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				List<ActivityOrganizer> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
+					finderCache.putResult(
+						_finderPathFetchByUUID_G, finderArgs, list);
 				}
 				else {
 					ActivityOrganizer activityOrganizer = list.get(0);
@@ -782,17 +770,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 					result = activityOrganizer;
 
 					cacheResult(activityOrganizer);
-
-					if ((activityOrganizer.getUuid() == null) ||
-							!activityOrganizer.getUuid().equals(uuid) ||
-							(activityOrganizer.getGroupId() != groupId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-							finderArgs, activityOrganizer);
-					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -819,6 +800,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public ActivityOrganizer removeByUUID_G(String uuid, long groupId)
 		throws NoSuchActivityOrganizerException {
+
 		ActivityOrganizer activityOrganizer = findByUUID_G(uuid, groupId);
 
 		return remove(activityOrganizer);
@@ -833,9 +815,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, groupId };
+		FinderPath finderPath = _finderPathCountByUUID_G;
+
+		Object[] finderArgs = new Object[] {uuid, groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -846,10 +830,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -894,32 +875,18 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "activityOrganizer.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "activityOrganizer.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(activityOrganizer.uuid IS NULL OR activityOrganizer.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "activityOrganizer.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
-		new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() },
-			ActivityOrganizerModelImpl.UUID_COLUMN_BITMASK |
-			ActivityOrganizerModelImpl.COMPANYID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] { String.class.getName(), Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
+		"activityOrganizer.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
+		"(activityOrganizer.uuid IS NULL OR activityOrganizer.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
+		"activityOrganizer.groupId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByUuid_C;
+	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
+	private FinderPath _finderPathCountByUuid_C;
 
 	/**
 	 * Returns all the activity organizers where uuid = &#63; and companyId = &#63;.
@@ -930,15 +897,15 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public List<ActivityOrganizer> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByUuid_C(
+			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the activity organizers where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -948,8 +915,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByUuid_C(String uuid, long companyId,
-		int start, int end) {
+	public List<ActivityOrganizer> findByUuid_C(
+		String uuid, long companyId, int start, int end) {
+
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -957,7 +925,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -968,17 +936,19 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByUuid_C(String uuid, long companyId,
-		int start, int end,
+	public List<ActivityOrganizer> findByUuid_C(
+		String uuid, long companyId, int start, int end,
 		OrderByComparator<ActivityOrganizer> orderByComparator) {
-		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+
+		return findByUuid_C(
+			uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the activity organizers where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -990,39 +960,42 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByUuid_C(String uuid, long companyId,
-		int start, int end,
+	public List<ActivityOrganizer> findByUuid_C(
+		String uuid, long companyId, int start, int end,
 		OrderByComparator<ActivityOrganizer> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
-			finderArgs = new Object[] { uuid, companyId };
+			finderPath = _finderPathWithoutPaginationFindByUuid_C;
+			finderArgs = new Object[] {uuid, companyId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderPath = _finderPathWithPaginationFindByUuid_C;
 			finderArgs = new Object[] {
-					uuid, companyId,
-					
-					start, end, orderByComparator
-				};
+				uuid, companyId, start, end, orderByComparator
+			};
 		}
 
 		List<ActivityOrganizer> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ActivityOrganizer>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ActivityOrganizer>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ActivityOrganizer activityOrganizer : list) {
-					if (!Objects.equals(uuid, activityOrganizer.getUuid()) ||
-							(companyId != activityOrganizer.getCompanyId())) {
+					if (!uuid.equals(activityOrganizer.getUuid()) ||
+						(companyId != activityOrganizer.getCompanyId())) {
+
 						list = null;
 
 						break;
@@ -1035,8 +1008,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1046,10 +1019,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1061,11 +1031,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ActivityOrganizerModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1087,16 +1056,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1126,11 +1095,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @throws NoSuchActivityOrganizerException if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer findByUuid_C_First(String uuid, long companyId,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+	public ActivityOrganizer findByUuid_C_First(
+			String uuid, long companyId,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = fetchByUuid_C_First(uuid,
-				companyId, orderByComparator);
+
+		ActivityOrganizer activityOrganizer = fetchByUuid_C_First(
+			uuid, companyId, orderByComparator);
 
 		if (activityOrganizer != null) {
 			return activityOrganizer;
@@ -1146,7 +1117,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchActivityOrganizerException(msg.toString());
 	}
@@ -1160,10 +1131,12 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the first matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByUuid_C_First(String uuid, long companyId,
+	public ActivityOrganizer fetchByUuid_C_First(
+		String uuid, long companyId,
 		OrderByComparator<ActivityOrganizer> orderByComparator) {
-		List<ActivityOrganizer> list = findByUuid_C(uuid, companyId, 0, 1,
-				orderByComparator);
+
+		List<ActivityOrganizer> list = findByUuid_C(
+			uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1182,11 +1155,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @throws NoSuchActivityOrganizerException if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer findByUuid_C_Last(String uuid, long companyId,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+	public ActivityOrganizer findByUuid_C_Last(
+			String uuid, long companyId,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = fetchByUuid_C_Last(uuid,
-				companyId, orderByComparator);
+
+		ActivityOrganizer activityOrganizer = fetchByUuid_C_Last(
+			uuid, companyId, orderByComparator);
 
 		if (activityOrganizer != null) {
 			return activityOrganizer;
@@ -1202,7 +1177,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchActivityOrganizerException(msg.toString());
 	}
@@ -1216,16 +1191,18 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the last matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByUuid_C_Last(String uuid, long companyId,
+	public ActivityOrganizer fetchByUuid_C_Last(
+		String uuid, long companyId,
 		OrderByComparator<ActivityOrganizer> orderByComparator) {
+
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ActivityOrganizer> list = findByUuid_C(uuid, companyId, count - 1,
-				count, orderByComparator);
+		List<ActivityOrganizer> list = findByUuid_C(
+			uuid, companyId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1246,10 +1223,14 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public ActivityOrganizer[] findByUuid_C_PrevAndNext(
-		long activityOrganizerId, String uuid, long companyId,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+			long activityOrganizerId, String uuid, long companyId,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = findByPrimaryKey(activityOrganizerId);
+
+		uuid = Objects.toString(uuid, "");
+
+		ActivityOrganizer activityOrganizer = findByPrimaryKey(
+			activityOrganizerId);
 
 		Session session = null;
 
@@ -1258,13 +1239,15 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			ActivityOrganizer[] array = new ActivityOrganizerImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(session, activityOrganizer,
-					uuid, companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(
+				session, activityOrganizer, uuid, companyId, orderByComparator,
+				true);
 
 			array[1] = activityOrganizer;
 
-			array[2] = getByUuid_C_PrevAndNext(session, activityOrganizer,
-					uuid, companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(
+				session, activityOrganizer, uuid, companyId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1276,14 +1259,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		}
 	}
 
-	protected ActivityOrganizer getByUuid_C_PrevAndNext(Session session,
-		ActivityOrganizer activityOrganizer, String uuid, long companyId,
-		OrderByComparator<ActivityOrganizer> orderByComparator, boolean previous) {
+	protected ActivityOrganizer getByUuid_C_PrevAndNext(
+		Session session, ActivityOrganizer activityOrganizer, String uuid,
+		long companyId, OrderByComparator<ActivityOrganizer> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1294,10 +1279,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1309,7 +1291,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1383,10 +1366,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(activityOrganizer);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						activityOrganizer)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1408,8 +1392,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (ActivityOrganizer activityOrganizer : findByUuid_C(uuid,
-				companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ActivityOrganizer activityOrganizer :
+				findByUuid_C(
+					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(activityOrganizer);
 		}
 	}
@@ -1423,9 +1410,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid, companyId };
+		FinderPath finderPath = _finderPathCountByUuid_C;
+
+		Object[] finderArgs = new Object[] {uuid, companyId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1436,10 +1425,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1484,31 +1470,18 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "activityOrganizer.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "activityOrganizer.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(activityOrganizer.uuid IS NULL OR activityOrganizer.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "activityOrganizer.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
-		new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
-			ActivityOrganizerImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] { Long.class.getName() },
-			ActivityOrganizerModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
+		"activityOrganizer.uuid = ? AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
+		"(activityOrganizer.uuid IS NULL OR activityOrganizer.uuid = '') AND ";
+
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
+		"activityOrganizer.companyId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByGroupId;
+	private FinderPath _finderPathWithoutPaginationFindByGroupId;
+	private FinderPath _finderPathCountByGroupId;
 
 	/**
 	 * Returns all the activity organizers where groupId = &#63;.
@@ -1518,14 +1491,15 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public List<ActivityOrganizer> findByGroupId(long groupId) {
-		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(
+			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the activity organizers where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1534,8 +1508,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByGroupId(long groupId, int start,
-		int end) {
+	public List<ActivityOrganizer> findByGroupId(
+		long groupId, int start, int end) {
+
 		return findByGroupId(groupId, start, end, null);
 	}
 
@@ -1543,7 +1518,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1553,8 +1528,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByGroupId(long groupId, int start,
-		int end, OrderByComparator<ActivityOrganizer> orderByComparator) {
+	public List<ActivityOrganizer> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<ActivityOrganizer> orderByComparator) {
+
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1562,7 +1539,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1573,29 +1550,32 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of matching activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findByGroupId(long groupId, int start,
-		int end, OrderByComparator<ActivityOrganizer> orderByComparator,
+	public List<ActivityOrganizer> findByGroupId(
+		long groupId, int start, int end,
+		OrderByComparator<ActivityOrganizer> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId };
+			finderPath = _finderPathWithoutPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
-			finderArgs = new Object[] { groupId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByGroupId;
+			finderArgs = new Object[] {groupId, start, end, orderByComparator};
 		}
 
 		List<ActivityOrganizer> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ActivityOrganizer>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ActivityOrganizer>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (ActivityOrganizer activityOrganizer : list) {
@@ -1612,8 +1592,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1624,11 +1604,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(ActivityOrganizerModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1646,16 +1625,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1684,11 +1663,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @throws NoSuchActivityOrganizerException if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer findByGroupId_First(long groupId,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+	public ActivityOrganizer findByGroupId_First(
+			long groupId,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = fetchByGroupId_First(groupId,
-				orderByComparator);
+
+		ActivityOrganizer activityOrganizer = fetchByGroupId_First(
+			groupId, orderByComparator);
 
 		if (activityOrganizer != null) {
 			return activityOrganizer;
@@ -1701,7 +1682,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchActivityOrganizerException(msg.toString());
 	}
@@ -1714,10 +1695,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the first matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByGroupId_First(long groupId,
-		OrderByComparator<ActivityOrganizer> orderByComparator) {
-		List<ActivityOrganizer> list = findByGroupId(groupId, 0, 1,
-				orderByComparator);
+	public ActivityOrganizer fetchByGroupId_First(
+		long groupId, OrderByComparator<ActivityOrganizer> orderByComparator) {
+
+		List<ActivityOrganizer> list = findByGroupId(
+			groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1735,11 +1717,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @throws NoSuchActivityOrganizerException if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer findByGroupId_Last(long groupId,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+	public ActivityOrganizer findByGroupId_Last(
+			long groupId,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = fetchByGroupId_Last(groupId,
-				orderByComparator);
+
+		ActivityOrganizer activityOrganizer = fetchByGroupId_Last(
+			groupId, orderByComparator);
 
 		if (activityOrganizer != null) {
 			return activityOrganizer;
@@ -1752,7 +1736,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchActivityOrganizerException(msg.toString());
 	}
@@ -1765,16 +1749,17 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the last matching activity organizer, or <code>null</code> if a matching activity organizer could not be found
 	 */
 	@Override
-	public ActivityOrganizer fetchByGroupId_Last(long groupId,
-		OrderByComparator<ActivityOrganizer> orderByComparator) {
+	public ActivityOrganizer fetchByGroupId_Last(
+		long groupId, OrderByComparator<ActivityOrganizer> orderByComparator) {
+
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<ActivityOrganizer> list = findByGroupId(groupId, count - 1, count,
-				orderByComparator);
+		List<ActivityOrganizer> list = findByGroupId(
+			groupId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1794,10 +1779,12 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public ActivityOrganizer[] findByGroupId_PrevAndNext(
-		long activityOrganizerId, long groupId,
-		OrderByComparator<ActivityOrganizer> orderByComparator)
+			long activityOrganizerId, long groupId,
+			OrderByComparator<ActivityOrganizer> orderByComparator)
 		throws NoSuchActivityOrganizerException {
-		ActivityOrganizer activityOrganizer = findByPrimaryKey(activityOrganizerId);
+
+		ActivityOrganizer activityOrganizer = findByPrimaryKey(
+			activityOrganizerId);
 
 		Session session = null;
 
@@ -1806,13 +1793,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			ActivityOrganizer[] array = new ActivityOrganizerImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(session, activityOrganizer,
-					groupId, orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(
+				session, activityOrganizer, groupId, orderByComparator, true);
 
 			array[1] = activityOrganizer;
 
-			array[2] = getByGroupId_PrevAndNext(session, activityOrganizer,
-					groupId, orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(
+				session, activityOrganizer, groupId, orderByComparator, false);
 
 			return array;
 		}
@@ -1824,14 +1811,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		}
 	}
 
-	protected ActivityOrganizer getByGroupId_PrevAndNext(Session session,
-		ActivityOrganizer activityOrganizer, long groupId,
-		OrderByComparator<ActivityOrganizer> orderByComparator, boolean previous) {
+	protected ActivityOrganizer getByGroupId_PrevAndNext(
+		Session session, ActivityOrganizer activityOrganizer, long groupId,
+		OrderByComparator<ActivityOrganizer> orderByComparator,
+		boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1843,7 +1832,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1913,10 +1903,11 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(activityOrganizer);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						activityOrganizer)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1937,8 +1928,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (ActivityOrganizer activityOrganizer : findByGroupId(groupId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (ActivityOrganizer activityOrganizer :
+				findByGroupId(
+					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(activityOrganizer);
 		}
 	}
@@ -1951,9 +1944,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
+		FinderPath finderPath = _finderPathCountByGroupId;
 
-		Object[] finderArgs = new Object[] { groupId };
+		Object[] finderArgs = new Object[] {groupId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1994,18 +1987,21 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "activityOrganizer.groupId = ?";
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
+		"activityOrganizer.groupId = ?";
 
 	public ActivityOrganizerPersistenceImpl() {
 		setModelClass(ActivityOrganizer.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -2023,14 +2019,17 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public void cacheResult(ActivityOrganizer activityOrganizer) {
-		entityCache.putResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 			ActivityOrganizerImpl.class, activityOrganizer.getPrimaryKey(),
 			activityOrganizer);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+		finderCache.putResult(
+			_finderPathFetchByUUID_G,
 			new Object[] {
 				activityOrganizer.getUuid(), activityOrganizer.getGroupId()
-			}, activityOrganizer);
+			},
+			activityOrganizer);
 
 		activityOrganizer.resetOriginalValues();
 	}
@@ -2044,9 +2043,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	public void cacheResult(List<ActivityOrganizer> activityOrganizers) {
 		for (ActivityOrganizer activityOrganizer : activityOrganizers) {
 			if (entityCache.getResult(
-						ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-						ActivityOrganizerImpl.class,
-						activityOrganizer.getPrimaryKey()) == null) {
+					ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+					ActivityOrganizerImpl.class,
+					activityOrganizer.getPrimaryKey()) == null) {
+
 				cacheResult(activityOrganizer);
 			}
 			else {
@@ -2059,7 +2059,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Clears the cache for all activity organizers.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -2075,19 +2075,20 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Clears the cache for the activity organizer.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(ActivityOrganizer activityOrganizer) {
-		entityCache.removeResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.removeResult(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 			ActivityOrganizerImpl.class, activityOrganizer.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		clearUniqueFindersCache((ActivityOrganizerModelImpl)activityOrganizer,
-			true);
+		clearUniqueFindersCache(
+			(ActivityOrganizerModelImpl)activityOrganizer, true);
 	}
 
 	@Override
@@ -2096,49 +2097,53 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (ActivityOrganizer activityOrganizer : activityOrganizers) {
-			entityCache.removeResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 				ActivityOrganizerImpl.class, activityOrganizer.getPrimaryKey());
 
-			clearUniqueFindersCache((ActivityOrganizerModelImpl)activityOrganizer,
-				true);
+			clearUniqueFindersCache(
+				(ActivityOrganizerModelImpl)activityOrganizer, true);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(
 		ActivityOrganizerModelImpl activityOrganizerModelImpl) {
-		Object[] args = new Object[] {
-				activityOrganizerModelImpl.getUuid(),
-				activityOrganizerModelImpl.getGroupId()
-			};
 
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			activityOrganizerModelImpl, false);
+		Object[] args = new Object[] {
+			activityOrganizerModelImpl.getUuid(),
+			activityOrganizerModelImpl.getGroupId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByUUID_G, args, activityOrganizerModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
 		ActivityOrganizerModelImpl activityOrganizerModelImpl,
 		boolean clearCurrent) {
+
 		if (clearCurrent) {
 			Object[] args = new Object[] {
-					activityOrganizerModelImpl.getUuid(),
-					activityOrganizerModelImpl.getGroupId()
-				};
+				activityOrganizerModelImpl.getUuid(),
+				activityOrganizerModelImpl.getGroupId()
+			};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 
 		if ((activityOrganizerModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					activityOrganizerModelImpl.getOriginalUuid(),
-					activityOrganizerModelImpl.getOriginalGroupId()
-				};
+			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+			Object[] args = new Object[] {
+				activityOrganizerModelImpl.getOriginalUuid(),
+				activityOrganizerModelImpl.getOriginalGroupId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUUID_G, args);
+			finderCache.removeResult(_finderPathFetchByUUID_G, args);
 		}
 	}
 
@@ -2174,6 +2179,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public ActivityOrganizer remove(long activityOrganizerId)
 		throws NoSuchActivityOrganizerException {
+
 		return remove((Serializable)activityOrganizerId);
 	}
 
@@ -2187,21 +2193,23 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public ActivityOrganizer remove(Serializable primaryKey)
 		throws NoSuchActivityOrganizerException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			ActivityOrganizer activityOrganizer = (ActivityOrganizer)session.get(ActivityOrganizerImpl.class,
-					primaryKey);
+			ActivityOrganizer activityOrganizer =
+				(ActivityOrganizer)session.get(
+					ActivityOrganizerImpl.class, primaryKey);
 
 			if (activityOrganizer == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchActivityOrganizerException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchActivityOrganizerException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(activityOrganizer);
@@ -2218,8 +2226,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	}
 
 	@Override
-	protected ActivityOrganizer removeImpl(ActivityOrganizer activityOrganizer) {
-		activityOrganizer = toUnwrappedModel(activityOrganizer);
+	protected ActivityOrganizer removeImpl(
+		ActivityOrganizer activityOrganizer) {
 
 		Session session = null;
 
@@ -2227,8 +2235,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			session = openSession();
 
 			if (!session.contains(activityOrganizer)) {
-				activityOrganizer = (ActivityOrganizer)session.get(ActivityOrganizerImpl.class,
-						activityOrganizer.getPrimaryKeyObj());
+				activityOrganizer = (ActivityOrganizer)session.get(
+					ActivityOrganizerImpl.class,
+					activityOrganizer.getPrimaryKeyObj());
 			}
 
 			if (activityOrganizer != null) {
@@ -2251,11 +2260,27 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 	@Override
 	public ActivityOrganizer updateImpl(ActivityOrganizer activityOrganizer) {
-		activityOrganizer = toUnwrappedModel(activityOrganizer);
-
 		boolean isNew = activityOrganizer.isNew();
 
-		ActivityOrganizerModelImpl activityOrganizerModelImpl = (ActivityOrganizerModelImpl)activityOrganizer;
+		if (!(activityOrganizer instanceof ActivityOrganizerModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(activityOrganizer.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					activityOrganizer);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in activityOrganizer proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom ActivityOrganizer implementation " +
+					activityOrganizer.getClass());
+		}
+
+		ActivityOrganizerModelImpl activityOrganizerModelImpl =
+			(ActivityOrganizerModelImpl)activityOrganizer;
 
 		if (Validator.isNull(activityOrganizer.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -2263,7 +2288,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			activityOrganizer.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -2272,8 +2298,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				activityOrganizer.setCreateDate(now);
 			}
 			else {
-				activityOrganizer.setCreateDate(serviceContext.getCreateDate(
-						now));
+				activityOrganizer.setCreateDate(
+					serviceContext.getCreateDate(now));
 			}
 		}
 
@@ -2282,8 +2308,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				activityOrganizer.setModifiedDate(now);
 			}
 			else {
-				activityOrganizer.setModifiedDate(serviceContext.getModifiedDate(
-						now));
+				activityOrganizer.setModifiedDate(
+					serviceContext.getModifiedDate(now));
 			}
 		}
 
@@ -2298,7 +2324,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				activityOrganizer.setNew(false);
 			}
 			else {
-				activityOrganizer = (ActivityOrganizer)session.merge(activityOrganizer);
+				activityOrganizer = (ActivityOrganizer)session.merge(
+					activityOrganizer);
 			}
 		}
 		catch (Exception e) {
@@ -2313,92 +2340,97 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		if (!ActivityOrganizerModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { activityOrganizerModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {activityOrganizerModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
 			args = new Object[] {
+				activityOrganizerModelImpl.getUuid(),
+				activityOrganizerModelImpl.getCompanyId()
+			};
+
+			finderCache.removeResult(_finderPathCountByUuid_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid_C, args);
+
+			args = new Object[] {activityOrganizerModelImpl.getGroupId()};
+
+			finderCache.removeResult(_finderPathCountByGroupId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByGroupId, args);
+
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+		}
+		else {
+			if ((activityOrganizerModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					activityOrganizerModelImpl.getOriginalUuid()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+
+				args = new Object[] {activityOrganizerModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
+			}
+
+			if ((activityOrganizerModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					activityOrganizerModelImpl.getOriginalUuid(),
+					activityOrganizerModelImpl.getOriginalCompanyId()
+				};
+
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
+
+				args = new Object[] {
 					activityOrganizerModelImpl.getUuid(),
 					activityOrganizerModelImpl.getCompanyId()
 				};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-				args);
-
-			args = new Object[] { activityOrganizerModelImpl.getGroupId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-				args);
-
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
-		}
-
-		else {
-			if ((activityOrganizerModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						activityOrganizerModelImpl.getOriginalUuid()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
-
-				args = new Object[] { activityOrganizerModelImpl.getUuid() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid_C, args);
 			}
 
 			if ((activityOrganizerModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByGroupId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						activityOrganizerModelImpl.getOriginalUuid(),
-						activityOrganizerModelImpl.getOriginalCompanyId()
-					};
+					activityOrganizerModelImpl.getOriginalGroupId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 
-				args = new Object[] {
-						activityOrganizerModelImpl.getUuid(),
-						activityOrganizerModelImpl.getCompanyId()
-					};
+				args = new Object[] {activityOrganizerModelImpl.getGroupId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((activityOrganizerModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						activityOrganizerModelImpl.getOriginalGroupId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-
-				args = new Object[] { activityOrganizerModelImpl.getGroupId() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
+				finderCache.removeResult(_finderPathCountByGroupId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByGroupId, args);
 			}
 		}
 
-		entityCache.putResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+		entityCache.putResult(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 			ActivityOrganizerImpl.class, activityOrganizer.getPrimaryKey(),
 			activityOrganizer, false);
 
@@ -2410,42 +2442,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		return activityOrganizer;
 	}
 
-	protected ActivityOrganizer toUnwrappedModel(
-		ActivityOrganizer activityOrganizer) {
-		if (activityOrganizer instanceof ActivityOrganizerImpl) {
-			return activityOrganizer;
-		}
-
-		ActivityOrganizerImpl activityOrganizerImpl = new ActivityOrganizerImpl();
-
-		activityOrganizerImpl.setNew(activityOrganizer.isNew());
-		activityOrganizerImpl.setPrimaryKey(activityOrganizer.getPrimaryKey());
-
-		activityOrganizerImpl.setUuid(activityOrganizer.getUuid());
-		activityOrganizerImpl.setActivityOrganizerId(activityOrganizer.getActivityOrganizerId());
-		activityOrganizerImpl.setGroupId(activityOrganizer.getGroupId());
-		activityOrganizerImpl.setCompanyId(activityOrganizer.getCompanyId());
-		activityOrganizerImpl.setUserId(activityOrganizer.getUserId());
-		activityOrganizerImpl.setUserName(activityOrganizer.getUserName());
-		activityOrganizerImpl.setCreateDate(activityOrganizer.getCreateDate());
-		activityOrganizerImpl.setModifiedDate(activityOrganizer.getModifiedDate());
-		activityOrganizerImpl.setStatus(activityOrganizer.getStatus());
-		activityOrganizerImpl.setStatusByUserId(activityOrganizer.getStatusByUserId());
-		activityOrganizerImpl.setStatusByUserName(activityOrganizer.getStatusByUserName());
-		activityOrganizerImpl.setStatusDate(activityOrganizer.getStatusDate());
-		activityOrganizerImpl.setName(activityOrganizer.getName());
-		activityOrganizerImpl.setPresentation(activityOrganizer.getPresentation());
-		activityOrganizerImpl.setAddress(activityOrganizer.getAddress());
-		activityOrganizerImpl.setPhone(activityOrganizer.getPhone());
-		activityOrganizerImpl.setMail(activityOrganizer.getMail());
-		activityOrganizerImpl.setSiteURL(activityOrganizer.getSiteURL());
-		activityOrganizerImpl.setImageId(activityOrganizer.getImageId());
-
-		return activityOrganizerImpl;
-	}
-
 	/**
-	 * Returns the activity organizer with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the activity organizer with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the activity organizer
 	 * @return the activity organizer
@@ -2454,6 +2452,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public ActivityOrganizer findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchActivityOrganizerException {
+
 		ActivityOrganizer activityOrganizer = fetchByPrimaryKey(primaryKey);
 
 		if (activityOrganizer == null) {
@@ -2461,15 +2460,15 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchActivityOrganizerException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchActivityOrganizerException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return activityOrganizer;
 	}
 
 	/**
-	 * Returns the activity organizer with the primary key or throws a {@link NoSuchActivityOrganizerException} if it could not be found.
+	 * Returns the activity organizer with the primary key or throws a <code>NoSuchActivityOrganizerException</code> if it could not be found.
 	 *
 	 * @param activityOrganizerId the primary key of the activity organizer
 	 * @return the activity organizer
@@ -2478,6 +2477,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public ActivityOrganizer findByPrimaryKey(long activityOrganizerId)
 		throws NoSuchActivityOrganizerException {
+
 		return findByPrimaryKey((Serializable)activityOrganizerId);
 	}
 
@@ -2489,8 +2489,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public ActivityOrganizer fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-				ActivityOrganizerImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2504,19 +2505,21 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			try {
 				session = openSession();
 
-				activityOrganizer = (ActivityOrganizer)session.get(ActivityOrganizerImpl.class,
-						primaryKey);
+				activityOrganizer = (ActivityOrganizer)session.get(
+					ActivityOrganizerImpl.class, primaryKey);
 
 				if (activityOrganizer != null) {
 					cacheResult(activityOrganizer);
 				}
 				else {
-					entityCache.putResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 						ActivityOrganizerImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 					ActivityOrganizerImpl.class, primaryKey);
 
 				throw processException(e);
@@ -2543,11 +2546,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	@Override
 	public Map<Serializable, ActivityOrganizer> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, ActivityOrganizer> map = new HashMap<Serializable, ActivityOrganizer>();
+		Map<Serializable, ActivityOrganizer> map =
+			new HashMap<Serializable, ActivityOrganizer>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -2566,8 +2571,9 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
-					ActivityOrganizerImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+				ActivityOrganizerImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2587,20 +2593,20 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_ACTIVITYORGANIZER_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2611,16 +2617,21 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 			Query q = session.createQuery(sql);
 
-			for (ActivityOrganizer activityOrganizer : (List<ActivityOrganizer>)q.list()) {
-				map.put(activityOrganizer.getPrimaryKeyObj(), activityOrganizer);
+			for (ActivityOrganizer activityOrganizer :
+					(List<ActivityOrganizer>)q.list()) {
+
+				map.put(
+					activityOrganizer.getPrimaryKeyObj(), activityOrganizer);
 
 				cacheResult(activityOrganizer);
 
-				uncachedPrimaryKeys.remove(activityOrganizer.getPrimaryKeyObj());
+				uncachedPrimaryKeys.remove(
+					activityOrganizer.getPrimaryKeyObj());
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
 					ActivityOrganizerImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -2648,7 +2659,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns a range of all the activity organizers.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of activity organizers
@@ -2664,7 +2675,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of activity organizers
@@ -2673,8 +2684,10 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findAll(int start, int end,
+	public List<ActivityOrganizer> findAll(
+		int start, int end,
 		OrderByComparator<ActivityOrganizer> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2682,7 +2695,7 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Returns an ordered range of all the activity organizers.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ActivityOrganizerModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>ActivityOrganizerModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of activity organizers
@@ -2692,29 +2705,32 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * @return the ordered range of activity organizers
 	 */
 	@Override
-	public List<ActivityOrganizer> findAll(int start, int end,
+	public List<ActivityOrganizer> findAll(
+		int start, int end,
 		OrderByComparator<ActivityOrganizer> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<ActivityOrganizer> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<ActivityOrganizer>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<ActivityOrganizer>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2722,13 +2738,13 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_ACTIVITYORGANIZER);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2748,16 +2764,16 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end, false);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<ActivityOrganizer>)QueryUtil.list(q,
-							getDialect(), start, end);
+					list = (List<ActivityOrganizer>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2795,8 +2811,8 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2808,12 +2824,12 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2839,6 +2855,113 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 	 * Initializes the activity organizer persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			ActivityOrganizerModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathFetchByUUID_G = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ActivityOrganizerModelImpl.UUID_COLUMN_BITMASK |
+			ActivityOrganizerModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByUUID_G = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByUuid_C = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			ActivityOrganizerModelImpl.UUID_COLUMN_BITMASK |
+			ActivityOrganizerModelImpl.COMPANYID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid_C = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByGroupId = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByGroupId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED,
+			ActivityOrganizerImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()},
+			ActivityOrganizerModelImpl.GROUPID_COLUMN_BITMASK);
+
+		_finderPathCountByGroupId = new FinderPath(
+			ActivityOrganizerModelImpl.ENTITY_CACHE_ENABLED,
+			ActivityOrganizerModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2850,20 +2973,40 @@ public class ActivityOrganizerPersistenceImpl extends BasePersistenceImpl<Activi
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
+
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_ACTIVITYORGANIZER = "SELECT activityOrganizer FROM ActivityOrganizer activityOrganizer";
-	private static final String _SQL_SELECT_ACTIVITYORGANIZER_WHERE_PKS_IN = "SELECT activityOrganizer FROM ActivityOrganizer activityOrganizer WHERE activityOrganizerId IN (";
-	private static final String _SQL_SELECT_ACTIVITYORGANIZER_WHERE = "SELECT activityOrganizer FROM ActivityOrganizer activityOrganizer WHERE ";
-	private static final String _SQL_COUNT_ACTIVITYORGANIZER = "SELECT COUNT(activityOrganizer) FROM ActivityOrganizer activityOrganizer";
-	private static final String _SQL_COUNT_ACTIVITYORGANIZER_WHERE = "SELECT COUNT(activityOrganizer) FROM ActivityOrganizer activityOrganizer WHERE ";
+
+	private static final String _SQL_SELECT_ACTIVITYORGANIZER =
+		"SELECT activityOrganizer FROM ActivityOrganizer activityOrganizer";
+
+	private static final String _SQL_SELECT_ACTIVITYORGANIZER_WHERE_PKS_IN =
+		"SELECT activityOrganizer FROM ActivityOrganizer activityOrganizer WHERE activityOrganizerId IN (";
+
+	private static final String _SQL_SELECT_ACTIVITYORGANIZER_WHERE =
+		"SELECT activityOrganizer FROM ActivityOrganizer activityOrganizer WHERE ";
+
+	private static final String _SQL_COUNT_ACTIVITYORGANIZER =
+		"SELECT COUNT(activityOrganizer) FROM ActivityOrganizer activityOrganizer";
+
+	private static final String _SQL_COUNT_ACTIVITYORGANIZER_WHERE =
+		"SELECT COUNT(activityOrganizer) FROM ActivityOrganizer activityOrganizer WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "activityOrganizer.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ActivityOrganizer exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No ActivityOrganizer exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(ActivityOrganizerPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No ActivityOrganizer exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No ActivityOrganizer exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ActivityOrganizerPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

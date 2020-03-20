@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.video.model.VideoGallery;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing VideoGallery in entity cache.
  *
  * @author BenjaminBini
- * @see VideoGallery
  * @generated
  */
 @ProviderType
-public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
-	Externalizable {
+public class VideoGalleryCacheModel
+	implements CacheModel<VideoGallery>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 			return false;
 		}
 
-		VideoGalleryCacheModel videoGalleryCacheModel = (VideoGalleryCacheModel)obj;
+		VideoGalleryCacheModel videoGalleryCacheModel =
+			(VideoGalleryCacheModel)obj;
 
 		if (galleryId == videoGalleryCacheModel.galleryId) {
 			return true;
@@ -112,7 +112,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		VideoGalleryImpl videoGalleryImpl = new VideoGalleryImpl();
 
 		if (uuid == null) {
-			videoGalleryImpl.setUuid(StringPool.BLANK);
+			videoGalleryImpl.setUuid("");
 		}
 		else {
 			videoGalleryImpl.setUuid(uuid);
@@ -124,7 +124,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		videoGalleryImpl.setUserId(userId);
 
 		if (userName == null) {
-			videoGalleryImpl.setUserName(StringPool.BLANK);
+			videoGalleryImpl.setUserName("");
 		}
 		else {
 			videoGalleryImpl.setUserName(userName);
@@ -155,7 +155,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		videoGalleryImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			videoGalleryImpl.setStatusByUserName(StringPool.BLANK);
+			videoGalleryImpl.setStatusByUserName("");
 		}
 		else {
 			videoGalleryImpl.setStatusByUserName(statusByUserName);
@@ -169,14 +169,14 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		}
 
 		if (title == null) {
-			videoGalleryImpl.setTitle(StringPool.BLANK);
+			videoGalleryImpl.setTitle("");
 		}
 		else {
 			videoGalleryImpl.setTitle(title);
 		}
 
 		if (description == null) {
-			videoGalleryImpl.setDescription(StringPool.BLANK);
+			videoGalleryImpl.setDescription("");
 		}
 		else {
 			videoGalleryImpl.setDescription(description);
@@ -225,10 +225,9 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -243,7 +242,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -258,7 +257,7 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -267,14 +266,14 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
@@ -302,4 +301,5 @@ public class VideoGalleryCacheModel implements CacheModel<VideoGallery>,
 	public String description;
 	public long publicationDate;
 	public long imageId;
+
 }

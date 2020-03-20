@@ -27,10 +27,11 @@ import eu.strasbourg.service.activity.service.ActivityServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link ActivityServiceUtil} service utility. The
+ * <code>ActivityServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,22 +50,23 @@ import eu.strasbourg.service.activity.service.ActivityServiceUtil;
  *
  * @author Brian Wing Shun Chan
  * @see ActivityServiceSoap
- * @see HttpPrincipal
- * @see ActivityServiceUtil
  * @generated
  */
 @ProviderType
 public class ActivityServiceHttp {
-	public static com.liferay.portal.kernel.json.JSONArray getActivities(
-		HttpPrincipal httpPrincipal, long groupId, java.lang.String name,
-		java.lang.String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(ActivityServiceUtil.class,
-					"getActivities", _getActivitiesParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
-					name, language);
+	public static com.liferay.portal.kernel.json.JSONArray getActivities(
+			HttpPrincipal httpPrincipal, long groupId, String name,
+			String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ActivityServiceUtil.class, "getActivities",
+				_getActivitiesParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupId, name, language);
 
 			Object returnObj = null;
 
@@ -72,11 +74,15 @@ public class ActivityServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -89,7 +95,8 @@ public class ActivityServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ActivityServiceHttp.class);
-	private static final Class<?>[] _getActivitiesParameterTypes0 = new Class[] {
-			long.class, java.lang.String.class, java.lang.String.class
-		};
+
+	private static final Class<?>[] _getActivitiesParameterTypes0 =
+		new Class[] {long.class, String.class, String.class};
+
 }

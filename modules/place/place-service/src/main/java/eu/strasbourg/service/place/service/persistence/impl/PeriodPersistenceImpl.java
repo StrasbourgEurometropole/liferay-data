@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,50 +62,32 @@ import java.util.Set;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see PeriodPersistence
- * @see eu.strasbourg.service.place.service.persistence.PeriodUtil
  * @generated
  */
 @ProviderType
-public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
-	implements PeriodPersistence {
+public class PeriodPersistenceImpl
+	extends BasePersistenceImpl<Period> implements PeriodPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link PeriodUtil} to access the period persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>PeriodUtil</code> to access the period persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = PeriodImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			PeriodModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		PeriodImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the periods where uuid = &#63;.
@@ -122,7 +104,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns a range of all the periods where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -139,7 +121,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns an ordered range of all the periods where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -149,8 +131,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the ordered range of matching periods
 	 */
 	@Override
-	public List<Period> findByUuid(String uuid, int start, int end,
+	public List<Period> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Period> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -158,7 +142,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns an ordered range of all the periods where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -169,32 +153,38 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the ordered range of matching periods
 	 */
 	@Override
-	public List<Period> findByUuid(String uuid, int start, int end,
-		OrderByComparator<Period> orderByComparator, boolean retrieveFromCache) {
+	public List<Period> findByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Period> orderByComparator,
+		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Period> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Period>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Period>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Period period : list) {
-					if (!Objects.equals(uuid, period.getUuid())) {
+					if (!uuid.equals(period.getUuid())) {
 						list = null;
 
 						break;
@@ -207,8 +197,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -218,10 +208,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -231,11 +218,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PeriodModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -255,16 +241,16 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 				}
 
 				if (!pagination) {
-					list = (List<Period>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Period>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Period>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Period>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -293,9 +279,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @throws NoSuchPeriodException if a matching period could not be found
 	 */
 	@Override
-	public Period findByUuid_First(String uuid,
-		OrderByComparator<Period> orderByComparator)
+	public Period findByUuid_First(
+			String uuid, OrderByComparator<Period> orderByComparator)
 		throws NoSuchPeriodException {
+
 		Period period = fetchByUuid_First(uuid, orderByComparator);
 
 		if (period != null) {
@@ -309,7 +296,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPeriodException(msg.toString());
 	}
@@ -322,8 +309,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the first matching period, or <code>null</code> if a matching period could not be found
 	 */
 	@Override
-	public Period fetchByUuid_First(String uuid,
-		OrderByComparator<Period> orderByComparator) {
+	public Period fetchByUuid_First(
+		String uuid, OrderByComparator<Period> orderByComparator) {
+
 		List<Period> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -342,9 +330,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @throws NoSuchPeriodException if a matching period could not be found
 	 */
 	@Override
-	public Period findByUuid_Last(String uuid,
-		OrderByComparator<Period> orderByComparator)
+	public Period findByUuid_Last(
+			String uuid, OrderByComparator<Period> orderByComparator)
 		throws NoSuchPeriodException {
+
 		Period period = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (period != null) {
@@ -358,7 +347,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPeriodException(msg.toString());
 	}
@@ -371,15 +360,17 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the last matching period, or <code>null</code> if a matching period could not be found
 	 */
 	@Override
-	public Period fetchByUuid_Last(String uuid,
-		OrderByComparator<Period> orderByComparator) {
+	public Period fetchByUuid_Last(
+		String uuid, OrderByComparator<Period> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Period> list = findByUuid(uuid, count - 1, count, orderByComparator);
+		List<Period> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -398,9 +389,13 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @throws NoSuchPeriodException if a period with the primary key could not be found
 	 */
 	@Override
-	public Period[] findByUuid_PrevAndNext(long periodId, String uuid,
-		OrderByComparator<Period> orderByComparator)
+	public Period[] findByUuid_PrevAndNext(
+			long periodId, String uuid,
+			OrderByComparator<Period> orderByComparator)
 		throws NoSuchPeriodException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Period period = findByPrimaryKey(periodId);
 
 		Session session = null;
@@ -410,13 +405,13 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 			Period[] array = new PeriodImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, period, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, period, uuid, orderByComparator, true);
 
 			array[1] = period;
 
-			array[2] = getByUuid_PrevAndNext(session, period, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, period, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -428,14 +423,15 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		}
 	}
 
-	protected Period getByUuid_PrevAndNext(Session session, Period period,
-		String uuid, OrderByComparator<Period> orderByComparator,
-		boolean previous) {
+	protected Period getByUuid_PrevAndNext(
+		Session session, Period period, String uuid,
+		OrderByComparator<Period> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -446,10 +442,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -459,7 +452,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -531,10 +525,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(period);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(period)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -555,8 +549,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Period period : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Period period :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(period);
 		}
 	}
@@ -569,9 +564,11 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -582,10 +579,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -626,28 +620,14 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "period.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "period.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(period.uuid IS NULL OR period.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PLACEID = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID =
-		new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
-			new String[] { Long.class.getName() },
-			PeriodModelImpl.PLACEID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_PLACEID = new FinderPath(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
-			new String[] { Long.class.getName() });
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(period.uuid IS NULL OR period.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByPlaceId;
+	private FinderPath _finderPathWithoutPaginationFindByPlaceId;
+	private FinderPath _finderPathCountByPlaceId;
 
 	/**
 	 * Returns all the periods where placeId = &#63;.
@@ -657,14 +637,15 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public List<Period> findByPlaceId(long placeId) {
-		return findByPlaceId(placeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByPlaceId(
+			placeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the periods where placeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param placeId the place ID
@@ -681,7 +662,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns an ordered range of all the periods where placeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param placeId the place ID
@@ -691,8 +672,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the ordered range of matching periods
 	 */
 	@Override
-	public List<Period> findByPlaceId(long placeId, int start, int end,
+	public List<Period> findByPlaceId(
+		long placeId, int start, int end,
 		OrderByComparator<Period> orderByComparator) {
+
 		return findByPlaceId(placeId, start, end, orderByComparator, true);
 	}
 
@@ -700,7 +683,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns an ordered range of all the periods where placeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param placeId the place ID
@@ -711,28 +694,32 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the ordered range of matching periods
 	 */
 	@Override
-	public List<Period> findByPlaceId(long placeId, int start, int end,
-		OrderByComparator<Period> orderByComparator, boolean retrieveFromCache) {
+	public List<Period> findByPlaceId(
+		long placeId, int start, int end,
+		OrderByComparator<Period> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID;
-			finderArgs = new Object[] { placeId };
+			finderPath = _finderPathWithoutPaginationFindByPlaceId;
+			finderArgs = new Object[] {placeId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PLACEID;
-			finderArgs = new Object[] { placeId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByPlaceId;
+			finderArgs = new Object[] {placeId, start, end, orderByComparator};
 		}
 
 		List<Period> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Period>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Period>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Period period : list) {
@@ -749,8 +736,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -761,11 +748,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			query.append(_FINDER_COLUMN_PLACEID_PLACEID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PeriodModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -783,16 +769,16 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 				qPos.add(placeId);
 
 				if (!pagination) {
-					list = (List<Period>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Period>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Period>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Period>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -821,9 +807,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @throws NoSuchPeriodException if a matching period could not be found
 	 */
 	@Override
-	public Period findByPlaceId_First(long placeId,
-		OrderByComparator<Period> orderByComparator)
+	public Period findByPlaceId_First(
+			long placeId, OrderByComparator<Period> orderByComparator)
 		throws NoSuchPeriodException {
+
 		Period period = fetchByPlaceId_First(placeId, orderByComparator);
 
 		if (period != null) {
@@ -837,7 +824,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		msg.append("placeId=");
 		msg.append(placeId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPeriodException(msg.toString());
 	}
@@ -850,8 +837,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the first matching period, or <code>null</code> if a matching period could not be found
 	 */
 	@Override
-	public Period fetchByPlaceId_First(long placeId,
-		OrderByComparator<Period> orderByComparator) {
+	public Period fetchByPlaceId_First(
+		long placeId, OrderByComparator<Period> orderByComparator) {
+
 		List<Period> list = findByPlaceId(placeId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -870,9 +858,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @throws NoSuchPeriodException if a matching period could not be found
 	 */
 	@Override
-	public Period findByPlaceId_Last(long placeId,
-		OrderByComparator<Period> orderByComparator)
+	public Period findByPlaceId_Last(
+			long placeId, OrderByComparator<Period> orderByComparator)
 		throws NoSuchPeriodException {
+
 		Period period = fetchByPlaceId_Last(placeId, orderByComparator);
 
 		if (period != null) {
@@ -886,7 +875,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		msg.append("placeId=");
 		msg.append(placeId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPeriodException(msg.toString());
 	}
@@ -899,16 +888,17 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the last matching period, or <code>null</code> if a matching period could not be found
 	 */
 	@Override
-	public Period fetchByPlaceId_Last(long placeId,
-		OrderByComparator<Period> orderByComparator) {
+	public Period fetchByPlaceId_Last(
+		long placeId, OrderByComparator<Period> orderByComparator) {
+
 		int count = countByPlaceId(placeId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Period> list = findByPlaceId(placeId, count - 1, count,
-				orderByComparator);
+		List<Period> list = findByPlaceId(
+			placeId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -927,9 +917,11 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @throws NoSuchPeriodException if a period with the primary key could not be found
 	 */
 	@Override
-	public Period[] findByPlaceId_PrevAndNext(long periodId, long placeId,
-		OrderByComparator<Period> orderByComparator)
+	public Period[] findByPlaceId_PrevAndNext(
+			long periodId, long placeId,
+			OrderByComparator<Period> orderByComparator)
 		throws NoSuchPeriodException {
+
 		Period period = findByPrimaryKey(periodId);
 
 		Session session = null;
@@ -939,13 +931,13 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 			Period[] array = new PeriodImpl[3];
 
-			array[0] = getByPlaceId_PrevAndNext(session, period, placeId,
-					orderByComparator, true);
+			array[0] = getByPlaceId_PrevAndNext(
+				session, period, placeId, orderByComparator, true);
 
 			array[1] = period;
 
-			array[2] = getByPlaceId_PrevAndNext(session, period, placeId,
-					orderByComparator, false);
+			array[2] = getByPlaceId_PrevAndNext(
+				session, period, placeId, orderByComparator, false);
 
 			return array;
 		}
@@ -957,14 +949,15 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		}
 	}
 
-	protected Period getByPlaceId_PrevAndNext(Session session, Period period,
-		long placeId, OrderByComparator<Period> orderByComparator,
-		boolean previous) {
+	protected Period getByPlaceId_PrevAndNext(
+		Session session, Period period, long placeId,
+		OrderByComparator<Period> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -976,7 +969,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		query.append(_FINDER_COLUMN_PLACEID_PLACEID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1046,10 +1040,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		qPos.add(placeId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(period);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(period)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1070,8 +1064,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public void removeByPlaceId(long placeId) {
-		for (Period period : findByPlaceId(placeId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Period period :
+				findByPlaceId(
+					placeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(period);
 		}
 	}
@@ -1084,9 +1080,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public int countByPlaceId(long placeId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_PLACEID;
+		FinderPath finderPath = _finderPathCountByPlaceId;
 
-		Object[] finderArgs = new Object[] { placeId };
+		Object[] finderArgs = new Object[] {placeId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1127,18 +1123,21 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PLACEID_PLACEID_2 = "period.placeId = ?";
+	private static final String _FINDER_COLUMN_PLACEID_PLACEID_2 =
+		"period.placeId = ?";
 
 	public PeriodPersistenceImpl() {
 		setModelClass(Period.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1156,8 +1155,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public void cacheResult(Period period) {
-		entityCache.putResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodImpl.class, period.getPrimaryKey(), period);
+		entityCache.putResult(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+			period.getPrimaryKey(), period);
 
 		period.resetOriginalValues();
 	}
@@ -1170,8 +1170,10 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	@Override
 	public void cacheResult(List<Period> periods) {
 		for (Period period : periods) {
-			if (entityCache.getResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-						PeriodImpl.class, period.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+					period.getPrimaryKey()) == null) {
+
 				cacheResult(period);
 			}
 			else {
@@ -1184,7 +1186,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Clears the cache for all periods.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1200,13 +1202,14 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Clears the cache for the period.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Period period) {
-		entityCache.removeResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodImpl.class, period.getPrimaryKey());
+		entityCache.removeResult(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+			period.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -1218,8 +1221,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Period period : periods) {
-			entityCache.removeResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-				PeriodImpl.class, period.getPrimaryKey());
+			entityCache.removeResult(
+				PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+				period.getPrimaryKey());
 		}
 	}
 
@@ -1276,8 +1280,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchPeriodException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchPeriodException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(period);
@@ -1295,16 +1299,14 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 	@Override
 	protected Period removeImpl(Period period) {
-		period = toUnwrappedModel(period);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(period)) {
-				period = (Period)session.get(PeriodImpl.class,
-						period.getPrimaryKeyObj());
+				period = (Period)session.get(
+					PeriodImpl.class, period.getPrimaryKeyObj());
 			}
 
 			if (period != null) {
@@ -1327,9 +1329,23 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 	@Override
 	public Period updateImpl(Period period) {
-		period = toUnwrappedModel(period);
-
 		boolean isNew = period.isNew();
+
+		if (!(period instanceof PeriodModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(period.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(period);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in period proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Period implementation " +
+					period.getClass());
+		}
 
 		PeriodModelImpl periodModelImpl = (PeriodModelImpl)period;
 
@@ -1365,95 +1381,74 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		if (!PeriodModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { periodModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {periodModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { periodModelImpl.getPlaceId() };
+			args = new Object[] {periodModelImpl.getPlaceId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACEID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID,
-				args);
+			finderCache.removeResult(_finderPathCountByPlaceId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPlaceId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((periodModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { periodModelImpl.getOriginalUuid() };
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				Object[] args = new Object[] {
+					periodModelImpl.getOriginalUuid()
+				};
 
-				args = new Object[] { periodModelImpl.getUuid() };
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				args = new Object[] {periodModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((periodModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByPlaceId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						periodModelImpl.getOriginalPlaceId()
-					};
+					periodModelImpl.getOriginalPlaceId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountByPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPlaceId, args);
 
-				args = new Object[] { periodModelImpl.getPlaceId() };
+				args = new Object[] {periodModelImpl.getPlaceId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_PLACEID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PLACEID,
-					args);
+				finderCache.removeResult(_finderPathCountByPlaceId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPlaceId, args);
 			}
 		}
 
-		entityCache.putResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodImpl.class, period.getPrimaryKey(), period, false);
+		entityCache.putResult(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+			period.getPrimaryKey(), period, false);
 
 		period.resetOriginalValues();
 
 		return period;
 	}
 
-	protected Period toUnwrappedModel(Period period) {
-		if (period instanceof PeriodImpl) {
-			return period;
-		}
-
-		PeriodImpl periodImpl = new PeriodImpl();
-
-		periodImpl.setNew(period.isNew());
-		periodImpl.setPrimaryKey(period.getPrimaryKey());
-
-		periodImpl.setUuid(period.getUuid());
-		periodImpl.setPeriodId(period.getPeriodId());
-		periodImpl.setName(period.getName());
-		periodImpl.setDefaultPeriod(period.getDefaultPeriod());
-		periodImpl.setStartDate(period.getStartDate());
-		periodImpl.setEndDate(period.getEndDate());
-		periodImpl.setAlwaysOpen(period.getAlwaysOpen());
-		periodImpl.setRTGreenThreshold(period.getRTGreenThreshold());
-		periodImpl.setRTOrangeThreshold(period.getRTOrangeThreshold());
-		periodImpl.setRTRedThreshold(period.getRTRedThreshold());
-		periodImpl.setRTMaxThreshold(period.getRTMaxThreshold());
-		periodImpl.setPlaceId(period.getPlaceId());
-
-		return periodImpl;
-	}
-
 	/**
-	 * Returns the period with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the period with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the period
 	 * @return the period
@@ -1462,6 +1457,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	@Override
 	public Period findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchPeriodException {
+
 		Period period = fetchByPrimaryKey(primaryKey);
 
 		if (period == null) {
@@ -1469,15 +1465,15 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchPeriodException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchPeriodException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return period;
 	}
 
 	/**
-	 * Returns the period with the primary key or throws a {@link NoSuchPeriodException} if it could not be found.
+	 * Returns the period with the primary key or throws a <code>NoSuchPeriodException</code> if it could not be found.
 	 *
 	 * @param periodId the primary key of the period
 	 * @return the period
@@ -1496,8 +1492,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public Period fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-				PeriodImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -1517,13 +1513,15 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 					cacheResult(period);
 				}
 				else {
-					entityCache.putResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-						PeriodImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+						primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-					PeriodImpl.class, primaryKey);
+				entityCache.removeResult(
+					PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -1549,6 +1547,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	@Override
 	public Map<Serializable, Period> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -1572,8 +1571,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-					PeriodImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1593,20 +1593,20 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_PERIOD_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1626,8 +1626,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(PeriodModelImpl.ENTITY_CACHE_ENABLED,
-					PeriodImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1654,7 +1655,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns a range of all the periods.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of periods
@@ -1670,7 +1671,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns an ordered range of all the periods.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of periods
@@ -1679,8 +1680,9 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the ordered range of periods
 	 */
 	@Override
-	public List<Period> findAll(int start, int end,
-		OrderByComparator<Period> orderByComparator) {
+	public List<Period> findAll(
+		int start, int end, OrderByComparator<Period> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1688,7 +1690,7 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Returns an ordered range of all the periods.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of periods
@@ -1698,28 +1700,31 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * @return the ordered range of periods
 	 */
 	@Override
-	public List<Period> findAll(int start, int end,
-		OrderByComparator<Period> orderByComparator, boolean retrieveFromCache) {
+	public List<Period> findAll(
+		int start, int end, OrderByComparator<Period> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Period> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Period>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Period>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1727,13 +1732,13 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PERIOD);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1753,16 +1758,16 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Period>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Period>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Period>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Period>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1800,8 +1805,8 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1813,12 +1818,12 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1844,6 +1849,66 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 	 * Initializes the period persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			PeriodModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByPlaceId = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPlaceId = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
+			new String[] {Long.class.getName()},
+			PeriodModelImpl.PLACEID_COLUMN_BITMASK);
+
+		_finderPathCountByPlaceId = new FinderPath(
+			PeriodModelImpl.ENTITY_CACHE_ENABLED,
+			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -1855,18 +1920,37 @@ public class PeriodPersistenceImpl extends BasePersistenceImpl<Period>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_PERIOD = "SELECT period FROM Period period";
-	private static final String _SQL_SELECT_PERIOD_WHERE_PKS_IN = "SELECT period FROM Period period WHERE periodId IN (";
-	private static final String _SQL_SELECT_PERIOD_WHERE = "SELECT period FROM Period period WHERE ";
-	private static final String _SQL_COUNT_PERIOD = "SELECT COUNT(period) FROM Period period";
-	private static final String _SQL_COUNT_PERIOD_WHERE = "SELECT COUNT(period) FROM Period period WHERE ";
+
+	private static final String _SQL_SELECT_PERIOD =
+		"SELECT period FROM Period period";
+
+	private static final String _SQL_SELECT_PERIOD_WHERE_PKS_IN =
+		"SELECT period FROM Period period WHERE periodId IN (";
+
+	private static final String _SQL_SELECT_PERIOD_WHERE =
+		"SELECT period FROM Period period WHERE ";
+
+	private static final String _SQL_COUNT_PERIOD =
+		"SELECT COUNT(period) FROM Period period";
+
+	private static final String _SQL_COUNT_PERIOD_WHERE =
+		"SELECT COUNT(period) FROM Period period WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "period.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Period exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Period exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(PeriodPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Period exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Period exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PeriodPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

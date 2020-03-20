@@ -32,12 +32,13 @@ import eu.strasbourg.service.notification.service.NotificationLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class NotificationBaseImpl extends NotificationModelImpl
-	implements Notification {
+public abstract class NotificationBaseImpl
+	extends NotificationModelImpl implements Notification {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a notification model instance should use the {@link Notification} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a notification model instance should use the <code>Notification</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class NotificationBaseImpl extends NotificationModelImpl
 			NotificationLocalServiceUtil.updateNotification(this);
 		}
 	}
+
 }

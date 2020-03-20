@@ -16,70 +16,84 @@ package eu.strasbourg.service.interest.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Interest. This utility wraps
- * {@link eu.strasbourg.service.interest.service.impl.InterestServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.interest.service.impl.InterestServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author BenjaminBini
  * @see InterestService
- * @see eu.strasbourg.service.interest.service.base.InterestServiceBaseImpl
- * @see eu.strasbourg.service.interest.service.impl.InterestServiceImpl
  * @generated
  */
 @ProviderType
 public class InterestServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.interest.service.impl.InterestServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.interest.service.impl.InterestServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Retourne la liste de tous les centres d'intérêt
-	*/
+	 * Retourne la liste de tous les centres d'intérêt
+	 */
 	public static com.liferay.portal.kernel.json.JSONObject getInterests() {
 		return getService().getInterests();
 	}
 
 	/**
-	* Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
-	* en paramètre
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
+		return getService().getOSGiServiceIdentifier();
+	}
+
+	/**
+	 * Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
+	 * en paramètre
+	 */
 	public static com.liferay.portal.kernel.json.JSONObject getUserInterests(
-		java.lang.String userId) {
+		String userId) {
+
 		return getService().getUserInterests(userId);
 	}
 
 	/**
-	* Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
-	* paramètre
-	*/
+	 * Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
+	 * paramètre
+	 */
 	public static com.liferay.portal.kernel.json.JSONObject setUserInterests(
-		java.lang.String userId, java.lang.String interestIds) {
-		return getService().setUserInterests(userId, interestIds);
-	}
+		String userId, String interestIds) {
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
-		return getService().getOSGiServiceIdentifier();
+		return getService().setUserInterests(userId, interestIds);
 	}
 
 	public static InterestService getService() {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<InterestService, InterestService> _serviceTracker =
-		ServiceTrackerFactory.open(InterestService.class);
+	private static ServiceTracker<InterestService, InterestService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(InterestService.class);
+
+		ServiceTracker<InterestService, InterestService> serviceTracker =
+			new ServiceTracker<InterestService, InterestService>(
+				bundle.getBundleContext(), InterestService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

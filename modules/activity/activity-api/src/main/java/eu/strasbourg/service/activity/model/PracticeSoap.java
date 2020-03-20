@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.activity.service.http.PracticeServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.activity.service.http.PracticeServiceSoap
  * @generated
  */
 @ProviderType
 public class PracticeSoap implements Serializable {
+
 	public static PracticeSoap toSoapModel(Practice model) {
 		PracticeSoap soapModel = new PracticeSoap();
 
@@ -79,7 +79,8 @@ public class PracticeSoap implements Serializable {
 	}
 
 	public static PracticeSoap[] toSoapModels(List<Practice> models) {
-		List<PracticeSoap> soapModels = new ArrayList<PracticeSoap>(models.size());
+		List<PracticeSoap> soapModels = new ArrayList<PracticeSoap>(
+			models.size());
 
 		for (Practice model : models) {
 			soapModels.add(toSoapModel(model));
@@ -216,4 +217,5 @@ public class PracticeSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _associationId;
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing CampaignEventStatus in entity cache.
  *
  * @author BenjaminBini
- * @see CampaignEventStatus
  * @generated
  */
 @ProviderType
-public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventStatus>,
-	Externalizable {
+public class CampaignEventStatusCacheModel
+	implements CacheModel<CampaignEventStatus>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 			return false;
 		}
 
-		CampaignEventStatusCacheModel campaignEventStatusCacheModel = (CampaignEventStatusCacheModel)obj;
+		CampaignEventStatusCacheModel campaignEventStatusCacheModel =
+			(CampaignEventStatusCacheModel)obj;
 
 		if (statusId == campaignEventStatusCacheModel.statusId) {
 			return true;
@@ -95,10 +95,11 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 
 	@Override
 	public CampaignEventStatus toEntityModel() {
-		CampaignEventStatusImpl campaignEventStatusImpl = new CampaignEventStatusImpl();
+		CampaignEventStatusImpl campaignEventStatusImpl =
+			new CampaignEventStatusImpl();
 
 		if (uuid == null) {
-			campaignEventStatusImpl.setUuid(StringPool.BLANK);
+			campaignEventStatusImpl.setUuid("");
 		}
 		else {
 			campaignEventStatusImpl.setUuid(uuid);
@@ -108,7 +109,7 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 		campaignEventStatusImpl.setStatus(status);
 
 		if (comment == null) {
-			campaignEventStatusImpl.setComment(StringPool.BLANK);
+			campaignEventStatusImpl.setComment("");
 		}
 		else {
 			campaignEventStatusImpl.setComment(comment);
@@ -128,7 +129,7 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 		campaignEventStatusImpl.setUserId(userId);
 
 		if (userName == null) {
-			campaignEventStatusImpl.setUserName(StringPool.BLANK);
+			campaignEventStatusImpl.setUserName("");
 		}
 		else {
 			campaignEventStatusImpl.setUserName(userName);
@@ -160,10 +161,9 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -174,7 +174,7 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 		objectOutput.writeInt(status);
 
 		if (comment == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(comment);
@@ -190,7 +190,7 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -207,4 +207,5 @@ public class CampaignEventStatusCacheModel implements CacheModel<CampaignEventSt
 	public long previousStatusId;
 	public long userId;
 	public String userName;
+
 }

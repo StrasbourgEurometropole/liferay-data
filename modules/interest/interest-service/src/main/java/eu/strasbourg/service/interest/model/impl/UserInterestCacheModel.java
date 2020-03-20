@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
@@ -33,12 +32,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing UserInterest in entity cache.
  *
  * @author BenjaminBini
- * @see UserInterest
  * @generated
  */
 @ProviderType
-public class UserInterestCacheModel implements CacheModel<UserInterest>,
-	Externalizable {
+public class UserInterestCacheModel
+	implements CacheModel<UserInterest>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -49,7 +48,8 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 			return false;
 		}
 
-		UserInterestCacheModel userInterestCacheModel = (UserInterestCacheModel)obj;
+		UserInterestCacheModel userInterestCacheModel =
+			(UserInterestCacheModel)obj;
 
 		if (userInterestPK.equals(userInterestCacheModel.userInterestPK)) {
 			return true;
@@ -83,7 +83,7 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 		userInterestImpl.setInterestId(interestId);
 
 		if (publikUserId == null) {
-			userInterestImpl.setPublikUserId(StringPool.BLANK);
+			userInterestImpl.setPublikUserId("");
 		}
 		else {
 			userInterestImpl.setPublikUserId(publikUserId);
@@ -103,12 +103,11 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(interestId);
 
 		if (publikUserId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publikUserId);
@@ -118,4 +117,5 @@ public class UserInterestCacheModel implements CacheModel<UserInterest>,
 	public long interestId;
 	public String publikUserId;
 	public transient UserInterestPK userInterestPK;
+
 }

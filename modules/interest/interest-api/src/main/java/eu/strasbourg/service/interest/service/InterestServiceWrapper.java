@@ -26,48 +26,51 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class InterestServiceWrapper implements InterestService,
-	ServiceWrapper<InterestService> {
+public class InterestServiceWrapper
+	implements InterestService, ServiceWrapper<InterestService> {
+
 	public InterestServiceWrapper(InterestService interestService) {
 		_interestService = interestService;
 	}
 
 	/**
-	* Retourne la liste de tous les centres d'intérêt
-	*/
+	 * Retourne la liste de tous les centres d'intérêt
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInterests() {
 		return _interestService.getInterests();
 	}
 
 	/**
-	* Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
-	* en paramètre
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _interestService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	 * Retourne la liste des intérêts de l'utilisateur ayant l'id (publik) passé
+	 * en paramètre
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserInterests(
-		java.lang.String userId) {
+		String userId) {
+
 		return _interestService.getUserInterests(userId);
 	}
 
 	/**
-	* Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
-	* paramètre
-	*/
+	 * Modifie les intérêts de l'utilisateur ayant l'id (publik) passé en
+	 * paramètre
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject setUserInterests(
-		java.lang.String userId, java.lang.String interestIds) {
-		return _interestService.setUserInterests(userId, interestIds);
-	}
+		String userId, String interestIds) {
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _interestService.getOSGiServiceIdentifier();
+		return _interestService.setUserInterests(userId, interestIds);
 	}
 
 	@Override
@@ -81,4 +84,5 @@ public class InterestServiceWrapper implements InterestService,
 	}
 
 	private InterestService _interestService;
+
 }

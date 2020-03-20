@@ -11,7 +11,7 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
-    <portlet:param name="recordSetId" value="${recordSetId}" />
+    <portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
     <portlet:param name="returnURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
@@ -62,7 +62,7 @@
 	                        <portlet:param name="tab" value="viewReportings" />
                             <portlet:param name="cmd" value="showResponse" />
                             <portlet:param name="formSendRecordFieldId" value="${signalement.formSendRecordFieldId}" />
-                            <portlet:param name="recordSetId" value="${recordSetId}" />
+                            <portlet:param name="formInstanceId" value="${formInstanceId}" />
                             <portlet:param name="returnURL" value="${formsURL}" />
                         </liferay-portlet:renderURL>
 
@@ -76,7 +76,7 @@
 	                        <portlet:param name="tab" value="viewReportings" />
                             <portlet:param name="cmd" value="hideResponse" />
                             <portlet:param name="formSendRecordFieldId" value="${signalement.formSendRecordFieldId}" />
-                            <portlet:param name="recordSetId" value="${recordSetId}" />
+                            <portlet:param name="formInstanceId" value="${formInstanceId}" />
                             <portlet:param name="returnURL" value="${formsURL}" />
                         </liferay-portlet:renderURL>
 

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing CampaignEvent in entity cache.
  *
  * @author BenjaminBini
- * @see CampaignEvent
  * @generated
  */
 @ProviderType
-public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
-	Externalizable {
+public class CampaignEventCacheModel
+	implements CacheModel<CampaignEvent>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 			return false;
 		}
 
-		CampaignEventCacheModel campaignEventCacheModel = (CampaignEventCacheModel)obj;
+		CampaignEventCacheModel campaignEventCacheModel =
+			(CampaignEventCacheModel)obj;
 
 		if (campaignEventId == campaignEventCacheModel.campaignEventId) {
 			return true;
@@ -166,7 +166,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		CampaignEventImpl campaignEventImpl = new CampaignEventImpl();
 
 		if (uuid == null) {
-			campaignEventImpl.setUuid(StringPool.BLANK);
+			campaignEventImpl.setUuid("");
 		}
 		else {
 			campaignEventImpl.setUuid(uuid);
@@ -178,7 +178,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setUserId(userId);
 
 		if (userName == null) {
-			campaignEventImpl.setUserName(StringPool.BLANK);
+			campaignEventImpl.setUserName("");
 		}
 		else {
 			campaignEventImpl.setUserName(userName);
@@ -208,28 +208,28 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setStatus(status);
 
 		if (firstName == null) {
-			campaignEventImpl.setFirstName(StringPool.BLANK);
+			campaignEventImpl.setFirstName("");
 		}
 		else {
 			campaignEventImpl.setFirstName(firstName);
 		}
 
 		if (lastName == null) {
-			campaignEventImpl.setLastName(StringPool.BLANK);
+			campaignEventImpl.setLastName("");
 		}
 		else {
 			campaignEventImpl.setLastName(lastName);
 		}
 
 		if (phone == null) {
-			campaignEventImpl.setPhone(StringPool.BLANK);
+			campaignEventImpl.setPhone("");
 		}
 		else {
 			campaignEventImpl.setPhone(phone);
 		}
 
 		if (email == null) {
-			campaignEventImpl.setEmail(StringPool.BLANK);
+			campaignEventImpl.setEmail("");
 		}
 		else {
 			campaignEventImpl.setEmail(email);
@@ -238,49 +238,49 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setServiceId(serviceId);
 
 		if (service == null) {
-			campaignEventImpl.setService(StringPool.BLANK);
+			campaignEventImpl.setService("");
 		}
 		else {
 			campaignEventImpl.setService(service);
 		}
 
 		if (onSiteFirstName == null) {
-			campaignEventImpl.setOnSiteFirstName(StringPool.BLANK);
+			campaignEventImpl.setOnSiteFirstName("");
 		}
 		else {
 			campaignEventImpl.setOnSiteFirstName(onSiteFirstName);
 		}
 
 		if (onSiteLastName == null) {
-			campaignEventImpl.setOnSiteLastName(StringPool.BLANK);
+			campaignEventImpl.setOnSiteLastName("");
 		}
 		else {
 			campaignEventImpl.setOnSiteLastName(onSiteLastName);
 		}
 
 		if (onSitePhone == null) {
-			campaignEventImpl.setOnSitePhone(StringPool.BLANK);
+			campaignEventImpl.setOnSitePhone("");
 		}
 		else {
 			campaignEventImpl.setOnSitePhone(onSitePhone);
 		}
 
 		if (title == null) {
-			campaignEventImpl.setTitle(StringPool.BLANK);
+			campaignEventImpl.setTitle("");
 		}
 		else {
 			campaignEventImpl.setTitle(title);
 		}
 
 		if (subtitle == null) {
-			campaignEventImpl.setSubtitle(StringPool.BLANK);
+			campaignEventImpl.setSubtitle("");
 		}
 		else {
 			campaignEventImpl.setSubtitle(subtitle);
 		}
 
 		if (description == null) {
-			campaignEventImpl.setDescription(StringPool.BLANK);
+			campaignEventImpl.setDescription("");
 		}
 		else {
 			campaignEventImpl.setDescription(description);
@@ -290,49 +290,49 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setWebImageId(webImageId);
 
 		if (imageOwner == null) {
-			campaignEventImpl.setImageOwner(StringPool.BLANK);
+			campaignEventImpl.setImageOwner("");
 		}
 		else {
 			campaignEventImpl.setImageOwner(imageOwner);
 		}
 
 		if (manifestationsIds == null) {
-			campaignEventImpl.setManifestationsIds(StringPool.BLANK);
+			campaignEventImpl.setManifestationsIds("");
 		}
 		else {
 			campaignEventImpl.setManifestationsIds(manifestationsIds);
 		}
 
 		if (placeSIGId == null) {
-			campaignEventImpl.setPlaceSIGId(StringPool.BLANK);
+			campaignEventImpl.setPlaceSIGId("");
 		}
 		else {
 			campaignEventImpl.setPlaceSIGId(placeSIGId);
 		}
 
 		if (placeName == null) {
-			campaignEventImpl.setPlaceName(StringPool.BLANK);
+			campaignEventImpl.setPlaceName("");
 		}
 		else {
 			campaignEventImpl.setPlaceName(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			campaignEventImpl.setPlaceStreetNumber(StringPool.BLANK);
+			campaignEventImpl.setPlaceStreetNumber("");
 		}
 		else {
 			campaignEventImpl.setPlaceStreetNumber(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			campaignEventImpl.setPlaceStreetName(StringPool.BLANK);
+			campaignEventImpl.setPlaceStreetName("");
 		}
 		else {
 			campaignEventImpl.setPlaceStreetName(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			campaignEventImpl.setPlaceZipCode(StringPool.BLANK);
+			campaignEventImpl.setPlaceZipCode("");
 		}
 		else {
 			campaignEventImpl.setPlaceZipCode(placeZipCode);
@@ -341,42 +341,42 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setPlaceCityId(placeCityId);
 
 		if (placeCountry == null) {
-			campaignEventImpl.setPlaceCountry(StringPool.BLANK);
+			campaignEventImpl.setPlaceCountry("");
 		}
 		else {
 			campaignEventImpl.setPlaceCountry(placeCountry);
 		}
 
 		if (promoter == null) {
-			campaignEventImpl.setPromoter(StringPool.BLANK);
+			campaignEventImpl.setPromoter("");
 		}
 		else {
 			campaignEventImpl.setPromoter(promoter);
 		}
 
 		if (publicPhone == null) {
-			campaignEventImpl.setPublicPhone(StringPool.BLANK);
+			campaignEventImpl.setPublicPhone("");
 		}
 		else {
 			campaignEventImpl.setPublicPhone(publicPhone);
 		}
 
 		if (publicEmail == null) {
-			campaignEventImpl.setPublicEmail(StringPool.BLANK);
+			campaignEventImpl.setPublicEmail("");
 		}
 		else {
 			campaignEventImpl.setPublicEmail(publicEmail);
 		}
 
 		if (websiteURL == null) {
-			campaignEventImpl.setWebsiteURL(StringPool.BLANK);
+			campaignEventImpl.setWebsiteURL("");
 		}
 		else {
 			campaignEventImpl.setWebsiteURL(websiteURL);
 		}
 
 		if (websiteName == null) {
-			campaignEventImpl.setWebsiteName(StringPool.BLANK);
+			campaignEventImpl.setWebsiteName("");
 		}
 		else {
 			campaignEventImpl.setWebsiteName(websiteName);
@@ -385,7 +385,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setFree(free);
 
 		if (price == null) {
-			campaignEventImpl.setPrice(StringPool.BLANK);
+			campaignEventImpl.setPrice("");
 		}
 		else {
 			campaignEventImpl.setPrice(price);
@@ -394,21 +394,21 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		campaignEventImpl.setCampaignId(campaignId);
 
 		if (themesIds == null) {
-			campaignEventImpl.setThemesIds(StringPool.BLANK);
+			campaignEventImpl.setThemesIds("");
 		}
 		else {
 			campaignEventImpl.setThemesIds(themesIds);
 		}
 
 		if (typesIds == null) {
-			campaignEventImpl.setTypesIds(StringPool.BLANK);
+			campaignEventImpl.setTypesIds("");
 		}
 		else {
 			campaignEventImpl.setTypesIds(typesIds);
 		}
 
 		if (publicsIds == null) {
-			campaignEventImpl.setPublicsIds(StringPool.BLANK);
+			campaignEventImpl.setPublicsIds("");
 		}
 		else {
 			campaignEventImpl.setPublicsIds(publicsIds);
@@ -479,10 +479,9 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -497,7 +496,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -510,28 +509,28 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeInt(status);
 
 		if (firstName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(firstName);
 		}
 
 		if (lastName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(lastName);
 		}
 
 		if (phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(phone);
 		}
 
 		if (email == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(email);
@@ -540,49 +539,49 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeLong(serviceId);
 
 		if (service == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(service);
 		}
 
 		if (onSiteFirstName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(onSiteFirstName);
 		}
 
 		if (onSiteLastName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(onSiteLastName);
 		}
 
 		if (onSitePhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(onSitePhone);
 		}
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (subtitle == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(subtitle);
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(description);
@@ -593,49 +592,49 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeLong(webImageId);
 
 		if (imageOwner == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imageOwner);
 		}
 
 		if (manifestationsIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(manifestationsIds);
 		}
 
 		if (placeSIGId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeSIGId);
 		}
 
 		if (placeName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeName);
 		}
 
 		if (placeStreetNumber == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetNumber);
 		}
 
 		if (placeStreetName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeStreetName);
 		}
 
 		if (placeZipCode == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeZipCode);
@@ -644,42 +643,42 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeLong(placeCityId);
 
 		if (placeCountry == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(placeCountry);
 		}
 
 		if (promoter == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(promoter);
 		}
 
 		if (publicPhone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publicPhone);
 		}
 
 		if (publicEmail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publicEmail);
 		}
 
 		if (websiteURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(websiteURL);
 		}
 
 		if (websiteName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(websiteName);
@@ -688,7 +687,7 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeInt(free);
 
 		if (price == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(price);
@@ -697,21 +696,21 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 		objectOutput.writeLong(campaignId);
 
 		if (themesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(themesIds);
 		}
 
 		if (typesIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(typesIds);
 		}
 
 		if (publicsIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(publicsIds);
@@ -762,4 +761,5 @@ public class CampaignEventCacheModel implements CacheModel<CampaignEvent>,
 	public String themesIds;
 	public String typesIds;
 	public String publicsIds;
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing AgendaExportPeriod in entity cache.
  *
  * @author BenjaminBini
- * @see AgendaExportPeriod
  * @generated
  */
 @ProviderType
-public class AgendaExportPeriodCacheModel implements CacheModel<AgendaExportPeriod>,
-	Externalizable {
+public class AgendaExportPeriodCacheModel
+	implements CacheModel<AgendaExportPeriod>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class AgendaExportPeriodCacheModel implements CacheModel<AgendaExportPeri
 			return false;
 		}
 
-		AgendaExportPeriodCacheModel agendaExportPeriodCacheModel = (AgendaExportPeriodCacheModel)obj;
+		AgendaExportPeriodCacheModel agendaExportPeriodCacheModel =
+			(AgendaExportPeriodCacheModel)obj;
 
-		if (agendaExportPeriodId == agendaExportPeriodCacheModel.agendaExportPeriodId) {
+		if (agendaExportPeriodId ==
+				agendaExportPeriodCacheModel.agendaExportPeriodId) {
+
 			return true;
 		}
 
@@ -85,10 +87,11 @@ public class AgendaExportPeriodCacheModel implements CacheModel<AgendaExportPeri
 
 	@Override
 	public AgendaExportPeriod toEntityModel() {
-		AgendaExportPeriodImpl agendaExportPeriodImpl = new AgendaExportPeriodImpl();
+		AgendaExportPeriodImpl agendaExportPeriodImpl =
+			new AgendaExportPeriodImpl();
 
 		if (uuid == null) {
-			agendaExportPeriodImpl.setUuid(StringPool.BLANK);
+			agendaExportPeriodImpl.setUuid("");
 		}
 		else {
 			agendaExportPeriodImpl.setUuid(uuid);
@@ -129,10 +132,9 @@ public class AgendaExportPeriodCacheModel implements CacheModel<AgendaExportPeri
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -150,4 +152,5 @@ public class AgendaExportPeriodCacheModel implements CacheModel<AgendaExportPeri
 	public long startDate;
 	public long endDate;
 	public long agendaExportId;
+
 }

@@ -34,35 +34,42 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see AgendaExportServiceUtil
- * @see eu.strasbourg.service.agenda.service.base.AgendaExportServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.AgendaExportServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=agenda", "json.web.service.context.path=AgendaExport"}, service = AgendaExportService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=agenda",
+		"json.web.service.context.path=AgendaExport"
+	},
+	service = AgendaExportService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface AgendaExportService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link AgendaExportServiceUtil} to access the agenda export remote service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.AgendaExportServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link AgendaExportServiceUtil} to access the agenda export remote service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.AgendaExportServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Renvoit la liste des catégories parentes d'un vocabulaire
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getParentCategories(java.lang.Long vocabularyId,
-		java.lang.String localeId) throws PortalException;
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Renvoit la liste des catégories parentes d'un vocabulaire
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getParentCategories(Long vocabularyId, String localeId)
+		throws PortalException;
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.project.model.ProjectTimeline;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ProjectTimeline in entity cache.
  *
  * @author Cedric Henry
- * @see ProjectTimeline
  * @generated
  */
 @ProviderType
-public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
-	Externalizable {
+public class ProjectTimelineCacheModel
+	implements CacheModel<ProjectTimeline>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 			return false;
 		}
 
-		ProjectTimelineCacheModel projectTimelineCacheModel = (ProjectTimelineCacheModel)obj;
+		ProjectTimelineCacheModel projectTimelineCacheModel =
+			(ProjectTimelineCacheModel)obj;
 
 		if (projectTimelineId == projectTimelineCacheModel.projectTimelineId) {
 			return true;
@@ -107,21 +107,21 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		}
 
 		if (dateFormat == null) {
-			projectTimelineImpl.setDateFormat(StringPool.BLANK);
+			projectTimelineImpl.setDateFormat("");
 		}
 		else {
 			projectTimelineImpl.setDateFormat(dateFormat);
 		}
 
 		if (title == null) {
-			projectTimelineImpl.setTitle(StringPool.BLANK);
+			projectTimelineImpl.setTitle("");
 		}
 		else {
 			projectTimelineImpl.setTitle(title);
 		}
 
 		if (link == null) {
-			projectTimelineImpl.setLink(StringPool.BLANK);
+			projectTimelineImpl.setLink("");
 		}
 		else {
 			projectTimelineImpl.setLink(link);
@@ -153,8 +153,7 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		objectOutput.writeLong(projectTimelineId);
 
 		objectOutput.writeInt(startDay);
@@ -163,21 +162,21 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 		objectOutput.writeLong(date);
 
 		if (dateFormat == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(dateFormat);
 		}
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (link == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(link);
@@ -197,4 +196,5 @@ public class ProjectTimelineCacheModel implements CacheModel<ProjectTimeline>,
 	public String link;
 	public long projectId;
 	public long budgetParticipatifId;
+
 }

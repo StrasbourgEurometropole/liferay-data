@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author JeremyZwickert
  * @see ObjectCategoryModel
- * @see eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl
- * @see eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl"
+)
 @ProviderType
 public interface ObjectCategory extends ObjectCategoryModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<ObjectCategory, String> CODE_ACCESSOR = new Accessor<ObjectCategory, String>() {
+	public static final Accessor<ObjectCategory, String> CODE_ACCESSOR =
+		new Accessor<ObjectCategory, String>() {
+
 			@Override
 			public String get(ObjectCategory objectCategory) {
 				return objectCategory.getCode();
@@ -52,5 +55,7 @@ public interface ObjectCategory extends ObjectCategoryModel, PersistedModel {
 			public Class<ObjectCategory> getTypeClass() {
 				return ObjectCategory.class;
 			}
+
 		};
+
 }

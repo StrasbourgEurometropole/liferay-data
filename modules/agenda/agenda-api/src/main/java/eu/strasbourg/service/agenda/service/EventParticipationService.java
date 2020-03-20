@@ -34,50 +34,57 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see EventParticipationServiceUtil
- * @see eu.strasbourg.service.agenda.service.base.EventParticipationServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.EventParticipationServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=agenda", "json.web.service.context.path=EventParticipation"}, service = EventParticipationService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=agenda",
+		"json.web.service.context.path=EventParticipation"
+	},
+	service = EventParticipationService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface EventParticipationService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link EventParticipationServiceUtil} to access the event participation remote service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventParticipationServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link EventParticipationServiceUtil} to access the event participation remote service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.EventParticipationServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Ajoute une participation à un utilisateur
-	*/
+	 * Ajoute une participation à un utilisateur
+	 */
 	public JSONObject addEventParticipationLink(long eventId, long groupId);
 
 	/**
-	* Supprime une participation d'evenement d'un utilisateur
-	*/
+	 * Supprime une participation d'evenement d'un utilisateur
+	 */
 	public JSONObject deleteEventParticipationLink(long eventId);
 
 	/**
-	* Retourne les participation d'evenement d'un utilisateur
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserEventParticipations(java.lang.String userId);
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
 
 	/**
-	* Verifie si l'utilisateur courant participe a l'evenement
-	*/
+	 * Retourne les participation d'evenement d'un utilisateur
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getUserEventParticipations(String userId);
+
+	/**
+	 * Verifie si l'utilisateur courant participe a l'evenement
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject isUserParticipates(long eventId);
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
 }

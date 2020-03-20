@@ -10,4 +10,3 @@ create unique index IX_10A76837 on video_VideoGallery (uuid_[$COLUMN_LENGTH:75$]
 
 create index IX_19F21359 on video_VideoToVideoGallery (companyId);
 create index IX_B823DBAE on video_VideoToVideoGallery (galleryId);
-create index IX_2F415C17 on video_VideoToVideoGallery (videoId);

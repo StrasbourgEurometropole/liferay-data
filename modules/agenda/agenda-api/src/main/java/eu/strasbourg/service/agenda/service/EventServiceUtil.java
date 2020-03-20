@@ -16,117 +16,143 @@ package eu.strasbourg.service.agenda.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Event. This utility wraps
- * {@link eu.strasbourg.service.agenda.service.impl.EventServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.agenda.service.impl.EventServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author BenjaminBini
  * @see EventService
- * @see eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.EventServiceImpl
  * @generated
  */
 @ProviderType
 public class EventServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.EventServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getCategories()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getCategories();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getPublics()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getPublics();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getServices()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getServices();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getSessions(
-		long eventID) {
-		return getService().getSessions(eventID);
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getTerritories()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTerritories();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getThemes()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getThemes();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTypes();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCategory(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getCategory(id);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getEvent(id);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEvents()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getEvents();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-		long categoryId)
+			long categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getEventsByCategory(categoryId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByDate(
-		java.lang.String date)
+			String date)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getEventsByDate(date);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByLanguage(
-		java.lang.String language)
+			String language)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getEventsByLanguage(language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
-		java.lang.String placeSIGId)
+			String placeSIGId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getEventsByPlace(placeSIGId);
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getPublics()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getPublics();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getServices()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getServices();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getSessions(
+		long eventID) {
+
+		return getService().getSessions(eventID);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getTerritories()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getTerritories();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getThemes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getThemes();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getTypes()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getTypes();
 	}
 
 	public static EventService getService() {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<EventService, EventService> _serviceTracker = ServiceTrackerFactory.open(EventService.class);
+	private static ServiceTracker<EventService, EventService> _serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(EventService.class);
+
+		ServiceTracker<EventService, EventService> serviceTracker =
+			new ServiceTracker<EventService, EventService>(
+				bundle.getBundleContext(), EventService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

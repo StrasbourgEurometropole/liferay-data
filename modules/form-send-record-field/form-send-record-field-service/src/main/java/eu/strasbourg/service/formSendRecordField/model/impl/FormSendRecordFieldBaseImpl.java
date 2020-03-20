@@ -34,10 +34,11 @@ import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLoca
 @ProviderType
 public abstract class FormSendRecordFieldBaseImpl
 	extends FormSendRecordFieldModelImpl implements FormSendRecordField {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a form send record field model instance should use the {@link FormSendRecordField} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a form send record field model instance should use the <code>FormSendRecordField</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class FormSendRecordFieldBaseImpl
 			FormSendRecordFieldLocalServiceUtil.updateFormSendRecordField(this);
 		}
 	}
+
 }

@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.place.service.persistence.PricePersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,50 +62,32 @@ import java.util.Set;
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see PricePersistence
- * @see eu.strasbourg.service.place.service.persistence.PriceUtil
  * @generated
  */
 @ProviderType
-public class PricePersistenceImpl extends BasePersistenceImpl<Price>
-	implements PricePersistence {
+public class PricePersistenceImpl
+	extends BasePersistenceImpl<Price> implements PricePersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link PriceUtil} to access the price persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>PriceUtil</code> to access the price persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = PriceImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			PriceModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		PriceImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the prices where uuid = &#63;.
@@ -122,7 +104,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Returns a range of all the prices where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PriceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PriceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -139,7 +121,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Returns an ordered range of all the prices where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PriceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PriceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -149,8 +131,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @return the ordered range of matching prices
 	 */
 	@Override
-	public List<Price> findByUuid(String uuid, int start, int end,
+	public List<Price> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Price> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -158,7 +142,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Returns an ordered range of all the prices where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PriceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PriceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -169,32 +153,37 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @return the ordered range of matching prices
 	 */
 	@Override
-	public List<Price> findByUuid(String uuid, int start, int end,
+	public List<Price> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<Price> orderByComparator, boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<Price> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Price>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Price>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Price price : list) {
-					if (!Objects.equals(uuid, price.getUuid())) {
+					if (!uuid.equals(price.getUuid())) {
 						list = null;
 
 						break;
@@ -207,8 +196,8 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -218,10 +207,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -231,11 +217,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(PriceModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -255,16 +240,16 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 				}
 
 				if (!pagination) {
-					list = (List<Price>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Price>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Price>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Price>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -293,8 +278,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @throws NoSuchPriceException if a matching price could not be found
 	 */
 	@Override
-	public Price findByUuid_First(String uuid,
-		OrderByComparator<Price> orderByComparator) throws NoSuchPriceException {
+	public Price findByUuid_First(
+			String uuid, OrderByComparator<Price> orderByComparator)
+		throws NoSuchPriceException {
+
 		Price price = fetchByUuid_First(uuid, orderByComparator);
 
 		if (price != null) {
@@ -308,7 +295,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPriceException(msg.toString());
 	}
@@ -321,8 +308,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @return the first matching price, or <code>null</code> if a matching price could not be found
 	 */
 	@Override
-	public Price fetchByUuid_First(String uuid,
-		OrderByComparator<Price> orderByComparator) {
+	public Price fetchByUuid_First(
+		String uuid, OrderByComparator<Price> orderByComparator) {
+
 		List<Price> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -341,8 +329,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @throws NoSuchPriceException if a matching price could not be found
 	 */
 	@Override
-	public Price findByUuid_Last(String uuid,
-		OrderByComparator<Price> orderByComparator) throws NoSuchPriceException {
+	public Price findByUuid_Last(
+			String uuid, OrderByComparator<Price> orderByComparator)
+		throws NoSuchPriceException {
+
 		Price price = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (price != null) {
@@ -356,7 +346,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchPriceException(msg.toString());
 	}
@@ -369,15 +359,17 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @return the last matching price, or <code>null</code> if a matching price could not be found
 	 */
 	@Override
-	public Price fetchByUuid_Last(String uuid,
-		OrderByComparator<Price> orderByComparator) {
+	public Price fetchByUuid_Last(
+		String uuid, OrderByComparator<Price> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Price> list = findByUuid(uuid, count - 1, count, orderByComparator);
+		List<Price> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -396,8 +388,13 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @throws NoSuchPriceException if a price with the primary key could not be found
 	 */
 	@Override
-	public Price[] findByUuid_PrevAndNext(long priceId, String uuid,
-		OrderByComparator<Price> orderByComparator) throws NoSuchPriceException {
+	public Price[] findByUuid_PrevAndNext(
+			long priceId, String uuid,
+			OrderByComparator<Price> orderByComparator)
+		throws NoSuchPriceException {
+
+		uuid = Objects.toString(uuid, "");
+
 		Price price = findByPrimaryKey(priceId);
 
 		Session session = null;
@@ -407,13 +404,13 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 			Price[] array = new PriceImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, price, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, price, uuid, orderByComparator, true);
 
 			array[1] = price;
 
-			array[2] = getByUuid_PrevAndNext(session, price, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, price, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -425,14 +422,15 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		}
 	}
 
-	protected Price getByUuid_PrevAndNext(Session session, Price price,
-		String uuid, OrderByComparator<Price> orderByComparator,
-		boolean previous) {
+	protected Price getByUuid_PrevAndNext(
+		Session session, Price price, String uuid,
+		OrderByComparator<Price> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -443,10 +441,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -456,7 +451,8 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -528,10 +524,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(price);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(price)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -552,8 +548,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Price price : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (Price price :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(price);
 		}
 	}
@@ -566,9 +563,11 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -579,10 +578,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -623,20 +619,23 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "price.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "price.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(price.uuid IS NULL OR price.uuid = '')";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(price.uuid IS NULL OR price.uuid = '')";
 
 	public PricePersistenceImpl() {
 		setModelClass(Price.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -654,8 +653,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 */
 	@Override
 	public void cacheResult(Price price) {
-		entityCache.putResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceImpl.class, price.getPrimaryKey(), price);
+		entityCache.putResult(
+			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+			price.getPrimaryKey(), price);
 
 		price.resetOriginalValues();
 	}
@@ -668,8 +668,10 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	@Override
 	public void cacheResult(List<Price> prices) {
 		for (Price price : prices) {
-			if (entityCache.getResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-						PriceImpl.class, price.getPrimaryKey()) == null) {
+			if (entityCache.getResult(
+					PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+					price.getPrimaryKey()) == null) {
+
 				cacheResult(price);
 			}
 			else {
@@ -682,7 +684,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Clears the cache for all prices.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -698,13 +700,14 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Clears the cache for the price.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Price price) {
-		entityCache.removeResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceImpl.class, price.getPrimaryKey());
+		entityCache.removeResult(
+			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+			price.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -716,8 +719,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Price price : prices) {
-			entityCache.removeResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-				PriceImpl.class, price.getPrimaryKey());
+			entityCache.removeResult(
+				PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+				price.getPrimaryKey());
 		}
 	}
 
@@ -774,8 +778,8 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchPriceException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchPriceException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(price);
@@ -793,16 +797,14 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 	@Override
 	protected Price removeImpl(Price price) {
-		price = toUnwrappedModel(price);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(price)) {
-				price = (Price)session.get(PriceImpl.class,
-						price.getPrimaryKeyObj());
+				price = (Price)session.get(
+					PriceImpl.class, price.getPrimaryKeyObj());
 			}
 
 			if (price != null) {
@@ -825,9 +827,23 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 	@Override
 	public Price updateImpl(Price price) {
-		price = toUnwrappedModel(price);
-
 		boolean isNew = price.isNew();
+
+		if (!(price instanceof PriceModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(price.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(price);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in price proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom Price implementation " +
+					price.getClass());
+		}
 
 		PriceModelImpl priceModelImpl = (PriceModelImpl)price;
 
@@ -863,68 +879,47 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		if (!PriceModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { priceModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {priceModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((priceModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] { priceModelImpl.getOriginalUuid() };
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				Object[] args = new Object[] {priceModelImpl.getOriginalUuid()};
 
-				args = new Object[] { priceModelImpl.getUuid() };
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				args = new Object[] {priceModelImpl.getUuid()};
+
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 		}
 
-		entityCache.putResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceImpl.class, price.getPrimaryKey(), price, false);
+		entityCache.putResult(
+			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+			price.getPrimaryKey(), price, false);
 
 		price.resetOriginalValues();
 
 		return price;
 	}
 
-	protected Price toUnwrappedModel(Price price) {
-		if (price instanceof PriceImpl) {
-			return price;
-		}
-
-		PriceImpl priceImpl = new PriceImpl();
-
-		priceImpl.setNew(price.isNew());
-		priceImpl.setPrimaryKey(price.getPrimaryKey());
-
-		priceImpl.setUuid(price.getUuid());
-		priceImpl.setPriceId(price.getPriceId());
-		priceImpl.setStatus(price.getStatus());
-		priceImpl.setStatusByUserId(price.getStatusByUserId());
-		priceImpl.setStatusByUserName(price.getStatusByUserName());
-		priceImpl.setStatusDate(price.getStatusDate());
-		priceImpl.setTitle(price.getTitle());
-		priceImpl.setPrice(price.getPrice());
-
-		return priceImpl;
-	}
-
 	/**
-	 * Returns the price with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the price with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the price
 	 * @return the price
@@ -933,6 +928,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	@Override
 	public Price findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchPriceException {
+
 		Price price = fetchByPrimaryKey(primaryKey);
 
 		if (price == null) {
@@ -940,15 +936,15 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchPriceException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchPriceException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return price;
 	}
 
 	/**
-	 * Returns the price with the primary key or throws a {@link NoSuchPriceException} if it could not be found.
+	 * Returns the price with the primary key or throws a <code>NoSuchPriceException</code> if it could not be found.
 	 *
 	 * @param priceId the primary key of the price
 	 * @return the price
@@ -967,8 +963,8 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 */
 	@Override
 	public Price fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-				PriceImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -988,13 +984,15 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 					cacheResult(price);
 				}
 				else {
-					entityCache.putResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-						PriceImpl.class, primaryKey, nullModel);
+					entityCache.putResult(
+						PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+						primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-					PriceImpl.class, primaryKey);
+				entityCache.removeResult(
+					PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+					primaryKey);
 
 				throw processException(e);
 			}
@@ -1020,6 +1018,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	@Override
 	public Map<Serializable, Price> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -1043,8 +1042,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-					PriceImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+				primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -1064,20 +1064,20 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_PRICE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -1097,8 +1097,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(PriceModelImpl.ENTITY_CACHE_ENABLED,
-					PriceImpl.class, primaryKey, nullModel);
+				entityCache.putResult(
+					PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
+					primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -1125,7 +1126,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Returns a range of all the prices.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PriceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PriceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of prices
@@ -1141,7 +1142,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Returns an ordered range of all the prices.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PriceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PriceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of prices
@@ -1150,8 +1151,9 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @return the ordered range of prices
 	 */
 	@Override
-	public List<Price> findAll(int start, int end,
-		OrderByComparator<Price> orderByComparator) {
+	public List<Price> findAll(
+		int start, int end, OrderByComparator<Price> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -1159,7 +1161,7 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Returns an ordered range of all the prices.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PriceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PriceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of prices
@@ -1169,28 +1171,31 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * @return the ordered range of prices
 	 */
 	@Override
-	public List<Price> findAll(int start, int end,
-		OrderByComparator<Price> orderByComparator, boolean retrieveFromCache) {
+	public List<Price> findAll(
+		int start, int end, OrderByComparator<Price> orderByComparator,
+		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Price> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Price>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			list = (List<Price>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -1198,13 +1203,13 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PRICE);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -1224,16 +1229,16 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Price>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+					list = (List<Price>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Price>)QueryUtil.list(q, getDialect(), start,
-							end);
+					list = (List<Price>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1271,8 +1276,8 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -1284,12 +1289,12 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -1315,6 +1320,44 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 	 * Initializes the price persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			PriceModelImpl.ENTITY_CACHE_ENABLED,
+			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			PriceModelImpl.ENTITY_CACHE_ENABLED,
+			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			PriceModelImpl.ENTITY_CACHE_ENABLED,
+			PriceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			PriceModelImpl.ENTITY_CACHE_ENABLED,
+			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			PriceModelImpl.ENTITY_CACHE_ENABLED,
+			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			PriceModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			PriceModelImpl.ENTITY_CACHE_ENABLED,
+			PriceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -1326,18 +1369,37 @@ public class PricePersistenceImpl extends BasePersistenceImpl<Price>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_PRICE = "SELECT price FROM Price price";
-	private static final String _SQL_SELECT_PRICE_WHERE_PKS_IN = "SELECT price FROM Price price WHERE priceId IN (";
-	private static final String _SQL_SELECT_PRICE_WHERE = "SELECT price FROM Price price WHERE ";
-	private static final String _SQL_COUNT_PRICE = "SELECT COUNT(price) FROM Price price";
-	private static final String _SQL_COUNT_PRICE_WHERE = "SELECT COUNT(price) FROM Price price WHERE ";
+
+	private static final String _SQL_SELECT_PRICE =
+		"SELECT price FROM Price price";
+
+	private static final String _SQL_SELECT_PRICE_WHERE_PKS_IN =
+		"SELECT price FROM Price price WHERE priceId IN (";
+
+	private static final String _SQL_SELECT_PRICE_WHERE =
+		"SELECT price FROM Price price WHERE ";
+
+	private static final String _SQL_COUNT_PRICE =
+		"SELECT COUNT(price) FROM Price price";
+
+	private static final String _SQL_COUNT_PRICE_WHERE =
+		"SELECT COUNT(price) FROM Price price WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "price.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Price exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Price exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(PricePersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No Price exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No Price exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PricePersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.project.service.http.BudgetParticipatifServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.project.service.http.BudgetParticipatifServiceSoap
  * @generated
  */
 @ProviderType
 public class BudgetParticipatifSoap implements Serializable {
+
 	public static BudgetParticipatifSoap toSoapModel(BudgetParticipatif model) {
 		BudgetParticipatifSoap soapModel = new BudgetParticipatifSoap();
 
@@ -62,11 +62,11 @@ public class BudgetParticipatifSoap implements Serializable {
 		soapModel.setCitoyenMobile(model.getCitoyenMobile());
 		soapModel.setCitoyenEmail(model.getCitoyenEmail());
 		soapModel.setCitoyenBirthday(model.getCitoyenBirthday());
-		soapModel.setHasCopyright(model.getHasCopyright());
+		soapModel.setHasCopyright(model.isHasCopyright());
 		soapModel.setVideoUrl(model.getVideoUrl());
 		soapModel.setImageTimeline(model.getImageTimeline());
 		soapModel.setOpacityImage(model.getOpacityImage());
-		soapModel.setIsCrush(model.getIsCrush());
+		soapModel.setIsCrush(model.isIsCrush());
 		soapModel.setCrushComment(model.getCrushComment());
 		soapModel.setPublikId(model.getPublikId());
 		soapModel.setImageId(model.getImageId());
@@ -79,7 +79,9 @@ public class BudgetParticipatifSoap implements Serializable {
 
 	public static BudgetParticipatifSoap[] toSoapModels(
 		BudgetParticipatif[] models) {
-		BudgetParticipatifSoap[] soapModels = new BudgetParticipatifSoap[models.length];
+
+		BudgetParticipatifSoap[] soapModels =
+			new BudgetParticipatifSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -90,10 +92,12 @@ public class BudgetParticipatifSoap implements Serializable {
 
 	public static BudgetParticipatifSoap[][] toSoapModels(
 		BudgetParticipatif[][] models) {
+
 		BudgetParticipatifSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new BudgetParticipatifSoap[models.length][models[0].length];
+			soapModels =
+				new BudgetParticipatifSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new BudgetParticipatifSoap[0][0];
@@ -108,13 +112,16 @@ public class BudgetParticipatifSoap implements Serializable {
 
 	public static BudgetParticipatifSoap[] toSoapModels(
 		List<BudgetParticipatif> models) {
-		List<BudgetParticipatifSoap> soapModels = new ArrayList<BudgetParticipatifSoap>(models.size());
+
+		List<BudgetParticipatifSoap> soapModels =
+			new ArrayList<BudgetParticipatifSoap>(models.size());
 
 		for (BudgetParticipatif model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new BudgetParticipatifSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new BudgetParticipatifSoap[soapModels.size()]);
 	}
 
 	public BudgetParticipatifSoap() {
@@ -487,4 +494,5 @@ public class BudgetParticipatifSoap implements Serializable {
 	private String _filesIds;
 	private long _budgetPhaseId;
 	private long _parentId;
+
 }

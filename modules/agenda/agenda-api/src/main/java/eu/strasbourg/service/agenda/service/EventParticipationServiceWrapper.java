@@ -28,57 +28,63 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 @ProviderType
 public class EventParticipationServiceWrapper
 	implements EventParticipationService,
-		ServiceWrapper<EventParticipationService> {
+			   ServiceWrapper<EventParticipationService> {
+
 	public EventParticipationServiceWrapper(
 		EventParticipationService eventParticipationService) {
+
 		_eventParticipationService = eventParticipationService;
 	}
 
 	/**
-	* Ajoute une participation à un utilisateur
-	*/
+	 * Ajoute une participation à un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addEventParticipationLink(
 		long eventId, long groupId) {
-		return _eventParticipationService.addEventParticipationLink(eventId,
-			groupId);
+
+		return _eventParticipationService.addEventParticipationLink(
+			eventId, groupId);
 	}
 
 	/**
-	* Supprime une participation d'evenement d'un utilisateur
-	*/
+	 * Supprime une participation d'evenement d'un utilisateur
+	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject deleteEventParticipationLink(
-		long eventId) {
+	public com.liferay.portal.kernel.json.JSONObject
+		deleteEventParticipationLink(long eventId) {
+
 		return _eventParticipationService.deleteEventParticipationLink(eventId);
 	}
 
 	/**
-	* Retourne les participation d'evenement d'un utilisateur
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	@Override
+	public String getOSGiServiceIdentifier() {
+		return _eventParticipationService.getOSGiServiceIdentifier();
+	}
+
+	/**
+	 * Retourne les participation d'evenement d'un utilisateur
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserEventParticipations(
-		java.lang.String userId) {
+		String userId) {
+
 		return _eventParticipationService.getUserEventParticipations(userId);
 	}
 
 	/**
-	* Verifie si l'utilisateur courant participe a l'evenement
-	*/
+	 * Verifie si l'utilisateur courant participe a l'evenement
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject isUserParticipates(
 		long eventId) {
-		return _eventParticipationService.isUserParticipates(eventId);
-	}
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _eventParticipationService.getOSGiServiceIdentifier();
+		return _eventParticipationService.isUserParticipates(eventId);
 	}
 
 	@Override
@@ -89,8 +95,10 @@ public class EventParticipationServiceWrapper
 	@Override
 	public void setWrappedService(
 		EventParticipationService eventParticipationService) {
+
 		_eventParticipationService = eventParticipationService;
 	}
 
 	private EventParticipationService _eventParticipationService;
+
 }

@@ -26,19 +26,20 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ProjectServiceWrapper implements ProjectService,
-	ServiceWrapper<ProjectService> {
+public class ProjectServiceWrapper
+	implements ProjectService, ServiceWrapper<ProjectService> {
+
 	public ProjectServiceWrapper(ProjectService projectService) {
 		_projectService = projectService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _projectService.getOSGiServiceIdentifier();
 	}
 
@@ -53,4 +54,5 @@ public class ProjectServiceWrapper implements ProjectService,
 	}
 
 	private ProjectService _projectService;
+
 }

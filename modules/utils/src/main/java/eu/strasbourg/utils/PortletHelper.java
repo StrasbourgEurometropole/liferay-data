@@ -1,11 +1,5 @@
 package eu.strasbourg.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.PortletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -14,11 +8,12 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
+
+import javax.portlet.PortletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -202,7 +197,7 @@ public class PortletHelper {
 				if (Validator.isNull(userConfigString)) {
 					userConfigString = "{\"hiddenPortlets\":[], \"shownPortlets\":[]}";
 				}
-				
+
 				JSONObject json = JSONFactoryUtil.createJSONObject(user.getDisplayConfig());
 				JSONArray hiddenPortletsJsonArray;
 				if (json.has("hiddenPortlets")) {

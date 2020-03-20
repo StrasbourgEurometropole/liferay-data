@@ -32,28 +32,35 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author BenjaminBini
  * @see EventPeriodServiceUtil
- * @see eu.strasbourg.service.agenda.service.base.EventPeriodServiceBaseImpl
- * @see eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=agenda", "json.web.service.context.path=EventPeriod"}, service = EventPeriodService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=agenda",
+		"json.web.service.context.path=EventPeriod"
+	},
+	service = EventPeriodService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface EventPeriodService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link EventPeriodServiceUtil} to access the event period remote service. Add custom service methods to {@link eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link EventPeriodServiceUtil} to access the event period remote service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.EventPeriodServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

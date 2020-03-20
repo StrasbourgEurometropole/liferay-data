@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.tipi.service.http.TipiEntryServiceSoap}.
  *
  * @author Angelique Zunino Champougny
- * @see eu.strasbourg.service.tipi.service.http.TipiEntryServiceSoap
  * @generated
  */
 @ProviderType
 public class TipiEntrySoap implements Serializable {
+
 	public static TipiEntrySoap toSoapModel(TipiEntry model) {
 		TipiEntrySoap soapModel = new TipiEntrySoap();
 
@@ -74,7 +74,8 @@ public class TipiEntrySoap implements Serializable {
 	}
 
 	public static TipiEntrySoap[] toSoapModels(List<TipiEntry> models) {
-		List<TipiEntrySoap> soapModels = new ArrayList<TipiEntrySoap>(models.size());
+		List<TipiEntrySoap> soapModels = new ArrayList<TipiEntrySoap>(
+			models.size());
 
 		for (TipiEntry model : models) {
 			soapModels.add(toSoapModel(model));
@@ -166,4 +167,5 @@ public class TipiEntrySoap implements Serializable {
 	private int _refusedCount;
 	private int _canceledCount;
 	private String _type;
+
 }

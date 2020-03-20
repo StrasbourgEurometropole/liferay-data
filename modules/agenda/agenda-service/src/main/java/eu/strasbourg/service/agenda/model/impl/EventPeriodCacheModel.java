@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.agenda.model.EventPeriod;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing EventPeriod in entity cache.
  *
  * @author BenjaminBini
- * @see EventPeriod
  * @generated
  */
 @ProviderType
-public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
-	Externalizable {
+public class EventPeriodCacheModel
+	implements CacheModel<EventPeriod>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 			return false;
 		}
 
-		EventPeriodCacheModel eventPeriodCacheModel = (EventPeriodCacheModel)obj;
+		EventPeriodCacheModel eventPeriodCacheModel =
+			(EventPeriodCacheModel)obj;
 
 		if (eventPeriodId == eventPeriodCacheModel.eventPeriodId) {
 			return true;
@@ -92,7 +92,7 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		EventPeriodImpl eventPeriodImpl = new EventPeriodImpl();
 
 		if (uuid == null) {
-			eventPeriodImpl.setUuid(StringPool.BLANK);
+			eventPeriodImpl.setUuid("");
 		}
 		else {
 			eventPeriodImpl.setUuid(uuid);
@@ -115,7 +115,7 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		}
 
 		if (timeDetail == null) {
-			eventPeriodImpl.setTimeDetail(StringPool.BLANK);
+			eventPeriodImpl.setTimeDetail("");
 		}
 		else {
 			eventPeriodImpl.setTimeDetail(timeDetail);
@@ -144,10 +144,9 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -158,7 +157,7 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 		objectOutput.writeLong(endDate);
 
 		if (timeDetail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(timeDetail);
@@ -176,4 +175,5 @@ public class EventPeriodCacheModel implements CacheModel<EventPeriod>,
 	public String timeDetail;
 	public long eventId;
 	public long campaignEventId;
+
 }

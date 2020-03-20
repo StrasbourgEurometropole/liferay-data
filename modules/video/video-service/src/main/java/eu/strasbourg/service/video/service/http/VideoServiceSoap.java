@@ -25,19 +25,20 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * {@link VideoServiceUtil} service utility. The
- * static methods of this class calls the same methods of the service utility.
- * However, the signatures are different because it is difficult for SOAP to
- * support certain types.
+ * <code>VideoServiceUtil</code> service
+ * utility. The static methods of this class call the same methods of the
+ * service utility. However, the signatures are different because it is
+ * difficult for SOAP to support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link eu.strasbourg.service.video.model.VideoSoap}.
- * If the method in the service utility returns a
- * {@link eu.strasbourg.service.video.model.Video}, that is translated to a
- * {@link eu.strasbourg.service.video.model.VideoSoap}. Methods that SOAP cannot
- * safely wire are skipped.
+ * if the method in the service utility returns a <code>java.util.List</code>,
+ * that is translated to an array of
+ * <code>eu.strasbourg.service.video.model.VideoSoap</code>. If the method in the
+ * service utility returns a
+ * <code>eu.strasbourg.service.video.model.Video</code>, that is translated to a
+ * <code>eu.strasbourg.service.video.model.VideoSoap</code>. Methods that SOAP
+ * cannot safely wire are skipped.
  * </p>
  *
  * <p>
@@ -59,15 +60,15 @@ import java.rmi.RemoteException;
  *
  * @author BenjaminBini
  * @see VideoServiceHttp
- * @see eu.strasbourg.service.video.model.VideoSoap
- * @see VideoServiceUtil
  * @generated
  */
 @ProviderType
 public class VideoServiceSoap {
-	public static java.lang.String getVideo(long id) throws RemoteException {
+
+	public static String getVideo(long id) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = VideoServiceUtil.getVideo(id);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				VideoServiceUtil.getVideo(id);
 
 			return returnValue.toString();
 		}
@@ -79,4 +80,5 @@ public class VideoServiceSoap {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(VideoServiceSoap.class);
+
 }

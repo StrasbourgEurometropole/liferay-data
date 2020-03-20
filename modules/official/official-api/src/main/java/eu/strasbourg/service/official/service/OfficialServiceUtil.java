@@ -16,38 +16,37 @@ package eu.strasbourg.service.official.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for Official. This utility wraps
- * {@link eu.strasbourg.service.official.service.impl.OfficialServiceImpl} and is the
- * primary access point for service operations in application layer code running
- * on a remote server. Methods of this service are expected to have security
- * checks based on the propagated JAAS credentials because this service can be
+ * <code>eu.strasbourg.service.official.service.impl.OfficialServiceImpl</code> and is an
+ * access point for service operations in application layer code running on a
+ * remote server. Methods of this service are expected to have security checks
+ * based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author AngeliqueZUNINO
  * @see OfficialService
- * @see eu.strasbourg.service.official.service.base.OfficialServiceBaseImpl
- * @see eu.strasbourg.service.official.service.impl.OfficialServiceImpl
  * @generated
  */
 @ProviderType
 public class OfficialServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.official.service.impl.OfficialServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.official.service.impl.OfficialServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -55,6 +54,19 @@ public class OfficialServiceUtil {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<OfficialService, OfficialService> _serviceTracker =
-		ServiceTrackerFactory.open(OfficialService.class);
+	private static ServiceTracker<OfficialService, OfficialService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(OfficialService.class);
+
+		ServiceTracker<OfficialService, OfficialService> serviceTracker =
+			new ServiceTracker<OfficialService, OfficialService>(
+				bundle.getBundleContext(), OfficialService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

@@ -27,10 +27,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ReflectionUtil;
+import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -44,6 +43,7 @@ import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,50 +62,32 @@ import java.util.Set;
  * </p>
  *
  * @author BenjaminBini
- * @see EventPeriodPersistence
- * @see eu.strasbourg.service.agenda.service.persistence.EventPeriodUtil
  * @generated
  */
 @ProviderType
-public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
-	implements EventPeriodPersistence {
+public class EventPeriodPersistenceImpl
+	extends BasePersistenceImpl<EventPeriod> implements EventPeriodPersistence {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link EventPeriodUtil} to access the event period persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>EventPeriodUtil</code> to access the event period persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY = EventPeriodImpl.class.getName();
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List1";
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
-		".List2";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
-	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] { String.class.getName() },
-			EventPeriodModelImpl.UUID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] { String.class.getName() });
+	public static final String FINDER_CLASS_NAME_ENTITY =
+		EventPeriodImpl.class.getName();
+
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List1";
+
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
+		FINDER_CLASS_NAME_ENTITY + ".List2";
+
+	private FinderPath _finderPathWithPaginationFindAll;
+	private FinderPath _finderPathWithoutPaginationFindAll;
+	private FinderPath _finderPathCountAll;
+	private FinderPath _finderPathWithPaginationFindByUuid;
+	private FinderPath _finderPathWithoutPaginationFindByUuid;
+	private FinderPath _finderPathCountByUuid;
 
 	/**
 	 * Returns all the event periods where uuid = &#63;.
@@ -122,7 +104,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns a range of all the event periods where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -139,7 +121,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -149,8 +131,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByUuid(String uuid, int start, int end,
+	public List<EventPeriod> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<EventPeriod> orderByComparator) {
+
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -158,7 +142,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -169,33 +153,38 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByUuid(String uuid, int start, int end,
+	public List<EventPeriod> findByUuid(
+		String uuid, int start, int end,
 		OrderByComparator<EventPeriod> orderByComparator,
 		boolean retrieveFromCache) {
+
+		uuid = Objects.toString(uuid, "");
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid };
+			finderPath = _finderPathWithoutPaginationFindByUuid;
+			finderArgs = new Object[] {uuid};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
-			finderArgs = new Object[] { uuid, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByUuid;
+			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
 		List<EventPeriod> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventPeriod>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventPeriod>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (EventPeriod eventPeriod : list) {
-					if (!Objects.equals(uuid, eventPeriod.getUuid())) {
+					if (!uuid.equals(eventPeriod.getUuid())) {
 						list = null;
 
 						break;
@@ -208,8 +197,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -219,10 +208,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -232,11 +218,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EventPeriodModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -256,16 +241,16 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 				}
 
 				if (!pagination) {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -294,9 +279,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod findByUuid_First(String uuid,
-		OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod findByUuid_First(
+			String uuid, OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
+
 		EventPeriod eventPeriod = fetchByUuid_First(uuid, orderByComparator);
 
 		if (eventPeriod != null) {
@@ -310,7 +296,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventPeriodException(msg.toString());
 	}
@@ -323,8 +309,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the first matching event period, or <code>null</code> if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod fetchByUuid_First(String uuid,
-		OrderByComparator<EventPeriod> orderByComparator) {
+	public EventPeriod fetchByUuid_First(
+		String uuid, OrderByComparator<EventPeriod> orderByComparator) {
+
 		List<EventPeriod> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -343,9 +330,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod findByUuid_Last(String uuid,
-		OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod findByUuid_Last(
+			String uuid, OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
+
 		EventPeriod eventPeriod = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (eventPeriod != null) {
@@ -359,7 +347,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventPeriodException(msg.toString());
 	}
@@ -372,16 +360,17 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the last matching event period, or <code>null</code> if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod fetchByUuid_Last(String uuid,
-		OrderByComparator<EventPeriod> orderByComparator) {
+	public EventPeriod fetchByUuid_Last(
+		String uuid, OrderByComparator<EventPeriod> orderByComparator) {
+
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<EventPeriod> list = findByUuid(uuid, count - 1, count,
-				orderByComparator);
+		List<EventPeriod> list = findByUuid(
+			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -400,9 +389,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a event period with the primary key could not be found
 	 */
 	@Override
-	public EventPeriod[] findByUuid_PrevAndNext(long eventPeriodId,
-		String uuid, OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod[] findByUuid_PrevAndNext(
+			long eventPeriodId, String uuid,
+			OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
+
+		uuid = Objects.toString(uuid, "");
+
 		EventPeriod eventPeriod = findByPrimaryKey(eventPeriodId);
 
 		Session session = null;
@@ -412,13 +405,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 			EventPeriod[] array = new EventPeriodImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(session, eventPeriod, uuid,
-					orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(
+				session, eventPeriod, uuid, orderByComparator, true);
 
 			array[1] = eventPeriod;
 
-			array[2] = getByUuid_PrevAndNext(session, eventPeriod, uuid,
-					orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(
+				session, eventPeriod, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -430,14 +423,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		}
 	}
 
-	protected EventPeriod getByUuid_PrevAndNext(Session session,
-		EventPeriod eventPeriod, String uuid,
+	protected EventPeriod getByUuid_PrevAndNext(
+		Session session, EventPeriod eventPeriod, String uuid,
 		OrderByComparator<EventPeriod> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -448,10 +442,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 		boolean bindUuid = false;
 
-		if (uuid == null) {
-			query.append(_FINDER_COLUMN_UUID_UUID_1);
-		}
-		else if (uuid.equals(StringPool.BLANK)) {
+		if (uuid.isEmpty()) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -461,7 +452,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -533,10 +525,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		}
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(eventPeriod);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(eventPeriod)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -557,8 +549,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (EventPeriod eventPeriod : findByUuid(uuid, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+		for (EventPeriod eventPeriod :
+				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(eventPeriod);
 		}
 	}
@@ -571,9 +564,11 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
+		uuid = Objects.toString(uuid, "");
 
-		Object[] finderArgs = new Object[] { uuid };
+		FinderPath finderPath = _finderPathCountByUuid;
+
+		Object[] finderArgs = new Object[] {uuid};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -584,10 +579,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 			boolean bindUuid = false;
 
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_UUID_1);
-			}
-			else if (uuid.equals(StringPool.BLANK)) {
+			if (uuid.isEmpty()) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -628,28 +620,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_UUID_1 = "eventPeriod.uuid IS NULL";
-	private static final String _FINDER_COLUMN_UUID_UUID_2 = "eventPeriod.uuid = ?";
-	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(eventPeriod.uuid IS NULL OR eventPeriod.uuid = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_EVENTID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEventId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID =
-		new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEventId",
-			new String[] { Long.class.getName() },
-			EventPeriodModelImpl.EVENTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_EVENTID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEventId",
-			new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_UUID_UUID_2 =
+		"eventPeriod.uuid = ?";
+
+	private static final String _FINDER_COLUMN_UUID_UUID_3 =
+		"(eventPeriod.uuid IS NULL OR eventPeriod.uuid = '')";
+
+	private FinderPath _finderPathWithPaginationFindByEventId;
+	private FinderPath _finderPathWithoutPaginationFindByEventId;
+	private FinderPath _finderPathCountByEventId;
 
 	/**
 	 * Returns all the event periods where eventId = &#63;.
@@ -659,14 +638,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public List<EventPeriod> findByEventId(long eventId) {
-		return findByEventId(eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByEventId(
+			eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the event periods where eventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param eventId the event ID
@@ -683,7 +663,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods where eventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param eventId the event ID
@@ -693,8 +673,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByEventId(long eventId, int start, int end,
+	public List<EventPeriod> findByEventId(
+		long eventId, int start, int end,
 		OrderByComparator<EventPeriod> orderByComparator) {
+
 		return findByEventId(eventId, start, end, orderByComparator, true);
 	}
 
@@ -702,7 +684,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods where eventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param eventId the event ID
@@ -713,29 +695,32 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByEventId(long eventId, int start, int end,
+	public List<EventPeriod> findByEventId(
+		long eventId, int start, int end,
 		OrderByComparator<EventPeriod> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID;
-			finderArgs = new Object[] { eventId };
+			finderPath = _finderPathWithoutPaginationFindByEventId;
+			finderArgs = new Object[] {eventId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_EVENTID;
-			finderArgs = new Object[] { eventId, start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindByEventId;
+			finderArgs = new Object[] {eventId, start, end, orderByComparator};
 		}
 
 		List<EventPeriod> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventPeriod>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventPeriod>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (EventPeriod eventPeriod : list) {
@@ -752,8 +737,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -764,11 +749,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			query.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EventPeriodModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -786,16 +770,16 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 				qPos.add(eventId);
 
 				if (!pagination) {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -824,11 +808,12 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod findByEventId_First(long eventId,
-		OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod findByEventId_First(
+			long eventId, OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
-		EventPeriod eventPeriod = fetchByEventId_First(eventId,
-				orderByComparator);
+
+		EventPeriod eventPeriod = fetchByEventId_First(
+			eventId, orderByComparator);
 
 		if (eventPeriod != null) {
 			return eventPeriod;
@@ -841,7 +826,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		msg.append("eventId=");
 		msg.append(eventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventPeriodException(msg.toString());
 	}
@@ -854,9 +839,11 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the first matching event period, or <code>null</code> if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod fetchByEventId_First(long eventId,
-		OrderByComparator<EventPeriod> orderByComparator) {
-		List<EventPeriod> list = findByEventId(eventId, 0, 1, orderByComparator);
+	public EventPeriod fetchByEventId_First(
+		long eventId, OrderByComparator<EventPeriod> orderByComparator) {
+
+		List<EventPeriod> list = findByEventId(
+			eventId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -874,10 +861,12 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod findByEventId_Last(long eventId,
-		OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod findByEventId_Last(
+			long eventId, OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
-		EventPeriod eventPeriod = fetchByEventId_Last(eventId, orderByComparator);
+
+		EventPeriod eventPeriod = fetchByEventId_Last(
+			eventId, orderByComparator);
 
 		if (eventPeriod != null) {
 			return eventPeriod;
@@ -890,7 +879,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		msg.append("eventId=");
 		msg.append(eventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventPeriodException(msg.toString());
 	}
@@ -903,16 +892,17 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the last matching event period, or <code>null</code> if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod fetchByEventId_Last(long eventId,
-		OrderByComparator<EventPeriod> orderByComparator) {
+	public EventPeriod fetchByEventId_Last(
+		long eventId, OrderByComparator<EventPeriod> orderByComparator) {
+
 		int count = countByEventId(eventId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<EventPeriod> list = findByEventId(eventId, count - 1, count,
-				orderByComparator);
+		List<EventPeriod> list = findByEventId(
+			eventId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -931,9 +921,11 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a event period with the primary key could not be found
 	 */
 	@Override
-	public EventPeriod[] findByEventId_PrevAndNext(long eventPeriodId,
-		long eventId, OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod[] findByEventId_PrevAndNext(
+			long eventPeriodId, long eventId,
+			OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
+
 		EventPeriod eventPeriod = findByPrimaryKey(eventPeriodId);
 
 		Session session = null;
@@ -943,13 +935,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 			EventPeriod[] array = new EventPeriodImpl[3];
 
-			array[0] = getByEventId_PrevAndNext(session, eventPeriod, eventId,
-					orderByComparator, true);
+			array[0] = getByEventId_PrevAndNext(
+				session, eventPeriod, eventId, orderByComparator, true);
 
 			array[1] = eventPeriod;
 
-			array[2] = getByEventId_PrevAndNext(session, eventPeriod, eventId,
-					orderByComparator, false);
+			array[2] = getByEventId_PrevAndNext(
+				session, eventPeriod, eventId, orderByComparator, false);
 
 			return array;
 		}
@@ -961,14 +953,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		}
 	}
 
-	protected EventPeriod getByEventId_PrevAndNext(Session session,
-		EventPeriod eventPeriod, long eventId,
+	protected EventPeriod getByEventId_PrevAndNext(
+		Session session, EventPeriod eventPeriod, long eventId,
 		OrderByComparator<EventPeriod> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -980,7 +973,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		query.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1050,10 +1044,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		qPos.add(eventId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(eventPeriod);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(eventPeriod)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1074,8 +1068,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public void removeByEventId(long eventId) {
-		for (EventPeriod eventPeriod : findByEventId(eventId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (EventPeriod eventPeriod :
+				findByEventId(
+					eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
 			remove(eventPeriod);
 		}
 	}
@@ -1088,9 +1084,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public int countByEventId(long eventId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_EVENTID;
+		FinderPath finderPath = _finderPathCountByEventId;
 
-		Object[] finderArgs = new Object[] { eventId };
+		Object[] finderArgs = new Object[] {eventId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1131,27 +1127,12 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_EVENTID_EVENTID_2 = "eventPeriod.eventId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CAMPAIGNEVENTID =
-		new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
-			new String[] {
-				Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID =
-		new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
-			new String[] { Long.class.getName() },
-			EventPeriodModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID = new FinderPath(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCampaignEventId", new String[] { Long.class.getName() });
+	private static final String _FINDER_COLUMN_EVENTID_EVENTID_2 =
+		"eventPeriod.eventId = ?";
+
+	private FinderPath _finderPathWithPaginationFindByCampaignEventId;
+	private FinderPath _finderPathWithoutPaginationFindByCampaignEventId;
+	private FinderPath _finderPathCountByCampaignEventId;
 
 	/**
 	 * Returns all the event periods where campaignEventId = &#63;.
@@ -1161,15 +1142,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public List<EventPeriod> findByCampaignEventId(long campaignEventId) {
-		return findByCampaignEventId(campaignEventId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByCampaignEventId(
+			campaignEventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the event periods where campaignEventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param campaignEventId the campaign event ID
@@ -1178,8 +1159,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByCampaignEventId(long campaignEventId,
-		int start, int end) {
+	public List<EventPeriod> findByCampaignEventId(
+		long campaignEventId, int start, int end) {
+
 		return findByCampaignEventId(campaignEventId, start, end, null);
 	}
 
@@ -1187,7 +1169,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods where campaignEventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param campaignEventId the campaign event ID
@@ -1197,17 +1179,19 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByCampaignEventId(long campaignEventId,
-		int start, int end, OrderByComparator<EventPeriod> orderByComparator) {
-		return findByCampaignEventId(campaignEventId, start, end,
-			orderByComparator, true);
+	public List<EventPeriod> findByCampaignEventId(
+		long campaignEventId, int start, int end,
+		OrderByComparator<EventPeriod> orderByComparator) {
+
+		return findByCampaignEventId(
+			campaignEventId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the event periods where campaignEventId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param campaignEventId the campaign event ID
@@ -1218,33 +1202,34 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of matching event periods
 	 */
 	@Override
-	public List<EventPeriod> findByCampaignEventId(long campaignEventId,
-		int start, int end, OrderByComparator<EventPeriod> orderByComparator,
+	public List<EventPeriod> findByCampaignEventId(
+		long campaignEventId, int start, int end,
+		OrderByComparator<EventPeriod> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID;
-			finderArgs = new Object[] { campaignEventId };
+			finderPath = _finderPathWithoutPaginationFindByCampaignEventId;
+			finderArgs = new Object[] {campaignEventId};
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CAMPAIGNEVENTID;
+			finderPath = _finderPathWithPaginationFindByCampaignEventId;
 			finderArgs = new Object[] {
-					campaignEventId,
-					
-					start, end, orderByComparator
-				};
+				campaignEventId, start, end, orderByComparator
+			};
 		}
 
 		List<EventPeriod> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventPeriod>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventPeriod>)finderCache.getResult(
+				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (EventPeriod eventPeriod : list) {
@@ -1261,8 +1246,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1273,11 +1258,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else
-			 if (pagination) {
+			else if (pagination) {
 				query.append(EventPeriodModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1295,16 +1279,16 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 				qPos.add(campaignEventId);
 
 				if (!pagination) {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -1333,11 +1317,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod findByCampaignEventId_First(long campaignEventId,
-		OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod findByCampaignEventId_First(
+			long campaignEventId,
+			OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
-		EventPeriod eventPeriod = fetchByCampaignEventId_First(campaignEventId,
-				orderByComparator);
+
+		EventPeriod eventPeriod = fetchByCampaignEventId_First(
+			campaignEventId, orderByComparator);
 
 		if (eventPeriod != null) {
 			return eventPeriod;
@@ -1350,7 +1336,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		msg.append("campaignEventId=");
 		msg.append(campaignEventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventPeriodException(msg.toString());
 	}
@@ -1363,10 +1349,12 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the first matching event period, or <code>null</code> if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod fetchByCampaignEventId_First(long campaignEventId,
+	public EventPeriod fetchByCampaignEventId_First(
+		long campaignEventId,
 		OrderByComparator<EventPeriod> orderByComparator) {
-		List<EventPeriod> list = findByCampaignEventId(campaignEventId, 0, 1,
-				orderByComparator);
+
+		List<EventPeriod> list = findByCampaignEventId(
+			campaignEventId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1384,11 +1372,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod findByCampaignEventId_Last(long campaignEventId,
-		OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod findByCampaignEventId_Last(
+			long campaignEventId,
+			OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
-		EventPeriod eventPeriod = fetchByCampaignEventId_Last(campaignEventId,
-				orderByComparator);
+
+		EventPeriod eventPeriod = fetchByCampaignEventId_Last(
+			campaignEventId, orderByComparator);
 
 		if (eventPeriod != null) {
 			return eventPeriod;
@@ -1401,7 +1391,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		msg.append("campaignEventId=");
 		msg.append(campaignEventId);
 
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
+		msg.append("}");
 
 		throw new NoSuchEventPeriodException(msg.toString());
 	}
@@ -1414,16 +1404,18 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the last matching event period, or <code>null</code> if a matching event period could not be found
 	 */
 	@Override
-	public EventPeriod fetchByCampaignEventId_Last(long campaignEventId,
+	public EventPeriod fetchByCampaignEventId_Last(
+		long campaignEventId,
 		OrderByComparator<EventPeriod> orderByComparator) {
+
 		int count = countByCampaignEventId(campaignEventId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<EventPeriod> list = findByCampaignEventId(campaignEventId,
-				count - 1, count, orderByComparator);
+		List<EventPeriod> list = findByCampaignEventId(
+			campaignEventId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1442,9 +1434,11 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @throws NoSuchEventPeriodException if a event period with the primary key could not be found
 	 */
 	@Override
-	public EventPeriod[] findByCampaignEventId_PrevAndNext(long eventPeriodId,
-		long campaignEventId, OrderByComparator<EventPeriod> orderByComparator)
+	public EventPeriod[] findByCampaignEventId_PrevAndNext(
+			long eventPeriodId, long campaignEventId,
+			OrderByComparator<EventPeriod> orderByComparator)
 		throws NoSuchEventPeriodException {
+
 		EventPeriod eventPeriod = findByPrimaryKey(eventPeriodId);
 
 		Session session = null;
@@ -1454,13 +1448,14 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 			EventPeriod[] array = new EventPeriodImpl[3];
 
-			array[0] = getByCampaignEventId_PrevAndNext(session, eventPeriod,
-					campaignEventId, orderByComparator, true);
+			array[0] = getByCampaignEventId_PrevAndNext(
+				session, eventPeriod, campaignEventId, orderByComparator, true);
 
 			array[1] = eventPeriod;
 
-			array[2] = getByCampaignEventId_PrevAndNext(session, eventPeriod,
-					campaignEventId, orderByComparator, false);
+			array[2] = getByCampaignEventId_PrevAndNext(
+				session, eventPeriod, campaignEventId, orderByComparator,
+				false);
 
 			return array;
 		}
@@ -1472,14 +1467,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		}
 	}
 
-	protected EventPeriod getByCampaignEventId_PrevAndNext(Session session,
-		EventPeriod eventPeriod, long campaignEventId,
+	protected EventPeriod getByCampaignEventId_PrevAndNext(
+		Session session, EventPeriod eventPeriod, long campaignEventId,
 		OrderByComparator<EventPeriod> orderByComparator, boolean previous) {
+
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1491,7 +1487,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		query.append(_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1561,10 +1558,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		qPos.add(campaignEventId);
 
 		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(eventPeriod);
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(eventPeriod)) {
 
-			for (Object value : values) {
-				qPos.add(value);
+				qPos.add(orderByConditionValue);
 			}
 		}
 
@@ -1585,8 +1582,11 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public void removeByCampaignEventId(long campaignEventId) {
-		for (EventPeriod eventPeriod : findByCampaignEventId(campaignEventId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		for (EventPeriod eventPeriod :
+				findByCampaignEventId(
+					campaignEventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
 			remove(eventPeriod);
 		}
 	}
@@ -1599,9 +1599,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public int countByCampaignEventId(long campaignEventId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID;
+		FinderPath finderPath = _finderPathCountByCampaignEventId;
 
-		Object[] finderArgs = new Object[] { campaignEventId };
+		Object[] finderArgs = new Object[] {campaignEventId};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1642,19 +1642,22 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2 =
-		"eventPeriod.campaignEventId = ?";
+	private static final String
+		_FINDER_COLUMN_CAMPAIGNEVENTID_CAMPAIGNEVENTID_2 =
+			"eventPeriod.campaignEventId = ?";
 
 	public EventPeriodPersistenceImpl() {
 		setModelClass(EventPeriod.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -1672,8 +1675,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public void cacheResult(EventPeriod eventPeriod) {
-		entityCache.putResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodImpl.class, eventPeriod.getPrimaryKey(), eventPeriod);
+		entityCache.putResult(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
+			eventPeriod.getPrimaryKey(), eventPeriod);
 
 		eventPeriod.resetOriginalValues();
 	}
@@ -1687,8 +1691,10 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	public void cacheResult(List<EventPeriod> eventPeriods) {
 		for (EventPeriod eventPeriod : eventPeriods) {
 			if (entityCache.getResult(
-						EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-						EventPeriodImpl.class, eventPeriod.getPrimaryKey()) == null) {
+					EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+					EventPeriodImpl.class, eventPeriod.getPrimaryKey()) ==
+						null) {
+
 				cacheResult(eventPeriod);
 			}
 			else {
@@ -1701,7 +1707,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Clears the cache for all event periods.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -1717,13 +1723,14 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Clears the cache for the event period.
 	 *
 	 * <p>
-	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
+	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(EventPeriod eventPeriod) {
-		entityCache.removeResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodImpl.class, eventPeriod.getPrimaryKey());
+		entityCache.removeResult(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
+			eventPeriod.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -1735,7 +1742,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (EventPeriod eventPeriod : eventPeriods) {
-			entityCache.removeResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			entityCache.removeResult(
+				EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
 				EventPeriodImpl.class, eventPeriod.getPrimaryKey());
 		}
 	}
@@ -1770,6 +1778,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	@Override
 	public EventPeriod remove(long eventPeriodId)
 		throws NoSuchEventPeriodException {
+
 		return remove((Serializable)eventPeriodId);
 	}
 
@@ -1783,21 +1792,22 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	@Override
 	public EventPeriod remove(Serializable primaryKey)
 		throws NoSuchEventPeriodException {
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			EventPeriod eventPeriod = (EventPeriod)session.get(EventPeriodImpl.class,
-					primaryKey);
+			EventPeriod eventPeriod = (EventPeriod)session.get(
+				EventPeriodImpl.class, primaryKey);
 
 			if (eventPeriod == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchEventPeriodException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-					primaryKey);
+				throw new NoSuchEventPeriodException(
+					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
 			return remove(eventPeriod);
@@ -1815,16 +1825,14 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 	@Override
 	protected EventPeriod removeImpl(EventPeriod eventPeriod) {
-		eventPeriod = toUnwrappedModel(eventPeriod);
-
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(eventPeriod)) {
-				eventPeriod = (EventPeriod)session.get(EventPeriodImpl.class,
-						eventPeriod.getPrimaryKeyObj());
+				eventPeriod = (EventPeriod)session.get(
+					EventPeriodImpl.class, eventPeriod.getPrimaryKeyObj());
 			}
 
 			if (eventPeriod != null) {
@@ -1847,11 +1855,26 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 	@Override
 	public EventPeriod updateImpl(EventPeriod eventPeriod) {
-		eventPeriod = toUnwrappedModel(eventPeriod);
-
 		boolean isNew = eventPeriod.isNew();
 
-		EventPeriodModelImpl eventPeriodModelImpl = (EventPeriodModelImpl)eventPeriod;
+		if (!(eventPeriod instanceof EventPeriodModelImpl)) {
+			InvocationHandler invocationHandler = null;
+
+			if (ProxyUtil.isProxyClass(eventPeriod.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(eventPeriod);
+
+				throw new IllegalArgumentException(
+					"Implement ModelWrapper in eventPeriod proxy " +
+						invocationHandler.getClass());
+			}
+
+			throw new IllegalArgumentException(
+				"Implement ModelWrapper in custom EventPeriod implementation " +
+					eventPeriod.getClass());
+		}
+
+		EventPeriodModelImpl eventPeriodModelImpl =
+			(EventPeriodModelImpl)eventPeriod;
 
 		if (Validator.isNull(eventPeriod.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
@@ -1885,118 +1908,101 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		if (!EventPeriodModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else
-		 if (isNew) {
-			Object[] args = new Object[] { eventPeriodModelImpl.getUuid() };
+		else if (isNew) {
+			Object[] args = new Object[] {eventPeriodModelImpl.getUuid()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-				args);
+			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] { eventPeriodModelImpl.getEventId() };
+			args = new Object[] {eventPeriodModelImpl.getEventId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_EVENTID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
-				args);
+			finderCache.removeResult(_finderPathCountByEventId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByEventId, args);
 
-			args = new Object[] { eventPeriodModelImpl.getCampaignEventId() };
+			args = new Object[] {eventPeriodModelImpl.getCampaignEventId()};
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
-				args);
+			finderCache.removeResult(_finderPathCountByCampaignEventId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByCampaignEventId, args);
 
-			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
-				FINDER_ARGS_EMPTY);
+			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
-
 		else {
 			if ((eventPeriodModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
+					 0) {
+
 				Object[] args = new Object[] {
-						eventPeriodModelImpl.getOriginalUuid()
-					};
+					eventPeriodModelImpl.getOriginalUuid()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] { eventPeriodModelImpl.getUuid() };
+				args = new Object[] {eventPeriodModelImpl.getUuid()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
-					args);
+				finderCache.removeResult(_finderPathCountByUuid, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
 			if ((eventPeriodModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByEventId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						eventPeriodModelImpl.getOriginalEventId()
-					};
+					eventPeriodModelImpl.getOriginalEventId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_EVENTID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
-					args);
+				finderCache.removeResult(_finderPathCountByEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByEventId, args);
 
-				args = new Object[] { eventPeriodModelImpl.getEventId() };
+				args = new Object[] {eventPeriodModelImpl.getEventId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_EVENTID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EVENTID,
-					args);
+				finderCache.removeResult(_finderPathCountByEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByEventId, args);
 			}
 
 			if ((eventPeriodModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID.getColumnBitmask()) != 0) {
+				 _finderPathWithoutPaginationFindByCampaignEventId.
+					 getColumnBitmask()) != 0) {
+
 				Object[] args = new Object[] {
-						eventPeriodModelImpl.getOriginalCampaignEventId()
-					};
+					eventPeriodModelImpl.getOriginalCampaignEventId()
+				};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByCampaignEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCampaignEventId, args);
 
-				args = new Object[] { eventPeriodModelImpl.getCampaignEventId() };
+				args = new Object[] {eventPeriodModelImpl.getCampaignEventId()};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_CAMPAIGNEVENTID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CAMPAIGNEVENTID,
-					args);
+				finderCache.removeResult(
+					_finderPathCountByCampaignEventId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByCampaignEventId, args);
 			}
 		}
 
-		entityCache.putResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodImpl.class, eventPeriod.getPrimaryKey(), eventPeriod,
-			false);
+		entityCache.putResult(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
+			eventPeriod.getPrimaryKey(), eventPeriod, false);
 
 		eventPeriod.resetOriginalValues();
 
 		return eventPeriod;
 	}
 
-	protected EventPeriod toUnwrappedModel(EventPeriod eventPeriod) {
-		if (eventPeriod instanceof EventPeriodImpl) {
-			return eventPeriod;
-		}
-
-		EventPeriodImpl eventPeriodImpl = new EventPeriodImpl();
-
-		eventPeriodImpl.setNew(eventPeriod.isNew());
-		eventPeriodImpl.setPrimaryKey(eventPeriod.getPrimaryKey());
-
-		eventPeriodImpl.setUuid(eventPeriod.getUuid());
-		eventPeriodImpl.setEventPeriodId(eventPeriod.getEventPeriodId());
-		eventPeriodImpl.setStartDate(eventPeriod.getStartDate());
-		eventPeriodImpl.setEndDate(eventPeriod.getEndDate());
-		eventPeriodImpl.setTimeDetail(eventPeriod.getTimeDetail());
-		eventPeriodImpl.setEventId(eventPeriod.getEventId());
-		eventPeriodImpl.setCampaignEventId(eventPeriod.getCampaignEventId());
-
-		return eventPeriodImpl;
-	}
-
 	/**
-	 * Returns the event period with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
+	 * Returns the event period with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the event period
 	 * @return the event period
@@ -2005,6 +2011,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	@Override
 	public EventPeriod findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchEventPeriodException {
+
 		EventPeriod eventPeriod = fetchByPrimaryKey(primaryKey);
 
 		if (eventPeriod == null) {
@@ -2012,15 +2019,15 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchEventPeriodException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				primaryKey);
+			throw new NoSuchEventPeriodException(
+				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
 		return eventPeriod;
 	}
 
 	/**
-	 * Returns the event period with the primary key or throws a {@link NoSuchEventPeriodException} if it could not be found.
+	 * Returns the event period with the primary key or throws a <code>NoSuchEventPeriodException</code> if it could not be found.
 	 *
 	 * @param eventPeriodId the primary key of the event period
 	 * @return the event period
@@ -2029,6 +2036,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	@Override
 	public EventPeriod findByPrimaryKey(long eventPeriodId)
 		throws NoSuchEventPeriodException {
+
 		return findByPrimaryKey((Serializable)eventPeriodId);
 	}
 
@@ -2040,8 +2048,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public EventPeriod fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				EventPeriodImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
+			primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -2055,19 +2064,21 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			try {
 				session = openSession();
 
-				eventPeriod = (EventPeriod)session.get(EventPeriodImpl.class,
-						primaryKey);
+				eventPeriod = (EventPeriod)session.get(
+					EventPeriodImpl.class, primaryKey);
 
 				if (eventPeriod != null) {
 					cacheResult(eventPeriod);
 				}
 				else {
-					entityCache.putResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+					entityCache.putResult(
+						EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
 						EventPeriodImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.removeResult(
+					EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
 					EventPeriodImpl.class, primaryKey);
 
 				throw processException(e);
@@ -2094,11 +2105,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	@Override
 	public Map<Serializable, EventPeriod> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
+
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, EventPeriod> map = new HashMap<Serializable, EventPeriod>();
+		Map<Serializable, EventPeriod> map =
+			new HashMap<Serializable, EventPeriod>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
@@ -2117,8 +2130,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-					EventPeriodImpl.class, primaryKey);
+			Serializable serializable = entityCache.getResult(
+				EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+				EventPeriodImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -2138,20 +2152,20 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			return map;
 		}
 
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
+		StringBundler query = new StringBundler(
+			uncachedPrimaryKeys.size() * 2 + 1);
 
 		query.append(_SQL_SELECT_EVENTPERIOD_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(StringPool.COMMA);
+			query.append(",");
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(StringPool.CLOSE_PARENTHESIS);
+		query.append(")");
 
 		String sql = query.toString();
 
@@ -2171,7 +2185,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+				entityCache.putResult(
+					EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
 					EventPeriodImpl.class, primaryKey, nullModel);
 			}
 		}
@@ -2199,7 +2214,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns a range of all the event periods.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event periods
@@ -2215,7 +2230,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event periods
@@ -2224,8 +2239,9 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of event periods
 	 */
 	@Override
-	public List<EventPeriod> findAll(int start, int end,
-		OrderByComparator<EventPeriod> orderByComparator) {
+	public List<EventPeriod> findAll(
+		int start, int end, OrderByComparator<EventPeriod> orderByComparator) {
+
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -2233,7 +2249,7 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Returns an ordered range of all the event periods.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link EventPeriodModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>EventPeriodModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of event periods
@@ -2243,29 +2259,31 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * @return the ordered range of event periods
 	 */
 	@Override
-	public List<EventPeriod> findAll(int start, int end,
-		OrderByComparator<EventPeriod> orderByComparator,
+	public List<EventPeriod> findAll(
+		int start, int end, OrderByComparator<EventPeriod> orderByComparator,
 		boolean retrieveFromCache) {
+
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
+			(orderByComparator == null)) {
+
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
+			finderPath = _finderPathWithoutPaginationFindAll;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
-			finderArgs = new Object[] { start, end, orderByComparator };
+			finderPath = _finderPathWithPaginationFindAll;
+			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<EventPeriod> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<EventPeriod>)finderCache.getResult(finderPath,
-					finderArgs, this);
+			list = (List<EventPeriod>)finderCache.getResult(
+				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
@@ -2273,13 +2291,13 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(2 +
-						(orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(
+					2 + (orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_EVENTPERIOD);
 
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
 				sql = query.toString();
 			}
@@ -2299,16 +2317,16 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<EventPeriod>)QueryUtil.list(q, getDialect(),
-							start, end);
+					list = (List<EventPeriod>)QueryUtil.list(
+						q, getDialect(), start, end);
 				}
 
 				cacheResult(list);
@@ -2346,8 +2364,8 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
-				FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(
+			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -2359,12 +2377,12 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
-					count);
+				finderCache.putResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
-					FINDER_ARGS_EMPTY);
+				finderCache.removeResult(
+					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -2390,6 +2408,88 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 	 * Initializes the event period persistence.
 	 */
 	public void afterPropertiesSet() {
+		_finderPathWithPaginationFindAll = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+
+		_finderPathWithoutPaginationFindAll = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
+			new String[0]);
+
+		_finderPathCountAll = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0]);
+
+		_finderPathWithPaginationFindByUuid = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByUuid = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()},
+			EventPeriodModelImpl.UUID_COLUMN_BITMASK);
+
+		_finderPathCountByUuid = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByEventId = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEventId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByEventId = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEventId",
+			new String[] {Long.class.getName()},
+			EventPeriodModelImpl.EVENTID_COLUMN_BITMASK);
+
+		_finderPathCountByEventId = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEventId",
+			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByCampaignEventId = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByCampaignEventId = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
+			new String[] {Long.class.getName()},
+			EventPeriodModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
+
+		_finderPathCountByCampaignEventId = new FinderPath(
+			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
+			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCampaignEventId",
+			new String[] {Long.class.getName()});
 	}
 
 	public void destroy() {
@@ -2401,18 +2501,37 @@ public class EventPeriodPersistenceImpl extends BasePersistenceImpl<EventPeriod>
 
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
+
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-	private static final String _SQL_SELECT_EVENTPERIOD = "SELECT eventPeriod FROM EventPeriod eventPeriod";
-	private static final String _SQL_SELECT_EVENTPERIOD_WHERE_PKS_IN = "SELECT eventPeriod FROM EventPeriod eventPeriod WHERE eventPeriodId IN (";
-	private static final String _SQL_SELECT_EVENTPERIOD_WHERE = "SELECT eventPeriod FROM EventPeriod eventPeriod WHERE ";
-	private static final String _SQL_COUNT_EVENTPERIOD = "SELECT COUNT(eventPeriod) FROM EventPeriod eventPeriod";
-	private static final String _SQL_COUNT_EVENTPERIOD_WHERE = "SELECT COUNT(eventPeriod) FROM EventPeriod eventPeriod WHERE ";
+
+	private static final String _SQL_SELECT_EVENTPERIOD =
+		"SELECT eventPeriod FROM EventPeriod eventPeriod";
+
+	private static final String _SQL_SELECT_EVENTPERIOD_WHERE_PKS_IN =
+		"SELECT eventPeriod FROM EventPeriod eventPeriod WHERE eventPeriodId IN (";
+
+	private static final String _SQL_SELECT_EVENTPERIOD_WHERE =
+		"SELECT eventPeriod FROM EventPeriod eventPeriod WHERE ";
+
+	private static final String _SQL_COUNT_EVENTPERIOD =
+		"SELECT COUNT(eventPeriod) FROM EventPeriod eventPeriod";
+
+	private static final String _SQL_COUNT_EVENTPERIOD_WHERE =
+		"SELECT COUNT(eventPeriod) FROM EventPeriod eventPeriod WHERE ";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "eventPeriod.";
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No EventPeriod exists with the primary key ";
-	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No EventPeriod exists with the key {";
-	private static final Log _log = LogFactoryUtil.getLog(EventPeriodPersistenceImpl.class);
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid"
-			});
+
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
+		"No EventPeriod exists with the primary key ";
+
+	private static final String _NO_SUCH_ENTITY_WITH_KEY =
+		"No EventPeriod exists with the key {";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EventPeriodPersistenceImpl.class);
+
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(
+		new String[] {"uuid"});
+
 }

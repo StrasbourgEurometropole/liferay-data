@@ -28,19 +28,21 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 @ProviderType
 public class CampaignEventStatusServiceWrapper
 	implements CampaignEventStatusService,
-		ServiceWrapper<CampaignEventStatusService> {
+			   ServiceWrapper<CampaignEventStatusService> {
+
 	public CampaignEventStatusServiceWrapper(
 		CampaignEventStatusService campaignEventStatusService) {
+
 		_campaignEventStatusService = campaignEventStatusService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _campaignEventStatusService.getOSGiServiceIdentifier();
 	}
 
@@ -52,8 +54,10 @@ public class CampaignEventStatusServiceWrapper
 	@Override
 	public void setWrappedService(
 		CampaignEventStatusService campaignEventStatusService) {
+
 		_campaignEventStatusService = campaignEventStatusService;
 	}
 
 	private CampaignEventStatusService _campaignEventStatusService;
+
 }

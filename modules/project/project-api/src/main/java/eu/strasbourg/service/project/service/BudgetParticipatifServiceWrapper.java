@@ -28,19 +28,21 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 @ProviderType
 public class BudgetParticipatifServiceWrapper
 	implements BudgetParticipatifService,
-		ServiceWrapper<BudgetParticipatifService> {
+			   ServiceWrapper<BudgetParticipatifService> {
+
 	public BudgetParticipatifServiceWrapper(
 		BudgetParticipatifService budgetParticipatifService) {
+
 		_budgetParticipatifService = budgetParticipatifService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _budgetParticipatifService.getOSGiServiceIdentifier();
 	}
 
@@ -52,8 +54,10 @@ public class BudgetParticipatifServiceWrapper
 	@Override
 	public void setWrappedService(
 		BudgetParticipatifService budgetParticipatifService) {
+
 		_budgetParticipatifService = budgetParticipatifService;
 	}
 
 	private BudgetParticipatifService _budgetParticipatifService;
+
 }

@@ -32,12 +32,13 @@ import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class EditionGalleryBaseImpl extends EditionGalleryModelImpl
-	implements EditionGallery {
+public abstract class EditionGalleryBaseImpl
+	extends EditionGalleryModelImpl implements EditionGallery {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a edition gallery model instance should use the {@link EditionGallery} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a edition gallery model instance should use the <code>EditionGallery</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class EditionGalleryBaseImpl extends EditionGalleryModelImpl
 			EditionGalleryLocalServiceUtil.updateEditionGallery(this);
 		}
 	}
+
 }

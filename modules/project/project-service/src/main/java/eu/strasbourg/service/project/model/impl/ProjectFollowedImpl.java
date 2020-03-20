@@ -20,13 +20,14 @@ import aQute.bnd.annotation.ProviderType;
  * The extended model implementation for the ProjectFollowed service. Represents a row in the &quot;project_ProjectFollowed&quot; database table, with each column mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.project.model.ProjectFollowed} interface.
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.project.model.ProjectFollowed<code> interface.
  * </p>
  *
  * @author Cedric Henry
  */
 @ProviderType
 public class ProjectFollowedImpl extends ProjectFollowedBaseImpl {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -34,4 +35,5 @@ public class ProjectFollowedImpl extends ProjectFollowedBaseImpl {
 	 */
 	public ProjectFollowedImpl() {
 	}
+
 }

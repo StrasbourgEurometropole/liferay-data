@@ -32,12 +32,13 @@ import eu.strasbourg.service.agenda.service.ImportReportLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ImportReportBaseImpl extends ImportReportModelImpl
-	implements ImportReport {
+public abstract class ImportReportBaseImpl
+	extends ImportReportModelImpl implements ImportReport {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a import report model instance should use the {@link ImportReport} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a import report model instance should use the <code>ImportReport</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ImportReportBaseImpl extends ImportReportModelImpl
 			ImportReportLocalServiceUtil.updateImportReport(this);
 		}
 	}
+
 }

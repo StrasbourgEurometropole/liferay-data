@@ -7,7 +7,7 @@ create index IX_52D68D89 on agenda_AgendaExportPeriod (agendaExportId);
 create index IX_144F1DBA on agenda_AgendaExportPeriod (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_33C5F7C1 on agenda_Campaign (groupId);
-create index IX_B306DFDF on agenda_Campaign (title[$COLUMN_LENGTH:75$]);
+create index IX_B306DFDF on agenda_Campaign (title[$COLUMN_LENGTH:400$]);
 create index IX_5EB688BD on agenda_Campaign (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_7CD41A7F on agenda_Campaign (uuid_[$COLUMN_LENGTH:75$], groupId);
 
@@ -38,7 +38,6 @@ create index IX_91BE1417 on agenda_EventPeriod (eventId);
 create index IX_7830DF06 on agenda_EventPeriod (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_3DF3373E on agenda_EventToManifestation (companyId);
-create index IX_F006BDB on agenda_EventToManifestation (eventId);
 create index IX_E5121167 on agenda_EventToManifestation (manifestationId);
 
 create index IX_303B8202 on agenda_ImportReport (uuid_[$COLUMN_LENGTH:75$]);

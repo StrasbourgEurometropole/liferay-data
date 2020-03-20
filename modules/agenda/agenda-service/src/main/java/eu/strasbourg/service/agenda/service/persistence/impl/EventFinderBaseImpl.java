@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.persistence.EventPersistence;
@@ -34,17 +33,20 @@ import java.util.Set;
  * @generated
  */
 public class EventFinderBaseImpl extends BasePersistenceImpl<Event> {
+
 	public EventFinderBaseImpl() {
 		setModelClass(Event.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("access", "access_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("access", "access_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -80,5 +82,8 @@ public class EventFinderBaseImpl extends BasePersistenceImpl<Event> {
 
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
-	private static final Log _log = LogFactoryUtil.getLog(EventFinderBaseImpl.class);
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		EventFinderBaseImpl.class);
+
 }

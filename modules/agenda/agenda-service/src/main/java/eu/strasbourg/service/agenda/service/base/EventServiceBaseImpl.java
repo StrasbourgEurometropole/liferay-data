@@ -17,7 +17,6 @@ package eu.strasbourg.service.agenda.service.base;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -58,15 +57,15 @@ import javax.sql.DataSource;
  *
  * @author BenjaminBini
  * @see eu.strasbourg.service.agenda.service.impl.EventServiceImpl
- * @see eu.strasbourg.service.agenda.service.EventServiceUtil
  * @generated
  */
-public abstract class EventServiceBaseImpl extends BaseServiceImpl
-	implements EventService, IdentifiableOSGiService {
+public abstract class EventServiceBaseImpl
+	extends BaseServiceImpl implements EventService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.agenda.service.EventServiceUtil} to access the event remote service.
+	 * Never modify or reference this class directly. Use <code>EventService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.EventServiceUtil</code>.
 	 */
 
 	/**
@@ -74,7 +73,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the agenda export local service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportLocalService getAgendaExportLocalService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportLocalService
+		getAgendaExportLocalService() {
+
 		return agendaExportLocalService;
 	}
 
@@ -84,7 +85,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param agendaExportLocalService the agenda export local service
 	 */
 	public void setAgendaExportLocalService(
-		eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService) {
+		eu.strasbourg.service.agenda.service.AgendaExportLocalService
+			agendaExportLocalService) {
+
 		this.agendaExportLocalService = agendaExportLocalService;
 	}
 
@@ -93,7 +96,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the agenda export remote service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportService getAgendaExportService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportService
+		getAgendaExportService() {
+
 		return agendaExportService;
 	}
 
@@ -103,7 +108,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param agendaExportService the agenda export remote service
 	 */
 	public void setAgendaExportService(
-		eu.strasbourg.service.agenda.service.AgendaExportService agendaExportService) {
+		eu.strasbourg.service.agenda.service.AgendaExportService
+			agendaExportService) {
+
 		this.agendaExportService = agendaExportService;
 	}
 
@@ -123,6 +130,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAgendaExportPersistence(
 		AgendaExportPersistence agendaExportPersistence) {
+
 		this.agendaExportPersistence = agendaExportPersistence;
 	}
 
@@ -131,7 +139,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the agenda export period local service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService getAgendaExportPeriodLocalService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+		getAgendaExportPeriodLocalService() {
+
 		return agendaExportPeriodLocalService;
 	}
 
@@ -141,7 +151,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param agendaExportPeriodLocalService the agenda export period local service
 	 */
 	public void setAgendaExportPeriodLocalService(
-		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService) {
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+			agendaExportPeriodLocalService) {
+
 		this.agendaExportPeriodLocalService = agendaExportPeriodLocalService;
 	}
 
@@ -150,7 +162,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the agenda export period remote service
 	 */
-	public eu.strasbourg.service.agenda.service.AgendaExportPeriodService getAgendaExportPeriodService() {
+	public eu.strasbourg.service.agenda.service.AgendaExportPeriodService
+		getAgendaExportPeriodService() {
+
 		return agendaExportPeriodService;
 	}
 
@@ -160,7 +174,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param agendaExportPeriodService the agenda export period remote service
 	 */
 	public void setAgendaExportPeriodService(
-		eu.strasbourg.service.agenda.service.AgendaExportPeriodService agendaExportPeriodService) {
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodService
+			agendaExportPeriodService) {
+
 		this.agendaExportPeriodService = agendaExportPeriodService;
 	}
 
@@ -180,6 +196,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAgendaExportPeriodPersistence(
 		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
+
 		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
 	}
 
@@ -188,7 +205,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the campaign local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignLocalService getCampaignLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignLocalService
+		getCampaignLocalService() {
+
 		return campaignLocalService;
 	}
 
@@ -198,7 +217,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param campaignLocalService the campaign local service
 	 */
 	public void setCampaignLocalService(
-		eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignLocalService
+			campaignLocalService) {
+
 		this.campaignLocalService = campaignLocalService;
 	}
 
@@ -216,7 +237,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param campaignPersistence the campaign persistence
 	 */
-	public void setCampaignPersistence(CampaignPersistence campaignPersistence) {
+	public void setCampaignPersistence(
+		CampaignPersistence campaignPersistence) {
+
 		this.campaignPersistence = campaignPersistence;
 	}
 
@@ -225,7 +248,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the campaign event local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventLocalService getCampaignEventLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventLocalService
+		getCampaignEventLocalService() {
+
 		return campaignEventLocalService;
 	}
 
@@ -235,7 +260,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param campaignEventLocalService the campaign event local service
 	 */
 	public void setCampaignEventLocalService(
-		eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignEventLocalService
+			campaignEventLocalService) {
+
 		this.campaignEventLocalService = campaignEventLocalService;
 	}
 
@@ -255,6 +282,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setCampaignEventPersistence(
 		CampaignEventPersistence campaignEventPersistence) {
+
 		this.campaignEventPersistence = campaignEventPersistence;
 	}
 
@@ -272,7 +300,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param campaignEventFinder the campaign event finder
 	 */
-	public void setCampaignEventFinder(CampaignEventFinder campaignEventFinder) {
+	public void setCampaignEventFinder(
+		CampaignEventFinder campaignEventFinder) {
+
 		this.campaignEventFinder = campaignEventFinder;
 	}
 
@@ -281,7 +311,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the campaign event status local service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService getCampaignEventStatusLocalService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+		getCampaignEventStatusLocalService() {
+
 		return campaignEventStatusLocalService;
 	}
 
@@ -291,7 +323,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param campaignEventStatusLocalService the campaign event status local service
 	 */
 	public void setCampaignEventStatusLocalService(
-		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService) {
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+			campaignEventStatusLocalService) {
+
 		this.campaignEventStatusLocalService = campaignEventStatusLocalService;
 	}
 
@@ -300,7 +334,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the campaign event status remote service
 	 */
-	public eu.strasbourg.service.agenda.service.CampaignEventStatusService getCampaignEventStatusService() {
+	public eu.strasbourg.service.agenda.service.CampaignEventStatusService
+		getCampaignEventStatusService() {
+
 		return campaignEventStatusService;
 	}
 
@@ -310,7 +346,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param campaignEventStatusService the campaign event status remote service
 	 */
 	public void setCampaignEventStatusService(
-		eu.strasbourg.service.agenda.service.CampaignEventStatusService campaignEventStatusService) {
+		eu.strasbourg.service.agenda.service.CampaignEventStatusService
+			campaignEventStatusService) {
+
 		this.campaignEventStatusService = campaignEventStatusService;
 	}
 
@@ -330,6 +368,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setCampaignEventStatusPersistence(
 		CampaignEventStatusPersistence campaignEventStatusPersistence) {
+
 		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
 	}
 
@@ -338,7 +377,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the event local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventLocalService getEventLocalService() {
+	public eu.strasbourg.service.agenda.service.EventLocalService
+		getEventLocalService() {
+
 		return eventLocalService;
 	}
 
@@ -348,7 +389,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param eventLocalService the event local service
 	 */
 	public void setEventLocalService(
-		eu.strasbourg.service.agenda.service.EventLocalService eventLocalService) {
+		eu.strasbourg.service.agenda.service.EventLocalService
+			eventLocalService) {
+
 		this.eventLocalService = eventLocalService;
 	}
 
@@ -411,7 +454,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the event participation local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventParticipationLocalService getEventParticipationLocalService() {
+	public eu.strasbourg.service.agenda.service.EventParticipationLocalService
+		getEventParticipationLocalService() {
+
 		return eventParticipationLocalService;
 	}
 
@@ -421,7 +466,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param eventParticipationLocalService the event participation local service
 	 */
 	public void setEventParticipationLocalService(
-		eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService) {
+		eu.strasbourg.service.agenda.service.EventParticipationLocalService
+			eventParticipationLocalService) {
+
 		this.eventParticipationLocalService = eventParticipationLocalService;
 	}
 
@@ -430,7 +477,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the event participation remote service
 	 */
-	public eu.strasbourg.service.agenda.service.EventParticipationService getEventParticipationService() {
+	public eu.strasbourg.service.agenda.service.EventParticipationService
+		getEventParticipationService() {
+
 		return eventParticipationService;
 	}
 
@@ -440,7 +489,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param eventParticipationService the event participation remote service
 	 */
 	public void setEventParticipationService(
-		eu.strasbourg.service.agenda.service.EventParticipationService eventParticipationService) {
+		eu.strasbourg.service.agenda.service.EventParticipationService
+			eventParticipationService) {
+
 		this.eventParticipationService = eventParticipationService;
 	}
 
@@ -460,6 +511,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setEventParticipationPersistence(
 		EventParticipationPersistence eventParticipationPersistence) {
+
 		this.eventParticipationPersistence = eventParticipationPersistence;
 	}
 
@@ -468,7 +520,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the event period local service
 	 */
-	public eu.strasbourg.service.agenda.service.EventPeriodLocalService getEventPeriodLocalService() {
+	public eu.strasbourg.service.agenda.service.EventPeriodLocalService
+		getEventPeriodLocalService() {
+
 		return eventPeriodLocalService;
 	}
 
@@ -478,7 +532,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param eventPeriodLocalService the event period local service
 	 */
 	public void setEventPeriodLocalService(
-		eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService) {
+		eu.strasbourg.service.agenda.service.EventPeriodLocalService
+			eventPeriodLocalService) {
+
 		this.eventPeriodLocalService = eventPeriodLocalService;
 	}
 
@@ -487,7 +543,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the event period remote service
 	 */
-	public eu.strasbourg.service.agenda.service.EventPeriodService getEventPeriodService() {
+	public eu.strasbourg.service.agenda.service.EventPeriodService
+		getEventPeriodService() {
+
 		return eventPeriodService;
 	}
 
@@ -497,7 +555,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param eventPeriodService the event period remote service
 	 */
 	public void setEventPeriodService(
-		eu.strasbourg.service.agenda.service.EventPeriodService eventPeriodService) {
+		eu.strasbourg.service.agenda.service.EventPeriodService
+			eventPeriodService) {
+
 		this.eventPeriodService = eventPeriodService;
 	}
 
@@ -517,6 +577,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setEventPeriodPersistence(
 		EventPeriodPersistence eventPeriodPersistence) {
+
 		this.eventPeriodPersistence = eventPeriodPersistence;
 	}
 
@@ -525,7 +586,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the import report local service
 	 */
-	public eu.strasbourg.service.agenda.service.ImportReportLocalService getImportReportLocalService() {
+	public eu.strasbourg.service.agenda.service.ImportReportLocalService
+		getImportReportLocalService() {
+
 		return importReportLocalService;
 	}
 
@@ -535,7 +598,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param importReportLocalService the import report local service
 	 */
 	public void setImportReportLocalService(
-		eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService) {
+		eu.strasbourg.service.agenda.service.ImportReportLocalService
+			importReportLocalService) {
+
 		this.importReportLocalService = importReportLocalService;
 	}
 
@@ -555,6 +620,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setImportReportPersistence(
 		ImportReportPersistence importReportPersistence) {
+
 		this.importReportPersistence = importReportPersistence;
 	}
 
@@ -563,7 +629,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the import report line local service
 	 */
-	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService getImportReportLineLocalService() {
+	public eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+		getImportReportLineLocalService() {
+
 		return importReportLineLocalService;
 	}
 
@@ -573,7 +641,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param importReportLineLocalService the import report line local service
 	 */
 	public void setImportReportLineLocalService(
-		eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService) {
+		eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+			importReportLineLocalService) {
+
 		this.importReportLineLocalService = importReportLineLocalService;
 	}
 
@@ -593,6 +663,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setImportReportLinePersistence(
 		ImportReportLinePersistence importReportLinePersistence) {
+
 		this.importReportLinePersistence = importReportLinePersistence;
 	}
 
@@ -601,7 +672,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the manifestation local service
 	 */
-	public eu.strasbourg.service.agenda.service.ManifestationLocalService getManifestationLocalService() {
+	public eu.strasbourg.service.agenda.service.ManifestationLocalService
+		getManifestationLocalService() {
+
 		return manifestationLocalService;
 	}
 
@@ -611,7 +684,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param manifestationLocalService the manifestation local service
 	 */
 	public void setManifestationLocalService(
-		eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService) {
+		eu.strasbourg.service.agenda.service.ManifestationLocalService
+			manifestationLocalService) {
+
 		this.manifestationLocalService = manifestationLocalService;
 	}
 
@@ -620,7 +695,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the manifestation remote service
 	 */
-	public eu.strasbourg.service.agenda.service.ManifestationService getManifestationService() {
+	public eu.strasbourg.service.agenda.service.ManifestationService
+		getManifestationService() {
+
 		return manifestationService;
 	}
 
@@ -630,7 +707,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param manifestationService the manifestation remote service
 	 */
 	public void setManifestationService(
-		eu.strasbourg.service.agenda.service.ManifestationService manifestationService) {
+		eu.strasbourg.service.agenda.service.ManifestationService
+			manifestationService) {
+
 		this.manifestationService = manifestationService;
 	}
 
@@ -650,6 +729,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setManifestationPersistence(
 		ManifestationPersistence manifestationPersistence) {
+
 		this.manifestationPersistence = manifestationPersistence;
 	}
 
@@ -658,7 +738,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -668,7 +750,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -677,7 +761,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -687,7 +773,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -696,7 +784,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -707,6 +797,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -726,6 +817,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -734,7 +826,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -744,7 +838,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -753,7 +849,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -764,6 +862,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -783,6 +882,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -809,7 +909,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -819,7 +921,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -828,7 +932,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryService getAssetEntryService() {
+	public com.liferay.asset.kernel.service.AssetEntryService
+		getAssetEntryService() {
+
 		return assetEntryService;
 	}
 
@@ -839,6 +945,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryService(
 		com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
+
 		this.assetEntryService = assetEntryService;
 	}
 
@@ -858,6 +965,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -866,7 +974,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -876,7 +986,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -896,6 +1008,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -904,7 +1017,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -914,7 +1029,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -923,7 +1040,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagService getAssetTagService() {
+	public com.liferay.asset.kernel.service.AssetTagService
+		getAssetTagService() {
+
 		return assetTagService;
 	}
 
@@ -934,6 +1053,7 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetTagService(
 		com.liferay.asset.kernel.service.AssetTagService assetTagService) {
+
 		this.assetTagService = assetTagService;
 	}
 
@@ -951,7 +1071,9 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
@@ -993,8 +1115,8 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -1003,98 +1125,230 @@ public abstract class EventServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportLocalService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportLocalService agendaExportLocalService;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportService agendaExportService;
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.AgendaExportLocalService
+		agendaExportLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportService.class
+	)
+	protected eu.strasbourg.service.agenda.service.AgendaExportService
+		agendaExportService;
+
 	@BeanReference(type = AgendaExportPersistence.class)
 	protected AgendaExportPersistence agendaExportPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService agendaExportPeriodLocalService;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.AgendaExportPeriodService.class)
-	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodService agendaExportPeriodService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService
+			agendaExportPeriodLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.AgendaExportPeriodService.class
+	)
+	protected eu.strasbourg.service.agenda.service.AgendaExportPeriodService
+		agendaExportPeriodService;
+
 	@BeanReference(type = AgendaExportPeriodPersistence.class)
 	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignLocalService campaignLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignLocalService
+		campaignLocalService;
+
 	@BeanReference(type = CampaignPersistence.class)
 	protected CampaignPersistence campaignPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService campaignEventLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignEventLocalService
+		campaignEventLocalService;
+
 	@BeanReference(type = CampaignEventPersistence.class)
 	protected CampaignEventPersistence campaignEventPersistence;
+
 	@BeanReference(type = CampaignEventFinder.class)
 	protected CampaignEventFinder campaignEventFinder;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService campaignEventStatusLocalService;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.CampaignEventStatusService.class)
-	protected eu.strasbourg.service.agenda.service.CampaignEventStatusService campaignEventStatusService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService
+			campaignEventStatusLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CampaignEventStatusService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CampaignEventStatusService
+		campaignEventStatusService;
+
 	@BeanReference(type = CampaignEventStatusPersistence.class)
 	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventLocalService eventLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventLocalService
+		eventLocalService;
+
 	@BeanReference(type = EventService.class)
 	protected EventService eventService;
+
 	@BeanReference(type = EventPersistence.class)
 	protected EventPersistence eventPersistence;
+
 	@BeanReference(type = EventFinder.class)
 	protected EventFinder eventFinder;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventParticipationLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventParticipationLocalService eventParticipationLocalService;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventParticipationService.class)
-	protected eu.strasbourg.service.agenda.service.EventParticipationService eventParticipationService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventParticipationLocalService.class
+	)
+	protected
+		eu.strasbourg.service.agenda.service.EventParticipationLocalService
+			eventParticipationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventParticipationService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventParticipationService
+		eventParticipationService;
+
 	@BeanReference(type = EventParticipationPersistence.class)
 	protected EventParticipationPersistence eventParticipationPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class)
-	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService eventPeriodLocalService;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.EventPeriodService.class)
-	protected eu.strasbourg.service.agenda.service.EventPeriodService eventPeriodService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventPeriodLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventPeriodLocalService
+		eventPeriodLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.EventPeriodService.class
+	)
+	protected eu.strasbourg.service.agenda.service.EventPeriodService
+		eventPeriodService;
+
 	@BeanReference(type = EventPeriodPersistence.class)
 	protected EventPeriodPersistence eventPeriodPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ImportReportLocalService importReportLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ImportReportLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ImportReportLocalService
+		importReportLocalService;
+
 	@BeanReference(type = ImportReportPersistence.class)
 	protected ImportReportPersistence importReportPersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService importReportLineLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ImportReportLineLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ImportReportLineLocalService
+		importReportLineLocalService;
+
 	@BeanReference(type = ImportReportLinePersistence.class)
 	protected ImportReportLinePersistence importReportLinePersistence;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class)
-	protected eu.strasbourg.service.agenda.service.ManifestationLocalService manifestationLocalService;
-	@BeanReference(type = eu.strasbourg.service.agenda.service.ManifestationService.class)
-	protected eu.strasbourg.service.agenda.service.ManifestationService manifestationService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ManifestationLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ManifestationLocalService
+		manifestationLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.ManifestationService.class
+	)
+	protected eu.strasbourg.service.agenda.service.ManifestationService
+		manifestationService;
+
 	@BeanReference(type = ManifestationPersistence.class)
 	protected ManifestationPersistence manifestationPersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryService assetEntryService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryService
+		assetEntryService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagService.class)
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagService.class
+	)
 	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 }

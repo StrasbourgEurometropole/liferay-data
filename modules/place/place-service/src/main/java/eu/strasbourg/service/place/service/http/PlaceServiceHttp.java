@@ -27,10 +27,11 @@ import eu.strasbourg.service.place.service.PlaceServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link PlaceServiceUtil} service utility. The
+ * <code>PlaceServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,18 +50,18 @@ import eu.strasbourg.service.place.service.PlaceServiceUtil;
  *
  * @author Angelique Zunino Champougny
  * @see PlaceServiceSoap
- * @see HttpPrincipal
- * @see PlaceServiceUtil
  * @generated
  */
 @ProviderType
 public class PlaceServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONArray getPlaces(
-		HttpPrincipal httpPrincipal)
+			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlaces", _getPlacesParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlaces", _getPlacesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -70,11 +71,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -87,11 +92,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceById(
-		HttpPrincipal httpPrincipal, long id)
+			HttpPrincipal httpPrincipal, long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlaceById", _getPlaceByIdParameterTypes1);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlaceById",
+				_getPlaceByIdParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, id);
 
@@ -101,11 +108,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -118,11 +129,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-		HttpPrincipal httpPrincipal, java.lang.String sigId)
+			HttpPrincipal httpPrincipal, String sigId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlaceByIdSIG", _getPlaceByIdSIGParameterTypes2);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlaceByIdSIG",
+				_getPlaceByIdSIGParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, sigId);
 
@@ -132,11 +145,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -149,11 +166,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByType(
-		HttpPrincipal httpPrincipal, java.lang.String typeId)
+			HttpPrincipal httpPrincipal, String typeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesByType", _getPlacesByTypeParameterTypes3);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlacesByType",
+				_getPlacesByTypeParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, typeId);
 
@@ -163,11 +182,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -180,11 +203,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
-		HttpPrincipal httpPrincipal, java.util.List<java.lang.String> typesId)
+			HttpPrincipal httpPrincipal, java.util.List<String> typesId)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesByTypes", _getPlacesByTypesParameterTypes4);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlacesByTypes",
+				_getPlacesByTypesParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, typesId);
 
@@ -194,11 +219,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -211,14 +240,16 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
-		HttpPrincipal httpPrincipal, java.lang.String territoryId)
+			HttpPrincipal httpPrincipal, String territoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesByTerritory", _getPlacesByTerritoryParameterTypes5);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					territoryId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlacesByTerritory",
+				_getPlacesByTerritoryParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, territoryId);
 
 			Object returnObj = null;
 
@@ -226,11 +257,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -242,17 +277,18 @@ public class PlaceServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
-		HttpPrincipal httpPrincipal, java.lang.String name,
-		java.lang.String language)
+	public static com.liferay.portal.kernel.json.JSONArray
+			getPlacesByNameAndLanguage(
+				HttpPrincipal httpPrincipal, String name, String language)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesByNameAndLanguage",
-					_getPlacesByNameAndLanguageParameterTypes6);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, name,
-					language);
+		try {
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlacesByNameAndLanguage",
+				_getPlacesByNameAndLanguageParameterTypes6);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, name, language);
 
 			Object returnObj = null;
 
@@ -260,11 +296,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -276,17 +316,18 @@ public class PlaceServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritoryAndType(
-		HttpPrincipal httpPrincipal, java.lang.String territoryId,
-		java.lang.String typeId)
+	public static com.liferay.portal.kernel.json.JSONArray
+			getPlacesByTerritoryAndType(
+				HttpPrincipal httpPrincipal, String territoryId, String typeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesByTerritoryAndType",
-					_getPlacesByTerritoryAndTypeParameterTypes7);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					territoryId, typeId);
+		try {
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlacesByTerritoryAndType",
+				_getPlacesByTerritoryAndTypeParameterTypes7);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, territoryId, typeId);
 
 			Object returnObj = null;
 
@@ -294,11 +335,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -312,9 +357,11 @@ public class PlaceServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getLegacyJSON(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getLegacyJSON", _getLegacyJSONParameterTypes8);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getLegacyJSON",
+				_getLegacyJSONParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -324,7 +371,8 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -336,13 +384,14 @@ public class PlaceServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON(
-		HttpPrincipal httpPrincipal)
+	public static com.liferay.portal.kernel.json.JSONObject
+			getLegacyCategoriesJSON(HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getLegacyCategoriesJSON",
-					_getLegacyCategoriesJSONParameterTypes11);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getLegacyCategoriesJSON",
+				_getLegacyCategoriesJSONParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -352,11 +401,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -368,13 +421,14 @@ public class PlaceServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON(
-		HttpPrincipal httpPrincipal)
+	public static com.liferay.portal.kernel.json.JSONObject
+			getLegacyTerritoriesJSON(HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getLegacyTerritoriesJSON",
-					_getLegacyTerritoriesJSONParameterTypes12);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getLegacyTerritoriesJSON",
+				_getLegacyTerritoriesJSONParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -384,11 +438,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -401,11 +459,12 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getTypes(
-		HttpPrincipal httpPrincipal)
+			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getTypes", _getTypesParameterTypes13);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getTypes", _getTypesParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -415,11 +474,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -432,11 +495,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getRealtime(
-		HttpPrincipal httpPrincipal)
+			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getRealtime", _getRealtimeParameterTypes14);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getRealtime",
+				_getRealtimeParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -446,11 +511,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -463,11 +532,13 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON(
-		HttpPrincipal httpPrincipal)
+			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		try {
-			MethodKey methodKey = new MethodKey(PlaceServiceUtil.class,
-					"getPlacesGeoJSON", _getPlacesGeoJSONParameterTypes15);
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getPlacesGeoJSON",
+				_getPlacesGeoJSONParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -477,11 +548,15 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
@@ -494,38 +569,36 @@ public class PlaceServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(PlaceServiceHttp.class);
-	private static final Class<?>[] _getPlacesParameterTypes0 = new Class[] {  };
+
+	private static final Class<?>[] _getPlacesParameterTypes0 = new Class[] {};
 	private static final Class<?>[] _getPlaceByIdParameterTypes1 = new Class[] {
-			long.class
+		long.class
+	};
+	private static final Class<?>[] _getPlaceByIdSIGParameterTypes2 =
+		new Class[] {String.class};
+	private static final Class<?>[] _getPlacesByTypeParameterTypes3 =
+		new Class[] {String.class};
+	private static final Class<?>[] _getPlacesByTypesParameterTypes4 =
+		new Class[] {java.util.List.class};
+	private static final Class<?>[] _getPlacesByTerritoryParameterTypes5 =
+		new Class[] {String.class};
+	private static final Class<?>[] _getPlacesByNameAndLanguageParameterTypes6 =
+		new Class[] {String.class, String.class};
+	private static final Class<?>[]
+		_getPlacesByTerritoryAndTypeParameterTypes7 = new Class[] {
+			String.class, String.class
 		};
-	private static final Class<?>[] _getPlaceByIdSIGParameterTypes2 = new Class[] {
-			java.lang.String.class
-		};
-	private static final Class<?>[] _getPlacesByTypeParameterTypes3 = new Class[] {
-			java.lang.String.class
-		};
-	private static final Class<?>[] _getPlacesByTypesParameterTypes4 = new Class[] {
-			java.util.List.class
-		};
-	private static final Class<?>[] _getPlacesByTerritoryParameterTypes5 = new Class[] {
-			java.lang.String.class
-		};
-	private static final Class<?>[] _getPlacesByNameAndLanguageParameterTypes6 = new Class[] {
-			java.lang.String.class, java.lang.String.class
-		};
-	private static final Class<?>[] _getPlacesByTerritoryAndTypeParameterTypes7 = new Class[] {
-			java.lang.String.class, java.lang.String.class
-		};
-	private static final Class<?>[] _getLegacyJSONParameterTypes8 = new Class[] {  };
-	private static final Class<?>[] _getLegacyCategoriesJSONParameterTypes11 = new Class[] {
-			
-		};
-	private static final Class<?>[] _getLegacyTerritoriesJSONParameterTypes12 = new Class[] {
-			
-		};
-	private static final Class<?>[] _getTypesParameterTypes13 = new Class[] {  };
-	private static final Class<?>[] _getRealtimeParameterTypes14 = new Class[] {  };
-	private static final Class<?>[] _getPlacesGeoJSONParameterTypes15 = new Class[] {
-			
-		};
+	private static final Class<?>[] _getLegacyJSONParameterTypes8 =
+		new Class[] {};
+	private static final Class<?>[] _getLegacyCategoriesJSONParameterTypes11 =
+		new Class[] {};
+	private static final Class<?>[] _getLegacyTerritoriesJSONParameterTypes12 =
+		new Class[] {};
+	private static final Class<?>[] _getTypesParameterTypes13 = new Class[] {};
+	private static final Class<?>[] _getRealtimeParameterTypes14 = new Class[] {
+		
+	};
+	private static final Class<?>[] _getPlacesGeoJSONParameterTypes15 =
+		new Class[] {};
+
 }

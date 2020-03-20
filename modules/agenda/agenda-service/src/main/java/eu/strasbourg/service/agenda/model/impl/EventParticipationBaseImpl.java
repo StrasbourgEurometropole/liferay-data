@@ -34,10 +34,11 @@ import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 @ProviderType
 public abstract class EventParticipationBaseImpl
 	extends EventParticipationModelImpl implements EventParticipation {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a event participation model instance should use the {@link EventParticipation} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a event participation model instance should use the <code>EventParticipation</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class EventParticipationBaseImpl
 			EventParticipationLocalServiceUtil.updateEventParticipation(this);
 		}
 	}
+
 }

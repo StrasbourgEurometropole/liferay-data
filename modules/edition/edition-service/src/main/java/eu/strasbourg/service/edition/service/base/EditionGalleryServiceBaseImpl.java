@@ -17,7 +17,6 @@ package eu.strasbourg.service.edition.service.base;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -48,15 +47,16 @@ import javax.sql.DataSource;
  *
  * @author BenjaminBini
  * @see eu.strasbourg.service.edition.service.impl.EditionGalleryServiceImpl
- * @see eu.strasbourg.service.edition.service.EditionGalleryServiceUtil
  * @generated
  */
-public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
+public abstract class EditionGalleryServiceBaseImpl
+	extends BaseServiceImpl
 	implements EditionGalleryService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.edition.service.EditionGalleryServiceUtil} to access the edition gallery remote service.
+	 * Never modify or reference this class directly. Use <code>EditionGalleryService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.edition.service.EditionGalleryServiceUtil</code>.
 	 */
 
 	/**
@@ -64,7 +64,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the edition local service
 	 */
-	public eu.strasbourg.service.edition.service.EditionLocalService getEditionLocalService() {
+	public eu.strasbourg.service.edition.service.EditionLocalService
+		getEditionLocalService() {
+
 		return editionLocalService;
 	}
 
@@ -74,7 +76,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param editionLocalService the edition local service
 	 */
 	public void setEditionLocalService(
-		eu.strasbourg.service.edition.service.EditionLocalService editionLocalService) {
+		eu.strasbourg.service.edition.service.EditionLocalService
+			editionLocalService) {
+
 		this.editionLocalService = editionLocalService;
 	}
 
@@ -83,7 +87,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the edition remote service
 	 */
-	public eu.strasbourg.service.edition.service.EditionService getEditionService() {
+	public eu.strasbourg.service.edition.service.EditionService
+		getEditionService() {
+
 		return editionService;
 	}
 
@@ -94,6 +100,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setEditionService(
 		eu.strasbourg.service.edition.service.EditionService editionService) {
+
 		this.editionService = editionService;
 	}
 
@@ -138,7 +145,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the edition gallery local service
 	 */
-	public eu.strasbourg.service.edition.service.EditionGalleryLocalService getEditionGalleryLocalService() {
+	public eu.strasbourg.service.edition.service.EditionGalleryLocalService
+		getEditionGalleryLocalService() {
+
 		return editionGalleryLocalService;
 	}
 
@@ -148,7 +157,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param editionGalleryLocalService the edition gallery local service
 	 */
 	public void setEditionGalleryLocalService(
-		eu.strasbourg.service.edition.service.EditionGalleryLocalService editionGalleryLocalService) {
+		eu.strasbourg.service.edition.service.EditionGalleryLocalService
+			editionGalleryLocalService) {
+
 		this.editionGalleryLocalService = editionGalleryLocalService;
 	}
 
@@ -168,6 +179,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setEditionGalleryService(
 		EditionGalleryService editionGalleryService) {
+
 		this.editionGalleryService = editionGalleryService;
 	}
 
@@ -187,6 +199,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setEditionGalleryPersistence(
 		EditionGalleryPersistence editionGalleryPersistence) {
+
 		this.editionGalleryPersistence = editionGalleryPersistence;
 	}
 
@@ -195,7 +208,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -205,7 +220,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -214,7 +231,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -224,7 +243,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -233,7 +254,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -244,6 +267,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -263,6 +287,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -271,7 +296,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -281,7 +308,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -290,7 +319,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -301,6 +332,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -320,6 +352,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -346,7 +379,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -356,7 +391,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -365,7 +402,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryService getAssetEntryService() {
+	public com.liferay.asset.kernel.service.AssetEntryService
+		getAssetEntryService() {
+
 		return assetEntryService;
 	}
 
@@ -376,6 +415,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryService(
 		com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
+
 		this.assetEntryService = assetEntryService;
 	}
 
@@ -395,6 +435,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -403,7 +444,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -413,7 +456,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -433,6 +478,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -441,7 +487,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -451,7 +499,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -460,7 +510,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagService getAssetTagService() {
+	public com.liferay.asset.kernel.service.AssetTagService
+		getAssetTagService() {
+
 		return assetTagService;
 	}
 
@@ -471,6 +523,7 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetTagService(
 		com.liferay.asset.kernel.service.AssetTagService assetTagService) {
+
 		this.assetTagService = assetTagService;
 	}
 
@@ -488,7 +541,9 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
@@ -530,8 +585,8 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -540,50 +595,113 @@ public abstract class EditionGalleryServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.edition.service.EditionLocalService.class)
-	protected eu.strasbourg.service.edition.service.EditionLocalService editionLocalService;
-	@BeanReference(type = eu.strasbourg.service.edition.service.EditionService.class)
-	protected eu.strasbourg.service.edition.service.EditionService editionService;
+	@BeanReference(
+		type = eu.strasbourg.service.edition.service.EditionLocalService.class
+	)
+	protected eu.strasbourg.service.edition.service.EditionLocalService
+		editionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.edition.service.EditionService.class
+	)
+	protected eu.strasbourg.service.edition.service.EditionService
+		editionService;
+
 	@BeanReference(type = EditionPersistence.class)
 	protected EditionPersistence editionPersistence;
+
 	@BeanReference(type = EditionFinder.class)
 	protected EditionFinder editionFinder;
-	@BeanReference(type = eu.strasbourg.service.edition.service.EditionGalleryLocalService.class)
-	protected eu.strasbourg.service.edition.service.EditionGalleryLocalService editionGalleryLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.edition.service.EditionGalleryLocalService.class
+	)
+	protected eu.strasbourg.service.edition.service.EditionGalleryLocalService
+		editionGalleryLocalService;
+
 	@BeanReference(type = EditionGalleryService.class)
 	protected EditionGalleryService editionGalleryService;
+
 	@BeanReference(type = EditionGalleryPersistence.class)
 	protected EditionGalleryPersistence editionGalleryPersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryService assetEntryService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryService
+		assetEntryService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagService.class)
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagService.class
+	)
 	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 }

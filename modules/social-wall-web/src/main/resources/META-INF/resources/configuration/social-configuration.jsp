@@ -5,10 +5,6 @@
 
 <liferay-portlet:renderURL portletConfiguration="true"
 	var="configurationRenderURL" />
-	
-<liferay-portlet:resourceURL portletConfiguration="true" portletName="eu_strasbourg_portlet_legacy_place_LegacyPlaceViewerPortlet"
-	var="placeAutocompleteURL">
-</liferay-portlet:resourceURL>
 
 <aui:form action="${configurationActionURL}" method="post" name="fm">
     <aui:input name="cmd" type="hidden"
@@ -26,9 +22,8 @@
                 </aui:fieldset>
 
                 <aui:fieldset id="instagram" label="instagram">
-                    <aui:input type="text" name="instagramClientId" value="${instagramClientId}" label="instagram-client-id" />
-                    <aui:input type="text" name="instagramClientSecret" value="${instagramClientSecret}" label="instagram-client-secret" />
                     <aui:input type="text" name="instagramToken" value="${instagramToken}" label="instagram-token" />
+                    <aui:input type="text" name="instagramCreateDate" value="${instagramCreateDate}" label="instagram-create-date" />
                 </aui:fieldset>
 
                 <aui:fieldset id="dailymotion" label="dailymotion">

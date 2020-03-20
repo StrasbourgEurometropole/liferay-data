@@ -34,10 +34,11 @@ import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 @ProviderType
 public abstract class AgendaExportPeriodBaseImpl
 	extends AgendaExportPeriodModelImpl implements AgendaExportPeriod {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a agenda export period model instance should use the {@link AgendaExportPeriod} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a agenda export period model instance should use the <code>AgendaExportPeriod</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class AgendaExportPeriodBaseImpl
 			AgendaExportPeriodLocalServiceUtil.updateAgendaExportPeriod(this);
 		}
 	}
+
 }

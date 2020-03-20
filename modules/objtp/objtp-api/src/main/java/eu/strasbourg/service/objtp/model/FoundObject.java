@@ -25,19 +25,22 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author JeremyZwickert
  * @see FoundObjectModel
- * @see eu.strasbourg.service.objtp.model.impl.FoundObjectImpl
- * @see eu.strasbourg.service.objtp.model.impl.FoundObjectModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.objtp.model.impl.FoundObjectImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.objtp.model.impl.FoundObjectImpl"
+)
 @ProviderType
 public interface FoundObject extends FoundObjectModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.objtp.model.impl.FoundObjectImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.objtp.model.impl.FoundObjectImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<FoundObject, String> NUMBER_ACCESSOR = new Accessor<FoundObject, String>() {
+	public static final Accessor<FoundObject, String> NUMBER_ACCESSOR =
+		new Accessor<FoundObject, String>() {
+
 			@Override
 			public String get(FoundObject foundObject) {
 				return foundObject.getNumber();
@@ -52,5 +55,7 @@ public interface FoundObject extends FoundObjectModel, PersistedModel {
 			public Class<FoundObject> getTypeClass() {
 				return FoundObject.class;
 			}
+
 		};
+
 }

@@ -1,17 +1,5 @@
 package eu.strasbourg.portlet.dynamic_search_asset.configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
@@ -24,15 +12,19 @@ import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PredicateFilter;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration",
@@ -187,18 +179,21 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			
 			// Liste tous les types possibles d'asset
 			// On ne prend que ceux qui commencent par "eu.strasbourg"
-			List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
-				.filter(
-					AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
-						themeDisplay.getCompany().getCompanyId()),
-						new PredicateFilter<AssetRendererFactory<?>>() {
-							@Override
-							public boolean filter(AssetRendererFactory<?> assetRendererFactory) {
-								return assetRendererFactory.isCategorizable()
-									&& assetRendererFactory.getClassName().startsWith("eu.strasbourg");
-							}
-						}
-				);
+			List<AssetRendererFactory<?>> availableAssetRendererFactories = AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
+					themeDisplay.getCompany().getCompanyId()).stream().filter(a -> a.isCategorizable()
+					&& a.getClassName().startsWith("eu.strasbourg")).collect(Collectors.toList());
+//			List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
+//					.filter(
+//							AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
+//									themeDisplay.getCompany().getCompanyId()),
+//							new Predicate<AssetRendererFactory<?>>() {
+//								@Override
+//								public boolean filter(AssetRendererFactory<?> assetRendererFactory) {
+//									return assetRendererFactory.isCategorizable()
+//											&& assetRendererFactory.getClassName().startsWith("eu.strasbourg");
+//								}
+//							}
+//					);
 			request.setAttribute("availableAssetRendererFactories", availableAssetRendererFactories);
 			
 			// Types d'assets sélectionnés

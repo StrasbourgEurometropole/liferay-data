@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.search.log.service.http.SearchLogServiceSoap}.
  *
  * @author BenjaminBini
- * @see eu.strasbourg.service.search.log.service.http.SearchLogServiceSoap
  * @generated
  */
 @ProviderType
 public class SearchLogSoap implements Serializable {
+
 	public static SearchLogSoap toSoapModel(SearchLog model) {
 		SearchLogSoap soapModel = new SearchLogSoap();
 
@@ -87,7 +87,8 @@ public class SearchLogSoap implements Serializable {
 	}
 
 	public static SearchLogSoap[] toSoapModels(List<SearchLog> models) {
-		List<SearchLogSoap> soapModels = new ArrayList<SearchLogSoap>(models.size());
+		List<SearchLogSoap> soapModels = new ArrayList<SearchLogSoap>(
+			models.size());
 
 		for (SearchLog model : models) {
 			soapModels.add(toSoapModel(model));
@@ -296,4 +297,5 @@ public class SearchLogSoap implements Serializable {
 	private String _layoutFriendlyURL;
 	private String _language;
 	private Date _date;
+
 }

@@ -132,8 +132,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Rechercher des utilisateurs Publik directement via l'outil de persistance
 	 * sans pagination
-	 * @param start Debut de l'index de recherche pour la pagination
-	 * @param end Fin de l'index de recherche pour la pagination
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -158,7 +156,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * avec recherche et pagination
 	 * @param start Debut de l'index de recherche pour la pagination
 	 * @param end Fin de l'index de recherche pour la pagination
-	 * @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	 * @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
@@ -195,9 +193,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Rechercher tous les utilisateurs Publik directement via l'outil de persistance
 	 * avec recherche mais sans pagination
-	 * @param start Debut de l'index de recherche pour la pagination
-	 * @param end Fin de l'index de recherche pour la pagination
-	 * @param keyword Mots-clefs pour la recherche sur le nom, prenom, email
+	 * @param keywords Mots-clefs pour la recherche sur le nom, prenom, email
 	 * @param sortField Champ de tri utilisé
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés

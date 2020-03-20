@@ -34,10 +34,11 @@ import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServi
 @ProviderType
 public abstract class UserNotificationTypeBaseImpl
 	extends UserNotificationTypeModelImpl implements UserNotificationType {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a user notification type model instance should use the {@link UserNotificationType} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a user notification type model instance should use the <code>UserNotificationType</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -45,7 +46,9 @@ public abstract class UserNotificationTypeBaseImpl
 			UserNotificationTypeLocalServiceUtil.addUserNotificationType(this);
 		}
 		else {
-			UserNotificationTypeLocalServiceUtil.updateUserNotificationType(this);
+			UserNotificationTypeLocalServiceUtil.updateUserNotificationType(
+				this);
 		}
 	}
+
 }

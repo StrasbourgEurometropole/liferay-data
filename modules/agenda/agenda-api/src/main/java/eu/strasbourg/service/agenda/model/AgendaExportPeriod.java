@@ -25,34 +25,39 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author BenjaminBini
  * @see AgendaExportPeriodModel
- * @see eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl
- * @see eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl"
+)
 @ProviderType
-public interface AgendaExportPeriod extends AgendaExportPeriodModel,
-	PersistedModel {
+public interface AgendaExportPeriod
+	extends AgendaExportPeriodModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<AgendaExportPeriod, Long> AGENDA_EXPORT_PERIOD_ID_ACCESSOR =
-		new Accessor<AgendaExportPeriod, Long>() {
-			@Override
-			public Long get(AgendaExportPeriod agendaExportPeriod) {
-				return agendaExportPeriod.getAgendaExportPeriodId();
-			}
+	public static final Accessor<AgendaExportPeriod, Long>
+		AGENDA_EXPORT_PERIOD_ID_ACCESSOR =
+			new Accessor<AgendaExportPeriod, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(AgendaExportPeriod agendaExportPeriod) {
+					return agendaExportPeriod.getAgendaExportPeriodId();
+				}
 
-			@Override
-			public Class<AgendaExportPeriod> getTypeClass() {
-				return AgendaExportPeriod.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
+
+				@Override
+				public Class<AgendaExportPeriod> getTypeClass() {
+					return AgendaExportPeriod.class;
+				}
+
+			};
+
 }

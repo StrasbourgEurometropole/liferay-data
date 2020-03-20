@@ -32,12 +32,13 @@ import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class CampaignEventBaseImpl extends CampaignEventModelImpl
-	implements CampaignEvent {
+public abstract class CampaignEventBaseImpl
+	extends CampaignEventModelImpl implements CampaignEvent {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a campaign event model instance should use the {@link CampaignEvent} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a campaign event model instance should use the <code>CampaignEvent</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class CampaignEventBaseImpl extends CampaignEventModelImpl
 			CampaignEventLocalServiceUtil.updateCampaignEvent(this);
 		}
 	}
+
 }

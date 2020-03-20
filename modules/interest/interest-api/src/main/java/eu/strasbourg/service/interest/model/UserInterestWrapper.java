@@ -17,7 +17,6 @@ package eu.strasbourg.service.interest.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -37,8 +36,9 @@ import java.util.Objects;
  * @generated
  */
 @ProviderType
-public class UserInterestWrapper implements UserInterest,
-	ModelWrapper<UserInterest> {
+public class UserInterestWrapper
+	implements UserInterest, ModelWrapper<UserInterest> {
+
 	public UserInterestWrapper(UserInterest userInterest) {
 		_userInterest = userInterest;
 	}
@@ -79,6 +79,70 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	@Override
+	public Object clone() {
+		return new UserInterestWrapper((UserInterest)_userInterest.clone());
+	}
+
+	@Override
+	public int compareTo(
+		eu.strasbourg.service.interest.model.UserInterest userInterest) {
+
+		return _userInterest.compareTo(userInterest);
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _userInterest.getExpandoBridge();
+	}
+
+	@Override
+	public eu.strasbourg.service.interest.model.Interest getInterest() {
+		return _userInterest.getInterest();
+	}
+
+	/**
+	 * Returns the interest ID of this user interest.
+	 *
+	 * @return the interest ID of this user interest
+	 */
+	@Override
+	public long getInterestId() {
+		return _userInterest.getInterestId();
+	}
+
+	/**
+	 * Returns the primary key of this user interest.
+	 *
+	 * @return the primary key of this user interest
+	 */
+	@Override
+	public eu.strasbourg.service.interest.service.persistence.UserInterestPK
+		getPrimaryKey() {
+
+		return _userInterest.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _userInterest.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this user interest.
+	 *
+	 * @return the publik user ID of this user interest
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _userInterest.getPublikUserId();
+	}
+
+	@Override
+	public int hashCode() {
+		return _userInterest.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _userInterest.isCachedModel();
 	}
@@ -94,92 +158,6 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userInterest.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.interest.model.UserInterest> toCacheModel() {
-		return _userInterest.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.Interest getInterest() {
-		return _userInterest.getInterest();
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.UserInterest toEscapedModel() {
-		return new UserInterestWrapper(_userInterest.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.UserInterest toUnescapedModel() {
-		return new UserInterestWrapper(_userInterest.toUnescapedModel());
-	}
-
-	/**
-	* Returns the primary key of this user interest.
-	*
-	* @return the primary key of this user interest
-	*/
-	@Override
-	public eu.strasbourg.service.interest.service.persistence.UserInterestPK getPrimaryKey() {
-		return _userInterest.getPrimaryKey();
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.interest.model.UserInterest userInterest) {
-		return _userInterest.compareTo(userInterest);
-	}
-
-	@Override
-	public int hashCode() {
-		return _userInterest.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userInterest.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new UserInterestWrapper((UserInterest)_userInterest.clone());
-	}
-
-	/**
-	* Returns the publik user ID of this user interest.
-	*
-	* @return the publik user ID of this user interest
-	*/
-	@Override
-	public java.lang.String getPublikUserId() {
-		return _userInterest.getPublikUserId();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _userInterest.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _userInterest.toXmlString();
-	}
-
-	/**
-	* Returns the interest ID of this user interest.
-	*
-	* @return the interest ID of this user interest
-	*/
-	@Override
-	public long getInterestId() {
-		return _userInterest.getInterestId();
-	}
-
-	@Override
 	public void persist() {
 		_userInterest.persist();
 	}
@@ -190,14 +168,15 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userInterest.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_userInterest.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_userInterest.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_userInterest.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -206,10 +185,10 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	/**
-	* Sets the interest ID of this user interest.
-	*
-	* @param interestId the interest ID of this user interest
-	*/
+	 * Sets the interest ID of this user interest.
+	 *
+	 * @param interestId the interest ID of this user interest
+	 */
 	@Override
 	public void setInterestId(long interestId) {
 		_userInterest.setInterestId(interestId);
@@ -221,13 +200,15 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	/**
-	* Sets the primary key of this user interest.
-	*
-	* @param primaryKey the primary key of this user interest
-	*/
+	 * Sets the primary key of this user interest.
+	 *
+	 * @param primaryKey the primary key of this user interest
+	 */
 	@Override
 	public void setPrimaryKey(
-		eu.strasbourg.service.interest.service.persistence.UserInterestPK primaryKey) {
+		eu.strasbourg.service.interest.service.persistence.UserInterestPK
+			primaryKey) {
+
 		_userInterest.setPrimaryKey(primaryKey);
 	}
 
@@ -237,13 +218,42 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	/**
-	* Sets the publik user ID of this user interest.
-	*
-	* @param publikUserId the publik user ID of this user interest
-	*/
+	 * Sets the publik user ID of this user interest.
+	 *
+	 * @param publikUserId the publik user ID of this user interest
+	 */
 	@Override
-	public void setPublikUserId(java.lang.String publikUserId) {
+	public void setPublikUserId(String publikUserId) {
 		_userInterest.setPublikUserId(publikUserId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.interest.model.UserInterest> toCacheModel() {
+
+		return _userInterest.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.interest.model.UserInterest toEscapedModel() {
+		return new UserInterestWrapper(_userInterest.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _userInterest.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.interest.model.UserInterest
+		toUnescapedModel() {
+
+		return new UserInterestWrapper(_userInterest.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _userInterest.toXmlString();
 	}
 
 	@Override
@@ -286,4 +296,5 @@ public class UserInterestWrapper implements UserInterest,
 	}
 
 	private final UserInterest _userInterest;
+
 }

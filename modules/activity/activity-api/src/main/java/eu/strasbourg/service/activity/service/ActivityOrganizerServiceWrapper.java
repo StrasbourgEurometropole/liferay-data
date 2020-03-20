@@ -26,20 +26,23 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ActivityOrganizerServiceWrapper implements ActivityOrganizerService,
-	ServiceWrapper<ActivityOrganizerService> {
+public class ActivityOrganizerServiceWrapper
+	implements ActivityOrganizerService,
+			   ServiceWrapper<ActivityOrganizerService> {
+
 	public ActivityOrganizerServiceWrapper(
 		ActivityOrganizerService activityOrganizerService) {
+
 		_activityOrganizerService = activityOrganizerService;
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _activityOrganizerService.getOSGiServiceIdentifier();
 	}
 
@@ -51,8 +54,10 @@ public class ActivityOrganizerServiceWrapper implements ActivityOrganizerService
 	@Override
 	public void setWrappedService(
 		ActivityOrganizerService activityOrganizerService) {
+
 		_activityOrganizerService = activityOrganizerService;
 	}
 
 	private ActivityOrganizerService _activityOrganizerService;
+
 }

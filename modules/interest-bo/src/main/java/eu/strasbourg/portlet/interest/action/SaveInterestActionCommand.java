@@ -24,6 +24,8 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -35,9 +37,6 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalService;
@@ -53,6 +52,28 @@ public class SaveInterestActionCommand implements MVCActionCommand {
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
 			sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
+
+			// Validation
+			boolean isValid = validate(request);
+			if (!isValid) {
+				// Si pas valide : on reste sur la page d'édition
+				PortalUtil.copyRequestParameters(request, response);
+
+				ThemeDisplay themeDisplay = (ThemeDisplay) request
+						.getAttribute(WebKeys.THEME_DISPLAY);
+				String portletName = (String) request
+						.getAttribute(WebKeys.PORTLET_ID);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+						portletName, themeDisplay.getPlid(),
+						PortletRequest.RENDER_PHASE);
+				returnURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("mvcPath",
+						"/interest-bo-edit-interest.jsp");
+				return false;
+			}
+
 			long interestId = ParamUtil.getLong(request, "interestId");
 			Interest interest;
 			if (interestId == 0) {
@@ -86,6 +107,28 @@ public class SaveInterestActionCommand implements MVCActionCommand {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		// Titre
+		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+			SessionErrors.add(request, "title-error");
+			isValid = false;
+		}
+
+		// Type
+		if (Validator.isNull(ParamUtil.getString(request, "typeId"))) {
+			SessionErrors.add(request, "type-error");
+			isValid = false;
+		}
+
+		return isValid;
 	}
 
 	private InterestLocalService _interestLocalService;

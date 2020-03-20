@@ -19,5 +19,5 @@ else
     chgrp 1000 $deployPath/esdata
     
     echo "Copy config files"
-    cp -ru ./config/* $deployPath/config
+    cp -ru ./configs/* $deployPath/configs
 fi
