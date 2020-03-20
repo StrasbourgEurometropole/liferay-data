@@ -502,7 +502,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             }
                             json.put("title", title);
                             String thumbnail = docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()");
-                            String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail,this._themeDisplay);
+                            String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
                             json.put("thumbnail", imageURL);
                             JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
                             AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());

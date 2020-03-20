@@ -22,8 +22,8 @@ public class AssetPublisherTemplateHelperImpl implements AssetPublisherTemplateH
      * Récupère l'URL d'une image à partir des données fournies par la Structure d'un WebContent
      */
     @Override
-    public String getDocumentUrl(String documentStructure, ThemeDisplay themeDisplay){
-        return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure,themeDisplay);
+    public String getDocumentUrl(String documentStructure){
+        return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
 }

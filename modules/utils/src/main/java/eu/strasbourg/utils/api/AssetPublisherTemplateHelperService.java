@@ -9,5 +9,5 @@ public interface AssetPublisherTemplateHelperService {
      */
     String getImageWidthHeight(String filePath);
 
-    String getDocumentUrl(String documentStructure, ThemeDisplay themeDisplay);
+    String getDocumentUrl(String documentStructure);
 }

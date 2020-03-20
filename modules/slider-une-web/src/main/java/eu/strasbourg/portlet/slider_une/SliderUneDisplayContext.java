@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.slider_une.configuration.SliderUneConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 
 import javax.portlet.RenderRequest;
@@ -136,15 +137,8 @@ public class SliderUneDisplayContext {
     }
 
     public String getJournalArticleImage(JournalArticle article, Locale locale) {
-        String imageURL = "";
-        JSONObject image = null;
-        try {
-            image = JSONFactoryUtil.createJSONObject(getJournalArticleFieldValue(article, "thumbnail", locale));
-            imageURL = FileEntryHelper.getFileEntryURL(image.getLong("fileEntryId"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return imageURL;
+        String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+        return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
     public boolean isMag(String[] tagNames) {

@@ -46,7 +46,7 @@ public class AssetPublisherTemplateHelper {
     /**
      * Récupère l'URL d'une image à partir des données fournies par la Structure d'un WebContent
      */
-    public static String getDocumentUrl(String documentStructure, ThemeDisplay themeDisplay){
+    public static String getDocumentUrl(String documentStructure){
 
         String documentUrl = "";
 
@@ -54,17 +54,8 @@ public class AssetPublisherTemplateHelper {
             // Parse les données JSON
             JSONObject documentJSONObject = JSONFactoryUtil.createJSONObject(documentStructure);
 
-            String uuid = documentJSONObject.getString("uuid");
-            Long groupId = documentJSONObject.getLong("groupId");
-
-            // On cherche l'assetEntry associé au DLFileEntry de l'image
-            DLFileEntry documentdlFileEntry = DLFileEntryLocalServiceUtil.getDLFileEntryByUuidAndGroupId(uuid, groupId);
-
-            AssetEntry documentAssetEntry = AssetEntryLocalServiceUtil.getEntry(DLFileEntry.class.getName(), documentdlFileEntry.getFileEntryId());
-
-            // Ce qui permet de récupèrer l'AssetRenderer qui généère l'URL de l'image
-            AssetRenderer documentAssetRenderer = documentAssetEntry.getAssetRenderer();
-            documentUrl = documentAssetRenderer.getURLDownload(themeDisplay);
+            // Ce qui permet de récupèrer l'URL de l'image
+            documentUrl = FileEntryHelper.getFileEntryURL(documentJSONObject.getLong("fileEntryId"));
         } catch (PortalException e) {
            // _log.error("Une erreur est survenue lors de la récupération de l'URL d'un document : ", e);
         }
