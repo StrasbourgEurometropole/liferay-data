@@ -32,7 +32,7 @@
              <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
              <#assign imageURL ="" />
 			 <#if thumbnail?has_content>
-			 	<#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail, themeDisplay) />
+			 	<#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
 			 </#if>
 
 			 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
