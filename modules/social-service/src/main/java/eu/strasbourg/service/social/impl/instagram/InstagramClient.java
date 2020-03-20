@@ -79,7 +79,7 @@ public class InstagramClient {
 
 					// Texte
 					String caption = jsonMedia.getString("caption");
-					post.setContent(Twemoji.parse(caption));
+					post.setContent(caption);
 
 					// Date
 					String formattedDate = jsonMedia.getString("timestamp");
