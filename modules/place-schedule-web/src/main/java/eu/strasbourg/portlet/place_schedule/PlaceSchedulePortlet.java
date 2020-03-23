@@ -20,6 +20,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -49,7 +50,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 /**
  * @author 01i454
  */
-@Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
+@Component(immediate = true, property = {
+		"javax.portlet.version=3.0","com.liferay.portlet.display-category=Strasbourg",
+		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_SCHEDULE_WEB,
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.requires-namespaced-parameters=false",
 		"com.liferay.portlet.css-class-wrapper=place-schedule-portlet", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.config-template=/configuration/place-schedule-configuration.jsp",
