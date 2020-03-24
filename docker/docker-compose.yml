@@ -1,0 +1,61 @@
+version: '3.5'
+
+services:
+
+  mysql:
+    image: mysql-custom:ems
+    environment:
+      - MYSQL_DATABASE=liferay-db
+      - MYSQL_USER=liferay
+      - MYSQL_PASSWORD=sully
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_unicode_ci
+      - --max-allowed-packet=1024M
+    volumes:
+      - ${DATA}/data/mysql:/var/lib/mysql
+
+  elasticsearch:
+    image: elasticsearch-custom
+    environment:
+# --- For docker-compose (without Swarm mode) ----
+#      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" 
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./configs/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ${DATA}/esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - liferay-network
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1g
+
+  liferay:
+    image: liferay/dxp:7.2.10-dxp-4
+    volumes:
+      - ./configs/liferay-custom:/mnt/liferay
+      - ./deploy:/liferay/deploy
+      - ${DATA}/liferay/doclib:/data/liferay/document_library
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+      - elasticsearch
+    environment:
+      WAIT_HOSTS: mysql:3306
+
+
+networks:
+
+  liferay-network:
+    name: liferay-network
+    driver: overlay

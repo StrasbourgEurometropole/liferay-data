@@ -17,7 +17,7 @@ action="deploy"
 if [ "$1" = "clean" ]; then
   action="clean"
   # rm -rf bundles
-  rm -rf ./images/liferay-custom/dist/*
+  rm -rf ./configs/liferay-custom/deploy
 fi
 
 echo "Execute gradle $action"
@@ -25,10 +25,6 @@ echo "Execute gradle $action"
 docker run --rm -v "$PWD":$absolutePath -w $absolutePath -u `id -u $USER` -e GRADLE_USER_HOME='gradle/' --name gradle-dxp gradle:4.10.2-jdk gradle $action -PdestJar=./images/liferay-custom/dist -Duser.home=$absolutePath/gradle/
 
 if [ $action = "deploy" ]; then
-  mkdir -p ./images/liferay-custom/dist/modules
-  mkdir -p ./images/liferay-custom/dist/themes
-  mkdir -p ./images/liferay-custom/dist/ext
-  cp -r ../bundles/osgi/modules/*.jar ./images/liferay-custom/dist/modules
-  cp -r ../bundles/deploy/*.war ./images/liferay-custom/dist/themes
-  cp -r ../bundles/osgi/marketplace/override/*.jar .images/liferay-custom/dist/ext
+  cp -r ../bundles/osgi/modules/*.jar ./configs/liferay-custom/deploy
+  cp -r ../bundles/deploy/*.war ./configs/liferay-custom/deploy
 fi
