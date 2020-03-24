@@ -17,6 +17,10 @@
 </liferay-portlet:actionURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="need-url-error" message="need-url-error" />
+	<liferay-ui:error key="infobulle-error" message="infobulle-error" />
+
 	<aui:form action="${saveLinkURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"

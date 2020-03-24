@@ -2,7 +2,7 @@
 
 <%-- Boucle pour chaque langue - si on n'est pas en multilingue, une seule langue existe (la langue par defaut du site) --%>
 <c:forEach var="currentLocale" items="${availableLocales}" varStatus="status">
-	<div class="strasbourg-file-picker picker-${name} ${currentLocale} <c:if test="${currentLocale eq defaultLocale}">active</c:if>">
+	<div class="strasbourg-file-picker picker-${name} ${currentLocale} <c:if test="${currentLocale eq defaultLocale}">active</c:if> form-group">
 		<p>
 			<label>
 				<liferay-ui:message key="${label}" />

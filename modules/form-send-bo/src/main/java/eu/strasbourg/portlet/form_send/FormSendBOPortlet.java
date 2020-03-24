@@ -1,7 +1,7 @@
 package eu.strasbourg.portlet.form_send;
 
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -60,16 +60,16 @@ public class FormSendBOPortlet extends MVCPortlet {
 			portletDisplay.setURLBack(returnURL);
 		}
 
-		//si on est sur la page des proposition du de signalement, on récupère le recordSetId
-		long recordSetId = ParamUtil.getLong(renderRequest,"recordSetId");
-		renderRequest.setAttribute("recordSetId", recordSetId);
+		//si on est sur la page des proposition du de signalement, on récupère le formInstanceId
+		long formInstanceId = ParamUtil.getLong(renderRequest,"formInstanceId");
+		renderRequest.setAttribute("formInstanceId", formInstanceId);
 
 		//récupère le nom du formulaire
-		DDLRecordSet recordSet = DDLRecordSetLocalServiceUtil.fetchRecordSet(recordSetId);
-		String recordSetName = "Proposition";
-		if(Validator.isNotNull(recordSet))
-			recordSetName = recordSet.getName(Locale.FRANCE);
-		renderRequest.setAttribute("recordSetName", recordSetName);
+		DDMFormInstance formInstance = DDMFormInstanceLocalServiceUtil.fetchFormInstance(formInstanceId);
+		String formInstanceName = "Proposition";
+		if(Validator.isNotNull(formInstance))
+			formInstanceName = formInstance.getName(Locale.FRANCE);
+		renderRequest.setAttribute("formInstanceName", formInstanceName);
 
 		//on set le displayContext selon la page sur laquelle on est
 		if (cmd.equals("editFormSend")){

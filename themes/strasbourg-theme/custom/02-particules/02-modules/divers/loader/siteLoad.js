@@ -12,7 +12,7 @@
         waitForAll: true
     });
 
-    $(window).load(function(){ // Comportement une fois le site complètement chargé
+    $(window).on( "load",function(){ // Comportement une fois le site complètement chargé
         site_progress = 100;
         $('#seu-loader .seu-loaded').text(Math.floor(site_progress) + '%');
         setTimeout(function(){

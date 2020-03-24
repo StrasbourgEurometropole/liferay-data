@@ -38,7 +38,7 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-			.unmodifiableList(ListUtil.fromArray(new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+			.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
@@ -77,7 +77,8 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
-		portletURL.getRenderParameters().setValue("multiple", String.valueOf(multiple));
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(servletRequest.getParameter(SearchContainer.DEFAULT_DELTA_PARAM),
 				SearchContainer.DEFAULT_DELTA);
@@ -91,7 +92,8 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		if (filterGroupId == 0) {
 			filterGroupId = themeDisplay.getScopeGroupId();
 		}
-		portletURL.getRenderParameters().setValue("filterGroupId", String.valueOf(filterGroupId));
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+		portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 
 		List<Video> videos = VideoLocalServiceUtil.findByKeyword(keywords, filterGroupId, (delta * cur) - delta,
 				(delta * cur));
@@ -125,13 +127,15 @@ public class VideoItemSelectorView implements ItemSelectorView<VideoItemSelector
 		List<ManagementBarFilterItem> items = new ArrayList<>();
 		for (Group group : groups) {
 			boolean isActive = group.getGroupId() == filterGroupId;
-			portletURL.getRenderParameters().setValue("filterGroupId", String.valueOf(group.getGroupId()));
+			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+			portletURL.setParameter("filterGroupId", String.valueOf(group.getGroupId()));
 			if (Validator.isNotNull(group.getName(Locale.FRANCE)) && group.getType() == 1) {
 				ManagementBarFilterItem item = new ManagementBarFilterItem(isActive, group.getName(Locale.FRANCE),
 						portletURL.toString());
 				items.add(item);
 			}
-			portletURL.getRenderParameters().setValue("filterGroupId", String.valueOf(filterGroupId));
+			// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
+			portletURL.setParameter("filterGroupId", String.valueOf(filterGroupId));
 		}
 		return items;
 	}

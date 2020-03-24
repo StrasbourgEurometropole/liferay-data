@@ -11,13 +11,13 @@ import java.util.Map;
 
 public class Formulaire {
 
-    public long recordSetId;
+    public long formInstanceId;
     public Map<Locale, String> name;
     public List<Champ> fields;
 
-    public Formulaire(long recordSetId, Map<Locale, String> name, JSONArray jsonArray) {
+    public Formulaire(long formInstanceId, Map<Locale, String> name, JSONArray jsonArray) {
         this.name = name;
-        this.recordSetId = recordSetId;
+        this.formInstanceId = formInstanceId;
         List<Champ> fieldListe = new ArrayList<Champ>();
         for (Object json : jsonArray) {
             try {
@@ -32,12 +32,12 @@ public class Formulaire {
     public Formulaire() {
     }
 
-    public long getRecordSetId() {
-        return recordSetId;
+    public long getFormInstanceId() {
+        return formInstanceId;
     }
 
-    public void setRecordSetId(long recordSetId) {
-        this.recordSetId = recordSetId;
+    public void setFormInstanceId(long formInstanceId) {
+        this.formInstanceId = formInstanceId;
     }
 
     public Map<Locale, String> getNameMap() {

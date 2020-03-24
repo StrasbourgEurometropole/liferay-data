@@ -5,8 +5,11 @@ import com.liferay.dynamic.data.lists.model.DDLRecord;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
 import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -53,10 +56,10 @@ public class FormSendDisplayContext {
     private FormSendConfiguration configuration;
     private RenderRequest request;
     private RenderResponse response;
-    private DDLRecordSet recordSet;
+    private DDMFormInstance formInstance;
     private Formulaire formulaire;
-    private List<DDLRecord> records;
-    private SearchContainer<DDLRecord> searchContainer;
+    private List<DDMFormInstanceRecord> records;
+    private SearchContainer<DDMFormInstanceRecord> searchContainer;
     private Map<String, String> newLibs;
 
     public FormSendDisplayContext(HttpServletRequest request, HttpServletResponse response) {
@@ -92,26 +95,26 @@ public class FormSendDisplayContext {
     }
 
     // récupère le formulaire choisi dans la config
-    public DDLRecordSet getRecordSet() {
-        if(Validator.isNull(this.recordSet)) {
-            String recordSetId = configuration.recordSetId();
-            if(Validator.isNotNull(recordSetId))
-                this.recordSet = DDLRecordSetLocalServiceUtil.fetchDDLRecordSet(Long.parseLong(recordSetId));
+    public DDMFormInstance getFormInstance() {
+        if(Validator.isNull(this.formInstance)) {
+            String formInstanceId = configuration.formInstanceId();
+            if(Validator.isNotNull(formInstanceId))
+                this.formInstance = DDMFormInstanceLocalServiceUtil.fetchFormInstance(Long.parseLong(formInstanceId));
         }
 
-        return this.recordSet;
+        return this.formInstance;
     }
 
     // récupère la structure du formulaire choisi
     public Formulaire getForm() {
-        if(Validator.isNull(this.formulaire) && Validator.isNotNull(this.getRecordSet())) {
+        if(Validator.isNull(this.formulaire) && Validator.isNotNull(this.getFormInstance())) {
             try {
-                DDMStructure structure = this.recordSet.getDDMStructure();
+                DDMStructure structure = this.formInstance.getStructure();
                 JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
                 if (Validator.isNotNull(structure))
                     jsonArray = JSONFactoryUtil.createJSONObject(structure.getDefinition()).getJSONArray("fields");
 
-                this.formulaire = new Formulaire(this.recordSet.getRecordSetId(), this.recordSet.getNameMap(), jsonArray);
+                this.formulaire = new Formulaire(this.formInstance.getFormInstanceId(), this.formInstance.getNameMap(), jsonArray);
             } catch (PortalException e) {
                 e.printStackTrace();
             }
@@ -121,9 +124,9 @@ public class FormSendDisplayContext {
     }
 
     // récupère tous les formulaires envoyés au formulaire choisi
-    public List<DDLRecord> getRecords() {
-        if(Validator.isNull(this.records) && Validator.isNotNull(this.getRecordSet())) {
-            this.records = this.recordSet.getRecords();
+    public List<DDMFormInstanceRecord> getRecords() {
+        if(Validator.isNull(this.records) && Validator.isNotNull(this.getFormInstance())) {
+            this.records = this.formInstance.getFormInstanceRecords();
         }
 
         if(Validator.isNull(this.configuration.defaultSort()) || this.configuration.defaultSort().equals("asc")){
@@ -202,7 +205,7 @@ public class FormSendDisplayContext {
     public String getLabel(String name, Locale locale) {
         // on vérifie que le champ n'a pas un nouveau libellé
         if(Validator.isNotNull(this.getNewLibelle())){
-            String libelle = this.newLibs.get("newLib_" + configuration.recordSetId() + "_" + name);
+            String libelle = this.newLibs.get("newLib_" + configuration.formInstanceId() + "_" + name);
             if(Validator.isNotNull(libelle))
                 return libelle;
         }
@@ -348,12 +351,13 @@ public class FormSendDisplayContext {
     /**
      * Retourne le searchContainer
      */
-    public SearchContainer<DDLRecord> getSearchContainer() {
+    public SearchContainer<DDMFormInstanceRecord> getSearchContainer() {
         if (searchContainer == null && Validator.isNotNull(this.getRecords())) {
             Map<String, String[]> parameterMap = request.getParameterMap();
             PortletURL iteratorURL = this.response.createRenderURL();
             iteratorURL.setParameters(parameterMap);
-            searchContainer = new SearchContainer<DDLRecord>(request, iteratorURL, null, "no-entries-were-found");
+            searchContainer = new SearchContainer<DDMFormInstanceRecord>(request, iteratorURL, null,
+                    "no-entries-were-found");
             searchContainer.setDelta(this.getDelta());
             searchContainer.setTotal(this.records.size());
             searchContainer.setResults(this.records);
@@ -364,7 +368,7 @@ public class FormSendDisplayContext {
     /**
      * Retourne les résultats entre les indexes start (inclu) et end (non inclu)
      */
-    public List<DDLRecord> getPaginatedResults() {
+    public List<DDMFormInstanceRecord> getPaginatedResults() {
         return ListUtil.subList(this.getRecords(), this.getSearchContainer().getStart(), this.getSearchContainer().getEnd());
     }
 
