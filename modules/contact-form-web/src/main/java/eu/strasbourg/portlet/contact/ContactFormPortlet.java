@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -32,6 +33,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 			"com.liferay.portlet.requires-namespaced-parameters=false",
 			"com.liferay.portlet.css-class-wrapper=contact-form-portlet", "javax.portlet.init-param.template-path=/",
 			"com.liferay.portlet.footer-portlet-javascript=https://www.google.com/recaptcha/api.js",
+			"javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user"
 		},
