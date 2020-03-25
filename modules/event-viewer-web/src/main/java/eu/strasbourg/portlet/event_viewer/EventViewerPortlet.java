@@ -19,6 +19,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -54,6 +55,7 @@ import eu.strasbourg.utils.SearchHelper;
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/event-viewer.jsp",
 		"javax.portlet.init-param.config-template=/configuration/event-viewer-configuration.jsp",
+		"javax.portlet.name=" + StrasbourgPortletKeys.EVENT_VIEWER_WEB,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)
