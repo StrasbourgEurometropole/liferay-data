@@ -1,0 +1,1 @@
+FROM liferay/dxp:7.2.10-dxp-4

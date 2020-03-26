@@ -43,7 +43,7 @@ $ systemctl enable docker
 Ajout, téléchargement et installation de la dernière version du package Docker-compose :
 
 ```shell
-$ curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+$ curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
 Ajout des droits sur l'éxécutable :
@@ -68,6 +68,18 @@ ElasticSearch utilise le répertoire `mmapfs` pour stocker ses indices. Ce derni
 sysctl -w vm.max_map_count=262144
 ```
 
+## Installation des outils utiles (si non présents par défaut)
+
+### Git
+```
+yum install git
+```
+### Nano
+```
+yum install nano
+```
+
+
 ## Création de l'aborescence des stacks
 
 Un shellscript `build-env.sh` a été disposé à la racine du dossier Docker. Il permet de créer les différents dossiers utiles (+droits) à la persitence des données des services qui seront lancés.
@@ -77,8 +89,7 @@ Pour lancer ce script, lancer la commande suivante où `DATA_PATH` est le chemin
 ```shell
 sh buil-env.sh DATA_PATH
 
---> sh buil-env.sh /data/liferay-vanilla-data
---> sh buil-env.sh /data/liferay-custom-data
+--> sh buil-env.sh /data/liferay-ems
 ```
 
 ## `Ready to start !`
