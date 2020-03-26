@@ -11,15 +11,11 @@ else
         $deployPath/liferay/doclib \
         $deployPath/mysql/lib \
         $deployPath/mysql/log \
-        $deployPath/configs \
         $deployPath/portainer
     
     echo "Change /esdata permission"
     chmod g+rwx $deployPath/esdata
     chgrp 1000 $deployPath/esdata
-    
-    echo "Copy config files"
-    cp -ru ./configs/* $deployPath/configs
 
     echo "Adapt vm.max_map_count host config for ElasticSearch"
     sysctl -w vm.max_map_count=262144
