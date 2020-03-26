@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   mysql:
-    image: mysql-custom:ems
+    image: mysql-ems
     environment:
       - MYSQL_DATABASE=liferay-db
       - MYSQL_USER=liferay
@@ -17,7 +17,7 @@ services:
       - ${DATA}/data/mysql:/var/lib/mysql
 
   elasticsearch:
-    image: elasticsearch-custom
+    image: elasticsearch-ems
     environment:
 # --- For docker-compose (without Swarm mode) ----
 #      - bootstrap.memory_lock=true
@@ -40,9 +40,9 @@ services:
           memory: 1g
 
   liferay:
-    image: liferay/dxp:7.2.10-dxp-4
+    image: liferay-ems
     volumes:
-      - ./configs/liferay-custom:/mnt/liferay
+      - ./configs/liferay-custom/${ENV}:/mnt/liferay
       - ./deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
     ports:
