@@ -101,8 +101,6 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
 
 # Lancement d'un environnement EMS complet en DXP 7.2
 
-## Fichiers en entrée :
-
 ## Images
 
 Images à créer :
@@ -131,3 +129,27 @@ Images à créer :
         * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
         ```shell
         $ docker image build -t liferay-ems .
+        ```
+
+## Fichiers d'entrées
+
+* elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
+    * `elasticsearch.yml` pour les configuration d'elasticsearch.
+    * `synonyms.txt` pour la description des synonymes.
+* liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
+    * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
+    * `files/tomcat/setenv.sh` pour définir les propriétés de lancement du serveur.
+    * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
+    * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
+    * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
+    * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
+
+## Exécution
+
+Pour lancer la totalité des services, lancer la commande suivante où :
+    * `VAR_ENV` est l'environnement courrant (recette | preprod | prod).
+    * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
+
+```shell
+ENV=VAR_ENV DATA=VAR_DATA docker stack deploy stack-liferay
+```

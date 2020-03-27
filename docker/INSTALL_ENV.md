@@ -60,14 +60,6 @@ Choisir le noeud destiné à être `Manager` et initialiser le `Swarm` dessus :
 $ docker swarm init
 ```
 
-## Adapation de l'environnement pour ElasticSearch
-
-ElasticSearch utilise le répertoire `mmapfs` pour stocker ses indices. Ce dernier sur CentOS dispose d'une limite de stockage trop basse pour ElasticSearch et demande un ajustement avec la commande suivante (à faire sur les deux environnements) :
-
-```shell
-sysctl -w vm.max_map_count=262144
-```
-
 ## Installation des outils utiles (si non présents par défaut)
 
 ### Git
