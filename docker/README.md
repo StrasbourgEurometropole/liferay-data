@@ -101,3 +101,33 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
 
 # Lancement d'un environnement EMS complet en DXP 7.2
 
+## Fichiers en entrée :
+
+## Images
+
+Images à créer :
+
+* mysql-ems dans le dossier `images/mysql-ems`
+* elasticsearch-ems dans le dossier `images/elasticsearch-ems`
+* liferay-ems dans le dossier `images/liferay-ems`
+
+* Créer l'image MySQL
+    * Placer dans le répertoire `images/mysql-ems/sources` le fichier dump de la base 7.2 DXP.
+    * Se placer dans le répertoire `images/mysql-ems`
+    * Exécuter la commande suivante où :
+        * `FILE_NAME` est le nom du fichier dump.
+        ```shell
+        $ docker image build --build-arg DUMP_FILE_NAME=FILE_NAME -t mysql-ems .
+        ```
+* Créer l'image ElasticSearch
+    * Se placer dans le répertoire `images/elasticsearch-ems`
+    * Exécuter la commande suivante :
+        ```shell
+        $ docker image build -t elasticsearch-ems .
+        ```
+* Créer l'image Liferay
+    * Se placer dans le répertoire `images/liferay-vanilla`
+    * Exécuter la commande suivante où :
+        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
+        ```shell
+        $ docker image build -t liferay-ems .
