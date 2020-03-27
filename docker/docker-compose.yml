@@ -14,7 +14,7 @@ services:
       - --collation-server=utf8_unicode_ci
       - --max-allowed-packet=1024M
     volumes:
-      - ${DATA}/data/mysql:/var/lib/mysql
+      - ${DATA}/mysql:/var/lib/mysql
 
   elasticsearch:
     image: elasticsearch-ems
