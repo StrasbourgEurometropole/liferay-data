@@ -151,5 +151,7 @@ Pour lancer la totalité des services, lancer la commande suivante où :
     * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
 
 ```shell
-ENV=VAR_ENV DATA=VAR_DATA docker stack deploy stack-liferay
+$ ENV=VAR_ENV DATA=VAR_DATA docker stack deplo - c docker-compose.yml stack-liferay
+
+--> $ ENV=recette DATA=/data docker stack deplo - c docker-compose.yml stack-liferay
 ```

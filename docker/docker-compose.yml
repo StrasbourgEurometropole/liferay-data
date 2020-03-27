@@ -10,11 +10,12 @@ services:
       - MYSQL_PASSWORD=sully
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     command:
-      - --character-set-server=utf8
-      - --collation-server=utf8_unicode_ci
+      - --character-set-server=utf8mb4 
+      - --collation-server=utf8mb4_unicode_ci
       - --max-allowed-packet=1024M
     volumes:
-      - ${DATA}/mysql:/var/lib/mysql
+      - ${DATA}/mysql/lib:/var/lib/mysql
+      - ${DATA}/mysql/log:/var/log/mysql
 
   elasticsearch:
     image: elasticsearch-ems
