@@ -304,6 +304,11 @@
     border-style: none;
 }
 
+// Suppression de la bande grise présent sur /mon-activite-citoyenne en 7.2
+#th-global .portlet-layout .portlet-header {
+    margin-bottom: 0rem;
+}
+
 /** 
 * END Adaptations migration 7.2 
 **/
