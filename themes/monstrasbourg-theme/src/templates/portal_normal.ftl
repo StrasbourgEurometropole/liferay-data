@@ -94,7 +94,6 @@
 
       <!-- Menu -->
       <#if layout.getFriendlyURL() != "/bienvenue">
-        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
           defaultPreferences="${freeMarkerPortletPreferences}"
           portletProviderAction=portletProviderAction.VIEW
