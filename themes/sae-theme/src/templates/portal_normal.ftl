@@ -200,6 +200,7 @@
                   </li>
                 </#if>
                 </ul>
+                <@liferay.breadcrumbs />
               </div>
             </div>
         </#if>

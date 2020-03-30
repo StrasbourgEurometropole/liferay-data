@@ -94,7 +94,6 @@
 
       <!-- Menu -->
       <#if layout.getFriendlyURL() != "/bienvenue">
-        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
           defaultPreferences="${freeMarkerPortletPreferences}"
           portletProviderAction=portletProviderAction.VIEW
@@ -121,6 +120,7 @@
         <#include "${full_templates_path}/home_banner.ftl" />
         <#if !(isHome || isDistrict)>
           <div class="card-box">  
+            <@liferay.breadcrumbs />
         </#if>
     <#else> 
       <div id="welcome-page">
@@ -150,11 +150,6 @@
     }
   </script>
 
-  <script>
-    define._amd = define.amd;
-    define.amd = false;
-  </script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
 
 
@@ -174,10 +169,6 @@
     </script>
     <!-- End Piwik Code -->
   </#if>
-  
-  <script>
-    define.amd = define._amd;
-  </script>
 
   <script type="text/javascript" src="/o/monstrasbourg-theme/js/strasbourg.js"></script>
 

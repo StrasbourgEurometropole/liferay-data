@@ -67,7 +67,8 @@
     </#if>
     <main class="seu">
         <div class="smag-container">
-
+          <!-- Ariane -->
+          <@liferay.breadcrumbs />
   </#if>
 
   <#if selectable>
