@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -41,6 +42,7 @@ import java.util.Map;
 			"javax.portlet.init-param.config-template=/entity-detail-configuration.jsp",
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.name=" + StrasbourgPortletKeys.ENTITY_DETAIL_WEB,
 			"javax.portlet.supported-public-render-parameter=message"
 		},
 		service = Portlet.class
