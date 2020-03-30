@@ -121,6 +121,7 @@
         <#include "${full_templates_path}/home_banner.ftl" />
         <#if !(isHome || isDistrict)>
           <div class="card-box">  
+            <@liferay.breadcrumbs />
         </#if>
     <#else> 
       <div id="welcome-page">
