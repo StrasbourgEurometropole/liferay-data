@@ -15,7 +15,6 @@ services:
       - --max-allowed-packet=1024M
     volumes:
       - ${DATA}/mysql/lib:/var/lib/mysql
-      - ${DATA}/mysql/log:/var/log/mysql
 
   elasticsearch:
     image: elasticsearch-ems
