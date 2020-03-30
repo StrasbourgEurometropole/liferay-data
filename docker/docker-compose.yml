@@ -45,14 +45,14 @@ services:
   liferay:
     image: liferay-ems
     volumes:
-      - ./configs/liferay-ems/${ENV}:/mnt/liferay
+      - ./configs/liferay-ems:/mnt/liferay
       - ./deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
     ports:
       - 8080:8080
     depends_on:
       - mysql
-      - elasticsearch
+      - elasticsearchclear
     networks:
       - liferay-network
 

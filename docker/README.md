@@ -147,11 +147,10 @@ Images à créer :
 ## Exécution
 
 Pour lancer la totalité des services, lancer la commande suivante où :
-    * `VAR_ENV` est l'environnement courrant (recette | preprod | prod).
     * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
 
 ```shell
-$ ENV=VAR_ENV DATA=VAR_DATA docker stack deplo - c docker-compose.yml stack-liferay
+$ DATA=VAR_DATA docker stack deploy -c docker-compose.yml stack-liferay
 
---> $ ENV=recette DATA=/data docker stack deplo - c docker-compose.yml stack-liferay
+--> $ DATA=/data docker stack deploy -c docker-compose.yml stack-liferay
 ```
