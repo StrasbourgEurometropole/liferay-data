@@ -43,7 +43,7 @@ services:
   liferay:
     image: liferay-ems
     volumes:
-      - ./configs/liferay-custom/${ENV}:/mnt/liferay
+      - ./configs/liferay-ems/${ENV}:/mnt/liferay
       - ./deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
     ports:
