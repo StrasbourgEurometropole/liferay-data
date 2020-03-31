@@ -5,9 +5,9 @@ ENV LIFERAY_HOME=/liferay
 ENV CATALINA_HOME=$LIFERAY_HOME/tomcat-9.0.17
 
 RUN apt-get -qq update \
-    && apt-get -qq install telnet \
     && apt-get -qq clean
 
+# Installation du bundle Liferay
 ENV LIFERAY_BUNDLE=liferay-dxp-tomcat-7.2.10-dxp-4-20200121112425051.tar.gz
 COPY $SOURCES_PATH/$LIFERAY_BUNDLE /
 RUN set -x \
@@ -25,14 +25,13 @@ RUN set -x \
     && mkdir -p $LIFERAY_HOME/osgi/modules \
     && mkdir -p $LIFERAY_HOME/osgi/war
 
+# Exemple d'installation d'un fixpack
 #ENV LFR_FIX_PACK=liferay-fix-pack-dxp-1-7210.zip
 #COPY $SOURCES_PATH/$LFR_FIX_PACK $LIFERAY_HOME/patching-tool/patches/
 #RUN $LIFERAY_HOME/patching-tool/patching-tool.sh install \
 #    && rm -rf $LIFERAY_HOME/osgi/state/*
 
-ENV MYSQL_CONNECTOR=mysql-connector-java-8.0.19.jar
-COPY $SOURCES_PATH/$MYSQL_CONNECTOR $CATALINA_HOME/lib/ext/mysql.jar
-
+# Copie du script de lancement de Liferay
 COPY $SOURCES_PATH/run.sh $LIFERAY_HOME/run.sh
 RUN chmod 755 $LIFERAY_HOME/run.sh
 

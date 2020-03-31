@@ -45,7 +45,10 @@ services:
   liferay:
     image: liferay-ems
     volumes:
-      - ./configs/liferay-ems:/mnt/liferay
+      - ./configs/liferay-ems/osgi:/liferay/osgi/configs
+      - ./configs/setenv.sh:/liferay/tomcat-9.0.17/bin/setenv.sh
+      - ./configs/portal-setup-wizard.properties:/liferay/portal-setup-wizard.properties
+      - ./configs/portal-ext.properties:/liferay/portal-ext.properties
       - ./deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
     ports:
