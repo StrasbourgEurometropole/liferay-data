@@ -16,7 +16,3 @@ SET Configuration_.dictionary=(
     myconf1
 ) 
 WHERE Configuration_.configurationId = "com.liferay.portal.search.elasticsearch6.configuration.ElasticsearchConfiguration" 
-
-UPDATE comment_Comment 
-SET urlProjectCommentaire
-replace(urlProjectCommentaire,'https://participer.strasbourg.eu','https://ems-recette-liferay2.sully-group.fr/web/participer') 
