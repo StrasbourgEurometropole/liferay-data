@@ -143,7 +143,7 @@ Images à créer :
 * elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
     * `elasticsearch.yml` pour les configuration d'elasticsearch.
     * `synonyms.txt` pour la description des synonymes.
-* liferay-ems dans le répertoire `configs/liferay-ems` :
+* liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
     * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
     * `files/tomcat/setenv.sh` pour définir les propriétés de lancement du serveur.
     * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
