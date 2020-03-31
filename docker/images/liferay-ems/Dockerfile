@@ -15,7 +15,7 @@ RUN chmod 755 $LIFERAY_HOME/run.sh
 # TODO : Installation de Javamelody
 
 # TODO : Vérifier le bon fonctionnement de ClamAV
-RUN apk add clamav
+RUN apt-get install clamav
 
 # TODO : Création des dossiers d'import
 
