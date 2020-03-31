@@ -5,7 +5,7 @@ FROM liferay-vanilla
 ENV SOURCES_PATH=./sources
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
-COPY $SOURCES_PATH/wait-for-it.sh /
+COPY $SOURCES_PATH/wait-for-it.sh $LIFERAY_HOME/wait-for-it.sh
 RUN chmod 755 $LIFERAY_HOME/wait-for-it.sh
 
 # Copie du script de lancement de Liferay utilisant wait-for-it
