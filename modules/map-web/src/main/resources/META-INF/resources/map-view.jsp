@@ -6,19 +6,12 @@
 <link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
 
 <liferay-util:html-bottom>
-    <script>
-        define._amd = define.amd;
-        define.amd = false;
-    </script>
     <script src="/o/mapweb/js/leaflet.js"></script>
     <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
     <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
     <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
-    <script>
-        define.amd = define._amd;
-    </script>
 </liferay-util:html-bottom>
 
 <c:if test="${!districtUser || district != null}">
