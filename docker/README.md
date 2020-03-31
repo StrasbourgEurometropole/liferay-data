@@ -123,22 +123,15 @@ Images à créer :
         ```shell
         $ docker image build -t elasticsearch-ems .
         ```
-* Créer l'image Liferay Vanilla
-    * Placer dans le répertoire `images/liferay-vanilla` :
-        * `liferay-dxp-tomcat-7.2.10-dxp-4-20200121112425051.tar.gz` l'archive du bundle Liferay DXP 7.2 avec tomcat
+* Créer l'image Liferay
     * Se placer dans le répertoire `images/liferay-vanilla`
     * Exécuter la commande suivante où :
-        ```shell
-        $ docker image build -t liferay-vanilla .
-        ```
-* Créer l'image Liferay de l'EMS
-    * Se placer dans le répertoire `images/liferay-ems`
-    * Exécuter la commande suivante où :
+        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
         ```shell
         $ docker image build -t liferay-ems .
         ```
 
-## Fichiers de configuration
+## Fichiers d'entrées
 
 * elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
     * `elasticsearch.yml` pour les configuration d'elasticsearch.

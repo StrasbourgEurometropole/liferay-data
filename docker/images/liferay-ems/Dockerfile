@@ -1,21 +1,20 @@
 # Image sur laquelle se base les opérations suivantes (@see https://hub.docker.com/r/liferay/dxp)
-FROM liferay-vanilla
+FROM liferay/dxp:7.2.10-dxp-4
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
 
-# Copie du script permettant d'attendre les autres services avant démarrage du serveur
-COPY $SOURCES_PATH/wait-for-it.sh $LIFERAY_HOME/wait-for-it.sh
-RUN chmod 755 $LIFERAY_HOME/wait-for-it.sh
+# Changement d'utilisateur pour root (évite le problème de permission sur les fichiers déposés dans le conteneur)
+USER root
 
-# Copie du script de lancement de Liferay utilisant wait-for-it
-COPY $SOURCES_PATH/run.sh $LIFERAY_HOME/run.sh
-RUN chmod 755 $LIFERAY_HOME/run.sh
+# Copie du script permettant d'attendre les autres services avant démarrage du serveur
+COPY $SOURCES_PATH/wait-for-it.sh /
+RUN chmod +x /wait-for-it.sh
 
 # TODO : Installation de Javamelody
 
 # TODO : Vérifier le bon fonctionnement de ClamAV
-RUN apt-get install clamav -y
+RUN apk add clamav
 
 # TODO : Création des dossiers d'import
 
