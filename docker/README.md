@@ -11,7 +11,6 @@ Les fichiers suivants sont les entrées du process et doivent être déplacés :
     * Le script pre-upgrade à jouer avant la migration : `pre-upgrade.sql`
 * Dans le répertoire `images/liferay-vanilla/sources` : 
     * Liferay DXP 7.2 SP4 : `liferay-dxp-tomcat-7.2.10-dxp-4-20200121112425051.tar.gz`
-    * MYSQL Connector : `mysql-connector-java-8.0.19.jar`
 
 ## Images
 
