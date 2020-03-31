@@ -23,13 +23,13 @@ services:
     environment:
 # --- For docker-compose (without Swarm mode) ----
 #      - bootstrap.memory_lock=true
+      - cluster.name=LiferayElasticsearchCluster
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" 
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - ./configs/elasticsearch-ems/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./configs/elasticsearch-ems/synonyms.txt:/usr/share/elasticsearch/config/analysis/synonyms.txt:ro
       - ${DATA}/esdata:/usr/share/elasticsearch/data
     ports:
