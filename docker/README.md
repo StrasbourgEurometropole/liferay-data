@@ -132,7 +132,6 @@ Images à créer :
 ## Fichiers d'entrées
 
 * elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
-    * `elasticsearch.yml` pour les configuration d'elasticsearch.
     * `synonyms.txt` pour la description des synonymes.
 * liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
     * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
