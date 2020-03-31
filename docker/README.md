@@ -123,9 +123,8 @@ Images à créer :
         $ docker image build -t elasticsearch-ems .
         ```
 * Créer l'image Liferay
-    * Se placer dans le répertoire `images/liferay-vanilla`
+    * Se placer dans le répertoire `images/liferay-ems`
     * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
         ```shell
         $ docker image build -t liferay-ems .
         ```
