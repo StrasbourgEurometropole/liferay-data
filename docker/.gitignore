@@ -9,3 +9,4 @@
 */portal-ext.properties
 */portal-setup-wizard.properties
 !images/mysql-upgrade/sources/pre-upgrade.sql
+!images/mysql-ems/sources/pre-request.sql
