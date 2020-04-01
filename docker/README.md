@@ -135,10 +135,11 @@ Images à créer :
     * `synonyms.txt` pour la description des synonymes.
 * liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
     * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
-    * `files/tomcat/setenv.sh` pour définir les propriétés de lancement du serveur.
+    * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
     * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
     * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
     * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
+    * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
     * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
 
 ## Exécution
