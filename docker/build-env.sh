@@ -7,8 +7,9 @@ else
     echo "Create directory tree if not exits"
     mkdir -p \
         $deployPath/esdata \
-        $deployPath/liferay/deploy \
         $deployPath/liferay/doclib \
+        $deployPath/liferay/logs/liferay \
+        $deployPath/liferay/logs/tomcat \
         $deployPath/mysql/lib \
         $deployPath/mysql/log \
         $deployPath/portainer

@@ -48,6 +48,8 @@ services:
       - ./configs/liferay-ems:/mnt/liferay
       - ./deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
+      - ${DATA}/liferay/logs/liferay:/opt/liferay/logs
+      - ${DATA}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
     ports:
       - 8080:8080
     depends_on:

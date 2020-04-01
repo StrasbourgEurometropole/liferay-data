@@ -75,7 +75,7 @@ $ chmod +x /usr/local/bin/docker-compose
 Choisir le noeud destiné à être `Manager` et initialiser le `Swarm` dessus :
 
 ```shell
-$ docker swarm init
+$ clear
 ```
 
 ## Installation des outils utiles (si non présents par défaut)
@@ -99,7 +99,7 @@ Pour lancer ce script, lancer la commande suivante où `DATA_PATH` est le chemin
 ```shell
 sh buil-env.sh DATA_PATH
 
---> sh buil-env.sh /data/liferay-ems
+--> sh buil-env.sh /data
 ```
 
 ## `Ready to start !`
