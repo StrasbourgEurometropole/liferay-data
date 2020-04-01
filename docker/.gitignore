@@ -1,6 +1,7 @@
 *.sql
 *.war
 *.jar
+!configs/liferay-ems/files/osgi/war/*
 *.log
 *.7z
 *.zip
