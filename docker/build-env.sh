@@ -4,7 +4,7 @@ then
 else
     deployPath="$1"
 
-    echo " 1# Create directory tree if not exits"
+    echo "1# Create directory tree if not exits"
     mkdir -p \
         $deployPath/esdata \
         $deployPath/liferay/doclib \
