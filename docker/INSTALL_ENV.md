@@ -38,6 +38,24 @@ Mettre en place le lancement de Docker au démarrage de la machine :
 $ systemctl enable docker
 ```
 
+Exposer les ports nécéssaires à l'utilisation de Docker Swarm :
+
+```shell
+$ firewall-cmd --permanent --add-port=2376/tcp
+$ firewall-cmd --permanent --add-port=2377/tcp
+$ firewall-cmd --permanent --add-port=7946/tcp
+$ firewall-cmd --permanent --add-port=80/tcp
+$ firewall-cmd --permanent --add-port=7946/udp
+$ firewall-cmd --permanent --add-port=4789/udp
+```
+
+Redémarer le firewall et Docker :
+
+```shell
+$ firewall-cmd --reload
+$ systemctl restart docker
+```
+
 ## Installation de Docker-compose
 
 Ajout, téléchargement et installation de la dernière version du package Docker-compose :
