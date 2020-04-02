@@ -11,6 +11,8 @@ else
         $deployPath/liferay/logs/liferay \
         $deployPath/liferay/logs/tomcat \
         $deployPath/liferay/javamelody \
+        $deployPath/liferay/import/agenda \
+        $deployPath/liferay/import/gtfs \
         $deployPath/mysql/lib \
         $deployPath/mysql/log \
         $deployPath/portainer

@@ -49,6 +49,8 @@ services:
       - ./deploy:/liferay/deploy
       - ${DATA}/liferay/doclib:/data/liferay/document_library
       - ${DATA}/liferay/javamelody:/data/javamelody
+      - ${DATA}/liferay/import/agenda:/data/import/agenda
+      - ${DATA}/liferay/import/gtfs:/data/import/gtfs
       - ${DATA}/liferay/logs/liferay:/opt/liferay/logs
       - ${DATA}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
     ports:
