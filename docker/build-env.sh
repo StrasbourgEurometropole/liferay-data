@@ -10,6 +10,7 @@ else
         $deployPath/liferay/doclib \
         $deployPath/liferay/logs/liferay \
         $deployPath/liferay/logs/tomcat \
+        $deployPath/liferay/javamelody \
         $deployPath/mysql/lib \
         $deployPath/mysql/log \
         $deployPath/portainer
