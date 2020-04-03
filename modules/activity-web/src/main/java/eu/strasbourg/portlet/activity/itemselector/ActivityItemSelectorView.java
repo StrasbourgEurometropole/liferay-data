@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -59,7 +60,7 @@ public class ActivityItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Activité";
+		return LanguageUtil.get(Locale.FRANCE, "eu.activity.activities");
 	}
 
 	@Override
