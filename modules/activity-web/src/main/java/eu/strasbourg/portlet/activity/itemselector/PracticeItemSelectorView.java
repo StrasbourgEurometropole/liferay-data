@@ -60,7 +60,7 @@ public class PracticeItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Practice";
+		return "Pratiques amateurs";
 	}
 
 	@Override

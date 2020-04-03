@@ -35,7 +35,7 @@
 			modelVar="association" cssClass="association-row" keyProperty="associationId" rowIdProperty="associationId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="title" truncate="true"
+				name="name" truncate="true"
 				value="${association.nameCurrentValue}" />
 
 			<fmt:formatDate value="${association.createDate}"

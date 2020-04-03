@@ -67,7 +67,7 @@ public class ActivityCourseItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Galeries";
+		return "Cours";
 	}
 
 	@Override
