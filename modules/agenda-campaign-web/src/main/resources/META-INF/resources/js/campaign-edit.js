@@ -349,7 +349,8 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 // Validation des périodes (et des langues)
 function validatePeriods(event) {
 	var allValidated = true;
-	var dateRanges = document.querySelectorAll('#date-fields .date-range')
+	var dateRanges = document.querySelectorAll('#date-fields .date-range');
+	var nbPeriod = 0;
 	for (var i = 0; i < dateRanges.length; i++) {
 		var dateRange = dateRanges[i];
 		var validated = true;
@@ -358,6 +359,7 @@ function validatePeriods(event) {
 		// et que l'élément ne contient pas la classe "hide"
 		if ($(dateRange).text().indexOf('-') > 0 
 				&& $(dateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
+            nbPeriod++;
 			var startDate = moment($(dateRange).text().split(' - ')[0], 'DD/MM/YYYY');
 			var endDate = moment($(dateRange).text().split(' - ')[1], 'DD/MM/YYYY');
 			var otherDateRanges = document.querySelectorAll('#date-fields .date-range');
@@ -377,10 +379,16 @@ function validatePeriods(event) {
 		}
 		if (!validated) {
 			$('.event-period-conflict', $(dateRange).parent()).show();
+            $(".event-period-conflict", $(dateRange).parent()).get(0).scrollIntoView();
 			allValidated = false;
 		}
-		
 	}
+
+    if (nbPeriod == 0) {
+        $('.event-no-period').show();
+        $('.event-no-period').show().get(0).scrollIntoView();
+        allValidated = false;
+    }
 	
 	// Validation des langues
 	var languages = [];

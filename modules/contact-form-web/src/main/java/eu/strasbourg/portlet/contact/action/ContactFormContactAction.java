@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -20,8 +21,6 @@ import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.AddressException;
@@ -37,11 +36,18 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 
-@Component(immediate = true, property = {"javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
-        "mvc.command.name=contact"}, service = MVCActionCommand.class)
+@Component(
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.CONTACT_FORM_WEB,
+                "mvc.command.name=contact"
+        },
+        service = MVCActionCommand.class
+)
 public class ContactFormContactAction implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
@@ -136,17 +142,42 @@ public class ContactFormContactAction implements MVCActionCommand {
         context.put("date", date);
         context.put("time", time);
 
-        Configuration configuration = new Configuration(Configuration.getVersion());
-        configuration.setClassForTemplateLoading(this.getClass(), "/templates/");
-        configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+        TemplateResource templateResourceSubject;
+        TemplateResource templateResourceBody;
+        Template subjectTemplate;
+        Template bodyTemplate;
+        String mailSubject;
+        String mailBody;
+        StringWriter out;
+
         boolean success = false;
         try {
-            Template subjectTemplate = configuration.getTemplate("contact-mail-subject.ftl");
-            Template bodyTemplate = configuration.getTemplate("contact-mail-body.ftl");
-            StringWriter subjectWriter = new StringWriter();
-            StringWriter bodyWriter = new StringWriter();
-            subjectTemplate.process(context, subjectWriter);
-            bodyTemplate.process(context, bodyWriter);
+
+            // Chargement du template contenant le sujet du mail
+            templateResourceSubject = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("/templates/contact-mail-subject.ftl")));
+            subjectTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+            // Traitement du template sujet
+            out = new StringWriter();
+            subjectTemplate.putAll(context);
+            subjectTemplate.processTemplate(out);
+            mailSubject = out.toString();
+
+            //Chargement du template contenant le corps du mail
+            templateResourceBody = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("/templates/contact-mail-body.ftl")));
+            bodyTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+            // Traitement du template corps
+            out = new StringWriter();
+            bodyTemplate.putAll(context);
+            bodyTemplate.processTemplate(out);
+            mailBody = out.toString();
 
             InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
                     themeDisplay.getScopeGroup().getName(request.getLocale()));
@@ -160,7 +191,7 @@ public class ContactFormContactAction implements MVCActionCommand {
                     log.error(ex);
                 }
             }
-            success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
+            success = MailHelper.sendMailWithHTML(fromAddress, toAddresses, mailSubject, mailBody);
         } catch (Exception e) {
             log.error(e);
         }
@@ -189,19 +220,38 @@ public class ContactFormContactAction implements MVCActionCommand {
                 if (!locale.equals("fr_FR") && !locale.equals("en_US") && !locale.equals("de_DE")) {
                     locale = "fr_FR";
                 }
-                Template subjectTemplate = configuration
-                        .getTemplate("contact-mail-copy-subject-" + request.getLocale().toString() + ".ftl");
-                Template bodyTemplate = configuration
-                        .getTemplate("contact-mail-copy-body-" + request.getLocale().toString() + ".ftl");
-                StringWriter subjectWriter = new StringWriter();
-                StringWriter bodyWriter = new StringWriter();
-                subjectTemplate.process(context, subjectWriter);
-                bodyTemplate.process(context, bodyWriter);
+
+                // Chargement du template contenant le sujet du mail
+                templateResourceSubject = new URLTemplateResource("0",
+                        Objects.requireNonNull(this.getClass().getClassLoader()
+                                .getResource("/templates/contact-mail-copy-subject-" + request.getLocale().toString() + ".ftl")));
+                subjectTemplate = TemplateManagerUtil.getTemplate(
+                        TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+                // Traitement du template sujet
+                out = new StringWriter();
+                subjectTemplate.putAll(context);
+                subjectTemplate.processTemplate(out);
+                mailSubject = out.toString();
+
+                //Chargement du template contenant le corps du mail
+                templateResourceBody = new URLTemplateResource("0",
+                        Objects.requireNonNull(this.getClass().getClassLoader()
+                                .getResource("/templates/contact-mail-copy-body-" + request.getLocale().toString() + ".ftl")));
+                bodyTemplate = TemplateManagerUtil.getTemplate(
+                        TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+                // Traitement du template corps
+                out = new StringWriter();
+                bodyTemplate.putAll(context);
+                bodyTemplate.processTemplate(out);
+                mailBody = out.toString();
+
                 InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
                         themeDisplay.getScopeGroup().getName(request.getLocale()));
                 InternetAddress to = new InternetAddress(emailFrom);
                 InternetAddress[] toAddresses = new InternetAddress[]{to};
-                MailHelper.sendMailWithHTML(fromAddress, toAddresses, subjectWriter.toString(), bodyWriter.toString());
+                MailHelper.sendMailWithHTML(fromAddress, toAddresses, mailSubject, mailBody);
 
             } catch (Exception e) {
                 log.error(e);
@@ -213,7 +263,7 @@ public class ContactFormContactAction implements MVCActionCommand {
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
         PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                 PortletRequest.RENDER_PHASE);
-        renderUrl.setParameter("mailSent", "true");
+        renderUrl.getRenderParameters().setValue("mailSent", "true");
         try {
             response.sendRedirect(renderUrl.toString());
         } catch (IOException e) {

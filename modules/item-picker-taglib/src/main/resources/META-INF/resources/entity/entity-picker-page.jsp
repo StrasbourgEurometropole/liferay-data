@@ -1,6 +1,6 @@
 <%@include file="/picker-init.jsp" %>
 
-<div class="strasbourg-entity-picker">
+<div class="strasbourg-entity-picker form-group">
 	<p>
 		<label>
 			<liferay-ui:message key="${label}" />

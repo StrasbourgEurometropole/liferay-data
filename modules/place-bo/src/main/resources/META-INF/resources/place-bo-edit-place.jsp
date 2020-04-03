@@ -22,6 +22,8 @@
 </liferay-portlet:renderURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="alias-error" message="alias-error" />
+
 	<aui:form action="${savePlaceURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -110,6 +112,7 @@
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
                                         $('html,body').animate({scrollTop: $("#categorization").offset().top - 100}, 'slow');
 								    	validated = false;
+		                                event.preventDefault();
 								    	break;
 								    }
 								}

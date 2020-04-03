@@ -1,5 +1,7 @@
 package eu.strasbourg.utils.api;
 
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+
 public interface AssetPublisherTemplateHelperService {
 
     /**
@@ -7,4 +9,5 @@ public interface AssetPublisherTemplateHelperService {
      */
     String getImageWidthHeight(String filePath);
 
+    String getDocumentUrl(String documentStructure);
 }

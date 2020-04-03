@@ -9,6 +9,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.log.Log;
@@ -27,6 +28,7 @@ import eu.strasbourg.portlet.activity.display.context.SearchActivityDisplayConte
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.single-page-application=false",
 		"com.liferay.portlet.css-class-wrapper=search-activity-portlet",
 		"com.liferay.portlet.requires-namespaced-parameters=false",
+		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
 		"com.liferay.portlet.header-portlet-css=/css/search-activity-main.css",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/search-activity-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",

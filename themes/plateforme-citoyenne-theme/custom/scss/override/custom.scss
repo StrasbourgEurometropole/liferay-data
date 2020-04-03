@@ -293,3 +293,22 @@
     top: 100px;
 } 
 // Fin style pour les alertes de modifications de budget participatifs
+
+
+/** 
+* START Adaptations migration 7.2 
+**/
+
+// Suppression des border-style sur les labels présents en 7.2
+#th-global .selectric .label {
+    border-style: none;
+}
+
+// Suppression de la bande grise présent sur /mon-activite-citoyenne en 7.2
+#th-global .portlet-layout .portlet-header {
+    margin-bottom: 0rem;
+}
+
+/** 
+* END Adaptations migration 7.2 
+**/

@@ -19,6 +19,9 @@
 
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="image-error" message="image-error" />
+
 	<aui:form action="${saveGalleryURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"

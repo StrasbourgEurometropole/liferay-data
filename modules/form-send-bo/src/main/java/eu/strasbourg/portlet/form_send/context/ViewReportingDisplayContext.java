@@ -1,17 +1,15 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.dynamic.data.lists.model.DDLRecord;
-import com.liferay.dynamic.data.lists.service.DDLRecordLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -44,14 +42,14 @@ public class ViewReportingDisplayContext extends ViewListBaseDisplayContext<Form
     public List<FormSendRecordFieldSignalement> getAllSignalements() {
         if (this._allSignalements == null) {
             List<FormSendRecordFieldSignalement> signalementList = new ArrayList<FormSendRecordFieldSignalement>();
-            long recordSetId = ParamUtil.getLong(_request,"recordSetId");
+            long formInstanceId = ParamUtil.getLong(_request,"formInstanceId");
             //récupère tous les formulaires envoyés du formulaire
-            List<DDLRecord> recordlist = DDLRecordLocalServiceUtil.getDDLRecords(-1,-1);
-            recordlist = recordlist.stream().filter(r -> r.getRecordSetId() == recordSetId).collect(Collectors.toList());
+            List<DDMFormInstanceRecord> recordlist = DDMFormInstanceRecordLocalServiceUtil.getDDMFormInstanceRecords(-1,-1);
+            recordlist = recordlist.stream().filter(r -> r.getFormInstanceId() == formInstanceId).collect(Collectors.toList());
             if(Validator.isNotNull(recordlist)){
-                for (DDLRecord record : recordlist) {
+                for (DDMFormInstanceRecord record : recordlist) {
                     //récupère les formSendRecordFields du formulaire
-                    List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentId(record.getDDMStorageId());
+                    List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentId(record.getStorageId());
 
                     // récupère les signalements du formSendRecordField
                     for (FormSendRecordField formSendRecordField : formSendRecordFieldList) {

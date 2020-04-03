@@ -10,5 +10,3 @@ Bundle-ClassPath: \
 
 Import-Package: !android.os,\
     !com.google.appengine.api.urlfetch,*
- 
- 

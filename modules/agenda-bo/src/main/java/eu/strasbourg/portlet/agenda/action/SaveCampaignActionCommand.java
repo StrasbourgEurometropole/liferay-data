@@ -118,7 +118,7 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 				SessionErrors.add(request, "end-date-error");
 				isValid = false;
 			}
-			if (managersIds.length == 0) {
+			if(Validator.isNotNull(startDate) && Validator.isNull(endDate) && startDate.after(endDate)) {
 				SessionErrors.add(request, "dates-error");
 				isValid = false;
 			}

@@ -141,14 +141,7 @@
 
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
-    <script>
-    define._amd = define.amd;
-    define.amd = false;
-    </script>
     <script src="/o/summer-2018-theme/js/t_main.js"></script>
-    <script>
-    define.amd = define._amd;
-    </script>
     <script type="text/javascript">
       if ($(window).width() >= 1280) {
         $(window).stellar();

@@ -20,6 +20,9 @@
 </liferay-portlet:actionURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="name-error" message="name-error" />
+	<liferay-ui:error key="date-error" message="date-error" />
+
 	<aui:form action="${savePublicHolidayURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"

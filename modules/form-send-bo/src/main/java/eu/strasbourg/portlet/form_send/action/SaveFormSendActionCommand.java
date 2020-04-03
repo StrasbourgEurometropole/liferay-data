@@ -1,9 +1,9 @@
 package eu.strasbourg.portlet.form_send.action;
 
-import com.liferay.dynamic.data.lists.model.DDLRecord;
-import com.liferay.dynamic.data.lists.service.DDLRecordLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -48,10 +48,10 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
             long recordId = ParamUtil.getLong(actionRequest,"recordId");
             if (Validator.isNotNull(recordId)) {
                 // récupération du formulaire envoyé
-                DDLRecord record = DDLRecordLocalServiceUtil.fetchRecord(recordId);
+                DDMFormInstanceRecord record = DDMFormInstanceRecordLocalServiceUtil.fetchFormInstanceRecord(recordId);
                 if(Validator.isNotNull(record)){
                     // récupère les infos du contenu du formulaire envoyé
-                    DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(record.getDDMStorageId());
+                    DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(record.getStorageId());
                     if(Validator.isNotNull(content)) {
                         // récupère le contenu du formulaire envoyé
                         String jsonString = content.getData();
