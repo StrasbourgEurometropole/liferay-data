@@ -148,7 +148,7 @@ Pour lancer la totalité des services, lancer la commande suivante où :
     * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
 
 ```shell
-$ DATA=VAR_DATA docker stack deploy -c docker-compose.yml stack-liferay
+$ DATA=VAR_DATA docker-compose up
 
---> $ DATA=/data docker stack deploy -c docker-compose.yml stack-liferay
+--> $ DATA=/data docker-compose up
 ```

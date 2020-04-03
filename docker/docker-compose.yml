@@ -22,7 +22,7 @@ services:
     image: elasticsearch-ems
     environment:
 # --- For docker-compose (without Swarm mode) ----
-#      - bootstrap.memory_lock=true
+      - bootstrap.memory_lock=true
       - cluster.name=LiferayElasticsearchCluster
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m" 
     ulimits:
@@ -81,8 +81,8 @@ networks:
 
   backend-network:
     name: backend-network
-    driver: overlay
+#    driver: overlay
 
   frontend-network:
     name: frontend-network
-    driver: overlay
+#    driver: overlay
