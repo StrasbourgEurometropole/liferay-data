@@ -19,6 +19,9 @@ RUN apk add clamav
 
 # TODO : Installation des certificats
 COPY $SOURCES_PATH/*.cer /data/certificates/
-RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias certigna-authority-2015-2025 -file /data/certificates/certigna-authority-2015-2025.cer \
-    && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias aipDailymotion -file /data/certificates/apiDailymotion.cer \
-    && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias apiYoutube -file /data/certificates/apiYoutube.cer
+RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias certigna-authority-2015-2025 \
+        -file /data/certificates/certigna-authority-2015-2025.cer -storepass changeit -noprompt \
+    && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias aipDailymotion
+        -file /data/certificates/apiDailymotion.cer -storepass changeit -noprompt \
+    && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias apiYoutube \
+        -file /data/certificates/apiYoutube.cer -storepass changeit -noprompt
