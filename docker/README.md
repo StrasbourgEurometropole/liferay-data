@@ -109,7 +109,8 @@ Images à créer :
 * liferay-ems dans le dossier `images/liferay-ems`
 
 * Créer l'image MySQL
-    * Placer dans le répertoire `images/mysql-ems/sources` le fichier dump de la base 7.2 DXP.
+    * Placer dans le répertoire `images/mysql-ems/sources`:
+        * le fichier dump de la base 7.2 DXP.
     * Se placer dans le répertoire `images/mysql-ems`
     * Exécuter la commande suivante où :
         * `FILE_NAME` est le nom du fichier dump.
@@ -123,6 +124,10 @@ Images à créer :
         $ docker image build -t elasticsearch-ems .
         ```
 * Créer l'image Liferay
+    * Placer dans le répertoire `images/mysql-ems/sources` :
+        * le certificat `certigna-authority-2015-2025.cer`
+        * le certificat `apiDailymotion.cer`
+        * le certificat `apiYoutube.cer`
     * Se placer dans le répertoire `images/liferay-ems`
     * Exécuter la commande suivante où :
         ```shell
@@ -151,4 +156,10 @@ Pour lancer la totalité des services, lancer la commande suivante où :
 $ DATA=VAR_DATA docker-compose up -d
 
 --> $ DATA=/data docker-compose up -d
+```
+
+Suivre les logs via la commande :
+
+```shell
+$ docker-compose logs -f
 ```
