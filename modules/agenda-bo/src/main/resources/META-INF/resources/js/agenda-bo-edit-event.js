@@ -1,7 +1,8 @@
 // Champs conditionnelles
+var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
+var namespaceAUI = "#" + namespace;
+
 jQuery(function() {
-	var namespace = "_eu_strasbourg_portlet_agenda_AgendaBOPortlet_";
-	var namespaceAUI = "#" + namespace;
 
 	$('[name='+namespace+'placeType]').on('click change', function(e) {
 		var classOfDivToShow = e.target.value;
@@ -226,7 +227,8 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 // Validation des périodes
 function validatePeriods(event) {
 	var allValidated = true;
-	var dateRanges = document.querySelectorAll('#date-fields .date-range')
+	var dateRanges = document.querySelectorAll('#date-fields .date-range');
+	var nbPeriod = 0;
 	for (var i = 0; i < dateRanges.length; i++) {
 		var dateRange = dateRanges[i];
 		var validated = true;
@@ -251,12 +253,19 @@ function validatePeriods(event) {
 				    }
 				}
 			}
+			nbPeriod++;
 		}
-		if (!validated) {
-			$('.event-period-conflict', $(dateRange).parent()).show();
-            $('html,body').animate({scrollTop: $(dateRange).offset().top - 100}, 'slow');
+		if (nbPeriod == 0) {
+			$('.no-event-period').show();
+            $('html,body').animate({scrollTop: $(namespaceAUI + "eu-dates-and-times").offset().top - 100}, 'slow');
 			allValidated = false;
-		}
+		}else{
+            if (!validated) {
+                $('.event-period-conflict', $(dateRange).parent()).show();
+                $('html,body').animate({scrollTop: $(dateRange).offset().top - 100}, 'slow');
+                allValidated = false;
+            }
+        }
 		
 	}
 	
