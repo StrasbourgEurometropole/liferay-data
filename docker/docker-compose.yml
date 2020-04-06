@@ -44,6 +44,8 @@ services:
 
   liferay:
     image: liferay-ems
+    environment:
+      - LIFERAY_JVM_OPTS=zulu11
     volumes:
       - ./configs/liferay-ems:/mnt/liferay
       - ./deploy:/liferay/deploy
