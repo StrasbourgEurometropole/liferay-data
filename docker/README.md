@@ -125,6 +125,7 @@ Images à créer :
         ```
 * Créer l'image Liferay
     * Placer dans le répertoire `images/mysql-ems/sources` :
+        * le script `wait-for-it.sh` permettant de tester la disponibilité d'autres noeuds.
         * le certificat `certigna-authority-2015-2025.cer`
         * le certificat `apiDailymotion.cer`
         * le certificat `apiYoutube.cer`
