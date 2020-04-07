@@ -2,22 +2,6 @@ version: '3.5'
 
 services:
 
-#  mysql:
-#    image: mysql-ems
-#    environment:
-#      - MYSQL_DATABASE=liferay-db
-#      - MYSQL_USER=liferay
-#      - MYSQL_PASSWORD=sully
-#      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-#    command:
-#      - --character-set-server=utf8mb4 
-#      - --collation-server=utf8mb4_unicode_ci
-#      - --max-allowed-packet=1024M
-#    volumes:
-#      - ${DATA}/mysql/lib:/var/lib/mysql
-#    networks:
-#      - backend-network
-
   elasticsearch:
     image: elasticsearch-ems
     environment:
@@ -58,7 +42,6 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - mysql
       - elasticsearch
     networks:
       - backend-network

@@ -13,8 +13,6 @@ else
         $deployPath/liferay/javamelody \
         $deployPath/liferay/import/agenda \
         $deployPath/liferay/import/gtfs \
-        $deployPath/mysql/lib \
-        $deployPath/mysql/log \
         $deployPath/portainer
     
     echo "2# Change /esdata permission"
