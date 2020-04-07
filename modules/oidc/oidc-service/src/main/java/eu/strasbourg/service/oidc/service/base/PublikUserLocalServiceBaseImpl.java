@@ -44,6 +44,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
+import eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersistence;
 import eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence;
 
 import java.io.Serializable;
@@ -332,6 +333,44 @@ public abstract class PublikUserLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the anonymisation historic local service.
+	 *
+	 * @return the anonymisation historic local service
+	 */
+	public eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService getAnonymisationHistoricLocalService() {
+		return anonymisationHistoricLocalService;
+	}
+
+	/**
+	 * Sets the anonymisation historic local service.
+	 *
+	 * @param anonymisationHistoricLocalService the anonymisation historic local service
+	 */
+	public void setAnonymisationHistoricLocalService(
+		eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService anonymisationHistoricLocalService) {
+		this.anonymisationHistoricLocalService = anonymisationHistoricLocalService;
+	}
+
+	/**
+	 * Returns the anonymisation historic persistence.
+	 *
+	 * @return the anonymisation historic persistence
+	 */
+	public AnonymisationHistoricPersistence getAnonymisationHistoricPersistence() {
+		return anonymisationHistoricPersistence;
+	}
+
+	/**
+	 * Sets the anonymisation historic persistence.
+	 *
+	 * @param anonymisationHistoricPersistence the anonymisation historic persistence
+	 */
+	public void setAnonymisationHistoricPersistence(
+		AnonymisationHistoricPersistence anonymisationHistoricPersistence) {
+		this.anonymisationHistoricPersistence = anonymisationHistoricPersistence;
+	}
+
+	/**
 	 * Returns the publik user local service.
 	 *
 	 * @return the publik user local service
@@ -553,6 +592,10 @@ public abstract class PublikUserLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService.class)
+	protected eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService anonymisationHistoricLocalService;
+	@BeanReference(type = AnonymisationHistoricPersistence.class)
+	protected AnonymisationHistoricPersistence anonymisationHistoricPersistence;
 	@BeanReference(type = PublikUserLocalService.class)
 	protected PublikUserLocalService publikUserLocalService;
 

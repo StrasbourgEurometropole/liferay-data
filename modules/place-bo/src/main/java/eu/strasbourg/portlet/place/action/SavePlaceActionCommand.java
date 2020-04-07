@@ -189,6 +189,14 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					"facebookURL");
 			place.setFacebookURLMap(facebookURLs);
 
+			Map<Locale, String> instagramLabels = LocalizationUtil.getLocalizationMap(request,
+					"instagramLabel");
+			place.setInstagramLabelMap(instagramLabels);
+
+			Map<Locale, String> instagramURLs = LocalizationUtil.getLocalizationMap(request,
+					"instagramURL");
+			place.setInstagramURLMap(instagramURLs);
+
 			// ---------------------------------------------------------------
 			// ---------------------------- ACCES ----------------------------
 			// ---------------------------------------------------------------
@@ -451,6 +459,15 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 
 			String RTExternalId = ParamUtil.getString(request, "RTExternalId");
 			place.setRTExternalId(RTExternalId);
+
+			// ----------------------------------------------------------------
+			// ---------------------- GOOGLE MY BUSINESS ----------------------
+			// ----------------------------------------------------------------
+
+			String locationId = ParamUtil.getString(request, "locationId");
+			if(Validator.isNull(locationId))
+				locationId = ParamUtil.getString(request, "locationId2");
+			place.setLocationId(locationId);
 
 			// ----------------------------------------------------------------
 			// -------------------------- SOUS LIEUX --------------------------

@@ -70,6 +70,7 @@ public class SocialWallPortlet extends MVCPortlet {
 				List<Tweet> tweets = socialService.getUserTweets(twitterAccount, postCount);
 				allPosts.addAll(tweets);
 			}
+
 			// Instagram posts
 			String instagramToken = configuration.instagramToken();
 			String instagramCreateDate = configuration.instagramCreateDate();

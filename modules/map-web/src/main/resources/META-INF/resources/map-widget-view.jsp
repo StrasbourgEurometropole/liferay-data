@@ -1,18 +1,5 @@
 <%@ include file="./map-init.jsp"%>
 
-<link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
-<link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
-<link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
-
-<liferay-util:html-bottom>
-    <script src="/o/mapweb/js/leaflet.js"></script>
-    <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
-    <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
-    <script src="/o/mapweb/js/map.js"></script>
-    <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
-</liferay-util:html-bottom>
-
 <section id="wi-aroundme">
     <%-- Récupère le fait de plier ou déplier ce widget dans la config de la personnalisation --%>
     <c:set value="${dc.isFolded()}" var="isFolded" />

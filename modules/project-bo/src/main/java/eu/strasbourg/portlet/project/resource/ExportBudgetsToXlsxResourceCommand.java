@@ -1,7 +1,6 @@
 package eu.strasbourg.portlet.project.resource;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.ResourceRequest;
@@ -11,11 +10,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
-import com.liferay.portal.kernel.util.ParamUtil;
 
 import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -45,9 +42,9 @@ public class ExportBudgetsToXlsxResourceCommand implements MVCResourceCommand {
         }
         return true;
 	}
-
+	
 	private BudgetsParticipatifsXlsxExporter budgetsParticipatifsXlsxExporter;
-
+	
     @Reference(unbind = "-")
     public void setBudgetsParticipatifsXlsxExporter(BudgetsParticipatifsXlsxExporter budgetsParticipatifsXlsxExporter) {
         this.budgetsParticipatifsXlsxExporter = budgetsParticipatifsXlsxExporter;

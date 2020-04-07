@@ -31,7 +31,7 @@
     }
 
     .favoris-grid{
-
+        
         p{
             font-size: 1.8rem;
             color: white;
@@ -39,6 +39,17 @@
             width: 100%;
             text-align: center;
         }
+            
+        .tram-destination p{
+            color: $core-color;
+        }
+        
+                
+        .scroll-pane{
+            max-height: 205px;  
+        } 
+
+        @extend %jscrollpane;
 
         a{
             color: #b3b3b3;
@@ -56,6 +67,18 @@
 
             &:after{
                 content: none;
+            }
+            
+            .alert{
+                height: 21px;
+                width: 21px;
+                position: absolute;
+                top: 16px;
+                right: 22px;            
+                background-size: contain;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-alert, $error) );
             }
         }
 

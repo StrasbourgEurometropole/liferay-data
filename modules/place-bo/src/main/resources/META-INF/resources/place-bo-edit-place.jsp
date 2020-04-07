@@ -33,7 +33,7 @@
 		<aui:fieldset-group markupView="lexicon">
 			<aui:input name="placeId" type="hidden" />
 
-			<!-- Informations gÃÂ©ographique -->
+			<!-- Informations géographique -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="geographic-information">
 				
@@ -66,7 +66,7 @@
 						<aui:input name="addressCountry2" type="hidden" value="${dc.place.addressCountry}" />
 						
 						<aui:input name="addressCountry" disabled="true" />
-						
+
 					</div>
 					
 					<div class="col-md-6">
@@ -140,13 +140,13 @@
 				<aui:input name="presentation" />
 				
 				<aui:input name="serviceAndActivities"   />
-				<!-- Hack pour ajouter une validation sur les services et activitÃÂ©s -->
+				<!-- Hack pour ajouter une validation sur les services et activités -->
 				<div class="has-error">
 					<aui:input type="hidden" name="serviceAndActivitiesValidatorInputHelper" value="placeholder" />
 				</div>
 				
 				<aui:input name="characteristics" helpMessage="characteristics-help" />
-				<!-- Hack pour ajouter une validation sur les caractÃÂ©ristiques -->
+				<!-- Hack pour ajouter une validation sur les caractéristiques -->
 				<div class="has-error">
 					<aui:input type="hidden" name="characteristicsValidatorInputHelper" value="placeholder" />
 				</div>
@@ -155,7 +155,7 @@
 				
 			</aui:fieldset>
 				
-			<!-- MÃÂ©dias -->
+			<!-- Médias -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="media">
 				
@@ -203,11 +203,20 @@
 						<aui:input name="facebookURL">
 							<aui:validator name="url"/>
 							<aui:validator name="require" errorMessage="this-field-is-required" />
-						</aui:input>		
+						</aui:input>
+
+						<aui:input name="instagramLabel" >
+					        <aui:validator name="require" errorMessage="this-field-is-required" />
+						</aui:input>
+
+						<aui:input name="instagramURL">
+							<aui:validator name="url"/>
+							<aui:validator name="require" errorMessage="this-field-is-required" />
+						</aui:input>
 
 			</aui:fieldset>
 				
-			<!-- AccÃÂ©s -->
+			<!-- Accès -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="acces">
 				
@@ -221,7 +230,7 @@
 					required="false" value="${dc.place.accesMap}" localized="true" multiple="false" global="true" />
 				
 				<aui:input name="accessForDisabled"  />
-				<!-- Hack pour ajouter une validation sur le service aux personnes handicapÃÂ©es -->
+				<!-- Hack pour ajouter une validation sur le service aux personnes handicapées -->
 				<div class="has-error">
 					<aui:input type="hidden" name="accessForDisabledValidatorInputHelper" value="placeholder"/>
 				</div>	
@@ -233,7 +242,7 @@
 					<div style="position:relative"><aui:input name="accessForElder" type="checkbox" value="${dc.place.accessForElder}" helpMessage="acces-for-disabled-help" /></div>
 					<div style="position:relative"><aui:input name="accessForDeficient" type="checkbox" value="${dc.place.accessForDeficient}" helpMessage="acces-for-disabled-help" /></div>
 				</div>
-				
+
 			</aui:fieldset>
 				
 			<!-- Horaires -->
@@ -265,7 +274,7 @@
 
 
 				<div class="PeriodTime">
-                    <!-- PÃÂ©riodes & horaires -->
+                    <!-- Périodes & horaires -->
                     <aui:fieldset collapsed="false" collapsible="true"
                         label="period-time" id="period-time">
 
@@ -413,29 +422,29 @@
 					<div class="has-error">
 						<aui:input type="hidden" name="exceptionalScheduleValidatorInputHelper" value="placeholder"/>
 					</div>
-				</div>	
-					
+				</div>
+
 			</aui:fieldset>
 				
-			<!-- Informations complÃÂ©mentaires -->
+			<!-- Informations complémentaires -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="add-information">
 				
 				<aui:input name="displayEvents" type="toggle-switch" value="${not empty dc.place ? dc.place.displayEvents : true}" />
 				
 				<aui:input name="additionalInformation" label="required-additionalInformation"  />
-				<!-- Hack pour ajouter une validation sur les inforrmations complÃÂ©mentaires -->
+				<!-- Hack pour ajouter une validation sur les inforrmations complémentaires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="additionalInformationValidatorInputHelper" value="placeholder"/>
-				</div>	
-				
+				</div>
+
 			</aui:fieldset>
 				
-			<!-- FrÃÂ©quentation temps rÃÂ©el -->
-			
+			<!-- Fréquentation temps réel -->
 			<c:if test="${dc.place.isEnabled()}">
 				<aui:fieldset collapsed="false" collapsible="true"
 					label="attendance" >
+
 					<aui:input name="RTExternalId" />
 							
 					<c:forEach items="${dc.place.periods}" var="period" varStatus="status">
@@ -448,9 +457,26 @@
 							<liferay-util:param name="max" value="${period.RTMaxThreshold}" />
 						</liferay-util:include>
 					</c:forEach>
+
 				</aui:fieldset>
 			</c:if>
-				
+
+			<!-- Google My Business -->
+            <aui:fieldset collapsed="false" collapsible="true"
+                label="google-my-business" >
+
+                <c:if test="${not isAdmin}">
+
+                    <aui:input name="locationId2" type="hidden" value="${dc.place.locationId}" />
+                    <aui:input name="locationId" disabled="true" helpMessage="help-location-id" />
+                </c:if>
+
+                <c:if test="${isAdmin}">
+                    <aui:input name="locationId" helpMessage="help-location-id" />
+                </c:if>
+
+            </aui:fieldset>
+
 			<!-- Sous lieux -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="sub-places">

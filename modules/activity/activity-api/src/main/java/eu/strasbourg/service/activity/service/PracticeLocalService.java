@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -26,9 +24,11 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -37,11 +37,11 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.activity.model.Practice;
-
 import java.io.Serializable;
-
 import java.util.List;
+
+import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.activity.model.Practice;
 
 /**
  * Provides the local service interface for Practice. Methods of this
