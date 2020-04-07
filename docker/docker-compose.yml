@@ -27,6 +27,15 @@ services:
         limits:
           memory: 1g
 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.8.7
+    environment:
+      ELASTICSEARCH_HOSTS: elasticsearch
+    ports:
+      - 5601:5601
+    networks:
+      - backend-network
+
   liferay:
     image: liferay-ems
     build : ./images/liferay-ems
