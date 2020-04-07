@@ -4,20 +4,21 @@ then
 else
     deployPath="$1"
 
-    echo "Create directory tree if not exits"
+    echo "1# Create directory tree if not exits"
     mkdir -p \
         $deployPath/esdata \
-        $deployPath/liferay/deploy \
         $deployPath/liferay/doclib \
-        $deployPath/mysql/lib \
-        $deployPath/mysql/log \
-        $deployPath/configs \
+        $deployPath/liferay/logs/liferay \
+        $deployPath/liferay/logs/tomcat \
+        $deployPath/liferay/javamelody \
+        $deployPath/liferay/import/agenda \
+        $deployPath/liferay/import/gtfs \
         $deployPath/portainer
     
-    echo "Change /esdata permission"
+    echo "2# Change /esdata permission"
     chmod g+rwx $deployPath/esdata
     chgrp 1000 $deployPath/esdata
-    
-    echo "Copy config files"
-    cp -ru ./configs/* $deployPath/configs
+
+    echo "3# Adapt vm.max_map_count host config for ElasticSearch"
+    sysctl -w vm.max_map_count=262144
 fi

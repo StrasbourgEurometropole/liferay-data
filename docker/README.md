@@ -1,40 +1,3 @@
-# Migration environnement CE 7.0 > DXP 7.0
-
-Le processus de migration d'environnement permet de transformer un environnement CE 7.0 en dump DXP 7.0 en appliquant les derniers correctifs de cette dernière.
-
-## Fichiers en entrée :
-
-* Dans le répertoire `images/mysql-custom/sources` :
-    * Le dump DB Liferay CE 7.0 au format `.sql` ou `.dump`
-* Dans le répertoire `images/liferay-custom-70dxp/sources` : 
-    * Liferay DXP 7.0 sp12 : `liferay-dxp-digital-enterprise-tomcat-7.0.10.12-sp12-20191014182832691.tar.gz`
-    * Patching tool 2.0.15 : `patching-tool-2.0.15.zip`
-    * Fix Pack 89 : `liferay-fix-pack-de-89-7010.zip`
-    * MYSQL Connector : `mysql-connector-java-5.1.47.jar`
-
-## Images
-
-Images à créer :
-
-* mysql-custom dans le dossier `images/mysql-custom`
-* liferay-portal dans le dossier `images/liferay-custom-70dxp`
-
-* Créer l'image MySQL
-    * Placer dans le répertoire `images/mysql-custom/sources` le fichier dump de la base de données.
-    * Se placer dans le répertoire `images/mysql-custom`
-    * Exécuter la commande suivante où :
-        * `FILE_NAME` est le nom du fichier dump.
-        ```shell
-        $ docker image build --build-arg DUMP_FILE_NAME=FILE_NAME -t mysql-custom:ems-70dxp .
-        ```
-* Créer l'image Liferay
-    * Se placer dans le répertoire `images/liferay-custom-70dxp`
-    * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : ems-70dxp)
-        ```shell
-        $ docker image build -t liferay-portal:LFR_TAG .
-        ```
-
 # Migration base de données CE 7.0 > DXP 7.2
 
 Le processus de migration de base de données permet de transformer un dump de base de données CE 7.0 en dump DXP 7.2.
@@ -48,7 +11,6 @@ Les fichiers suivants sont les entrées du process et doivent être déplacés :
     * Le script pre-upgrade à jouer avant la migration : `pre-upgrade.sql`
 * Dans le répertoire `images/liferay-vanilla/sources` : 
     * Liferay DXP 7.2 SP4 : `liferay-dxp-tomcat-7.2.10-dxp-4-20200121112425051.tar.gz`
-    * MYSQL Connector : `mysql-connector-java-8.0.19.jar`
 
 ## Images
 
@@ -69,7 +31,7 @@ Images à créer :
 * Créer l'image Liferay
     * Se placer dans le répertoire `images/liferay-vanilla`
     * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-sp4-vanilla)
+        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
         ```shell
         $ docker image build -t liferay-portal:LFR_TAG .
         ```
@@ -109,10 +71,13 @@ $ touch output/upgrade.log
 ```
 
 Lancer l'image Liferay avec la commande suivante où :
-* `TAG` est le tag de l'image créé (ex : 7.2.10-dxp-sp4-vanilla)
+* `TAG` est le tag de l'image liNferay créé (ex : 7.2.10-dxp-fp4-vanilla).
+* `DATA_PATH` est le chemin vers le répertoire de persistance.
 
 ```shell
-$ LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+$ DATA=7.2.10-dxp-fp4-vanilla LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+
+--> $ DATA=/data/ems-data LFR_TAG=7.2.10-dxp-sp4-vanilla docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 ```
 
 Suivre l'évolution de l'upgrade via la commande :
@@ -132,3 +97,57 @@ $ docker exec CONTAINER_ID /usr/bin/mysqldump -u liferay --password=sully lifera
 ```
 
 Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` du répertoire courant.
+
+# Lancement d'un environnement EMS complet en DXP 7.2
+
+## Images
+
+Images à créer :
+
+* Créer l'image ElasticSearch
+    * Se placer dans le répertoire `images/elasticsearch-ems`
+    * Exécuter la commande suivante :
+        ```shell
+        $ docker image build -t elasticsearch-ems .
+        ```
+* Créer l'image Liferay
+    * Placer dans le répertoire `images/mysql-ems/sources` :
+        * le script `wait-for-it.sh` permettant de tester la disponibilité d'autres noeuds.
+        * le certificat `certigna-authority-2015-2025.cer`
+        * le certificat `apiDailymotion.cer`
+        * le certificat `apiYoutube.cer`
+    * Se placer dans le répertoire `images/liferay-ems`
+    * Exécuter la commande suivante où :
+        ```shell
+        $ docker image build -t liferay-ems .
+        ```
+
+## Fichiers d'entrées
+
+* elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
+    * `synonyms.txt` pour la description des synonymes.
+* liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
+    * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
+    * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
+    * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
+    * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
+    * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
+    * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
+    * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
+
+## Exécution
+
+Pour lancer la totalité des services, lancer la commande suivante où :
+    * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
+
+```shell
+$ DATA=VAR_DATA docker-compose up -d
+
+--> $ DATA=/data docker-compose up -d
+```
+
+Suivre les logs via la commande :
+
+```shell
+$ docker-compose logs -f
+```
