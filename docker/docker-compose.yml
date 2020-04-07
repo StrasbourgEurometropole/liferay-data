@@ -52,6 +52,7 @@ services:
       - ${DATA}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
     ports:
       - 8080:8080
+      - 8009:8009
     depends_on:
       - elasticsearch
     networks:
