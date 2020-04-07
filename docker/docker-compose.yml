@@ -4,6 +4,7 @@ services:
 
   elasticsearch:
     image: elasticsearch-ems
+    build : ./images/elasticsearch-ems
     environment:
 # --- For docker-compose (without Swarm mode) ----
       - bootstrap.memory_lock=true
@@ -28,6 +29,7 @@ services:
 
   liferay:
     image: liferay-ems
+    build : ./images/liferay-ems
     environment:
       - JAVA_VERSION=zulu11
     volumes:
