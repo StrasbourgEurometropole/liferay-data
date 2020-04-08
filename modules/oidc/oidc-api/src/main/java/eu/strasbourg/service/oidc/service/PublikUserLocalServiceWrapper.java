@@ -402,21 +402,6 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 		return _publikUserLocalService.getCountUserHasSignedPacte();
 	}
 
-	/**
-	* Anonymise l'utilisateur pour placit
-	* suppression de la signature du pacte,
-	* anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
-	*     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	*
-	* @return
-	*/
-	@Override
-	public void anonymisedUserPlacit(
-		eu.strasbourg.service.oidc.model.PublikUser anonymUser,
-		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
-		_publikUserLocalService.anonymisedUserPlacit(anonymUser, publikUser);
-	}
-
 	@Override
 	public PublikUserLocalService getWrappedService() {
 		return _publikUserLocalService;

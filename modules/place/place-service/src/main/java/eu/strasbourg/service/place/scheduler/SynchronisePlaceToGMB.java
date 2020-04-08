@@ -30,7 +30,7 @@ public class SynchronisePlaceToGMB extends BaseMessageListener {
     protected void activate() {
         String listenerClass = getClass().getName();
 
-        // Tous les jours a 3h45
+        // Création du trigger "Tous les jours à 3h45"
         Trigger trigger = _triggerFactory.createTrigger(
                 listenerClass, listenerClass, null, null,
                 "0 45 3 * * ?");
