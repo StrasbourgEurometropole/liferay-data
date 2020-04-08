@@ -45,20 +45,3 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 		});
 	</aui:script>
 </liferay-util:html-bottom>
-
-
-<liferay-util:html-bottom>
-    <script>
-        define._amd = define.amd;
-        define.amd = false;
-        $(function()
-        {
-            $('.scroll-pane').each(function(index){
-                $(this).jScrollPane({arrowButtonSpeed: 200});
-            });
-        });
-        define._amd = define.amd;
-        define.amd = false;
-    </script>
-    <script src="/o/favoritesviewer/js/jquery.jscrollpane.js"></script>
-</liferay-util:html-bottom>
