@@ -4,14 +4,11 @@ import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
-import com.liferay.portal.kernel.messaging.DestinationNames;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.scheduler.*;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.social.SocialService;
@@ -27,15 +24,20 @@ import java.util.stream.Collectors;
  * Change le token instagram des portlet SocialWall qui doivent l'être
  */
 @Component(immediate = true, service = AccessTokenRefresh.class)
-public class AccessTokenRefresh extends BaseSchedulerEntryMessageListener {
+public class AccessTokenRefresh extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-        // Tous les jours à 4h45
-        schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-                getEventListenerClass(), getEventListenerClass(), "0 45 4 * * ?"));
-		_schedulerEngineHelper.register(this, schedulerEntryImpl, DestinationNames.SCHEDULER_DISPATCH);
+		String listenerClass = getClass().getName();
+
+		// Tous les jours à 4h45
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, null, null,
+				"0 45 4 * * ?");
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
 	}
 
 	@Deactivate
@@ -43,10 +45,9 @@ public class AccessTokenRefresh extends BaseSchedulerEntryMessageListener {
 		_schedulerEngineHelper.unregister(this);
 	}
 
-	private Log log = LogFactoryUtil.getLog(AccessTokenRefresh.class);
-
 	@Override
 	protected void doReceive(Message message) throws Exception {
+		log.info("Start refresh token");
 		LocalDate today = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -86,6 +87,7 @@ public class AccessTokenRefresh extends BaseSchedulerEntryMessageListener {
 				}
 			}
 		}
+		log.info("Finish refresh token");
 	}
 
 	@Reference(unbind = "-")
@@ -94,8 +96,20 @@ public class AccessTokenRefresh extends BaseSchedulerEntryMessageListener {
 	}
 
 	@Reference(unbind = "-")
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
 
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private SocialService _socialService;
+	private TriggerFactory _triggerFactory;
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 
 }
