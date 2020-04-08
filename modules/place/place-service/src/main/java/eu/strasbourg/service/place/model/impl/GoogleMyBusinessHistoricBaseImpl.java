@@ -35,18 +35,22 @@ import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceU
 public abstract class GoogleMyBusinessHistoricBaseImpl
 	extends GoogleMyBusinessHistoricModelImpl
 	implements GoogleMyBusinessHistoric {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a google my business historic model instance should use the {@link GoogleMyBusinessHistoric} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a google my business historic model instance should use the <code>GoogleMyBusinessHistoric</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			GoogleMyBusinessHistoricLocalServiceUtil.addGoogleMyBusinessHistoric(this);
+			GoogleMyBusinessHistoricLocalServiceUtil.
+				addGoogleMyBusinessHistoric(this);
 		}
 		else {
-			GoogleMyBusinessHistoricLocalServiceUtil.updateGoogleMyBusinessHistoric(this);
+			GoogleMyBusinessHistoricLocalServiceUtil.
+				updateGoogleMyBusinessHistoric(this);
 		}
 	}
+
 }

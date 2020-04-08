@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing GoogleMyBusinessHistoric in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see GoogleMyBusinessHistoric
  * @generated
  */
 @ProviderType
-public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBusinessHistoric>,
-	Externalizable {
+public class GoogleMyBusinessHistoricCacheModel
+	implements CacheModel<GoogleMyBusinessHistoric>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 			return false;
 		}
 
-		GoogleMyBusinessHistoricCacheModel googleMyBusinessHistoricCacheModel = (GoogleMyBusinessHistoricCacheModel)obj;
+		GoogleMyBusinessHistoricCacheModel googleMyBusinessHistoricCacheModel =
+			(GoogleMyBusinessHistoricCacheModel)obj;
 
-		if (googleMyBusinessHistoricId == googleMyBusinessHistoricCacheModel.googleMyBusinessHistoricId) {
+		if (googleMyBusinessHistoricId ==
+				googleMyBusinessHistoricCacheModel.googleMyBusinessHistoricId) {
+
 			return true;
 		}
 
@@ -113,22 +115,24 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 
 	@Override
 	public GoogleMyBusinessHistoric toEntityModel() {
-		GoogleMyBusinessHistoricImpl googleMyBusinessHistoricImpl = new GoogleMyBusinessHistoricImpl();
+		GoogleMyBusinessHistoricImpl googleMyBusinessHistoricImpl =
+			new GoogleMyBusinessHistoricImpl();
 
 		if (uuid == null) {
-			googleMyBusinessHistoricImpl.setUuid(StringPool.BLANK);
+			googleMyBusinessHistoricImpl.setUuid("");
 		}
 		else {
 			googleMyBusinessHistoricImpl.setUuid(uuid);
 		}
 
-		googleMyBusinessHistoricImpl.setGoogleMyBusinessHistoricId(googleMyBusinessHistoricId);
+		googleMyBusinessHistoricImpl.setGoogleMyBusinessHistoricId(
+			googleMyBusinessHistoricId);
 		googleMyBusinessHistoricImpl.setGroupId(groupId);
 		googleMyBusinessHistoricImpl.setCompanyId(companyId);
 		googleMyBusinessHistoricImpl.setUserId(userId);
 
 		if (userName == null) {
-			googleMyBusinessHistoricImpl.setUserName(StringPool.BLANK);
+			googleMyBusinessHistoricImpl.setUserName("");
 		}
 		else {
 			googleMyBusinessHistoricImpl.setUserName(userName);
@@ -145,22 +149,23 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 			googleMyBusinessHistoricImpl.setModifiedDate(null);
 		}
 		else {
-			googleMyBusinessHistoricImpl.setModifiedDate(new Date(modifiedDate));
+			googleMyBusinessHistoricImpl.setModifiedDate(
+				new Date(modifiedDate));
 		}
 
 		if (lastPublishDate == Long.MIN_VALUE) {
 			googleMyBusinessHistoricImpl.setLastPublishDate(null);
 		}
 		else {
-			googleMyBusinessHistoricImpl.setLastPublishDate(new Date(
-					lastPublishDate));
+			googleMyBusinessHistoricImpl.setLastPublishDate(
+				new Date(lastPublishDate));
 		}
 
 		googleMyBusinessHistoricImpl.setStatus(status);
 		googleMyBusinessHistoricImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			googleMyBusinessHistoricImpl.setStatusByUserName(StringPool.BLANK);
+			googleMyBusinessHistoricImpl.setStatusByUserName("");
 		}
 		else {
 			googleMyBusinessHistoricImpl.setStatusByUserName(statusByUserName);
@@ -176,21 +181,21 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 		googleMyBusinessHistoricImpl.setResult(result);
 
 		if (operations == null) {
-			googleMyBusinessHistoricImpl.setOperations(StringPool.BLANK);
+			googleMyBusinessHistoricImpl.setOperations("");
 		}
 		else {
 			googleMyBusinessHistoricImpl.setOperations(operations);
 		}
 
 		if (errorDescription == null) {
-			googleMyBusinessHistoricImpl.setErrorDescription(StringPool.BLANK);
+			googleMyBusinessHistoricImpl.setErrorDescription("");
 		}
 		else {
 			googleMyBusinessHistoricImpl.setErrorDescription(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			googleMyBusinessHistoricImpl.setErrorStackTrace(StringPool.BLANK);
+			googleMyBusinessHistoricImpl.setErrorStackTrace("");
 		}
 		else {
 			googleMyBusinessHistoricImpl.setErrorStackTrace(errorStackTrace);
@@ -246,10 +251,9 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -264,7 +268,7 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -279,7 +283,7 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -290,21 +294,21 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 		objectOutput.writeInt(result);
 
 		if (operations == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(operations);
 		}
 
 		if (errorDescription == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(errorStackTrace);
@@ -333,4 +337,5 @@ public class GoogleMyBusinessHistoricCacheModel implements CacheModel<GoogleMyBu
 	public String errorStackTrace;
 	public long startDate;
 	public long finishDate;
+
 }

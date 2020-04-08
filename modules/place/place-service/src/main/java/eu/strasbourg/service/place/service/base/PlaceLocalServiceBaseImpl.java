@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -27,7 +26,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -56,6 +54,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -87,16 +86,17 @@ import javax.sql.DataSource;
  *
  * @author Angelique Zunino Champougny
  * @see eu.strasbourg.service.place.service.impl.PlaceLocalServiceImpl
- * @see eu.strasbourg.service.place.service.PlaceLocalServiceUtil
  * @generated
  */
 @ProviderType
-public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
+public abstract class PlaceLocalServiceBaseImpl
+	extends BaseLocalServiceImpl
 	implements PlaceLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.place.service.PlaceLocalServiceUtil} to access the place local service.
+	 * Never modify or reference this class directly. Use <code>PlaceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.PlaceLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -120,6 +120,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @return the new place
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public Place createPlace(long placeId) {
 		return placePersistence.create(placeId);
 	}
@@ -153,8 +154,8 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(Place.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			Place.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -172,7 +173,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -181,8 +182,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
 		return placePersistence.findWithDynamicQuery(dynamicQuery, start, end);
 	}
 
@@ -190,7 +192,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -200,10 +202,12 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return placePersistence.findWithDynamicQuery(dynamicQuery, start, end,
-			orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return placePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -225,8 +229,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
 		return placePersistence.countWithDynamicQuery(dynamicQuery, projection);
 	}
 
@@ -261,7 +266,8 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(placeLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -273,8 +279,11 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
+
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
 
 		indexableActionableDynamicQuery.setBaseLocalService(placeLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
@@ -287,6 +296,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
+
 		actionableDynamicQuery.setBaseLocalService(placeLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Place.class);
@@ -297,48 +307,59 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
+
+		final ExportActionableDynamicQuery exportActionableDynamicQuery =
+			new ExportActionableDynamicQuery() {
+
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary =
+						portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(stagedModelType,
-						modelAdditionCount);
+					manifestSummary.addModelAdditionCount(
+						stagedModelType, modelAdditionCount);
 
-					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
-							stagedModelType);
+					long modelDeletionCount =
+						ExportImportHelperUtil.getModelDeletionCount(
+							portletDataContext, stagedModelType);
 
-					manifestSummary.addModelDeletionCount(stagedModelType,
-						modelDeletionCount);
+					manifestSummary.addModelDeletionCount(
+						stagedModelType, modelDeletionCount);
 
 					return modelAdditionCount;
 				}
+
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
+		exportActionableDynamicQuery.setAddCriteriaMethod(
+			new ActionableDynamicQuery.AddCriteriaMethod() {
+
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
-							"modifiedDate");
+					Criterion modifiedDateCriterion =
+						portletDataContext.getDateRangeCriteria("modifiedDate");
 
 					if (modifiedDateCriterion != null) {
-						Conjunction conjunction = RestrictionsFactoryUtil.conjunction();
+						Conjunction conjunction =
+							RestrictionsFactoryUtil.conjunction();
 
 						conjunction.add(modifiedDateCriterion);
 
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
-						disjunction.add(RestrictionsFactoryUtil.gtProperty(
+						disjunction.add(
+							RestrictionsFactoryUtil.gtProperty(
 								"modifiedDate", "lastPublishDate"));
 
-						Property lastPublishDateProperty = PropertyFactoryUtil.forName(
-								"lastPublishDate");
+						Property lastPublishDateProperty =
+							PropertyFactoryUtil.forName("lastPublishDate");
 
 						disjunction.add(lastPublishDateProperty.isNull());
 
@@ -347,12 +368,14 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 						modifiedDateCriterion = conjunction;
 					}
 
-					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
-							"statusDate");
+					Criterion statusDateCriterion =
+						portletDataContext.getDateRangeCriteria("statusDate");
 
 					if ((modifiedDateCriterion != null) &&
-							(statusDateCriterion != null)) {
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
+						(statusDateCriterion != null)) {
+
+						Disjunction disjunction =
+							RestrictionsFactoryUtil.disjunction();
 
 						disjunction.add(modifiedDateCriterion);
 						disjunction.add(statusDateCriterion);
@@ -360,35 +383,47 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 						dynamicQuery.add(disjunction);
 					}
 
-					Property workflowStatusProperty = PropertyFactoryUtil.forName(
-							"status");
+					Property workflowStatusProperty =
+						PropertyFactoryUtil.forName("status");
 
 					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(workflowStatusProperty.ne(
+						dynamicQuery.add(
+							workflowStatusProperty.ne(
 								WorkflowConstants.STATUS_IN_TRASH));
 					}
 					else {
-						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(Place.class.getName());
+						StagedModelDataHandler<?> stagedModelDataHandler =
+							StagedModelDataHandlerRegistryUtil.
+								getStagedModelDataHandler(
+									Place.class.getName());
 
-						dynamicQuery.add(workflowStatusProperty.in(
-								stagedModelDataHandler.getExportableStatuses()));
+						dynamicQuery.add(
+							workflowStatusProperty.in(
+								stagedModelDataHandler.
+									getExportableStatuses()));
 					}
 				}
+
 			});
 
-		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(
+			portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setGroupId(portletDataContext.getScopeGroupId());
+		exportActionableDynamicQuery.setGroupId(
+			portletDataContext.getScopeGroupId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<Place>() {
+		exportActionableDynamicQuery.setPerformActionMethod(
+			new ActionableDynamicQuery.PerformActionMethod<Place>() {
+
 				@Override
-				public void performAction(Place place)
-					throws PortalException {
-					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
-						place);
+				public void performAction(Place place) throws PortalException {
+					StagedModelDataHandlerUtil.exportStagedModel(
+						portletDataContext, place);
 				}
+
 			});
-		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
+		exportActionableDynamicQuery.setStagedModelType(
+			new StagedModelType(
 				PortalUtil.getClassNameId(Place.class.getName())));
 
 		return exportActionableDynamicQuery;
@@ -400,12 +435,14 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
 		return placeLocalService.deletePlace((Place)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return placePersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -417,7 +454,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @return the matching places, or an empty list if no matches were found
 	 */
 	@Override
-	public List<Place> getPlacesByUuidAndCompanyId(String uuid, long companyId) {
+	public List<Place> getPlacesByUuidAndCompanyId(
+		String uuid, long companyId) {
+
 		return placePersistence.findByUuid_C(uuid, companyId);
 	}
 
@@ -432,10 +471,12 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @return the range of matching places, or an empty list if no matches were found
 	 */
 	@Override
-	public List<Place> getPlacesByUuidAndCompanyId(String uuid, long companyId,
-		int start, int end, OrderByComparator<Place> orderByComparator) {
-		return placePersistence.findByUuid_C(uuid, companyId, start, end,
-			orderByComparator);
+	public List<Place> getPlacesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Place> orderByComparator) {
+
+		return placePersistence.findByUuid_C(
+			uuid, companyId, start, end, orderByComparator);
 	}
 
 	/**
@@ -449,6 +490,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	@Override
 	public Place getPlaceByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException {
+
 		return placePersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -456,7 +498,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * Returns a range of all the places.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.place.model.impl.PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of places
@@ -495,7 +537,10 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the google my business historic local service
 	 */
-	public eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService getGoogleMyBusinessHistoricLocalService() {
+	public
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			getGoogleMyBusinessHistoricLocalService() {
+
 		return googleMyBusinessHistoricLocalService;
 	}
 
@@ -505,8 +550,11 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param googleMyBusinessHistoricLocalService the google my business historic local service
 	 */
 	public void setGoogleMyBusinessHistoricLocalService(
-		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService) {
-		this.googleMyBusinessHistoricLocalService = googleMyBusinessHistoricLocalService;
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService) {
+
+		this.googleMyBusinessHistoricLocalService =
+			googleMyBusinessHistoricLocalService;
 	}
 
 	/**
@@ -514,7 +562,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the google my business historic persistence
 	 */
-	public GoogleMyBusinessHistoricPersistence getGoogleMyBusinessHistoricPersistence() {
+	public GoogleMyBusinessHistoricPersistence
+		getGoogleMyBusinessHistoricPersistence() {
+
 		return googleMyBusinessHistoricPersistence;
 	}
 
@@ -524,8 +574,11 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param googleMyBusinessHistoricPersistence the google my business historic persistence
 	 */
 	public void setGoogleMyBusinessHistoricPersistence(
-		GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence) {
-		this.googleMyBusinessHistoricPersistence = googleMyBusinessHistoricPersistence;
+		GoogleMyBusinessHistoricPersistence
+			googleMyBusinessHistoricPersistence) {
+
+		this.googleMyBusinessHistoricPersistence =
+			googleMyBusinessHistoricPersistence;
 	}
 
 	/**
@@ -533,7 +586,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the period local service
 	 */
-	public eu.strasbourg.service.place.service.PeriodLocalService getPeriodLocalService() {
+	public eu.strasbourg.service.place.service.PeriodLocalService
+		getPeriodLocalService() {
+
 		return periodLocalService;
 	}
 
@@ -543,7 +598,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param periodLocalService the period local service
 	 */
 	public void setPeriodLocalService(
-		eu.strasbourg.service.place.service.PeriodLocalService periodLocalService) {
+		eu.strasbourg.service.place.service.PeriodLocalService
+			periodLocalService) {
+
 		this.periodLocalService = periodLocalService;
 	}
 
@@ -606,7 +663,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the price local service
 	 */
-	public eu.strasbourg.service.place.service.PriceLocalService getPriceLocalService() {
+	public eu.strasbourg.service.place.service.PriceLocalService
+		getPriceLocalService() {
+
 		return priceLocalService;
 	}
 
@@ -616,7 +675,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param priceLocalService the price local service
 	 */
 	public void setPriceLocalService(
-		eu.strasbourg.service.place.service.PriceLocalService priceLocalService) {
+		eu.strasbourg.service.place.service.PriceLocalService
+			priceLocalService) {
+
 		this.priceLocalService = priceLocalService;
 	}
 
@@ -643,7 +704,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the public holiday local service
 	 */
-	public eu.strasbourg.service.place.service.PublicHolidayLocalService getPublicHolidayLocalService() {
+	public eu.strasbourg.service.place.service.PublicHolidayLocalService
+		getPublicHolidayLocalService() {
+
 		return publicHolidayLocalService;
 	}
 
@@ -653,7 +716,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param publicHolidayLocalService the public holiday local service
 	 */
 	public void setPublicHolidayLocalService(
-		eu.strasbourg.service.place.service.PublicHolidayLocalService publicHolidayLocalService) {
+		eu.strasbourg.service.place.service.PublicHolidayLocalService
+			publicHolidayLocalService) {
+
 		this.publicHolidayLocalService = publicHolidayLocalService;
 	}
 
@@ -673,6 +738,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setPublicHolidayPersistence(
 		PublicHolidayPersistence publicHolidayPersistence) {
+
 		this.publicHolidayPersistence = publicHolidayPersistence;
 	}
 
@@ -681,7 +747,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the schedule exception local service
 	 */
-	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService getScheduleExceptionLocalService() {
+	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+		getScheduleExceptionLocalService() {
+
 		return scheduleExceptionLocalService;
 	}
 
@@ -691,7 +759,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param scheduleExceptionLocalService the schedule exception local service
 	 */
 	public void setScheduleExceptionLocalService(
-		eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService) {
+		eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+			scheduleExceptionLocalService) {
+
 		this.scheduleExceptionLocalService = scheduleExceptionLocalService;
 	}
 
@@ -711,6 +781,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setScheduleExceptionPersistence(
 		ScheduleExceptionPersistence scheduleExceptionPersistence) {
+
 		this.scheduleExceptionPersistence = scheduleExceptionPersistence;
 	}
 
@@ -719,7 +790,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the slot local service
 	 */
-	public eu.strasbourg.service.place.service.SlotLocalService getSlotLocalService() {
+	public eu.strasbourg.service.place.service.SlotLocalService
+		getSlotLocalService() {
+
 		return slotLocalService;
 	}
 
@@ -730,6 +803,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setSlotLocalService(
 		eu.strasbourg.service.place.service.SlotLocalService slotLocalService) {
+
 		this.slotLocalService = slotLocalService;
 	}
 
@@ -756,7 +830,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the sub place local service
 	 */
-	public eu.strasbourg.service.place.service.SubPlaceLocalService getSubPlaceLocalService() {
+	public eu.strasbourg.service.place.service.SubPlaceLocalService
+		getSubPlaceLocalService() {
+
 		return subPlaceLocalService;
 	}
 
@@ -766,7 +842,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param subPlaceLocalService the sub place local service
 	 */
 	public void setSubPlaceLocalService(
-		eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService) {
+		eu.strasbourg.service.place.service.SubPlaceLocalService
+			subPlaceLocalService) {
+
 		this.subPlaceLocalService = subPlaceLocalService;
 	}
 
@@ -784,7 +862,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @param subPlacePersistence the sub place persistence
 	 */
-	public void setSubPlacePersistence(SubPlacePersistence subPlacePersistence) {
+	public void setSubPlacePersistence(
+		SubPlacePersistence subPlacePersistence) {
+
 		this.subPlacePersistence = subPlacePersistence;
 	}
 
@@ -793,7 +873,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -803,7 +885,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -812,7 +896,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -822,7 +908,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -842,6 +930,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -850,7 +939,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -860,7 +951,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -869,7 +962,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -880,6 +975,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -906,7 +1002,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -916,7 +1014,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -936,6 +1036,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -944,7 +1045,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -954,7 +1057,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -974,6 +1079,7 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -982,7 +1088,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -992,7 +1100,9 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -1010,13 +1120,15 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.place.model.Place",
-			placeLocalService);
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.place.model.Place", placeLocalService);
 	}
 
 	public void destroy() {
@@ -1056,8 +1168,8 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -1066,62 +1178,136 @@ public abstract class PlaceLocalServiceBaseImpl extends BaseLocalServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class)
-	protected eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class
+	)
+	protected
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService;
+
 	@BeanReference(type = GoogleMyBusinessHistoricPersistence.class)
-	protected GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PeriodLocalService.class)
-	protected eu.strasbourg.service.place.service.PeriodLocalService periodLocalService;
+	protected GoogleMyBusinessHistoricPersistence
+		googleMyBusinessHistoricPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PeriodLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PeriodLocalService
+		periodLocalService;
+
 	@BeanReference(type = PeriodPersistence.class)
 	protected PeriodPersistence periodPersistence;
+
 	@BeanReference(type = PlaceLocalService.class)
 	protected PlaceLocalService placeLocalService;
+
 	@BeanReference(type = PlacePersistence.class)
 	protected PlacePersistence placePersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PriceLocalService.class)
-	protected eu.strasbourg.service.place.service.PriceLocalService priceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PriceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PriceLocalService
+		priceLocalService;
+
 	@BeanReference(type = PricePersistence.class)
 	protected PricePersistence pricePersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.PublicHolidayLocalService.class)
-	protected eu.strasbourg.service.place.service.PublicHolidayLocalService publicHolidayLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.PublicHolidayLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.PublicHolidayLocalService
+		publicHolidayLocalService;
+
 	@BeanReference(type = PublicHolidayPersistence.class)
 	protected PublicHolidayPersistence publicHolidayPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class)
-	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService
+		scheduleExceptionLocalService;
+
 	@BeanReference(type = ScheduleExceptionPersistence.class)
 	protected ScheduleExceptionPersistence scheduleExceptionPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.SlotLocalService.class)
-	protected eu.strasbourg.service.place.service.SlotLocalService slotLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.SlotLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.SlotLocalService
+		slotLocalService;
+
 	@BeanReference(type = SlotPersistence.class)
 	protected SlotPersistence slotPersistence;
-	@BeanReference(type = eu.strasbourg.service.place.service.SubPlaceLocalService.class)
-	protected eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.SubPlaceLocalService.class
+	)
+	protected eu.strasbourg.service.place.service.SubPlaceLocalService
+		subPlaceLocalService;
+
 	@BeanReference(type = SubPlacePersistence.class)
 	protected SubPlacePersistence subPlacePersistence;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

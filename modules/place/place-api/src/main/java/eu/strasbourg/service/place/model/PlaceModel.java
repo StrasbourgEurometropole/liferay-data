@@ -1983,8 +1983,8 @@ public interface PlaceModel
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
-	public void setInstagramURL(String instagramURL, Locale locale,
-		Locale defaultLocale);
+	public void setInstagramURL(
+		String instagramURL, Locale locale, Locale defaultLocale);
 
 	public void setInstagramURLCurrentLanguageId(String languageId);
 
@@ -2001,8 +2001,8 @@ public interface PlaceModel
 	 * @param instagramURLMap the locales and localized instagram urls of this place
 	 * @param defaultLocale the default locale
 	 */
-	public void setInstagramURLMap(Map<Locale, String> instagramURLMap,
-		Locale defaultLocale);
+	public void setInstagramURLMap(
+		Map<Locale, String> instagramURLMap, Locale defaultLocale);
 
 	/**
 	 * Returns the instagram label of this place.
@@ -2084,8 +2084,8 @@ public interface PlaceModel
 	 * @param locale the locale of the language
 	 * @param defaultLocale the default locale
 	 */
-	public void setInstagramLabel(String instagramLabel, Locale locale,
-		Locale defaultLocale);
+	public void setInstagramLabel(
+		String instagramLabel, Locale locale, Locale defaultLocale);
 
 	public void setInstagramLabelCurrentLanguageId(String languageId);
 
@@ -2102,8 +2102,8 @@ public interface PlaceModel
 	 * @param instagramLabelMap the locales and localized instagram labels of this place
 	 * @param defaultLocale the default locale
 	 */
-	public void setInstagramLabelMap(Map<Locale, String> instagramLabelMap,
-		Locale defaultLocale);
+	public void setInstagramLabelMap(
+		Map<Locale, String> instagramLabelMap, Locale defaultLocale);
 
 	/**
 	 * Returns the acces map of this place.

@@ -335,7 +335,10 @@ public abstract class PeriodLocalServiceBaseImpl
 	 *
 	 * @return the google my business historic local service
 	 */
-	public eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService getGoogleMyBusinessHistoricLocalService() {
+	public
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			getGoogleMyBusinessHistoricLocalService() {
+
 		return googleMyBusinessHistoricLocalService;
 	}
 
@@ -345,8 +348,11 @@ public abstract class PeriodLocalServiceBaseImpl
 	 * @param googleMyBusinessHistoricLocalService the google my business historic local service
 	 */
 	public void setGoogleMyBusinessHistoricLocalService(
-		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService) {
-		this.googleMyBusinessHistoricLocalService = googleMyBusinessHistoricLocalService;
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService) {
+
+		this.googleMyBusinessHistoricLocalService =
+			googleMyBusinessHistoricLocalService;
 	}
 
 	/**
@@ -354,7 +360,9 @@ public abstract class PeriodLocalServiceBaseImpl
 	 *
 	 * @return the google my business historic persistence
 	 */
-	public GoogleMyBusinessHistoricPersistence getGoogleMyBusinessHistoricPersistence() {
+	public GoogleMyBusinessHistoricPersistence
+		getGoogleMyBusinessHistoricPersistence() {
+
 		return googleMyBusinessHistoricPersistence;
 	}
 
@@ -364,8 +372,11 @@ public abstract class PeriodLocalServiceBaseImpl
 	 * @param googleMyBusinessHistoricPersistence the google my business historic persistence
 	 */
 	public void setGoogleMyBusinessHistoricPersistence(
-		GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence) {
-		this.googleMyBusinessHistoricPersistence = googleMyBusinessHistoricPersistence;
+		GoogleMyBusinessHistoricPersistence
+			googleMyBusinessHistoricPersistence) {
+
+		this.googleMyBusinessHistoricPersistence =
+			googleMyBusinessHistoricPersistence;
 	}
 
 	/**
@@ -836,10 +847,17 @@ public abstract class PeriodLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class)
-	protected eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class
+	)
+	protected
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService;
+
 	@BeanReference(type = GoogleMyBusinessHistoricPersistence.class)
-	protected GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence;
+	protected GoogleMyBusinessHistoricPersistence
+		googleMyBusinessHistoricPersistence;
+
 	@BeanReference(type = PeriodLocalService.class)
 	protected PeriodLocalService periodLocalService;
 

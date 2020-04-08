@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.place.model.Place;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Place in entity cache.
  *
  * @author Angelique Zunino Champougny
- * @see Place
  * @generated
  */
 @ProviderType
 public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -213,7 +212,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		PlaceImpl placeImpl = new PlaceImpl();
 
 		if (uuid == null) {
-			placeImpl.setUuid(StringPool.BLANK);
+			placeImpl.setUuid("");
 		}
 		else {
 			placeImpl.setUuid(uuid);
@@ -225,7 +224,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setUserId(userId);
 
 		if (userName == null) {
-			placeImpl.setUserName(StringPool.BLANK);
+			placeImpl.setUserName("");
 		}
 		else {
 			placeImpl.setUserName(userName);
@@ -256,7 +255,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			placeImpl.setStatusByUserName(StringPool.BLANK);
+			placeImpl.setStatusByUserName("");
 		}
 		else {
 			placeImpl.setStatusByUserName(statusByUserName);
@@ -270,112 +269,112 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 
 		if (SIGid == null) {
-			placeImpl.setSIGid(StringPool.BLANK);
+			placeImpl.setSIGid("");
 		}
 		else {
 			placeImpl.setSIGid(SIGid);
 		}
 
 		if (name == null) {
-			placeImpl.setName(StringPool.BLANK);
+			placeImpl.setName("");
 		}
 		else {
 			placeImpl.setName(name);
 		}
 
 		if (addressComplement == null) {
-			placeImpl.setAddressComplement(StringPool.BLANK);
+			placeImpl.setAddressComplement("");
 		}
 		else {
 			placeImpl.setAddressComplement(addressComplement);
 		}
 
 		if (addressStreet == null) {
-			placeImpl.setAddressStreet(StringPool.BLANK);
+			placeImpl.setAddressStreet("");
 		}
 		else {
 			placeImpl.setAddressStreet(addressStreet);
 		}
 
 		if (addressDistribution == null) {
-			placeImpl.setAddressDistribution(StringPool.BLANK);
+			placeImpl.setAddressDistribution("");
 		}
 		else {
 			placeImpl.setAddressDistribution(addressDistribution);
 		}
 
 		if (addressZipCode == null) {
-			placeImpl.setAddressZipCode(StringPool.BLANK);
+			placeImpl.setAddressZipCode("");
 		}
 		else {
 			placeImpl.setAddressZipCode(addressZipCode);
 		}
 
 		if (addressCountry == null) {
-			placeImpl.setAddressCountry(StringPool.BLANK);
+			placeImpl.setAddressCountry("");
 		}
 		else {
 			placeImpl.setAddressCountry(addressCountry);
 		}
 
 		if (mercatorX == null) {
-			placeImpl.setMercatorX(StringPool.BLANK);
+			placeImpl.setMercatorX("");
 		}
 		else {
 			placeImpl.setMercatorX(mercatorX);
 		}
 
 		if (mercatorY == null) {
-			placeImpl.setMercatorY(StringPool.BLANK);
+			placeImpl.setMercatorY("");
 		}
 		else {
 			placeImpl.setMercatorY(mercatorY);
 		}
 
 		if (RGF93X == null) {
-			placeImpl.setRGF93X(StringPool.BLANK);
+			placeImpl.setRGF93X("");
 		}
 		else {
 			placeImpl.setRGF93X(RGF93X);
 		}
 
 		if (RGF93Y == null) {
-			placeImpl.setRGF93Y(StringPool.BLANK);
+			placeImpl.setRGF93Y("");
 		}
 		else {
 			placeImpl.setRGF93Y(RGF93Y);
 		}
 
 		if (locationId == null) {
-			placeImpl.setLocationId(StringPool.BLANK);
+			placeImpl.setLocationId("");
 		}
 		else {
 			placeImpl.setLocationId(locationId);
 		}
 
 		if (alias == null) {
-			placeImpl.setAlias(StringPool.BLANK);
+			placeImpl.setAlias("");
 		}
 		else {
 			placeImpl.setAlias(alias);
 		}
 
 		if (presentation == null) {
-			placeImpl.setPresentation(StringPool.BLANK);
+			placeImpl.setPresentation("");
 		}
 		else {
 			placeImpl.setPresentation(presentation);
 		}
 
 		if (serviceAndActivities == null) {
-			placeImpl.setServiceAndActivities(StringPool.BLANK);
+			placeImpl.setServiceAndActivities("");
 		}
 		else {
 			placeImpl.setServiceAndActivities(serviceAndActivities);
 		}
 
 		if (characteristics == null) {
-			placeImpl.setCharacteristics(StringPool.BLANK);
+			placeImpl.setCharacteristics("");
 		}
 		else {
 			placeImpl.setCharacteristics(characteristics);
@@ -384,7 +383,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setSubjectToPublicHoliday(subjectToPublicHoliday);
 
 		if (exceptionalSchedule == null) {
-			placeImpl.setExceptionalSchedule(StringPool.BLANK);
+			placeImpl.setExceptionalSchedule("");
 		}
 		else {
 			placeImpl.setExceptionalSchedule(exceptionalSchedule);
@@ -393,14 +392,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setDisplayEvents(displayEvents);
 
 		if (additionalInformation == null) {
-			placeImpl.setAdditionalInformation(StringPool.BLANK);
+			placeImpl.setAdditionalInformation("");
 		}
 		else {
 			placeImpl.setAdditionalInformation(additionalInformation);
 		}
 
 		if (contenuTooltipCarto == null) {
-			placeImpl.setContenuTooltipCarto(StringPool.BLANK);
+			placeImpl.setContenuTooltipCarto("");
 		}
 		else {
 			placeImpl.setContenuTooltipCarto(contenuTooltipCarto);
@@ -409,91 +408,91 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setHasURLSchedule(hasURLSchedule);
 
 		if (scheduleLinkName == null) {
-			placeImpl.setScheduleLinkName(StringPool.BLANK);
+			placeImpl.setScheduleLinkName("");
 		}
 		else {
 			placeImpl.setScheduleLinkName(scheduleLinkName);
 		}
 
 		if (scheduleLinkURL == null) {
-			placeImpl.setScheduleLinkURL(StringPool.BLANK);
+			placeImpl.setScheduleLinkURL("");
 		}
 		else {
 			placeImpl.setScheduleLinkURL(scheduleLinkURL);
 		}
 
 		if (phone == null) {
-			placeImpl.setPhone(StringPool.BLANK);
+			placeImpl.setPhone("");
 		}
 		else {
 			placeImpl.setPhone(phone);
 		}
 
 		if (mail == null) {
-			placeImpl.setMail(StringPool.BLANK);
+			placeImpl.setMail("");
 		}
 		else {
 			placeImpl.setMail(mail);
 		}
 
 		if (siteURL == null) {
-			placeImpl.setSiteURL(StringPool.BLANK);
+			placeImpl.setSiteURL("");
 		}
 		else {
 			placeImpl.setSiteURL(siteURL);
 		}
 
 		if (siteLabel == null) {
-			placeImpl.setSiteLabel(StringPool.BLANK);
+			placeImpl.setSiteLabel("");
 		}
 		else {
 			placeImpl.setSiteLabel(siteLabel);
 		}
 
 		if (facebookURL == null) {
-			placeImpl.setFacebookURL(StringPool.BLANK);
+			placeImpl.setFacebookURL("");
 		}
 		else {
 			placeImpl.setFacebookURL(facebookURL);
 		}
 
 		if (facebookLabel == null) {
-			placeImpl.setFacebookLabel(StringPool.BLANK);
+			placeImpl.setFacebookLabel("");
 		}
 		else {
 			placeImpl.setFacebookLabel(facebookLabel);
 		}
 
 		if (instagramURL == null) {
-			placeImpl.setInstagramURL(StringPool.BLANK);
+			placeImpl.setInstagramURL("");
 		}
 		else {
 			placeImpl.setInstagramURL(instagramURL);
 		}
 
 		if (instagramLabel == null) {
-			placeImpl.setInstagramLabel(StringPool.BLANK);
+			placeImpl.setInstagramLabel("");
 		}
 		else {
 			placeImpl.setInstagramLabel(instagramLabel);
 		}
 
 		if (accesMap == null) {
-			placeImpl.setAccesMap(StringPool.BLANK);
+			placeImpl.setAccesMap("");
 		}
 		else {
 			placeImpl.setAccesMap(accesMap);
 		}
 
 		if (access == null) {
-			placeImpl.setAccess(StringPool.BLANK);
+			placeImpl.setAccess("");
 		}
 		else {
 			placeImpl.setAccess(access);
 		}
 
 		if (accessForDisabled == null) {
-			placeImpl.setAccessForDisabled(StringPool.BLANK);
+			placeImpl.setAccessForDisabled("");
 		}
 		else {
 			placeImpl.setAccessForDisabled(accessForDisabled);
@@ -507,14 +506,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setRTEnabled(RTEnabled);
 
 		if (RTType == null) {
-			placeImpl.setRTType(StringPool.BLANK);
+			placeImpl.setRTType("");
 		}
 		else {
 			placeImpl.setRTType(RTType);
 		}
 
 		if (RTExternalId == null) {
-			placeImpl.setRTExternalId(StringPool.BLANK);
+			placeImpl.setRTExternalId("");
 		}
 		else {
 			placeImpl.setRTExternalId(RTExternalId);
@@ -525,7 +524,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setRTCapacity(RTCapacity);
 
 		if (RTStatus == null) {
-			placeImpl.setRTStatus(StringPool.BLANK);
+			placeImpl.setRTStatus("");
 		}
 		else {
 			placeImpl.setRTStatus(RTStatus);
@@ -543,14 +542,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setImageHeight(imageHeight);
 
 		if (imageIds == null) {
-			placeImpl.setImageIds(StringPool.BLANK);
+			placeImpl.setImageIds("");
 		}
 		else {
 			placeImpl.setImageIds(imageIds);
 		}
 
 		if (videosIds == null) {
-			placeImpl.setVideosIds(StringPool.BLANK);
+			placeImpl.setVideosIds("");
 		}
 		else {
 			placeImpl.setVideosIds(videosIds);
@@ -559,7 +558,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		placeImpl.setPriceId(priceId);
 
 		if (documentsIds == null) {
-			placeImpl.setDocumentsIds(StringPool.BLANK);
+			placeImpl.setDocumentsIds("");
 		}
 		else {
 			placeImpl.setDocumentsIds(documentsIds);
@@ -665,10 +664,9 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -683,7 +681,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -698,7 +696,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -707,112 +705,112 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (SIGid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(SIGid);
 		}
 
 		if (name == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(name);
 		}
 
 		if (addressComplement == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(addressComplement);
 		}
 
 		if (addressStreet == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(addressStreet);
 		}
 
 		if (addressDistribution == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(addressDistribution);
 		}
 
 		if (addressZipCode == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(addressZipCode);
 		}
 
 		if (addressCountry == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(addressCountry);
 		}
 
 		if (mercatorX == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mercatorX);
 		}
 
 		if (mercatorY == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mercatorY);
 		}
 
 		if (RGF93X == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(RGF93X);
 		}
 
 		if (RGF93Y == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(RGF93Y);
 		}
 
 		if (locationId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(locationId);
 		}
 
 		if (alias == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(alias);
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(presentation);
 		}
 
 		if (serviceAndActivities == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(serviceAndActivities);
 		}
 
 		if (characteristics == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(characteristics);
@@ -821,7 +819,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeBoolean(subjectToPublicHoliday);
 
 		if (exceptionalSchedule == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(exceptionalSchedule);
@@ -830,14 +828,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeBoolean(displayEvents);
 
 		if (additionalInformation == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(additionalInformation);
 		}
 
 		if (contenuTooltipCarto == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(contenuTooltipCarto);
@@ -846,91 +844,91 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeBoolean(hasURLSchedule);
 
 		if (scheduleLinkName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(scheduleLinkName);
 		}
 
 		if (scheduleLinkURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(scheduleLinkURL);
 		}
 
 		if (phone == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(phone);
 		}
 
 		if (mail == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(mail);
 		}
 
 		if (siteURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(siteURL);
 		}
 
 		if (siteLabel == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(siteLabel);
 		}
 
 		if (facebookURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(facebookURL);
 		}
 
 		if (facebookLabel == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(facebookLabel);
 		}
 
 		if (instagramURL == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(instagramURL);
 		}
 
 		if (instagramLabel == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(instagramLabel);
 		}
 
 		if (accesMap == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(accesMap);
 		}
 
 		if (access == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(access);
 		}
 
 		if (accessForDisabled == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(accessForDisabled);
@@ -949,14 +947,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeBoolean(RTEnabled);
 
 		if (RTType == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(RTType);
 		}
 
 		if (RTExternalId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(RTExternalId);
@@ -969,7 +967,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeLong(RTCapacity);
 
 		if (RTStatus == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(RTStatus);
@@ -984,14 +982,14 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeInt(imageHeight);
 
 		if (imageIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(imageIds);
 		}
 
 		if (videosIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(videosIds);
@@ -1000,7 +998,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		objectOutput.writeLong(priceId);
 
 		if (documentsIds == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(documentsIds);
@@ -1029,8 +1027,11 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String addressCountry;
 	public String mercatorX;
 	public String mercatorY;
+
 	public String RGF93X;
+
 	public String RGF93Y;
+
 	public String locationId;
 	public String alias;
 	public String presentation;
@@ -1075,4 +1076,5 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String videosIds;
 	public long priceId;
 	public String documentsIds;
+
 }
