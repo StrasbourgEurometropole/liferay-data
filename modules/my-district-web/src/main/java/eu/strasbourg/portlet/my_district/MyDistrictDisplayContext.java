@@ -29,6 +29,7 @@ import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.SearchHelper;
@@ -366,7 +367,8 @@ public class MyDistrictDisplayContext {
     }
 
     public String getJournalArticleImage(JournalArticle article, Locale locale) {
-        return getJournalArticleFieldValue(article, "thumbnail", locale);
+        String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+        return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
     public String getJSONEncodedString(String source) {
