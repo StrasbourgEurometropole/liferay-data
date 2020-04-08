@@ -3,12 +3,12 @@ package eu.strasbourg.service.gtfs.scheduler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.scheduler.SchedulerEngineHelper;
-import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
+import com.liferay.portal.kernel.scheduler.*;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
 
+import eu.strasbourg.service.oidc.service.PublikUserLocalService;
 import org.osgi.service.component.annotations.*;
 
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
@@ -26,17 +27,19 @@ import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
 		immediate = true, 
 		service = ImportGTFSMessageListener.class
 )
-public class ImportGTFSMessageListener extends BaseSchedulerEntryMessageListener {
+public class ImportGTFSMessageListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
-		// Tous les jours a 4h
-		schedulerEntryImpl.setTrigger(TriggerFactoryUtil.createTrigger(
-			getEventListenerClass(), getEventListenerClass(), "0 0 3 * * ?"));
-		
-		_schedulerEngineHelper.register(this, schedulerEntryImpl,
-			DestinationNames.SCHEDULER_DISPATCH);
+		String listenerClass = getClass().getName();
+
+		// Création du trigger "Tous les jours à 3h"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, null, null, "0 0 3 * * ?");
+
+		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
+				listenerClass, trigger);
 	}
 
 	@Deactivate
@@ -46,7 +49,7 @@ public class ImportGTFSMessageListener extends BaseSchedulerEntryMessageListener
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
-		this._log.info("Start importing GTFS");
+		log.info("Start importing GTFS");
 		
 		// Creation du contexte de la requete pour effectuer les actions dans Global
 		ServiceContext sc = new ServiceContext();
@@ -58,7 +61,7 @@ public class ImportGTFSMessageListener extends BaseSchedulerEntryMessageListener
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 		} catch (PortalException e) {
-			_log.error(e);
+			log.error(e);
 		}
 				
 		// Creation de l'entree d'historique d'import
@@ -73,23 +76,29 @@ public class ImportGTFSMessageListener extends BaseSchedulerEntryMessageListener
 		// Envoie du mail de rapport
 		importHistoric.sendMail();
 		
-		this._log.info("Finish exporting GTFS");
+		log.info("Finish exporting GTFS");
 	}
 	
 	@Reference(unbind = "-")
     protected void setImportHistoricLocalService(ImportHistoricLocalService importHistoricLocalService) {
 		_importHistoricLocalService = importHistoricLocalService;
     }
-	
-	@Reference(unbind = "-")
-    protected void setSchedulerEngineHelper(SchedulerEngineHelper schedulerEngineHelper) {
-        _schedulerEngineHelper = schedulerEngineHelper;
-    }
-	
-	private volatile SchedulerEngineHelper _schedulerEngineHelper;
-	
-	private ImportHistoricLocalService _importHistoricLocalService;
 
-	private final Log _log = LogFactoryUtil.getLog(this.getClass());
+	@Reference(unbind = "-")
+	protected void setSchedulerEngineHelper(
+			SchedulerEngineHelper schedulerEngineHelper) {
+
+		_schedulerEngineHelper = schedulerEngineHelper;
+	}
+
+	@Reference(unbind = "-")
+	protected void setTriggerFactory(TriggerFactory triggerFactory) {
+		_triggerFactory = triggerFactory;
+	}
+
+	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	private ImportHistoricLocalService _importHistoricLocalService;
+	private TriggerFactory _triggerFactory;
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 
 }
