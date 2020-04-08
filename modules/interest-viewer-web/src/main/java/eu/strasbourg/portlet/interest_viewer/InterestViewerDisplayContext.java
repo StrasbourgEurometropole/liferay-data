@@ -53,6 +53,7 @@ import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.SearchHelper;
 
@@ -386,7 +387,8 @@ public class InterestViewerDisplayContext {
 	}
 
 	public String getJournalArticleImage(JournalArticle article, Locale locale) {
-		return getJournalArticleFieldValue(article, "thumbnail", locale);
+		String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+		return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
 	}
 
 	public boolean isMag(String[] tagNames) {
