@@ -59,7 +59,14 @@ public class SignalementAssetRenderer extends BaseJSPAssetRenderer<Signalement> 
 	
 	@Override
 	public String getJspPath(HttpServletRequest request, String template) {
-		return null;
+		if (template.equals(TEMPLATE_ABSTRACT) ||
+				template.equals(TEMPLATE_FULL_CONTENT)) {
+
+			return "/signalement/asset/" + template + ".jsp";
+		}
+		else {
+			return null;
+		}
 	}
 	
 	@Override

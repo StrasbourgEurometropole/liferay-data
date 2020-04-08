@@ -38,12 +38,30 @@ Mettre en place le lancement de Docker au démarrage de la machine :
 $ systemctl enable docker
 ```
 
+Exposer les ports nécéssaires à l'utilisation de Docker Swarm :
+
+```shell
+$ firewall-cmd --permanent --add-port=2376/tcp
+$ firewall-cmd --permanent --add-port=2377/tcp
+$ firewall-cmd --permanent --add-port=7946/tcp
+$ firewall-cmd --permanent --add-port=80/tcp
+$ firewall-cmd --permanent --add-port=7946/udp
+$ firewall-cmd --permanent --add-port=4789/udp
+```
+
+Redémarer le firewall et Docker :
+
+```shell
+$ firewall-cmd --reload
+$ systemctl restart docker
+```
+
 ## Installation de Docker-compose
 
 Ajout, téléchargement et installation de la dernière version du package Docker-compose :
 
 ```shell
-$ curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+$ curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
 Ajout des droits sur l'éxécutable :
@@ -57,16 +75,20 @@ $ chmod +x /usr/local/bin/docker-compose
 Choisir le noeud destiné à être `Manager` et initialiser le `Swarm` dessus :
 
 ```shell
-$ docker swarm init
+$ clear
 ```
 
-## Adapation de l'environnement pour ElasticSearch
+## Installation des outils utiles (si non présents par défaut)
 
-ElasticSearch utilise le répertoire `mmapfs` pour stocker ses indices. Ce dernier sur CentOS dispose d'une limite de stockage trop basse pour ElasticSearch et demande un ajustement avec la commande suivante (à faire sur les deux environnements) :
-
-```shell
-sysctl -w vm.max_map_count=262144
+### Git
 ```
+yum install git
+```
+### Nano
+```
+yum install nano
+```
+
 
 ## Création de l'aborescence des stacks
 
@@ -77,8 +99,7 @@ Pour lancer ce script, lancer la commande suivante où `DATA_PATH` est le chemin
 ```shell
 sh buil-env.sh DATA_PATH
 
---> sh buil-env.sh /data/liferay-vanilla-data
---> sh buil-env.sh /data/liferay-custom-data
+--> sh buil-env.sh /data
 ```
 
 ## `Ready to start !`

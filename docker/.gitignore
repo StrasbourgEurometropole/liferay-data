@@ -1,9 +1,14 @@
 *.sql
 *.war
 *.jar
+!configs/liferay-ems/files/osgi/war/*
 *.log
 *.7z
 *.zip
 *.aatf
 *.tar.gz
+*/portal-ext.properties
+*/portal-setup-wizard.properties
 !images/mysql-upgrade/sources/pre-upgrade.sql
+!images/mysql-ems/sources/pre-request.sql
+!configs/liferay-ems/files/tomcat/*

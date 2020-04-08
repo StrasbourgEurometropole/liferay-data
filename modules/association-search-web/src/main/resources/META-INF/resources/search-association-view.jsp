@@ -56,7 +56,7 @@
                 <c:set value="${dc.getSortedCategories(dc.domainVocabulary, param.subSpeciality)}" var = "subSubSpecialities" />
                 <div class="widget subSubSpeciality" <c:if test="${empty param.subSpeciality || empty subSubSpecialities}">style="display: none;" </c:if>>
                     <div class="title content">
-                        <aui:select cssClass="toCustomSelect subSubSpecialities" id="subSubSpeciality" name="subSubSpeciality" label="sub-speciality">
+                        <aui:select cssClass="toCustomSelect subSubSpecialities" id="subSubSpeciality" name="subSubSpeciality" label="sub-sub-speciality">
                             <aui:option value="" disabled="disabled" />
                             <c:if test="${param.subSpeciality != null}">
                                  <c:forEach items="${subSubSpecialities}" var="category">
@@ -88,7 +88,7 @@
 	                </div>
                 </c:forEach>
             </div>
-            <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies) + 1}" />
+            <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />
             <div class="seu-btn-line">
                 <liferay-portlet:renderURL var="formURL" />
                 <button type="button" onclick="window.location.href = '${formURL}'" class="seu-btn-square seu-bordered seu-core">
@@ -151,7 +151,7 @@
                                 displayStyleGroupId="${themeDisplay.scopeGroupId}"
                                 entries="${dc.templateEntries }"
                             >
-                                <liferay-ui:asset-display
+                                <liferay-asset:asset-display
                                     assetEntry="${entry}"
                                     assetRenderer="${entry.assetRenderer}"
                                     assetRendererFactory="${entry.assetRendererFactory}"
@@ -228,6 +228,15 @@
 </main>
 
 
+<script>
+	$(document).ready(function() {
+        if($("#seu-grid--list01 li").length > 0) {
+            $('html,body').animate({scrollTop: $(".seu-view-results").offset().top - (($('.seu-nav-bottom #seu-main-menu').length > 0)?115:55)});
+        }
+	});
+
+</script>
+
 <liferay-util:body-top>
     <aui:script>
 		var homeURL = '${homeURL}';
@@ -236,12 +245,5 @@
 </liferay-util:body-top>
 
 <liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
 	<script	src="/o/associationsearchweb/js/search-association-main.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 </liferay-util:html-bottom>

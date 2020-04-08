@@ -183,6 +183,12 @@ public interface UserNotificationTypeLocalService
 		UserNotificationTypePK userNotificationTypePK);
 
 	/**
+	 * Retourne la liste des statuts de notification pour un utilisateur
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<UserNotificationType> getByPublikUserId(String publikUserId);
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

@@ -14,7 +14,8 @@ dependencies {
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
 	compileOnly group: 'org.json', name: 'org.json', version: '2.0'
-	
+	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
+
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project (':modules:utils')

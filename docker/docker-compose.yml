@@ -1,0 +1,68 @@
+version: '3.5'
+
+services:
+
+  elasticsearch:
+    image: elasticsearch-ems
+    build : ./images/elasticsearch-ems
+    environment:
+# --- For docker-compose (without Swarm mode) ----
+      - bootstrap.memory_lock=true
+      - cluster.name=LiferayElasticsearchCluster
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" 
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./configs/elasticsearch-ems/synonyms.txt:/usr/share/elasticsearch/config/analysis/synonyms.txt:ro
+      - ${DATA}/esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - backend-network
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1g
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:6.8.7
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend-network
+
+  liferay:
+    image: liferay-ems
+    build : ./images/liferay-ems
+    environment:
+      - JAVA_VERSION=zulu11
+    volumes:
+      - ./configs/liferay-ems:/mnt/liferay
+      - ./deploy:/liferay/deploy
+      - ${DATA}/liferay/doclib:/data/liferay/document_library
+      - ${DATA}/liferay/javamelody:/data/javamelody
+      - ${DATA}/liferay/import/agenda:/data/import/agenda
+      - ${DATA}/liferay/import/gtfs:/data/import/gtfs
+      - ${DATA}/liferay/logs/liferay:/opt/liferay/logs
+      - ${DATA}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
+    ports:
+      - 8080:8080
+      - 8009:8009
+    depends_on:
+      - elasticsearch
+    networks:
+      - backend-network
+
+
+networks:
+
+  backend-network:
+    name: backend-network
+#    driver: overlay

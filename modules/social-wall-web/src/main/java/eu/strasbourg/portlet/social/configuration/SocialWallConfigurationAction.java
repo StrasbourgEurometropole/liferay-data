@@ -87,8 +87,8 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 				.getPortletInstanceConfiguration(SocialWallConfiguration.class);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
-			request.setAttribute("instagramCreateDate", configuration.instagramCreateDate());
 			request.setAttribute("instagramToken", configuration.instagramToken());
+			request.setAttribute("instagramCreateDate", configuration.instagramCreateDate());
 			request.setAttribute("dailymotionAccountId", configuration.dailymotionAccountId());
 			request.setAttribute("facebookToken", configuration.facebookToken());
 			request.setAttribute("postCount", configuration.postCount());

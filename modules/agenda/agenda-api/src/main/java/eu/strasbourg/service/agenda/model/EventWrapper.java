@@ -1132,6 +1132,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
+		long groupId, java.util.Locale locale) {
+
+		return _event.getGeoJSON(groupId, locale);
+	}
+
+	/**
 	 * Returns the group ID of this event.
 	 *
 	 * @return the group ID of this event

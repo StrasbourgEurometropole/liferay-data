@@ -217,6 +217,18 @@ public class UserNotificationTypeLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne la liste des statuts de notification pour un utilisateur
+	 */
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.notification.model.UserNotificationType>
+			getByPublikUserId(String publikUserId) {
+
+		return _userNotificationTypeLocalService.getByPublikUserId(
+			publikUserId);
+	}
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

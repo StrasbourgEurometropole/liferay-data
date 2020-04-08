@@ -98,8 +98,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		{"addressZipCode", Types.VARCHAR}, {"addressCountry", Types.VARCHAR},
 		{"mercatorX", Types.VARCHAR}, {"mercatorY", Types.VARCHAR},
 		{"RGF93X", Types.VARCHAR}, {"RGF93Y", Types.VARCHAR},
-		{"alias_", Types.VARCHAR}, {"presentation", Types.CLOB},
-		{"serviceAndActivities", Types.CLOB}, {"characteristics", Types.CLOB},
+		{"locationId", Types.VARCHAR}, {"alias_", Types.VARCHAR},
+		{"presentation", Types.CLOB}, {"serviceAndActivities", Types.CLOB},
+		{"characteristics", Types.CLOB},
 		{"subjectToPublicHoliday", Types.BOOLEAN},
 		{"exceptionalSchedule", Types.CLOB}, {"displayEvents", Types.BOOLEAN},
 		{"additionalInformation", Types.CLOB},
@@ -108,6 +109,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		{"phone", Types.VARCHAR}, {"mail", Types.VARCHAR},
 		{"siteURL", Types.VARCHAR}, {"siteLabel", Types.VARCHAR},
 		{"facebookURL", Types.VARCHAR}, {"facebookLabel", Types.VARCHAR},
+		{"instagramURL", Types.VARCHAR}, {"instagramLabel", Types.VARCHAR},
 		{"accesMap", Types.VARCHAR}, {"access_", Types.CLOB},
 		{"accessForDisabled", Types.CLOB}, {"accessForBlind", Types.BOOLEAN},
 		{"accessForDeaf", Types.BOOLEAN},
@@ -151,6 +153,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("mercatorY", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("RGF93X", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("RGF93Y", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("locationId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("alias_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("presentation", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("serviceAndActivities", Types.CLOB);
@@ -169,6 +172,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("siteLabel", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookLabel", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("instagramURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("instagramLabel", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("accesMap", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("access_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("accessForDisabled", Types.CLOB);
@@ -195,7 +200,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
+		"create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,locationId VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,instagramURL STRING null,instagramLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 
@@ -276,6 +281,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setMercatorY(soapModel.getMercatorY());
 		model.setRGF93X(soapModel.getRGF93X());
 		model.setRGF93Y(soapModel.getRGF93Y());
+		model.setLocationId(soapModel.getLocationId());
 		model.setAlias(soapModel.getAlias());
 		model.setPresentation(soapModel.getPresentation());
 		model.setServiceAndActivities(soapModel.getServiceAndActivities());
@@ -294,6 +300,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		model.setSiteLabel(soapModel.getSiteLabel());
 		model.setFacebookURL(soapModel.getFacebookURL());
 		model.setFacebookLabel(soapModel.getFacebookLabel());
+		model.setInstagramURL(soapModel.getInstagramURL());
+		model.setInstagramLabel(soapModel.getInstagramLabel());
 		model.setAccesMap(soapModel.getAccesMap());
 		model.setAccess(soapModel.getAccess());
 		model.setAccessForDisabled(soapModel.getAccessForDisabled());
@@ -945,6 +953,26 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 			});
 		attributeGetterFunctions.put(
+			"locationId",
+			new Function<Place, Object>() {
+
+				@Override
+				public Object apply(Place place) {
+					return place.getLocationId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"locationId",
+			new BiConsumer<Place, Object>() {
+
+				@Override
+				public void accept(Place place, Object locationId) {
+					place.setLocationId((String)locationId);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"alias",
 			new Function<Place, Object>() {
 
@@ -1303,6 +1331,46 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				@Override
 				public void accept(Place place, Object facebookLabel) {
 					place.setFacebookLabel((String)facebookLabel);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"instagramURL",
+			new Function<Place, Object>() {
+
+				@Override
+				public Object apply(Place place) {
+					return place.getInstagramURL();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"instagramURL",
+			new BiConsumer<Place, Object>() {
+
+				@Override
+				public void accept(Place place, Object instagramURL) {
+					place.setInstagramURL((String)instagramURL);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"instagramLabel",
+			new Function<Place, Object>() {
+
+				@Override
+				public Object apply(Place place) {
+					return place.getInstagramLabel();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"instagramLabel",
+			new BiConsumer<Place, Object>() {
+
+				@Override
+				public void accept(Place place, Object instagramLabel) {
+					place.setInstagramLabel((String)instagramLabel);
 				}
 
 			});
@@ -2197,6 +2265,22 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	@Override
 	public void setRGF93Y(String RGF93Y) {
 		_RGF93Y = RGF93Y;
+	}
+
+	@JSON
+	@Override
+	public String getLocationId() {
+		if (_locationId == null) {
+			return "";
+		}
+		else {
+			return _locationId;
+		}
+	}
+
+	@Override
+	public void setLocationId(String locationId) {
+		_locationId = locationId;
 	}
 
 	@JSON
@@ -3736,6 +3820,223 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public String getInstagramURL() {
+		if (_instagramURL == null) {
+			return "";
+		}
+		else {
+			return _instagramURL;
+		}
+	}
+
+	@Override
+	public String getInstagramURL(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getInstagramURL(languageId);
+	}
+
+	@Override
+	public String getInstagramURL(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getInstagramURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getInstagramURL(String languageId) {
+		return LocalizationUtil.getLocalization(getInstagramURL(), languageId);
+	}
+
+	@Override
+	public String getInstagramURL(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getInstagramURL(), languageId, useDefault);
+	}
+
+	@Override
+	public String getInstagramURLCurrentLanguageId() {
+		return _instagramURLCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getInstagramURLCurrentValue() {
+		Locale locale = getLocale(_instagramURLCurrentLanguageId);
+
+		return getInstagramURL(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getInstagramURLMap() {
+		return LocalizationUtil.getLocalizationMap(getInstagramURL());
+	}
+
+	@Override
+	public void setInstagramURL(String instagramURL) {
+		_instagramURL = instagramURL;
+	}
+
+	@Override
+	public void setInstagramURL(String instagramURL, Locale locale) {
+		setInstagramURL(instagramURL, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setInstagramURL(
+		String instagramURL, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(instagramURL)) {
+			setInstagramURL(
+				LocalizationUtil.updateLocalization(
+					getInstagramURL(), "InstagramURL", instagramURL, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setInstagramURL(
+				LocalizationUtil.removeLocalization(
+					getInstagramURL(), "InstagramURL", languageId));
+		}
+	}
+
+	@Override
+	public void setInstagramURLCurrentLanguageId(String languageId) {
+		_instagramURLCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setInstagramURLMap(Map<Locale, String> instagramURLMap) {
+		setInstagramURLMap(instagramURLMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setInstagramURLMap(
+		Map<Locale, String> instagramURLMap, Locale defaultLocale) {
+
+		if (instagramURLMap == null) {
+			return;
+		}
+
+		setInstagramURL(
+			LocalizationUtil.updateLocalization(
+				instagramURLMap, getInstagramURL(), "InstagramURL",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
+	public String getInstagramLabel() {
+		if (_instagramLabel == null) {
+			return "";
+		}
+		else {
+			return _instagramLabel;
+		}
+	}
+
+	@Override
+	public String getInstagramLabel(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getInstagramLabel(languageId);
+	}
+
+	@Override
+	public String getInstagramLabel(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getInstagramLabel(languageId, useDefault);
+	}
+
+	@Override
+	public String getInstagramLabel(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getInstagramLabel(), languageId);
+	}
+
+	@Override
+	public String getInstagramLabel(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getInstagramLabel(), languageId, useDefault);
+	}
+
+	@Override
+	public String getInstagramLabelCurrentLanguageId() {
+		return _instagramLabelCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getInstagramLabelCurrentValue() {
+		Locale locale = getLocale(_instagramLabelCurrentLanguageId);
+
+		return getInstagramLabel(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getInstagramLabelMap() {
+		return LocalizationUtil.getLocalizationMap(getInstagramLabel());
+	}
+
+	@Override
+	public void setInstagramLabel(String instagramLabel) {
+		_instagramLabel = instagramLabel;
+	}
+
+	@Override
+	public void setInstagramLabel(String instagramLabel, Locale locale) {
+		setInstagramLabel(instagramLabel, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setInstagramLabel(
+		String instagramLabel, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(instagramLabel)) {
+			setInstagramLabel(
+				LocalizationUtil.updateLocalization(
+					getInstagramLabel(), "InstagramLabel", instagramLabel,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setInstagramLabel(
+				LocalizationUtil.removeLocalization(
+					getInstagramLabel(), "InstagramLabel", languageId));
+		}
+	}
+
+	@Override
+	public void setInstagramLabelCurrentLanguageId(String languageId) {
+		_instagramLabelCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setInstagramLabelMap(Map<Locale, String> instagramLabelMap) {
+		setInstagramLabelMap(instagramLabelMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setInstagramLabelMap(
+		Map<Locale, String> instagramLabelMap, Locale defaultLocale) {
+
+		if (instagramLabelMap == null) {
+			return;
+		}
+
+		setInstagramLabel(
+			LocalizationUtil.updateLocalization(
+				instagramLabelMap, getInstagramLabel(), "InstagramLabel",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public String getAccesMap() {
 		if (_accesMap == null) {
 			return "";
@@ -4585,6 +4886,28 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			}
 		}
 
+		Map<Locale, String> instagramURLMap = getInstagramURLMap();
+
+		for (Map.Entry<Locale, String> entry : instagramURLMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> instagramLabelMap = getInstagramLabelMap();
+
+		for (Map.Entry<Locale, String> entry : instagramLabelMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> accesMapMap = getAccesMapMap();
 
 		for (Map.Entry<Locale, String> entry : accesMapMap.entrySet()) {
@@ -4807,6 +5130,28 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				getFacebookLabel(defaultLocale), defaultLocale, defaultLocale);
 		}
 
+		String instagramURL = getInstagramURL(defaultLocale);
+
+		if (Validator.isNull(instagramURL)) {
+			setInstagramURL(
+				getInstagramURL(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setInstagramURL(
+				getInstagramURL(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String instagramLabel = getInstagramLabel(defaultLocale);
+
+		if (Validator.isNull(instagramLabel)) {
+			setInstagramLabel(
+				getInstagramLabel(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setInstagramLabel(
+				getInstagramLabel(defaultLocale), defaultLocale, defaultLocale);
+		}
+
 		String accesMap = getAccesMap(defaultLocale);
 
 		if (Validator.isNull(accesMap)) {
@@ -4877,6 +5222,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setMercatorY(getMercatorY());
 		placeImpl.setRGF93X(getRGF93X());
 		placeImpl.setRGF93Y(getRGF93Y());
+		placeImpl.setLocationId(getLocationId());
 		placeImpl.setAlias(getAlias());
 		placeImpl.setPresentation(getPresentation());
 		placeImpl.setServiceAndActivities(getServiceAndActivities());
@@ -4895,6 +5241,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setSiteLabel(getSiteLabel());
 		placeImpl.setFacebookURL(getFacebookURL());
 		placeImpl.setFacebookLabel(getFacebookLabel());
+		placeImpl.setInstagramURL(getInstagramURL());
+		placeImpl.setInstagramLabel(getInstagramLabel());
 		placeImpl.setAccesMap(getAccesMap());
 		placeImpl.setAccess(getAccess());
 		placeImpl.setAccessForDisabled(getAccessForDisabled());
@@ -5169,6 +5517,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.RGF93Y = null;
 		}
 
+		placeCacheModel.locationId = getLocationId();
+
+		String locationId = placeCacheModel.locationId;
+
+		if ((locationId != null) && (locationId.length() == 0)) {
+			placeCacheModel.locationId = null;
+		}
+
 		placeCacheModel.alias = getAlias();
 
 		String alias = placeCacheModel.alias;
@@ -5301,6 +5657,22 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 		if ((facebookLabel != null) && (facebookLabel.length() == 0)) {
 			placeCacheModel.facebookLabel = null;
+		}
+
+		placeCacheModel.instagramURL = getInstagramURL();
+
+		String instagramURL = placeCacheModel.instagramURL;
+
+		if ((instagramURL != null) && (instagramURL.length() == 0)) {
+			placeCacheModel.instagramURL = null;
+		}
+
+		placeCacheModel.instagramLabel = getInstagramLabel();
+
+		String instagramLabel = placeCacheModel.instagramLabel;
+
+		if ((instagramLabel != null) && (instagramLabel.length() == 0)) {
+			placeCacheModel.instagramLabel = null;
 		}
 
 		placeCacheModel.accesMap = getAccesMap();
@@ -5512,6 +5884,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	private String _RGF93Y;
 
+	private String _locationId;
 	private String _alias;
 	private String _aliasCurrentLanguageId;
 	private String _presentation;
@@ -5543,6 +5916,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _facebookURLCurrentLanguageId;
 	private String _facebookLabel;
 	private String _facebookLabelCurrentLanguageId;
+	private String _instagramURL;
+	private String _instagramURLCurrentLanguageId;
+	private String _instagramLabel;
+	private String _instagramLabelCurrentLanguageId;
 	private String _accesMap;
 	private String _accesMapCurrentLanguageId;
 	private String _access;
