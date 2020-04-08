@@ -4,15 +4,15 @@ import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTempla
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-import eu.strasbourg.service.activity.model.ActivityCourse;
-import eu.strasbourg.service.activity.model.ActivityOrganizer;
-import eu.strasbourg.service.activity.model.Association;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.osgi.service.component.annotations.Component;
+
+import eu.strasbourg.service.activity.model.Association;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB }, service = TemplateHandler.class)

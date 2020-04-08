@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -38,8 +39,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -58,11 +57,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component(
@@ -79,8 +74,8 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	private static final String TITLE = "title";
 	private static final String DESCRIPTION = "description";
 	private static final String IN_THE_NAME_OF = "inTheNameOf";
-	private static final String DISTRICT = "district";
-	private static final String THEMATIC = "thematic";
+	private static final String DISTRICT = "quartier";
+	private static final String THEMATIC = "theme";
 	private static final String PROJECT = "project";
 	private static final String PLACE = "place";
 	private static final String PHOTO = "photo";
@@ -263,14 +258,20 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 			context.put("footerImage", btnImage.toString());
 			context.put("Title", this.title);
 			context.put("Message", this.description);
-			
-		  	Configuration configuration = new Configuration(Configuration.getVersion());
-			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
-			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-			
-			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
-			StringWriter bodyWriter = new StringWriter();
-			bodyTemplate.process(context, bodyWriter);
+
+            StringWriter out = new StringWriter();
+
+            //Chargement du template contenant le corps du mail
+            TemplateResource templateResourceBody = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("META-INF/resources/templates/contact-mail-copy-body-fr_FR.ftl")));
+            Template bodyTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+            // Traitement du template corps
+            bodyTemplate.putAll(context);
+            bodyTemplate.processTemplate(out);
+            String mailBody = out.toString();
 			
 			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submit.initiative.mail.information");
 			
@@ -282,8 +283,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
-					bodyWriter.toString());
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();

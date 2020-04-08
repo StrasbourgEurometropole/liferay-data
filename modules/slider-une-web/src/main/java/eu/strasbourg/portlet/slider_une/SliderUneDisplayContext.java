@@ -5,6 +5,9 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -16,6 +19,8 @@ import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import eu.strasbourg.portlet.slider_une.configuration.SliderUneConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.FileEntryHelper;
 
 import javax.portlet.RenderRequest;
 import java.io.StringReader;
@@ -59,11 +64,7 @@ public class SliderUneDisplayContext {
         if(Validator.isNotNull(virtualHostName) && ! stagingGroup)
             home = "";
         else {
-            try {
-                home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
-            } catch (PortalException e) {
-                e.printStackTrace();
-            }
+            home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
         }
         return home;
     }
@@ -136,7 +137,8 @@ public class SliderUneDisplayContext {
     }
 
     public String getJournalArticleImage(JournalArticle article, Locale locale) {
-        return getJournalArticleFieldValue(article, "thumbnail", locale);
+        String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+        return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
     public boolean isMag(String[] tagNames) {

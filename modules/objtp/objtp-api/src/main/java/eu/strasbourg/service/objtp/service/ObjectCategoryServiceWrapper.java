@@ -26,10 +26,12 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @generated
  */
 @ProviderType
-public class ObjectCategoryServiceWrapper implements ObjectCategoryService,
-	ServiceWrapper<ObjectCategoryService> {
+public class ObjectCategoryServiceWrapper
+	implements ObjectCategoryService, ServiceWrapper<ObjectCategoryService> {
+
 	public ObjectCategoryServiceWrapper(
 		ObjectCategoryService objectCategoryService) {
+
 		_objectCategoryService = objectCategoryService;
 	}
 
@@ -39,12 +41,12 @@ public class ObjectCategoryServiceWrapper implements ObjectCategoryService,
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
+	public String getOSGiServiceIdentifier() {
 		return _objectCategoryService.getOSGiServiceIdentifier();
 	}
 
@@ -59,4 +61,5 @@ public class ObjectCategoryServiceWrapper implements ObjectCategoryService,
 	}
 
 	private ObjectCategoryService _objectCategoryService;
+
 }

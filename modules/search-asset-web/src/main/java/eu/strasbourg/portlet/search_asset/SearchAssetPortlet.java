@@ -37,10 +37,9 @@ import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JSONHelper;
-import eu.strasbourg.utils.LayoutHelper;
-import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.api.AssetPublisherTemplateHelperService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import org.osgi.service.component.annotations.Component;
@@ -57,17 +56,25 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component(immediate = true, configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration", property = {
-        "com.liferay.portlet.display-category=Strasbourg",
-        "com.liferay.portlet.instanceable=false",
-        "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
-        "com.liferay.portlet.single-page-application=false",
-        "javax.portlet.init-param.template-path=/",
-        "javax.portlet.init-param.view-template=/search-asset-view.jsp",
-        "javax.portlet.init-param.check-auth-token=false",
-        "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
-        "javax.portlet.resource-bundle=content.Language",
-        "javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
+@Component(
+        immediate = true,
+        configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration",
+        property = {
+            "com.liferay.portlet.display-category=Strasbourg",
+            "com.liferay.portlet.instanceable=false",
+            "com.liferay.portlet.css-class-wrapper=search-asset-portlet",
+            "com.liferay.portlet.single-page-application=false",
+            "javax.portlet.version=3.0",
+            "javax.portlet.init-param.template-path=/",
+            "javax.portlet.init-param.view-template=/search-asset-view.jsp",
+            "javax.portlet.init-param.check-auth-token=false",
+            "javax.portlet.name=" + StrasbourgPortletKeys.SEARCH_ASSET_WEB,
+            "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
+            "javax.portlet.resource-bundle=content.Language",
+            "javax.portlet.security-role-ref=power-user,user"
+        },
+        service = Portlet.class
+)
 public class SearchAssetPortlet extends MVCPortlet {
 
     public final static String PETITION = "eu.strasbourg.service.project.model.Petition";

@@ -143,17 +143,12 @@
 <liferay-util:html-bottom>
 	<script>
 		var managersIds = "${dc.campaign.managersIds}";
-		define._amd = define.amd;
-		define.amd = false;
 	</script>
 	<!-- Include Choices CSS -->
 	<link rel="stylesheet" href="/o/agendabo/css/vendors/choices.min.css">
 	<!-- Include Choices JavaScript -->
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
 	<script src="/o/agendabo/js/agenda-bo-edit-campaign.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 </liferay-util:html-bottom>
 <aui:script>
 	function <portlet:namespace />deleteEntity() {

@@ -16,6 +16,7 @@ jQuery(function() {
 			var facebookURLHasValue = $(namespaceAUI + 'facebookURL').val().length > 0;
 			if (!phoneHasValue && !siteURLHasValue && !mailHasValue && !facebookURLHasValue) {
                 $('.info-error').show();
+                $('html,body').animate({scrollTop: $('.info-error').offset().top - 100}, 'slow');
                 event.preventDefault();
 			} else{
                 $('.info-error').hide();

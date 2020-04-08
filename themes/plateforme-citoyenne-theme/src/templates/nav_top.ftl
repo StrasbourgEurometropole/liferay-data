@@ -95,7 +95,7 @@
                                     </a>
                                 <#else>
                                      <#assign a_css_class = item.isSelected()?then("active dropdown-toggle","dropdown-toggle") />
-                                    <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <a href="javascript:void(0)"  class="${a_css_class}" title="${item.getName()}" data-toggle="dropdown" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false">
                                         ${item.getName()} <span class="caret"></span>
                                     </a>
                                 </#if>

@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -27,6 +28,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 		"com.liferay.portlet.requires-namespaced-parameters=false",
 		"com.liferay.portlet.css-class-wrapper=sectorized-places-portlet", "javax.portlet.init-param.template-path=/",
 		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.name=" + StrasbourgPortletKeys.SECTORIZED_PLACES_WEB,
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class SectorizedPlacesPortlet extends MVCPortlet {
 

@@ -22,7 +22,7 @@
                     <aui:input type="radio" name="mode" value="aroundme" label="aroundme-mode" checked="${defaultConfig}"/>
                 </div>
 
-                <!-- Type de contenu -->
+                <!-- Type de contenu carto autre que widget -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="type-contenu" cssClass="noWidgetMode" >
 
@@ -30,11 +30,15 @@
                     <aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
 
-                    <!-- Evénements -->
+                    <!-- Arrêts -->
+                    <aui:input type="checkbox" name="typeContenu" id="arretContentType" value="eu.strasbourg.service.gtfs.model.Arret" label="eu.arrets"
+                        checked="${fn:contains(typesContenu, 'eu.strasbourg.service.gtfs.model.Arret') || !hasConfig}" ></aui:input>
+
+                    <!-- Evenements -->
                     <aui:input type="checkbox" name="typeContenu" id="eventContentType" value="eu.strasbourg.service.agenda.model.Event" label="eu.events"
                         checked="${fn:contains(typesContenu, 'eu.strasbourg.service.agenda.model.Event') || !hasConfig}" cssClass="typeEvent"></aui:input>
 
-                    <!-- Carto normale et page autour de moi -->
+                    <!-- Texte explicatif événement -->
                     <div class="eventExplanation">
                         <aui:input name="eventExplanationMap" value="${eventExplanation}" localized="true" type="editor" label="event-explanation-text" />
                     </div>
@@ -209,7 +213,7 @@
                     </p>
 
                     <div class="infoTrafficChecked">
-                        <!-- Mode widget -->
+                        <!-- Mode normal -->
                         <div class="normalMode">
 
                             <!-- Choix de la catégorie qui affichera l'info trafic -->
@@ -249,66 +253,70 @@
                         </div>
                     </div>
 
-                    <script>
-                        var refreshConfigDisplay = function() {
-                           var mode = $('.modeSelection input[type=radio]:checked').val();
-                           if (mode === 'widget') {
-                               $('.monStrasbourgMode').show();
-                               $('.widgetMode').show();
-                               $('.aroundMeMode').hide();
-                               $('.normalMode').hide();
-                               $('.noWidgetMode').hide();
-                           } else if (mode == 'aroundme') {
-                               $('.monStrasbourgMode').show();
-                               $('.widgetMode').hide();
-                               $('.aroundMeMode').show();
-                               $('.normalMode').hide();
-                               $('.noWidgetMode').show();
-                           } else {
-                               $('.monStrasbourgMode').hide();
-                               $('.widgetMode').hide();
-                               $('.aroundMeMode').hide();
-                               $('.normalMode').show();
-                               if(mode == 'district'){
-                                    $('.districtMode').show();
-                               }else{
-                                    $('.districtMode').hide();
-                               }
-                               $('.noWidgetMode').show();
-                           }
-                           if ($('.typeEvent').is(":checked")) {
-                               $('.eventExplanation').show();
-                           } else {
-                               $('.eventExplanation').hide();
-                           }
-                        }
-
-                        var refreshConfigTrafficDisplay = function() {
-                               if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
-                                   $('.infoTrafficChecked').show();
-                               } else {
-                                   $('.infoTrafficChecked').hide();
-                               }
-                        }
-                        $('.modeSelection input[type=radio]').on('change', function() {
-                            refreshConfigDisplay();
-                        })
-                        $('.typeEvent').on('change', function() {
-                               if ($(this).is(":checked")) {
-                                   $('.eventExplanation').show();
-                               } else {
-                                   $('.eventExplanation').hide();
-                               }
-                        })
-                        $('.infoTraffic input[type=checkbox]').on('change', function() {
-                            refreshConfigTrafficDisplay();
-                        })
-                        $(function() {
-                            refreshConfigDisplay();
-                            refreshConfigTrafficDisplay();
-                        })
-                    </script>
                 </aui:fieldset>
+                
+                <script>
+                    var refreshConfigDisplay = function() {
+                       var mode = $('.modeSelection input[type=radio]:checked').val();
+                       if (mode === 'widget') {
+                           $('.monStrasbourgMode').show();
+                           $('.widgetMode').show();
+                           $('.aroundMeMode').hide();
+                           $('.normalMode').hide();
+                           $('.noWidgetMode').hide();
+                       } else if (mode == 'aroundme') {
+                           $('.monStrasbourgMode').show();
+                           $('.widgetMode').hide();
+                           $('.aroundMeMode').show();
+                           $('.normalMode').hide();
+                           $('.noWidgetMode').show();
+                       } else {
+                           $('.monStrasbourgMode').hide();
+                           $('.widgetMode').hide();
+                           $('.aroundMeMode').hide();
+                           $('.normalMode').show();
+                           if(mode == 'district'){
+                                $('.districtMode').show();
+                           }else{
+                                $('.districtMode').hide();
+                           }
+                           $('.noWidgetMode').show();
+                       }
+                       if ($('.typeEvent').is(":checked")) {
+                           $('.eventExplanation').show();
+                       } else {
+                           $('.eventExplanation').hide();
+                       }
+                    }
+
+                    var refreshConfigTrafficDisplay = function() {
+                       if ($('.infoTraffic input[type=checkbox]').is(":checked")) {
+                           $('.infoTrafficChecked').show();
+                       } else {
+                           $('.infoTrafficChecked').hide();
+                       }
+                    }
+                    $('.modeSelection input[type=radio]').on('change', function() {
+                        refreshConfigDisplay();
+                    })
+
+                    $('.typeEvent').on('change', function() {
+                       if ($(this).is(":checked")) {
+                           $('.eventExplanation').show();
+                       } else {
+                           $('.eventExplanation').hide();
+                       }
+                    })
+
+                    $('.infoTraffic input[type=checkbox]').on('change', function() {
+                        refreshConfigTrafficDisplay();
+                    })
+
+                    $(function() {
+                        refreshConfigDisplay();
+                        refreshConfigTrafficDisplay();
+                    })
+                </script>
 
             </aui:fieldset-group>
         </div>
@@ -334,3 +342,10 @@
 		}
 	).render();
 </aui:script>
+
+<style>
+.important{
+    color: red;
+    font-weight: 700;
+}
+</style>

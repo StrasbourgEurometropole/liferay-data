@@ -116,7 +116,7 @@
 
 	.mns-nav{
 		position: fixed;
-		background: $c_white;
+		background-color: $c_white;
 		height: 151px;
 		border-bottom: 1px solid #d8dae4;
 		box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);		
@@ -127,10 +127,6 @@
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6FFFFFF', endColorstr='#FFFFFF',GradientType=0 ); /* IE6-9 */
 		transform: translateY(-76px);
 		@include an(all,0.3);
-
-		@include desktop{
-			background: none;
-		}
 
 		@include tablet_portrait {
 			transform: none;
@@ -171,16 +167,23 @@
 			}
 		}
 
-		.navbar-header {
+		.sully-navbar-header {
 			float: left;
-			margin-top: 15px;
+			margin-top: 0;
+			@media (max-width: 1200px){
+				display: none;
+			}
 			@include mobile {
+				display: flex;
+				justify-content: space-between;
 				float: none;
-				margin-top: 0;
+				width: 100%;
 			}
 			@include tablet_portrait {
+				display: flex;
+				justify-content: space-between;
 				float: none;
-				margin-top: 0;
+				width: 100%;
 			}
 		}
 
@@ -199,7 +202,7 @@
 			@include tablet_portrait{
 				font-size: 24px;
 				height: 78px !important;
-				margin-left: 25px;
+				margin-left: 10px;
 			    margin-top: 5px;
 			    margin-bottom: 5px;
 				padding: 15px 25px;
@@ -208,7 +211,7 @@
 			@include mobile {
 				font-size: 24px;
 				height: 78px !important;
-				margin-left: 25px;
+				margin-left: 10px;
 			    margin-top: 5px;
 			    margin-bottom: 5px;
 				padding: 15px 25px;
@@ -225,9 +228,14 @@
 			}
 		}
 
-		.navbar-toggle{
+		.navbar-toggler{
+			border: none;
 			right: 15px;
 			top: 18px;
+
+			.icon {
+				background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+			}
 			.icon-bar{
 				background: $c_txt;
 				width: 35px;
@@ -462,9 +470,23 @@
 			}
 		}
 
+		ul li a:hover::after, #mns-global .mns-nav ul li a.active {
+			top: 56px;
+		}
+
 		.mns-navbar-wrapper{
+			display: block;
 			top: 0;
 			@include an(all,0.3);
+			@media (min-width: 576px) {
+				max-width: 765px;
+			}
+			@media (min-width: 768px) {
+				  max-width: 980px;
+			}
+			@media (min-width: 1200px) {
+				  max-width: 1200px;
+			}
 		}
 
 		&.mns-nav-no-header{
@@ -513,7 +535,7 @@
 				}
 			}
 
-			.navbar-toggle.collapsed .icon-bar, .navbar-toggle .icon-bar {
+			.navbar-toggler.collapsed .icon-bar, .navbar-toggler .icon-bar {
 				background: $c_txt;
 			}
 
@@ -619,7 +641,7 @@
 	}
 
 	@include tablet_portrait{
-		.navbar-header {
+		.sully-navbar-header {
 			float: none;
 			background: white;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
@@ -627,7 +649,7 @@
 		.navbar-left,.navbar-right {
 			float: none !important;
 		}
-		.mns-nav .navbar-toggle {
+		.mns-nav .navbar-toggler {
 			display: block;
 			top: 24px;
 			right: 0;
@@ -635,7 +657,7 @@
 				top: 15px;
 			}
 		}
-		.mns-nav.mns-nav-scroll .navbar-toggle {
+		.mns-nav.mns-nav-scroll .navbar-toggler {
 			top: 15px;
 		}
 		.navbar-collapse {
@@ -660,31 +682,44 @@
 				color: black;
 			}
 		}
-		.mns-nav .navbar-toggle .icon-bar {
+		.mns-nav .navbar-toggler .icon-bar {
 			background: black;
 		}
 
 		.navbar-collapse.collapse {
-			display: none!important;
+			display: none !important;
 		}
+
+		.navbar-collapse.collapse.show {
+			display: block !important;
+		}
+
 		.navbar-nav {
 			float: none!important;
 			margin-top: 7.5px;
 		}
+
 		.navbar-nav>li {
 			float: none;
 		}
+
 		.navbar-nav>li>a {
 			padding-top: 10px;
 			padding-bottom: 10px;
 		}
+
 		.collapse.in{
 			display:block !important;
 		}
+
+	}
+
+	.navbar-light .navbar-toggler-icon {
+		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 	}
 
 	@include mobile {
-		.navbar-header {
+		.sully-navbar-header{
 			background: white;
 			box-shadow: 0 12px 24px rgba(0,0,0,0.15), 0 0px 0px rgba(0,0,0,0.22);
 		}
@@ -694,8 +729,12 @@
 				color: black;
 			}
 		}
-		.mns-nav .navbar-toggle .icon-bar {
+		.mns-nav .navbar-toggler .icon-bar {
 			background: black;
 		}
+	}
+
+	.portlet-layout .portlet-header {
+		margin-bottom: 0rem;
 	}
 }

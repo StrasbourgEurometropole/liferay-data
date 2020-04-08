@@ -11,7 +11,7 @@
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
-    <portlet:param name="recordSetId" value="${recordSetId}" />
+    <portlet:param name="formInstanceId" value="${formInstanceId}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
     <portlet:param name="returnURL" value="${formsURL}" />
 </liferay-portlet:renderURL>
@@ -36,26 +36,26 @@
 			<liferay-ui:search-container-results results="${dc.formSends}" />
 
 			<liferay-ui:search-container-row
-				className="com.liferay.dynamic.data.lists.model.DDLRecord" modelVar="ddlRecord"
+				className="com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord" modelVar="ddmFormInstanceRecord"
 				keyProperty="recordId" rowIdProperty="recordId">
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editFormSendURL">
 					<portlet:param name="cmd" value="editFormSend" />
-                    <portlet:param name="recordSetId" value="${recordSetId}" />
-					<portlet:param name="recordId" value="${ddlRecord.recordId}" />
+                    <portlet:param name="formInstanceId" value="${formInstanceId}" />
+					<portlet:param name="recordId" value="${ddmFormInstanceRecord.formInstanceRecordId}" />
 					<portlet:param name="returnURL" value="${viewFormSendsURL}" />
 					<portlet:param name="mvcPath" value="/form-send-bo-edit-form-send.jsp" />
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Date de création --%>
-				<fmt:formatDate value="${ddlRecord.createDate}"
+				<fmt:formatDate value="${ddmFormInstanceRecord.createDate}"
 					var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editFormSendURL}" name="create-date" truncate="true" orderable="true"
 					value="${formattedCreateDate}" />
 
-                <c:forEach items="${dc.getRecordFields(ddlRecord.DDMStorageId, locale)}" var="recordField">
+                <c:forEach items="${dc.getRecordFields(ddmFormInstanceRecord.storageId, locale)}" var="recordField">
                     <liferay-ui:search-container-column-text cssClass="content-column"
                         href="${editFormSendURL}" name="${recordField[0]}" truncate="true" orderable="true"
                         value="${recordField[1]}" />

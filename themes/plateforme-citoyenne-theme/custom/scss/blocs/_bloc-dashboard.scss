@@ -85,6 +85,22 @@
 	.pro-wrapper-dashboard {
 		padding: 40px 0 90px 0;
 
+		#pro-onglet-activite {
+			display: flex;
+			flex-wrap: wrap;
+			.col-lg-3 {
+				@media (min-width: 992px){
+					flex: 0 0 50%;
+					max-width: 50%;
+					padding: 15px;
+				}
+				@media (min-width: 1200px){
+					flex: 0 0 25%;
+					max-width: 25%;
+				}
+			}
+		}
+
 		.pro-title-dashboard {
 			position: relative;
 			margin-bottom: 60px;

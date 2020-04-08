@@ -52,10 +52,10 @@ public class ManifestationDisplayTemplateHandler
 		fieldsTemplateVariableGroup.empty();
 		
 		fieldsTemplateVariableGroup.addCollectionVariable(
-			"Galeries d'events", List.class, PortletDisplayTemplateManager.ENTRIES, 
-			"Galerie d'event", Manifestation.class, "currentGallery", "getTitle(locale)");
+			"Manifestations", List.class, PortletDisplayTemplateManager.ENTRIES,
+			"Manifestation", Manifestation.class, "currentManifestation", "getTitle(locale)");
 		
-		fieldsTemplateVariableGroup.addVariable("Galerie d'event", Manifestation.class, "entry");
+		fieldsTemplateVariableGroup.addVariable("Manifestation", Manifestation.class, "entry");
 		fieldsTemplateVariableGroup.addVariable("Featured", Boolean.class, "isFeatured");
 		
 		return templateVariableGroups;

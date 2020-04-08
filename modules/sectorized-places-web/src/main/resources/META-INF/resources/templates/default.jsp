@@ -69,13 +69,8 @@
 </div>
 
 <liferay-util:html-bottom>
-	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
-	</aui:script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
 	<script>
-		define.amd = define._amd;
 		<%--
 			Si la configuration demande qu'on force la recherche sur Strasbourg
 		 	on set cette variable globale utilisÃ©e dans le JS

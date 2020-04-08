@@ -1,4 +1,4 @@
-$(window).load(function() {
+$(window).on( "load",function() {
     $('#seu-grid-carrefour').masonry({
         itemSelector: '.seu-grid-item',
         gutter: 20,

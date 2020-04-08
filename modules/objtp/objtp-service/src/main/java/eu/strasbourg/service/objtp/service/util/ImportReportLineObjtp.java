@@ -1,7 +1,5 @@
 package eu.strasbourg.service.objtp.service.util;
 
-import java.util.ArrayList;
-
 import com.liferay.portal.kernel.util.Validator;
 
 

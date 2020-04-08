@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -36,8 +37,7 @@ public class ActivityItemSelectorView
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-		.unmodifiableList(ListUtil.fromArray(
-			new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+		.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
@@ -60,12 +60,7 @@ public class ActivityItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Activit&eacute;s";
-	}
-
-	@Override
-	public boolean isShowSearch() {
-		return true;
+		return LanguageUtil.get(Locale.FRANCE, "eu.activity.activities");
 	}
 
 	@Override
@@ -83,8 +78,8 @@ public class ActivityItemSelectorView
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		boolean multiple = GetterUtil
-			.getBoolean(servletRequest.getParameter("multiple"), false);
+		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
 		portletURL.setParameter("multiple", String.valueOf(multiple));
 		
 		int delta = GetterUtil.getInteger(
@@ -108,8 +103,7 @@ public class ActivityItemSelectorView
 		servletRequest.setAttribute("total", activitiesCount);
 		servletRequest.setAttribute("activities", activities);
 		servletRequest.setAttribute("portletURL", portletURL);
-		servletRequest.setAttribute("itemSelectedEventName",
-			itemSelectedEventName);
+		servletRequest.setAttribute("itemSelectedEventName", itemSelectedEventName);
 		servletRequest.setAttribute("multiple", multiple);
 
 		ServletContext servletContext = getServletContext();

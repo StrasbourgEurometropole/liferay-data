@@ -7,8 +7,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.mail.internet.InternetAddress;
 import javax.portlet.PortletException;
@@ -17,6 +17,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.portal.kernel.template.*;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -37,7 +38,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -50,11 +50,6 @@ import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import freemarker.core.ParseException;
-import freemarker.template.Configuration;
-import freemarker.template.MalformedTemplateNameException;
-import freemarker.template.Template;
-import freemarker.template.TemplateNotFoundException;
 
 @Component(
 	immediate = true,
@@ -197,22 +192,28 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
 			StringBuilder btnImage = new StringBuilder(hostUrl)
 					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
-	    	
-			// préparation du template de mail
-			Map<String, Object> context = new HashMap<>();
-			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-			context.put("headerImage", headerImage.toString());
-			context.put("footerImage", btnImage.toString());
-			context.put("Title", this.initiative.getTitle());
-			context.put("Message", this.initiativeHelpMessage);
-			
-		  	Configuration configuration = new Configuration(Configuration.getVersion());
-			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
-			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-			
-			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
-			StringWriter bodyWriter = new StringWriter();
-			bodyTemplate.process(context, bodyWriter);
+
+            // préparation du template de mail
+            Map<String, Object> context = new HashMap<>();
+            context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+            context.put("headerImage", headerImage.toString());
+            context.put("footerImage", btnImage.toString());
+            context.put("Title", this.initiative.getTitle());
+            context.put("Message", this.initiativeHelpMessage);
+
+            StringWriter out = new StringWriter();
+
+            //Chargement du template contenant le corps du mail
+            TemplateResource templateResourceBody = new URLTemplateResource("0",
+                    Objects.requireNonNull(this.getClass().getClassLoader()
+                            .getResource("/templates/contact-mail-copy-body-fr_FR.ftl")));
+            Template bodyTemplate = TemplateManagerUtil.getTemplate(
+                    TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+            // Traitement du template corps
+            bodyTemplate.putAll(context);
+            bodyTemplate.processTemplate(out);
+            String mailBody = out.toString();
 			
 			String subject = jsonUser.getString("first_name") + " " + jsonUser.getString("last_name") 
 			+ " " + LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.give.initiative.help.mail.confirmation.subject");
@@ -225,8 +226,7 @@ public class GiveInitiativeHelpResourceCommand implements MVCResourceCommand {
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
-			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject,
-					bodyWriter.toString());
+			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
 		} catch (Exception e) {
 			_log.error(e);
 			e.printStackTrace();

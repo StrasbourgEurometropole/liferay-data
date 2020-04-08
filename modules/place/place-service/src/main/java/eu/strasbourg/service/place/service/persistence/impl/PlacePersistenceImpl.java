@@ -30,10 +30,12 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -48,7 +50,6 @@ import eu.strasbourg.service.place.service.persistence.PlacePersistence;
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
@@ -68,32 +69,50 @@ import java.util.Set;
  * </p>
  *
  * @author Angelique Zunino Champougny
+ * @see PlacePersistence
+ * @see eu.strasbourg.service.place.service.persistence.PlaceUtil
  * @generated
  */
 @ProviderType
-public class PlacePersistenceImpl
-	extends BasePersistenceImpl<Place> implements PlacePersistence {
-
+public class PlacePersistenceImpl extends BasePersistenceImpl<Place>
+	implements PlacePersistence {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use <code>PlaceUtil</code> to access the place persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use {@link PlaceUtil} to access the place persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static final String FINDER_CLASS_NAME_ENTITY =
-		PlaceImpl.class.getName();
-
-	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
-		FINDER_CLASS_NAME_ENTITY + ".List1";
-
-	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION =
-		FINDER_CLASS_NAME_ENTITY + ".List2";
-
-	private FinderPath _finderPathWithPaginationFindAll;
-	private FinderPath _finderPathWithoutPaginationFindAll;
-	private FinderPath _finderPathCountAll;
-	private FinderPath _finderPathWithPaginationFindByUuid;
-	private FinderPath _finderPathWithoutPaginationFindByUuid;
-	private FinderPath _finderPathCountByUuid;
+	public static final String FINDER_CLASS_NAME_ENTITY = PlaceImpl.class.getName();
+	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION = FINDER_CLASS_NAME_ENTITY +
+		".List1";
+	public static final String FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION = FINDER_CLASS_NAME_ENTITY +
+		".List2";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0]);
+	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] { String.class.getName() },
+			PlaceModelImpl.UUID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] { String.class.getName() });
 
 	/**
 	 * Returns all the places where uuid = &#63;.
@@ -110,7 +129,7 @@ public class PlacePersistenceImpl
 	 * Returns a range of all the places where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -127,7 +146,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -137,10 +156,8 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByUuid(
-		String uuid, int start, int end,
+	public List<Place> findByUuid(String uuid, int start, int end,
 		OrderByComparator<Place> orderByComparator) {
-
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
@@ -148,7 +165,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -159,37 +176,32 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByUuid(
-		String uuid, int start, int end,
+	public List<Place> findByUuid(String uuid, int start, int end,
 		OrderByComparator<Place> orderByComparator, boolean retrieveFromCache) {
-
-		uuid = Objects.toString(uuid, "");
-
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
+				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByUuid;
-			finderArgs = new Object[] {uuid};
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID;
+			finderArgs = new Object[] { uuid };
 		}
 		else {
-			finderPath = _finderPathWithPaginationFindByUuid;
-			finderArgs = new Object[] {uuid, start, end, orderByComparator};
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID;
+			finderArgs = new Object[] { uuid, start, end, orderByComparator };
 		}
 
 		List<Place> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Place>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			list = (List<Place>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Place place : list) {
-					if (!uuid.equals(place.getUuid())) {
+					if (!Objects.equals(uuid, place.getUuid())) {
 						list = null;
 
 						break;
@@ -202,8 +214,8 @@ public class PlacePersistenceImpl
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -213,7 +225,10 @@ public class PlacePersistenceImpl
 
 			boolean bindUuid = false;
 
-			if (uuid.isEmpty()) {
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -223,10 +238,11 @@ public class PlacePersistenceImpl
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
 			}
-			else if (pagination) {
+			else
+			 if (pagination) {
 				query.append(PlaceModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -246,16 +262,16 @@ public class PlacePersistenceImpl
 				}
 
 				if (!pagination) {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end);
 				}
 
 				cacheResult(list);
@@ -284,10 +300,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByUuid_First(
-			String uuid, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByUuid_First(String uuid,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByUuid_First(uuid, orderByComparator);
 
 		if (place != null) {
@@ -301,7 +315,7 @@ public class PlacePersistenceImpl
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -314,9 +328,8 @@ public class PlacePersistenceImpl
 	 * @return the first matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByUuid_First(
-		String uuid, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByUuid_First(String uuid,
+		OrderByComparator<Place> orderByComparator) {
 		List<Place> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -335,10 +348,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByUuid_Last(
-			String uuid, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByUuid_Last(String uuid,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByUuid_Last(uuid, orderByComparator);
 
 		if (place != null) {
@@ -352,7 +363,7 @@ public class PlacePersistenceImpl
 		msg.append("uuid=");
 		msg.append(uuid);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -365,17 +376,15 @@ public class PlacePersistenceImpl
 	 * @return the last matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByUuid_Last(
-		String uuid, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByUuid_Last(String uuid,
+		OrderByComparator<Place> orderByComparator) {
 		int count = countByUuid(uuid);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Place> list = findByUuid(
-			uuid, count - 1, count, orderByComparator);
+		List<Place> list = findByUuid(uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -394,13 +403,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a place with the primary key could not be found
 	 */
 	@Override
-	public Place[] findByUuid_PrevAndNext(
-			long placeId, String uuid,
-			OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
-		uuid = Objects.toString(uuid, "");
-
+	public Place[] findByUuid_PrevAndNext(long placeId, String uuid,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = findByPrimaryKey(placeId);
 
 		Session session = null;
@@ -410,13 +414,13 @@ public class PlacePersistenceImpl
 
 			Place[] array = new PlaceImpl[3];
 
-			array[0] = getByUuid_PrevAndNext(
-				session, place, uuid, orderByComparator, true);
+			array[0] = getByUuid_PrevAndNext(session, place, uuid,
+					orderByComparator, true);
 
 			array[1] = place;
 
-			array[2] = getByUuid_PrevAndNext(
-				session, place, uuid, orderByComparator, false);
+			array[2] = getByUuid_PrevAndNext(session, place, uuid,
+					orderByComparator, false);
 
 			return array;
 		}
@@ -428,15 +432,14 @@ public class PlacePersistenceImpl
 		}
 	}
 
-	protected Place getByUuid_PrevAndNext(
-		Session session, Place place, String uuid,
-		OrderByComparator<Place> orderByComparator, boolean previous) {
-
+	protected Place getByUuid_PrevAndNext(Session session, Place place,
+		String uuid, OrderByComparator<Place> orderByComparator,
+		boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -447,7 +450,10 @@ public class PlacePersistenceImpl
 
 		boolean bindUuid = false;
 
-		if (uuid.isEmpty()) {
+		if (uuid == null) {
+			query.append(_FINDER_COLUMN_UUID_UUID_1);
+		}
+		else if (uuid.equals(StringPool.BLANK)) {
 			query.append(_FINDER_COLUMN_UUID_UUID_3);
 		}
 		else {
@@ -457,8 +463,7 @@ public class PlacePersistenceImpl
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -530,10 +535,10 @@ public class PlacePersistenceImpl
 		}
 
 		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(place)) {
+			Object[] values = orderByComparator.getOrderByConditionValues(place);
 
-				qPos.add(orderByConditionValue);
+			for (Object value : values) {
+				qPos.add(value);
 			}
 		}
 
@@ -554,9 +559,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (Place place :
-				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-
+		for (Place place : findByUuid(uuid, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
 			remove(place);
 		}
 	}
@@ -569,11 +573,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countByUuid(String uuid) {
-		uuid = Objects.toString(uuid, "");
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID;
 
-		FinderPath finderPath = _finderPathCountByUuid;
-
-		Object[] finderArgs = new Object[] {uuid};
+		Object[] finderArgs = new Object[] { uuid };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -584,7 +586,10 @@ public class PlacePersistenceImpl
 
 			boolean bindUuid = false;
 
-			if (uuid.isEmpty()) {
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_UUID_UUID_3);
 			}
 			else {
@@ -625,16 +630,22 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_UUID_UUID_1 = "place.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "place.uuid = ?";
-
-	private static final String _FINDER_COLUMN_UUID_UUID_3 =
-		"(place.uuid IS NULL OR place.uuid = '')";
-
-	private FinderPath _finderPathFetchByUUID_G;
-	private FinderPath _finderPathCountByUUID_G;
+	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(place.uuid IS NULL OR place.uuid = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] { String.class.getName(), Long.class.getName() },
+			PlaceModelImpl.UUID_COLUMN_BITMASK |
+			PlaceModelImpl.GROUPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] { String.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns the place where uuid = &#63; and groupId = &#63; or throws a <code>NoSuchPlaceException</code> if it could not be found.
+	 * Returns the place where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
 	 *
 	 * @param uuid the uuid
 	 * @param groupId the group ID
@@ -644,7 +655,6 @@ public class PlacePersistenceImpl
 	@Override
 	public Place findByUUID_G(String uuid, long groupId)
 		throws NoSuchPlaceException {
-
 		Place place = fetchByUUID_G(uuid, groupId);
 
 		if (place == null) {
@@ -658,7 +668,7 @@ public class PlacePersistenceImpl
 			msg.append(", groupId=");
 			msg.append(groupId);
 
-			msg.append("}");
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -691,26 +701,22 @@ public class PlacePersistenceImpl
 	 * @return the matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByUUID_G(
-		String uuid, long groupId, boolean retrieveFromCache) {
-
-		uuid = Objects.toString(uuid, "");
-
-		Object[] finderArgs = new Object[] {uuid, groupId};
+	public Place fetchByUUID_G(String uuid, long groupId,
+		boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { uuid, groupId };
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByUUID_G, finderArgs, this);
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
+					finderArgs, this);
 		}
 
 		if (result instanceof Place) {
 			Place place = (Place)result;
 
 			if (!Objects.equals(uuid, place.getUuid()) ||
-				(groupId != place.getGroupId())) {
-
+					(groupId != place.getGroupId())) {
 				result = null;
 			}
 		}
@@ -722,7 +728,10 @@ public class PlacePersistenceImpl
 
 			boolean bindUuid = false;
 
-			if (uuid.isEmpty()) {
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -753,8 +762,8 @@ public class PlacePersistenceImpl
 				List<Place> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(
-						_finderPathFetchByUUID_G, finderArgs, list);
+					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+						finderArgs, list);
 				}
 				else {
 					Place place = list.get(0);
@@ -762,10 +771,17 @@ public class PlacePersistenceImpl
 					result = place;
 
 					cacheResult(place);
+
+					if ((place.getUuid() == null) ||
+							!place.getUuid().equals(uuid) ||
+							(place.getGroupId() != groupId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+							finderArgs, place);
+					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(_finderPathFetchByUUID_G, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
 
 				throw processException(e);
 			}
@@ -792,7 +808,6 @@ public class PlacePersistenceImpl
 	@Override
 	public Place removeByUUID_G(String uuid, long groupId)
 		throws NoSuchPlaceException {
-
 		Place place = findByUUID_G(uuid, groupId);
 
 		return remove(place);
@@ -807,11 +822,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countByUUID_G(String uuid, long groupId) {
-		uuid = Objects.toString(uuid, "");
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
 
-		FinderPath finderPath = _finderPathCountByUUID_G;
-
-		Object[] finderArgs = new Object[] {uuid, groupId};
+		Object[] finderArgs = new Object[] { uuid, groupId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -822,7 +835,10 @@ public class PlacePersistenceImpl
 
 			boolean bindUuid = false;
 
-			if (uuid.isEmpty()) {
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
 			}
 			else {
@@ -867,18 +883,30 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 =
-		"place.uuid = ? AND ";
-
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 =
-		"(place.uuid IS NULL OR place.uuid = '') AND ";
-
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 =
-		"place.groupId = ?";
-
-	private FinderPath _finderPathWithPaginationFindByUuid_C;
-	private FinderPath _finderPathWithoutPaginationFindByUuid_C;
-	private FinderPath _finderPathCountByUuid_C;
+	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "place.uuid IS NULL AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "place.uuid = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(place.uuid IS NULL OR place.uuid = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "place.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
+		new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] { String.class.getName(), Long.class.getName() },
+			PlaceModelImpl.UUID_COLUMN_BITMASK |
+			PlaceModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] { String.class.getName(), Long.class.getName() });
 
 	/**
 	 * Returns all the places where uuid = &#63; and companyId = &#63;.
@@ -889,15 +917,15 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public List<Place> findByUuid_C(String uuid, long companyId) {
-		return findByUuid_C(
-			uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the places where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -907,9 +935,8 @@ public class PlacePersistenceImpl
 	 * @return the range of matching places
 	 */
 	@Override
-	public List<Place> findByUuid_C(
-		String uuid, long companyId, int start, int end) {
-
+	public List<Place> findByUuid_C(String uuid, long companyId, int start,
+		int end) {
 		return findByUuid_C(uuid, companyId, start, end, null);
 	}
 
@@ -917,7 +944,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -928,19 +955,16 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByUuid_C(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<Place> orderByComparator) {
-
-		return findByUuid_C(
-			uuid, companyId, start, end, orderByComparator, true);
+	public List<Place> findByUuid_C(String uuid, long companyId, int start,
+		int end, OrderByComparator<Place> orderByComparator) {
+		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
 	}
 
 	/**
 	 * Returns an ordered range of all the places where uuid = &#63; and companyId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
@@ -952,41 +976,38 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByUuid_C(
-		String uuid, long companyId, int start, int end,
-		OrderByComparator<Place> orderByComparator, boolean retrieveFromCache) {
-
-		uuid = Objects.toString(uuid, "");
-
+	public List<Place> findByUuid_C(String uuid, long companyId, int start,
+		int end, OrderByComparator<Place> orderByComparator,
+		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
+				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByUuid_C;
-			finderArgs = new Object[] {uuid, companyId};
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
+			finderArgs = new Object[] { uuid, companyId };
 		}
 		else {
-			finderPath = _finderPathWithPaginationFindByUuid_C;
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
 			finderArgs = new Object[] {
-				uuid, companyId, start, end, orderByComparator
-			};
+					uuid, companyId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<Place> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Place>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			list = (List<Place>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Place place : list) {
-					if (!uuid.equals(place.getUuid()) ||
-						(companyId != place.getCompanyId())) {
-
+					if (!Objects.equals(uuid, place.getUuid()) ||
+							(companyId != place.getCompanyId())) {
 						list = null;
 
 						break;
@@ -999,8 +1020,8 @@ public class PlacePersistenceImpl
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(4);
@@ -1010,7 +1031,10 @@ public class PlacePersistenceImpl
 
 			boolean bindUuid = false;
 
-			if (uuid.isEmpty()) {
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1022,10 +1046,11 @@ public class PlacePersistenceImpl
 			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
 			}
-			else if (pagination) {
+			else
+			 if (pagination) {
 				query.append(PlaceModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1047,16 +1072,16 @@ public class PlacePersistenceImpl
 				qPos.add(companyId);
 
 				if (!pagination) {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end);
 				}
 
 				cacheResult(list);
@@ -1086,11 +1111,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByUuid_C_First(
-			String uuid, long companyId,
-			OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByUuid_C_First(String uuid, long companyId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByUuid_C_First(uuid, companyId, orderByComparator);
 
 		if (place != null) {
@@ -1107,7 +1129,7 @@ public class PlacePersistenceImpl
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -1121,12 +1143,9 @@ public class PlacePersistenceImpl
 	 * @return the first matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByUuid_C_First(
-		String uuid, long companyId,
+	public Place fetchByUuid_C_First(String uuid, long companyId,
 		OrderByComparator<Place> orderByComparator) {
-
-		List<Place> list = findByUuid_C(
-			uuid, companyId, 0, 1, orderByComparator);
+		List<Place> list = findByUuid_C(uuid, companyId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1145,11 +1164,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByUuid_C_Last(
-			String uuid, long companyId,
-			OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByUuid_C_Last(String uuid, long companyId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByUuid_C_Last(uuid, companyId, orderByComparator);
 
 		if (place != null) {
@@ -1166,7 +1182,7 @@ public class PlacePersistenceImpl
 		msg.append(", companyId=");
 		msg.append(companyId);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -1180,18 +1196,16 @@ public class PlacePersistenceImpl
 	 * @return the last matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByUuid_C_Last(
-		String uuid, long companyId,
+	public Place fetchByUuid_C_Last(String uuid, long companyId,
 		OrderByComparator<Place> orderByComparator) {
-
 		int count = countByUuid_C(uuid, companyId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Place> list = findByUuid_C(
-			uuid, companyId, count - 1, count, orderByComparator);
+		List<Place> list = findByUuid_C(uuid, companyId, count - 1, count,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1211,13 +1225,9 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a place with the primary key could not be found
 	 */
 	@Override
-	public Place[] findByUuid_C_PrevAndNext(
-			long placeId, String uuid, long companyId,
-			OrderByComparator<Place> orderByComparator)
+	public Place[] findByUuid_C_PrevAndNext(long placeId, String uuid,
+		long companyId, OrderByComparator<Place> orderByComparator)
 		throws NoSuchPlaceException {
-
-		uuid = Objects.toString(uuid, "");
-
 		Place place = findByPrimaryKey(placeId);
 
 		Session session = null;
@@ -1227,13 +1237,13 @@ public class PlacePersistenceImpl
 
 			Place[] array = new PlaceImpl[3];
 
-			array[0] = getByUuid_C_PrevAndNext(
-				session, place, uuid, companyId, orderByComparator, true);
+			array[0] = getByUuid_C_PrevAndNext(session, place, uuid, companyId,
+					orderByComparator, true);
 
 			array[1] = place;
 
-			array[2] = getByUuid_C_PrevAndNext(
-				session, place, uuid, companyId, orderByComparator, false);
+			array[2] = getByUuid_C_PrevAndNext(session, place, uuid, companyId,
+					orderByComparator, false);
 
 			return array;
 		}
@@ -1245,15 +1255,14 @@ public class PlacePersistenceImpl
 		}
 	}
 
-	protected Place getByUuid_C_PrevAndNext(
-		Session session, Place place, String uuid, long companyId,
+	protected Place getByUuid_C_PrevAndNext(Session session, Place place,
+		String uuid, long companyId,
 		OrderByComparator<Place> orderByComparator, boolean previous) {
-
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1264,7 +1273,10 @@ public class PlacePersistenceImpl
 
 		boolean bindUuid = false;
 
-		if (uuid.isEmpty()) {
+		if (uuid == null) {
+			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
+		}
+		else if (uuid.equals(StringPool.BLANK)) {
 			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 		}
 		else {
@@ -1276,8 +1288,7 @@ public class PlacePersistenceImpl
 		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1351,10 +1362,10 @@ public class PlacePersistenceImpl
 		qPos.add(companyId);
 
 		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(place)) {
+			Object[] values = orderByComparator.getOrderByConditionValues(place);
 
-				qPos.add(orderByConditionValue);
+			for (Object value : values) {
+				qPos.add(value);
 			}
 		}
 
@@ -1376,11 +1387,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void removeByUuid_C(String uuid, long companyId) {
-		for (Place place :
-				findByUuid_C(
-					uuid, companyId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
-
+		for (Place place : findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
 			remove(place);
 		}
 	}
@@ -1394,11 +1402,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countByUuid_C(String uuid, long companyId) {
-		uuid = Objects.toString(uuid, "");
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
 
-		FinderPath finderPath = _finderPathCountByUuid_C;
-
-		Object[] finderArgs = new Object[] {uuid, companyId};
+		Object[] finderArgs = new Object[] { uuid, companyId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1409,7 +1415,10 @@ public class PlacePersistenceImpl
 
 			boolean bindUuid = false;
 
-			if (uuid.isEmpty()) {
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
 			}
 			else {
@@ -1454,18 +1463,29 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_UUID_C_UUID_2 =
-		"place.uuid = ? AND ";
-
-	private static final String _FINDER_COLUMN_UUID_C_UUID_3 =
-		"(place.uuid IS NULL OR place.uuid = '') AND ";
-
-	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
-		"place.companyId = ?";
-
-	private FinderPath _finderPathWithPaginationFindByGroupId;
-	private FinderPath _finderPathWithoutPaginationFindByGroupId;
-	private FinderPath _finderPathCountByGroupId;
+	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "place.uuid IS NULL AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "place.uuid = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(place.uuid IS NULL OR place.uuid = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "place.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
+		new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] { Long.class.getName() },
+			PlaceModelImpl.GROUPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] { Long.class.getName() });
 
 	/**
 	 * Returns all the places where groupId = &#63;.
@@ -1475,15 +1495,14 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public List<Place> findByGroupId(long groupId) {
-		return findByGroupId(
-			groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the places where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1500,7 +1519,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1510,10 +1529,8 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByGroupId(
-		long groupId, int start, int end,
+	public List<Place> findByGroupId(long groupId, int start, int end,
 		OrderByComparator<Place> orderByComparator) {
-
 		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
@@ -1521,7 +1538,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where groupId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param groupId the group ID
@@ -1532,31 +1549,28 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByGroupId(
-		long groupId, int start, int end,
+	public List<Place> findByGroupId(long groupId, int start, int end,
 		OrderByComparator<Place> orderByComparator, boolean retrieveFromCache) {
-
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
+				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByGroupId;
-			finderArgs = new Object[] {groupId};
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID;
+			finderArgs = new Object[] { groupId };
 		}
 		else {
-			finderPath = _finderPathWithPaginationFindByGroupId;
-			finderArgs = new Object[] {groupId, start, end, orderByComparator};
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID;
+			finderArgs = new Object[] { groupId, start, end, orderByComparator };
 		}
 
 		List<Place> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Place>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			list = (List<Place>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Place place : list) {
@@ -1573,8 +1587,8 @@ public class PlacePersistenceImpl
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -1585,10 +1599,11 @@ public class PlacePersistenceImpl
 			query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
 			}
-			else if (pagination) {
+			else
+			 if (pagination) {
 				query.append(PlaceModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -1606,16 +1621,16 @@ public class PlacePersistenceImpl
 				qPos.add(groupId);
 
 				if (!pagination) {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end);
 				}
 
 				cacheResult(list);
@@ -1644,10 +1659,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByGroupId_First(
-			long groupId, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByGroupId_First(long groupId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByGroupId_First(groupId, orderByComparator);
 
 		if (place != null) {
@@ -1661,7 +1674,7 @@ public class PlacePersistenceImpl
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -1674,9 +1687,8 @@ public class PlacePersistenceImpl
 	 * @return the first matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByGroupId_First(
-		long groupId, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByGroupId_First(long groupId,
+		OrderByComparator<Place> orderByComparator) {
 		List<Place> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1695,10 +1707,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByGroupId_Last(
-			long groupId, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByGroupId_Last(long groupId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (place != null) {
@@ -1712,7 +1722,7 @@ public class PlacePersistenceImpl
 		msg.append("groupId=");
 		msg.append(groupId);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -1725,17 +1735,16 @@ public class PlacePersistenceImpl
 	 * @return the last matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByGroupId_Last(
-		long groupId, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByGroupId_Last(long groupId,
+		OrderByComparator<Place> orderByComparator) {
 		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Place> list = findByGroupId(
-			groupId, count - 1, count, orderByComparator);
+		List<Place> list = findByGroupId(groupId, count - 1, count,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1754,11 +1763,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a place with the primary key could not be found
 	 */
 	@Override
-	public Place[] findByGroupId_PrevAndNext(
-			long placeId, long groupId,
-			OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place[] findByGroupId_PrevAndNext(long placeId, long groupId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = findByPrimaryKey(placeId);
 
 		Session session = null;
@@ -1768,13 +1774,13 @@ public class PlacePersistenceImpl
 
 			Place[] array = new PlaceImpl[3];
 
-			array[0] = getByGroupId_PrevAndNext(
-				session, place, groupId, orderByComparator, true);
+			array[0] = getByGroupId_PrevAndNext(session, place, groupId,
+					orderByComparator, true);
 
 			array[1] = place;
 
-			array[2] = getByGroupId_PrevAndNext(
-				session, place, groupId, orderByComparator, false);
+			array[2] = getByGroupId_PrevAndNext(session, place, groupId,
+					orderByComparator, false);
 
 			return array;
 		}
@@ -1786,15 +1792,14 @@ public class PlacePersistenceImpl
 		}
 	}
 
-	protected Place getByGroupId_PrevAndNext(
-		Session session, Place place, long groupId,
-		OrderByComparator<Place> orderByComparator, boolean previous) {
-
+	protected Place getByGroupId_PrevAndNext(Session session, Place place,
+		long groupId, OrderByComparator<Place> orderByComparator,
+		boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -1806,8 +1811,7 @@ public class PlacePersistenceImpl
 		query.append(_FINDER_COLUMN_GROUPID_GROUPID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -1877,10 +1881,10 @@ public class PlacePersistenceImpl
 		qPos.add(groupId);
 
 		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(place)) {
+			Object[] values = orderByComparator.getOrderByConditionValues(place);
 
-				qPos.add(orderByConditionValue);
+			for (Object value : values) {
+				qPos.add(value);
 			}
 		}
 
@@ -1901,10 +1905,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void removeByGroupId(long groupId) {
-		for (Place place :
-				findByGroupId(
-					groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-
+		for (Place place : findByGroupId(groupId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
 			remove(place);
 		}
 	}
@@ -1917,9 +1919,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countByGroupId(long groupId) {
-		FinderPath finderPath = _finderPathCountByGroupId;
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
 
-		Object[] finderArgs = new Object[] {groupId};
+		Object[] finderArgs = new Object[] { groupId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1960,12 +1962,26 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
-		"place.groupId = ?";
-
-	private FinderPath _finderPathWithPaginationFindByPriceId;
-	private FinderPath _finderPathWithoutPaginationFindByPriceId;
-	private FinderPath _finderPathCountByPriceId;
+	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "place.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_PRICEID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPriceId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID =
+		new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPriceId",
+			new String[] { Long.class.getName() },
+			PlaceModelImpl.PRICEID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_PRICEID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPriceId",
+			new String[] { Long.class.getName() });
 
 	/**
 	 * Returns all the places where priceId = &#63;.
@@ -1975,15 +1991,14 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public List<Place> findByPriceId(long priceId) {
-		return findByPriceId(
-			priceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return findByPriceId(priceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
 	 * Returns a range of all the places where priceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param priceId the price ID
@@ -2000,7 +2015,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where priceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param priceId the price ID
@@ -2010,10 +2025,8 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByPriceId(
-		long priceId, int start, int end,
+	public List<Place> findByPriceId(long priceId, int start, int end,
 		OrderByComparator<Place> orderByComparator) {
-
 		return findByPriceId(priceId, start, end, orderByComparator, true);
 	}
 
@@ -2021,7 +2034,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where priceId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param priceId the price ID
@@ -2032,31 +2045,28 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByPriceId(
-		long priceId, int start, int end,
+	public List<Place> findByPriceId(long priceId, int start, int end,
 		OrderByComparator<Place> orderByComparator, boolean retrieveFromCache) {
-
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
+				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByPriceId;
-			finderArgs = new Object[] {priceId};
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID;
+			finderArgs = new Object[] { priceId };
 		}
 		else {
-			finderPath = _finderPathWithPaginationFindByPriceId;
-			finderArgs = new Object[] {priceId, start, end, orderByComparator};
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_PRICEID;
+			finderArgs = new Object[] { priceId, start, end, orderByComparator };
 		}
 
 		List<Place> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Place>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			list = (List<Place>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Place place : list) {
@@ -2073,8 +2083,8 @@ public class PlacePersistenceImpl
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2085,10 +2095,11 @@ public class PlacePersistenceImpl
 			query.append(_FINDER_COLUMN_PRICEID_PRICEID_2);
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
 			}
-			else if (pagination) {
+			else
+			 if (pagination) {
 				query.append(PlaceModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2106,16 +2117,16 @@ public class PlacePersistenceImpl
 				qPos.add(priceId);
 
 				if (!pagination) {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end);
 				}
 
 				cacheResult(list);
@@ -2144,10 +2155,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByPriceId_First(
-			long priceId, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByPriceId_First(long priceId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByPriceId_First(priceId, orderByComparator);
 
 		if (place != null) {
@@ -2161,7 +2170,7 @@ public class PlacePersistenceImpl
 		msg.append("priceId=");
 		msg.append(priceId);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -2174,9 +2183,8 @@ public class PlacePersistenceImpl
 	 * @return the first matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByPriceId_First(
-		long priceId, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByPriceId_First(long priceId,
+		OrderByComparator<Place> orderByComparator) {
 		List<Place> list = findByPriceId(priceId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2195,10 +2203,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByPriceId_Last(
-			long priceId, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByPriceId_Last(long priceId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByPriceId_Last(priceId, orderByComparator);
 
 		if (place != null) {
@@ -2212,7 +2218,7 @@ public class PlacePersistenceImpl
 		msg.append("priceId=");
 		msg.append(priceId);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -2225,17 +2231,16 @@ public class PlacePersistenceImpl
 	 * @return the last matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByPriceId_Last(
-		long priceId, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByPriceId_Last(long priceId,
+		OrderByComparator<Place> orderByComparator) {
 		int count = countByPriceId(priceId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Place> list = findByPriceId(
-			priceId, count - 1, count, orderByComparator);
+		List<Place> list = findByPriceId(priceId, count - 1, count,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2254,11 +2259,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a place with the primary key could not be found
 	 */
 	@Override
-	public Place[] findByPriceId_PrevAndNext(
-			long placeId, long priceId,
-			OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place[] findByPriceId_PrevAndNext(long placeId, long priceId,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = findByPrimaryKey(placeId);
 
 		Session session = null;
@@ -2268,13 +2270,13 @@ public class PlacePersistenceImpl
 
 			Place[] array = new PlaceImpl[3];
 
-			array[0] = getByPriceId_PrevAndNext(
-				session, place, priceId, orderByComparator, true);
+			array[0] = getByPriceId_PrevAndNext(session, place, priceId,
+					orderByComparator, true);
 
 			array[1] = place;
 
-			array[2] = getByPriceId_PrevAndNext(
-				session, place, priceId, orderByComparator, false);
+			array[2] = getByPriceId_PrevAndNext(session, place, priceId,
+					orderByComparator, false);
 
 			return array;
 		}
@@ -2286,15 +2288,14 @@ public class PlacePersistenceImpl
 		}
 	}
 
-	protected Place getByPriceId_PrevAndNext(
-		Session session, Place place, long priceId,
-		OrderByComparator<Place> orderByComparator, boolean previous) {
-
+	protected Place getByPriceId_PrevAndNext(Session session, Place place,
+		long priceId, OrderByComparator<Place> orderByComparator,
+		boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -2306,8 +2307,7 @@ public class PlacePersistenceImpl
 		query.append(_FINDER_COLUMN_PRICEID_PRICEID_2);
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -2377,10 +2377,10 @@ public class PlacePersistenceImpl
 		qPos.add(priceId);
 
 		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(place)) {
+			Object[] values = orderByComparator.getOrderByConditionValues(place);
 
-				qPos.add(orderByConditionValue);
+			for (Object value : values) {
+				qPos.add(value);
 			}
 		}
 
@@ -2401,10 +2401,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void removeByPriceId(long priceId) {
-		for (Place place :
-				findByPriceId(
-					priceId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-
+		for (Place place : findByPriceId(priceId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
 			remove(place);
 		}
 	}
@@ -2417,9 +2415,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countByPriceId(long priceId) {
-		FinderPath finderPath = _finderPathCountByPriceId;
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_PRICEID;
 
-		Object[] finderArgs = new Object[] {priceId};
+		Object[] finderArgs = new Object[] { priceId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2460,14 +2458,19 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_PRICEID_PRICEID_2 =
-		"place.priceId = ?";
-
-	private FinderPath _finderPathFetchBySIGId;
-	private FinderPath _finderPathCountBySIGId;
+	private static final String _FINDER_COLUMN_PRICEID_PRICEID_2 = "place.priceId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_SIGID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchBySIGId",
+			new String[] { String.class.getName() },
+			PlaceModelImpl.SIGID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_SIGID = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIGId",
+			new String[] { String.class.getName() });
 
 	/**
-	 * Returns the place where SIGid = &#63; or throws a <code>NoSuchPlaceException</code> if it could not be found.
+	 * Returns the place where SIGid = &#63; or throws a {@link NoSuchPlaceException} if it could not be found.
 	 *
 	 * @param SIGid the si gid
 	 * @return the matching place
@@ -2485,7 +2488,7 @@ public class PlacePersistenceImpl
 			msg.append("SIGid=");
 			msg.append(SIGid);
 
-			msg.append("}");
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(msg.toString());
@@ -2517,15 +2520,13 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public Place fetchBySIGId(String SIGid, boolean retrieveFromCache) {
-		SIGid = Objects.toString(SIGid, "");
-
-		Object[] finderArgs = new Object[] {SIGid};
+		Object[] finderArgs = new Object[] { SIGid };
 
 		Object result = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(
-				_finderPathFetchBySIGId, finderArgs, this);
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_SIGID,
+					finderArgs, this);
 		}
 
 		if (result instanceof Place) {
@@ -2543,7 +2544,10 @@ public class PlacePersistenceImpl
 
 			boolean bindSIGid = false;
 
-			if (SIGid.isEmpty()) {
+			if (SIGid == null) {
+				query.append(_FINDER_COLUMN_SIGID_SIGID_1);
+			}
+			else if (SIGid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_SIGID_SIGID_3);
 			}
 			else {
@@ -2570,8 +2574,8 @@ public class PlacePersistenceImpl
 				List<Place> list = q.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(
-						_finderPathFetchBySIGId, finderArgs, list);
+					finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
+						finderArgs, list);
 				}
 				else {
 					if (list.size() > 1) {
@@ -2580,8 +2584,8 @@ public class PlacePersistenceImpl
 						if (_log.isWarnEnabled()) {
 							_log.warn(
 								"PlacePersistenceImpl.fetchBySIGId(String, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
 					}
 
@@ -2590,10 +2594,16 @@ public class PlacePersistenceImpl
 					result = place;
 
 					cacheResult(place);
+
+					if ((place.getSIGid() == null) ||
+							!place.getSIGid().equals(SIGid)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
+							finderArgs, place);
+					}
 				}
 			}
 			catch (Exception e) {
-				finderCache.removeResult(_finderPathFetchBySIGId, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, finderArgs);
 
 				throw processException(e);
 			}
@@ -2631,11 +2641,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countBySIGId(String SIGid) {
-		SIGid = Objects.toString(SIGid, "");
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_SIGID;
 
-		FinderPath finderPath = _finderPathCountBySIGId;
-
-		Object[] finderArgs = new Object[] {SIGid};
+		Object[] finderArgs = new Object[] { SIGid };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2646,7 +2654,10 @@ public class PlacePersistenceImpl
 
 			boolean bindSIGid = false;
 
-			if (SIGid.isEmpty()) {
+			if (SIGid == null) {
+				query.append(_FINDER_COLUMN_SIGID_SIGID_1);
+			}
+			else if (SIGid.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_SIGID_SIGID_3);
 			}
 			else {
@@ -2687,14 +2698,22 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SIGID_SIGID_2 =
-		"place.SIGid = ?";
-
-	private static final String _FINDER_COLUMN_SIGID_SIGID_3 =
-		"(place.SIGid IS NULL OR place.SIGid = '')";
-
-	private FinderPath _finderPathWithPaginationFindByname;
-	private FinderPath _finderPathWithPaginationCountByname;
+	private static final String _FINDER_COLUMN_SIGID_SIGID_1 = "place.SIGid IS NULL";
+	private static final String _FINDER_COLUMN_SIGID_SIGID_2 = "place.SIGid = ?";
+	private static final String _FINDER_COLUMN_SIGID_SIGID_3 = "(place.SIGid IS NULL OR place.SIGid = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_NAME = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByname",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_NAME = new FinderPath(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByname",
+			new String[] { String.class.getName() });
 
 	/**
 	 * Returns all the places where name LIKE &#63;.
@@ -2711,7 +2730,7 @@ public class PlacePersistenceImpl
 	 * Returns a range of all the places where name LIKE &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param name the name
@@ -2728,7 +2747,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where name LIKE &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param name the name
@@ -2738,10 +2757,8 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByname(
-		String name, int start, int end,
+	public List<Place> findByname(String name, int start, int end,
 		OrderByComparator<Place> orderByComparator) {
-
 		return findByname(name, start, end, orderByComparator, true);
 	}
 
@@ -2749,7 +2766,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places where name LIKE &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param name the name
@@ -2760,30 +2777,26 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of matching places
 	 */
 	@Override
-	public List<Place> findByname(
-		String name, int start, int end,
+	public List<Place> findByname(String name, int start, int end,
 		OrderByComparator<Place> orderByComparator, boolean retrieveFromCache) {
-
-		name = Objects.toString(name, "");
-
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = _finderPathWithPaginationFindByname;
-		finderArgs = new Object[] {name, start, end, orderByComparator};
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_NAME;
+		finderArgs = new Object[] { name, start, end, orderByComparator };
 
 		List<Place> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Place>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			list = (List<Place>)finderCache.getResult(finderPath, finderArgs,
+					this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Place place : list) {
-					if (!StringUtil.wildcardMatches(
-							place.getName(), name, '_', '%', '\\', true)) {
-
+					if (!StringUtil.wildcardMatches(place.getName(), name,
+								CharPool.UNDERLINE, CharPool.PERCENT,
+								CharPool.BACK_SLASH, true)) {
 						list = null;
 
 						break;
@@ -2796,8 +2809,8 @@ public class PlacePersistenceImpl
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
 				query = new StringBundler(3);
@@ -2807,7 +2820,10 @@ public class PlacePersistenceImpl
 
 			boolean bindName = false;
 
-			if (name.isEmpty()) {
+			if (name == null) {
+				query.append(_FINDER_COLUMN_NAME_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_NAME_NAME_3);
 			}
 			else {
@@ -2817,10 +2833,11 @@ public class PlacePersistenceImpl
 			}
 
 			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
 			}
-			else if (pagination) {
+			else
+			 if (pagination) {
 				query.append(PlaceModelImpl.ORDER_BY_JPQL);
 			}
 
@@ -2840,16 +2857,16 @@ public class PlacePersistenceImpl
 				}
 
 				if (!pagination) {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end);
 				}
 
 				cacheResult(list);
@@ -2878,10 +2895,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByname_First(
-			String name, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByname_First(String name,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByname_First(name, orderByComparator);
 
 		if (place != null) {
@@ -2895,7 +2910,7 @@ public class PlacePersistenceImpl
 		msg.append("name=");
 		msg.append(name);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -2908,9 +2923,8 @@ public class PlacePersistenceImpl
 	 * @return the first matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByname_First(
-		String name, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByname_First(String name,
+		OrderByComparator<Place> orderByComparator) {
 		List<Place> list = findByname(name, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2929,10 +2943,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a matching place could not be found
 	 */
 	@Override
-	public Place findByname_Last(
-			String name, OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
+	public Place findByname_Last(String name,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = fetchByname_Last(name, orderByComparator);
 
 		if (place != null) {
@@ -2946,7 +2958,7 @@ public class PlacePersistenceImpl
 		msg.append("name=");
 		msg.append(name);
 
-		msg.append("}");
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchPlaceException(msg.toString());
 	}
@@ -2959,17 +2971,15 @@ public class PlacePersistenceImpl
 	 * @return the last matching place, or <code>null</code> if a matching place could not be found
 	 */
 	@Override
-	public Place fetchByname_Last(
-		String name, OrderByComparator<Place> orderByComparator) {
-
+	public Place fetchByname_Last(String name,
+		OrderByComparator<Place> orderByComparator) {
 		int count = countByname(name);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Place> list = findByname(
-			name, count - 1, count, orderByComparator);
+		List<Place> list = findByname(name, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2988,13 +2998,8 @@ public class PlacePersistenceImpl
 	 * @throws NoSuchPlaceException if a place with the primary key could not be found
 	 */
 	@Override
-	public Place[] findByname_PrevAndNext(
-			long placeId, String name,
-			OrderByComparator<Place> orderByComparator)
-		throws NoSuchPlaceException {
-
-		name = Objects.toString(name, "");
-
+	public Place[] findByname_PrevAndNext(long placeId, String name,
+		OrderByComparator<Place> orderByComparator) throws NoSuchPlaceException {
 		Place place = findByPrimaryKey(placeId);
 
 		Session session = null;
@@ -3004,13 +3009,13 @@ public class PlacePersistenceImpl
 
 			Place[] array = new PlaceImpl[3];
 
-			array[0] = getByname_PrevAndNext(
-				session, place, name, orderByComparator, true);
+			array[0] = getByname_PrevAndNext(session, place, name,
+					orderByComparator, true);
 
 			array[1] = place;
 
-			array[2] = getByname_PrevAndNext(
-				session, place, name, orderByComparator, false);
+			array[2] = getByname_PrevAndNext(session, place, name,
+					orderByComparator, false);
 
 			return array;
 		}
@@ -3022,15 +3027,14 @@ public class PlacePersistenceImpl
 		}
 	}
 
-	protected Place getByname_PrevAndNext(
-		Session session, Place place, String name,
-		OrderByComparator<Place> orderByComparator, boolean previous) {
-
+	protected Place getByname_PrevAndNext(Session session, Place place,
+		String name, OrderByComparator<Place> orderByComparator,
+		boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
@@ -3041,7 +3045,10 @@ public class PlacePersistenceImpl
 
 		boolean bindName = false;
 
-		if (name.isEmpty()) {
+		if (name == null) {
+			query.append(_FINDER_COLUMN_NAME_NAME_1);
+		}
+		else if (name.equals(StringPool.BLANK)) {
 			query.append(_FINDER_COLUMN_NAME_NAME_3);
 		}
 		else {
@@ -3051,8 +3058,7 @@ public class PlacePersistenceImpl
 		}
 
 		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
 				query.append(WHERE_AND);
@@ -3124,10 +3130,10 @@ public class PlacePersistenceImpl
 		}
 
 		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(place)) {
+			Object[] values = orderByComparator.getOrderByConditionValues(place);
 
-				qPos.add(orderByConditionValue);
+			for (Object value : values) {
+				qPos.add(value);
 			}
 		}
 
@@ -3148,9 +3154,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void removeByname(String name) {
-		for (Place place :
-				findByname(name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-
+		for (Place place : findByname(name, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
 			remove(place);
 		}
 	}
@@ -3163,11 +3168,9 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countByname(String name) {
-		name = Objects.toString(name, "");
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_NAME;
 
-		FinderPath finderPath = _finderPathWithPaginationCountByname;
-
-		Object[] finderArgs = new Object[] {name};
+		Object[] finderArgs = new Object[] { name };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -3178,7 +3181,10 @@ public class PlacePersistenceImpl
 
 			boolean bindName = false;
 
-			if (name.isEmpty()) {
+			if (name == null) {
+				query.append(_FINDER_COLUMN_NAME_NAME_1);
+			}
+			else if (name.equals(StringPool.BLANK)) {
 				query.append(_FINDER_COLUMN_NAME_NAME_3);
 			}
 			else {
@@ -3219,26 +3225,22 @@ public class PlacePersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_NAME_NAME_2 =
-		"place.name LIKE ?";
-
-	private static final String _FINDER_COLUMN_NAME_NAME_3 =
-		"(place.name IS NULL OR place.name LIKE '')";
+	private static final String _FINDER_COLUMN_NAME_NAME_1 = "place.name IS NULL";
+	private static final String _FINDER_COLUMN_NAME_NAME_2 = "place.name LIKE ?";
+	private static final String _FINDER_COLUMN_NAME_NAME_3 = "(place.name IS NULL OR place.name LIKE '')";
 
 	public PlacePersistenceImpl() {
 		setModelClass(Place.class);
 
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("uuid", "uuid_");
-		dbColumnNames.put("alias", "alias_");
-		dbColumnNames.put("access", "access_");
-
 		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
+			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
+					"_dbColumnNames");
 
-			field.setAccessible(true);
+			Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+			dbColumnNames.put("uuid", "uuid_");
+			dbColumnNames.put("alias", "alias_");
+			dbColumnNames.put("access", "access_");
 
 			field.set(this, dbColumnNames);
 		}
@@ -3256,16 +3258,14 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Place place) {
-		entityCache.putResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-			place.getPrimaryKey(), place);
+		entityCache.putResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceImpl.class, place.getPrimaryKey(), place);
 
-		finderCache.putResult(
-			_finderPathFetchByUUID_G,
-			new Object[] {place.getUuid(), place.getGroupId()}, place);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+			new Object[] { place.getUuid(), place.getGroupId() }, place);
 
-		finderCache.putResult(
-			_finderPathFetchBySIGId, new Object[] {place.getSIGid()}, place);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID,
+			new Object[] { place.getSIGid() }, place);
 
 		place.resetOriginalValues();
 	}
@@ -3278,10 +3278,8 @@ public class PlacePersistenceImpl
 	@Override
 	public void cacheResult(List<Place> places) {
 		for (Place place : places) {
-			if (entityCache.getResult(
-					PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-					place.getPrimaryKey()) == null) {
-
+			if (entityCache.getResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+						PlaceImpl.class, place.getPrimaryKey()) == null) {
 				cacheResult(place);
 			}
 			else {
@@ -3294,7 +3292,7 @@ public class PlacePersistenceImpl
 	 * Clears the cache for all places.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
+	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
 	 * </p>
 	 */
 	@Override
@@ -3310,14 +3308,13 @@ public class PlacePersistenceImpl
 	 * Clears the cache for the place.
 	 *
 	 * <p>
-	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
+	 * The {@link EntityCache} and {@link FinderCache} are both cleared by this method.
 	 * </p>
 	 */
 	@Override
 	public void clearCache(Place place) {
-		entityCache.removeResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-			place.getPrimaryKey());
+		entityCache.removeResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceImpl.class, place.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3331,9 +3328,8 @@ public class PlacePersistenceImpl
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		for (Place place : places) {
-			entityCache.removeResult(
-				PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-				place.getPrimaryKey());
+			entityCache.removeResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+				PlaceImpl.class, place.getPrimaryKey());
 
 			clearUniqueFindersCache((PlaceModelImpl)place, true);
 		}
@@ -3341,60 +3337,57 @@ public class PlacePersistenceImpl
 
 	protected void cacheUniqueFindersCache(PlaceModelImpl placeModelImpl) {
 		Object[] args = new Object[] {
-			placeModelImpl.getUuid(), placeModelImpl.getGroupId()
-		};
-
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, placeModelImpl, false);
-
-		args = new Object[] {placeModelImpl.getSIGid()};
-
-		finderCache.putResult(
-			_finderPathCountBySIGId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchBySIGId, args, placeModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PlaceModelImpl placeModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
 				placeModelImpl.getUuid(), placeModelImpl.getGroupId()
 			};
 
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+			placeModelImpl, false);
+
+		args = new Object[] { placeModelImpl.getSIGid() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_SIGID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_SIGID, args, placeModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(PlaceModelImpl placeModelImpl,
+		boolean clearCurrent) {
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					placeModelImpl.getUuid(), placeModelImpl.getGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 
 		if ((placeModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
+				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
 			Object[] args = new Object[] {
-				placeModelImpl.getOriginalUuid(),
-				placeModelImpl.getOriginalGroupId()
-			};
+					placeModelImpl.getOriginalUuid(),
+					placeModelImpl.getOriginalGroupId()
+				};
 
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 
 		if (clearCurrent) {
-			Object[] args = new Object[] {placeModelImpl.getSIGid()};
+			Object[] args = new Object[] { placeModelImpl.getSIGid() };
 
-			finderCache.removeResult(_finderPathCountBySIGId, args);
-			finderCache.removeResult(_finderPathFetchBySIGId, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
 		}
 
 		if ((placeModelImpl.getColumnBitmask() &
-			 _finderPathFetchBySIGId.getColumnBitmask()) != 0) {
+				FINDER_PATH_FETCH_BY_SIGID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { placeModelImpl.getOriginalSIGid() };
 
-			Object[] args = new Object[] {placeModelImpl.getOriginalSIGid()};
-
-			finderCache.removeResult(_finderPathCountBySIGId, args);
-			finderCache.removeResult(_finderPathFetchBySIGId, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_SIGID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_SIGID, args);
 		}
 	}
 
@@ -3453,8 +3446,8 @@ public class PlacePersistenceImpl
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchPlaceException(
-					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+				throw new NoSuchPlaceException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+					primaryKey);
 			}
 
 			return remove(place);
@@ -3472,14 +3465,16 @@ public class PlacePersistenceImpl
 
 	@Override
 	protected Place removeImpl(Place place) {
+		place = toUnwrappedModel(place);
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
 			if (!session.contains(place)) {
-				place = (Place)session.get(
-					PlaceImpl.class, place.getPrimaryKeyObj());
+				place = (Place)session.get(PlaceImpl.class,
+						place.getPrimaryKeyObj());
 			}
 
 			if (place != null) {
@@ -3502,23 +3497,9 @@ public class PlacePersistenceImpl
 
 	@Override
 	public Place updateImpl(Place place) {
+		place = toUnwrappedModel(place);
+
 		boolean isNew = place.isNew();
-
-		if (!(place instanceof PlaceModelImpl)) {
-			InvocationHandler invocationHandler = null;
-
-			if (ProxyUtil.isProxyClass(place.getClass())) {
-				invocationHandler = ProxyUtil.getInvocationHandler(place);
-
-				throw new IllegalArgumentException(
-					"Implement ModelWrapper in place proxy " +
-						invocationHandler.getClass());
-			}
-
-			throw new IllegalArgumentException(
-				"Implement ModelWrapper in custom Place implementation " +
-					place.getClass());
-		}
 
 		PlaceModelImpl placeModelImpl = (PlaceModelImpl)place;
 
@@ -3528,8 +3509,7 @@ public class PlacePersistenceImpl
 			place.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext =
-			ServiceContextThreadLocal.getServiceContext();
+		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
 
 		Date now = new Date();
 
@@ -3577,119 +3557,108 @@ public class PlacePersistenceImpl
 		if (!PlaceModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {placeModelImpl.getUuid()};
+		else
+		 if (isNew) {
+			Object[] args = new Object[] { placeModelImpl.getUuid() };
 
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+				args);
 
 			args = new Object[] {
-				placeModelImpl.getUuid(), placeModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {placeModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {placeModelImpl.getPriceId()};
-
-			finderCache.removeResult(_finderPathCountByPriceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPriceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {placeModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {placeModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					placeModelImpl.getOriginalUuid(),
-					placeModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
 					placeModelImpl.getUuid(), placeModelImpl.getCompanyId()
 				};
 
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+				args);
+
+			args = new Object[] { placeModelImpl.getGroupId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+				args);
+
+			args = new Object[] { placeModelImpl.getPriceId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_PRICEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID,
+				args);
+
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
+		}
+
+		else {
+			if ((placeModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { placeModelImpl.getOriginalUuid() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+					args);
+
+				args = new Object[] { placeModelImpl.getUuid() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID,
+					args);
 			}
 
 			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-					placeModelImpl.getOriginalGroupId()
-				};
+						placeModelImpl.getOriginalUuid(),
+						placeModelImpl.getOriginalCompanyId()
+					};
 
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+					args);
 
-				args = new Object[] {placeModelImpl.getGroupId()};
+				args = new Object[] {
+						placeModelImpl.getUuid(), placeModelImpl.getCompanyId()
+					};
 
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+					args);
 			}
 
 			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPriceId.
-					 getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { placeModelImpl.getOriginalGroupId() };
 
-				Object[] args = new Object[] {
-					placeModelImpl.getOriginalPriceId()
-				};
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
 
-				finderCache.removeResult(_finderPathCountByPriceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPriceId, args);
+				args = new Object[] { placeModelImpl.getGroupId() };
 
-				args = new Object[] {placeModelImpl.getPriceId()};
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
 
-				finderCache.removeResult(_finderPathCountByPriceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPriceId, args);
+			if ((placeModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { placeModelImpl.getOriginalPriceId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PRICEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID,
+					args);
+
+				args = new Object[] { placeModelImpl.getPriceId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_PRICEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_PRICEID,
+					args);
 			}
 		}
 
-		entityCache.putResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-			place.getPrimaryKey(), place, false);
+		entityCache.putResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+			PlaceImpl.class, place.getPrimaryKey(), place, false);
 
 		clearUniqueFindersCache(placeModelImpl, false);
 		cacheUniqueFindersCache(placeModelImpl);
@@ -3699,8 +3668,90 @@ public class PlacePersistenceImpl
 		return place;
 	}
 
+	protected Place toUnwrappedModel(Place place) {
+		if (place instanceof PlaceImpl) {
+			return place;
+		}
+
+		PlaceImpl placeImpl = new PlaceImpl();
+
+		placeImpl.setNew(place.isNew());
+		placeImpl.setPrimaryKey(place.getPrimaryKey());
+
+		placeImpl.setUuid(place.getUuid());
+		placeImpl.setPlaceId(place.getPlaceId());
+		placeImpl.setGroupId(place.getGroupId());
+		placeImpl.setCompanyId(place.getCompanyId());
+		placeImpl.setUserId(place.getUserId());
+		placeImpl.setUserName(place.getUserName());
+		placeImpl.setCreateDate(place.getCreateDate());
+		placeImpl.setModifiedDate(place.getModifiedDate());
+		placeImpl.setLastPublishDate(place.getLastPublishDate());
+		placeImpl.setStatus(place.getStatus());
+		placeImpl.setStatusByUserId(place.getStatusByUserId());
+		placeImpl.setStatusByUserName(place.getStatusByUserName());
+		placeImpl.setStatusDate(place.getStatusDate());
+		placeImpl.setSIGid(place.getSIGid());
+		placeImpl.setName(place.getName());
+		placeImpl.setAddressComplement(place.getAddressComplement());
+		placeImpl.setAddressStreet(place.getAddressStreet());
+		placeImpl.setAddressDistribution(place.getAddressDistribution());
+		placeImpl.setAddressZipCode(place.getAddressZipCode());
+		placeImpl.setAddressCountry(place.getAddressCountry());
+		placeImpl.setMercatorX(place.getMercatorX());
+		placeImpl.setMercatorY(place.getMercatorY());
+		placeImpl.setRGF93X(place.getRGF93X());
+		placeImpl.setRGF93Y(place.getRGF93Y());
+		placeImpl.setLocationId(place.getLocationId());
+		placeImpl.setAlias(place.getAlias());
+		placeImpl.setPresentation(place.getPresentation());
+		placeImpl.setServiceAndActivities(place.getServiceAndActivities());
+		placeImpl.setCharacteristics(place.getCharacteristics());
+		placeImpl.setSubjectToPublicHoliday(place.isSubjectToPublicHoliday());
+		placeImpl.setExceptionalSchedule(place.getExceptionalSchedule());
+		placeImpl.setDisplayEvents(place.isDisplayEvents());
+		placeImpl.setAdditionalInformation(place.getAdditionalInformation());
+		placeImpl.setContenuTooltipCarto(place.getContenuTooltipCarto());
+		placeImpl.setHasURLSchedule(place.isHasURLSchedule());
+		placeImpl.setScheduleLinkName(place.getScheduleLinkName());
+		placeImpl.setScheduleLinkURL(place.getScheduleLinkURL());
+		placeImpl.setPhone(place.getPhone());
+		placeImpl.setMail(place.getMail());
+		placeImpl.setSiteURL(place.getSiteURL());
+		placeImpl.setSiteLabel(place.getSiteLabel());
+		placeImpl.setFacebookURL(place.getFacebookURL());
+		placeImpl.setFacebookLabel(place.getFacebookLabel());
+		placeImpl.setInstagramURL(place.getInstagramURL());
+		placeImpl.setInstagramLabel(place.getInstagramLabel());
+		placeImpl.setAccesMap(place.getAccesMap());
+		placeImpl.setAccess(place.getAccess());
+		placeImpl.setAccessForDisabled(place.getAccessForDisabled());
+		placeImpl.setAccessForBlind(place.getAccessForBlind());
+		placeImpl.setAccessForDeaf(place.getAccessForDeaf());
+		placeImpl.setAccessForWheelchair(place.getAccessForWheelchair());
+		placeImpl.setAccessForElder(place.getAccessForElder());
+		placeImpl.setAccessForDeficient(place.getAccessForDeficient());
+		placeImpl.setRTEnabled(place.getRTEnabled());
+		placeImpl.setRTType(place.getRTType());
+		placeImpl.setRTExternalId(place.getRTExternalId());
+		placeImpl.setRTAvailable(place.getRTAvailable());
+		placeImpl.setRTOccupation(place.getRTOccupation());
+		placeImpl.setRTCapacity(place.getRTCapacity());
+		placeImpl.setRTStatus(place.getRTStatus());
+		placeImpl.setRTLastUpdate(place.getRTLastUpdate());
+		placeImpl.setImageId(place.getImageId());
+		placeImpl.setImageWidth(place.getImageWidth());
+		placeImpl.setImageHeight(place.getImageHeight());
+		placeImpl.setImageIds(place.getImageIds());
+		placeImpl.setVideosIds(place.getVideosIds());
+		placeImpl.setPriceId(place.getPriceId());
+		placeImpl.setDocumentsIds(place.getDocumentsIds());
+
+		return placeImpl;
+	}
+
 	/**
-	 * Returns the place with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
+	 * Returns the place with the primary key or throws a {@link com.liferay.portal.kernel.exception.NoSuchModelException} if it could not be found.
 	 *
 	 * @param primaryKey the primary key of the place
 	 * @return the place
@@ -3709,7 +3760,6 @@ public class PlacePersistenceImpl
 	@Override
 	public Place findByPrimaryKey(Serializable primaryKey)
 		throws NoSuchPlaceException {
-
 		Place place = fetchByPrimaryKey(primaryKey);
 
 		if (place == null) {
@@ -3717,15 +3767,15 @@ public class PlacePersistenceImpl
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchPlaceException(
-				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
+			throw new NoSuchPlaceException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
+				primaryKey);
 		}
 
 		return place;
 	}
 
 	/**
-	 * Returns the place with the primary key or throws a <code>NoSuchPlaceException</code> if it could not be found.
+	 * Returns the place with the primary key or throws a {@link NoSuchPlaceException} if it could not be found.
 	 *
 	 * @param placeId the primary key of the place
 	 * @return the place
@@ -3744,8 +3794,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public Place fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class, primaryKey);
+		Serializable serializable = entityCache.getResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+				PlaceImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
@@ -3765,15 +3815,13 @@ public class PlacePersistenceImpl
 					cacheResult(place);
 				}
 				else {
-					entityCache.putResult(
-						PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-						primaryKey, nullModel);
+					entityCache.putResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+						PlaceImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
-				entityCache.removeResult(
-					PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-					primaryKey);
+				entityCache.removeResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+					PlaceImpl.class, primaryKey);
 
 				throw processException(e);
 			}
@@ -3799,7 +3847,6 @@ public class PlacePersistenceImpl
 	@Override
 	public Map<Serializable, Place> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
-
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
@@ -3823,9 +3870,8 @@ public class PlacePersistenceImpl
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-				primaryKey);
+			Serializable serializable = entityCache.getResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+					PlaceImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3845,20 +3891,20 @@ public class PlacePersistenceImpl
 			return map;
 		}
 
-		StringBundler query = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
+		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
+				1);
 
 		query.append(_SQL_SELECT_PLACE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
 			query.append((long)primaryKey);
 
-			query.append(",");
+			query.append(StringPool.COMMA);
 		}
 
 		query.setIndex(query.index() - 1);
 
-		query.append(")");
+		query.append(StringPool.CLOSE_PARENTHESIS);
 
 		String sql = query.toString();
 
@@ -3878,9 +3924,8 @@ public class PlacePersistenceImpl
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-					primaryKey, nullModel);
+				entityCache.putResult(PlaceModelImpl.ENTITY_CACHE_ENABLED,
+					PlaceImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -3907,7 +3952,7 @@ public class PlacePersistenceImpl
 	 * Returns a range of all the places.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of places
@@ -3923,7 +3968,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of places
@@ -3932,9 +3977,8 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of places
 	 */
 	@Override
-	public List<Place> findAll(
-		int start, int end, OrderByComparator<Place> orderByComparator) {
-
+	public List<Place> findAll(int start, int end,
+		OrderByComparator<Place> orderByComparator) {
 		return findAll(start, end, orderByComparator, true);
 	}
 
@@ -3942,7 +3986,7 @@ public class PlacePersistenceImpl
 	 * Returns an ordered range of all the places.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link PlaceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of places
@@ -3952,31 +3996,28 @@ public class PlacePersistenceImpl
 	 * @return the ordered range of places
 	 */
 	@Override
-	public List<Place> findAll(
-		int start, int end, OrderByComparator<Place> orderByComparator,
-		boolean retrieveFromCache) {
-
+	public List<Place> findAll(int start, int end,
+		OrderByComparator<Place> orderByComparator, boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
+				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindAll;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL;
 			finderArgs = FINDER_ARGS_EMPTY;
 		}
 		else {
-			finderPath = _finderPathWithPaginationFindAll;
-			finderArgs = new Object[] {start, end, orderByComparator};
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_ALL;
+			finderArgs = new Object[] { start, end, orderByComparator };
 		}
 
 		List<Place> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<Place>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			list = (List<Place>)finderCache.getResult(finderPath, finderArgs,
+					this);
 		}
 
 		if (list == null) {
@@ -3984,13 +4025,13 @@ public class PlacePersistenceImpl
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					2 + (orderByComparator.getOrderByFields().length * 2));
+				query = new StringBundler(2 +
+						(orderByComparator.getOrderByFields().length * 2));
 
 				query.append(_SQL_SELECT_PLACE);
 
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
 
 				sql = query.toString();
 			}
@@ -4010,16 +4051,16 @@ public class PlacePersistenceImpl
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end, false);
 
 					Collections.sort(list);
 
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<Place>)QueryUtil.list(
-						q, getDialect(), start, end);
+					list = (List<Place>)QueryUtil.list(q, getDialect(), start,
+							end);
 				}
 
 				cacheResult(list);
@@ -4057,8 +4098,8 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(
-			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
+		Long count = (Long)finderCache.getResult(FINDER_PATH_COUNT_ALL,
+				FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
 			Session session = null;
@@ -4070,12 +4111,12 @@ public class PlacePersistenceImpl
 
 				count = (Long)q.uniqueResult();
 
-				finderCache.putResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
+				finderCache.putResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY,
+					count);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
+				finderCache.removeResult(FINDER_PATH_COUNT_ALL,
+					FINDER_ARGS_EMPTY);
 
 				throw processException(e);
 			}
@@ -4101,154 +4142,6 @@ public class PlacePersistenceImpl
 	 * Initializes the place persistence.
 	 */
 	public void afterPropertiesSet() {
-		_finderPathWithPaginationFindAll = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
-
-		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
-
-		_finderPathCountAll = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
-
-		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PlaceModelImpl.UUID_COLUMN_BITMASK);
-
-		_finderPathCountByUuid = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
-
-		_finderPathFetchByUUID_G = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()},
-			PlaceModelImpl.UUID_COLUMN_BITMASK |
-			PlaceModelImpl.GROUPID_COLUMN_BITMASK);
-
-		_finderPathCountByUUID_G = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
-
-		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
-			new String[] {
-				String.class.getName(), Long.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()},
-			PlaceModelImpl.UUID_COLUMN_BITMASK |
-			PlaceModelImpl.COMPANYID_COLUMN_BITMASK);
-
-		_finderPathCountByUuid_C = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
-
-		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			PlaceModelImpl.GROUPID_COLUMN_BITMASK);
-
-		_finderPathCountByGroupId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
-
-		_finderPathWithPaginationFindByPriceId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPriceId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByPriceId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPriceId",
-			new String[] {Long.class.getName()},
-			PlaceModelImpl.PRICEID_COLUMN_BITMASK);
-
-		_finderPathCountByPriceId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPriceId",
-			new String[] {Long.class.getName()});
-
-		_finderPathFetchBySIGId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchBySIGId",
-			new String[] {String.class.getName()},
-			PlaceModelImpl.SIGID_COLUMN_BITMASK);
-
-		_finderPathCountBySIGId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIGId",
-			new String[] {String.class.getName()});
-
-		_finderPathWithPaginationFindByname = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByname",
-			new String[] {
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithPaginationCountByname = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByname",
-			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {
@@ -4260,40 +4153,20 @@ public class PlacePersistenceImpl
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
 	protected CompanyProvider companyProvider;
-
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
-
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-
-	private static final String _SQL_SELECT_PLACE =
-		"SELECT place FROM Place place";
-
-	private static final String _SQL_SELECT_PLACE_WHERE_PKS_IN =
-		"SELECT place FROM Place place WHERE placeId IN (";
-
-	private static final String _SQL_SELECT_PLACE_WHERE =
-		"SELECT place FROM Place place WHERE ";
-
-	private static final String _SQL_COUNT_PLACE =
-		"SELECT COUNT(place) FROM Place place";
-
-	private static final String _SQL_COUNT_PLACE_WHERE =
-		"SELECT COUNT(place) FROM Place place WHERE ";
-
+	private static final String _SQL_SELECT_PLACE = "SELECT place FROM Place place";
+	private static final String _SQL_SELECT_PLACE_WHERE_PKS_IN = "SELECT place FROM Place place WHERE placeId IN (";
+	private static final String _SQL_SELECT_PLACE_WHERE = "SELECT place FROM Place place WHERE ";
+	private static final String _SQL_COUNT_PLACE = "SELECT COUNT(place) FROM Place place";
+	private static final String _SQL_COUNT_PLACE_WHERE = "SELECT COUNT(place) FROM Place place WHERE ";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "place.";
-
-	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
-		"No Place exists with the primary key ";
-
-	private static final String _NO_SUCH_ENTITY_WITH_KEY =
-		"No Place exists with the key {";
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		PlacePersistenceImpl.class);
-
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid", "alias", "access"});
-
+	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Place exists with the primary key ";
+	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Place exists with the key {";
+	private static final Log _log = LogFactoryUtil.getLog(PlacePersistenceImpl.class);
+	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
+				"uuid", "alias", "access"
+			});
 }

@@ -6481,6 +6481,17 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
     return Pikaday;
 }));
 
+/* Detect the scroll of the page and animate the menu */
+$(window).on('scroll', function (e) {
+    var st = $(this).scrollTop();
+
+    if (st > 100) {
+        $('.social-share').addClass('fadein');
+    }
+    else {
+        $('.social-share').removeClass('fadein');
+    }
+});
 /*
         EGALISE EN HAUTEUR DES BLOCKS
 
@@ -6693,7 +6704,6 @@ var objectFitImages=function(){"use strict";function t(t){for(var e,r=getCompute
 	/* For the Agenda's page */ 
 	$('.mns-affiner-m').click(function(){
 		$('.mns-z-filtres-search').slideToggle('500');
-		$('.mns-z-filtres-search').addClass('row');
 		//$(this).parent().parent().toggleClass('hide-button');
 	});
 

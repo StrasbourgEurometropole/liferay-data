@@ -30,11 +30,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 
 	@Override
-	public String getJspPath(HttpServletRequest request) {
-		return "/configuration/social-configuration.jsp";
-	}
-
-	@Override
 	public void processAction(PortletConfig portletConfig,
 		ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
@@ -42,12 +37,9 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 		String twitterAccount = ParamUtil.getString(actionRequest, "twitterAccount");
 		setPreference(actionRequest, "twitterAccount", twitterAccount);
 
-		String instagramClientId = ParamUtil.getString(actionRequest, "instagramClientId");
-		setPreference(actionRequest, "instagramClientId", instagramClientId);
-		
-		String instagramClientSecret = ParamUtil.getString(actionRequest, "instagramClientSecret");
-		setPreference(actionRequest, "instagramClientSecret", instagramClientSecret);
-		
+		String instagramCreateDate = ParamUtil.getString(actionRequest, "instagramCreateDate");
+		setPreference(actionRequest, "instagramCreateDate", instagramCreateDate);
+
 		String instagramToken = ParamUtil.getString(actionRequest, "instagramToken");
 		setPreference(actionRequest, "instagramToken", instagramToken);
 
@@ -71,9 +63,9 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 		MultiVMPoolUtil.getPortalCache("dailymotion_cache")
 			.remove(dailymotionAccountId + "_last_update");
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(instagramClientId);
+		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(instagramToken);
 		MultiVMPoolUtil.getPortalCache("instagram_cache")
-			.remove(instagramClientId + "_last_update");
+			.remove(instagramToken + "_last_update");
 
 		MultiVMPoolUtil.getPortalCache("facebook_cache").remove(facebookToken);
 		MultiVMPoolUtil.getPortalCache("facebook_cache")
@@ -95,9 +87,8 @@ public class SocialWallConfigurationAction extends DefaultConfigurationAction {
 				.getPortletInstanceConfiguration(SocialWallConfiguration.class);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
-			request.setAttribute("instagramClientId", configuration.instagramClientId());
-			request.setAttribute("instagramClientSecret", configuration.instagramClientSecret());
 			request.setAttribute("instagramToken", configuration.instagramToken());
+			request.setAttribute("instagramCreateDate", configuration.instagramCreateDate());
 			request.setAttribute("dailymotionAccountId", configuration.dailymotionAccountId());
 			request.setAttribute("facebookToken", configuration.facebookToken());
 			request.setAttribute("postCount", configuration.postCount());

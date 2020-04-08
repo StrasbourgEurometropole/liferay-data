@@ -11,6 +11,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.model.Layout;
@@ -29,6 +30,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/rubric-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.name=" + StrasbourgPortletKeys.RUBRIC_WEB,
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)
 public class RubricPortlet extends MVCPortlet {

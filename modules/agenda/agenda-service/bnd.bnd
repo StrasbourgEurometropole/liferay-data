@@ -2,4 +2,3 @@ Bundle-SymbolicName: agenda-service
 Bundle-Version: 1.31.0
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
-Import-Package: !com.sun.org.apache.xml.internal.utils,*

@@ -20,6 +20,9 @@
 </liferay-portlet:actionURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="name-error" message="name-error" />
+	<liferay-ui:error key="description-error" message="description-error" />
+
 	<aui:form action="${saveSubPlaceURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -47,7 +50,8 @@
 							function (val, fieldNode, ruleValue) {
 								var validate = $('#_eu_strasbourg_portlet_place_PlaceBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
-									$("#_eu_strasbourg_portlet_place_PlaceBOPortlet_descriptionContainer").get(0).scrollIntoView();
+									$("#_eu_strasbourg_portlet_place_PlaceBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
+									event.preventDefault();
 								}
 								return validate;
 							}

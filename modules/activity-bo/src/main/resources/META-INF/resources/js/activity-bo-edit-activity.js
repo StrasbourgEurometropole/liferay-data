@@ -43,6 +43,7 @@ jQuery(function() {
 			jQuery('#place-autocomplete-hidden-value input', $(this).closest('.row-fields')).val(
 					suggestion.data);
 			jQuery('input.selected-place', $(this).closest('.row-fields')).val(suggestion.value);
+			jQuery('input.selected-place2', $(this).closest('.row-fields')).val(suggestion.value);
 		}
 	};
 	jQuery('.place-autocomplete-input-wrapper').each(function() {

@@ -1,10 +1,7 @@
 .pro-bloc-text-hp {
 	position: relative;
-	padding: 40px 15px;
+	padding: 50px 15px;
 	margin-top: 20px;
-	@include mobile{
-		margin-top: 0;
-	}
 	&:before {
 		content: '';
 		position: absolute;
@@ -14,12 +11,10 @@
 		height: 20px;
 		background: $c_main;
 		@include mobile {
-			position: relative;
 			top: 0;
-			left: 0;
 			width: 100px;
 			height: 10px;
-			margin-bottom: 25px;
+			margin-top: 15px;
 		}
 	}
 	> * {

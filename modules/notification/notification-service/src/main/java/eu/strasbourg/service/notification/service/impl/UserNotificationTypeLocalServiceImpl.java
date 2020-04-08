@@ -17,15 +17,14 @@ package eu.strasbourg.service.notification.service.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.base.UserNotificationTypeLocalServiceBaseImpl;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The implementation of the user notification type local service.
@@ -55,6 +54,14 @@ public class UserNotificationTypeLocalServiceImpl extends UserNotificationTypeLo
 	 * UserNotificationTypeLocalServiceUtil} to access the user notification
 	 * type local service.
 	 */
+
+	/**
+	 * Retourne la liste des statuts de notification pour un utilisateur
+	 */
+	@Override
+	public List<UserNotificationType> getByPublikUserId(String publikUserId) {
+		return this.userNotificationTypePersistence.findByPublikUserId(publikUserId);
+	}
 
 	/**
 	 * Retourne la liste des utilisateurs abonnés à un type de notification

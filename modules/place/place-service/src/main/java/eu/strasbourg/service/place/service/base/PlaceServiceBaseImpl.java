@@ -17,6 +17,7 @@ package eu.strasbourg.service.place.service.base;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -32,6 +33,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceService;
+import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
 import eu.strasbourg.service.place.service.persistence.PlacePersistence;
 import eu.strasbourg.service.place.service.persistence.PricePersistence;
@@ -51,25 +53,61 @@ import javax.sql.DataSource;
  *
  * @author Angelique Zunino Champougny
  * @see eu.strasbourg.service.place.service.impl.PlaceServiceImpl
+ * @see eu.strasbourg.service.place.service.PlaceServiceUtil
  * @generated
  */
-public abstract class PlaceServiceBaseImpl
-	extends BaseServiceImpl implements PlaceService, IdentifiableOSGiService {
-
+public abstract class PlaceServiceBaseImpl extends BaseServiceImpl
+	implements PlaceService, IdentifiableOSGiService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>PlaceService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.place.service.PlaceServiceUtil</code>.
+	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.place.service.PlaceServiceUtil} to access the place remote service.
 	 */
+
+	/**
+	 * Returns the google my business historic local service.
+	 *
+	 * @return the google my business historic local service
+	 */
+	public eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService getGoogleMyBusinessHistoricLocalService() {
+		return googleMyBusinessHistoricLocalService;
+	}
+
+	/**
+	 * Sets the google my business historic local service.
+	 *
+	 * @param googleMyBusinessHistoricLocalService the google my business historic local service
+	 */
+	public void setGoogleMyBusinessHistoricLocalService(
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService) {
+		this.googleMyBusinessHistoricLocalService = googleMyBusinessHistoricLocalService;
+	}
+
+	/**
+	 * Returns the google my business historic persistence.
+	 *
+	 * @return the google my business historic persistence
+	 */
+	public GoogleMyBusinessHistoricPersistence getGoogleMyBusinessHistoricPersistence() {
+		return googleMyBusinessHistoricPersistence;
+	}
+
+	/**
+	 * Sets the google my business historic persistence.
+	 *
+	 * @param googleMyBusinessHistoricPersistence the google my business historic persistence
+	 */
+	public void setGoogleMyBusinessHistoricPersistence(
+		GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence) {
+		this.googleMyBusinessHistoricPersistence = googleMyBusinessHistoricPersistence;
+	}
 
 	/**
 	 * Returns the period local service.
 	 *
 	 * @return the period local service
 	 */
-	public eu.strasbourg.service.place.service.PeriodLocalService
-		getPeriodLocalService() {
-
+	public eu.strasbourg.service.place.service.PeriodLocalService getPeriodLocalService() {
 		return periodLocalService;
 	}
 
@@ -79,9 +117,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param periodLocalService the period local service
 	 */
 	public void setPeriodLocalService(
-		eu.strasbourg.service.place.service.PeriodLocalService
-			periodLocalService) {
-
+		eu.strasbourg.service.place.service.PeriodLocalService periodLocalService) {
 		this.periodLocalService = periodLocalService;
 	}
 
@@ -108,9 +144,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the place local service
 	 */
-	public eu.strasbourg.service.place.service.PlaceLocalService
-		getPlaceLocalService() {
-
+	public eu.strasbourg.service.place.service.PlaceLocalService getPlaceLocalService() {
 		return placeLocalService;
 	}
 
@@ -120,9 +154,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param placeLocalService the place local service
 	 */
 	public void setPlaceLocalService(
-		eu.strasbourg.service.place.service.PlaceLocalService
-			placeLocalService) {
-
+		eu.strasbourg.service.place.service.PlaceLocalService placeLocalService) {
 		this.placeLocalService = placeLocalService;
 	}
 
@@ -167,9 +199,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the price local service
 	 */
-	public eu.strasbourg.service.place.service.PriceLocalService
-		getPriceLocalService() {
-
+	public eu.strasbourg.service.place.service.PriceLocalService getPriceLocalService() {
 		return priceLocalService;
 	}
 
@@ -179,9 +209,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param priceLocalService the price local service
 	 */
 	public void setPriceLocalService(
-		eu.strasbourg.service.place.service.PriceLocalService
-			priceLocalService) {
-
+		eu.strasbourg.service.place.service.PriceLocalService priceLocalService) {
 		this.priceLocalService = priceLocalService;
 	}
 
@@ -208,9 +236,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the public holiday local service
 	 */
-	public eu.strasbourg.service.place.service.PublicHolidayLocalService
-		getPublicHolidayLocalService() {
-
+	public eu.strasbourg.service.place.service.PublicHolidayLocalService getPublicHolidayLocalService() {
 		return publicHolidayLocalService;
 	}
 
@@ -220,9 +246,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param publicHolidayLocalService the public holiday local service
 	 */
 	public void setPublicHolidayLocalService(
-		eu.strasbourg.service.place.service.PublicHolidayLocalService
-			publicHolidayLocalService) {
-
+		eu.strasbourg.service.place.service.PublicHolidayLocalService publicHolidayLocalService) {
 		this.publicHolidayLocalService = publicHolidayLocalService;
 	}
 
@@ -242,7 +266,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setPublicHolidayPersistence(
 		PublicHolidayPersistence publicHolidayPersistence) {
-
 		this.publicHolidayPersistence = publicHolidayPersistence;
 	}
 
@@ -251,9 +274,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the schedule exception local service
 	 */
-	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService
-		getScheduleExceptionLocalService() {
-
+	public eu.strasbourg.service.place.service.ScheduleExceptionLocalService getScheduleExceptionLocalService() {
 		return scheduleExceptionLocalService;
 	}
 
@@ -263,9 +284,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param scheduleExceptionLocalService the schedule exception local service
 	 */
 	public void setScheduleExceptionLocalService(
-		eu.strasbourg.service.place.service.ScheduleExceptionLocalService
-			scheduleExceptionLocalService) {
-
+		eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService) {
 		this.scheduleExceptionLocalService = scheduleExceptionLocalService;
 	}
 
@@ -285,7 +304,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setScheduleExceptionPersistence(
 		ScheduleExceptionPersistence scheduleExceptionPersistence) {
-
 		this.scheduleExceptionPersistence = scheduleExceptionPersistence;
 	}
 
@@ -294,9 +312,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the slot local service
 	 */
-	public eu.strasbourg.service.place.service.SlotLocalService
-		getSlotLocalService() {
-
+	public eu.strasbourg.service.place.service.SlotLocalService getSlotLocalService() {
 		return slotLocalService;
 	}
 
@@ -307,7 +323,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setSlotLocalService(
 		eu.strasbourg.service.place.service.SlotLocalService slotLocalService) {
-
 		this.slotLocalService = slotLocalService;
 	}
 
@@ -334,9 +349,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the sub place local service
 	 */
-	public eu.strasbourg.service.place.service.SubPlaceLocalService
-		getSubPlaceLocalService() {
-
+	public eu.strasbourg.service.place.service.SubPlaceLocalService getSubPlaceLocalService() {
 		return subPlaceLocalService;
 	}
 
@@ -346,9 +359,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param subPlaceLocalService the sub place local service
 	 */
 	public void setSubPlaceLocalService(
-		eu.strasbourg.service.place.service.SubPlaceLocalService
-			subPlaceLocalService) {
-
+		eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService) {
 		this.subPlaceLocalService = subPlaceLocalService;
 	}
 
@@ -366,9 +377,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @param subPlacePersistence the sub place persistence
 	 */
-	public void setSubPlacePersistence(
-		SubPlacePersistence subPlacePersistence) {
-
+	public void setSubPlacePersistence(SubPlacePersistence subPlacePersistence) {
 		this.subPlacePersistence = subPlacePersistence;
 	}
 
@@ -377,9 +386,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService
-		getCounterLocalService() {
-
+	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
 		return counterLocalService;
 	}
 
@@ -389,9 +396,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService
-			counterLocalService) {
-
+		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -400,9 +405,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService
-		getClassNameLocalService() {
-
+	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
 		return classNameLocalService;
 	}
 
@@ -412,9 +415,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService
-			classNameLocalService) {
-
+		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -423,9 +424,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService
-		getClassNameService() {
-
+	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
 		return classNameService;
 	}
 
@@ -436,7 +435,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
-
 		this.classNameService = classNameService;
 	}
 
@@ -456,7 +454,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
-
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -465,9 +462,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService
-		getResourceLocalService() {
-
+	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
 		return resourceLocalService;
 	}
 
@@ -477,9 +472,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService
-			resourceLocalService) {
-
+		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -488,9 +481,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService
-		getUserLocalService() {
-
+	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
 		return userLocalService;
 	}
 
@@ -501,7 +492,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
-
 		this.userLocalService = userLocalService;
 	}
 
@@ -521,7 +511,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
-
 		this.userService = userService;
 	}
 
@@ -548,9 +537,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService
-		getAssetEntryLocalService() {
-
+	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
 		return assetEntryLocalService;
 	}
 
@@ -560,9 +547,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService
-			assetEntryLocalService) {
-
+		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -571,9 +556,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the asset entry remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryService
-		getAssetEntryService() {
-
+	public com.liferay.asset.kernel.service.AssetEntryService getAssetEntryService() {
 		return assetEntryService;
 	}
 
@@ -584,7 +567,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setAssetEntryService(
 		com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
-
 		this.assetEntryService = assetEntryService;
 	}
 
@@ -604,7 +586,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
-
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -613,9 +594,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService
-		getAssetLinkLocalService() {
-
+	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
 		return assetLinkLocalService;
 	}
 
@@ -625,9 +604,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService
-			assetLinkLocalService) {
-
+		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -647,7 +624,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
-
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -656,9 +632,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService
-		getAssetTagLocalService() {
-
+	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
 		return assetTagLocalService;
 	}
 
@@ -668,9 +642,7 @@ public abstract class PlaceServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService
-			assetTagLocalService) {
-
+		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -679,9 +651,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @return the asset tag remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagService
-		getAssetTagService() {
-
+	public com.liferay.asset.kernel.service.AssetTagService getAssetTagService() {
 		return assetTagService;
 	}
 
@@ -692,7 +662,6 @@ public abstract class PlaceServiceBaseImpl
 	 */
 	public void setAssetTagService(
 		com.liferay.asset.kernel.service.AssetTagService assetTagService) {
-
 		this.assetTagService = assetTagService;
 	}
 
@@ -710,9 +679,7 @@ public abstract class PlaceServiceBaseImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(
-		AssetTagPersistence assetTagPersistence) {
-
+	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
@@ -754,8 +721,8 @@ public abstract class PlaceServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
-				dataSource, sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
+					sql);
 
 			sqlUpdate.update();
 		}
@@ -764,149 +731,70 @@ public abstract class PlaceServiceBaseImpl
 		}
 	}
 
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.PeriodLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.PeriodLocalService
-		periodLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class)
+	protected eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService googleMyBusinessHistoricLocalService;
+	@BeanReference(type = GoogleMyBusinessHistoricPersistence.class)
+	protected GoogleMyBusinessHistoricPersistence googleMyBusinessHistoricPersistence;
+	@BeanReference(type = eu.strasbourg.service.place.service.PeriodLocalService.class)
+	protected eu.strasbourg.service.place.service.PeriodLocalService periodLocalService;
 	@BeanReference(type = PeriodPersistence.class)
 	protected PeriodPersistence periodPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.PlaceLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.PlaceLocalService
-		placeLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.PlaceLocalService.class)
+	protected eu.strasbourg.service.place.service.PlaceLocalService placeLocalService;
 	@BeanReference(type = PlaceService.class)
 	protected PlaceService placeService;
-
 	@BeanReference(type = PlacePersistence.class)
 	protected PlacePersistence placePersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.PriceLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.PriceLocalService
-		priceLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.PriceLocalService.class)
+	protected eu.strasbourg.service.place.service.PriceLocalService priceLocalService;
 	@BeanReference(type = PricePersistence.class)
 	protected PricePersistence pricePersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.PublicHolidayLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.PublicHolidayLocalService
-		publicHolidayLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.PublicHolidayLocalService.class)
+	protected eu.strasbourg.service.place.service.PublicHolidayLocalService publicHolidayLocalService;
 	@BeanReference(type = PublicHolidayPersistence.class)
 	protected PublicHolidayPersistence publicHolidayPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService
-		scheduleExceptionLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.ScheduleExceptionLocalService.class)
+	protected eu.strasbourg.service.place.service.ScheduleExceptionLocalService scheduleExceptionLocalService;
 	@BeanReference(type = ScheduleExceptionPersistence.class)
 	protected ScheduleExceptionPersistence scheduleExceptionPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.SlotLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.SlotLocalService
-		slotLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.SlotLocalService.class)
+	protected eu.strasbourg.service.place.service.SlotLocalService slotLocalService;
 	@BeanReference(type = SlotPersistence.class)
 	protected SlotPersistence slotPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.place.service.SubPlaceLocalService.class
-	)
-	protected eu.strasbourg.service.place.service.SubPlaceLocalService
-		subPlaceLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.place.service.SubPlaceLocalService.class)
+	protected eu.strasbourg.service.place.service.SubPlaceLocalService subPlaceLocalService;
 	@BeanReference(type = SubPlacePersistence.class)
 	protected SubPlacePersistence subPlacePersistence;
-
-	@ServiceReference(
-		type = com.liferay.counter.kernel.service.CounterLocalService.class
-	)
-	protected com.liferay.counter.kernel.service.CounterLocalService
-		counterLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService
-		classNameLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameService.class
-	)
-	protected com.liferay.portal.kernel.service.ClassNameService
-		classNameService;
-
+	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
+	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
+	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ResourceLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.ResourceLocalService
-		resourceLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.UserLocalService
-		userLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserService.class
-	)
+	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
+	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
+	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
 	protected com.liferay.portal.kernel.service.UserService userService;
-
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService
-		assetEntryLocalService;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetEntryService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetEntryService
-		assetEntryService;
-
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryService.class)
+	protected com.liferay.asset.kernel.service.AssetEntryService assetEntryService;
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
-		assetLinkLocalService;
-
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService
-		assetTagLocalService;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetTagService.class
-	)
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagService.class)
 	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
-
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
-
 }

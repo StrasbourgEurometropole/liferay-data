@@ -35,8 +35,7 @@ public class ParticipationItemSelectorView  implements ItemSelectorView<Particip
 	private ServletContext _servletContext;
 	
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-		.unmodifiableList(ListUtil.fromArray(
-			new ItemSelectorReturnType[] { new URLItemSelectorReturnType() }));
+		.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
 
 	public ServletContext getServletContext() {
 		return _servletContext;
@@ -63,11 +62,6 @@ public class ParticipationItemSelectorView  implements ItemSelectorView<Particip
 	}
 
 	@Override
-	public boolean isShowSearch() {
-		return true;
-	}
-
-	@Override
 	public boolean isVisible(ThemeDisplay themeDisplay) {
 		return true;
 	}
@@ -82,8 +76,8 @@ public class ParticipationItemSelectorView  implements ItemSelectorView<Particip
 		ThemeDisplay themeDisplay = (ThemeDisplay) servletRequest
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
-		boolean multiple = GetterUtil
-			.getBoolean(servletRequest.getParameter("multiple"), false);
+		boolean multiple = GetterUtil.getBoolean(servletRequest.getParameter("multiple"), false);
+		// TODO : A corriger lorsque portlet 3.0 OK sur itemSelectorPortlet
 		portletURL.setParameter("multiple", String.valueOf(multiple));
 
 		int delta = GetterUtil.getInteger(

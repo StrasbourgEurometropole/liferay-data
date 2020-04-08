@@ -28,10 +28,10 @@ public class ExportCampaignsMessageListener
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		// Création du trigger "Tous les jours à 2h"
+		// Création du trigger "Tous les jours à 1h45"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, null, null,
-				"0 0 2 * * ?");
+				"0 45 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

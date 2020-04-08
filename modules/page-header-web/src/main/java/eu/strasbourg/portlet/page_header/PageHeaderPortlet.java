@@ -12,6 +12,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.log.Log;
@@ -34,6 +35,7 @@ import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
 		"com.liferay.portlet.css-class-wrapper=page-header-portlet",
 		"com.liferay.portlet.header-portlet-css=/css/page-header-default-style.css",
 		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.name=" + StrasbourgPortletKeys.PAGE_HEADER_WEB,
 		"javax.portlet.init-param.view-template=/page-header-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },

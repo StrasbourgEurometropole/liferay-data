@@ -17,7 +17,15 @@
 		padding: 35px 0;
 		@include mobile {
 			padding: 25px 15px;
+		}		
+
+		.col-sm-3{
+			@media (min-width: 576px) and (max-width:767px) {
+				flex: none;
+				max-width: none;
+			}				
 		}
+
 		.mns-z-filtres-search{
 			@include mobile{
 				display: none;
@@ -77,6 +85,12 @@
 
 			.form-group{
 				margin-bottom: 30px;
+			}
+
+			.date-selection{
+				@media (max-width: 1199px){
+					display: block;
+				}
 			}
 
 			.checkbox{
@@ -139,10 +153,8 @@
 				}
 			}
 
-
 			.mns-ico-date{
 				display: inline-block;
-				width: 106px;
 				position: relative;
 				&:after{
 					content: "\e910";
