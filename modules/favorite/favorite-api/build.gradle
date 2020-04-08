@@ -14,5 +14,5 @@ dependencies {
 	compile project(":modules:edition:edition-api")
 	compile project(":modules:video:video-api")
 	compile project(":modules:activity:activity-api")
-
+	compile project(":modules:gtfs:gtfs-api")
 }
