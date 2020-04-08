@@ -98,13 +98,6 @@
 </div>
 
 <liferay-util:html-bottom>
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
 	<script	src="/o/activitysearchweb/js/search-activity-main.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 </liferay-util:html-bottom>

@@ -27,19 +27,19 @@
 			<aui:input name="message" value="${message}" type="text" label="Message de mod&eacute;ration" />
 		</aui:fieldset>
 
-        <aui:select name="recordSetId" inlineField="true">
+        <aui:select name="formInstanceId" inlineField="true">
             <c:forEach var="form" items="${formulaireList}">
-                <aui:option value="${form.recordSetId}"
-                    selected="${fn:contains(recordSetId, form.recordSetId)}" >${form.getName(locale)}</aui:option>
+                <aui:option value="${form.formInstanceId}"
+                    selected="${fn:contains(formInstanceId, form.formInstanceId)}" >${form.getName(locale)}</aui:option>
             </c:forEach>
         </aui:select>
         <br><br>
         <strong>S&eacute;lectionnez les champs visibles en front :</strong><br><br>
         <c:set var="fieldsLib" value="${fn:split(newLibs, ',')}" />
         <c:forEach var="form" items="${formulaireList}" >
-            <aui:fieldset cssClass="fields form_${form.recordSetId}" >
+            <aui:fieldset cssClass="fields form_${form.formInstanceId}" >
                 <c:forEach var="champs" items="${form.fields}" varStatus="status">
-                    <c:set var="FieldForm" value="${form.recordSetId}_${champs.name}" />
+                    <c:set var="FieldForm" value="${form.formInstanceId}_${champs.name}" />
                     <aui:input type="checkbox" name="fieldsSelected" id="formFields" value="${FieldForm}" label="${champs.getLabel(locale)} ${champs.isRequired()?' *':' '}"
                             checked="${fn:contains(fieldsSelected, FieldForm)}" />
                     <c:set var="newLibArray" value="${fn:split(fieldsLib[status.index], '--')}" />

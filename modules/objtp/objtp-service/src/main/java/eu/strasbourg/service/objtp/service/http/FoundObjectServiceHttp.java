@@ -27,10 +27,11 @@ import eu.strasbourg.service.objtp.service.FoundObjectServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link FoundObjectServiceUtil} service utility. The
+ * <code>FoundObjectServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,22 +50,23 @@ import eu.strasbourg.service.objtp.service.FoundObjectServiceUtil;
  *
  * @author JeremyZwickert
  * @see FoundObjectServiceSoap
- * @see HttpPrincipal
- * @see FoundObjectServiceUtil
  * @generated
  */
 @ProviderType
 public class FoundObjectServiceHttp {
-	public static com.liferay.portal.kernel.json.JSONArray getFoundObjectByCategoryCode(
-		HttpPrincipal httpPrincipal, java.lang.String codeCategory)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(FoundObjectServiceUtil.class,
-					"getFoundObjectByCategoryCode",
-					_getFoundObjectByCategoryCodeParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					codeCategory);
+	public static com.liferay.portal.kernel.json.JSONArray
+			getFoundObjectByCategoryCode(
+				HttpPrincipal httpPrincipal, String codeCategory)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				FoundObjectServiceUtil.class, "getFoundObjectByCategoryCode",
+				_getFoundObjectByCategoryCodeParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, codeCategory);
 
 			Object returnObj = null;
 
@@ -72,11 +74,15 @@ public class FoundObjectServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
 				}
 
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -88,7 +94,12 @@ public class FoundObjectServiceHttp {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(FoundObjectServiceHttp.class);
-	private static final Class<?>[] _getFoundObjectByCategoryCodeParameterTypes0 =
-		new Class[] { java.lang.String.class };
+	private static Log _log = LogFactoryUtil.getLog(
+		FoundObjectServiceHttp.class);
+
+	private static final Class<?>[]
+		_getFoundObjectByCategoryCodeParameterTypes0 = new Class[] {
+			String.class
+		};
+
 }

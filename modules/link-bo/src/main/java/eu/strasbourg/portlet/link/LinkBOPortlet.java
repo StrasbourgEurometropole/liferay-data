@@ -22,6 +22,7 @@ import eu.strasbourg.portlet.link.display.context.ViewLinksDisplayContext;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/link-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/link-bo-main.css",
@@ -43,6 +44,7 @@ public class LinkBOPortlet extends MVCPortlet {
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 		
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
+		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 		
 		renderResponse.setTitle("Liens");
 		
@@ -55,7 +57,7 @@ public class LinkBOPortlet extends MVCPortlet {
 		}
 		
 		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editLink")) {
+		if (cmd.equals("editLink")|| mvcPath.equals("/link-bo-edit-link.jsp")) {
 			EditLinkDisplayContext dc = new EditLinkDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);		
 		} else {

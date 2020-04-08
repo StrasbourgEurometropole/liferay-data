@@ -55,7 +55,7 @@
 	display: none;
 }
 
-.event-period-conflict, .language-error {
+.event-period-conflict, .event-no-period, .language-error {
     margin-top: 40px;
     display: inline-block;
     padding: 5px 10px;

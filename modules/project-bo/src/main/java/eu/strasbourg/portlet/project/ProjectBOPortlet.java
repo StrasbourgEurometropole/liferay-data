@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 @Component(
 	immediate = true,
 	property = {
+		"javax.portlet.version=3.0",
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/project-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/project-bo-main.css",

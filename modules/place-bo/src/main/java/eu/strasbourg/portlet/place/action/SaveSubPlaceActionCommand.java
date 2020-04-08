@@ -15,16 +15,19 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -34,11 +37,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.ScheduleException;
@@ -60,6 +58,27 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 
 		try {
 			ServiceContext sc = ServiceContextFactory.getInstance(request);
+
+			// Validation
+			boolean isValid = validate(request);
+			if (!isValid) {
+				// Si pas valide : on reste sur la page d'édition
+				PortalUtil.copyRequestParameters(request, response);
+
+				ThemeDisplay themeDisplay = (ThemeDisplay) request
+						.getAttribute(WebKeys.THEME_DISPLAY);
+				String portletName = (String) request
+						.getAttribute(WebKeys.PORTLET_ID);
+				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+						portletName, themeDisplay.getPlid(),
+						PortletRequest.RENDER_PHASE);
+				returnURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("mvcPath",
+						"/place-bo-edit-subplace.jsp");
+				return false;
+			}
 
 			long subPlaceId = ParamUtil.getLong(request, "subPlaceId");
 			SubPlace subPlace;
@@ -231,6 +250,27 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Validation des champs obligatoires
+	 */
+	private boolean validate(ActionRequest request) {
+		boolean isValid = true;
+
+		// Nom
+		if (Validator.isNull(ParamUtil.getString(request, "name"))) {
+			SessionErrors.add(request, "name-error");
+			isValid = false;
+		}
+
+		// Description
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
+			SessionErrors.add(request, "description-error");
+			isValid = false;
+		}
+
+		return isValid;
 	}
 
 	private SubPlaceLocalService _subPlaceLocalService;

@@ -25,6 +25,7 @@
 @import "_t_bloc-social-wall";
 @import "_t_bloc-testi";
 @import "_t_bloc-great-events";
+@import "_t_bloc-social-share";
 
 @import "_t_page-agenda-detail";
 @import "_t_page-agenda-list";
@@ -778,6 +779,10 @@
 				font-size: 60px;
 				margin-bottom: 20px;
 			}
+		}
+		
+		.owl-loaded {
+			display: contents;
 		}
 	}
 

@@ -1,6 +1,6 @@
 <%@include file="/picker-init.jsp" %>
 
-<div class="strasbourg-slider-picker">
+<div class="strasbourg-slider-picker form-group">
 	<p>
 		<label class="label-vignette" >${label}</label>
 	</p>

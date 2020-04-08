@@ -19,8 +19,7 @@ import java.util.ResourceBundle;
 
 @Component(
 	immediate = true,
-	property = {"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB,
-		},
+	property = {"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_WEB},
 	service = AssetRendererFactory.class
 )
 public class PracticeAssetRendererFactory extends BaseAssetRendererFactory<Practice> {

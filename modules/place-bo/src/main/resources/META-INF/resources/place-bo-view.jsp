@@ -23,6 +23,14 @@
 	<portlet:param name="tab" value="import" />
 </liferay-portlet:renderURL>
 
+<liferay-portlet:renderURL var="googleURL">
+	<portlet:param name="tab" value="google" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL var="tokenURL">
+	<portlet:param name="tab" value="token" />
+</liferay-portlet:renderURL>
+
 <liferay-portlet:renderURL varImpl="searchURL">
 	<portlet:param name="cmd" value="search" />
 	<portlet:param name="tab" value="${param.tab}" />
@@ -51,6 +59,14 @@
 	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item href="${importURL}" label="place-import"
 			selected="${tab eq 'import'}" />
+	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${googleURL}" label="gmb-synchro"
+			selected="${tab eq 'google'}" />
+	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${tokenURL}" label="gmb-config"
+			selected="${tab eq 'token'}" />
 	</aui:nav>
 
 	<c:if test="${tab eq 'places'}">
@@ -81,6 +97,14 @@
     </c:when>
     <c:when test="${tab eq 'import'}">
 		<liferay-util:include page="/place-bo-view-import.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'google'}">
+		<liferay-util:include page="/place-bo-view-google.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'token'}">
+		<liferay-util:include page="/place-bo-view-token.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

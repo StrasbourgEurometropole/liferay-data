@@ -34,37 +34,44 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author JeremyZwickert
  * @see FoundObjectServiceUtil
- * @see eu.strasbourg.service.objtp.service.base.FoundObjectServiceBaseImpl
- * @see eu.strasbourg.service.objtp.service.impl.FoundObjectServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=objtp", "json.web.service.context.path=FoundObject"}, service = FoundObjectService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=objtp",
+		"json.web.service.context.path=FoundObject"
+	},
+	service = FoundObjectService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface FoundObjectService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link FoundObjectServiceUtil} to access the found object remote service. Add custom service methods to {@link eu.strasbourg.service.objtp.service.impl.FoundObjectServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link FoundObjectServiceUtil} to access the found object remote service. Add custom service methods to <code>eu.strasbourg.service.objtp.service.impl.FoundObjectServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Retourne la liste des objets d'une catégorie
-	*
-	* @throws PortalException
-	*/
+	 * Retourne la liste des objets d'une catégorie
+	 *
+	 * @throws PortalException
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getFoundObjectByCategoryCode(java.lang.String codeCategory)
+	public JSONArray getFoundObjectByCategoryCode(String codeCategory)
 		throws PortalException;
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

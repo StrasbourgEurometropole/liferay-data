@@ -6,6 +6,9 @@
 <liferay-portlet:renderURL var="publikUsersURL">
 	<portlet:param name="tab" value="publikUsers" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="anonymisationURL">
+	<portlet:param name="tab" value="anonymisationHistorics" />
+</liferay-portlet:renderURL>
 
 <!-- Declaration de l'URL de recherche dans le listing de l'entite courrante -->
 <liferay-portlet:renderURL varImpl="searchURL">
@@ -24,6 +27,10 @@
 		<aui:nav-item href="${publikUsersURL}" label="publikusers"
 			selected="${tab eq 'publikUsers'}" />
 	</aui:nav>
+	<aui:nav cssClass="navbar-nav">
+		<aui:nav-item href="${anonymisationURL}" label="anonymisationhistorics"
+			selected="${tab eq 'anonymisationHistorics'}" />
+	</aui:nav>
 
 	<aui:nav-bar-search>
 		<aui:form action="${searchURL}" name="searchFm">
@@ -36,6 +43,10 @@
 <c:choose>
     <c:when test="${tab eq 'publikUsers'}">
 		<liferay-util:include page="/oidc-bo-view-publikusers.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'anonymisationHistorics'}">
+		<liferay-util:include page="/oidc-bo-view-anonymisation-historics.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

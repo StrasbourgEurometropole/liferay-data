@@ -49,7 +49,7 @@ public class PracticeAssetRenderer extends BaseJSPAssetRenderer<Practice> {
 	}
 
 	@Override
-	public long getClassPK() {return _entry.getPracticeId();}
+	public long getClassPK() {return _entry.getPrimaryKey();}
 
 	@Override
 	public String getSummary(PortletRequest portletRequest,

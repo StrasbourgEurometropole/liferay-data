@@ -206,71 +206,51 @@
 
         var response = validateFormSubmitPetition();
         if (response){
-            var petitionTitleValue = $("#"+namespaceSubmitPetition+"petitiontitle").val();
-            var petitionDescriptionValue = $("#"+namespaceSubmitPetition+"petitiondescription").val();
-            var birthdayValue = $("#"+namespaceSubmitPetition+"birthday").val();
-            var addressValue = $("#"+namespaceSubmitPetition+"address").val();
-            var cityValue = $("#"+namespaceSubmitPetition+"city").val();
-            var postalcodeValue = $("#"+namespaceSubmitPetition+"postalcode").val();
-            var phoneValue = $("#"+namespaceSubmitPetition+"phone").val();
-            var mobileValue = $("#"+namespaceSubmitPetition+"mobile").val();
-            var projectValue = $("#"+namespaceSubmitPetition+"project").val();
-            var quartierValue = $("#"+namespaceSubmitPetition+"quartier").val();
-            var themeValue = $("#"+namespaceSubmitPetition+"theme").val();
-            var consultationPlacesTextValue = $("#"+namespaceSubmitPetition+"petitionlieux").val();
-            var saveInfoValue = $("#save-info").is(":checked");
+
+                        
+            var request = new XMLHttpRequest();
+            var formElement = $("#form-submit-petition");
+            request.open('POST', '${submitPetitionURL}', true);
+            //request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    // Success!
+                    var data = JSON.parse(this.response);
+                    // var data = this.get('responseData');
+                    //var data = JSON.parse(e.details[1].responseText);
+                    if(data.result){
+                        $('#modalPetition').modal('hide');
+                        if(data.savedInfo){
+                            saved_dateNaiss = $("#<portlet:namespace />birthday").val();
+                            saved_city = $("#<portlet:namespace />city").val();
+                            saved_address = $("#<portlet:namespace />address").val();
+                            saved_zipCode = $("#<portlet:namespace />postalcode").val();
+                            if($("#<portlet:namespace />phone").val() != "")
+                                saved_phone = $("#<portlet:namespace />phone").val();
+                            if($("#"+namespaceSubmitPetition+"mobile").val() != "")
+                                saved_mobile = $("#<portlet:namespace />mobile").val();
+                        }
+                        $('#modalConfirmerPetition').modal('show');
+                        resetValuesSubmitPetition();
+                    }else{
+                        $("#modalErrorPetition h4").text(data.message);
+                        $('#modalErrorPetition').modal('show');
+                    }
+                } else {
+                    console.log("petite erreur sans importance");
+                    // We reached our target server, but it returned an error
+                }
+            };
+            
+            var formData = new FormData(formElement[0]);
+            var emailValue = $("#"+namespaceSubmitPetition+"mail").val(); 
             var lastNameValue = $("#"+namespaceSubmitPetition+"username").val();
             var firstNameValue = $("#"+namespaceSubmitPetition+"firstname").val();
-            var inTheNameOf = $("#"+namespaceSubmitPetition+"petitionInTheNameOf").val();
-            var emailValue = $("#"+namespaceSubmitPetition+"mail").val();
-            AUI().use('aui-io-request', function(A) {
-                A.io.request('${submitPetitionURL}', {
-                    method : 'POST',
-                    dataType: 'json',
-                    data:{
-                        <portlet:namespace/>petitiontitle: petitionTitleValue,
-                        <portlet:namespace/>petitiondescription: petitionDescriptionValue,
-                        <portlet:namespace/>birthday: birthdayValue,
-                        <portlet:namespace/>address: addressValue,
-                        <portlet:namespace/>city: cityValue,
-                        <portlet:namespace/>postalcode: postalcodeValue,
-                        <portlet:namespace/>phone: phoneValue,
-                        <portlet:namespace/>mobile: mobileValue,
-                        <portlet:namespace />project: projectValue,
-                        <portlet:namespace />quartier: quartierValue,
-                        <portlet:namespace />theme: themeValue,
-                        <portlet:namespace />consultationPlacesText: consultationPlacesTextValue,
-                        <portlet:namespace />saveinfo: saveInfoValue,
-                        <portlet:namespace />lastname: lastNameValue,
-                        <portlet:namespace />firstname: firstNameValue,
-                        <portlet:namespace />inTheNameOf: inTheNameOf,
-                        <portlet:namespace />email: emailValue
-                    },
-                    on: {
-                        success: function(e) {
-                            var data = this.get('responseData');
-                            if(data.result){
-                                $('#modalPetition').modal('hide');
-                                if(data.savedInfo){
-                                    saved_dateNaiss = $("#"+namespaceSubmitPetition+"birthday").val();
-                                    saved_city = $("#"+namespaceSubmitPetition+"city").val();
-                                    saved_address = $("#"+namespaceSubmitPetition+"address").val();
-                                    saved_zipCode = $("#"+namespaceSubmitPetition+"postalcode").val();
-                                    if($("#"+namespaceSubmitPetition+"phone").val() != "")
-                                        saved_phone = $("#"+namespaceSubmitPetition+"phone").val();
-                                    if($("#"+namespaceSubmitPetition+"mobile").val() != "")
-                                        saved_mobile = $("#"+namespaceSubmitPetition+"mobile").val();
-                                }
-                                $('#modalConfirmerPetition').modal('show');
-                            }else{
-                                $("#modalErrorPetition h4").text(data.message);
-                                $('#modalErrorPetition').modal('show');
-                            }
-                            resetValuesSubmitPetition();
-                        }
-                    }
-                });
-             });
+            formData.append("<portlet:namespace/>email", emailValue);
+            formData.append("<portlet:namespace/>lastname", lastNameValue); 
+            formData.append("<portlet:namespace/>firstname", firstNameValue);  
+            request.send(formData);
         }
     });
 

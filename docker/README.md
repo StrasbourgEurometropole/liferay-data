@@ -11,7 +11,6 @@ Les fichiers suivants sont les entrées du process et doivent être déplacés :
     * Le script pre-upgrade à jouer avant la migration : `pre-upgrade.sql`
 * Dans le répertoire `images/liferay-vanilla/sources` : 
     * Liferay DXP 7.2 SP4 : `liferay-dxp-tomcat-7.2.10-dxp-4-20200121112425051.tar.gz`
-    * MYSQL Connector : `mysql-connector-java-8.0.19.jar`
 
 ## Images
 
@@ -32,7 +31,7 @@ Images à créer :
 * Créer l'image Liferay
     * Se placer dans le répertoire `images/liferay-vanilla`
     * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-sp4-vanilla)
+        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
         ```shell
         $ docker image build -t liferay-portal:LFR_TAG .
         ```
@@ -72,10 +71,13 @@ $ touch output/upgrade.log
 ```
 
 Lancer l'image Liferay avec la commande suivante où :
-* `TAG` est le tag de l'image créé (ex : 7.2.10-dxp-sp4-vanilla)
+* `TAG` est le tag de l'image liNferay créé (ex : 7.2.10-dxp-fp4-vanilla).
+* `DATA_PATH` est le chemin vers le répertoire de persistance.
 
 ```shell
-$ LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+$ DATA=7.2.10-dxp-fp4-vanilla LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+
+--> $ DATA=/data/ems-data LFR_TAG=7.2.10-dxp-sp4-vanilla docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 ```
 
 Suivre l'évolution de l'upgrade via la commande :
@@ -96,42 +98,56 @@ $ docker exec CONTAINER_ID /usr/bin/mysqldump -u liferay --password=sully lifera
 
 Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` du répertoire courant.
 
-# Lancer la stack complète
+# Lancement d'un environnement EMS complet en DXP 7.2
 
-## Adapation de l'environnement pour ElasticSearch
+## Images
 
-ElasticSearch utilise le répertoire `mmapfs` pour stocker ses indices. Ce dernier sur CentOS dispose d'une limite de stockage trop basse pour ElasticSearch et demande un ajustement avec la commande suivante (à faire sur les deux environnements) :
-
-```shell
-sysctl -w vm.max_map_count=262144
-```
-
-## Mise à jour de la configuration
-
-Modifier le fichier `configs/liferay-custom/portal-ext.properties` pour qu'il corresponde à l'environnement sur lequel le déploiement est effectué.
-
-## Création des images
+Images à créer :
 
 * Créer l'image ElasticSearch
-    * Se placer dans le répertoire  `/images/elasticsearch` et lancer `$ docker image build -t elasticsearch:6.8.6-liferay .`
-* Créer l'image Liferay Vanilla (Liferay sans modules)
-    * Placer dans le répertoire `images/liferay-vanilla/sources` :
-        * `liferay-dxp-tomcat-7.2.10.1-sp1-20191009103614075.tar.gz` : Bundle Liferay DXP 7.2 avec serveur Tomcat.
-        * `mysql-connector-java-8.0.17.jar` : Connecteur java MySQL.
-    * Se placer dans le répertoire `preim-docker-stack/images/liferay-vanilla`
-        * Exécuter `$ docker image build -t liferay-portal:7.2.10-dxp-sp1-vanilla --build-arg LFR_ENV=ENVIRONEMENT .` où `ENVIRONNEMENT` vaut `dev`, `prod` ou `preprod` selon l'environnement à créer
-    * Se placer dans le répertoire `preim-docker-stack/images/mysql/` et lancer `$ docker image build -t mysql-custom .`
-* Créer l'image Liferay Custom
-    * Depuis la racine du repository, lancer `build.sh clean` puis `build.sh`
-    * Se placer dans le répertoire `preim-docker-stack/images/liferay-custom/` et lancer `$ docker image build -t liferay-portal:7.2.10-dxp-sp1-preim .`
+    * Se placer dans le répertoire `images/elasticsearch-ems`
+    * Exécuter la commande suivante :
+        ```shell
+        $ docker image build -t elasticsearch-ems .
+        ```
+* Créer l'image Liferay
+    * Placer dans le répertoire `images/mysql-ems/sources` :
+        * le script `wait-for-it.sh` permettant de tester la disponibilité d'autres noeuds.
+        * le certificat `certigna-authority-2015-2025.cer`
+        * le certificat `apiDailymotion.cer`
+        * le certificat `apiYoutube.cer`
+    * Se placer dans le répertoire `images/liferay-ems`
+    * Exécuter la commande suivante où :
+        ```shell
+        $ docker image build -t liferay-ems .
+        ```
 
-## Lancement de l'environnement
+## Fichiers d'entrées
 
-* Préparer l'environnement en lançant la commande `sh buil-env.sh DATA_PATH` où `DATA_PATH` correspond au chemin du file system où les fichiers persistants seront stockés et où il sera possible de déposer des fichiers à destination des conteneurs (pour le déploiement à chaud par exemple). Dans les commandes suivantes, remplacer `DATA_PATH` par la valeur passée en paramètre ici
-    * La document library provenant de la version 6.2 de Liferay devra alors être placée dans le répertoire `DATA_PATH/lfr-dl-volume`
-* Lancer la stack Portainer
-    * Lancer `DATA=DATA_PATH docker stack deploy -c dc-portainer.yml portainer`
-* Lancer la stack MySQL / ElasticSearch / Traefik
-    * `DATA=DATA_PATH docker stack deploy -c dc-lfr-base.yml liferay-base`
-* Lancer la stack Liferay
-    * `DATA=DATA_PATH FRONTEND=DNS docker stack deploy -c dc-lfr-portal-custom.yml --prune liferay-portal` où DNS correspond au DNS qui sera utilisé par Liferay
+* elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
+    * `synonyms.txt` pour la description des synonymes.
+* liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
+    * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
+    * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
+    * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
+    * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
+    * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
+    * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
+    * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
+
+## Exécution
+
+Pour lancer la totalité des services, lancer la commande suivante où :
+    * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
+
+```shell
+$ DATA=VAR_DATA docker-compose up -d
+
+--> $ DATA=/data docker-compose up -d
+```
+
+Suivre les logs via la commande :
+
+```shell
+$ docker-compose logs -f
+```

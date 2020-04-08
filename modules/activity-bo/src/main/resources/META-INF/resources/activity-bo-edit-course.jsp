@@ -19,6 +19,7 @@
 
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
+	<liferay-ui:error key="activity-error" message="activity-error" />
 	<liferay-ui:error key="service-error" message="service-error" />
 	<liferay-ui:error key="place-error" message="place-error" />
 	
@@ -58,6 +59,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
+								    	event.preventDefault();
 								    	break;
 								    }
 								}
@@ -124,7 +126,7 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="places-and-schedules">
 					
-				<div id="place-fields">
+				<div id="place-fields" class="form-group">
 					<c:if test="${empty dc.activityCourse.activityCoursePlaces}">
 						<div class="lfr-form-row lfr-form-row-inline main-content-card">
 							<h3><liferay-ui:message key="place" /></h3>
@@ -184,14 +186,7 @@
 	</script>
 </liferay-util:html-top>
 <liferay-util:html-bottom>
-	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
-	</aui:script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script
 		src="/o/activitybo/js/activity-bo-edit-activity.js"
 		type="text/javascript"></script>

@@ -19,6 +19,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import org.osgi.service.component.annotations.Component;
 
@@ -550,7 +551,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					);
 					jsonArticle.put(
 						ATTRIBUTE_IMAGE_URL,
-						docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()")
+							AssetPublisherTemplateHelper.getDocumentUrl(docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()"))
 					);
 					
 					jsonResponse.put(jsonArticle);

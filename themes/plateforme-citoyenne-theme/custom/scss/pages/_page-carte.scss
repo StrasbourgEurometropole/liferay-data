@@ -202,18 +202,9 @@
 		.selectric-wrapper {
 			position: relative;
 			display: inline-block;
+			width: 55%;
 			z-index: 100;
-			&:after {
-				content: "\e902";
-				@include font();
-				float: right;
-				font-size: 8px;
-				line-height: normal;
-				position: absolute;
-				right: -20px;
-				top: 20px;
-				transform: translateY(-50%);
-			}
+			
 			.selectric {
 				background: none;
 				border: none;
@@ -244,7 +235,35 @@
 					}
 				}
 				.button {
-					display: none;
+					background-color: transparent;
+					color: black;
+					&:after {
+						content: "\e902";
+						font-family: 'icomoon' !important;
+						position: absolute;
+						speak: none;
+						font-style: normal;
+						font-weight: normal;
+						font-variant: normal;
+						-webkit-font-smoothing: antialiased;
+						text-transform: none;
+						display: inline-block;
+						vertical-align: middle;
+						float: right;
+						font-size: 8px;
+						line-height: normal;
+						right: -10px;
+						top: -5px;
+						transform: translateY(-50%);
+						bottom: 0;
+						left: 0;
+						margin: auto;
+						width: 0;
+						height: 0;
+						border: 4px solid transparent;
+						border-top-color: transparent;
+						border-bottom: none;
+					}
 				}
 			}
 			.selectric-items {
@@ -270,6 +289,14 @@
 					}
 				}
 			}
+		}
+
+		.selectric-open {
+			width: 100%;
+		}
+
+		.selectric-hover .selectric .button &:after {
+			border-top-color: transparent;
 		}
 
 		.pro-group {

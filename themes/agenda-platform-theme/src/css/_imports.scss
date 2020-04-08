@@ -1,15 +1,14 @@
-@import "aui_custom";
+@import "clay_custom";
 
 @import "bourbon";
 
 @import "mixins";
 
-@import "aui/lexicon/atlas-variables";
+@import "clay/atlas-variables";
 
-@import "aui/lexicon/bootstrap/mixins";
-
-@import "aui/lexicon/lexicon-base/mixins";
-
-@import "aui/lexicon/atlas-theme/mixins";
+@import "clay/atlas";
 
 @import "platform";
+// Adds mixins removed by Bootstrap4
+@import "compat/mixins";@import "variables_deprecated";
+

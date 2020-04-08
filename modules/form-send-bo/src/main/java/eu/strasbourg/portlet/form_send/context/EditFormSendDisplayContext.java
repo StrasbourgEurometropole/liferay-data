@@ -1,12 +1,11 @@
 package eu.strasbourg.portlet.form_send.context;
 
-import com.liferay.dynamic.data.lists.model.DDLRecord;
-import com.liferay.dynamic.data.lists.model.DDLRecordSet;
-import com.liferay.dynamic.data.lists.service.DDLRecordLocalServiceUtil;
-import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMContent;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -14,14 +13,12 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -32,7 +29,7 @@ public class EditFormSendDisplayContext{
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
 
-    private DDLRecord _record;
+    private DDMFormInstanceRecord _record;
     private List<String[]> _recordFields;
     private Map<String, String> _texteAreaFields;
 
@@ -51,7 +48,7 @@ public class EditFormSendDisplayContext{
             // récupère le formulaire envoyé
             if(Validator.isNotNull(getRecord())){
                 // récupère les infos du contenu du formulaire envoyé
-                DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(_record.getDDMStorageId());
+                DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(_record.getStorageId());
 
                 if(Validator.isNotNull(content)){
                     // récupère le contenu du formulaire envoyé
@@ -87,12 +84,12 @@ public class EditFormSendDisplayContext{
     }
 
     // récupère le formulaire envoyé
-    public DDLRecord getRecord(){
+    public DDMFormInstanceRecord getRecord(){
         if(_record == null){
             long recordId = ParamUtil.getLong(_request, "recordId");
-            DDLRecord record = null;
+            DDMFormInstanceRecord record = null;
             if (recordId > 0)
-                record = DDLRecordLocalServiceUtil.fetchRecord(recordId);
+                record = DDMFormInstanceRecordLocalServiceUtil.fetchFormInstanceRecord(recordId);
 
             _record = record;
         }
@@ -105,14 +102,14 @@ public class EditFormSendDisplayContext{
             Map<String, String> texteAreaFields = new HashMap<String, String>();
             // récupère le formulaire envoyé
             if(Validator.isNotNull(getRecord())){
-                DDLRecordSet recordSet = null;
+                DDMFormInstance formInstance = null;
                 try {
                     //récupère le formulaire
-                    recordSet = _record.getRecordSet();
-                    if(Validator.isNotNull(recordSet)){
+                    formInstance = _record.getFormInstance();
+                    if(Validator.isNotNull(formInstance)){
                         // récupère la structure du formulaire
                         try {
-                            DDMStructure structure = recordSet.getDDMStructure();
+                            DDMStructure structure = formInstance.getStructure();
                             JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
                             if (Validator.isNotNull(structure))
                                 jsonArray = JSONFactoryUtil.createJSONObject(structure.getDefinition()).getJSONArray("fields");

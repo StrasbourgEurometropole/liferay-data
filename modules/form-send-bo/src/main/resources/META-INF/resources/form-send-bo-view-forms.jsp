@@ -49,13 +49,13 @@
 			<liferay-ui:search-container-results results="${dc.forms}" />
 
 			<liferay-ui:search-container-row
-				className="com.liferay.dynamic.data.lists.model.DDLRecordSet" modelVar="ddlRecordSet"
-				keyProperty="recordSetId" rowIdProperty="recordSetId">
+				className="com.liferay.dynamic.data.mapping.model.DDMFormInstance" modelVar="ddmFormInstance"
+				keyProperty="formInstanceId" rowIdProperty="formInstanceId">
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="viewFormSendsURL">
 	                <portlet:param name="tab" value="viewFormSends" />
-					<portlet:param name="recordSetId" value="${ddlRecordSet.recordSetId}" />
+					<portlet:param name="formInstanceId" value="${ddmFormInstance.formInstanceId}" />
 					<portlet:param name="returnURL" value="${formsURL}" />
 					<portlet:param name="mvcPath" value="/form-send-bo-view-form-send.jsp" />
 				</liferay-portlet:renderURL>
@@ -63,15 +63,15 @@
 				<%-- Colonne : Name --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${viewFormSendsURL}" name="name" truncate="true" orderable="true"
-					value="${ddlRecordSet.getName(locale)}" />
+					value="${ddmFormInstance.getName(locale)}" />
 
 				<%-- Colonne : Id --%>
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${viewFormSendsURL}" name="id" truncate="true" orderable="true"
-					value="${ddlRecordSet.recordSetId}" />
+					value="${ddmFormInstance.formInstanceId}" />
 
 				<%-- Colonne : Date de modification --%>
-				<fmt:formatDate value="${ddlRecordSet.modifiedDate}"
+				<fmt:formatDate value="${ddmFormInstance.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="modified-date" truncate="true" orderable="true"

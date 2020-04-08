@@ -320,10 +320,6 @@
     <!-- Include Choices CSS -->
 	<link rel="stylesheet" href="/o/agendaexportbo/css/vendors/choices.min.css">
 	<!-- Include Choices JavaScript -->
-	<script>
-		define._amd = define.amd;
-		define.amd = false;
-	</script>
 	<script src="/o/agendaexportbo/js/vendors/moment.min.js"
 		type="text/javascript"></script>
     <script src="/o/agendaexportbo/js/vendors/choices.min.js"
@@ -334,9 +330,6 @@
 	<script
 		src="/o/agendaexportbo/js/vendors/jquery.autocomplete.js"
 		type="text/javascript"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script
 		src="/o/agendaexportbo/js/agenda-export-bo-edit-event.js"
 		type="text/javascript"></script>

@@ -18,7 +18,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - upgrade-preim-net
+      - upgrade-ems-net
 
   liferay-portal:
     image: liferay-portal:${LFR_TAG}
@@ -28,16 +28,17 @@ services:
       - ./configs/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
       - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
       - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+      - ${DATA}/liferay/doclib:/data/liferay/document_library
     entrypoint:
       - /liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
       - -j
       - '-Xmx10G'
     networks:
-      - upgrade-preim-net
+      - upgrade-ems-net
 
 
 networks:
 
-  upgrade-preim-net:
-    name: upgrade-preim-net
+  upgrade-ems-net:
+    name: upgrade-ems-net
     driver: bridge

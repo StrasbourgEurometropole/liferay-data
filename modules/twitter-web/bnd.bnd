@@ -1,10 +1,12 @@
 Bundle-SymbolicName: twitter.web
 Bundle-Version: 1.31.0
 Web-ContextPath: /twitterweb
-Bundle-ClassPath:\
+Bundle-ClassPath: \
   .,\
- lib/twitter4j.jar,
--includeresource:\
- lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.6_1.jar
- 
- 
+ lib/twitter4j.jar
+
+-includeresource: \
+ lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.7_1.jar
+
+Import-Package: !android.os,\
+    !com.google.appengine.api.urlfetch,*

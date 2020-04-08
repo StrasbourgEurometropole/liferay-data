@@ -1,12 +1,12 @@
 <%@ include file="/search-asset-init.jsp"%>
 
 <div class="col-xs-12">
-	<div class="mns-affiner">
+	<div class="row mns-affiner">
       <span class="mns-more hidden-xs"><liferay-ui:message key="refine-your-search" /></span>
     </div>
 	
-	<!-- Champ mots-clés -->
-	<div class="form-group">
+	<!-- Champ mots-clï¿½s -->
+	<div class="row form-group">
         <div class="mns-label-top">
 				<label><liferay-ui:message key="keywords" /></label>
 			</div>
@@ -18,7 +18,7 @@
 	
 	<!-- Champ date -->
 	<c:if test="${dc.dateField}">
-		<div class="form-group date-selection">
+		<div class="row form-group date-selection">
 			<div class="mns-label-top">
 				<label><liferay-ui:message key="eu.dates" /></label>
 			</div>
@@ -43,7 +43,7 @@
 		value="${fn:length(dc.vocabularies)}" />
 	<c:forEach items="${dc.vocabularies}" var="vocabulary"
 		varStatus="vocStatus">
-		<div class="form-group">
+		<div class="row form-group">
 			<div class="mns-label-top">
 				<label>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</label>
 				<div class="mns-expand-collapse expanded" data-checkboxes-id="${vocStatus.count}">

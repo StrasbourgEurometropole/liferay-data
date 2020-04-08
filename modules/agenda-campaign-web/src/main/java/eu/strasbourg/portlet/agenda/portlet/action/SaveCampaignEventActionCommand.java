@@ -158,7 +158,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			/**
 			 * Informations sur l'événément
 			 */
-			// Titre, sous-titre, descriptoin
+			// Titre, sous-titre, description
 			Map<Locale, String> title = LocalizationUtil
 				.getLocalizationMap(request, "title");
 			Map<Locale, String> subtitle = LocalizationUtil
@@ -432,10 +432,70 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
 
+		// Nom
+		if (Validator.isNull(ParamUtil.getString(request, "lastName"))) {
+			SessionErrors.add(request, "last-name-error");
+			isValid = false;
+		}
+
+		// Prénom
+		if (Validator.isNull(ParamUtil.getString(request, "firstName"))) {
+			SessionErrors.add(request, "first-name-error");
+			isValid = false;
+		}
+
+		// Téléphone
+		if (Validator.isNull(ParamUtil.getString(request, "phone"))) {
+			SessionErrors.add(request, "phone-error");
+			isValid = false;
+		}
+
+		// Email
+		if (Validator.isNull(ParamUtil.getString(request, "email"))) {
+			SessionErrors.add(request, "email-error");
+			isValid = false;
+		}
+
 		// Titre
 		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
 			SessionErrors.add(request, "title-error");
 			isValid = false;
+		}
+
+		// Description
+		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+			SessionErrors.add(request, "description-error");
+			isValid = false;
+		}
+
+		// Auteur si il y a une image
+		UploadPortletRequest uploadRequest = PortalUtil
+				.getUploadPortletRequest(request);
+		File imageFile = uploadRequest.getFile("image");
+		if (imageFile != null && imageFile.exists()){
+			if (Validator.isNull(ParamUtil.getString(request, "imageOwner"))) {
+				SessionErrors.add(request, "autor-error");
+				isValid = false;
+			}
+		}
+
+		// Lieu
+		String placeSIGId = ParamUtil.getString(request, "placeSIGId");
+		if (Validator.isNull(placeSIGId)) {
+			String placeName = ParamUtil.getString(request, "placeName");
+			String placeCityId = ParamUtil.getString(request, "placeCityId");
+			if (Validator.isNull(placeName) && Validator.isNull(placeCityId)) {
+				SessionErrors.add(request, "place-selected-error");
+				isValid = false;
+			}else {
+				if (Validator.isNull(placeName)) {
+					SessionErrors.add(request, "place-name-error");
+					isValid = false;
+				}else if (Validator.isNull(placeCityId)) {
+					SessionErrors.add(request, "place-city-error");
+					isValid = false;
+				}
+			}
 		}
 
 		// Périodes
@@ -469,16 +529,24 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
                 isValid = false;
             }
         }
-		
-		// Thèmes et types
-		long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
-		long[] typesIds = ParamUtil.getLongValues(request, "typesIds");
-		if (themesIds.length == 0) {
-			SessionErrors.add(request, "themes-error");
+
+		// Campagne
+		if (Validator.isNull(ParamUtil.getString(request, "campaignId"))) {
+			SessionErrors.add(request, "campaign-error");
 			isValid = false;
 		}
+		
+		// Types
+		long[] typesIds = ParamUtil.getLongValues(request, "typesIds");
 		if (typesIds.length == 0) {
 			SessionErrors.add(request, "types-error");
+			isValid = false;
+		}
+
+		// Thèmes
+		long[] themesIds = ParamUtil.getLongValues(request, "themesIds");
+		if (themesIds.length == 0) {
+			SessionErrors.add(request, "themes-error");
 			isValid = false;
 		}
 

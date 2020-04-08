@@ -35,8 +35,13 @@
 			modelVar="practice" cssClass="practice-row" keyProperty="practiceId" rowIdProperty="practiceId"
 		>
 			<liferay-ui:search-container-column-text cssClass="content-column"
-				name="title" truncate="true"
-				value="Activité de ${practice.association.nameCurrentValue}" />
+				name="association" truncate="true"
+				value="${practice.association.nameCurrentValue}" />
+
+
+			<liferay-ui:search-container-column-text cssClass="content-column"
+				name="practice" truncate="true"
+				value="${practice.practice.titleCurrentValue}" />
 
 			<fmt:formatDate value="${practice.createDate}"
 				var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />

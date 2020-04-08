@@ -4,8 +4,8 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
-import eu.strasbourg.service.activity.model.Association;
-import eu.strasbourg.service.activity.service.AssociationLocalService;
+import eu.strasbourg.service.activity.model.*;
+import eu.strasbourg.service.activity.service.*;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -19,13 +19,9 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
-import eu.strasbourg.service.activity.model.Activity;
-import eu.strasbourg.service.activity.model.ActivityCourse;
-import eu.strasbourg.service.activity.model.ActivityOrganizer;
-import eu.strasbourg.service.activity.service.ActivityCourseLocalService;
-import eu.strasbourg.service.activity.service.ActivityLocalService;
-import eu.strasbourg.service.activity.service.ActivityOrganizerLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import java.util.List;
 
 @Component(
 	immediate = true,
@@ -41,6 +37,8 @@ public class SelectionActionCommand implements MVCActionCommand {
 	private ActivityOrganizerLocalService activityOrganizerLocalService;
 
 	private AssociationLocalService associationLocalService;
+
+	private PracticeLocalService practiceLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -72,6 +70,13 @@ public class SelectionActionCommand implements MVCActionCommand {
 		this.associationLocalService = associationLocalService;
 	}
 
+	@Reference(unbind = "-")
+	protected void setPracticeLocalService(
+			PracticeLocalService practiceLocalService) {
+
+		this.practiceLocalService = practiceLocalService;
+	}
+
 	@Override
 	public boolean processAction(ActionRequest actionRequest,
 		ActionResponse actionResponse) throws PortletException {
@@ -95,6 +100,16 @@ public class SelectionActionCommand implements MVCActionCommand {
 						activityOrganizerLocalService
 							.removeActivityOrganizer(entryId);
 					}else if (tab.equals("associations")) {
+						Association association = associationLocalService
+								.getAssociation(entryId);
+
+						// supprime les pratiques de l'association
+						List<Practice> practices = association.getPractices();
+						for (Practice practice : practices) {
+							practiceLocalService.removePractice(
+									practice.getPrimaryKey());
+						}
+
 						associationLocalService
 								.removeAssociation(entryId);
 					}
@@ -123,6 +138,16 @@ public class SelectionActionCommand implements MVCActionCommand {
 					}else if (tab.equals("associations")) {
 						Association association = associationLocalService
 								.getAssociation(entryId);
+
+						// publi les pratiques de l'association
+						List<Practice> practices = association.getPractices();
+						for (Practice practice : practices) {
+							practiceLocalService.updateStatus(
+									themeDisplay.getUserId(),
+									practice.getPrimaryKey(),
+									WorkflowConstants.STATUS_APPROVED);
+						}
+
 						associationLocalService.updateStatus(
 								themeDisplay.getUserId(),
 								association.getPrimaryKey(),
@@ -153,6 +178,16 @@ public class SelectionActionCommand implements MVCActionCommand {
 					} else if (tab.equals("associations")) {
 						Association association = associationLocalService
 								.getAssociation(entryId);
+
+						// dépubli les pratiques de l'association
+						List<Practice> practices = association.getPractices();
+						for (Practice practice : practices) {
+							practiceLocalService.updateStatus(
+									themeDisplay.getUserId(),
+									practice.getPrimaryKey(),
+									WorkflowConstants.STATUS_DRAFT);
+						}
+
 						associationLocalService.updateStatus(
 								themeDisplay.getUserId(),
 								association.getPrimaryKey(),
