@@ -34,18 +34,22 @@ import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
 @ProviderType
 public abstract class AnonymisationHistoricBaseImpl
 	extends AnonymisationHistoricModelImpl implements AnonymisationHistoric {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a anonymisation historic model instance should use the {@link AnonymisationHistoric} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a anonymisation historic model instance should use the <code>AnonymisationHistoric</code> interface instead.
 	 */
 	@Override
 	public void persist() {
 		if (this.isNew()) {
-			AnonymisationHistoricLocalServiceUtil.addAnonymisationHistoric(this);
+			AnonymisationHistoricLocalServiceUtil.addAnonymisationHistoric(
+				this);
 		}
 		else {
-			AnonymisationHistoricLocalServiceUtil.updateAnonymisationHistoric(this);
+			AnonymisationHistoricLocalServiceUtil.updateAnonymisationHistoric(
+				this);
 		}
 	}
+
 }

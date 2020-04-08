@@ -25,64 +25,70 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Brian Wing Shun Chan
  * @see AnonymisationHistoricModel
- * @see eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricImpl
- * @see eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricImpl"
+)
 @ProviderType
-public interface AnonymisationHistoric extends AnonymisationHistoricModel,
-	PersistedModel {
+public interface AnonymisationHistoric
+	extends AnonymisationHistoricModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.oidc.model.impl.AnonymisationHistoricImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<AnonymisationHistoric, Long> ANONYMISATION_HISTORIC_ID_ACCESSOR =
-		new Accessor<AnonymisationHistoric, Long>() {
-			@Override
-			public Long get(AnonymisationHistoric anonymisationHistoric) {
-				return anonymisationHistoric.getAnonymisationHistoricId();
-			}
+	public static final Accessor<AnonymisationHistoric, Long>
+		ANONYMISATION_HISTORIC_ID_ACCESSOR =
+			new Accessor<AnonymisationHistoric, Long>() {
 
-			@Override
-			public Class<Long> getAttributeClass() {
-				return Long.class;
-			}
+				@Override
+				public Long get(AnonymisationHistoric anonymisationHistoric) {
+					return anonymisationHistoric.getAnonymisationHistoricId();
+				}
 
-			@Override
-			public Class<AnonymisationHistoric> getTypeClass() {
-				return AnonymisationHistoric.class;
-			}
-		};
+				@Override
+				public Class<Long> getAttributeClass() {
+					return Long.class;
+				}
+
+				@Override
+				public Class<AnonymisationHistoric> getTypeClass() {
+					return AnonymisationHistoric.class;
+				}
+
+			};
 
 	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
 	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories();
 
 	/**
-	* Renvoie le label affichable du resultat de l'anonymisation
-	*
-	* @return
-	*/
-	public java.lang.String getResultLabel();
+	 * Renvoie le label affichable du resultat de l'anonymisation
+	 *
+	 * @return
+	 */
+	public String getResultLabel();
 
 	/**
-	* Ajout d'une ligne dans le resultat de l'anonymisation
-	*
-	* @return
-	*/
-	public void addNewOperation(java.lang.String operation);
+	 * Ajout d'une ligne dans le resultat de l'anonymisation
+	 *
+	 * @return
+	 */
+	public void addNewOperation(String operation);
 
 	/**
-	* Envoi du mail d'import
-	*/
+	 * Envoi du mail d'import
+	 */
 	public void sendMail();
+
 }
