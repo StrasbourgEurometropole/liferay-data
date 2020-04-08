@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -27,13 +28,12 @@ import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The extended model implementation for the AnonymisationHistoric service. Represents a row in the &quot;publik_AnonymisationHistoric&quot; database table, with each column mapped to a property of this class.
@@ -113,20 +113,40 @@ public class AnonymisationHistoricImpl extends AnonymisationHistoricBaseImpl {
 		context.put("anonymisationHistoric", this);
 		context.put("environment", environment);
 
-		Configuration configuration = new Configuration(Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(),"/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
+		TemplateResource templateResourceSubject;
+		TemplateResource templateResourceBody;
+		Template subjectTemplate;
+		Template bodyTemplate;
+		String mailSubject;
+		String mailBody;
+		StringWriter out;
 
 		try {
-			// Recuperation des patrons
-			Template subjectTemplate = configuration.getTemplate("anonymisation-mail-subject.ftl");
-			Template bodyTemplate = configuration.getTemplate("anonymisation-mail-body.ftl");
+			// Chargement du template contenant le sujet du mail
+			templateResourceSubject = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/anonymisation-mail-subject.ftl")));
+			subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
 
-			StringWriter subjectWriter = new StringWriter();
-			StringWriter bodyWriter = new StringWriter();
+			// Traitement du template sujet
+			out = new StringWriter();
+			subjectTemplate.putAll(context);
+			subjectTemplate.processTemplate(out);
+			mailSubject = out.toString();
 
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
+			//Chargement du template contenant le corps du mail
+			templateResourceBody = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/anonymisation-mail-body.ftl")));
+			bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+			// Traitement du template corps
+			out = new StringWriter();
+			bodyTemplate.putAll(context);
+			bodyTemplate.processTemplate(out);
+			mailBody = out.toString();
 
 			// Properties de l'adresse d'envoie
 			String adminEmailFromAddress = PrefsPropsUtil.getString(
@@ -137,8 +157,7 @@ public class AnonymisationHistoricImpl extends AnonymisationHistoricBaseImpl {
 			MailHelper.sendMailWithHTML(
 					adminEmailFromAddress,
 					mailAddresses,
-					subjectWriter.toString(),
-					bodyWriter.toString());
+					mailSubject, mailBody);
 		} catch (Exception e) {
 			log.error(e);
 		}

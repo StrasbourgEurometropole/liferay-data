@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing AnonymisationHistoric in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see AnonymisationHistoric
  * @generated
  */
 @ProviderType
-public class AnonymisationHistoricCacheModel implements CacheModel<AnonymisationHistoric>,
-	Externalizable {
+public class AnonymisationHistoricCacheModel
+	implements CacheModel<AnonymisationHistoric>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,9 +49,12 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 			return false;
 		}
 
-		AnonymisationHistoricCacheModel anonymisationHistoricCacheModel = (AnonymisationHistoricCacheModel)obj;
+		AnonymisationHistoricCacheModel anonymisationHistoricCacheModel =
+			(AnonymisationHistoricCacheModel)obj;
 
-		if (anonymisationHistoricId == anonymisationHistoricCacheModel.anonymisationHistoricId) {
+		if (anonymisationHistoricId ==
+				anonymisationHistoricCacheModel.anonymisationHistoricId) {
+
 			return true;
 		}
 
@@ -113,22 +115,24 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 
 	@Override
 	public AnonymisationHistoric toEntityModel() {
-		AnonymisationHistoricImpl anonymisationHistoricImpl = new AnonymisationHistoricImpl();
+		AnonymisationHistoricImpl anonymisationHistoricImpl =
+			new AnonymisationHistoricImpl();
 
 		if (uuid == null) {
-			anonymisationHistoricImpl.setUuid(StringPool.BLANK);
+			anonymisationHistoricImpl.setUuid("");
 		}
 		else {
 			anonymisationHistoricImpl.setUuid(uuid);
 		}
 
-		anonymisationHistoricImpl.setAnonymisationHistoricId(anonymisationHistoricId);
+		anonymisationHistoricImpl.setAnonymisationHistoricId(
+			anonymisationHistoricId);
 		anonymisationHistoricImpl.setGroupId(groupId);
 		anonymisationHistoricImpl.setCompanyId(companyId);
 		anonymisationHistoricImpl.setUserId(userId);
 
 		if (userName == null) {
-			anonymisationHistoricImpl.setUserName(StringPool.BLANK);
+			anonymisationHistoricImpl.setUserName("");
 		}
 		else {
 			anonymisationHistoricImpl.setUserName(userName);
@@ -152,15 +156,15 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 			anonymisationHistoricImpl.setLastPublishDate(null);
 		}
 		else {
-			anonymisationHistoricImpl.setLastPublishDate(new Date(
-					lastPublishDate));
+			anonymisationHistoricImpl.setLastPublishDate(
+				new Date(lastPublishDate));
 		}
 
 		anonymisationHistoricImpl.setStatus(status);
 		anonymisationHistoricImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			anonymisationHistoricImpl.setStatusByUserName(StringPool.BLANK);
+			anonymisationHistoricImpl.setStatusByUserName("");
 		}
 		else {
 			anonymisationHistoricImpl.setStatusByUserName(statusByUserName);
@@ -176,21 +180,21 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		anonymisationHistoricImpl.setResult(result);
 
 		if (operations == null) {
-			anonymisationHistoricImpl.setOperations(StringPool.BLANK);
+			anonymisationHistoricImpl.setOperations("");
 		}
 		else {
 			anonymisationHistoricImpl.setOperations(operations);
 		}
 
 		if (errorDescription == null) {
-			anonymisationHistoricImpl.setErrorDescription(StringPool.BLANK);
+			anonymisationHistoricImpl.setErrorDescription("");
 		}
 		else {
 			anonymisationHistoricImpl.setErrorDescription(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			anonymisationHistoricImpl.setErrorStackTrace(StringPool.BLANK);
+			anonymisationHistoricImpl.setErrorStackTrace("");
 		}
 		else {
 			anonymisationHistoricImpl.setErrorStackTrace(errorStackTrace);
@@ -246,10 +250,9 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -264,7 +267,7 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -279,7 +282,7 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -290,21 +293,21 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 		objectOutput.writeInt(result);
 
 		if (operations == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(operations);
 		}
 
 		if (errorDescription == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(errorStackTrace);
@@ -333,4 +336,5 @@ public class AnonymisationHistoricCacheModel implements CacheModel<Anonymisation
 	public String errorStackTrace;
 	public long startDate;
 	public long finishDate;
+
 }
