@@ -15,6 +15,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 
 <liferay-util:html-bottom>
+    <script type="text/javascript" src="/o/monstrasbourg-theme/js/strasbourg.js"></script>
 	<aui:script>
 		$(document).ready(function() {
 		    $('body').on('click', '[data-favconfirm]', function(e){
@@ -43,4 +44,17 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 		    });
 		});
 	</aui:script>
+</liferay-util:html-bottom>
+
+
+<liferay-util:html-bottom>
+    <script>
+        $(function()
+        {
+            $('.scroll-pane').each(function(index){
+                $(this).jScrollPane({arrowButtonSpeed: 200});
+            });
+        });
+    </script>
+    <script src="/o/favoritesviewer/js/jquery.jscrollpane.js"></script>
 </liferay-util:html-bottom>
