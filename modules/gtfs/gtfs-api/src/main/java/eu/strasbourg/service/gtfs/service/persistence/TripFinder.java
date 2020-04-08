@@ -22,6 +22,8 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public interface TripFinder {
-	public java.util.List<eu.strasbourg.service.gtfs.model.Trip> getTripAvailable(
-		java.lang.String stopId);
+
+	public java.util.List<eu.strasbourg.service.gtfs.model.Trip>
+		getTripAvailable(String stopId);
+
 }

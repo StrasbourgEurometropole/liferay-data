@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Trip;
 
@@ -32,11 +31,11 @@ import java.io.ObjectOutput;
  * The cache model class for representing Trip in entity cache.
  *
  * @author Cedric Henry
- * @see Trip
  * @generated
  */
 @ProviderType
 public class TripCacheModel implements CacheModel<Trip>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -91,7 +90,7 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		TripImpl tripImpl = new TripImpl();
 
 		if (uuid == null) {
-			tripImpl.setUuid(StringPool.BLANK);
+			tripImpl.setUuid("");
 		}
 		else {
 			tripImpl.setUuid(uuid);
@@ -100,28 +99,28 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		tripImpl.setId(id);
 
 		if (route_id == null) {
-			tripImpl.setRoute_id(StringPool.BLANK);
+			tripImpl.setRoute_id("");
 		}
 		else {
 			tripImpl.setRoute_id(route_id);
 		}
 
 		if (service_id == null) {
-			tripImpl.setService_id(StringPool.BLANK);
+			tripImpl.setService_id("");
 		}
 		else {
 			tripImpl.setService_id(service_id);
 		}
 
 		if (trip_id == null) {
-			tripImpl.setTrip_id(StringPool.BLANK);
+			tripImpl.setTrip_id("");
 		}
 		else {
 			tripImpl.setTrip_id(trip_id);
 		}
 
 		if (trip_headsign == null) {
-			tripImpl.setTrip_headsign(StringPool.BLANK);
+			tripImpl.setTrip_headsign("");
 		}
 		else {
 			tripImpl.setTrip_headsign(trip_headsign);
@@ -130,7 +129,7 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		tripImpl.setDirection_id(direction_id);
 
 		if (block_id == null) {
-			tripImpl.setBlock_id(StringPool.BLANK);
+			tripImpl.setBlock_id("");
 		}
 		else {
 			tripImpl.setBlock_id(block_id);
@@ -156,10 +155,9 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -168,28 +166,28 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		objectOutput.writeLong(id);
 
 		if (route_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(route_id);
 		}
 
 		if (service_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(service_id);
 		}
 
 		if (trip_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(trip_id);
 		}
 
 		if (trip_headsign == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(trip_headsign);
@@ -198,7 +196,7 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 		objectOutput.writeBoolean(direction_id);
 
 		if (block_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(block_id);
@@ -213,4 +211,5 @@ public class TripCacheModel implements CacheModel<Trip>, Externalizable {
 	public String trip_headsign;
 	public boolean direction_id;
 	public String block_id;
+
 }

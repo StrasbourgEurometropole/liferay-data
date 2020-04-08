@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.gtfs.service.http.ArretServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.gtfs.service.http.ArretServiceSoap
  * @generated
  */
 @ProviderType
 public class ArretSoap implements Serializable {
+
 	public static ArretSoap toSoapModel(Arret model) {
 		ArretSoap soapModel = new ArretSoap();
 
@@ -266,4 +266,5 @@ public class ArretSoap implements Serializable {
 	private String _latitude;
 	private String _longitude;
 	private int _type;
+
 }

@@ -27,10 +27,11 @@ import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link ArretServiceUtil} service utility. The
+ * <code>ArretServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,19 +50,21 @@ import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
  *
  * @author Cedric Henry
  * @see ArretServiceSoap
- * @see HttpPrincipal
- * @see ArretServiceUtil
  * @generated
  */
 @ProviderType
 public class ArretServiceHttp {
-	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		HttpPrincipal httpPrincipal, java.lang.String stopCode) {
-		try {
-			MethodKey methodKey = new MethodKey(ArretServiceUtil.class,
-					"getArretRealTime", _getArretRealTimeParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, stopCode);
+	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
+		HttpPrincipal httpPrincipal, String stopCode) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ArretServiceUtil.class, "getArretRealTime",
+				_getArretRealTimeParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, stopCode);
 
 			Object returnObj = null;
 
@@ -69,7 +72,8 @@ public class ArretServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -82,7 +86,8 @@ public class ArretServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ArretServiceHttp.class);
-	private static final Class<?>[] _getArretRealTimeParameterTypes0 = new Class[] {
-			java.lang.String.class
-		};
+
+	private static final Class<?>[] _getArretRealTimeParameterTypes0 =
+		new Class[] {String.class};
+
 }

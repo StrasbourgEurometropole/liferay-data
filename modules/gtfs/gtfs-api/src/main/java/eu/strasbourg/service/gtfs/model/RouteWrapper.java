@@ -17,7 +17,6 @@ package eu.strasbourg.service.gtfs.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,6 +37,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class RouteWrapper implements Route, ModelWrapper<Route> {
+
 	public RouteWrapper(Route route) {
 		_route = route;
 	}
@@ -127,6 +127,131 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	@Override
+	public Object clone() {
+		return new RouteWrapper((Route)_route.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.gtfs.model.Route route) {
+		return _route.compareTo(route);
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _route.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the ID of this route.
+	 *
+	 * @return the ID of this route
+	 */
+	@Override
+	public long getId() {
+		return _route.getId();
+	}
+
+	/**
+	 * Returns the primary key of this route.
+	 *
+	 * @return the primary key of this route
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _route.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _route.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the route_color of this route.
+	 *
+	 * @return the route_color of this route
+	 */
+	@Override
+	public String getRoute_color() {
+		return _route.getRoute_color();
+	}
+
+	/**
+	 * Returns the route_desc of this route.
+	 *
+	 * @return the route_desc of this route
+	 */
+	@Override
+	public String getRoute_desc() {
+		return _route.getRoute_desc();
+	}
+
+	/**
+	 * Returns the route_id of this route.
+	 *
+	 * @return the route_id of this route
+	 */
+	@Override
+	public String getRoute_id() {
+		return _route.getRoute_id();
+	}
+
+	/**
+	 * Returns the route_long_name of this route.
+	 *
+	 * @return the route_long_name of this route
+	 */
+	@Override
+	public String getRoute_long_name() {
+		return _route.getRoute_long_name();
+	}
+
+	/**
+	 * Returns the route_short_name of this route.
+	 *
+	 * @return the route_short_name of this route
+	 */
+	@Override
+	public String getRoute_short_name() {
+		return _route.getRoute_short_name();
+	}
+
+	/**
+	 * Returns the route_text_color of this route.
+	 *
+	 * @return the route_text_color of this route
+	 */
+	@Override
+	public String getRoute_text_color() {
+		return _route.getRoute_text_color();
+	}
+
+	/**
+	 * Returns the route_type of this route.
+	 *
+	 * @return the route_type of this route
+	 */
+	@Override
+	public int getRoute_type() {
+		return _route.getRoute_type();
+	}
+
+	/**
+	 * Returns the uuid of this route.
+	 *
+	 * @return the uuid of this route
+	 */
+	@Override
+	public String getUuid() {
+		return _route.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _route.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _route.isCachedModel();
 	}
@@ -142,156 +267,6 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _route.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Route> toCacheModel() {
-		return _route.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Route toEscapedModel() {
-		return new RouteWrapper(_route.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Route toUnescapedModel() {
-		return new RouteWrapper(_route.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Route route) {
-		return _route.compareTo(route);
-	}
-
-	/**
-	* Returns the route_type of this route.
-	*
-	* @return the route_type of this route
-	*/
-	@Override
-	public int getRoute_type() {
-		return _route.getRoute_type();
-	}
-
-	@Override
-	public int hashCode() {
-		return _route.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _route.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new RouteWrapper((Route)_route.clone());
-	}
-
-	/**
-	* Returns the route_color of this route.
-	*
-	* @return the route_color of this route
-	*/
-	@Override
-	public java.lang.String getRoute_color() {
-		return _route.getRoute_color();
-	}
-
-	/**
-	* Returns the route_desc of this route.
-	*
-	* @return the route_desc of this route
-	*/
-	@Override
-	public java.lang.String getRoute_desc() {
-		return _route.getRoute_desc();
-	}
-
-	/**
-	* Returns the route_id of this route.
-	*
-	* @return the route_id of this route
-	*/
-	@Override
-	public java.lang.String getRoute_id() {
-		return _route.getRoute_id();
-	}
-
-	/**
-	* Returns the route_long_name of this route.
-	*
-	* @return the route_long_name of this route
-	*/
-	@Override
-	public java.lang.String getRoute_long_name() {
-		return _route.getRoute_long_name();
-	}
-
-	/**
-	* Returns the route_short_name of this route.
-	*
-	* @return the route_short_name of this route
-	*/
-	@Override
-	public java.lang.String getRoute_short_name() {
-		return _route.getRoute_short_name();
-	}
-
-	/**
-	* Returns the route_text_color of this route.
-	*
-	* @return the route_text_color of this route
-	*/
-	@Override
-	public java.lang.String getRoute_text_color() {
-		return _route.getRoute_text_color();
-	}
-
-	/**
-	* Returns the uuid of this route.
-	*
-	* @return the uuid of this route
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _route.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _route.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _route.toXmlString();
-	}
-
-	/**
-	* Returns the ID of this route.
-	*
-	* @return the ID of this route
-	*/
-	@Override
-	public long getId() {
-		return _route.getId();
-	}
-
-	/**
-	* Returns the primary key of this route.
-	*
-	* @return the primary key of this route
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _route.getPrimaryKey();
-	}
-
-	@Override
 	public void persist() {
 		_route.persist();
 	}
@@ -302,14 +277,15 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_route.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_route.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_route.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_route.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -318,10 +294,10 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	/**
-	* Sets the ID of this route.
-	*
-	* @param id the ID of this route
-	*/
+	 * Sets the ID of this route.
+	 *
+	 * @param id the ID of this route
+	 */
 	@Override
 	public void setId(long id) {
 		_route.setId(id);
@@ -333,10 +309,10 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	/**
-	* Sets the primary key of this route.
-	*
-	* @param primaryKey the primary key of this route
-	*/
+	 * Sets the primary key of this route.
+	 *
+	 * @param primaryKey the primary key of this route
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_route.setPrimaryKey(primaryKey);
@@ -348,83 +324,110 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	/**
-	* Sets the route_color of this route.
-	*
-	* @param route_color the route_color of this route
-	*/
+	 * Sets the route_color of this route.
+	 *
+	 * @param route_color the route_color of this route
+	 */
 	@Override
-	public void setRoute_color(java.lang.String route_color) {
+	public void setRoute_color(String route_color) {
 		_route.setRoute_color(route_color);
 	}
 
 	/**
-	* Sets the route_desc of this route.
-	*
-	* @param route_desc the route_desc of this route
-	*/
+	 * Sets the route_desc of this route.
+	 *
+	 * @param route_desc the route_desc of this route
+	 */
 	@Override
-	public void setRoute_desc(java.lang.String route_desc) {
+	public void setRoute_desc(String route_desc) {
 		_route.setRoute_desc(route_desc);
 	}
 
 	/**
-	* Sets the route_id of this route.
-	*
-	* @param route_id the route_id of this route
-	*/
+	 * Sets the route_id of this route.
+	 *
+	 * @param route_id the route_id of this route
+	 */
 	@Override
-	public void setRoute_id(java.lang.String route_id) {
+	public void setRoute_id(String route_id) {
 		_route.setRoute_id(route_id);
 	}
 
 	/**
-	* Sets the route_long_name of this route.
-	*
-	* @param route_long_name the route_long_name of this route
-	*/
+	 * Sets the route_long_name of this route.
+	 *
+	 * @param route_long_name the route_long_name of this route
+	 */
 	@Override
-	public void setRoute_long_name(java.lang.String route_long_name) {
+	public void setRoute_long_name(String route_long_name) {
 		_route.setRoute_long_name(route_long_name);
 	}
 
 	/**
-	* Sets the route_short_name of this route.
-	*
-	* @param route_short_name the route_short_name of this route
-	*/
+	 * Sets the route_short_name of this route.
+	 *
+	 * @param route_short_name the route_short_name of this route
+	 */
 	@Override
-	public void setRoute_short_name(java.lang.String route_short_name) {
+	public void setRoute_short_name(String route_short_name) {
 		_route.setRoute_short_name(route_short_name);
 	}
 
 	/**
-	* Sets the route_text_color of this route.
-	*
-	* @param route_text_color the route_text_color of this route
-	*/
+	 * Sets the route_text_color of this route.
+	 *
+	 * @param route_text_color the route_text_color of this route
+	 */
 	@Override
-	public void setRoute_text_color(java.lang.String route_text_color) {
+	public void setRoute_text_color(String route_text_color) {
 		_route.setRoute_text_color(route_text_color);
 	}
 
 	/**
-	* Sets the route_type of this route.
-	*
-	* @param route_type the route_type of this route
-	*/
+	 * Sets the route_type of this route.
+	 *
+	 * @param route_type the route_type of this route
+	 */
 	@Override
 	public void setRoute_type(int route_type) {
 		_route.setRoute_type(route_type);
 	}
 
 	/**
-	* Sets the uuid of this route.
-	*
-	* @param uuid the uuid of this route
-	*/
+	 * Sets the uuid of this route.
+	 *
+	 * @param uuid the uuid of this route
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_route.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.gtfs.model.Route> toCacheModel() {
+
+		return _route.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route toEscapedModel() {
+		return new RouteWrapper(_route.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _route.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Route toUnescapedModel() {
+		return new RouteWrapper(_route.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _route.toXmlString();
 	}
 
 	@Override
@@ -467,4 +470,5 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	private final Route _route;
+
 }

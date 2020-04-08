@@ -17,7 +17,6 @@ package eu.strasbourg.service.gtfs.service.base;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -58,15 +57,15 @@ import javax.sql.DataSource;
  *
  * @author Cedric Henry
  * @see eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl
- * @see eu.strasbourg.service.gtfs.service.LigneServiceUtil
  * @generated
  */
-public abstract class LigneServiceBaseImpl extends BaseServiceImpl
-	implements LigneService, IdentifiableOSGiService {
+public abstract class LigneServiceBaseImpl
+	extends BaseServiceImpl implements LigneService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.LigneServiceUtil} to access the ligne remote service.
+	 * Never modify or reference this class directly. Use <code>LigneService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.LigneServiceUtil</code>.
 	 */
 
 	/**
@@ -74,7 +73,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the agency local service
 	 */
-	public eu.strasbourg.service.gtfs.service.AgencyLocalService getAgencyLocalService() {
+	public eu.strasbourg.service.gtfs.service.AgencyLocalService
+		getAgencyLocalService() {
+
 		return agencyLocalService;
 	}
 
@@ -84,7 +85,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param agencyLocalService the agency local service
 	 */
 	public void setAgencyLocalService(
-		eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService) {
+		eu.strasbourg.service.gtfs.service.AgencyLocalService
+			agencyLocalService) {
+
 		this.agencyLocalService = agencyLocalService;
 	}
 
@@ -111,7 +114,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the alert local service
 	 */
-	public eu.strasbourg.service.gtfs.service.AlertLocalService getAlertLocalService() {
+	public eu.strasbourg.service.gtfs.service.AlertLocalService
+		getAlertLocalService() {
+
 		return alertLocalService;
 	}
 
@@ -121,7 +126,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param alertLocalService the alert local service
 	 */
 	public void setAlertLocalService(
-		eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService) {
+		eu.strasbourg.service.gtfs.service.AlertLocalService
+			alertLocalService) {
+
 		this.alertLocalService = alertLocalService;
 	}
 
@@ -148,7 +155,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the arret local service
 	 */
-	public eu.strasbourg.service.gtfs.service.ArretLocalService getArretLocalService() {
+	public eu.strasbourg.service.gtfs.service.ArretLocalService
+		getArretLocalService() {
+
 		return arretLocalService;
 	}
 
@@ -158,7 +167,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param arretLocalService the arret local service
 	 */
 	public void setArretLocalService(
-		eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService) {
+		eu.strasbourg.service.gtfs.service.ArretLocalService
+			arretLocalService) {
+
 		this.arretLocalService = arretLocalService;
 	}
 
@@ -178,6 +189,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setArretService(
 		eu.strasbourg.service.gtfs.service.ArretService arretService) {
+
 		this.arretService = arretService;
 	}
 
@@ -204,7 +216,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the calendar local service
 	 */
-	public eu.strasbourg.service.gtfs.service.CalendarLocalService getCalendarLocalService() {
+	public eu.strasbourg.service.gtfs.service.CalendarLocalService
+		getCalendarLocalService() {
+
 		return calendarLocalService;
 	}
 
@@ -214,7 +228,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param calendarLocalService the calendar local service
 	 */
 	public void setCalendarLocalService(
-		eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService) {
+		eu.strasbourg.service.gtfs.service.CalendarLocalService
+			calendarLocalService) {
+
 		this.calendarLocalService = calendarLocalService;
 	}
 
@@ -232,7 +248,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param calendarPersistence the calendar persistence
 	 */
-	public void setCalendarPersistence(CalendarPersistence calendarPersistence) {
+	public void setCalendarPersistence(
+		CalendarPersistence calendarPersistence) {
+
 		this.calendarPersistence = calendarPersistence;
 	}
 
@@ -241,7 +259,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the calendar date local service
 	 */
-	public eu.strasbourg.service.gtfs.service.CalendarDateLocalService getCalendarDateLocalService() {
+	public eu.strasbourg.service.gtfs.service.CalendarDateLocalService
+		getCalendarDateLocalService() {
+
 		return calendarDateLocalService;
 	}
 
@@ -251,7 +271,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param calendarDateLocalService the calendar date local service
 	 */
 	public void setCalendarDateLocalService(
-		eu.strasbourg.service.gtfs.service.CalendarDateLocalService calendarDateLocalService) {
+		eu.strasbourg.service.gtfs.service.CalendarDateLocalService
+			calendarDateLocalService) {
+
 		this.calendarDateLocalService = calendarDateLocalService;
 	}
 
@@ -271,6 +293,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setCalendarDatePersistence(
 		CalendarDatePersistence calendarDatePersistence) {
+
 		this.calendarDatePersistence = calendarDatePersistence;
 	}
 
@@ -279,7 +302,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the direction local service
 	 */
-	public eu.strasbourg.service.gtfs.service.DirectionLocalService getDirectionLocalService() {
+	public eu.strasbourg.service.gtfs.service.DirectionLocalService
+		getDirectionLocalService() {
+
 		return directionLocalService;
 	}
 
@@ -289,7 +314,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param directionLocalService the direction local service
 	 */
 	public void setDirectionLocalService(
-		eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService) {
+		eu.strasbourg.service.gtfs.service.DirectionLocalService
+			directionLocalService) {
+
 		this.directionLocalService = directionLocalService;
 	}
 
@@ -309,6 +336,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setDirectionPersistence(
 		DirectionPersistence directionPersistence) {
+
 		this.directionPersistence = directionPersistence;
 	}
 
@@ -317,7 +345,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the import historic local service
 	 */
-	public eu.strasbourg.service.gtfs.service.ImportHistoricLocalService getImportHistoricLocalService() {
+	public eu.strasbourg.service.gtfs.service.ImportHistoricLocalService
+		getImportHistoricLocalService() {
+
 		return importHistoricLocalService;
 	}
 
@@ -327,7 +357,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param importHistoricLocalService the import historic local service
 	 */
 	public void setImportHistoricLocalService(
-		eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService) {
+		eu.strasbourg.service.gtfs.service.ImportHistoricLocalService
+			importHistoricLocalService) {
+
 		this.importHistoricLocalService = importHistoricLocalService;
 	}
 
@@ -347,6 +379,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setImportHistoricPersistence(
 		ImportHistoricPersistence importHistoricPersistence) {
+
 		this.importHistoricPersistence = importHistoricPersistence;
 	}
 
@@ -355,7 +388,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the ligne local service
 	 */
-	public eu.strasbourg.service.gtfs.service.LigneLocalService getLigneLocalService() {
+	public eu.strasbourg.service.gtfs.service.LigneLocalService
+		getLigneLocalService() {
+
 		return ligneLocalService;
 	}
 
@@ -365,7 +400,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param ligneLocalService the ligne local service
 	 */
 	public void setLigneLocalService(
-		eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService) {
+		eu.strasbourg.service.gtfs.service.LigneLocalService
+			ligneLocalService) {
+
 		this.ligneLocalService = ligneLocalService;
 	}
 
@@ -410,7 +447,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the route local service
 	 */
-	public eu.strasbourg.service.gtfs.service.RouteLocalService getRouteLocalService() {
+	public eu.strasbourg.service.gtfs.service.RouteLocalService
+		getRouteLocalService() {
+
 		return routeLocalService;
 	}
 
@@ -420,7 +459,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param routeLocalService the route local service
 	 */
 	public void setRouteLocalService(
-		eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService) {
+		eu.strasbourg.service.gtfs.service.RouteLocalService
+			routeLocalService) {
+
 		this.routeLocalService = routeLocalService;
 	}
 
@@ -447,7 +488,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the stop local service
 	 */
-	public eu.strasbourg.service.gtfs.service.StopLocalService getStopLocalService() {
+	public eu.strasbourg.service.gtfs.service.StopLocalService
+		getStopLocalService() {
+
 		return stopLocalService;
 	}
 
@@ -458,6 +501,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setStopLocalService(
 		eu.strasbourg.service.gtfs.service.StopLocalService stopLocalService) {
+
 		this.stopLocalService = stopLocalService;
 	}
 
@@ -484,7 +528,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the stop time local service
 	 */
-	public eu.strasbourg.service.gtfs.service.StopTimeLocalService getStopTimeLocalService() {
+	public eu.strasbourg.service.gtfs.service.StopTimeLocalService
+		getStopTimeLocalService() {
+
 		return stopTimeLocalService;
 	}
 
@@ -494,7 +540,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param stopTimeLocalService the stop time local service
 	 */
 	public void setStopTimeLocalService(
-		eu.strasbourg.service.gtfs.service.StopTimeLocalService stopTimeLocalService) {
+		eu.strasbourg.service.gtfs.service.StopTimeLocalService
+			stopTimeLocalService) {
+
 		this.stopTimeLocalService = stopTimeLocalService;
 	}
 
@@ -512,7 +560,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param stopTimePersistence the stop time persistence
 	 */
-	public void setStopTimePersistence(StopTimePersistence stopTimePersistence) {
+	public void setStopTimePersistence(
+		StopTimePersistence stopTimePersistence) {
+
 		this.stopTimePersistence = stopTimePersistence;
 	}
 
@@ -521,7 +571,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the trip local service
 	 */
-	public eu.strasbourg.service.gtfs.service.TripLocalService getTripLocalService() {
+	public eu.strasbourg.service.gtfs.service.TripLocalService
+		getTripLocalService() {
+
 		return tripLocalService;
 	}
 
@@ -532,6 +584,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setTripLocalService(
 		eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService) {
+
 		this.tripLocalService = tripLocalService;
 	}
 
@@ -576,7 +629,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -586,7 +641,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -595,7 +652,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -605,7 +664,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -614,7 +675,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the class name remote service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameService getClassNameService() {
+	public com.liferay.portal.kernel.service.ClassNameService
+		getClassNameService() {
+
 		return classNameService;
 	}
 
@@ -625,6 +688,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNameService(
 		com.liferay.portal.kernel.service.ClassNameService classNameService) {
+
 		this.classNameService = classNameService;
 	}
 
@@ -644,6 +708,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -652,7 +717,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -662,7 +729,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -671,7 +740,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -682,6 +753,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -701,6 +773,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setUserService(
 		com.liferay.portal.kernel.service.UserService userService) {
+
 		this.userService = userService;
 	}
 
@@ -727,7 +800,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+	public com.liferay.asset.kernel.service.AssetEntryLocalService
+		getAssetEntryLocalService() {
+
 		return assetEntryLocalService;
 	}
 
@@ -737,7 +812,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		com.liferay.asset.kernel.service.AssetEntryLocalService
+			assetEntryLocalService) {
+
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -746,7 +823,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset entry remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryService getAssetEntryService() {
+	public com.liferay.asset.kernel.service.AssetEntryService
+		getAssetEntryService() {
+
 		return assetEntryService;
 	}
 
@@ -757,6 +836,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryService(
 		com.liferay.asset.kernel.service.AssetEntryService assetEntryService) {
+
 		this.assetEntryService = assetEntryService;
 	}
 
@@ -776,6 +856,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
+
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -784,7 +865,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+	public com.liferay.asset.kernel.service.AssetLinkLocalService
+		getAssetLinkLocalService() {
+
 		return assetLinkLocalService;
 	}
 
@@ -794,7 +877,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		com.liferay.asset.kernel.service.AssetLinkLocalService
+			assetLinkLocalService) {
+
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -814,6 +899,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
+
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -822,7 +908,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+	public com.liferay.asset.kernel.service.AssetTagLocalService
+		getAssetTagLocalService() {
+
 		return assetTagLocalService;
 	}
 
@@ -832,7 +920,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		com.liferay.asset.kernel.service.AssetTagLocalService
+			assetTagLocalService) {
+
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -841,7 +931,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @return the asset tag remote service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagService getAssetTagService() {
+	public com.liferay.asset.kernel.service.AssetTagService
+		getAssetTagService() {
+
 		return assetTagService;
 	}
 
@@ -852,6 +944,7 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setAssetTagService(
 		com.liferay.asset.kernel.service.AssetTagService assetTagService) {
+
 		this.assetTagService = assetTagService;
 	}
 
@@ -869,7 +962,9 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+	public void setAssetTagPersistence(
+		AssetTagPersistence assetTagPersistence) {
+
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
@@ -911,8 +1006,8 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -921,90 +1016,200 @@ public abstract class LigneServiceBaseImpl extends BaseServiceImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.AgencyLocalService
+		agencyLocalService;
+
 	@BeanReference(type = AgencyPersistence.class)
 	protected AgencyPersistence agencyPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.AlertLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.AlertLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.AlertLocalService
+		alertLocalService;
+
 	@BeanReference(type = AlertPersistence.class)
 	protected AlertPersistence alertPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.ArretLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.ArretLocalService
+		arretLocalService;
+
 	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretService.class)
 	protected eu.strasbourg.service.gtfs.service.ArretService arretService;
+
 	@BeanReference(type = ArretPersistence.class)
 	protected ArretPersistence arretPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CalendarLocalService
+		calendarLocalService;
+
 	@BeanReference(type = CalendarPersistence.class)
 	protected CalendarPersistence calendarPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.CalendarDateLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.CalendarDateLocalService calendarDateLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CalendarDateLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CalendarDateLocalService
+		calendarDateLocalService;
+
 	@BeanReference(type = CalendarDatePersistence.class)
 	protected CalendarDatePersistence calendarDatePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.DirectionLocalService
+		directionLocalService;
+
 	@BeanReference(type = DirectionPersistence.class)
 	protected DirectionPersistence directionPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.ImportHistoricLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.ImportHistoricLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.ImportHistoricLocalService
+		importHistoricLocalService;
+
 	@BeanReference(type = ImportHistoricPersistence.class)
 	protected ImportHistoricPersistence importHistoricPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.LigneLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.LigneLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.LigneLocalService
+		ligneLocalService;
+
 	@BeanReference(type = LigneService.class)
 	protected LigneService ligneService;
+
 	@BeanReference(type = LignePersistence.class)
 	protected LignePersistence lignePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.RouteLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.RouteLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.RouteLocalService
+		routeLocalService;
+
 	@BeanReference(type = RoutePersistence.class)
 	protected RoutePersistence routePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.StopLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.StopLocalService stopLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.StopLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.StopLocalService
+		stopLocalService;
+
 	@BeanReference(type = StopPersistence.class)
 	protected StopPersistence stopPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.StopTimeLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.StopTimeLocalService stopTimeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.StopTimeLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.StopTimeLocalService
+		stopTimeLocalService;
+
 	@BeanReference(type = StopTimePersistence.class)
 	protected StopTimePersistence stopTimePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.TripLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.TripLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.TripLocalService
+		tripLocalService;
+
 	@BeanReference(type = TripPersistence.class)
 	protected TripPersistence tripPersistence;
+
 	@BeanReference(type = TripFinder.class)
 	protected TripFinder tripFinder;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameService.class)
-	protected com.liferay.portal.kernel.service.ClassNameService classNameService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameService
+		classNameService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserService.class)
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserService.class
+	)
 	protected com.liferay.portal.kernel.service.UserService userService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryService.class)
-	protected com.liferay.asset.kernel.service.AssetEntryService assetEntryService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService
+		assetEntryLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetEntryService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetEntryService
+		assetEntryService;
+
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService
+		assetLinkLocalService;
+
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
-	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagService.class)
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
+	)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService
+		assetTagLocalService;
+
+	@ServiceReference(
+		type = com.liferay.asset.kernel.service.AssetTagService.class
+	)
 	protected com.liferay.asset.kernel.service.AssetTagService assetTagService;
+
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
+
 }

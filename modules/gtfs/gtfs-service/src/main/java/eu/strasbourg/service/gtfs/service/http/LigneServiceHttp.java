@@ -27,10 +27,11 @@ import eu.strasbourg.service.gtfs.service.LigneServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link LigneServiceUtil} service utility. The
+ * <code>LigneServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,17 +50,18 @@ import eu.strasbourg.service.gtfs.service.LigneServiceUtil;
  *
  * @author Cedric Henry
  * @see LigneServiceSoap
- * @see HttpPrincipal
- * @see LigneServiceUtil
  * @generated
  */
 @ProviderType
 public class LigneServiceHttp {
+
 	public static com.liferay.portal.kernel.json.JSONArray getLigneColors(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(LigneServiceUtil.class,
-					"getLigneColors", _getLigneColorsParameterTypes0);
+			MethodKey methodKey = new MethodKey(
+				LigneServiceUtil.class, "getLigneColors",
+				_getLigneColorsParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -69,7 +71,8 @@ public class LigneServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -81,12 +84,13 @@ public class LigneServiceHttp {
 		}
 	}
 
-	public static java.util.Map<java.lang.String, java.lang.String[]> getLigneColorsFreemarker(
+	public static java.util.Map<String, String[]> getLigneColorsFreemarker(
 		HttpPrincipal httpPrincipal) {
+
 		try {
-			MethodKey methodKey = new MethodKey(LigneServiceUtil.class,
-					"getLigneColorsFreemarker",
-					_getLigneColorsFreemarkerParameterTypes1);
+			MethodKey methodKey = new MethodKey(
+				LigneServiceUtil.class, "getLigneColorsFreemarker",
+				_getLigneColorsFreemarkerParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -96,10 +100,11 @@ public class LigneServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
-			return (java.util.Map<java.lang.String, java.lang.String[]>)returnObj;
+			return (java.util.Map<String, String[]>)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -109,10 +114,10 @@ public class LigneServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(LigneServiceHttp.class);
-	private static final Class<?>[] _getLigneColorsParameterTypes0 = new Class[] {
-			
-		};
-	private static final Class<?>[] _getLigneColorsFreemarkerParameterTypes1 = new Class[] {
-			
-		};
+
+	private static final Class<?>[] _getLigneColorsParameterTypes0 =
+		new Class[] {};
+	private static final Class<?>[] _getLigneColorsFreemarkerParameterTypes1 =
+		new Class[] {};
+
 }

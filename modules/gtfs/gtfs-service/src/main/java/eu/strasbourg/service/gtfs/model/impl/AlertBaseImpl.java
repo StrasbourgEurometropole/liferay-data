@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
  */
 @ProviderType
 public abstract class AlertBaseImpl extends AlertModelImpl implements Alert {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a alert model instance should use the {@link Alert} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a alert model instance should use the <code>Alert</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class AlertBaseImpl extends AlertModelImpl implements Alert {
 			AlertLocalServiceUtil.updateAlert(this);
 		}
 	}
+
 }

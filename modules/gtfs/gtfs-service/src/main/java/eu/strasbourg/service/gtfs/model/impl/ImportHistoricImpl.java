@@ -23,18 +23,19 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 
+import com.liferay.portal.kernel.template.*;
+
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * The extended model implementation for the ImportHistoric service. Represents a row in the &quot;gtfs_ImportHistoric&quot; database table, with each column mapped to a property of this class.
@@ -114,21 +115,36 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 		context.put("importHistoric", this);
 		context.put("environment", environment);
 
-		Configuration configuration = new Configuration(Configuration.getVersion());
-		configuration.setClassForTemplateLoading(this.getClass(),"/templates/");
-		configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
-		
+		StringWriter out = new StringWriter();
+
 		try {
-			// Recuperation des patrons
-			Template subjectTemplate = configuration.getTemplate("import-notification-mail-subject.ftl");
-			Template bodyTemplate = configuration.getTemplate("import-notification-mail-body.ftl");
-			
-			StringWriter subjectWriter = new StringWriter();
-			StringWriter bodyWriter = new StringWriter();
-			
-			subjectTemplate.process(context, subjectWriter);
-			bodyTemplate.process(context, bodyWriter);
-			
+			// Chargement du template contenant le sujet du mail
+			TemplateResource templateResourceSubject = new URLTemplateResource(
+					"0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/" + "import-notification-mail-subject.ftl")));
+			Template subjectTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceSubject, false);
+
+			// Traitement du template sujet
+			subjectTemplate.putAll(context);
+			subjectTemplate.processTemplate(out);
+			String mailSubject = out.toString();
+
+			//Chargement du template contenant le corps du mail
+			TemplateResource templateResourceBody = new URLTemplateResource("0",
+					Objects.requireNonNull(this.getClass().getClassLoader()
+							.getResource("/templates/" + "import-notification-mail-body.ftl")));
+			Template bodyTemplate = TemplateManagerUtil.getTemplate(
+					TemplateConstants.LANG_TYPE_FTL, templateResourceBody, false);
+
+			// Traitement du template corps
+			out = new StringWriter();
+			bodyTemplate.putAll(context);
+			bodyTemplate.processTemplate(out);
+			String mailBody = out.toString();
+
+
 			// Properties de l'adresse d'envoie
 			String adminEmailFromAddress = PrefsPropsUtil.getString(
 					PortalUtil.getDefaultCompanyId(),
@@ -138,8 +154,7 @@ public class ImportHistoricImpl extends ImportHistoricBaseImpl {
 			MailHelper.sendMailWithHTML(
 					adminEmailFromAddress,
 					mailAddresses,
-					subjectWriter.toString(), 
-					bodyWriter.toString());
+					mailSubject, mailBody);
 		} catch (Exception e) {
 			log.error(e);
 		}

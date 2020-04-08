@@ -16,312 +16,355 @@ package eu.strasbourg.service.gtfs.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.osgi.util.ServiceTrackerFactory;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the local service utility for Route. This utility wraps
- * {@link eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl} and is the
- * primary access point for service operations in application layer code running
+ * <code>eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl</code> and
+ * is an access point for service operations in application layer code running
  * on the local server. Methods of this service will not have security checks
  * based on the propagated JAAS credentials because this service can only be
  * accessed from within the same VM.
  *
  * @author Cedric Henry
  * @see RouteLocalService
- * @see eu.strasbourg.service.gtfs.service.base.RouteLocalServiceBaseImpl
- * @see eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl
  * @generated
  */
 @ProviderType
 public class RouteLocalServiceUtil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
-		return getService().getActionableDynamicQuery();
-	}
-
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery() {
-		return getService().dynamicQuery();
-	}
-
-	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		return getService().getIndexableActionableDynamicQuery();
-	}
 
 	/**
-	* @throws PortalException
-	*/
-	public static com.liferay.portal.kernel.model.PersistedModel deletePersistedModel(
-		com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().deletePersistedModel(persistedModel);
-	}
-
-	public static com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
-		java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getPersistedModel(primaryKeyObj);
-	}
-
-	/**
-	* Adds the route to the database. Also notifies the appropriate model listeners.
-	*
-	* @param route the route
-	* @return the route that was added
-	*/
+	 * Adds the route to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param route the route
+	 * @return the route that was added
+	 */
 	public static eu.strasbourg.service.gtfs.model.Route addRoute(
 		eu.strasbourg.service.gtfs.model.Route route) {
+
 		return getService().addRoute(route);
 	}
 
 	/**
-	* Crée une Route vide avec une PK, non ajouté à la base de donnée
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route createRoute(
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().createRoute(sc);
-	}
-
-	/**
-	* Creates a new route with the primary key. Does not add the route to the database.
-	*
-	* @param id the primary key for the new route
-	* @return the new route
-	*/
+	 * Creates a new route with the primary key. Does not add the route to the database.
+	 *
+	 * @param id the primary key for the new route
+	 * @return the new route
+	 */
 	public static eu.strasbourg.service.gtfs.model.Route createRoute(long id) {
 		return getService().createRoute(id);
 	}
 
 	/**
-	* Crée un Route à partir d'une entrée GTFS
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route createRouteFromGTFS(
-		eu.strasbourg.utils.models.RoutesGTFS entry)
+	 * Crée une Route vide avec une PK, non ajouté à la base de donnée
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route createRoute(
+			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().createRoute(sc);
+	}
+
+	/**
+	 * Crée un Route à partir d'une entrée GTFS
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route createRouteFromGTFS(
+			eu.strasbourg.utils.models.RoutesGTFS entry)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().createRouteFromGTFS(entry);
 	}
 
 	/**
-	* Deletes the route from the database. Also notifies the appropriate model listeners.
-	*
-	* @param route the route
-	* @return the route that was removed
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route deleteRoute(
-		eu.strasbourg.service.gtfs.model.Route route) {
-		return getService().deleteRoute(route);
+	 * @throws PortalException
+	 */
+	public static com.liferay.portal.kernel.model.PersistedModel
+			deletePersistedModel(
+				com.liferay.portal.kernel.model.PersistedModel persistedModel)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().deletePersistedModel(persistedModel);
 	}
 
 	/**
-	* Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
-	*
-	* @param id the primary key of the route
-	* @return the route that was removed
-	* @throws PortalException if a route with the primary key could not be found
-	*/
+	 * Deletes the route with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param id the primary key of the route
+	 * @return the route that was removed
+	 * @throws PortalException if a route with the primary key could not be found
+	 */
 	public static eu.strasbourg.service.gtfs.model.Route deleteRoute(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().deleteRoute(id);
+	}
+
+	/**
+	 * Deletes the route from the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param route the route
+	 * @return the route that was removed
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route deleteRoute(
+		eu.strasbourg.service.gtfs.model.Route route) {
+
+		return getService().deleteRoute(route);
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
+		dynamicQuery() {
+
+		return getService().dynamicQuery();
+	}
+
+	/**
+	 * Performs a dynamic query on the database and returns the matching rows.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the matching rows
+	 */
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return getService().dynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * Performs a dynamic query on the database and returns a range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.RouteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @return the range of matching rows
+	 */
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end) {
+
+		return getService().dynamicQuery(dynamicQuery, start, end);
+	}
+
+	/**
+	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.RouteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param start the lower bound of the range of model instances
+	 * @param end the upper bound of the range of model instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching rows
+	 */
+	public static <T> java.util.List<T> dynamicQuery(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+
+		return getService().dynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @return the number of rows matching the dynamic query
+	 */
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+
+		return getService().dynamicQueryCount(dynamicQuery);
+	}
+
+	/**
+	 * Returns the number of rows matching the dynamic query.
+	 *
+	 * @param dynamicQuery the dynamic query
+	 * @param projection the projection to apply to the query
+	 * @return the number of rows matching the dynamic query
+	 */
+	public static long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		com.liferay.portal.kernel.dao.orm.Projection projection) {
+
+		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
 	public static eu.strasbourg.service.gtfs.model.Route fetchRoute(long id) {
 		return getService().fetchRoute(id);
 	}
 
-	/**
-	* Recuperer une ligne via son routeId
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route getByRouteId(
-		java.lang.String routeId) {
-		return getService().getByRouteId(routeId);
+	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
+		getActionableDynamicQuery() {
+
+		return getService().getActionableDynamicQuery();
 	}
 
 	/**
-	* Returns the route with the primary key.
-	*
-	* @param id the primary key of the route
-	* @return the route
-	* @throws PortalException if a route with the primary key could not be found
-	*/
+	 * Recuperer toutes les lignes
+	 */
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Route>
+		getAllRoutes() {
+
+		return getService().getAllRoutes();
+	}
+
+	/**
+	 * Recuperer une ligne via son routeId
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route getByRouteId(
+		String routeId) {
+
+		return getService().getByRouteId(routeId);
+	}
+
+	public static
+		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
+			getIndexableActionableDynamicQuery() {
+
+		return getService().getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public static String getOSGiServiceIdentifier() {
+		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static com.liferay.portal.kernel.model.PersistedModel
+			getPersistedModel(java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	/**
+	 * Returns the route with the primary key.
+	 *
+	 * @param id the primary key of the route
+	 * @return the route
+	 * @throws PortalException if a route with the primary key could not be found
+	 */
 	public static eu.strasbourg.service.gtfs.model.Route getRoute(long id)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return getService().getRoute(id);
 	}
 
 	/**
-	* Supprime une Route
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route removeRoute(
-		long routeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().removeRoute(routeId);
+	 * Returns a range of all the routes.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.RouteModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param start the lower bound of the range of routes
+	 * @param end the upper bound of the range of routes (not inclusive)
+	 * @return the range of routes
+	 */
+	public static java.util.List<eu.strasbourg.service.gtfs.model.Route>
+		getRoutes(int start, int end) {
+
+		return getService().getRoutes(start, end);
 	}
 
 	/**
-	* Updates the route in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
-	*
-	* @param route the route
-	* @return the route that was updated
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route updateRoute(
-		eu.strasbourg.service.gtfs.model.Route route) {
-		return getService().updateRoute(route);
-	}
-
-	/**
-	* Met à jour une Route et l'enregistre en base de données
-	*
-	* @throws IOException
-	*/
-	public static eu.strasbourg.service.gtfs.model.Route updateRoute(
-		eu.strasbourg.service.gtfs.model.Route route,
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().updateRoute(route, sc);
-	}
-
-	/**
-	* Returns the number of routes.
-	*
-	* @return the number of routes
-	*/
+	 * Returns the number of routes.
+	 *
+	 * @return the number of routes
+	 */
 	public static int getRoutesCount() {
 		return getService().getRoutesCount();
 	}
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public static java.lang.String getOSGiServiceIdentifier() {
-		return getService().getOSGiServiceIdentifier();
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns the matching rows.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the matching rows
-	*/
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return getService().dynamicQuery(dynamicQuery);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns a range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @return the range of matching rows
-	*/
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
-		return getService().dynamicQuery(dynamicQuery, start, end);
-	}
-
-	/**
-	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param dynamicQuery the dynamic query
-	* @param start the lower bound of the range of model instances
-	* @param end the upper bound of the range of model instances (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching rows
-	*/
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
-		return getService()
-				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
-	}
-
-	/**
-	* Recuperer toutes les lignes
-	*/
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Route> getAllRoutes() {
-		return getService().getAllRoutes();
-	}
-
-	/**
-	* Returns a range of all the routes.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.RouteModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param start the lower bound of the range of routes
-	* @param end the upper bound of the range of routes (not inclusive)
-	* @return the range of routes
-	*/
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Route> getRoutes(
-		int start, int end) {
-		return getService().getRoutes(start, end);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @return the number of rows matching the dynamic query
-	*/
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-		return getService().dynamicQueryCount(dynamicQuery);
-	}
-
-	/**
-	* Returns the number of rows matching the dynamic query.
-	*
-	* @param dynamicQuery the dynamic query
-	* @param projection the projection to apply to the query
-	* @return the number of rows matching the dynamic query
-	*/
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
-		com.liferay.portal.kernel.dao.orm.Projection projection) {
-		return getService().dynamicQueryCount(dynamicQuery, projection);
-	}
-
-	/**
-	* Import des lignes sous le format de données GTFS
-	*/
+	 * Import des lignes sous le format de données GTFS
+	 */
 	public static void importFromGTFS(
-		java.util.Map<java.lang.String, eu.strasbourg.utils.models.RoutesGTFS> data)
+			java.util.Map<String, eu.strasbourg.utils.models.RoutesGTFS> data)
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		getService().importFromGTFS(data);
 	}
 
 	/**
-	* Supprime toutes les Routes
-	*/
+	 * Supprime toutes les Routes
+	 */
 	public static void removeAllRoutes()
 		throws com.liferay.portal.kernel.exception.PortalException {
+
 		getService().removeAllRoutes();
+	}
+
+	/**
+	 * Supprime une Route
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route removeRoute(
+			long routeId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().removeRoute(routeId);
+	}
+
+	/**
+	 * Updates the route in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * @param route the route
+	 * @return the route that was updated
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route updateRoute(
+		eu.strasbourg.service.gtfs.model.Route route) {
+
+		return getService().updateRoute(route);
+	}
+
+	/**
+	 * Met à jour une Route et l'enregistre en base de données
+	 *
+	 * @throws IOException
+	 */
+	public static eu.strasbourg.service.gtfs.model.Route updateRoute(
+			eu.strasbourg.service.gtfs.model.Route route,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().updateRoute(route, sc);
 	}
 
 	public static RouteLocalService getService() {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<RouteLocalService, RouteLocalService> _serviceTracker =
-		ServiceTrackerFactory.open(RouteLocalService.class);
+	private static ServiceTracker<RouteLocalService, RouteLocalService>
+		_serviceTracker;
+
+	static {
+		Bundle bundle = FrameworkUtil.getBundle(RouteLocalService.class);
+
+		ServiceTracker<RouteLocalService, RouteLocalService> serviceTracker =
+			new ServiceTracker<RouteLocalService, RouteLocalService>(
+				bundle.getBundleContext(), RouteLocalService.class, null);
+
+		serviceTracker.open();
+
+		_serviceTracker = serviceTracker;
+	}
+
 }

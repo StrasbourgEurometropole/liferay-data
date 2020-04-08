@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
  */
 @ProviderType
 public abstract class RouteBaseImpl extends RouteModelImpl implements Route {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a route model instance should use the {@link Route} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a route model instance should use the <code>Route</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class RouteBaseImpl extends RouteModelImpl implements Route {
 			RouteLocalServiceUtil.updateRoute(this);
 		}
 	}
+
 }

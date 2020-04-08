@@ -34,36 +34,43 @@ import com.liferay.portal.kernel.transaction.Transactional;
  *
  * @author Cedric Henry
  * @see ArretServiceUtil
- * @see eu.strasbourg.service.gtfs.service.base.ArretServiceBaseImpl
- * @see eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
-@OSGiBeanProperties(property =  {
-	"json.web.service.context.name=gtfs", "json.web.service.context.path=Arret"}, service = ArretService.class)
+@OSGiBeanProperties(
+	property = {
+		"json.web.service.context.name=gtfs",
+		"json.web.service.context.path=Arret"
+	},
+	service = ArretService.class
+)
 @ProviderType
-@Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
-	PortalException.class, SystemException.class})
+@Transactional(
+	isolation = Isolation.PORTAL,
+	rollbackFor = {PortalException.class, SystemException.class}
+)
 public interface ArretService extends BaseService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link ArretServiceUtil} to access the arret remote service. Add custom service methods to {@link eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link ArretServiceUtil} to access the arret remote service. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Recuperer les donnees temps real de la CTS pour un arret
-	*
-	* @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
-	*/
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getArretRealTime(java.lang.String stopCode);
+	public JSONArray getArretRealTime(String stopCode);
 
 	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
-	public java.lang.String getOSGiServiceIdentifier();
+	 * Returns the OSGi service identifier.
+	 *
+	 * @return the OSGi service identifier
+	 */
+	public String getOSGiServiceIdentifier();
+
 }

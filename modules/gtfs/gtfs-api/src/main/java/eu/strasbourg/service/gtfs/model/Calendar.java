@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see CalendarModel
- * @see eu.strasbourg.service.gtfs.model.impl.CalendarImpl
- * @see eu.strasbourg.service.gtfs.model.impl.CalendarModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.CalendarImpl")
 @ProviderType
 public interface Calendar extends CalendarModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.CalendarImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.CalendarImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Calendar, Long> ID_ACCESSOR = new Accessor<Calendar, Long>() {
+	public static final Accessor<Calendar, Long> ID_ACCESSOR =
+		new Accessor<Calendar, Long>() {
+
 			@Override
 			public Long get(Calendar calendar) {
 				return calendar.getId();
@@ -52,5 +53,7 @@ public interface Calendar extends CalendarModel, PersistedModel {
 			public Class<Calendar> getTypeClass() {
 				return Calendar.class;
 			}
+
 		};
+
 }

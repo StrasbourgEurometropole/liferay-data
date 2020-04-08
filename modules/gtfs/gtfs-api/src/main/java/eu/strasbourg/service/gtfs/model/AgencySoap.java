@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class AgencySoap implements Serializable {
+
 	public static AgencySoap toSoapModel(Agency model) {
 		AgencySoap soapModel = new AgencySoap();
 
@@ -164,4 +165,5 @@ public class AgencySoap implements Serializable {
 	private String _agency_phone;
 	private String _agency_fare_url;
 	private String _agency_lang;
+
 }

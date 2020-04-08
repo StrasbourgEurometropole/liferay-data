@@ -30,19 +30,20 @@ import java.util.List;
  */
 @ProviderType
 public class CalendarSoap implements Serializable {
+
 	public static CalendarSoap toSoapModel(Calendar model) {
 		CalendarSoap soapModel = new CalendarSoap();
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setId(model.getId());
 		soapModel.setService_id(model.getService_id());
-		soapModel.setMonday(model.getMonday());
-		soapModel.setTuesday(model.getTuesday());
-		soapModel.setWednesday(model.getWednesday());
-		soapModel.setThursday(model.getThursday());
-		soapModel.setFriday(model.getFriday());
-		soapModel.setSaturday(model.getSaturday());
-		soapModel.setSunday(model.getSunday());
+		soapModel.setMonday(model.isMonday());
+		soapModel.setTuesday(model.isTuesday());
+		soapModel.setWednesday(model.isWednesday());
+		soapModel.setThursday(model.isThursday());
+		soapModel.setFriday(model.isFriday());
+		soapModel.setSaturday(model.isSaturday());
+		soapModel.setSunday(model.isSunday());
 		soapModel.setStart_date(model.getStart_date());
 		soapModel.setEnd_date(model.getEnd_date());
 
@@ -77,7 +78,8 @@ public class CalendarSoap implements Serializable {
 	}
 
 	public static CalendarSoap[] toSoapModels(List<Calendar> models) {
-		List<CalendarSoap> soapModels = new ArrayList<CalendarSoap>(models.size());
+		List<CalendarSoap> soapModels = new ArrayList<CalendarSoap>(
+			models.size());
 
 		for (Calendar model : models) {
 			soapModels.add(toSoapModel(model));
@@ -233,4 +235,5 @@ public class CalendarSoap implements Serializable {
 	private boolean _sunday;
 	private Date _start_date;
 	private Date _end_date;
+
 }

@@ -26,11 +26,11 @@ import java.util.List;
  * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.gtfs.service.http.LigneServiceSoap}.
  *
  * @author Cedric Henry
- * @see eu.strasbourg.service.gtfs.service.http.LigneServiceSoap
  * @generated
  */
 @ProviderType
 public class LigneSoap implements Serializable {
+
 	public static LigneSoap toSoapModel(Ligne model) {
 		LigneSoap soapModel = new LigneSoap();
 
@@ -266,4 +266,5 @@ public class LigneSoap implements Serializable {
 	private int _type;
 	private String _backgroundColor;
 	private String _textColor;
+
 }

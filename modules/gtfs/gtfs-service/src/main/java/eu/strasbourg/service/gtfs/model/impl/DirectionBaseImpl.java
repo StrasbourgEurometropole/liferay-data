@@ -32,12 +32,13 @@ import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class DirectionBaseImpl extends DirectionModelImpl
-	implements Direction {
+public abstract class DirectionBaseImpl
+	extends DirectionModelImpl implements Direction {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a direction model instance should use the {@link Direction} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a direction model instance should use the <code>Direction</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class DirectionBaseImpl extends DirectionModelImpl
 			DirectionLocalServiceUtil.updateDirection(this);
 		}
 	}
+
 }

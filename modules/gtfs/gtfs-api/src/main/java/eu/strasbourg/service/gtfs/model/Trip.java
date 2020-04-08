@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see TripModel
- * @see eu.strasbourg.service.gtfs.model.impl.TripImpl
- * @see eu.strasbourg.service.gtfs.model.impl.TripModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.TripImpl")
 @ProviderType
-public interface Trip extends TripModel, PersistedModel {
+public interface Trip extends PersistedModel, TripModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.TripImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.TripImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Trip, Long> ID_ACCESSOR = new Accessor<Trip, Long>() {
+	public static final Accessor<Trip, Long> ID_ACCESSOR =
+		new Accessor<Trip, Long>() {
+
 			@Override
 			public Long get(Trip trip) {
 				return trip.getId();
@@ -52,5 +53,7 @@ public interface Trip extends TripModel, PersistedModel {
 			public Class<Trip> getTypeClass() {
 				return Trip.class;
 			}
+
 		};
+
 }

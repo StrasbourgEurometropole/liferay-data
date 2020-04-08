@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
+import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -72,17 +73,17 @@ import javax.sql.DataSource;
  *
  * @author Cedric Henry
  * @see eu.strasbourg.service.gtfs.service.impl.CalendarDateLocalServiceImpl
- * @see eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class CalendarDateLocalServiceBaseImpl
-	extends BaseLocalServiceImpl implements CalendarDateLocalService,
-		IdentifiableOSGiService {
+	extends BaseLocalServiceImpl
+	implements CalendarDateLocalService, IdentifiableOSGiService {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil} to access the calendar date local service.
+	 * Never modify or reference this class directly. Use <code>CalendarDateLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -106,6 +107,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @return the new calendar date
 	 */
 	@Override
+	@Transactional(enabled = false)
 	public CalendarDate createCalendarDate(long id) {
 		return calendarDatePersistence.create(id);
 	}
@@ -139,8 +141,8 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(CalendarDate.class,
-			clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(
+			CalendarDate.class, clazz.getClassLoader());
 	}
 
 	/**
@@ -158,7 +160,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -167,17 +169,18 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end) {
-		return calendarDatePersistence.findWithDynamicQuery(dynamicQuery,
-			start, end);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
+
+		return calendarDatePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -187,10 +190,12 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
-		int end, OrderByComparator<T> orderByComparator) {
-		return calendarDatePersistence.findWithDynamicQuery(dynamicQuery,
-			start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
+
+		return calendarDatePersistence.findWithDynamicQuery(
+			dynamicQuery, start, end, orderByComparator);
 	}
 
 	/**
@@ -212,10 +217,11 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(DynamicQuery dynamicQuery,
-		Projection projection) {
-		return calendarDatePersistence.countWithDynamicQuery(dynamicQuery,
-			projection);
+	public long dynamicQueryCount(
+		DynamicQuery dynamicQuery, Projection projection) {
+
+		return calendarDatePersistence.countWithDynamicQuery(
+			dynamicQuery, projection);
 	}
 
 	@Override
@@ -237,7 +243,8 @@ public abstract class CalendarDateLocalServiceBaseImpl
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery =
+			new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(calendarDateLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -249,10 +256,14 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
+	public IndexableActionableDynamicQuery
+		getIndexableActionableDynamicQuery() {
 
-		indexableActionableDynamicQuery.setBaseLocalService(calendarDateLocalService);
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			new IndexableActionableDynamicQuery();
+
+		indexableActionableDynamicQuery.setBaseLocalService(
+			calendarDateLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(CalendarDate.class);
 
@@ -263,6 +274,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
+
 		actionableDynamicQuery.setBaseLocalService(calendarDateLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(CalendarDate.class);
@@ -276,12 +288,15 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-		return calendarDateLocalService.deleteCalendarDate((CalendarDate)persistedModel);
+
+		return calendarDateLocalService.deleteCalendarDate(
+			(CalendarDate)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
+
 		return calendarDatePersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -289,7 +304,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * Returns a range of all the calendar dates.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of calendar dates
@@ -328,7 +343,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the agency local service
 	 */
-	public eu.strasbourg.service.gtfs.service.AgencyLocalService getAgencyLocalService() {
+	public eu.strasbourg.service.gtfs.service.AgencyLocalService
+		getAgencyLocalService() {
+
 		return agencyLocalService;
 	}
 
@@ -338,7 +355,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param agencyLocalService the agency local service
 	 */
 	public void setAgencyLocalService(
-		eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService) {
+		eu.strasbourg.service.gtfs.service.AgencyLocalService
+			agencyLocalService) {
+
 		this.agencyLocalService = agencyLocalService;
 	}
 
@@ -365,7 +384,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the alert local service
 	 */
-	public eu.strasbourg.service.gtfs.service.AlertLocalService getAlertLocalService() {
+	public eu.strasbourg.service.gtfs.service.AlertLocalService
+		getAlertLocalService() {
+
 		return alertLocalService;
 	}
 
@@ -375,7 +396,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param alertLocalService the alert local service
 	 */
 	public void setAlertLocalService(
-		eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService) {
+		eu.strasbourg.service.gtfs.service.AlertLocalService
+			alertLocalService) {
+
 		this.alertLocalService = alertLocalService;
 	}
 
@@ -402,7 +425,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the arret local service
 	 */
-	public eu.strasbourg.service.gtfs.service.ArretLocalService getArretLocalService() {
+	public eu.strasbourg.service.gtfs.service.ArretLocalService
+		getArretLocalService() {
+
 		return arretLocalService;
 	}
 
@@ -412,7 +437,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param arretLocalService the arret local service
 	 */
 	public void setArretLocalService(
-		eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService) {
+		eu.strasbourg.service.gtfs.service.ArretLocalService
+			arretLocalService) {
+
 		this.arretLocalService = arretLocalService;
 	}
 
@@ -439,7 +466,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the calendar local service
 	 */
-	public eu.strasbourg.service.gtfs.service.CalendarLocalService getCalendarLocalService() {
+	public eu.strasbourg.service.gtfs.service.CalendarLocalService
+		getCalendarLocalService() {
+
 		return calendarLocalService;
 	}
 
@@ -449,7 +478,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param calendarLocalService the calendar local service
 	 */
 	public void setCalendarLocalService(
-		eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService) {
+		eu.strasbourg.service.gtfs.service.CalendarLocalService
+			calendarLocalService) {
+
 		this.calendarLocalService = calendarLocalService;
 	}
 
@@ -467,7 +498,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @param calendarPersistence the calendar persistence
 	 */
-	public void setCalendarPersistence(CalendarPersistence calendarPersistence) {
+	public void setCalendarPersistence(
+		CalendarPersistence calendarPersistence) {
+
 		this.calendarPersistence = calendarPersistence;
 	}
 
@@ -487,6 +520,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setCalendarDateLocalService(
 		CalendarDateLocalService calendarDateLocalService) {
+
 		this.calendarDateLocalService = calendarDateLocalService;
 	}
 
@@ -506,6 +540,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setCalendarDatePersistence(
 		CalendarDatePersistence calendarDatePersistence) {
+
 		this.calendarDatePersistence = calendarDatePersistence;
 	}
 
@@ -514,7 +549,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the direction local service
 	 */
-	public eu.strasbourg.service.gtfs.service.DirectionLocalService getDirectionLocalService() {
+	public eu.strasbourg.service.gtfs.service.DirectionLocalService
+		getDirectionLocalService() {
+
 		return directionLocalService;
 	}
 
@@ -524,7 +561,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param directionLocalService the direction local service
 	 */
 	public void setDirectionLocalService(
-		eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService) {
+		eu.strasbourg.service.gtfs.service.DirectionLocalService
+			directionLocalService) {
+
 		this.directionLocalService = directionLocalService;
 	}
 
@@ -544,6 +583,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setDirectionPersistence(
 		DirectionPersistence directionPersistence) {
+
 		this.directionPersistence = directionPersistence;
 	}
 
@@ -552,7 +592,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the import historic local service
 	 */
-	public eu.strasbourg.service.gtfs.service.ImportHistoricLocalService getImportHistoricLocalService() {
+	public eu.strasbourg.service.gtfs.service.ImportHistoricLocalService
+		getImportHistoricLocalService() {
+
 		return importHistoricLocalService;
 	}
 
@@ -562,7 +604,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param importHistoricLocalService the import historic local service
 	 */
 	public void setImportHistoricLocalService(
-		eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService) {
+		eu.strasbourg.service.gtfs.service.ImportHistoricLocalService
+			importHistoricLocalService) {
+
 		this.importHistoricLocalService = importHistoricLocalService;
 	}
 
@@ -582,6 +626,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setImportHistoricPersistence(
 		ImportHistoricPersistence importHistoricPersistence) {
+
 		this.importHistoricPersistence = importHistoricPersistence;
 	}
 
@@ -590,7 +635,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the ligne local service
 	 */
-	public eu.strasbourg.service.gtfs.service.LigneLocalService getLigneLocalService() {
+	public eu.strasbourg.service.gtfs.service.LigneLocalService
+		getLigneLocalService() {
+
 		return ligneLocalService;
 	}
 
@@ -600,7 +647,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param ligneLocalService the ligne local service
 	 */
 	public void setLigneLocalService(
-		eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService) {
+		eu.strasbourg.service.gtfs.service.LigneLocalService
+			ligneLocalService) {
+
 		this.ligneLocalService = ligneLocalService;
 	}
 
@@ -627,7 +676,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the route local service
 	 */
-	public eu.strasbourg.service.gtfs.service.RouteLocalService getRouteLocalService() {
+	public eu.strasbourg.service.gtfs.service.RouteLocalService
+		getRouteLocalService() {
+
 		return routeLocalService;
 	}
 
@@ -637,7 +688,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param routeLocalService the route local service
 	 */
 	public void setRouteLocalService(
-		eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService) {
+		eu.strasbourg.service.gtfs.service.RouteLocalService
+			routeLocalService) {
+
 		this.routeLocalService = routeLocalService;
 	}
 
@@ -664,7 +717,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the stop local service
 	 */
-	public eu.strasbourg.service.gtfs.service.StopLocalService getStopLocalService() {
+	public eu.strasbourg.service.gtfs.service.StopLocalService
+		getStopLocalService() {
+
 		return stopLocalService;
 	}
 
@@ -675,6 +730,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setStopLocalService(
 		eu.strasbourg.service.gtfs.service.StopLocalService stopLocalService) {
+
 		this.stopLocalService = stopLocalService;
 	}
 
@@ -701,7 +757,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the stop time local service
 	 */
-	public eu.strasbourg.service.gtfs.service.StopTimeLocalService getStopTimeLocalService() {
+	public eu.strasbourg.service.gtfs.service.StopTimeLocalService
+		getStopTimeLocalService() {
+
 		return stopTimeLocalService;
 	}
 
@@ -711,7 +769,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param stopTimeLocalService the stop time local service
 	 */
 	public void setStopTimeLocalService(
-		eu.strasbourg.service.gtfs.service.StopTimeLocalService stopTimeLocalService) {
+		eu.strasbourg.service.gtfs.service.StopTimeLocalService
+			stopTimeLocalService) {
+
 		this.stopTimeLocalService = stopTimeLocalService;
 	}
 
@@ -729,7 +789,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @param stopTimePersistence the stop time persistence
 	 */
-	public void setStopTimePersistence(StopTimePersistence stopTimePersistence) {
+	public void setStopTimePersistence(
+		StopTimePersistence stopTimePersistence) {
+
 		this.stopTimePersistence = stopTimePersistence;
 	}
 
@@ -738,7 +800,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the trip local service
 	 */
-	public eu.strasbourg.service.gtfs.service.TripLocalService getTripLocalService() {
+	public eu.strasbourg.service.gtfs.service.TripLocalService
+		getTripLocalService() {
+
 		return tripLocalService;
 	}
 
@@ -749,6 +813,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setTripLocalService(
 		eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService) {
+
 		this.tripLocalService = tripLocalService;
 	}
 
@@ -793,7 +858,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
+	public com.liferay.counter.kernel.service.CounterLocalService
+		getCounterLocalService() {
+
 		return counterLocalService;
 	}
 
@@ -803,7 +870,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
+		com.liferay.counter.kernel.service.CounterLocalService
+			counterLocalService) {
+
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -812,7 +881,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
+	public com.liferay.portal.kernel.service.ClassNameLocalService
+		getClassNameLocalService() {
+
 		return classNameLocalService;
 	}
 
@@ -822,7 +893,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
+		com.liferay.portal.kernel.service.ClassNameLocalService
+			classNameLocalService) {
+
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -842,6 +915,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
+
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -850,7 +924,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
+	public com.liferay.portal.kernel.service.ResourceLocalService
+		getResourceLocalService() {
+
 		return resourceLocalService;
 	}
 
@@ -860,7 +936,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
+		com.liferay.portal.kernel.service.ResourceLocalService
+			resourceLocalService) {
+
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -869,7 +947,9 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
+	public com.liferay.portal.kernel.service.UserLocalService
+		getUserLocalService() {
+
 		return userLocalService;
 	}
 
@@ -880,6 +960,7 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
+
 		this.userLocalService = userLocalService;
 	}
 
@@ -902,7 +983,8 @@ public abstract class CalendarDateLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.gtfs.model.CalendarDate",
+		persistedModelLocalServiceRegistry.register(
+			"eu.strasbourg.service.gtfs.model.CalendarDate",
 			calendarDateLocalService);
 	}
 
@@ -943,8 +1025,8 @@ public abstract class CalendarDateLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
-					sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
+				dataSource, sql);
 
 			sqlUpdate.update();
 		}
@@ -953,68 +1035,146 @@ public abstract class CalendarDateLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.AgencyLocalService agencyLocalService;
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.AgencyLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.AgencyLocalService
+		agencyLocalService;
+
 	@BeanReference(type = AgencyPersistence.class)
 	protected AgencyPersistence agencyPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.AlertLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.AlertLocalService alertLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.AlertLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.AlertLocalService
+		alertLocalService;
+
 	@BeanReference(type = AlertPersistence.class)
 	protected AlertPersistence alertPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.ArretLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.ArretLocalService arretLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.ArretLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.ArretLocalService
+		arretLocalService;
+
 	@BeanReference(type = ArretPersistence.class)
 	protected ArretPersistence arretPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.CalendarLocalService calendarLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.CalendarLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.CalendarLocalService
+		calendarLocalService;
+
 	@BeanReference(type = CalendarPersistence.class)
 	protected CalendarPersistence calendarPersistence;
+
 	@BeanReference(type = CalendarDateLocalService.class)
 	protected CalendarDateLocalService calendarDateLocalService;
+
 	@BeanReference(type = CalendarDatePersistence.class)
 	protected CalendarDatePersistence calendarDatePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.DirectionLocalService directionLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.DirectionLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.DirectionLocalService
+		directionLocalService;
+
 	@BeanReference(type = DirectionPersistence.class)
 	protected DirectionPersistence directionPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.ImportHistoricLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.ImportHistoricLocalService importHistoricLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.ImportHistoricLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.ImportHistoricLocalService
+		importHistoricLocalService;
+
 	@BeanReference(type = ImportHistoricPersistence.class)
 	protected ImportHistoricPersistence importHistoricPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.LigneLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.LigneLocalService ligneLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.LigneLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.LigneLocalService
+		ligneLocalService;
+
 	@BeanReference(type = LignePersistence.class)
 	protected LignePersistence lignePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.RouteLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.RouteLocalService routeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.RouteLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.RouteLocalService
+		routeLocalService;
+
 	@BeanReference(type = RoutePersistence.class)
 	protected RoutePersistence routePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.StopLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.StopLocalService stopLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.StopLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.StopLocalService
+		stopLocalService;
+
 	@BeanReference(type = StopPersistence.class)
 	protected StopPersistence stopPersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.StopTimeLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.StopTimeLocalService stopTimeLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.StopTimeLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.StopTimeLocalService
+		stopTimeLocalService;
+
 	@BeanReference(type = StopTimePersistence.class)
 	protected StopTimePersistence stopTimePersistence;
-	@BeanReference(type = eu.strasbourg.service.gtfs.service.TripLocalService.class)
-	protected eu.strasbourg.service.gtfs.service.TripLocalService tripLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.gtfs.service.TripLocalService.class
+	)
+	protected eu.strasbourg.service.gtfs.service.TripLocalService
+		tripLocalService;
+
 	@BeanReference(type = TripPersistence.class)
 	protected TripPersistence tripPersistence;
+
 	@BeanReference(type = TripFinder.class)
 	protected TripFinder tripFinder;
-	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
-	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
+
+	@ServiceReference(
+		type = com.liferay.counter.kernel.service.CounterLocalService.class
+	)
+	protected com.liferay.counter.kernel.service.CounterLocalService
+		counterLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService
+		classNameLocalService;
+
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
-	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
-	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
-	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.ResourceLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
+	@ServiceReference(
+		type = com.liferay.portal.kernel.service.UserLocalService.class
+	)
+	protected com.liferay.portal.kernel.service.UserLocalService
+		userLocalService;
+
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
+	protected PersistedModelLocalServiceRegistry
+		persistedModelLocalServiceRegistry;
+
 }

@@ -17,9 +17,7 @@ package eu.strasbourg.service.gtfs.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -41,6 +39,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class ArretWrapper implements Arret, ModelWrapper<Arret> {
+
 	public ArretWrapper(Arret arret) {
 		_arret = arret;
 	}
@@ -192,11 +191,329 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 		}
 	}
 
+	@Override
+	public Object clone() {
+		return new ArretWrapper((Arret)_arret.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.gtfs.model.Arret arret) {
+		return _arret.compareTo(arret);
+	}
+
 	/**
-	* Returns <code>true</code> if this arret is approved.
-	*
-	* @return <code>true</code> if this arret is approved; <code>false</code> otherwise
-	*/
+	 * Renvoie la liste des Alertes de cet arret
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts() {
+		return _arret.getAlerts();
+	}
+
+	/**
+	 * Renvoie la liste des Alertes en cours ou à venir de cet arret
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Alert>
+		getAlertsActives() {
+
+		return _arret.getAlertsActives();
+	}
+
+	/**
+	 * Returns the arret ID of this arret.
+	 *
+	 * @return the arret ID of this arret
+	 */
+	@Override
+	public long getArretId() {
+		return _arret.getArretId();
+	}
+
+	/**
+	 * Renvoie les prochains passages
+	 */
+	@Override
+	public java.util.List<com.liferay.portal.kernel.json.JSONObject>
+		getArretRealTime() {
+
+		return _arret.getArretRealTime();
+	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _arret.getAssetEntry();
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via
+	 * l'assetEntry)
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getCategories() {
+
+		return _arret.getCategories();
+	}
+
+	/**
+	 * Returns the code of this arret.
+	 *
+	 * @return the code of this arret
+	 */
+	@Override
+	public String getCode() {
+		return _arret.getCode();
+	}
+
+	/**
+	 * Returns the company ID of this arret.
+	 *
+	 * @return the company ID of this arret
+	 */
+	@Override
+	public long getCompanyId() {
+		return _arret.getCompanyId();
+	}
+
+	/**
+	 * Returns the create date of this arret.
+	 *
+	 * @return the create date of this arret
+	 */
+	@Override
+	public Date getCreateDate() {
+		return _arret.getCreateDate();
+	}
+
+	/**
+	 * Renvoie la liste des Directions de cet arret
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
+		getDirections() {
+
+		return _arret.getDirections();
+	}
+
+	/**
+	 * Renvoie les directions sans doublon de lignes shortName, [bgColor, textColor, destinationName]
+	 */
+	@Override
+	public Map<String, String[]> getDirectionsUniques() {
+		return _arret.getDirectionsUniques();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _arret.getExpandoBridge();
+	}
+
+	/**
+	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
+		long groupId, java.util.Locale locale) {
+
+		return _arret.getGeoJSON(groupId, locale);
+	}
+
+	/**
+	 * Returns the group ID of this arret.
+	 *
+	 * @return the group ID of this arret
+	 */
+	@Override
+	public long getGroupId() {
+		return _arret.getGroupId();
+	}
+
+	/**
+	 * Returns the latitude of this arret.
+	 *
+	 * @return the latitude of this arret
+	 */
+	@Override
+	public String getLatitude() {
+		return _arret.getLatitude();
+	}
+
+	/**
+	 * Returns the longitude of this arret.
+	 *
+	 * @return the longitude of this arret
+	 */
+	@Override
+	public String getLongitude() {
+		return _arret.getLongitude();
+	}
+
+	/**
+	 * Returns the modified date of this arret.
+	 *
+	 * @return the modified date of this arret
+	 */
+	@Override
+	public Date getModifiedDate() {
+		return _arret.getModifiedDate();
+	}
+
+	/**
+	 * Returns the primary key of this arret.
+	 *
+	 * @return the primary key of this arret
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _arret.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _arret.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the status of this arret.
+	 *
+	 * @return the status of this arret
+	 */
+	@Override
+	public int getStatus() {
+		return _arret.getStatus();
+	}
+
+	/**
+	 * Returns the status by user ID of this arret.
+	 *
+	 * @return the status by user ID of this arret
+	 */
+	@Override
+	public long getStatusByUserId() {
+		return _arret.getStatusByUserId();
+	}
+
+	/**
+	 * Returns the status by user name of this arret.
+	 *
+	 * @return the status by user name of this arret
+	 */
+	@Override
+	public String getStatusByUserName() {
+		return _arret.getStatusByUserName();
+	}
+
+	/**
+	 * Returns the status by user uuid of this arret.
+	 *
+	 * @return the status by user uuid of this arret
+	 */
+	@Override
+	public String getStatusByUserUuid() {
+		return _arret.getStatusByUserUuid();
+	}
+
+	/**
+	 * Returns the status date of this arret.
+	 *
+	 * @return the status date of this arret
+	 */
+	@Override
+	public Date getStatusDate() {
+		return _arret.getStatusDate();
+	}
+
+	/**
+	 * Returns the stop ID of this arret.
+	 *
+	 * @return the stop ID of this arret
+	 */
+	@Override
+	public String getStopId() {
+		return _arret.getStopId();
+	}
+
+	/**
+	 * Returns the title of this arret.
+	 *
+	 * @return the title of this arret
+	 */
+	@Override
+	public String getTitle() {
+		return _arret.getTitle();
+	}
+
+	/**
+	 * Returns the type of this arret.
+	 *
+	 * @return the type of this arret
+	 */
+	@Override
+	public int getType() {
+		return _arret.getType();
+	}
+
+	/**
+	 * Renvoie la correspondance du type d'arret en format texte
+	 */
+	@Override
+	public String getTypeText() {
+		return _arret.getTypeText();
+	}
+
+	/**
+	 * Returns the user ID of this arret.
+	 *
+	 * @return the user ID of this arret
+	 */
+	@Override
+	public long getUserId() {
+		return _arret.getUserId();
+	}
+
+	/**
+	 * Returns the user name of this arret.
+	 *
+	 * @return the user name of this arret
+	 */
+	@Override
+	public String getUserName() {
+		return _arret.getUserName();
+	}
+
+	/**
+	 * Returns the user uuid of this arret.
+	 *
+	 * @return the user uuid of this arret
+	 */
+	@Override
+	public String getUserUuid() {
+		return _arret.getUserUuid();
+	}
+
+	/**
+	 * Returns the uuid of this arret.
+	 *
+	 * @return the uuid of this arret
+	 */
+	@Override
+	public String getUuid() {
+		return _arret.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _arret.hashCode();
+	}
+
+	/**
+	 * Returns <code>true</code> if this arret is approved.
+	 *
+	 * @return <code>true</code> if this arret is approved; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isApproved() {
 		return _arret.isApproved();
@@ -208,20 +525,20 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is denied.
-	*
-	* @return <code>true</code> if this arret is denied; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is denied.
+	 *
+	 * @return <code>true</code> if this arret is denied; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDenied() {
 		return _arret.isDenied();
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is a draft.
-	*
-	* @return <code>true</code> if this arret is a draft; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is a draft.
+	 *
+	 * @return <code>true</code> if this arret is a draft; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isDraft() {
 		return _arret.isDraft();
@@ -233,30 +550,30 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is expired.
-	*
-	* @return <code>true</code> if this arret is expired; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is expired.
+	 *
+	 * @return <code>true</code> if this arret is expired; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isExpired() {
 		return _arret.isExpired();
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is inactive.
-	*
-	* @return <code>true</code> if this arret is inactive; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is inactive.
+	 *
+	 * @return <code>true</code> if this arret is inactive; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isInactive() {
 		return _arret.isInactive();
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is incomplete.
-	*
-	* @return <code>true</code> if this arret is incomplete; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is incomplete.
+	 *
+	 * @return <code>true</code> if this arret is incomplete; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isIncomplete() {
 		return _arret.isIncomplete();
@@ -268,357 +585,23 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is pending.
-	*
-	* @return <code>true</code> if this arret is pending; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is pending.
+	 *
+	 * @return <code>true</code> if this arret is pending; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isPending() {
 		return _arret.isPending();
 	}
 
 	/**
-	* Returns <code>true</code> if this arret is scheduled.
-	*
-	* @return <code>true</code> if this arret is scheduled; <code>false</code> otherwise
-	*/
+	 * Returns <code>true</code> if this arret is scheduled.
+	 *
+	 * @return <code>true</code> if this arret is scheduled; <code>false</code> otherwise
+	 */
 	@Override
 	public boolean isScheduled() {
 		return _arret.isScheduled();
-	}
-
-	/**
-	* Retourne l'AssetEntry rattaché cet item
-	*/
-	@Override
-	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _arret.getAssetEntry();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _arret.getExpandoBridge();
-	}
-
-	/**
-	* Renvoie le JSON de l'entite au format GeoJSON pour la map
-	*/
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(long groupId,
-		java.util.Locale locale) {
-		return _arret.getGeoJSON(groupId, locale);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Arret> toCacheModel() {
-		return _arret.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Arret toEscapedModel() {
-		return new ArretWrapper(_arret.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Arret toUnescapedModel() {
-		return new ArretWrapper(_arret.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Arret arret) {
-		return _arret.compareTo(arret);
-	}
-
-	/**
-	* Returns the status of this arret.
-	*
-	* @return the status of this arret
-	*/
-	@Override
-	public int getStatus() {
-		return _arret.getStatus();
-	}
-
-	/**
-	* Returns the type of this arret.
-	*
-	* @return the type of this arret
-	*/
-	@Override
-	public int getType() {
-		return _arret.getType();
-	}
-
-	@Override
-	public int hashCode() {
-		return _arret.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _arret.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new ArretWrapper((Arret)_arret.clone());
-	}
-
-	/**
-	* Returns the code of this arret.
-	*
-	* @return the code of this arret
-	*/
-	@Override
-	public java.lang.String getCode() {
-		return _arret.getCode();
-	}
-
-	/**
-	* Returns the latitude of this arret.
-	*
-	* @return the latitude of this arret
-	*/
-	@Override
-	public java.lang.String getLatitude() {
-		return _arret.getLatitude();
-	}
-
-	/**
-	* Returns the longitude of this arret.
-	*
-	* @return the longitude of this arret
-	*/
-	@Override
-	public java.lang.String getLongitude() {
-		return _arret.getLongitude();
-	}
-
-	/**
-	* Returns the status by user name of this arret.
-	*
-	* @return the status by user name of this arret
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _arret.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this arret.
-	*
-	* @return the status by user uuid of this arret
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _arret.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the stop ID of this arret.
-	*
-	* @return the stop ID of this arret
-	*/
-	@Override
-	public java.lang.String getStopId() {
-		return _arret.getStopId();
-	}
-
-	/**
-	* Returns the title of this arret.
-	*
-	* @return the title of this arret
-	*/
-	@Override
-	public java.lang.String getTitle() {
-		return _arret.getTitle();
-	}
-
-	/**
-	* Renvoie la correspondance du type d'arret en format texte
-	*/
-	@Override
-	public java.lang.String getTypeText() {
-		return _arret.getTypeText();
-	}
-
-	/**
-	* Returns the user name of this arret.
-	*
-	* @return the user name of this arret
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _arret.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this arret.
-	*
-	* @return the user uuid of this arret
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _arret.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this arret.
-	*
-	* @return the uuid of this arret
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _arret.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _arret.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _arret.toXmlString();
-	}
-
-	/**
-	* Returns the create date of this arret.
-	*
-	* @return the create date of this arret
-	*/
-	@Override
-	public Date getCreateDate() {
-		return _arret.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this arret.
-	*
-	* @return the modified date of this arret
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _arret.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this arret.
-	*
-	* @return the status date of this arret
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _arret.getStatusDate();
-	}
-
-	/**
-	* Renvoie la liste des Alertes de cet arret
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts() {
-		return _arret.getAlerts();
-	}
-
-	/**
-	* Renvoie la liste des Alertes en cours ou à venir de cet arret
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlertsActives() {
-		return _arret.getAlertsActives();
-	}
-
-	/**
-	* Renvoie les prochains passages
-	*/
-	@Override
-	public java.util.List<com.liferay.portal.kernel.json.JSONObject> getArretRealTime() {
-		return _arret.getArretRealTime();
-	}
-
-	/**
-	* Renvoie la liste des AssetCategory rattachées à cet item (via
-	* l'assetEntry)
-	*/
-	@Override
-	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
-		return _arret.getCategories();
-	}
-
-	/**
-	* Renvoie la liste des Directions de cet arret
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Direction> getDirections() {
-		return _arret.getDirections();
-	}
-
-	/**
-	* Renvoie les directions sans doublon de lignes shortName, [bgColor, textColor, destinationName]
-	*/
-	@Override
-	public Map<java.lang.String, java.lang.String[]> getDirectionsUniques() {
-		return _arret.getDirectionsUniques();
-	}
-
-	/**
-	* Returns the arret ID of this arret.
-	*
-	* @return the arret ID of this arret
-	*/
-	@Override
-	public long getArretId() {
-		return _arret.getArretId();
-	}
-
-	/**
-	* Returns the company ID of this arret.
-	*
-	* @return the company ID of this arret
-	*/
-	@Override
-	public long getCompanyId() {
-		return _arret.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this arret.
-	*
-	* @return the group ID of this arret
-	*/
-	@Override
-	public long getGroupId() {
-		return _arret.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this arret.
-	*
-	* @return the primary key of this arret
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _arret.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status by user ID of this arret.
-	*
-	* @return the status by user ID of this arret
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _arret.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this arret.
-	*
-	* @return the user ID of this arret
-	*/
-	@Override
-	public long getUserId() {
-		return _arret.getUserId();
 	}
 
 	@Override
@@ -627,10 +610,10 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Sets the arret ID of this arret.
-	*
-	* @param arretId the arret ID of this arret
-	*/
+	 * Sets the arret ID of this arret.
+	 *
+	 * @param arretId the arret ID of this arret
+	 */
 	@Override
 	public void setArretId(long arretId) {
 		_arret.setArretId(arretId);
@@ -642,33 +625,40 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Sets the code of this arret.
-	*
-	* @param code the code of this arret
-	*/
+	 * Sets the code of this arret.
+	 *
+	 * @param code the code of this arret
+	 */
 	@Override
-	public void setCode(java.lang.String code) {
+	public void setCode(String code) {
 		_arret.setCode(code);
 	}
 
 	/**
-	* Sets the company ID of this arret.
-	*
-	* @param companyId the company ID of this arret
-	*/
+	 * Sets the company ID of this arret.
+	 *
+	 * @param companyId the company ID of this arret
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_arret.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the create date of this arret.
-	*
-	* @param createDate the create date of this arret
-	*/
+	 * Sets the create date of this arret.
+	 *
+	 * @param createDate the create date of this arret
+	 */
 	@Override
 	public void setCreateDate(Date createDate) {
 		_arret.setCreateDate(createDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_arret.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -677,51 +667,45 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_arret.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_arret.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this arret.
-	*
-	* @param groupId the group ID of this arret
-	*/
+	 * Sets the group ID of this arret.
+	 *
+	 * @param groupId the group ID of this arret
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_arret.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the latitude of this arret.
-	*
-	* @param latitude the latitude of this arret
-	*/
+	 * Sets the latitude of this arret.
+	 *
+	 * @param latitude the latitude of this arret
+	 */
 	@Override
-	public void setLatitude(java.lang.String latitude) {
+	public void setLatitude(String latitude) {
 		_arret.setLatitude(latitude);
 	}
 
 	/**
-	* Sets the longitude of this arret.
-	*
-	* @param longitude the longitude of this arret
-	*/
+	 * Sets the longitude of this arret.
+	 *
+	 * @param longitude the longitude of this arret
+	 */
 	@Override
-	public void setLongitude(java.lang.String longitude) {
+	public void setLongitude(String longitude) {
 		_arret.setLongitude(longitude);
 	}
 
 	/**
-	* Sets the modified date of this arret.
-	*
-	* @param modifiedDate the modified date of this arret
-	*/
+	 * Sets the modified date of this arret.
+	 *
+	 * @param modifiedDate the modified date of this arret
+	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_arret.setModifiedDate(modifiedDate);
@@ -733,10 +717,10 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Sets the primary key of this arret.
-	*
-	* @param primaryKey the primary key of this arret
-	*/
+	 * Sets the primary key of this arret.
+	 *
+	 * @param primaryKey the primary key of this arret
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_arret.setPrimaryKey(primaryKey);
@@ -748,123 +732,150 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
-	* Sets the status of this arret.
-	*
-	* @param status the status of this arret
-	*/
+	 * Sets the status of this arret.
+	 *
+	 * @param status the status of this arret
+	 */
 	@Override
 	public void setStatus(int status) {
 		_arret.setStatus(status);
 	}
 
 	/**
-	* Sets the status by user ID of this arret.
-	*
-	* @param statusByUserId the status by user ID of this arret
-	*/
+	 * Sets the status by user ID of this arret.
+	 *
+	 * @param statusByUserId the status by user ID of this arret
+	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
 		_arret.setStatusByUserId(statusByUserId);
 	}
 
 	/**
-	* Sets the status by user name of this arret.
-	*
-	* @param statusByUserName the status by user name of this arret
-	*/
+	 * Sets the status by user name of this arret.
+	 *
+	 * @param statusByUserName the status by user name of this arret
+	 */
 	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
+	public void setStatusByUserName(String statusByUserName) {
 		_arret.setStatusByUserName(statusByUserName);
 	}
 
 	/**
-	* Sets the status by user uuid of this arret.
-	*
-	* @param statusByUserUuid the status by user uuid of this arret
-	*/
+	 * Sets the status by user uuid of this arret.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this arret
+	 */
 	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
+	public void setStatusByUserUuid(String statusByUserUuid) {
 		_arret.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
-	* Sets the status date of this arret.
-	*
-	* @param statusDate the status date of this arret
-	*/
+	 * Sets the status date of this arret.
+	 *
+	 * @param statusDate the status date of this arret
+	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_arret.setStatusDate(statusDate);
 	}
 
 	/**
-	* Sets the stop ID of this arret.
-	*
-	* @param stopId the stop ID of this arret
-	*/
+	 * Sets the stop ID of this arret.
+	 *
+	 * @param stopId the stop ID of this arret
+	 */
 	@Override
-	public void setStopId(java.lang.String stopId) {
+	public void setStopId(String stopId) {
 		_arret.setStopId(stopId);
 	}
 
 	/**
-	* Sets the title of this arret.
-	*
-	* @param title the title of this arret
-	*/
+	 * Sets the title of this arret.
+	 *
+	 * @param title the title of this arret
+	 */
 	@Override
-	public void setTitle(java.lang.String title) {
+	public void setTitle(String title) {
 		_arret.setTitle(title);
 	}
 
 	/**
-	* Sets the type of this arret.
-	*
-	* @param type the type of this arret
-	*/
+	 * Sets the type of this arret.
+	 *
+	 * @param type the type of this arret
+	 */
 	@Override
 	public void setType(int type) {
 		_arret.setType(type);
 	}
 
 	/**
-	* Sets the user ID of this arret.
-	*
-	* @param userId the user ID of this arret
-	*/
+	 * Sets the user ID of this arret.
+	 *
+	 * @param userId the user ID of this arret
+	 */
 	@Override
 	public void setUserId(long userId) {
 		_arret.setUserId(userId);
 	}
 
 	/**
-	* Sets the user name of this arret.
-	*
-	* @param userName the user name of this arret
-	*/
+	 * Sets the user name of this arret.
+	 *
+	 * @param userName the user name of this arret
+	 */
 	@Override
-	public void setUserName(java.lang.String userName) {
+	public void setUserName(String userName) {
 		_arret.setUserName(userName);
 	}
 
 	/**
-	* Sets the user uuid of this arret.
-	*
-	* @param userUuid the user uuid of this arret
-	*/
+	 * Sets the user uuid of this arret.
+	 *
+	 * @param userUuid the user uuid of this arret
+	 */
 	@Override
-	public void setUserUuid(java.lang.String userUuid) {
+	public void setUserUuid(String userUuid) {
 		_arret.setUserUuid(userUuid);
 	}
 
 	/**
-	* Sets the uuid of this arret.
-	*
-	* @param uuid the uuid of this arret
-	*/
+	 * Sets the uuid of this arret.
+	 *
+	 * @param uuid the uuid of this arret
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_arret.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.gtfs.model.Arret> toCacheModel() {
+
+		return _arret.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret toEscapedModel() {
+		return new ArretWrapper(_arret.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _arret.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Arret toUnescapedModel() {
+		return new ArretWrapper(_arret.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _arret.toXmlString();
 	}
 
 	@Override
@@ -912,4 +923,5 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	private final Arret _arret;
+
 }

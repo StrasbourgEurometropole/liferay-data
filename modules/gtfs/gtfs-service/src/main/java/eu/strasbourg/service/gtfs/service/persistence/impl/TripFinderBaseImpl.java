@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
@@ -34,17 +33,20 @@ import java.util.Set;
  * @generated
  */
 public class TripFinderBaseImpl extends BasePersistenceImpl<Trip> {
+
 	public TripFinderBaseImpl() {
 		setModelClass(Trip.class);
 
+		Map<String, String> dbColumnNames = new HashMap<String, String>();
+
+		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("id", "id_");
+
 		try {
-			Field field = ReflectionUtil.getDeclaredField(BasePersistenceImpl.class,
-					"_dbColumnNames");
+			Field field = BasePersistenceImpl.class.getDeclaredField(
+				"_dbColumnNames");
 
-			Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-			dbColumnNames.put("uuid", "uuid_");
-			dbColumnNames.put("id", "id_");
+			field.setAccessible(true);
 
 			field.set(this, dbColumnNames);
 		}
@@ -80,5 +82,8 @@ public class TripFinderBaseImpl extends BasePersistenceImpl<Trip> {
 
 	@BeanReference(type = TripPersistence.class)
 	protected TripPersistence tripPersistence;
-	private static final Log _log = LogFactoryUtil.getLog(TripFinderBaseImpl.class);
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		TripFinderBaseImpl.class);
+
 }

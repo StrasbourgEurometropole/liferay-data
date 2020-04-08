@@ -32,12 +32,13 @@ import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class ImportHistoricBaseImpl extends ImportHistoricModelImpl
-	implements ImportHistoric {
+public abstract class ImportHistoricBaseImpl
+	extends ImportHistoricModelImpl implements ImportHistoric {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a import historic model instance should use the {@link ImportHistoric} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a import historic model instance should use the <code>ImportHistoric</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class ImportHistoricBaseImpl extends ImportHistoricModelImpl
 			ImportHistoricLocalServiceUtil.updateImportHistoric(this);
 		}
 	}
+
 }

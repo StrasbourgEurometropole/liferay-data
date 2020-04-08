@@ -33,10 +33,11 @@ import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
  */
 @ProviderType
 public abstract class StopBaseImpl extends StopModelImpl implements Stop {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a stop model instance should use the {@link Stop} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a stop model instance should use the <code>Stop</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -47,4 +48,5 @@ public abstract class StopBaseImpl extends StopModelImpl implements Stop {
 			StopLocalServiceUtil.updateStop(this);
 		}
 	}
+
 }

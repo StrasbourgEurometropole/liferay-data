@@ -32,12 +32,13 @@ import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
  * @generated
  */
 @ProviderType
-public abstract class StopTimeBaseImpl extends StopTimeModelImpl
-	implements StopTime {
+public abstract class StopTimeBaseImpl
+	extends StopTimeModelImpl implements StopTime {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a stop time model instance should use the {@link StopTime} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a stop time model instance should use the <code>StopTime</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class StopTimeBaseImpl extends StopTimeModelImpl
 			StopTimeLocalServiceUtil.updateStopTime(this);
 		}
 	}
+
 }

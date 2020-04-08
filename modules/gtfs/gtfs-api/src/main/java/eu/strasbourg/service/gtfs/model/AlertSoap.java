@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class AlertSoap implements Serializable {
+
 	public static AlertSoap toSoapModel(Alert model) {
 		AlertSoap soapModel = new AlertSoap();
 
@@ -175,4 +176,5 @@ public class AlertSoap implements Serializable {
 	private Date _endDate;
 	private String _ligneAndDirection;
 	private String _perturbation;
+
 }

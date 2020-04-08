@@ -30,6 +30,7 @@ import java.util.List;
  */
 @ProviderType
 public class ImportHistoricSoap implements Serializable {
+
 	public static ImportHistoricSoap toSoapModel(ImportHistoric model) {
 		ImportHistoricSoap soapModel = new ImportHistoricSoap();
 
@@ -65,11 +66,14 @@ public class ImportHistoricSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static ImportHistoricSoap[][] toSoapModels(ImportHistoric[][] models) {
+	public static ImportHistoricSoap[][] toSoapModels(
+		ImportHistoric[][] models) {
+
 		ImportHistoricSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new ImportHistoricSoap[models.length][models[0].length];
+			soapModels =
+				new ImportHistoricSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new ImportHistoricSoap[0][0];
@@ -82,8 +86,11 @@ public class ImportHistoricSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static ImportHistoricSoap[] toSoapModels(List<ImportHistoric> models) {
-		List<ImportHistoricSoap> soapModels = new ArrayList<ImportHistoricSoap>(models.size());
+	public static ImportHistoricSoap[] toSoapModels(
+		List<ImportHistoric> models) {
+
+		List<ImportHistoricSoap> soapModels = new ArrayList<ImportHistoricSoap>(
+			models.size());
 
 		for (ImportHistoric model : models) {
 			soapModels.add(toSoapModel(model));
@@ -265,4 +272,5 @@ public class ImportHistoricSoap implements Serializable {
 	private String _errorStackTrace;
 	private Date _startDate;
 	private Date _finishDate;
+
 }

@@ -29,6 +29,7 @@ import java.util.List;
  */
 @ProviderType
 public class TripSoap implements Serializable {
+
 	public static TripSoap toSoapModel(Trip model) {
 		TripSoap soapModel = new TripSoap();
 
@@ -38,7 +39,7 @@ public class TripSoap implements Serializable {
 		soapModel.setService_id(model.getService_id());
 		soapModel.setTrip_id(model.getTrip_id());
 		soapModel.setTrip_headsign(model.getTrip_headsign());
-		soapModel.setDirection_id(model.getDirection_id());
+		soapModel.setDirection_id(model.isDirection_id());
 		soapModel.setBlock_id(model.getBlock_id());
 
 		return soapModel;
@@ -168,4 +169,5 @@ public class TripSoap implements Serializable {
 	private String _trip_headsign;
 	private boolean _direction_id;
 	private String _block_id;
+
 }

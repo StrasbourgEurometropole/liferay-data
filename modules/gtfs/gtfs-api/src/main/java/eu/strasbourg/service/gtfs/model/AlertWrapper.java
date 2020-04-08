@@ -17,7 +17,6 @@ package eu.strasbourg.service.gtfs.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -39,6 +38,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class AlertWrapper implements Alert, ModelWrapper<Alert> {
+
 	public AlertWrapper(Alert alert) {
 		_alert = alert;
 	}
@@ -128,6 +128,275 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	@Override
+	public Object clone() {
+		return new AlertWrapper((Alert)_alert.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.gtfs.model.Alert alert) {
+		return _alert.compareTo(alert);
+	}
+
+	/**
+	 * Returns the alert ID of this alert.
+	 *
+	 * @return the alert ID of this alert
+	 */
+	@Override
+	public long getAlertId() {
+		return _alert.getAlertId();
+	}
+
+	/**
+	 * Returns the arret ID of this alert.
+	 *
+	 * @return the arret ID of this alert
+	 */
+	@Override
+	public long getArretId() {
+		return _alert.getArretId();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return _alert.getAvailableLanguageIds();
+	}
+
+	/**
+	 * Returns the company ID of this alert.
+	 *
+	 * @return the company ID of this alert
+	 */
+	@Override
+	public long getCompanyId() {
+		return _alert.getCompanyId();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return _alert.getDefaultLanguageId();
+	}
+
+	/**
+	 * Returns the end date of this alert.
+	 *
+	 * @return the end date of this alert
+	 */
+	@Override
+	public Date getEndDate() {
+		return _alert.getEndDate();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _alert.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the group ID of this alert.
+	 *
+	 * @return the group ID of this alert
+	 */
+	@Override
+	public long getGroupId() {
+		return _alert.getGroupId();
+	}
+
+	/**
+	 * Returns the ligne and direction of this alert.
+	 *
+	 * @return the ligne and direction of this alert
+	 */
+	@Override
+	public String getLigneAndDirection() {
+		return _alert.getLigneAndDirection();
+	}
+
+	/**
+	 * Returns the localized ligne and direction of this alert in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized ligne and direction of this alert
+	 */
+	@Override
+	public String getLigneAndDirection(java.util.Locale locale) {
+		return _alert.getLigneAndDirection(locale);
+	}
+
+	/**
+	 * Returns the localized ligne and direction of this alert in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized ligne and direction of this alert. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getLigneAndDirection(
+		java.util.Locale locale, boolean useDefault) {
+
+		return _alert.getLigneAndDirection(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized ligne and direction of this alert in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized ligne and direction of this alert
+	 */
+	@Override
+	public String getLigneAndDirection(String languageId) {
+		return _alert.getLigneAndDirection(languageId);
+	}
+
+	/**
+	 * Returns the localized ligne and direction of this alert in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized ligne and direction of this alert
+	 */
+	@Override
+	public String getLigneAndDirection(String languageId, boolean useDefault) {
+		return _alert.getLigneAndDirection(languageId, useDefault);
+	}
+
+	@Override
+	public String getLigneAndDirectionCurrentLanguageId() {
+		return _alert.getLigneAndDirectionCurrentLanguageId();
+	}
+
+	@Override
+	public String getLigneAndDirectionCurrentValue() {
+		return _alert.getLigneAndDirectionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized ligne and directions of this alert.
+	 *
+	 * @return the locales and localized ligne and directions of this alert
+	 */
+	@Override
+	public Map<java.util.Locale, String> getLigneAndDirectionMap() {
+		return _alert.getLigneAndDirectionMap();
+	}
+
+	/**
+	 * Returns the perturbation of this alert.
+	 *
+	 * @return the perturbation of this alert
+	 */
+	@Override
+	public String getPerturbation() {
+		return _alert.getPerturbation();
+	}
+
+	/**
+	 * Returns the localized perturbation of this alert in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized perturbation of this alert
+	 */
+	@Override
+	public String getPerturbation(java.util.Locale locale) {
+		return _alert.getPerturbation(locale);
+	}
+
+	/**
+	 * Returns the localized perturbation of this alert in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized perturbation of this alert. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getPerturbation(java.util.Locale locale, boolean useDefault) {
+		return _alert.getPerturbation(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized perturbation of this alert in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized perturbation of this alert
+	 */
+	@Override
+	public String getPerturbation(String languageId) {
+		return _alert.getPerturbation(languageId);
+	}
+
+	/**
+	 * Returns the localized perturbation of this alert in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized perturbation of this alert
+	 */
+	@Override
+	public String getPerturbation(String languageId, boolean useDefault) {
+		return _alert.getPerturbation(languageId, useDefault);
+	}
+
+	@Override
+	public String getPerturbationCurrentLanguageId() {
+		return _alert.getPerturbationCurrentLanguageId();
+	}
+
+	@Override
+	public String getPerturbationCurrentValue() {
+		return _alert.getPerturbationCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized perturbations of this alert.
+	 *
+	 * @return the locales and localized perturbations of this alert
+	 */
+	@Override
+	public Map<java.util.Locale, String> getPerturbationMap() {
+		return _alert.getPerturbationMap();
+	}
+
+	/**
+	 * Returns the primary key of this alert.
+	 *
+	 * @return the primary key of this alert
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _alert.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _alert.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the start date of this alert.
+	 *
+	 * @return the start date of this alert
+	 */
+	@Override
+	public Date getStartDate() {
+		return _alert.getStartDate();
+	}
+
+	/**
+	 * Returns the uuid of this alert.
+	 *
+	 * @return the uuid of this alert
+	 */
+	@Override
+	public String getUuid() {
+		return _alert.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _alert.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _alert.isCachedModel();
 	}
@@ -143,302 +412,6 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _alert.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Alert> toCacheModel() {
-		return _alert.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Alert toEscapedModel() {
-		return new AlertWrapper(_alert.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Alert toUnescapedModel() {
-		return new AlertWrapper(_alert.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Alert alert) {
-		return _alert.compareTo(alert);
-	}
-
-	@Override
-	public int hashCode() {
-		return _alert.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _alert.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new AlertWrapper((Alert)_alert.clone());
-	}
-
-	@Override
-	public java.lang.String getDefaultLanguageId() {
-		return _alert.getDefaultLanguageId();
-	}
-
-	/**
-	* Returns the ligne and direction of this alert.
-	*
-	* @return the ligne and direction of this alert
-	*/
-	@Override
-	public java.lang.String getLigneAndDirection() {
-		return _alert.getLigneAndDirection();
-	}
-
-	/**
-	* Returns the localized ligne and direction of this alert in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized ligne and direction of this alert
-	*/
-	@Override
-	public java.lang.String getLigneAndDirection(java.lang.String languageId) {
-		return _alert.getLigneAndDirection(languageId);
-	}
-
-	/**
-	* Returns the localized ligne and direction of this alert in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized ligne and direction of this alert
-	*/
-	@Override
-	public java.lang.String getLigneAndDirection(java.lang.String languageId,
-		boolean useDefault) {
-		return _alert.getLigneAndDirection(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized ligne and direction of this alert in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized ligne and direction of this alert
-	*/
-	@Override
-	public java.lang.String getLigneAndDirection(java.util.Locale locale) {
-		return _alert.getLigneAndDirection(locale);
-	}
-
-	/**
-	* Returns the localized ligne and direction of this alert in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized ligne and direction of this alert. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getLigneAndDirection(java.util.Locale locale,
-		boolean useDefault) {
-		return _alert.getLigneAndDirection(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getLigneAndDirectionCurrentLanguageId() {
-		return _alert.getLigneAndDirectionCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getLigneAndDirectionCurrentValue() {
-		return _alert.getLigneAndDirectionCurrentValue();
-	}
-
-	/**
-	* Returns the perturbation of this alert.
-	*
-	* @return the perturbation of this alert
-	*/
-	@Override
-	public java.lang.String getPerturbation() {
-		return _alert.getPerturbation();
-	}
-
-	/**
-	* Returns the localized perturbation of this alert in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @return the localized perturbation of this alert
-	*/
-	@Override
-	public java.lang.String getPerturbation(java.lang.String languageId) {
-		return _alert.getPerturbation(languageId);
-	}
-
-	/**
-	* Returns the localized perturbation of this alert in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param languageId the ID of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized perturbation of this alert
-	*/
-	@Override
-	public java.lang.String getPerturbation(java.lang.String languageId,
-		boolean useDefault) {
-		return _alert.getPerturbation(languageId, useDefault);
-	}
-
-	/**
-	* Returns the localized perturbation of this alert in the language. Uses the default language if no localization exists for the requested language.
-	*
-	* @param locale the locale of the language
-	* @return the localized perturbation of this alert
-	*/
-	@Override
-	public java.lang.String getPerturbation(java.util.Locale locale) {
-		return _alert.getPerturbation(locale);
-	}
-
-	/**
-	* Returns the localized perturbation of this alert in the language, optionally using the default language if no localization exists for the requested language.
-	*
-	* @param locale the local of the language
-	* @param useDefault whether to use the default language if no localization exists for the requested language
-	* @return the localized perturbation of this alert. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
-	*/
-	@Override
-	public java.lang.String getPerturbation(java.util.Locale locale,
-		boolean useDefault) {
-		return _alert.getPerturbation(locale, useDefault);
-	}
-
-	@Override
-	public java.lang.String getPerturbationCurrentLanguageId() {
-		return _alert.getPerturbationCurrentLanguageId();
-	}
-
-	@Override
-	public java.lang.String getPerturbationCurrentValue() {
-		return _alert.getPerturbationCurrentValue();
-	}
-
-	/**
-	* Returns the uuid of this alert.
-	*
-	* @return the uuid of this alert
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _alert.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _alert.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _alert.toXmlString();
-	}
-
-	@Override
-	public java.lang.String[] getAvailableLanguageIds() {
-		return _alert.getAvailableLanguageIds();
-	}
-
-	/**
-	* Returns the end date of this alert.
-	*
-	* @return the end date of this alert
-	*/
-	@Override
-	public Date getEndDate() {
-		return _alert.getEndDate();
-	}
-
-	/**
-	* Returns the start date of this alert.
-	*
-	* @return the start date of this alert
-	*/
-	@Override
-	public Date getStartDate() {
-		return _alert.getStartDate();
-	}
-
-	/**
-	* Returns a map of the locales and localized ligne and directions of this alert.
-	*
-	* @return the locales and localized ligne and directions of this alert
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getLigneAndDirectionMap() {
-		return _alert.getLigneAndDirectionMap();
-	}
-
-	/**
-	* Returns a map of the locales and localized perturbations of this alert.
-	*
-	* @return the locales and localized perturbations of this alert
-	*/
-	@Override
-	public Map<java.util.Locale, java.lang.String> getPerturbationMap() {
-		return _alert.getPerturbationMap();
-	}
-
-	/**
-	* Returns the alert ID of this alert.
-	*
-	* @return the alert ID of this alert
-	*/
-	@Override
-	public long getAlertId() {
-		return _alert.getAlertId();
-	}
-
-	/**
-	* Returns the arret ID of this alert.
-	*
-	* @return the arret ID of this alert
-	*/
-	@Override
-	public long getArretId() {
-		return _alert.getArretId();
-	}
-
-	/**
-	* Returns the company ID of this alert.
-	*
-	* @return the company ID of this alert
-	*/
-	@Override
-	public long getCompanyId() {
-		return _alert.getCompanyId();
-	}
-
-	/**
-	* Returns the group ID of this alert.
-	*
-	* @return the group ID of this alert
-	*/
-	@Override
-	public long getGroupId() {
-		return _alert.getGroupId();
-	}
-
-	/**
-	* Returns the primary key of this alert.
-	*
-	* @return the primary key of this alert
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _alert.getPrimaryKey();
-	}
-
-	@Override
 	public void persist() {
 		_alert.persist();
 	}
@@ -446,31 +419,33 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_alert.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport(
-		java.util.Locale defaultImportLocale)
+			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
+
 		_alert.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
-	* Sets the alert ID of this alert.
-	*
-	* @param alertId the alert ID of this alert
-	*/
+	 * Sets the alert ID of this alert.
+	 *
+	 * @param alertId the alert ID of this alert
+	 */
 	@Override
 	public void setAlertId(long alertId) {
 		_alert.setAlertId(alertId);
 	}
 
 	/**
-	* Sets the arret ID of this alert.
-	*
-	* @param arretId the arret ID of this alert
-	*/
+	 * Sets the arret ID of this alert.
+	 *
+	 * @param arretId the arret ID of this alert
+	 */
 	@Override
 	public void setArretId(long arretId) {
 		_alert.setArretId(arretId);
@@ -482,23 +457,30 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	/**
-	* Sets the company ID of this alert.
-	*
-	* @param companyId the company ID of this alert
-	*/
+	 * Sets the company ID of this alert.
+	 *
+	 * @param companyId the company ID of this alert
+	 */
 	@Override
 	public void setCompanyId(long companyId) {
 		_alert.setCompanyId(companyId);
 	}
 
 	/**
-	* Sets the end date of this alert.
-	*
-	* @param endDate the end date of this alert
-	*/
+	 * Sets the end date of this alert.
+	 *
+	 * @param endDate the end date of this alert
+	 */
 	@Override
 	public void setEndDate(Date endDate) {
 		_alert.setEndDate(endDate);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_alert.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -507,88 +489,86 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_alert.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_alert.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the group ID of this alert.
-	*
-	* @param groupId the group ID of this alert
-	*/
+	 * Sets the group ID of this alert.
+	 *
+	 * @param groupId the group ID of this alert
+	 */
 	@Override
 	public void setGroupId(long groupId) {
 		_alert.setGroupId(groupId);
 	}
 
 	/**
-	* Sets the ligne and direction of this alert.
-	*
-	* @param ligneAndDirection the ligne and direction of this alert
-	*/
+	 * Sets the ligne and direction of this alert.
+	 *
+	 * @param ligneAndDirection the ligne and direction of this alert
+	 */
 	@Override
-	public void setLigneAndDirection(java.lang.String ligneAndDirection) {
+	public void setLigneAndDirection(String ligneAndDirection) {
 		_alert.setLigneAndDirection(ligneAndDirection);
 	}
 
 	/**
-	* Sets the localized ligne and direction of this alert in the language.
-	*
-	* @param ligneAndDirection the localized ligne and direction of this alert
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized ligne and direction of this alert in the language.
+	 *
+	 * @param ligneAndDirection the localized ligne and direction of this alert
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setLigneAndDirection(java.lang.String ligneAndDirection,
-		java.util.Locale locale) {
+	public void setLigneAndDirection(
+		String ligneAndDirection, java.util.Locale locale) {
+
 		_alert.setLigneAndDirection(ligneAndDirection, locale);
 	}
 
 	/**
-	* Sets the localized ligne and direction of this alert in the language, and sets the default locale.
-	*
-	* @param ligneAndDirection the localized ligne and direction of this alert
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized ligne and direction of this alert in the language, and sets the default locale.
+	 *
+	 * @param ligneAndDirection the localized ligne and direction of this alert
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setLigneAndDirection(java.lang.String ligneAndDirection,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
+	public void setLigneAndDirection(
+		String ligneAndDirection, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
 		_alert.setLigneAndDirection(ligneAndDirection, locale, defaultLocale);
 	}
 
 	@Override
-	public void setLigneAndDirectionCurrentLanguageId(
-		java.lang.String languageId) {
+	public void setLigneAndDirectionCurrentLanguageId(String languageId) {
 		_alert.setLigneAndDirectionCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized ligne and directions of this alert from the map of locales and localized ligne and directions.
-	*
-	* @param ligneAndDirectionMap the locales and localized ligne and directions of this alert
-	*/
+	 * Sets the localized ligne and directions of this alert from the map of locales and localized ligne and directions.
+	 *
+	 * @param ligneAndDirectionMap the locales and localized ligne and directions of this alert
+	 */
 	@Override
 	public void setLigneAndDirectionMap(
-		Map<java.util.Locale, java.lang.String> ligneAndDirectionMap) {
+		Map<java.util.Locale, String> ligneAndDirectionMap) {
+
 		_alert.setLigneAndDirectionMap(ligneAndDirectionMap);
 	}
 
 	/**
-	* Sets the localized ligne and directions of this alert from the map of locales and localized ligne and directions, and sets the default locale.
-	*
-	* @param ligneAndDirectionMap the locales and localized ligne and directions of this alert
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized ligne and directions of this alert from the map of locales and localized ligne and directions, and sets the default locale.
+	 *
+	 * @param ligneAndDirectionMap the locales and localized ligne and directions of this alert
+	 * @param defaultLocale the default locale
+	 */
 	@Override
 	public void setLigneAndDirectionMap(
-		Map<java.util.Locale, java.lang.String> ligneAndDirectionMap,
+		Map<java.util.Locale, String> ligneAndDirectionMap,
 		java.util.Locale defaultLocale) {
+
 		_alert.setLigneAndDirectionMap(ligneAndDirectionMap, defaultLocale);
 	}
 
@@ -598,74 +578,77 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	/**
-	* Sets the perturbation of this alert.
-	*
-	* @param perturbation the perturbation of this alert
-	*/
+	 * Sets the perturbation of this alert.
+	 *
+	 * @param perturbation the perturbation of this alert
+	 */
 	@Override
-	public void setPerturbation(java.lang.String perturbation) {
+	public void setPerturbation(String perturbation) {
 		_alert.setPerturbation(perturbation);
 	}
 
 	/**
-	* Sets the localized perturbation of this alert in the language.
-	*
-	* @param perturbation the localized perturbation of this alert
-	* @param locale the locale of the language
-	*/
+	 * Sets the localized perturbation of this alert in the language.
+	 *
+	 * @param perturbation the localized perturbation of this alert
+	 * @param locale the locale of the language
+	 */
 	@Override
-	public void setPerturbation(java.lang.String perturbation,
-		java.util.Locale locale) {
+	public void setPerturbation(String perturbation, java.util.Locale locale) {
 		_alert.setPerturbation(perturbation, locale);
 	}
 
 	/**
-	* Sets the localized perturbation of this alert in the language, and sets the default locale.
-	*
-	* @param perturbation the localized perturbation of this alert
-	* @param locale the locale of the language
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized perturbation of this alert in the language, and sets the default locale.
+	 *
+	 * @param perturbation the localized perturbation of this alert
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setPerturbation(java.lang.String perturbation,
-		java.util.Locale locale, java.util.Locale defaultLocale) {
+	public void setPerturbation(
+		String perturbation, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
 		_alert.setPerturbation(perturbation, locale, defaultLocale);
 	}
 
 	@Override
-	public void setPerturbationCurrentLanguageId(java.lang.String languageId) {
+	public void setPerturbationCurrentLanguageId(String languageId) {
 		_alert.setPerturbationCurrentLanguageId(languageId);
 	}
 
 	/**
-	* Sets the localized perturbations of this alert from the map of locales and localized perturbations.
-	*
-	* @param perturbationMap the locales and localized perturbations of this alert
-	*/
+	 * Sets the localized perturbations of this alert from the map of locales and localized perturbations.
+	 *
+	 * @param perturbationMap the locales and localized perturbations of this alert
+	 */
 	@Override
 	public void setPerturbationMap(
-		Map<java.util.Locale, java.lang.String> perturbationMap) {
+		Map<java.util.Locale, String> perturbationMap) {
+
 		_alert.setPerturbationMap(perturbationMap);
 	}
 
 	/**
-	* Sets the localized perturbations of this alert from the map of locales and localized perturbations, and sets the default locale.
-	*
-	* @param perturbationMap the locales and localized perturbations of this alert
-	* @param defaultLocale the default locale
-	*/
+	 * Sets the localized perturbations of this alert from the map of locales and localized perturbations, and sets the default locale.
+	 *
+	 * @param perturbationMap the locales and localized perturbations of this alert
+	 * @param defaultLocale the default locale
+	 */
 	@Override
 	public void setPerturbationMap(
-		Map<java.util.Locale, java.lang.String> perturbationMap,
+		Map<java.util.Locale, String> perturbationMap,
 		java.util.Locale defaultLocale) {
+
 		_alert.setPerturbationMap(perturbationMap, defaultLocale);
 	}
 
 	/**
-	* Sets the primary key of this alert.
-	*
-	* @param primaryKey the primary key of this alert
-	*/
+	 * Sets the primary key of this alert.
+	 *
+	 * @param primaryKey the primary key of this alert
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_alert.setPrimaryKey(primaryKey);
@@ -677,23 +660,50 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	/**
-	* Sets the start date of this alert.
-	*
-	* @param startDate the start date of this alert
-	*/
+	 * Sets the start date of this alert.
+	 *
+	 * @param startDate the start date of this alert
+	 */
 	@Override
 	public void setStartDate(Date startDate) {
 		_alert.setStartDate(startDate);
 	}
 
 	/**
-	* Sets the uuid of this alert.
-	*
-	* @param uuid the uuid of this alert
-	*/
+	 * Sets the uuid of this alert.
+	 *
+	 * @param uuid the uuid of this alert
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_alert.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.gtfs.model.Alert> toCacheModel() {
+
+		return _alert.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Alert toEscapedModel() {
+		return new AlertWrapper(_alert.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _alert.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Alert toUnescapedModel() {
+		return new AlertWrapper(_alert.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _alert.toXmlString();
 	}
 
 	@Override
@@ -736,4 +746,5 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	private final Alert _alert;
+
 }

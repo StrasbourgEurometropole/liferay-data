@@ -17,7 +17,6 @@ package eu.strasbourg.service.gtfs.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -38,6 +37,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
+
 	public AgencyWrapper(Agency agency) {
 		_agency = agency;
 	}
@@ -120,6 +120,121 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	@Override
+	public Object clone() {
+		return new AgencyWrapper((Agency)_agency.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.gtfs.model.Agency agency) {
+		return _agency.compareTo(agency);
+	}
+
+	/**
+	 * Returns the agency_fare_url of this agency.
+	 *
+	 * @return the agency_fare_url of this agency
+	 */
+	@Override
+	public String getAgency_fare_url() {
+		return _agency.getAgency_fare_url();
+	}
+
+	/**
+	 * Returns the agency_lang of this agency.
+	 *
+	 * @return the agency_lang of this agency
+	 */
+	@Override
+	public String getAgency_lang() {
+		return _agency.getAgency_lang();
+	}
+
+	/**
+	 * Returns the agency_name of this agency.
+	 *
+	 * @return the agency_name of this agency
+	 */
+	@Override
+	public String getAgency_name() {
+		return _agency.getAgency_name();
+	}
+
+	/**
+	 * Returns the agency_phone of this agency.
+	 *
+	 * @return the agency_phone of this agency
+	 */
+	@Override
+	public String getAgency_phone() {
+		return _agency.getAgency_phone();
+	}
+
+	/**
+	 * Returns the agency_timezone of this agency.
+	 *
+	 * @return the agency_timezone of this agency
+	 */
+	@Override
+	public String getAgency_timezone() {
+		return _agency.getAgency_timezone();
+	}
+
+	/**
+	 * Returns the agency_url of this agency.
+	 *
+	 * @return the agency_url of this agency
+	 */
+	@Override
+	public String getAgency_url() {
+		return _agency.getAgency_url();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _agency.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the ID of this agency.
+	 *
+	 * @return the ID of this agency
+	 */
+	@Override
+	public long getId() {
+		return _agency.getId();
+	}
+
+	/**
+	 * Returns the primary key of this agency.
+	 *
+	 * @return the primary key of this agency
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _agency.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _agency.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the uuid of this agency.
+	 *
+	 * @return the uuid of this agency
+	 */
+	@Override
+	public String getUuid() {
+		return _agency.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _agency.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _agency.isCachedModel();
 	}
@@ -135,207 +250,67 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _agency.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.Agency> toCacheModel() {
-		return _agency.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Agency toEscapedModel() {
-		return new AgencyWrapper(_agency.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Agency toUnescapedModel() {
-		return new AgencyWrapper(_agency.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Agency agency) {
-		return _agency.compareTo(agency);
-	}
-
-	@Override
-	public int hashCode() {
-		return _agency.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _agency.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new AgencyWrapper((Agency)_agency.clone());
-	}
-
-	/**
-	* Returns the agency_fare_url of this agency.
-	*
-	* @return the agency_fare_url of this agency
-	*/
-	@Override
-	public java.lang.String getAgency_fare_url() {
-		return _agency.getAgency_fare_url();
-	}
-
-	/**
-	* Returns the agency_lang of this agency.
-	*
-	* @return the agency_lang of this agency
-	*/
-	@Override
-	public java.lang.String getAgency_lang() {
-		return _agency.getAgency_lang();
-	}
-
-	/**
-	* Returns the agency_name of this agency.
-	*
-	* @return the agency_name of this agency
-	*/
-	@Override
-	public java.lang.String getAgency_name() {
-		return _agency.getAgency_name();
-	}
-
-	/**
-	* Returns the agency_phone of this agency.
-	*
-	* @return the agency_phone of this agency
-	*/
-	@Override
-	public java.lang.String getAgency_phone() {
-		return _agency.getAgency_phone();
-	}
-
-	/**
-	* Returns the agency_timezone of this agency.
-	*
-	* @return the agency_timezone of this agency
-	*/
-	@Override
-	public java.lang.String getAgency_timezone() {
-		return _agency.getAgency_timezone();
-	}
-
-	/**
-	* Returns the agency_url of this agency.
-	*
-	* @return the agency_url of this agency
-	*/
-	@Override
-	public java.lang.String getAgency_url() {
-		return _agency.getAgency_url();
-	}
-
-	/**
-	* Returns the uuid of this agency.
-	*
-	* @return the uuid of this agency
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _agency.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _agency.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _agency.toXmlString();
-	}
-
-	/**
-	* Returns the ID of this agency.
-	*
-	* @return the ID of this agency
-	*/
-	@Override
-	public long getId() {
-		return _agency.getId();
-	}
-
-	/**
-	* Returns the primary key of this agency.
-	*
-	* @return the primary key of this agency
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _agency.getPrimaryKey();
-	}
-
-	@Override
 	public void persist() {
 		_agency.persist();
 	}
 
 	/**
-	* Sets the agency_fare_url of this agency.
-	*
-	* @param agency_fare_url the agency_fare_url of this agency
-	*/
+	 * Sets the agency_fare_url of this agency.
+	 *
+	 * @param agency_fare_url the agency_fare_url of this agency
+	 */
 	@Override
-	public void setAgency_fare_url(java.lang.String agency_fare_url) {
+	public void setAgency_fare_url(String agency_fare_url) {
 		_agency.setAgency_fare_url(agency_fare_url);
 	}
 
 	/**
-	* Sets the agency_lang of this agency.
-	*
-	* @param agency_lang the agency_lang of this agency
-	*/
+	 * Sets the agency_lang of this agency.
+	 *
+	 * @param agency_lang the agency_lang of this agency
+	 */
 	@Override
-	public void setAgency_lang(java.lang.String agency_lang) {
+	public void setAgency_lang(String agency_lang) {
 		_agency.setAgency_lang(agency_lang);
 	}
 
 	/**
-	* Sets the agency_name of this agency.
-	*
-	* @param agency_name the agency_name of this agency
-	*/
+	 * Sets the agency_name of this agency.
+	 *
+	 * @param agency_name the agency_name of this agency
+	 */
 	@Override
-	public void setAgency_name(java.lang.String agency_name) {
+	public void setAgency_name(String agency_name) {
 		_agency.setAgency_name(agency_name);
 	}
 
 	/**
-	* Sets the agency_phone of this agency.
-	*
-	* @param agency_phone the agency_phone of this agency
-	*/
+	 * Sets the agency_phone of this agency.
+	 *
+	 * @param agency_phone the agency_phone of this agency
+	 */
 	@Override
-	public void setAgency_phone(java.lang.String agency_phone) {
+	public void setAgency_phone(String agency_phone) {
 		_agency.setAgency_phone(agency_phone);
 	}
 
 	/**
-	* Sets the agency_timezone of this agency.
-	*
-	* @param agency_timezone the agency_timezone of this agency
-	*/
+	 * Sets the agency_timezone of this agency.
+	 *
+	 * @param agency_timezone the agency_timezone of this agency
+	 */
 	@Override
-	public void setAgency_timezone(java.lang.String agency_timezone) {
+	public void setAgency_timezone(String agency_timezone) {
 		_agency.setAgency_timezone(agency_timezone);
 	}
 
 	/**
-	* Sets the agency_url of this agency.
-	*
-	* @param agency_url the agency_url of this agency
-	*/
+	 * Sets the agency_url of this agency.
+	 *
+	 * @param agency_url the agency_url of this agency
+	 */
 	@Override
-	public void setAgency_url(java.lang.String agency_url) {
+	public void setAgency_url(String agency_url) {
 		_agency.setAgency_url(agency_url);
 	}
 
@@ -345,14 +320,15 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_agency.setExpandoBridgeAttributes(expandoBridge);
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_agency.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_agency.setExpandoBridgeAttributes(baseModel);
+	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
+		_agency.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
@@ -361,10 +337,10 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	/**
-	* Sets the ID of this agency.
-	*
-	* @param id the ID of this agency
-	*/
+	 * Sets the ID of this agency.
+	 *
+	 * @param id the ID of this agency
+	 */
 	@Override
 	public void setId(long id) {
 		_agency.setId(id);
@@ -376,10 +352,10 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	/**
-	* Sets the primary key of this agency.
-	*
-	* @param primaryKey the primary key of this agency
-	*/
+	 * Sets the primary key of this agency.
+	 *
+	 * @param primaryKey the primary key of this agency
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_agency.setPrimaryKey(primaryKey);
@@ -391,13 +367,40 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	/**
-	* Sets the uuid of this agency.
-	*
-	* @param uuid the uuid of this agency
-	*/
+	 * Sets the uuid of this agency.
+	 *
+	 * @param uuid the uuid of this agency
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_agency.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.gtfs.model.Agency> toCacheModel() {
+
+		return _agency.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Agency toEscapedModel() {
+		return new AgencyWrapper(_agency.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _agency.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.Agency toUnescapedModel() {
+		return new AgencyWrapper(_agency.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _agency.toXmlString();
 	}
 
 	@Override
@@ -440,4 +443,5 @@ public class AgencyWrapper implements Agency, ModelWrapper<Agency> {
 	}
 
 	private final Agency _agency;
+
 }

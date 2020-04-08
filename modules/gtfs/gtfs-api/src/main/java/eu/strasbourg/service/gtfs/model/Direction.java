@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see DirectionModel
- * @see eu.strasbourg.service.gtfs.model.impl.DirectionImpl
- * @see eu.strasbourg.service.gtfs.model.impl.DirectionModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.DirectionImpl")
 @ProviderType
 public interface Direction extends DirectionModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.DirectionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.DirectionImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Direction, Long> DIRECTION_ID_ACCESSOR = new Accessor<Direction, Long>() {
+	public static final Accessor<Direction, Long> DIRECTION_ID_ACCESSOR =
+		new Accessor<Direction, Long>() {
+
 			@Override
 			public Long get(Direction direction) {
 				return direction.getDirectionId();
@@ -52,10 +53,12 @@ public interface Direction extends DirectionModel, PersistedModel {
 			public Class<Direction> getTypeClass() {
 				return Direction.class;
 			}
+
 		};
 
 	/**
-	* Renvoie la Ligne de cette direction
-	*/
+	 * Renvoie la Ligne de cette direction
+	 */
 	public eu.strasbourg.service.gtfs.model.Ligne getLigne();
+
 }

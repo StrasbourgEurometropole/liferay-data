@@ -17,7 +17,6 @@ package eu.strasbourg.service.gtfs.model;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -39,6 +38,7 @@ import java.util.Objects;
  */
 @ProviderType
 public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
+
 	public StopTimeWrapper(StopTime stopTime) {
 		_stopTime = stopTime;
 	}
@@ -128,6 +128,131 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	@Override
+	public Object clone() {
+		return new StopTimeWrapper((StopTime)_stopTime.clone());
+	}
+
+	@Override
+	public int compareTo(eu.strasbourg.service.gtfs.model.StopTime stopTime) {
+		return _stopTime.compareTo(stopTime);
+	}
+
+	/**
+	 * Returns the arrival_time of this stop time.
+	 *
+	 * @return the arrival_time of this stop time
+	 */
+	@Override
+	public Date getArrival_time() {
+		return _stopTime.getArrival_time();
+	}
+
+	/**
+	 * Returns the departure_time of this stop time.
+	 *
+	 * @return the departure_time of this stop time
+	 */
+	@Override
+	public Date getDeparture_time() {
+		return _stopTime.getDeparture_time();
+	}
+
+	/**
+	 * Returns the drop_off_type of this stop time.
+	 *
+	 * @return the drop_off_type of this stop time
+	 */
+	@Override
+	public String getDrop_off_type() {
+		return _stopTime.getDrop_off_type();
+	}
+
+	@Override
+	public ExpandoBridge getExpandoBridge() {
+		return _stopTime.getExpandoBridge();
+	}
+
+	/**
+	 * Returns the ID of this stop time.
+	 *
+	 * @return the ID of this stop time
+	 */
+	@Override
+	public long getId() {
+		return _stopTime.getId();
+	}
+
+	/**
+	 * Returns the pickup_type of this stop time.
+	 *
+	 * @return the pickup_type of this stop time
+	 */
+	@Override
+	public String getPickup_type() {
+		return _stopTime.getPickup_type();
+	}
+
+	/**
+	 * Returns the primary key of this stop time.
+	 *
+	 * @return the primary key of this stop time
+	 */
+	@Override
+	public long getPrimaryKey() {
+		return _stopTime.getPrimaryKey();
+	}
+
+	@Override
+	public Serializable getPrimaryKeyObj() {
+		return _stopTime.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the stop_id of this stop time.
+	 *
+	 * @return the stop_id of this stop time
+	 */
+	@Override
+	public String getStop_id() {
+		return _stopTime.getStop_id();
+	}
+
+	/**
+	 * Returns the stop_sequence of this stop time.
+	 *
+	 * @return the stop_sequence of this stop time
+	 */
+	@Override
+	public int getStop_sequence() {
+		return _stopTime.getStop_sequence();
+	}
+
+	/**
+	 * Returns the trip_id of this stop time.
+	 *
+	 * @return the trip_id of this stop time
+	 */
+	@Override
+	public String getTrip_id() {
+		return _stopTime.getTrip_id();
+	}
+
+	/**
+	 * Returns the uuid of this stop time.
+	 *
+	 * @return the uuid of this stop time
+	 */
+	@Override
+	public String getUuid() {
+		return _stopTime.getUuid();
+	}
+
+	@Override
+	public int hashCode() {
+		return _stopTime.hashCode();
+	}
+
+	@Override
 	public boolean isCachedModel() {
 		return _stopTime.isCachedModel();
 	}
@@ -143,165 +268,15 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _stopTime.getExpandoBridge();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.gtfs.model.StopTime> toCacheModel() {
-		return _stopTime.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.StopTime toEscapedModel() {
-		return new StopTimeWrapper(_stopTime.toEscapedModel());
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.StopTime toUnescapedModel() {
-		return new StopTimeWrapper(_stopTime.toUnescapedModel());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.StopTime stopTime) {
-		return _stopTime.compareTo(stopTime);
-	}
-
-	/**
-	* Returns the stop_sequence of this stop time.
-	*
-	* @return the stop_sequence of this stop time
-	*/
-	@Override
-	public int getStop_sequence() {
-		return _stopTime.getStop_sequence();
-	}
-
-	@Override
-	public int hashCode() {
-		return _stopTime.hashCode();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _stopTime.getPrimaryKeyObj();
-	}
-
-	@Override
-	public java.lang.Object clone() {
-		return new StopTimeWrapper((StopTime)_stopTime.clone());
-	}
-
-	/**
-	* Returns the drop_off_type of this stop time.
-	*
-	* @return the drop_off_type of this stop time
-	*/
-	@Override
-	public java.lang.String getDrop_off_type() {
-		return _stopTime.getDrop_off_type();
-	}
-
-	/**
-	* Returns the pickup_type of this stop time.
-	*
-	* @return the pickup_type of this stop time
-	*/
-	@Override
-	public java.lang.String getPickup_type() {
-		return _stopTime.getPickup_type();
-	}
-
-	/**
-	* Returns the stop_id of this stop time.
-	*
-	* @return the stop_id of this stop time
-	*/
-	@Override
-	public java.lang.String getStop_id() {
-		return _stopTime.getStop_id();
-	}
-
-	/**
-	* Returns the trip_id of this stop time.
-	*
-	* @return the trip_id of this stop time
-	*/
-	@Override
-	public java.lang.String getTrip_id() {
-		return _stopTime.getTrip_id();
-	}
-
-	/**
-	* Returns the uuid of this stop time.
-	*
-	* @return the uuid of this stop time
-	*/
-	@Override
-	public java.lang.String getUuid() {
-		return _stopTime.getUuid();
-	}
-
-	@Override
-	public java.lang.String toString() {
-		return _stopTime.toString();
-	}
-
-	@Override
-	public java.lang.String toXmlString() {
-		return _stopTime.toXmlString();
-	}
-
-	/**
-	* Returns the arrival_time of this stop time.
-	*
-	* @return the arrival_time of this stop time
-	*/
-	@Override
-	public Date getArrival_time() {
-		return _stopTime.getArrival_time();
-	}
-
-	/**
-	* Returns the departure_time of this stop time.
-	*
-	* @return the departure_time of this stop time
-	*/
-	@Override
-	public Date getDeparture_time() {
-		return _stopTime.getDeparture_time();
-	}
-
-	/**
-	* Returns the ID of this stop time.
-	*
-	* @return the ID of this stop time
-	*/
-	@Override
-	public long getId() {
-		return _stopTime.getId();
-	}
-
-	/**
-	* Returns the primary key of this stop time.
-	*
-	* @return the primary key of this stop time
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _stopTime.getPrimaryKey();
-	}
-
-	@Override
 	public void persist() {
 		_stopTime.persist();
 	}
 
 	/**
-	* Sets the arrival_time of this stop time.
-	*
-	* @param arrival_time the arrival_time of this stop time
-	*/
+	 * Sets the arrival_time of this stop time.
+	 *
+	 * @param arrival_time the arrival_time of this stop time
+	 */
 	@Override
 	public void setArrival_time(Date arrival_time) {
 		_stopTime.setArrival_time(arrival_time);
@@ -313,23 +288,30 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	/**
-	* Sets the departure_time of this stop time.
-	*
-	* @param departure_time the departure_time of this stop time
-	*/
+	 * Sets the departure_time of this stop time.
+	 *
+	 * @param departure_time the departure_time of this stop time
+	 */
 	@Override
 	public void setDeparture_time(Date departure_time) {
 		_stopTime.setDeparture_time(departure_time);
 	}
 
 	/**
-	* Sets the drop_off_type of this stop time.
-	*
-	* @param drop_off_type the drop_off_type of this stop time
-	*/
+	 * Sets the drop_off_type of this stop time.
+	 *
+	 * @param drop_off_type the drop_off_type of this stop time
+	 */
 	@Override
-	public void setDrop_off_type(java.lang.String drop_off_type) {
+	public void setDrop_off_type(String drop_off_type) {
 		_stopTime.setDrop_off_type(drop_off_type);
+	}
+
+	@Override
+	public void setExpandoBridgeAttributes(
+		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
+
+		_stopTime.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
@@ -338,21 +320,15 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-		_stopTime.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_stopTime.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	* Sets the ID of this stop time.
-	*
-	* @param id the ID of this stop time
-	*/
+	 * Sets the ID of this stop time.
+	 *
+	 * @param id the ID of this stop time
+	 */
 	@Override
 	public void setId(long id) {
 		_stopTime.setId(id);
@@ -364,20 +340,20 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	/**
-	* Sets the pickup_type of this stop time.
-	*
-	* @param pickup_type the pickup_type of this stop time
-	*/
+	 * Sets the pickup_type of this stop time.
+	 *
+	 * @param pickup_type the pickup_type of this stop time
+	 */
 	@Override
-	public void setPickup_type(java.lang.String pickup_type) {
+	public void setPickup_type(String pickup_type) {
 		_stopTime.setPickup_type(pickup_type);
 	}
 
 	/**
-	* Sets the primary key of this stop time.
-	*
-	* @param primaryKey the primary key of this stop time
-	*/
+	 * Sets the primary key of this stop time.
+	 *
+	 * @param primaryKey the primary key of this stop time
+	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		_stopTime.setPrimaryKey(primaryKey);
@@ -389,43 +365,70 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	/**
-	* Sets the stop_id of this stop time.
-	*
-	* @param stop_id the stop_id of this stop time
-	*/
+	 * Sets the stop_id of this stop time.
+	 *
+	 * @param stop_id the stop_id of this stop time
+	 */
 	@Override
-	public void setStop_id(java.lang.String stop_id) {
+	public void setStop_id(String stop_id) {
 		_stopTime.setStop_id(stop_id);
 	}
 
 	/**
-	* Sets the stop_sequence of this stop time.
-	*
-	* @param stop_sequence the stop_sequence of this stop time
-	*/
+	 * Sets the stop_sequence of this stop time.
+	 *
+	 * @param stop_sequence the stop_sequence of this stop time
+	 */
 	@Override
 	public void setStop_sequence(int stop_sequence) {
 		_stopTime.setStop_sequence(stop_sequence);
 	}
 
 	/**
-	* Sets the trip_id of this stop time.
-	*
-	* @param trip_id the trip_id of this stop time
-	*/
+	 * Sets the trip_id of this stop time.
+	 *
+	 * @param trip_id the trip_id of this stop time
+	 */
 	@Override
-	public void setTrip_id(java.lang.String trip_id) {
+	public void setTrip_id(String trip_id) {
 		_stopTime.setTrip_id(trip_id);
 	}
 
 	/**
-	* Sets the uuid of this stop time.
-	*
-	* @param uuid the uuid of this stop time
-	*/
+	 * Sets the uuid of this stop time.
+	 *
+	 * @param uuid the uuid of this stop time
+	 */
 	@Override
-	public void setUuid(java.lang.String uuid) {
+	public void setUuid(String uuid) {
 		_stopTime.setUuid(uuid);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.model.CacheModel
+		<eu.strasbourg.service.gtfs.model.StopTime> toCacheModel() {
+
+		return _stopTime.toCacheModel();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.StopTime toEscapedModel() {
+		return new StopTimeWrapper(_stopTime.toEscapedModel());
+	}
+
+	@Override
+	public String toString() {
+		return _stopTime.toString();
+	}
+
+	@Override
+	public eu.strasbourg.service.gtfs.model.StopTime toUnescapedModel() {
+		return new StopTimeWrapper(_stopTime.toUnescapedModel());
+	}
+
+	@Override
+	public String toXmlString() {
+		return _stopTime.toXmlString();
 	}
 
 	@Override
@@ -468,4 +471,5 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	private final StopTime _stopTime;
+
 }

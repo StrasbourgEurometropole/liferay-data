@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing StopTime in entity cache.
  *
  * @author Cedric Henry
- * @see StopTime
  * @generated
  */
 @ProviderType
-public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable {
+public class StopTimeCacheModel
+	implements CacheModel<StopTime>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -95,7 +95,7 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		StopTimeImpl stopTimeImpl = new StopTimeImpl();
 
 		if (uuid == null) {
-			stopTimeImpl.setUuid(StringPool.BLANK);
+			stopTimeImpl.setUuid("");
 		}
 		else {
 			stopTimeImpl.setUuid(uuid);
@@ -104,7 +104,7 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		stopTimeImpl.setId(id);
 
 		if (trip_id == null) {
-			stopTimeImpl.setTrip_id(StringPool.BLANK);
+			stopTimeImpl.setTrip_id("");
 		}
 		else {
 			stopTimeImpl.setTrip_id(trip_id);
@@ -125,7 +125,7 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		}
 
 		if (stop_id == null) {
-			stopTimeImpl.setStop_id(StringPool.BLANK);
+			stopTimeImpl.setStop_id("");
 		}
 		else {
 			stopTimeImpl.setStop_id(stop_id);
@@ -134,14 +134,14 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		stopTimeImpl.setStop_sequence(stop_sequence);
 
 		if (pickup_type == null) {
-			stopTimeImpl.setPickup_type(StringPool.BLANK);
+			stopTimeImpl.setPickup_type("");
 		}
 		else {
 			stopTimeImpl.setPickup_type(pickup_type);
 		}
 
 		if (drop_off_type == null) {
-			stopTimeImpl.setDrop_off_type(StringPool.BLANK);
+			stopTimeImpl.setDrop_off_type("");
 		}
 		else {
 			stopTimeImpl.setDrop_off_type(drop_off_type);
@@ -168,10 +168,9 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -180,7 +179,7 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		objectOutput.writeLong(id);
 
 		if (trip_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(trip_id);
@@ -190,7 +189,7 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		objectOutput.writeLong(departure_time);
 
 		if (stop_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stop_id);
@@ -199,14 +198,14 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 		objectOutput.writeInt(stop_sequence);
 
 		if (pickup_type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(pickup_type);
 		}
 
 		if (drop_off_type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(drop_off_type);
@@ -222,4 +221,5 @@ public class StopTimeCacheModel implements CacheModel<StopTime>, Externalizable 
 	public int stop_sequence;
 	public String pickup_type;
 	public String drop_off_type;
+
 }

@@ -25,19 +25,20 @@ import com.liferay.portal.kernel.util.Accessor;
  *
  * @author Cedric Henry
  * @see AgencyModel
- * @see eu.strasbourg.service.gtfs.model.impl.AgencyImpl
- * @see eu.strasbourg.service.gtfs.model.impl.AgencyModelImpl
  * @generated
  */
 @ImplementationClassName("eu.strasbourg.service.gtfs.model.impl.AgencyImpl")
 @ProviderType
 public interface Agency extends AgencyModel, PersistedModel {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.gtfs.model.impl.AgencyImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.gtfs.model.impl.AgencyImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Agency, Long> ID_ACCESSOR = new Accessor<Agency, Long>() {
+	public static final Accessor<Agency, Long> ID_ACCESSOR =
+		new Accessor<Agency, Long>() {
+
 			@Override
 			public Long get(Agency agency) {
 				return agency.getId();
@@ -52,5 +53,7 @@ public interface Agency extends AgencyModel, PersistedModel {
 			public Class<Agency> getTypeClass() {
 				return Agency.class;
 			}
+
 		};
+
 }

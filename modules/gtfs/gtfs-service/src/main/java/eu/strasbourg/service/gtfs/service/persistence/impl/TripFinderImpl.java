@@ -1,16 +1,16 @@
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQL;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import java.util.List;
-
+import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.model.impl.TripImpl;
 import eu.strasbourg.service.gtfs.service.persistence.TripFinder;
+
+import java.util.List;
 
 public class TripFinderImpl extends TripFinderBaseImpl implements TripFinder {
 	
@@ -21,7 +21,7 @@ public class TripFinderImpl extends TripFinderBaseImpl implements TripFinder {
 	    try {
 	        session = openSession();
 
-	        String sql = CustomSQLUtil.get(getClass(), FIND_TRIP_AVAILABLE);
+	        String sql = customSQL.get(getClass(), FIND_TRIP_AVAILABLE);
 	        
 	        SQLQuery q = session.createSQLQuery(sql);
 	        q.setCacheable(false);
@@ -43,7 +43,12 @@ public class TripFinderImpl extends TripFinderBaseImpl implements TripFinder {
 
 	    return null;
 	    
-	}	
+	}
+
+
+	//    @Reference
+	@ServiceReference(type=CustomSQL.class)
+	private CustomSQL customSQL;
 
 	public static final String FIND_TRIP_AVAILABLE = TripFinder.class.getName() + ".findTripAvailable";
 

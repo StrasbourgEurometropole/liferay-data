@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Direction;
 
@@ -32,12 +31,12 @@ import java.io.ObjectOutput;
  * The cache model class for representing Direction in entity cache.
  *
  * @author Cedric Henry
- * @see Direction
  * @generated
  */
 @ProviderType
-public class DirectionCacheModel implements CacheModel<Direction>,
-	Externalizable {
+public class DirectionCacheModel
+	implements CacheModel<Direction>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -92,7 +91,7 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		DirectionImpl directionImpl = new DirectionImpl();
 
 		if (uuid == null) {
-			directionImpl.setUuid(StringPool.BLANK);
+			directionImpl.setUuid("");
 		}
 		else {
 			directionImpl.setUuid(uuid);
@@ -103,28 +102,28 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		directionImpl.setCompanyId(companyId);
 
 		if (tripId == null) {
-			directionImpl.setTripId(StringPool.BLANK);
+			directionImpl.setTripId("");
 		}
 		else {
 			directionImpl.setTripId(tripId);
 		}
 
 		if (stopId == null) {
-			directionImpl.setStopId(StringPool.BLANK);
+			directionImpl.setStopId("");
 		}
 		else {
 			directionImpl.setStopId(stopId);
 		}
 
 		if (routeId == null) {
-			directionImpl.setRouteId(StringPool.BLANK);
+			directionImpl.setRouteId("");
 		}
 		else {
 			directionImpl.setRouteId(routeId);
 		}
 
 		if (destinationName == null) {
-			directionImpl.setDestinationName(StringPool.BLANK);
+			directionImpl.setDestinationName("");
 		}
 		else {
 			directionImpl.setDestinationName(destinationName);
@@ -151,10 +150,9 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -167,28 +165,28 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 		objectOutput.writeLong(companyId);
 
 		if (tripId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(tripId);
 		}
 
 		if (stopId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(stopId);
 		}
 
 		if (routeId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(routeId);
 		}
 
 		if (destinationName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(destinationName);
@@ -203,4 +201,5 @@ public class DirectionCacheModel implements CacheModel<Direction>,
 	public String stopId;
 	public String routeId;
 	public String destinationName;
+
 }

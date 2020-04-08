@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing ImportHistoric in entity cache.
  *
  * @author Cedric Henry
- * @see ImportHistoric
  * @generated
  */
 @ProviderType
-public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
-	Externalizable {
+public class ImportHistoricCacheModel
+	implements CacheModel<ImportHistoric>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 			return false;
 		}
 
-		ImportHistoricCacheModel importHistoricCacheModel = (ImportHistoricCacheModel)obj;
+		ImportHistoricCacheModel importHistoricCacheModel =
+			(ImportHistoricCacheModel)obj;
 
 		if (importHistoricId == importHistoricCacheModel.importHistoricId) {
 			return true;
@@ -114,7 +114,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		ImportHistoricImpl importHistoricImpl = new ImportHistoricImpl();
 
 		if (uuid == null) {
-			importHistoricImpl.setUuid(StringPool.BLANK);
+			importHistoricImpl.setUuid("");
 		}
 		else {
 			importHistoricImpl.setUuid(uuid);
@@ -126,7 +126,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		importHistoricImpl.setUserId(userId);
 
 		if (userName == null) {
-			importHistoricImpl.setUserName(StringPool.BLANK);
+			importHistoricImpl.setUserName("");
 		}
 		else {
 			importHistoricImpl.setUserName(userName);
@@ -150,7 +150,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		importHistoricImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			importHistoricImpl.setStatusByUserName(StringPool.BLANK);
+			importHistoricImpl.setStatusByUserName("");
 		}
 		else {
 			importHistoricImpl.setStatusByUserName(statusByUserName);
@@ -166,21 +166,21 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		importHistoricImpl.setResult(result);
 
 		if (operations == null) {
-			importHistoricImpl.setOperations(StringPool.BLANK);
+			importHistoricImpl.setOperations("");
 		}
 		else {
 			importHistoricImpl.setOperations(operations);
 		}
 
 		if (errorDescription == null) {
-			importHistoricImpl.setErrorDescription(StringPool.BLANK);
+			importHistoricImpl.setErrorDescription("");
 		}
 		else {
 			importHistoricImpl.setErrorDescription(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			importHistoricImpl.setErrorStackTrace(StringPool.BLANK);
+			importHistoricImpl.setErrorStackTrace("");
 		}
 		else {
 			importHistoricImpl.setErrorStackTrace(errorStackTrace);
@@ -235,10 +235,9 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -253,7 +252,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -267,7 +266,7 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -278,21 +277,21 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 		objectOutput.writeInt(result);
 
 		if (operations == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(operations);
 		}
 
 		if (errorDescription == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(errorStackTrace);
@@ -320,4 +319,5 @@ public class ImportHistoricCacheModel implements CacheModel<ImportHistoric>,
 	public String errorStackTrace;
 	public long startDate;
 	public long finishDate;
+
 }

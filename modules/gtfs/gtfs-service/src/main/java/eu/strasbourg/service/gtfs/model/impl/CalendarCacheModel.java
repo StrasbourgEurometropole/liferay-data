@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.gtfs.model.Calendar;
 
@@ -34,11 +33,12 @@ import java.util.Date;
  * The cache model class for representing Calendar in entity cache.
  *
  * @author Cedric Henry
- * @see Calendar
  * @generated
  */
 @ProviderType
-public class CalendarCacheModel implements CacheModel<Calendar>, Externalizable {
+public class CalendarCacheModel
+	implements CacheModel<Calendar>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -101,7 +101,7 @@ public class CalendarCacheModel implements CacheModel<Calendar>, Externalizable 
 		CalendarImpl calendarImpl = new CalendarImpl();
 
 		if (uuid == null) {
-			calendarImpl.setUuid(StringPool.BLANK);
+			calendarImpl.setUuid("");
 		}
 		else {
 			calendarImpl.setUuid(uuid);
@@ -110,7 +110,7 @@ public class CalendarCacheModel implements CacheModel<Calendar>, Externalizable 
 		calendarImpl.setId(id);
 
 		if (service_id == null) {
-			calendarImpl.setService_id(StringPool.BLANK);
+			calendarImpl.setService_id("");
 		}
 		else {
 			calendarImpl.setService_id(service_id);
@@ -168,10 +168,9 @@ public class CalendarCacheModel implements CacheModel<Calendar>, Externalizable 
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -180,7 +179,7 @@ public class CalendarCacheModel implements CacheModel<Calendar>, Externalizable 
 		objectOutput.writeLong(id);
 
 		if (service_id == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(service_id);
@@ -215,4 +214,5 @@ public class CalendarCacheModel implements CacheModel<Calendar>, Externalizable 
 	public boolean sunday;
 	public long start_date;
 	public long end_date;
+
 }
