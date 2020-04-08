@@ -14,10 +14,9 @@ dependencies {
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
 	compileOnly group: 'org.json', name: 'org.json', version: '2.0'
-	
-	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 
-	compile group: "com.liferay", name: "org.freemarker", version: "2.3.23.LIFERAY-PATCHED-2"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project (':modules:utils')
 	compile project(":modules:place:place-api")
