@@ -245,7 +245,7 @@ $ docker-compose logs -f
 
 ## Commandes générales docker-compose
 
-Les commandes docker-compose sont toujours à lancer dans le répertoire où se situe le dit fichier `docker-compose.yml`
+Les commandes docker-compose sont toujours à lancer dans le répertoire où se situe ledit fichier `docker-compose.yml`
 
 1. **Voir l'aide des commandes docker-compose** :
 
