@@ -151,3 +151,79 @@ Suivre les logs via la commande :
 ```shell
 $ docker-compose logs -f
 ```
+
+# Commandes Docker utiles
+
+## Commandes sur les conteneurs
+
+1. **Voir tous les conteneurs lancés** :
+
+    ```shell
+    $ docker ps
+    ```
+
+2. **Voir tous les conteneurs (même ceux stoppés)** :
+
+    ```shell
+    $ docker ps -a
+    ```
+
+3. **Rentrer en bash dans un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps` :
+
+    ```shell
+    $ docker container exec -it CONTAINER_ID bash
+    ```
+
+4. **Lancer un conteneur simple** en remplaçant :
+    * `IMAGE` le nom de l'image que l'on prend pour base pour lancer le conteneur (voir les images sur un registry comme https://hub.docker.com/)
+    * `PORTS` par l'association de ports hôte:conteneur (ex : "80:8080" pour rediriger le port 8080 du conteneur sur le port 80 de l'hôte)
+
+    ```shell
+    $ docker container run -p PORTS IMAGE 
+    ```
+
+    **notes** : voir les autres options via la commande `docker container run -h` ou sur https://docs.docker.com/engine/reference/commandline/container_run/
+
+5. **Stopper un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps` :
+
+    ```shell
+    $ docker container stop CONTAINER_ID
+    ```
+
+6. **Supprimer un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps` :
+
+    ```shell
+    $ docker container rm CONTAINER_ID
+    ```
+
+    **notes** : peut nécessiter l'option `-f` pour forcer la suppression d'un conteneur déjà démarré. 
+
+6. **Relancer un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps` :
+
+    ```shell
+    $ docker container restart CONTAINER_ID
+    ```
+
+7. **Consulter les logs d'un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps` :
+
+    ```shell
+    $ docker container logs CONTAINER_ID
+    ```
+
+    **notes** : lancer avec l'option `-f` pour les suivre en continu et faire `Ctrl + C` pour arrêter le suivi
+
+8. **Inspecter les informations du conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps` :
+
+    ```shell
+    $ docker container inspect CONTAINER_ID
+    ```
+
+## Commandes docker-compose
+
+
