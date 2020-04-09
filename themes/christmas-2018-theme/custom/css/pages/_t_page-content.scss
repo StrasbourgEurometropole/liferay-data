@@ -8,6 +8,11 @@
 
 .mns-wrapper-duo-content {
 	margin: 30px auto;
+
+.row{
+	flex-wrap: inherit;
+}
+
 	@include mobile {
 		margin-bottom: 50px;
 	}
@@ -23,12 +28,12 @@
 		}
 
 		@include mobile {
-			.order-1 {
+			.noel-order-1 {
 				order: 1;
 				text-align: left;
 			}
 
-			.order-2 {
+			.noel-order-2 {
 				order: 2;
 				text-align: left;
 			}
