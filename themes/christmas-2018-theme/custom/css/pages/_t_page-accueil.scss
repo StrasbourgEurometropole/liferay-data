@@ -61,8 +61,19 @@
 	}
 }
 
+.container.mns-home-entry.mns-p50{
+	@media (min-width: 768px) and (max-width: 991px) {
+		max-width: 750px;
+	}
+}
+
 .mns-home-entry {
 	position: relative;
+
+	.bubbles-title{
+		float: left;
+	}
+
 	h1.title {
 		@include ft($f_txt, $s_h3, 300, $c_main, 62px);
 		text-align: right;
