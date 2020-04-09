@@ -151,3 +151,145 @@ Suivre les logs via la commande :
 ```shell
 $ docker-compose logs -f
 ```
+
+# Commandes Docker utiles
+
+## Commandes générales sur les conteneurs
+
+1. **Voir l'aide des commandes docker pour les conteneurs** :
+
+    ```shell
+    $ docker container -h
+    ```
+
+2. **Voir tous les conteneurs lancés** :
+
+    ```shell
+    $ docker ps
+    ```
+
+3. **Voir tous les conteneurs (même ceux stoppés)** :
+
+    ```shell
+    $ docker ps -a
+    ```
+
+4. **Rentrer en bash dans un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+
+    ```shell
+    $ docker container exec -it CONTAINER_ID bash
+    ```
+
+5. **Lancer un conteneur simple** en remplaçant :
+    * `IMAGE` le nom de l'image que l'on prend pour base pour lancer le conteneur (voir les images sur un registry comme https://hub.docker.com/)
+    * `PORTS` par l'association de ports hôte:conteneur (ex : "80:8080" pour rediriger le port 8080 du conteneur sur le port 80 de l'hôte)
+
+    ```shell
+    $ docker container run -p PORTS IMAGE 
+    ```
+
+    **notes** : voir les autres options via la commande `docker container run -h` ou sur https://docs.docker.com/engine/reference/commandline/container_run/
+
+6. **Stopper un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+
+    ```shell
+    $ docker container stop CONTAINER_ID
+    ```
+
+7. **Supprimer un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+
+    ```shell
+    $ docker container rm CONTAINER_ID
+    ```
+
+    **notes** : peut nécessiter l'option `-f` pour forcer la suppression d'un conteneur déjà démarré. 
+
+8. **Relancer un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+
+    ```shell
+    $ docker container restart CONTAINER_ID
+    ```
+
+9. **Consulter les logs d'un conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+
+    ```shell
+    $ docker container logs CONTAINER_ID
+    ```
+
+    **notes** : lancer avec l'option `-f` pour les suivre en continu et faire `Ctrl + C` pour arrêter le suivi.
+
+10. **Inspecter les informations du conteneur** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+
+    ```shell
+    $ docker container inspect CONTAINER_ID
+    ```
+
+## Commandes spcéifiques sur les conteneurs
+
+1. **Effectuer un dump à partir d'un conteneur MySQL lancé** en remplaçant :
+    * `CONTAINER_ID` par l'ID obtenu via la commande `docker ps`
+    * `USER_NAME` est le nom d'utilisateur MySQL
+    * `USER_PSW` est le mot de passe d'utilisateur MySQL
+    * `SCHEMA_NAME` est le nom du schéma à extraire
+    * `DEST_PATH` est le chemin de la machine hôte (nom du fichier .sql inclu) où mettre le dump
+
+    ```shell
+    $ docker exec CONTAINER_ID /usr/bin/mysqldump -u USER_NAME --password=USER_PSW SCHEMA_NAME > DEST_PATH
+    ```
+
+## Commandes générales docker-compose
+
+Les commandes docker-compose sont toujours à lancer dans le répertoire où se situe le dit fichier `docker-compose.yml`
+
+1. **Voir l'aide des commandes docker-compose** :
+
+    ```shell
+    $ docker-compose -h
+    ```
+
+2. **Lancer tous les "services" d'un docker-compose** :
+
+    **notes** : cette commande va créer tous les conteneurs et réseaux contenus dans le docker-compose.
+
+    ```shell
+    $ docker-compose up -d
+    ```
+
+3. **Couper tous les "services" d'un docker-compose** :
+
+    **notes** : cette commande va supprimer tous les conteneurs et réseaux contenus dans le docker-compose. La commande `docker-compose kill` possède les mêmes attributions mais effectue l'équivalent d'un `--force` pour les conteneurs récidivistes.
+
+    ```shell
+    $ docker-compose down
+    ```
+
+4. **Stopper tous les "services" d'un docker-compose** :
+
+    **notes** : cette commande va couper tous les conteneurs et réseaux contenus dans le docker-compose mais ils pourront être relancés là où ils en étaient.
+
+    ```shell
+    $ docker-compose stop
+    ```
+
+5. **Relancer, après arrêt, tous les "services" d'un docker-compose** :
+
+    **notes** : cette commande ne relancera que les conteneurs ayant été stoppés au préalable, elle ne créera rien de nouveau et ne peut donc pas remplacer la commande `docker-compose up` pour un nouveau lancement.
+
+    ```shell
+    $ docker-compose start -d
+    ```
+
+9. **Consulter les logs d'un docker-compose** 
+
+    ```shell
+    $ docker container logs
+    ```
+
+    **notes** : lancer avec l'option `-f` pour les suivre en continu et faire `Ctrl + C` pour arrêter le suivi.
+
