@@ -3,7 +3,7 @@
 <div class="mns-wrapper-home-entry">
     <div class="container mns-home-entry mns-p50">
         <img src="/o/christmas-2018-theme/images/deco-big-elipse.png" width="284" height="284" class="deco-bg" alt="image decoration" />
-        <div class="col-lg-6 col-md-8 col-xs-12">
+        <div class="col-xl-6 col-lg-8 col-md-12 bubbles-title">
             <h1 class="title">${title1.data}</h1>
             <h2 class="city"><span>${title2.data}</span></h2>
         </div>
