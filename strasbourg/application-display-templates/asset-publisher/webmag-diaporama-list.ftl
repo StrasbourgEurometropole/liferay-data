@@ -13,6 +13,11 @@
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                         <#assign content = docXml.valueOf("//dynamic-element[@name='content']/dynamic-content/text()") />
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+                        <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+                        <#assign imageURL ="" />
+                        <#if image?has_content>
+                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                        </#if>
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                        
@@ -21,7 +26,7 @@
                             <div class="wi-search-result wi-edition-thumbnail">
                                 <div class="seu-result-left seu-result-thumbnail">
                                     <a href="${viewURL}" title="${title}">
-                                        <div style="background-image: url(${image});" class="thumbnail-background" ></div>
+                                        <div style="background-image: url(${imageURL});" class="thumbnail-background" ></div>
                                     </a>
                                 </div>
                                 <div class="seu-result-right">
