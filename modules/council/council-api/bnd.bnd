@@ -1,0 +1,10 @@
+Bundle-Name: council-api
+Bundle-SymbolicName: eu.strasbourg.service.council.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	eu.strasbourg.service.council.exception,\
+	eu.strasbourg.service.council.model,\
+	eu.strasbourg.service.council.service,\
+	eu.strasbourg.service.council.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../council-service/service.xml
