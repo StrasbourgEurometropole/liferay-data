@@ -24,6 +24,10 @@
   }
 }
 
+/* Masquage du menu du contenu web en mode non connecté liferay */
+.signed-out .seu section .mb-2 {
+ display: none;
+}
 
 /* Formulaire d'acceptation des terme d'utilisation */
 #portlet_terms-of-use + form {
