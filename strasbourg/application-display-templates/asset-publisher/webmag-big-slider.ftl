@@ -5,6 +5,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
 <div id="smag-banner">
     <section class="smag-hp-une">
@@ -21,14 +22,22 @@
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                         <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+                        <#assign thumbnailURL ="" />
+                        <#if thumbnail?has_content>
+                            <#assign thumbnailURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+                        </#if>
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+                        <#assign imageURL ="" />
+                        <#if image?has_content>
+                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                        </#if>
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
                         <li class="slider-une-main__slider-item">
-                            <div class="slider-une-main__slide" data-title="${title}" data-description="${chapo}" data-link="${viewURL}" style="background-image: url(${image});">
+                            <div class="slider-une-main__slide" data-title="${title}" data-description="${chapo}" data-link="${viewURL}" style="background-image: url(${imageURL});">
                                 <div class="slider-une-main__slide-image">
-                                    <div class="slider-une-main__slide-background" style="background-image: url(${thumbnail});"></div>
+                                    <div class="slider-une-main__slide-background" style="background-image: url(${thumbnailURL});"></div>
                                     </div> 
                                 <div class="slider-une-main__slide-text">
                                     <h3 class="slider-une-main__slide-title" data-dot="2">${title}</h3>
