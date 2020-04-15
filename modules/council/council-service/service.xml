@@ -87,6 +87,11 @@
 			<finder-column name="councilSessionId" />
 		</finder>
 
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
 	</entity>
 
 	<entity local-service="true" remote-service="false" cache-enabled="true" name="Deliberation" uuid="true">
