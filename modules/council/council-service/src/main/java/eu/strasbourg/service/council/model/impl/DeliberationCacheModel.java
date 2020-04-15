@@ -102,8 +102,8 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		sb.append(docId);
 		sb.append(", stage=");
 		sb.append(stage);
-		sb.append(", sessionId=");
-		sb.append(sessionId);
+		sb.append(", councilSessionId=");
+		sb.append(councilSessionId);
 		sb.append("}");
 
 		return sb.toString();
@@ -193,7 +193,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			deliberationImpl.setStage(stage);
 		}
 
-		deliberationImpl.setSessionId(sessionId);
+		deliberationImpl.setCouncilSessionId(councilSessionId);
 
 		deliberationImpl.resetOriginalValues();
 
@@ -227,7 +227,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		docId = objectInput.readUTF();
 		stage = objectInput.readUTF();
 
-		sessionId = objectInput.readLong();
+		councilSessionId = objectInput.readLong();
 	}
 
 	@Override
@@ -301,7 +301,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			objectOutput.writeUTF(stage);
 		}
 
-		objectOutput.writeLong(sessionId);
+		objectOutput.writeLong(councilSessionId);
 	}
 
 	public String uuid;
@@ -321,5 +321,5 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	public String text;
 	public String docId;
 	public String stage;
-	public long sessionId;
+	public long councilSessionId;
 }

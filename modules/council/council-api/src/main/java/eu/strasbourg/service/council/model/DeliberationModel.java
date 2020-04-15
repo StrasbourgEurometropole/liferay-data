@@ -367,18 +367,18 @@ public interface DeliberationModel extends BaseModel<Deliberation>, GroupedModel
 	public void setStage(String stage);
 
 	/**
-	 * Returns the session ID of this deliberation.
+	 * Returns the council session ID of this deliberation.
 	 *
-	 * @return the session ID of this deliberation
+	 * @return the council session ID of this deliberation
 	 */
-	public long getSessionId();
+	public long getCouncilSessionId();
 
 	/**
-	 * Sets the session ID of this deliberation.
+	 * Sets the council session ID of this deliberation.
 	 *
-	 * @param sessionId the session ID of this deliberation
+	 * @param councilSessionId the council session ID of this deliberation
 	 */
-	public void setSessionId(long sessionId);
+	public void setCouncilSessionId(long councilSessionId);
 
 	/**
 	 * Returns <code>true</code> if this deliberation is approved.

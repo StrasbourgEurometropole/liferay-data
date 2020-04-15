@@ -371,136 +371,137 @@ public interface ProcurationPersistence extends BasePersistence<Procuration> {
 	public int countByUuid_C(java.lang.String uuid, long companyId);
 
 	/**
-	* Returns all the procurations where sessionId = &#63;.
+	* Returns all the procurations where councilSessionId = &#63;.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @return the matching procurations
 	*/
-	public java.util.List<Procuration> findBySessionId(long sessionId);
+	public java.util.List<Procuration> findByCouncilSessionId(
+		long councilSessionId);
 
 	/**
-	* Returns a range of all the procurations where sessionId = &#63;.
+	* Returns a range of all the procurations where councilSessionId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param start the lower bound of the range of procurations
 	* @param end the upper bound of the range of procurations (not inclusive)
 	* @return the range of matching procurations
 	*/
-	public java.util.List<Procuration> findBySessionId(long sessionId,
-		int start, int end);
+	public java.util.List<Procuration> findByCouncilSessionId(
+		long councilSessionId, int start, int end);
 
 	/**
-	* Returns an ordered range of all the procurations where sessionId = &#63;.
+	* Returns an ordered range of all the procurations where councilSessionId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param start the lower bound of the range of procurations
 	* @param end the upper bound of the range of procurations (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching procurations
 	*/
-	public java.util.List<Procuration> findBySessionId(long sessionId,
-		int start, int end,
+	public java.util.List<Procuration> findByCouncilSessionId(
+		long councilSessionId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the procurations where sessionId = &#63;.
+	* Returns an ordered range of all the procurations where councilSessionId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param start the lower bound of the range of procurations
 	* @param end the upper bound of the range of procurations (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching procurations
 	*/
-	public java.util.List<Procuration> findBySessionId(long sessionId,
-		int start, int end,
+	public java.util.List<Procuration> findByCouncilSessionId(
+		long councilSessionId, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first procuration in the ordered set where sessionId = &#63;.
+	* Returns the first procuration in the ordered set where councilSessionId = &#63;.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching procuration
 	* @throws NoSuchProcurationException if a matching procuration could not be found
 	*/
-	public Procuration findBySessionId_First(long sessionId,
+	public Procuration findByCouncilSessionId_First(long councilSessionId,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException;
 
 	/**
-	* Returns the first procuration in the ordered set where sessionId = &#63;.
+	* Returns the first procuration in the ordered set where councilSessionId = &#63;.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
 	*/
-	public Procuration fetchBySessionId_First(long sessionId,
+	public Procuration fetchByCouncilSessionId_First(long councilSessionId,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator);
 
 	/**
-	* Returns the last procuration in the ordered set where sessionId = &#63;.
+	* Returns the last procuration in the ordered set where councilSessionId = &#63;.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching procuration
 	* @throws NoSuchProcurationException if a matching procuration could not be found
 	*/
-	public Procuration findBySessionId_Last(long sessionId,
+	public Procuration findByCouncilSessionId_Last(long councilSessionId,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException;
 
 	/**
-	* Returns the last procuration in the ordered set where sessionId = &#63;.
+	* Returns the last procuration in the ordered set where councilSessionId = &#63;.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
 	*/
-	public Procuration fetchBySessionId_Last(long sessionId,
+	public Procuration fetchByCouncilSessionId_Last(long councilSessionId,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator);
 
 	/**
-	* Returns the procurations before and after the current procuration in the ordered set where sessionId = &#63;.
+	* Returns the procurations before and after the current procuration in the ordered set where councilSessionId = &#63;.
 	*
 	* @param procurationId the primary key of the current procuration
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next procuration
 	* @throws NoSuchProcurationException if a procuration with the primary key could not be found
 	*/
-	public Procuration[] findBySessionId_PrevAndNext(long procurationId,
-		long sessionId,
+	public Procuration[] findByCouncilSessionId_PrevAndNext(
+		long procurationId, long councilSessionId,
 		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException;
 
 	/**
-	* Removes all the procurations where sessionId = &#63; from the database.
+	* Removes all the procurations where councilSessionId = &#63; from the database.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	*/
-	public void removeBySessionId(long sessionId);
+	public void removeByCouncilSessionId(long councilSessionId);
 
 	/**
-	* Returns the number of procurations where sessionId = &#63;.
+	* Returns the number of procurations where councilSessionId = &#63;.
 	*
-	* @param sessionId the session ID
+	* @param councilSessionId the council session ID
 	* @return the number of matching procurations
 	*/
-	public int countBySessionId(long sessionId);
+	public int countByCouncilSessionId(long councilSessionId);
 
 	/**
 	* Caches the procuration in the entity cache if it is enabled.

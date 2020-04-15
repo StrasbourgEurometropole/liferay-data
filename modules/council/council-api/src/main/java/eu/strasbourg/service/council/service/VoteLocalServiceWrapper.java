@@ -77,6 +77,16 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Vote createVote(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _voteLocalService.createVote(sc);
+	}
+
+	/**
 	* Creates a new vote with the primary key. Does not add the vote to the database.
 	*
 	* @param voteId the primary key for the new vote

@@ -1476,83 +1476,85 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "procuration.uuid = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(procuration.uuid IS NULL OR procuration.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "procuration.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_SESSIONID =
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONID =
 		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySessionId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCouncilSessionId",
 			new String[] {
 				Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SESSIONID =
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID =
 		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySessionId",
-			new String[] { Long.class.getName() },
-			ProcurationModelImpl.SESSIONID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_SESSIONID = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCouncilSessionId", new String[] { Long.class.getName() },
+			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONID = new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
 			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySessionId",
-			new String[] { Long.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCouncilSessionId", new String[] { Long.class.getName() });
 
 	/**
-	 * Returns all the procurations where sessionId = &#63;.
+	 * Returns all the procurations where councilSessionId = &#63;.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @return the matching procurations
 	 */
 	@Override
-	public List<Procuration> findBySessionId(long sessionId) {
-		return findBySessionId(sessionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public List<Procuration> findByCouncilSessionId(long councilSessionId) {
+		return findByCouncilSessionId(councilSessionId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the procurations where sessionId = &#63;.
+	 * Returns a range of all the procurations where councilSessionId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param start the lower bound of the range of procurations
 	 * @param end the upper bound of the range of procurations (not inclusive)
 	 * @return the range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findBySessionId(long sessionId, int start, int end) {
-		return findBySessionId(sessionId, start, end, null);
+	public List<Procuration> findByCouncilSessionId(long councilSessionId,
+		int start, int end) {
+		return findByCouncilSessionId(councilSessionId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the procurations where sessionId = &#63;.
+	 * Returns an ordered range of all the procurations where councilSessionId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param start the lower bound of the range of procurations
 	 * @param end the upper bound of the range of procurations (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findBySessionId(long sessionId, int start,
-		int end, OrderByComparator<Procuration> orderByComparator) {
-		return findBySessionId(sessionId, start, end, orderByComparator, true);
+	public List<Procuration> findByCouncilSessionId(long councilSessionId,
+		int start, int end, OrderByComparator<Procuration> orderByComparator) {
+		return findByCouncilSessionId(councilSessionId, start, end,
+			orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the procurations where sessionId = &#63;.
+	 * Returns an ordered range of all the procurations where councilSessionId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param start the lower bound of the range of procurations
 	 * @param end the upper bound of the range of procurations (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -1560,8 +1562,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	 * @return the ordered range of matching procurations
 	 */
 	@Override
-	public List<Procuration> findBySessionId(long sessionId, int start,
-		int end, OrderByComparator<Procuration> orderByComparator,
+	public List<Procuration> findByCouncilSessionId(long councilSessionId,
+		int start, int end, OrderByComparator<Procuration> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -1570,12 +1572,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SESSIONID;
-			finderArgs = new Object[] { sessionId };
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID;
+			finderArgs = new Object[] { councilSessionId };
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_SESSIONID;
-			finderArgs = new Object[] { sessionId, start, end, orderByComparator };
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONID;
+			finderArgs = new Object[] {
+					councilSessionId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<Procuration> list = null;
@@ -1586,7 +1592,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Procuration procuration : list) {
-					if ((sessionId != procuration.getSessionId())) {
+					if ((councilSessionId != procuration.getCouncilSessionId())) {
 						list = null;
 
 						break;
@@ -1608,7 +1614,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_SELECT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2);
+			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1630,7 +1636,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(sessionId);
+				qPos.add(councilSessionId);
 
 				if (!pagination) {
 					list = (List<Procuration>)QueryUtil.list(q, getDialect(),
@@ -1663,18 +1669,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	}
 
 	/**
-	 * Returns the first procuration in the ordered set where sessionId = &#63;.
+	 * Returns the first procuration in the ordered set where councilSessionId = &#63;.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching procuration
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findBySessionId_First(long sessionId,
+	public Procuration findByCouncilSessionId_First(long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchBySessionId_First(sessionId,
+		Procuration procuration = fetchByCouncilSessionId_First(councilSessionId,
 				orderByComparator);
 
 		if (procuration != null) {
@@ -1685,8 +1691,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("sessionId=");
-		msg.append(sessionId);
+		msg.append("councilSessionId=");
+		msg.append(councilSessionId);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -1694,16 +1700,16 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	}
 
 	/**
-	 * Returns the first procuration in the ordered set where sessionId = &#63;.
+	 * Returns the first procuration in the ordered set where councilSessionId = &#63;.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchBySessionId_First(long sessionId,
+	public Procuration fetchByCouncilSessionId_First(long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator) {
-		List<Procuration> list = findBySessionId(sessionId, 0, 1,
+		List<Procuration> list = findByCouncilSessionId(councilSessionId, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1714,18 +1720,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	}
 
 	/**
-	 * Returns the last procuration in the ordered set where sessionId = &#63;.
+	 * Returns the last procuration in the ordered set where councilSessionId = &#63;.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching procuration
 	 * @throws NoSuchProcurationException if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration findBySessionId_Last(long sessionId,
+	public Procuration findByCouncilSessionId_Last(long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
-		Procuration procuration = fetchBySessionId_Last(sessionId,
+		Procuration procuration = fetchByCouncilSessionId_Last(councilSessionId,
 				orderByComparator);
 
 		if (procuration != null) {
@@ -1736,8 +1742,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("sessionId=");
-		msg.append(sessionId);
+		msg.append("councilSessionId=");
+		msg.append(councilSessionId);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -1745,23 +1751,23 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	}
 
 	/**
-	 * Returns the last procuration in the ordered set where sessionId = &#63;.
+	 * Returns the last procuration in the ordered set where councilSessionId = &#63;.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchBySessionId_Last(long sessionId,
+	public Procuration fetchByCouncilSessionId_Last(long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator) {
-		int count = countBySessionId(sessionId);
+		int count = countByCouncilSessionId(councilSessionId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Procuration> list = findBySessionId(sessionId, count - 1, count,
-				orderByComparator);
+		List<Procuration> list = findByCouncilSessionId(councilSessionId,
+				count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1771,17 +1777,18 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	}
 
 	/**
-	 * Returns the procurations before and after the current procuration in the ordered set where sessionId = &#63;.
+	 * Returns the procurations before and after the current procuration in the ordered set where councilSessionId = &#63;.
 	 *
 	 * @param procurationId the primary key of the current procuration
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next procuration
 	 * @throws NoSuchProcurationException if a procuration with the primary key could not be found
 	 */
 	@Override
-	public Procuration[] findBySessionId_PrevAndNext(long procurationId,
-		long sessionId, OrderByComparator<Procuration> orderByComparator)
+	public Procuration[] findByCouncilSessionId_PrevAndNext(
+		long procurationId, long councilSessionId,
+		OrderByComparator<Procuration> orderByComparator)
 		throws NoSuchProcurationException {
 		Procuration procuration = findByPrimaryKey(procurationId);
 
@@ -1792,13 +1799,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			Procuration[] array = new ProcurationImpl[3];
 
-			array[0] = getBySessionId_PrevAndNext(session, procuration,
-					sessionId, orderByComparator, true);
+			array[0] = getByCouncilSessionId_PrevAndNext(session, procuration,
+					councilSessionId, orderByComparator, true);
 
 			array[1] = procuration;
 
-			array[2] = getBySessionId_PrevAndNext(session, procuration,
-					sessionId, orderByComparator, false);
+			array[2] = getByCouncilSessionId_PrevAndNext(session, procuration,
+					councilSessionId, orderByComparator, false);
 
 			return array;
 		}
@@ -1810,8 +1817,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		}
 	}
 
-	protected Procuration getBySessionId_PrevAndNext(Session session,
-		Procuration procuration, long sessionId,
+	protected Procuration getByCouncilSessionId_PrevAndNext(Session session,
+		Procuration procuration, long councilSessionId,
 		OrderByComparator<Procuration> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -1826,7 +1833,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		query.append(_SQL_SELECT_PROCURATION_WHERE);
 
-		query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2);
+		query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1896,7 +1903,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(sessionId);
+		qPos.add(councilSessionId);
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(procuration);
@@ -1917,29 +1924,29 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 	}
 
 	/**
-	 * Removes all the procurations where sessionId = &#63; from the database.
+	 * Removes all the procurations where councilSessionId = &#63; from the database.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 */
 	@Override
-	public void removeBySessionId(long sessionId) {
-		for (Procuration procuration : findBySessionId(sessionId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+	public void removeByCouncilSessionId(long councilSessionId) {
+		for (Procuration procuration : findByCouncilSessionId(
+				councilSessionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(procuration);
 		}
 	}
 
 	/**
-	 * Returns the number of procurations where sessionId = &#63;.
+	 * Returns the number of procurations where councilSessionId = &#63;.
 	 *
-	 * @param sessionId the session ID
+	 * @param councilSessionId the council session ID
 	 * @return the number of matching procurations
 	 */
 	@Override
-	public int countBySessionId(long sessionId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_SESSIONID;
+	public int countByCouncilSessionId(long councilSessionId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONID;
 
-		Object[] finderArgs = new Object[] { sessionId };
+		Object[] finderArgs = new Object[] { councilSessionId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1948,7 +1955,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			query.append(_SQL_COUNT_PROCURATION_WHERE);
 
-			query.append(_FINDER_COLUMN_SESSIONID_SESSIONID_2);
+			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
 
 			String sql = query.toString();
 
@@ -1961,7 +1968,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(sessionId);
+				qPos.add(councilSessionId);
 
 				count = (Long)q.uniqueResult();
 
@@ -1980,7 +1987,8 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_SESSIONID_SESSIONID_2 = "procuration.sessionId = ?";
+	private static final String _FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2 =
+		"procuration.councilSessionId = ?";
 
 	public ProcurationPersistenceImpl() {
 		setModelClass(Procuration.class);
@@ -2308,10 +2316,10 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 				args);
 
-			args = new Object[] { procurationModelImpl.getSessionId() };
+			args = new Object[] { procurationModelImpl.getCouncilSessionId() };
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_SESSIONID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SESSIONID,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
 				args);
 
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
@@ -2359,19 +2367,21 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			}
 
 			if ((procurationModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SESSIONID.getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						procurationModelImpl.getOriginalSessionId()
+						procurationModelImpl.getOriginalCouncilSessionId()
 					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SESSIONID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SESSIONID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
 					args);
 
-				args = new Object[] { procurationModelImpl.getSessionId() };
+				args = new Object[] { procurationModelImpl.getCouncilSessionId() };
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_SESSIONID, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_SESSIONID,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
 					args);
 			}
 		}
@@ -2413,7 +2423,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		procurationImpl.setOfficialVotersId(procuration.getOfficialVotersId());
 		procurationImpl.setOfficialUnavailableId(procuration.getOfficialUnavailableId());
 		procurationImpl.setOfficialProcurationId(procuration.getOfficialProcurationId());
-		procurationImpl.setSessionId(procuration.getSessionId());
+		procurationImpl.setCouncilSessionId(procuration.getCouncilSessionId());
 
 		return procurationImpl;
 	}

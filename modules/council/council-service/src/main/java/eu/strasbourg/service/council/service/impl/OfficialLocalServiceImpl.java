@@ -14,6 +14,14 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
 
 /**
@@ -36,4 +44,25 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.OfficialLocalServiceUtil} to access the official local service.
 	 */
+
+	public final static Log log = LogFactoryUtil.getLog(OfficialLocalServiceImpl.class);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Official createOfficial(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = this.counterLocalService.increment();
+		Official official = this.officialLocalService.createOfficial(pk);
+
+		official.setUserName(user.getFullName());
+		official.setUserId(sc.getUserId());
+		official.setGroupId(sc.getScopeGroupId());
+		official.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return official;
+	}
+
 }

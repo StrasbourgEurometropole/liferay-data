@@ -21,26 +21,27 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the Session service. Represents a row in the &quot;council_Session&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the CouncilSession service. Represents a row in the &quot;council_CouncilSession&quot; database table, with each column mapped to a property of this class.
  *
  * @author Brian Wing Shun Chan
- * @see SessionModel
- * @see eu.strasbourg.service.council.model.impl.SessionImpl
- * @see eu.strasbourg.service.council.model.impl.SessionModelImpl
+ * @see CouncilSessionModel
+ * @see eu.strasbourg.service.council.model.impl.CouncilSessionImpl
+ * @see eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.council.model.impl.SessionImpl")
+@ImplementationClassName("eu.strasbourg.service.council.model.impl.CouncilSessionImpl")
 @ProviderType
-public interface Session extends SessionModel, PersistedModel {
+public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.SessionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.CouncilSessionImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Session, Long> SESSION_ID_ACCESSOR = new Accessor<Session, Long>() {
+	public static final Accessor<CouncilSession, Long> COUNCIL_SESSION_ID_ACCESSOR =
+		new Accessor<CouncilSession, Long>() {
 			@Override
-			public Long get(Session session) {
-				return session.getSessionId();
+			public Long get(CouncilSession councilSession) {
+				return councilSession.getCouncilSessionId();
 			}
 
 			@Override
@@ -49,8 +50,8 @@ public interface Session extends SessionModel, PersistedModel {
 			}
 
 			@Override
-			public Class<Session> getTypeClass() {
-				return Session.class;
+			public Class<CouncilSession> getTypeClass() {
+				return CouncilSession.class;
 			}
 		};
 }

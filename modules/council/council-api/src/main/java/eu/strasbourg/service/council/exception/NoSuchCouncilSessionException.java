@@ -21,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author Brian Wing Shun Chan
  */
 @ProviderType
-public class NoSuchSessionException extends NoSuchModelException {
+public class NoSuchCouncilSessionException extends NoSuchModelException {
 
-	public NoSuchSessionException() {
+	public NoSuchCouncilSessionException() {
 	}
 
-	public NoSuchSessionException(String msg) {
+	public NoSuchCouncilSessionException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchSessionException(String msg, Throwable cause) {
+	public NoSuchCouncilSessionException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchSessionException(Throwable cause) {
+	public NoSuchCouncilSessionException(Throwable cause) {
 		super(cause);
 	}
 

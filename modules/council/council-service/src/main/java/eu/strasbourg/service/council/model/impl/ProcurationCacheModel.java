@@ -98,8 +98,8 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		sb.append(officialUnavailableId);
 		sb.append(", officialProcurationId=");
 		sb.append(officialProcurationId);
-		sb.append(", sessionId=");
-		sb.append(sessionId);
+		sb.append(", councilSessionId=");
+		sb.append(councilSessionId);
 		sb.append("}");
 
 		return sb.toString();
@@ -162,7 +162,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		procurationImpl.setOfficialVotersId(officialVotersId);
 		procurationImpl.setOfficialUnavailableId(officialUnavailableId);
 		procurationImpl.setOfficialProcurationId(officialProcurationId);
-		procurationImpl.setSessionId(sessionId);
+		procurationImpl.setCouncilSessionId(councilSessionId);
 
 		procurationImpl.resetOriginalValues();
 
@@ -196,7 +196,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		officialProcurationId = objectInput.readLong();
 
-		sessionId = objectInput.readLong();
+		councilSessionId = objectInput.readLong();
 	}
 
 	@Override
@@ -246,7 +246,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		objectOutput.writeLong(officialProcurationId);
 
-		objectOutput.writeLong(sessionId);
+		objectOutput.writeLong(councilSessionId);
 	}
 
 	public String uuid;
@@ -264,5 +264,5 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 	public long officialVotersId;
 	public long officialUnavailableId;
 	public long officialProcurationId;
-	public long sessionId;
+	public long councilSessionId;
 }

@@ -75,7 +75,7 @@ public class ProcurationWrapper implements Procuration,
 		attributes.put("officialVotersId", getOfficialVotersId());
 		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
-		attributes.put("sessionId", getSessionId());
+		attributes.put("councilSessionId", getCouncilSessionId());
 
 		return attributes;
 	}
@@ -174,10 +174,10 @@ public class ProcurationWrapper implements Procuration,
 			setOfficialProcurationId(officialProcurationId);
 		}
 
-		Long sessionId = (Long)attributes.get("sessionId");
+		Long councilSessionId = (Long)attributes.get("councilSessionId");
 
-		if (sessionId != null) {
-			setSessionId(sessionId);
+		if (councilSessionId != null) {
+			setCouncilSessionId(councilSessionId);
 		}
 	}
 
@@ -428,6 +428,16 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
+	* Returns the council session ID of this procuration.
+	*
+	* @return the council session ID of this procuration
+	*/
+	@Override
+	public long getCouncilSessionId() {
+		return _procuration.getCouncilSessionId();
+	}
+
+	/**
 	* Returns the group ID of this procuration.
 	*
 	* @return the group ID of this procuration
@@ -488,16 +498,6 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
-	* Returns the session ID of this procuration.
-	*
-	* @return the session ID of this procuration
-	*/
-	@Override
-	public long getSessionId() {
-		return _procuration.getSessionId();
-	}
-
-	/**
 	* Returns the status by user ID of this procuration.
 	*
 	* @return the status by user ID of this procuration
@@ -535,6 +535,16 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public void setCompanyId(long companyId) {
 		_procuration.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the council session ID of this procuration.
+	*
+	* @param councilSessionId the council session ID of this procuration
+	*/
+	@Override
+	public void setCouncilSessionId(long councilSessionId) {
+		_procuration.setCouncilSessionId(councilSessionId);
 	}
 
 	/**
@@ -641,16 +651,6 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public void setProcurationId(long procurationId) {
 		_procuration.setProcurationId(procurationId);
-	}
-
-	/**
-	* Sets the session ID of this procuration.
-	*
-	* @param sessionId the session ID of this procuration
-	*/
-	@Override
-	public void setSessionId(long sessionId) {
-		_procuration.setSessionId(sessionId);
 	}
 
 	/**

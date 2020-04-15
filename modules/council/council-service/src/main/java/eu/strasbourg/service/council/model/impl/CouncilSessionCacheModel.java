@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
-import eu.strasbourg.service.council.model.Session;
+import eu.strasbourg.service.council.model.CouncilSession;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -31,27 +31,28 @@ import java.io.ObjectOutput;
 import java.util.Date;
 
 /**
- * The cache model class for representing Session in entity cache.
+ * The cache model class for representing CouncilSession in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Session
+ * @see CouncilSession
  * @generated
  */
 @ProviderType
-public class SessionCacheModel implements CacheModel<Session>, Externalizable {
+public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
+	Externalizable {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
 
-		if (!(obj instanceof SessionCacheModel)) {
+		if (!(obj instanceof CouncilSessionCacheModel)) {
 			return false;
 		}
 
-		SessionCacheModel sessionCacheModel = (SessionCacheModel)obj;
+		CouncilSessionCacheModel councilSessionCacheModel = (CouncilSessionCacheModel)obj;
 
-		if (sessionId == sessionCacheModel.sessionId) {
+		if (councilSessionId == councilSessionCacheModel.councilSessionId) {
 			return true;
 		}
 
@@ -60,7 +61,7 @@ public class SessionCacheModel implements CacheModel<Session>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, sessionId);
+		return HashUtil.hash(0, councilSessionId);
 	}
 
 	@Override
@@ -69,8 +70,8 @@ public class SessionCacheModel implements CacheModel<Session>, Externalizable {
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", sessionId=");
-		sb.append(sessionId);
+		sb.append(", councilSessionId=");
+		sb.append(councilSessionId);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
@@ -107,104 +108,104 @@ public class SessionCacheModel implements CacheModel<Session>, Externalizable {
 	}
 
 	@Override
-	public Session toEntityModel() {
-		SessionImpl sessionImpl = new SessionImpl();
+	public CouncilSession toEntityModel() {
+		CouncilSessionImpl councilSessionImpl = new CouncilSessionImpl();
 
 		if (uuid == null) {
-			sessionImpl.setUuid(StringPool.BLANK);
+			councilSessionImpl.setUuid(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setUuid(uuid);
+			councilSessionImpl.setUuid(uuid);
 		}
 
-		sessionImpl.setSessionId(sessionId);
-		sessionImpl.setGroupId(groupId);
-		sessionImpl.setCompanyId(companyId);
-		sessionImpl.setUserId(userId);
+		councilSessionImpl.setCouncilSessionId(councilSessionId);
+		councilSessionImpl.setGroupId(groupId);
+		councilSessionImpl.setCompanyId(companyId);
+		councilSessionImpl.setUserId(userId);
 
 		if (userName == null) {
-			sessionImpl.setUserName(StringPool.BLANK);
+			councilSessionImpl.setUserName(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setUserName(userName);
+			councilSessionImpl.setUserName(userName);
 		}
 
 		if (createDate == Long.MIN_VALUE) {
-			sessionImpl.setCreateDate(null);
+			councilSessionImpl.setCreateDate(null);
 		}
 		else {
-			sessionImpl.setCreateDate(new Date(createDate));
+			councilSessionImpl.setCreateDate(new Date(createDate));
 		}
 
 		if (modifiedDate == Long.MIN_VALUE) {
-			sessionImpl.setModifiedDate(null);
+			councilSessionImpl.setModifiedDate(null);
 		}
 		else {
-			sessionImpl.setModifiedDate(new Date(modifiedDate));
+			councilSessionImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		sessionImpl.setStatus(status);
-		sessionImpl.setStatusByUserId(statusByUserId);
+		councilSessionImpl.setStatus(status);
+		councilSessionImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			sessionImpl.setStatusByUserName(StringPool.BLANK);
+			councilSessionImpl.setStatusByUserName(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setStatusByUserName(statusByUserName);
+			councilSessionImpl.setStatusByUserName(statusByUserName);
 		}
 
 		if (statusDate == Long.MIN_VALUE) {
-			sessionImpl.setStatusDate(null);
+			councilSessionImpl.setStatusDate(null);
 		}
 		else {
-			sessionImpl.setStatusDate(new Date(statusDate));
+			councilSessionImpl.setStatusDate(new Date(statusDate));
 		}
 
 		if (title == null) {
-			sessionImpl.setTitle(StringPool.BLANK);
+			councilSessionImpl.setTitle(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setTitle(title);
+			councilSessionImpl.setTitle(title);
 		}
 
 		if (date == Long.MIN_VALUE) {
-			sessionImpl.setDate(null);
+			councilSessionImpl.setDate(null);
 		}
 		else {
-			sessionImpl.setDate(new Date(date));
+			councilSessionImpl.setDate(new Date(date));
 		}
 
 		if (type == null) {
-			sessionImpl.setType(StringPool.BLANK);
+			councilSessionImpl.setType(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setType(type);
+			councilSessionImpl.setType(type);
 		}
 
 		if (docId == null) {
-			sessionImpl.setDocId(StringPool.BLANK);
+			councilSessionImpl.setDocId(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setDocId(docId);
+			councilSessionImpl.setDocId(docId);
 		}
 
 		if (docReportId == null) {
-			sessionImpl.setDocReportId(StringPool.BLANK);
+			councilSessionImpl.setDocReportId(StringPool.BLANK);
 		}
 		else {
-			sessionImpl.setDocReportId(docReportId);
+			councilSessionImpl.setDocReportId(docReportId);
 		}
 
-		sessionImpl.resetOriginalValues();
+		councilSessionImpl.resetOriginalValues();
 
-		return sessionImpl;
+		return councilSessionImpl;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		sessionId = objectInput.readLong();
+		councilSessionId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
 
@@ -237,7 +238,7 @@ public class SessionCacheModel implements CacheModel<Session>, Externalizable {
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(sessionId);
+		objectOutput.writeLong(councilSessionId);
 
 		objectOutput.writeLong(groupId);
 
@@ -300,7 +301,7 @@ public class SessionCacheModel implements CacheModel<Session>, Externalizable {
 	}
 
 	public String uuid;
-	public long sessionId;
+	public long councilSessionId;
 	public long groupId;
 	public long companyId;
 	public long userId;

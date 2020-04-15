@@ -18,9 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
-import eu.strasbourg.service.council.exception.NoSuchSessionException;
-import eu.strasbourg.service.council.model.Session;
-
 /**
  * The persistence interface for the session service.
  *

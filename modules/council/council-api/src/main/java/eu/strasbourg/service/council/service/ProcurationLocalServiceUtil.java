@@ -85,6 +85,15 @@ public class ProcurationLocalServiceUtil {
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.council.model.Procuration createProcuration(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createProcuration(sc);
+	}
+
+	/**
 	* Creates a new procuration with the primary key. Does not add the procuration to the database.
 	*
 	* @param procurationId the primary key for the new procuration

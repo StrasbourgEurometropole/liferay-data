@@ -14,6 +14,14 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.base.ProcurationLocalServiceBaseImpl;
 
 /**
@@ -36,4 +44,25 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.ProcurationLocalServiceUtil} to access the procuration local service.
 	 */
+
+	public final static Log log = LogFactoryUtil.getLog(ProcurationLocalServiceImpl.class);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Procuration createProcuration(ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		long pk = this.counterLocalService.increment();
+		Procuration procuration = this.procurationLocalService.createProcuration(pk);
+
+		procuration.setUserName(user.getFullName());
+		procuration.setUserId(sc.getUserId());
+		procuration.setGroupId(sc.getScopeGroupId());
+		procuration.setStatus(WorkflowConstants.STATUS_DRAFT);
+
+		return procuration;
+	}
+
 }

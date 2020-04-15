@@ -14,6 +14,11 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.base.VoteLocalServiceBaseImpl;
 
 /**
@@ -36,4 +41,20 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.VoteLocalServiceUtil} to access the vote local service.
 	 */
+
+	public final static Log log = LogFactoryUtil.getLog(VoteLocalServiceImpl.class);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Vote createVote(ServiceContext sc) throws PortalException {
+		long pk = this.counterLocalService.increment();
+		Vote vote = this.voteLocalService.createVote(pk);
+
+		vote.setGroupId(sc.getScopeGroupId());
+
+		return vote;
+	}
+
 }

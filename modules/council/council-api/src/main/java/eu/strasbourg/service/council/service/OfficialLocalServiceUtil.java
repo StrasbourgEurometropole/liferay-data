@@ -85,6 +85,15 @@ public class OfficialLocalServiceUtil {
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.council.model.Official createOfficial(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createOfficial(sc);
+	}
+
+	/**
 	* Creates a new official with the primary key. Does not add the official to the database.
 	*
 	* @param officailId the primary key for the new official

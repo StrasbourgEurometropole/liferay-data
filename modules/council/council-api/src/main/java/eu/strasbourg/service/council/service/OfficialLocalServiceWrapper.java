@@ -84,6 +84,16 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official createOfficial(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _officialLocalService.createOfficial(sc);
+	}
+
+	/**
 	* Creates a new official with the primary key. Does not add the official to the database.
 	*
 	* @param officailId the primary key for the new official

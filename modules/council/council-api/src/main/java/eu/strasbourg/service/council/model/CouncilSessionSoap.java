@@ -29,12 +29,12 @@ import java.util.List;
  * @generated
  */
 @ProviderType
-public class SessionSoap implements Serializable {
-	public static SessionSoap toSoapModel(Session model) {
-		SessionSoap soapModel = new SessionSoap();
+public class CouncilSessionSoap implements Serializable {
+	public static CouncilSessionSoap toSoapModel(CouncilSession model) {
+		CouncilSessionSoap soapModel = new CouncilSessionSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setSessionId(model.getSessionId());
+		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -54,8 +54,8 @@ public class SessionSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static SessionSoap[] toSoapModels(Session[] models) {
-		SessionSoap[] soapModels = new SessionSoap[models.length];
+	public static CouncilSessionSoap[] toSoapModels(CouncilSession[] models) {
+		CouncilSessionSoap[] soapModels = new CouncilSessionSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -64,14 +64,14 @@ public class SessionSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static SessionSoap[][] toSoapModels(Session[][] models) {
-		SessionSoap[][] soapModels = null;
+	public static CouncilSessionSoap[][] toSoapModels(CouncilSession[][] models) {
+		CouncilSessionSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new SessionSoap[models.length][models[0].length];
+			soapModels = new CouncilSessionSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new SessionSoap[0][0];
+			soapModels = new CouncilSessionSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -81,25 +81,25 @@ public class SessionSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static SessionSoap[] toSoapModels(List<Session> models) {
-		List<SessionSoap> soapModels = new ArrayList<SessionSoap>(models.size());
+	public static CouncilSessionSoap[] toSoapModels(List<CouncilSession> models) {
+		List<CouncilSessionSoap> soapModels = new ArrayList<CouncilSessionSoap>(models.size());
 
-		for (Session model : models) {
+		for (CouncilSession model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new SessionSoap[soapModels.size()]);
+		return soapModels.toArray(new CouncilSessionSoap[soapModels.size()]);
 	}
 
-	public SessionSoap() {
+	public CouncilSessionSoap() {
 	}
 
 	public long getPrimaryKey() {
-		return _sessionId;
+		return _councilSessionId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setSessionId(pk);
+		setCouncilSessionId(pk);
 	}
 
 	public String getUuid() {
@@ -110,12 +110,12 @@ public class SessionSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getSessionId() {
-		return _sessionId;
+	public long getCouncilSessionId() {
+		return _councilSessionId;
 	}
 
-	public void setSessionId(long sessionId) {
-		_sessionId = sessionId;
+	public void setCouncilSessionId(long councilSessionId) {
+		_councilSessionId = councilSessionId;
 	}
 
 	public long getGroupId() {
@@ -239,7 +239,7 @@ public class SessionSoap implements Serializable {
 	}
 
 	private String _uuid;
-	private long _sessionId;
+	private long _councilSessionId;
 	private long _groupId;
 	private long _companyId;
 	private long _userId;

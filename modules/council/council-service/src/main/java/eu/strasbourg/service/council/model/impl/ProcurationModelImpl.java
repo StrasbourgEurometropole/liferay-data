@@ -84,7 +84,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			{ "officialVotersId", Types.BIGINT },
 			{ "officialUnavailableId", Types.BIGINT },
 			{ "officialProcurationId", Types.BIGINT },
-			{ "sessionId", Types.BIGINT }
+			{ "councilSessionId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -104,10 +104,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		TABLE_COLUMNS_MAP.put("officialVotersId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialUnavailableId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialProcurationId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("sessionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,officialProcurationId LONG,sessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,officialProcurationId LONG,councilSessionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Procuration";
 	public static final String ORDER_BY_JPQL = " ORDER BY procuration.procurationId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Procuration.procurationId DESC";
@@ -124,8 +124,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Procuration"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long SESSIONID_COLUMN_BITMASK = 4L;
+	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long PROCURATIONID_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
@@ -183,7 +183,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		attributes.put("officialVotersId", getOfficialVotersId());
 		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
-		attributes.put("sessionId", getSessionId());
+		attributes.put("councilSessionId", getCouncilSessionId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -285,10 +285,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			setOfficialProcurationId(officialProcurationId);
 		}
 
-		Long sessionId = (Long)attributes.get("sessionId");
+		Long councilSessionId = (Long)attributes.get("councilSessionId");
 
-		if (sessionId != null) {
-			setSessionId(sessionId);
+		if (councilSessionId != null) {
+			setCouncilSessionId(councilSessionId);
 		}
 	}
 
@@ -530,25 +530,25 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	}
 
 	@Override
-	public long getSessionId() {
-		return _sessionId;
+	public long getCouncilSessionId() {
+		return _councilSessionId;
 	}
 
 	@Override
-	public void setSessionId(long sessionId) {
-		_columnBitmask |= SESSIONID_COLUMN_BITMASK;
+	public void setCouncilSessionId(long councilSessionId) {
+		_columnBitmask |= COUNCILSESSIONID_COLUMN_BITMASK;
 
-		if (!_setOriginalSessionId) {
-			_setOriginalSessionId = true;
+		if (!_setOriginalCouncilSessionId) {
+			_setOriginalCouncilSessionId = true;
 
-			_originalSessionId = _sessionId;
+			_originalCouncilSessionId = _councilSessionId;
 		}
 
-		_sessionId = sessionId;
+		_councilSessionId = councilSessionId;
 	}
 
-	public long getOriginalSessionId() {
-		return _originalSessionId;
+	public long getOriginalCouncilSessionId() {
+		return _originalCouncilSessionId;
 	}
 
 	@Override
@@ -683,7 +683,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		procurationImpl.setOfficialVotersId(getOfficialVotersId());
 		procurationImpl.setOfficialUnavailableId(getOfficialUnavailableId());
 		procurationImpl.setOfficialProcurationId(getOfficialProcurationId());
-		procurationImpl.setSessionId(getSessionId());
+		procurationImpl.setCouncilSessionId(getCouncilSessionId());
 
 		procurationImpl.resetOriginalValues();
 
@@ -766,9 +766,9 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		procurationModelImpl._setModifiedDate = false;
 
-		procurationModelImpl._originalSessionId = procurationModelImpl._sessionId;
+		procurationModelImpl._originalCouncilSessionId = procurationModelImpl._councilSessionId;
 
-		procurationModelImpl._setOriginalSessionId = false;
+		procurationModelImpl._setOriginalCouncilSessionId = false;
 
 		procurationModelImpl._columnBitmask = 0;
 	}
@@ -846,7 +846,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		procurationCacheModel.officialProcurationId = getOfficialProcurationId();
 
-		procurationCacheModel.sessionId = getSessionId();
+		procurationCacheModel.councilSessionId = getCouncilSessionId();
 
 		return procurationCacheModel;
 	}
@@ -885,8 +885,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		sb.append(getOfficialUnavailableId());
 		sb.append(", officialProcurationId=");
 		sb.append(getOfficialProcurationId());
-		sb.append(", sessionId=");
-		sb.append(getSessionId());
+		sb.append(", councilSessionId=");
+		sb.append(getCouncilSessionId());
 		sb.append("}");
 
 		return sb.toString();
@@ -961,8 +961,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		sb.append(getOfficialProcurationId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>sessionId</column-name><column-value><![CDATA[");
-		sb.append(getSessionId());
+			"<column><column-name>councilSessionId</column-name><column-value><![CDATA[");
+		sb.append(getCouncilSessionId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -995,9 +995,9 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private long _officialVotersId;
 	private long _officialUnavailableId;
 	private long _officialProcurationId;
-	private long _sessionId;
-	private long _originalSessionId;
-	private boolean _setOriginalSessionId;
+	private long _councilSessionId;
+	private long _originalCouncilSessionId;
+	private boolean _setOriginalCouncilSessionId;
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 }

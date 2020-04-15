@@ -80,6 +80,15 @@ public class VoteLocalServiceUtil {
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.council.model.Vote createVote(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createVote(sc);
+	}
+
+	/**
 	* Creates a new vote with the primary key. Does not add the vote to the database.
 	*
 	* @param voteId the primary key for the new vote

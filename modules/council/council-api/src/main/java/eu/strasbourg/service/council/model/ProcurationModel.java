@@ -335,18 +335,18 @@ public interface ProcurationModel extends BaseModel<Procuration>, GroupedModel,
 	public void setOfficialProcurationId(long officialProcurationId);
 
 	/**
-	 * Returns the session ID of this procuration.
+	 * Returns the council session ID of this procuration.
 	 *
-	 * @return the session ID of this procuration
+	 * @return the council session ID of this procuration
 	 */
-	public long getSessionId();
+	public long getCouncilSessionId();
 
 	/**
-	 * Sets the session ID of this procuration.
+	 * Sets the council session ID of this procuration.
 	 *
-	 * @param sessionId the session ID of this procuration
+	 * @param councilSessionId the council session ID of this procuration
 	 */
-	public void setSessionId(long sessionId);
+	public void setCouncilSessionId(long councilSessionId);
 
 	/**
 	 * Returns <code>true</code> if this procuration is approved.

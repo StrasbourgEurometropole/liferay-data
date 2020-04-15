@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.council.model.Session;
-
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.List;

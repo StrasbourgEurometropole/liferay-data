@@ -17,21 +17,21 @@ package eu.strasbourg.service.council.model.impl;
 import aQute.bnd.annotation.ProviderType;
 
 /**
- * The extended model implementation for the Session service. Represents a row in the &quot;council_Session&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the CouncilSession service. Represents a row in the &quot;council_CouncilSession&quot; database table, with each column mapped to a property of this class.
  *
  * <p>
- * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.council.model.Session} interface.
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.council.model.CouncilSession} interface.
  * </p>
  *
  * @author Brian Wing Shun Chan
  */
 @ProviderType
-public class SessionImpl extends SessionBaseImpl {
+public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. All methods that expect a session model instance should use the {@link eu.strasbourg.service.council.model.Session} interface instead.
+	 * Never reference this class directly. All methods that expect a council session model instance should use the {@link eu.strasbourg.service.council.model.CouncilSession} interface instead.
 	 */
-	public SessionImpl() {
+	public CouncilSessionImpl() {
 	}
 }

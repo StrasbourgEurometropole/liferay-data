@@ -77,7 +77,7 @@ public class DeliberationWrapper implements Deliberation,
 		attributes.put("text", getText());
 		attributes.put("docId", getDocId());
 		attributes.put("stage", getStage());
-		attributes.put("sessionId", getSessionId());
+		attributes.put("councilSessionId", getCouncilSessionId());
 
 		return attributes;
 	}
@@ -186,10 +186,10 @@ public class DeliberationWrapper implements Deliberation,
 			setStage(stage);
 		}
 
-		Long sessionId = (Long)attributes.get("sessionId");
+		Long councilSessionId = (Long)attributes.get("councilSessionId");
 
-		if (sessionId != null) {
-			setSessionId(sessionId);
+		if (councilSessionId != null) {
+			setCouncilSessionId(councilSessionId);
 		}
 	}
 
@@ -490,6 +490,16 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
+	* Returns the council session ID of this deliberation.
+	*
+	* @return the council session ID of this deliberation
+	*/
+	@Override
+	public long getCouncilSessionId() {
+		return _deliberation.getCouncilSessionId();
+	}
+
+	/**
 	* Returns the deliberation ID of this deliberation.
 	*
 	* @return the deliberation ID of this deliberation
@@ -517,16 +527,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public long getPrimaryKey() {
 		return _deliberation.getPrimaryKey();
-	}
-
-	/**
-	* Returns the session ID of this deliberation.
-	*
-	* @return the session ID of this deliberation
-	*/
-	@Override
-	public long getSessionId() {
-		return _deliberation.getSessionId();
 	}
 
 	/**
@@ -567,6 +567,16 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public void setCompanyId(long companyId) {
 		_deliberation.setCompanyId(companyId);
+	}
+
+	/**
+	* Sets the council session ID of this deliberation.
+	*
+	* @param councilSessionId the council session ID of this deliberation
+	*/
+	@Override
+	public void setCouncilSessionId(long councilSessionId) {
+		_deliberation.setCouncilSessionId(councilSessionId);
 	}
 
 	/**
@@ -663,16 +673,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_deliberation.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	/**
-	* Sets the session ID of this deliberation.
-	*
-	* @param sessionId the session ID of this deliberation
-	*/
-	@Override
-	public void setSessionId(long sessionId) {
-		_deliberation.setSessionId(sessionId);
 	}
 
 	/**

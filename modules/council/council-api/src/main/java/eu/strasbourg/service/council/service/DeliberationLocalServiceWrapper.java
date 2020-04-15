@@ -84,6 +84,16 @@ public class DeliberationLocalServiceWrapper implements DeliberationLocalService
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Deliberation createDeliberation(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _deliberationLocalService.createDeliberation(sc);
+	}
+
+	/**
 	* Creates a new deliberation with the primary key. Does not add the deliberation to the database.
 	*
 	* @param deliberationId the primary key for the new deliberation
