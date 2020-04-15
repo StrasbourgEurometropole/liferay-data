@@ -16,11 +16,8 @@ package eu.strasbourg.service.council.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -67,10 +64,6 @@ public interface VoteLocalService extends BaseLocalService,
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	public DynamicQuery dynamicQuery();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		PortletDataContext portletDataContext);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();

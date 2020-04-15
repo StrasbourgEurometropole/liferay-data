@@ -49,11 +49,6 @@ public class VoteLocalServiceUtil {
 		return getService().dynamicQuery();
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
-		return getService().getExportActionableDynamicQuery(portletDataContext);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
 		return getService().getIndexableActionableDynamicQuery();
 	}

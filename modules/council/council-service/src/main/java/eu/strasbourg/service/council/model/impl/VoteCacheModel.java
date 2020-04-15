@@ -65,7 +65,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -75,22 +75,8 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
-		sb.append(", userId=");
-		sb.append(userId);
-		sb.append(", userName=");
-		sb.append(userName);
 		sb.append(", createDate=");
 		sb.append(createDate);
-		sb.append(", modifiedDate=");
-		sb.append(modifiedDate);
-		sb.append(", status=");
-		sb.append(status);
-		sb.append(", statusByUserId=");
-		sb.append(statusByUserId);
-		sb.append(", statusByUserName=");
-		sb.append(statusByUserName);
-		sb.append(", statusDate=");
-		sb.append(statusDate);
 		sb.append(", officialId=");
 		sb.append(officialId);
 		sb.append(", deliberationId=");
@@ -116,44 +102,12 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		voteImpl.setVoteId(voteId);
 		voteImpl.setGroupId(groupId);
 		voteImpl.setCompanyId(companyId);
-		voteImpl.setUserId(userId);
-
-		if (userName == null) {
-			voteImpl.setUserName(StringPool.BLANK);
-		}
-		else {
-			voteImpl.setUserName(userName);
-		}
 
 		if (createDate == Long.MIN_VALUE) {
 			voteImpl.setCreateDate(null);
 		}
 		else {
 			voteImpl.setCreateDate(new Date(createDate));
-		}
-
-		if (modifiedDate == Long.MIN_VALUE) {
-			voteImpl.setModifiedDate(null);
-		}
-		else {
-			voteImpl.setModifiedDate(new Date(modifiedDate));
-		}
-
-		voteImpl.setStatus(status);
-		voteImpl.setStatusByUserId(statusByUserId);
-
-		if (statusByUserName == null) {
-			voteImpl.setStatusByUserName(StringPool.BLANK);
-		}
-		else {
-			voteImpl.setStatusByUserName(statusByUserName);
-		}
-
-		if (statusDate == Long.MIN_VALUE) {
-			voteImpl.setStatusDate(null);
-		}
-		else {
-			voteImpl.setStatusDate(new Date(statusDate));
 		}
 
 		voteImpl.setOfficialId(officialId);
@@ -174,17 +128,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		groupId = objectInput.readLong();
 
 		companyId = objectInput.readLong();
-
-		userId = objectInput.readLong();
-		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
-		modifiedDate = objectInput.readLong();
-
-		status = objectInput.readInt();
-
-		statusByUserId = objectInput.readLong();
-		statusByUserName = objectInput.readUTF();
-		statusDate = objectInput.readLong();
 
 		officialId = objectInput.readLong();
 
@@ -208,31 +152,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(companyId);
-
-		objectOutput.writeLong(userId);
-
-		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(userName);
-		}
-
 		objectOutput.writeLong(createDate);
-		objectOutput.writeLong(modifiedDate);
-
-		objectOutput.writeInt(status);
-
-		objectOutput.writeLong(statusByUserId);
-
-		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(statusByUserName);
-		}
-
-		objectOutput.writeLong(statusDate);
 
 		objectOutput.writeLong(officialId);
 
@@ -245,14 +165,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 	public long voteId;
 	public long groupId;
 	public long companyId;
-	public long userId;
-	public String userName;
 	public long createDate;
-	public long modifiedDate;
-	public int status;
-	public long statusByUserId;
-	public String statusByUserName;
-	public long statusDate;
 	public long officialId;
 	public long deliberationId;
 	public long officialProcurationId;

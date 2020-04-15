@@ -21,10 +21,7 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
-import com.liferay.portal.kernel.model.StagedAuditedModel;
-import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -45,8 +42,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
-	StagedAuditedModel, WorkflowedModel {
+public interface VoteModel extends BaseModel<Vote>, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -73,7 +69,6 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	 * @return the uuid of this vote
 	 */
 	@AutoEscape
-	@Override
 	public String getUuid();
 
 	/**
@@ -81,7 +76,6 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	 *
 	 * @param uuid the uuid of this vote
 	 */
-	@Override
 	public void setUuid(String uuid);
 
 	/**
@@ -103,7 +97,6 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	 *
 	 * @return the group ID of this vote
 	 */
-	@Override
 	public long getGroupId();
 
 	/**
@@ -111,7 +104,6 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	 *
 	 * @param groupId the group ID of this vote
 	 */
-	@Override
 	public void setGroupId(long groupId);
 
 	/**
@@ -131,60 +123,10 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	public void setCompanyId(long companyId);
 
 	/**
-	 * Returns the user ID of this vote.
-	 *
-	 * @return the user ID of this vote
-	 */
-	@Override
-	public long getUserId();
-
-	/**
-	 * Sets the user ID of this vote.
-	 *
-	 * @param userId the user ID of this vote
-	 */
-	@Override
-	public void setUserId(long userId);
-
-	/**
-	 * Returns the user uuid of this vote.
-	 *
-	 * @return the user uuid of this vote
-	 */
-	@Override
-	public String getUserUuid();
-
-	/**
-	 * Sets the user uuid of this vote.
-	 *
-	 * @param userUuid the user uuid of this vote
-	 */
-	@Override
-	public void setUserUuid(String userUuid);
-
-	/**
-	 * Returns the user name of this vote.
-	 *
-	 * @return the user name of this vote
-	 */
-	@AutoEscape
-	@Override
-	public String getUserName();
-
-	/**
-	 * Sets the user name of this vote.
-	 *
-	 * @param userName the user name of this vote
-	 */
-	@Override
-	public void setUserName(String userName);
-
-	/**
 	 * Returns the create date of this vote.
 	 *
 	 * @return the create date of this vote
 	 */
-	@Override
 	public Date getCreateDate();
 
 	/**
@@ -192,105 +134,7 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	 *
 	 * @param createDate the create date of this vote
 	 */
-	@Override
 	public void setCreateDate(Date createDate);
-
-	/**
-	 * Returns the modified date of this vote.
-	 *
-	 * @return the modified date of this vote
-	 */
-	@Override
-	public Date getModifiedDate();
-
-	/**
-	 * Sets the modified date of this vote.
-	 *
-	 * @param modifiedDate the modified date of this vote
-	 */
-	@Override
-	public void setModifiedDate(Date modifiedDate);
-
-	/**
-	 * Returns the status of this vote.
-	 *
-	 * @return the status of this vote
-	 */
-	@Override
-	public int getStatus();
-
-	/**
-	 * Sets the status of this vote.
-	 *
-	 * @param status the status of this vote
-	 */
-	@Override
-	public void setStatus(int status);
-
-	/**
-	 * Returns the status by user ID of this vote.
-	 *
-	 * @return the status by user ID of this vote
-	 */
-	@Override
-	public long getStatusByUserId();
-
-	/**
-	 * Sets the status by user ID of this vote.
-	 *
-	 * @param statusByUserId the status by user ID of this vote
-	 */
-	@Override
-	public void setStatusByUserId(long statusByUserId);
-
-	/**
-	 * Returns the status by user uuid of this vote.
-	 *
-	 * @return the status by user uuid of this vote
-	 */
-	@Override
-	public String getStatusByUserUuid();
-
-	/**
-	 * Sets the status by user uuid of this vote.
-	 *
-	 * @param statusByUserUuid the status by user uuid of this vote
-	 */
-	@Override
-	public void setStatusByUserUuid(String statusByUserUuid);
-
-	/**
-	 * Returns the status by user name of this vote.
-	 *
-	 * @return the status by user name of this vote
-	 */
-	@AutoEscape
-	@Override
-	public String getStatusByUserName();
-
-	/**
-	 * Sets the status by user name of this vote.
-	 *
-	 * @param statusByUserName the status by user name of this vote
-	 */
-	@Override
-	public void setStatusByUserName(String statusByUserName);
-
-	/**
-	 * Returns the status date of this vote.
-	 *
-	 * @return the status date of this vote
-	 */
-	@Override
-	public Date getStatusDate();
-
-	/**
-	 * Sets the status date of this vote.
-	 *
-	 * @param statusDate the status date of this vote
-	 */
-	@Override
-	public void setStatusDate(Date statusDate);
 
 	/**
 	 * Returns the official ID of this vote.
@@ -333,70 +177,6 @@ public interface VoteModel extends BaseModel<Vote>, GroupedModel, ShardedModel,
 	 * @param officialProcurationId the official procuration ID of this vote
 	 */
 	public void setOfficialProcurationId(long officialProcurationId);
-
-	/**
-	 * Returns <code>true</code> if this vote is approved.
-	 *
-	 * @return <code>true</code> if this vote is approved; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isApproved();
-
-	/**
-	 * Returns <code>true</code> if this vote is denied.
-	 *
-	 * @return <code>true</code> if this vote is denied; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDenied();
-
-	/**
-	 * Returns <code>true</code> if this vote is a draft.
-	 *
-	 * @return <code>true</code> if this vote is a draft; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDraft();
-
-	/**
-	 * Returns <code>true</code> if this vote is expired.
-	 *
-	 * @return <code>true</code> if this vote is expired; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isExpired();
-
-	/**
-	 * Returns <code>true</code> if this vote is inactive.
-	 *
-	 * @return <code>true</code> if this vote is inactive; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isInactive();
-
-	/**
-	 * Returns <code>true</code> if this vote is incomplete.
-	 *
-	 * @return <code>true</code> if this vote is incomplete; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIncomplete();
-
-	/**
-	 * Returns <code>true</code> if this vote is pending.
-	 *
-	 * @return <code>true</code> if this vote is pending; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isPending();
-
-	/**
-	 * Returns <code>true</code> if this vote is scheduled.
-	 *
-	 * @return <code>true</code> if this vote is scheduled; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

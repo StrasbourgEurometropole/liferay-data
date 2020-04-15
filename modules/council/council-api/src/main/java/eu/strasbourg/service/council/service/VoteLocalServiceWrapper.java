@@ -43,12 +43,6 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
-		return _voteLocalService.getExportActionableDynamicQuery(portletDataContext);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
 		return _voteLocalService.getIndexableActionableDynamicQuery();
 	}
