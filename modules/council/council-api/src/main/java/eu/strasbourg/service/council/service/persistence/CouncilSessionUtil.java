@@ -507,62 +507,6 @@ public class CouncilSessionUtil {
 	}
 
 	/**
-	* Returns the council session where councilSessionId = &#63; or throws a {@link NoSuchCouncilSessionException} if it could not be found.
-	*
-	* @param councilSessionId the council session ID
-	* @return the matching council session
-	* @throws NoSuchCouncilSessionException if a matching council session could not be found
-	*/
-	public static CouncilSession findByCouncilSessionId(long councilSessionId)
-		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
-		return getPersistence().findByCouncilSessionId(councilSessionId);
-	}
-
-	/**
-	* Returns the council session where councilSessionId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param councilSessionId the council session ID
-	* @return the matching council session, or <code>null</code> if a matching council session could not be found
-	*/
-	public static CouncilSession fetchByCouncilSessionId(long councilSessionId) {
-		return getPersistence().fetchByCouncilSessionId(councilSessionId);
-	}
-
-	/**
-	* Returns the council session where councilSessionId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param councilSessionId the council session ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching council session, or <code>null</code> if a matching council session could not be found
-	*/
-	public static CouncilSession fetchByCouncilSessionId(
-		long councilSessionId, boolean retrieveFromCache) {
-		return getPersistence()
-				   .fetchByCouncilSessionId(councilSessionId, retrieveFromCache);
-	}
-
-	/**
-	* Removes the council session where councilSessionId = &#63; from the database.
-	*
-	* @param councilSessionId the council session ID
-	* @return the council session that was removed
-	*/
-	public static CouncilSession removeByCouncilSessionId(long councilSessionId)
-		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
-		return getPersistence().removeByCouncilSessionId(councilSessionId);
-	}
-
-	/**
-	* Returns the number of council sessions where councilSessionId = &#63;.
-	*
-	* @param councilSessionId the council session ID
-	* @return the number of matching council sessions
-	*/
-	public static int countByCouncilSessionId(long councilSessionId) {
-		return getPersistence().countByCouncilSessionId(councilSessionId);
-	}
-
-	/**
 	* Caches the council session in the entity cache if it is enabled.
 	*
 	* @param councilSession the council session

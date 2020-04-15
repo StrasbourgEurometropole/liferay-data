@@ -41,6 +41,7 @@ import eu.strasbourg.service.council.model.Deliberation;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Deliberation. Methods of this
@@ -169,6 +170,12 @@ public interface DeliberationLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
+	* Supprime une entité
+	*/
+	public Deliberation removeDeliberation(long deliberationId)
+		throws PortalException;
+
+	/**
 	* Updates the deliberation in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param deliberation the deliberation
@@ -176,6 +183,21 @@ public interface DeliberationLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Deliberation updateDeliberation(Deliberation deliberation);
+
+	/**
+	* Met à jour un projet et l'enregistre en base de données
+	*
+	* @throws IOException
+	*/
+	public Deliberation updateDeliberation(Deliberation deliberation,
+		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	public Deliberation updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of deliberations.
@@ -230,6 +252,14 @@ public interface DeliberationLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Recherche par ID de CouncilSession
+	*
+	* @param councilSessionId
+	* @return Liste des Deliberations
+	*/
+	public List<Deliberation> findByCouncilSessionId(long councilSessionId);
 
 	/**
 	* Returns a range of all the deliberations.
@@ -288,4 +318,10 @@ public interface DeliberationLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Deliberation deliberation, int status)
+		throws PortalException;
 }

@@ -128,7 +128,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Deliberation"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long DELIBERATIONID_COLUMN_BITMASK = 2L;
+	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long TITLE_COLUMN_BITMASK = 16L;
@@ -338,19 +338,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public void setDeliberationId(long deliberationId) {
-		_columnBitmask |= DELIBERATIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalDeliberationId) {
-			_setOriginalDeliberationId = true;
-
-			_originalDeliberationId = _deliberationId;
-		}
-
 		_deliberationId = deliberationId;
-	}
-
-	public long getOriginalDeliberationId() {
-		return _originalDeliberationId;
 	}
 
 	@Override
@@ -604,7 +592,19 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
+		_columnBitmask |= COUNCILSESSIONID_COLUMN_BITMASK;
+
+		if (!_setOriginalCouncilSessionId) {
+			_setOriginalCouncilSessionId = true;
+
+			_originalCouncilSessionId = _councilSessionId;
+		}
+
 		_councilSessionId = councilSessionId;
+	}
+
+	public long getOriginalCouncilSessionId() {
+		return _originalCouncilSessionId;
 	}
 
 	@Override
@@ -804,10 +804,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 		deliberationModelImpl._originalUuid = deliberationModelImpl._uuid;
 
-		deliberationModelImpl._originalDeliberationId = deliberationModelImpl._deliberationId;
-
-		deliberationModelImpl._setOriginalDeliberationId = false;
-
 		deliberationModelImpl._originalGroupId = deliberationModelImpl._groupId;
 
 		deliberationModelImpl._setOriginalGroupId = false;
@@ -817,6 +813,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		deliberationModelImpl._setOriginalCompanyId = false;
 
 		deliberationModelImpl._setModifiedDate = false;
+
+		deliberationModelImpl._originalCouncilSessionId = deliberationModelImpl._councilSessionId;
+
+		deliberationModelImpl._setOriginalCouncilSessionId = false;
 
 		deliberationModelImpl._columnBitmask = 0;
 	}
@@ -1065,8 +1065,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private String _uuid;
 	private String _originalUuid;
 	private long _deliberationId;
-	private long _originalDeliberationId;
-	private boolean _setOriginalDeliberationId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
@@ -1088,6 +1086,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private String _docId;
 	private String _stage;
 	private long _councilSessionId;
+	private long _originalCouncilSessionId;
+	private boolean _setOriginalCouncilSessionId;
 	private long _columnBitmask;
 	private Deliberation _escapedModel;
 }

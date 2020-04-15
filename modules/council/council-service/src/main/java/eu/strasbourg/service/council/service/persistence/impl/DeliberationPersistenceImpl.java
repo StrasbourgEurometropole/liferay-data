@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1479,92 +1478,155 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "deliberation.uuid = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(deliberation.uuid IS NULL OR deliberation.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "deliberation.companyId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_DELIBERATIONID = new FinderPath(DeliberationModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONID =
+		new FinderPath(DeliberationModelImpl.ENTITY_CACHE_ENABLED,
 			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByDeliberationId",
-			new String[] { Long.class.getName() },
-			DeliberationModelImpl.DELIBERATIONID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_DELIBERATIONID = new FinderPath(DeliberationModelImpl.ENTITY_CACHE_ENABLED,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCouncilSessionId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID =
+		new FinderPath(DeliberationModelImpl.ENTITY_CACHE_ENABLED,
+			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCouncilSessionId", new String[] { Long.class.getName() },
+			DeliberationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+			DeliberationModelImpl.TITLE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONID = new FinderPath(DeliberationModelImpl.ENTITY_CACHE_ENABLED,
 			DeliberationModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDeliberationId",
-			new String[] { Long.class.getName() });
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCouncilSessionId", new String[] { Long.class.getName() });
 
 	/**
-	 * Returns the deliberation where deliberationId = &#63; or throws a {@link NoSuchDeliberationException} if it could not be found.
+	 * Returns all the deliberations where councilSessionId = &#63;.
 	 *
-	 * @param deliberationId the deliberation ID
-	 * @return the matching deliberation
-	 * @throws NoSuchDeliberationException if a matching deliberation could not be found
+	 * @param councilSessionId the council session ID
+	 * @return the matching deliberations
 	 */
 	@Override
-	public Deliberation findByDeliberationId(long deliberationId)
-		throws NoSuchDeliberationException {
-		Deliberation deliberation = fetchByDeliberationId(deliberationId);
+	public List<Deliberation> findByCouncilSessionId(long councilSessionId) {
+		return findByCouncilSessionId(councilSessionId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
 
-		if (deliberation == null) {
-			StringBundler msg = new StringBundler(4);
+	/**
+	 * Returns a range of all the deliberations where councilSessionId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param start the lower bound of the range of deliberations
+	 * @param end the upper bound of the range of deliberations (not inclusive)
+	 * @return the range of matching deliberations
+	 */
+	@Override
+	public List<Deliberation> findByCouncilSessionId(long councilSessionId,
+		int start, int end) {
+		return findByCouncilSessionId(councilSessionId, start, end, null);
+	}
 
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+	/**
+	 * Returns an ordered range of all the deliberations where councilSessionId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param start the lower bound of the range of deliberations
+	 * @param end the upper bound of the range of deliberations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching deliberations
+	 */
+	@Override
+	public List<Deliberation> findByCouncilSessionId(long councilSessionId,
+		int start, int end, OrderByComparator<Deliberation> orderByComparator) {
+		return findByCouncilSessionId(councilSessionId, start, end,
+			orderByComparator, true);
+	}
 
-			msg.append("deliberationId=");
-			msg.append(deliberationId);
+	/**
+	 * Returns an ordered range of all the deliberations where councilSessionId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param start the lower bound of the range of deliberations
+	 * @param end the upper bound of the range of deliberations (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching deliberations
+	 */
+	@Override
+	public List<Deliberation> findByCouncilSessionId(long councilSessionId,
+		int start, int end, OrderByComparator<Deliberation> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
 
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchDeliberationException(msg.toString());
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID;
+			finderArgs = new Object[] { councilSessionId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNCILSESSIONID;
+			finderArgs = new Object[] {
+					councilSessionId,
+					
+					start, end, orderByComparator
+				};
 		}
 
-		return deliberation;
-	}
-
-	/**
-	 * Returns the deliberation where deliberationId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param deliberationId the deliberation ID
-	 * @return the matching deliberation, or <code>null</code> if a matching deliberation could not be found
-	 */
-	@Override
-	public Deliberation fetchByDeliberationId(long deliberationId) {
-		return fetchByDeliberationId(deliberationId, true);
-	}
-
-	/**
-	 * Returns the deliberation where deliberationId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param deliberationId the deliberation ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching deliberation, or <code>null</code> if a matching deliberation could not be found
-	 */
-	@Override
-	public Deliberation fetchByDeliberationId(long deliberationId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { deliberationId };
-
-		Object result = null;
+		List<Deliberation> list = null;
 
 		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_DELIBERATIONID,
+			list = (List<Deliberation>)finderCache.getResult(finderPath,
 					finderArgs, this);
-		}
 
-		if (result instanceof Deliberation) {
-			Deliberation deliberation = (Deliberation)result;
+			if ((list != null) && !list.isEmpty()) {
+				for (Deliberation deliberation : list) {
+					if ((councilSessionId != deliberation.getCouncilSessionId())) {
+						list = null;
 
-			if ((deliberationId != deliberation.getDeliberationId())) {
-				result = null;
+						break;
+					}
+				}
 			}
 		}
 
-		if (result == null) {
-			StringBundler query = new StringBundler(3);
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
 
 			query.append(_SQL_SELECT_DELIBERATION_WHERE);
 
-			query.append(_FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2);
+			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(DeliberationModelImpl.ORDER_BY_JPQL);
+			}
 
 			String sql = query.toString();
 
@@ -1577,41 +1639,27 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(deliberationId);
+				qPos.add(councilSessionId);
 
-				List<Deliberation> list = q.list();
+				if (!pagination) {
+					list = (List<Deliberation>)QueryUtil.list(q, getDialect(),
+							start, end, false);
 
-				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONID,
-						finderArgs, list);
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
 				}
 				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"DeliberationPersistenceImpl.fetchByDeliberationId(long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					Deliberation deliberation = list.get(0);
-
-					result = deliberation;
-
-					cacheResult(deliberation);
-
-					if ((deliberation.getDeliberationId() != deliberationId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONID,
-							finderArgs, deliberation);
-					}
+					list = (List<Deliberation>)QueryUtil.list(q, getDialect(),
+							start, end);
 				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONID,
-					finderArgs);
+				finderCache.removeResult(finderPath, finderArgs);
 
 				throw processException(e);
 			}
@@ -1620,39 +1668,288 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 			}
 		}
 
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (Deliberation)result;
-		}
+		return list;
 	}
 
 	/**
-	 * Removes the deliberation where deliberationId = &#63; from the database.
+	 * Returns the first deliberation in the ordered set where councilSessionId = &#63;.
 	 *
-	 * @param deliberationId the deliberation ID
-	 * @return the deliberation that was removed
+	 * @param councilSessionId the council session ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching deliberation
+	 * @throws NoSuchDeliberationException if a matching deliberation could not be found
 	 */
 	@Override
-	public Deliberation removeByDeliberationId(long deliberationId)
+	public Deliberation findByCouncilSessionId_First(long councilSessionId,
+		OrderByComparator<Deliberation> orderByComparator)
 		throws NoSuchDeliberationException {
-		Deliberation deliberation = findByDeliberationId(deliberationId);
+		Deliberation deliberation = fetchByCouncilSessionId_First(councilSessionId,
+				orderByComparator);
 
-		return remove(deliberation);
+		if (deliberation != null) {
+			return deliberation;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("councilSessionId=");
+		msg.append(councilSessionId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchDeliberationException(msg.toString());
 	}
 
 	/**
-	 * Returns the number of deliberations where deliberationId = &#63;.
+	 * Returns the first deliberation in the ordered set where councilSessionId = &#63;.
 	 *
-	 * @param deliberationId the deliberation ID
+	 * @param councilSessionId the council session ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching deliberation, or <code>null</code> if a matching deliberation could not be found
+	 */
+	@Override
+	public Deliberation fetchByCouncilSessionId_First(long councilSessionId,
+		OrderByComparator<Deliberation> orderByComparator) {
+		List<Deliberation> list = findByCouncilSessionId(councilSessionId, 0,
+				1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last deliberation in the ordered set where councilSessionId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching deliberation
+	 * @throws NoSuchDeliberationException if a matching deliberation could not be found
+	 */
+	@Override
+	public Deliberation findByCouncilSessionId_Last(long councilSessionId,
+		OrderByComparator<Deliberation> orderByComparator)
+		throws NoSuchDeliberationException {
+		Deliberation deliberation = fetchByCouncilSessionId_Last(councilSessionId,
+				orderByComparator);
+
+		if (deliberation != null) {
+			return deliberation;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("councilSessionId=");
+		msg.append(councilSessionId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchDeliberationException(msg.toString());
+	}
+
+	/**
+	 * Returns the last deliberation in the ordered set where councilSessionId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching deliberation, or <code>null</code> if a matching deliberation could not be found
+	 */
+	@Override
+	public Deliberation fetchByCouncilSessionId_Last(long councilSessionId,
+		OrderByComparator<Deliberation> orderByComparator) {
+		int count = countByCouncilSessionId(councilSessionId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Deliberation> list = findByCouncilSessionId(councilSessionId,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the deliberations before and after the current deliberation in the ordered set where councilSessionId = &#63;.
+	 *
+	 * @param deliberationId the primary key of the current deliberation
+	 * @param councilSessionId the council session ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next deliberation
+	 * @throws NoSuchDeliberationException if a deliberation with the primary key could not be found
+	 */
+	@Override
+	public Deliberation[] findByCouncilSessionId_PrevAndNext(
+		long deliberationId, long councilSessionId,
+		OrderByComparator<Deliberation> orderByComparator)
+		throws NoSuchDeliberationException {
+		Deliberation deliberation = findByPrimaryKey(deliberationId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Deliberation[] array = new DeliberationImpl[3];
+
+			array[0] = getByCouncilSessionId_PrevAndNext(session, deliberation,
+					councilSessionId, orderByComparator, true);
+
+			array[1] = deliberation;
+
+			array[2] = getByCouncilSessionId_PrevAndNext(session, deliberation,
+					councilSessionId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Deliberation getByCouncilSessionId_PrevAndNext(Session session,
+		Deliberation deliberation, long councilSessionId,
+		OrderByComparator<Deliberation> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_DELIBERATION_WHERE);
+
+		query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(DeliberationModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(councilSessionId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(deliberation);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Deliberation> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the deliberations where councilSessionId = &#63; from the database.
+	 *
+	 * @param councilSessionId the council session ID
+	 */
+	@Override
+	public void removeByCouncilSessionId(long councilSessionId) {
+		for (Deliberation deliberation : findByCouncilSessionId(
+				councilSessionId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(deliberation);
+		}
+	}
+
+	/**
+	 * Returns the number of deliberations where councilSessionId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
 	 * @return the number of matching deliberations
 	 */
 	@Override
-	public int countByDeliberationId(long deliberationId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_DELIBERATIONID;
+	public int countByCouncilSessionId(long councilSessionId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONID;
 
-		Object[] finderArgs = new Object[] { deliberationId };
+		Object[] finderArgs = new Object[] { councilSessionId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -1661,7 +1958,7 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 
 			query.append(_SQL_COUNT_DELIBERATION_WHERE);
 
-			query.append(_FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2);
+			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
 
 			String sql = query.toString();
 
@@ -1674,7 +1971,7 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(deliberationId);
+				qPos.add(councilSessionId);
 
 				count = (Long)q.uniqueResult();
 
@@ -1693,7 +1990,8 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2 = "deliberation.deliberationId = ?";
+	private static final String _FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2 =
+		"deliberation.councilSessionId = ?";
 
 	public DeliberationPersistenceImpl() {
 		setModelClass(Deliberation.class);
@@ -1730,9 +2028,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { deliberation.getUuid(), deliberation.getGroupId() },
 			deliberation);
-
-		finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONID,
-			new Object[] { deliberation.getDeliberationId() }, deliberation);
 
 		deliberation.resetOriginalValues();
 	}
@@ -1814,13 +2109,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			deliberationModelImpl, false);
-
-		args = new Object[] { deliberationModelImpl.getDeliberationId() };
-
-		finderCache.putResult(FINDER_PATH_COUNT_BY_DELIBERATIONID, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONID, args,
-			deliberationModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -1844,25 +2132,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					deliberationModelImpl.getDeliberationId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONID, args);
-		}
-
-		if ((deliberationModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_DELIBERATIONID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					deliberationModelImpl.getOriginalDeliberationId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONID, args);
 		}
 	}
 
@@ -2052,6 +2321,12 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 				args);
 
+			args = new Object[] { deliberationModelImpl.getCouncilSessionId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -2093,6 +2368,25 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+					args);
+			}
+
+			if ((deliberationModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						deliberationModelImpl.getOriginalCouncilSessionId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
+					args);
+
+				args = new Object[] { deliberationModelImpl.getCouncilSessionId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COUNCILSESSIONID,
 					args);
 			}
 		}

@@ -126,10 +126,9 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.CouncilSession"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long TITLE_COLUMN_BITMASK = 8L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.CouncilSession"));
 
@@ -329,19 +328,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
-		_columnBitmask |= COUNCILSESSIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalCouncilSessionId) {
-			_setOriginalCouncilSessionId = true;
-
-			_originalCouncilSessionId = _councilSessionId;
-		}
-
 		_councilSessionId = councilSessionId;
-	}
-
-	public long getOriginalCouncilSessionId() {
-		return _originalCouncilSessionId;
 	}
 
 	@Override
@@ -784,10 +771,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 		councilSessionModelImpl._originalUuid = councilSessionModelImpl._uuid;
 
-		councilSessionModelImpl._originalCouncilSessionId = councilSessionModelImpl._councilSessionId;
-
-		councilSessionModelImpl._setOriginalCouncilSessionId = false;
-
 		councilSessionModelImpl._originalGroupId = councilSessionModelImpl._groupId;
 
 		councilSessionModelImpl._setOriginalGroupId = false;
@@ -1044,8 +1027,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	private String _uuid;
 	private String _originalUuid;
 	private long _councilSessionId;
-	private long _originalCouncilSessionId;
-	private boolean _setOriginalCouncilSessionId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;

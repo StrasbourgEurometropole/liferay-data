@@ -372,49 +372,137 @@ public interface DeliberationPersistence extends BasePersistence<Deliberation> {
 	public int countByUuid_C(java.lang.String uuid, long companyId);
 
 	/**
-	* Returns the deliberation where deliberationId = &#63; or throws a {@link NoSuchDeliberationException} if it could not be found.
+	* Returns all the deliberations where councilSessionId = &#63;.
 	*
-	* @param deliberationId the deliberation ID
-	* @return the matching deliberation
-	* @throws NoSuchDeliberationException if a matching deliberation could not be found
+	* @param councilSessionId the council session ID
+	* @return the matching deliberations
 	*/
-	public Deliberation findByDeliberationId(long deliberationId)
-		throws NoSuchDeliberationException;
+	public java.util.List<Deliberation> findByCouncilSessionId(
+		long councilSessionId);
 
 	/**
-	* Returns the deliberation where deliberationId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns a range of all the deliberations where councilSessionId = &#63;.
 	*
-	* @param deliberationId the deliberation ID
-	* @return the matching deliberation, or <code>null</code> if a matching deliberation could not be found
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param councilSessionId the council session ID
+	* @param start the lower bound of the range of deliberations
+	* @param end the upper bound of the range of deliberations (not inclusive)
+	* @return the range of matching deliberations
 	*/
-	public Deliberation fetchByDeliberationId(long deliberationId);
+	public java.util.List<Deliberation> findByCouncilSessionId(
+		long councilSessionId, int start, int end);
 
 	/**
-	* Returns the deliberation where deliberationId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns an ordered range of all the deliberations where councilSessionId = &#63;.
 	*
-	* @param deliberationId the deliberation ID
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param councilSessionId the council session ID
+	* @param start the lower bound of the range of deliberations
+	* @param end the upper bound of the range of deliberations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching deliberations
+	*/
+	public java.util.List<Deliberation> findByCouncilSessionId(
+		long councilSessionId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the deliberations where councilSessionId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param councilSessionId the council session ID
+	* @param start the lower bound of the range of deliberations
+	* @param end the upper bound of the range of deliberations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching deliberation, or <code>null</code> if a matching deliberation could not be found
+	* @return the ordered range of matching deliberations
 	*/
-	public Deliberation fetchByDeliberationId(long deliberationId,
+	public java.util.List<Deliberation> findByCouncilSessionId(
+		long councilSessionId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Removes the deliberation where deliberationId = &#63; from the database.
+	* Returns the first deliberation in the ordered set where councilSessionId = &#63;.
 	*
-	* @param deliberationId the deliberation ID
-	* @return the deliberation that was removed
+	* @param councilSessionId the council session ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching deliberation
+	* @throws NoSuchDeliberationException if a matching deliberation could not be found
 	*/
-	public Deliberation removeByDeliberationId(long deliberationId)
+	public Deliberation findByCouncilSessionId_First(long councilSessionId,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator)
 		throws NoSuchDeliberationException;
 
 	/**
-	* Returns the number of deliberations where deliberationId = &#63;.
+	* Returns the first deliberation in the ordered set where councilSessionId = &#63;.
 	*
-	* @param deliberationId the deliberation ID
+	* @param councilSessionId the council session ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching deliberation, or <code>null</code> if a matching deliberation could not be found
+	*/
+	public Deliberation fetchByCouncilSessionId_First(long councilSessionId,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator);
+
+	/**
+	* Returns the last deliberation in the ordered set where councilSessionId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching deliberation
+	* @throws NoSuchDeliberationException if a matching deliberation could not be found
+	*/
+	public Deliberation findByCouncilSessionId_Last(long councilSessionId,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator)
+		throws NoSuchDeliberationException;
+
+	/**
+	* Returns the last deliberation in the ordered set where councilSessionId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching deliberation, or <code>null</code> if a matching deliberation could not be found
+	*/
+	public Deliberation fetchByCouncilSessionId_Last(long councilSessionId,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator);
+
+	/**
+	* Returns the deliberations before and after the current deliberation in the ordered set where councilSessionId = &#63;.
+	*
+	* @param deliberationId the primary key of the current deliberation
+	* @param councilSessionId the council session ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next deliberation
+	* @throws NoSuchDeliberationException if a deliberation with the primary key could not be found
+	*/
+	public Deliberation[] findByCouncilSessionId_PrevAndNext(
+		long deliberationId, long councilSessionId,
+		com.liferay.portal.kernel.util.OrderByComparator<Deliberation> orderByComparator)
+		throws NoSuchDeliberationException;
+
+	/**
+	* Removes all the deliberations where councilSessionId = &#63; from the database.
+	*
+	* @param councilSessionId the council session ID
+	*/
+	public void removeByCouncilSessionId(long councilSessionId);
+
+	/**
+	* Returns the number of deliberations where councilSessionId = &#63;.
+	*
+	* @param councilSessionId the council session ID
 	* @return the number of matching deliberations
 	*/
-	public int countByDeliberationId(long deliberationId);
+	public int countByCouncilSessionId(long councilSessionId);
 
 	/**
 	* Caches the deliberation in the entity cache if it is enabled.

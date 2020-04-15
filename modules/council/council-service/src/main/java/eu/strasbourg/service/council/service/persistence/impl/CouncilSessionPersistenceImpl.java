@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1488,222 +1487,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "councilSession.uuid = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(councilSession.uuid IS NULL OR councilSession.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "councilSession.companyId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_COUNCILSESSIONID = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
-			CouncilSessionModelImpl.FINDER_CACHE_ENABLED,
-			CouncilSessionImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByCouncilSessionId", new String[] { Long.class.getName() },
-			CouncilSessionModelImpl.COUNCILSESSIONID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONID = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
-			CouncilSessionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCouncilSessionId", new String[] { Long.class.getName() });
-
-	/**
-	 * Returns the council session where councilSessionId = &#63; or throws a {@link NoSuchCouncilSessionException} if it could not be found.
-	 *
-	 * @param councilSessionId the council session ID
-	 * @return the matching council session
-	 * @throws NoSuchCouncilSessionException if a matching council session could not be found
-	 */
-	@Override
-	public CouncilSession findByCouncilSessionId(long councilSessionId)
-		throws NoSuchCouncilSessionException {
-		CouncilSession councilSession = fetchByCouncilSessionId(councilSessionId);
-
-		if (councilSession == null) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("councilSessionId=");
-			msg.append(councilSessionId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchCouncilSessionException(msg.toString());
-		}
-
-		return councilSession;
-	}
-
-	/**
-	 * Returns the council session where councilSessionId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param councilSessionId the council session ID
-	 * @return the matching council session, or <code>null</code> if a matching council session could not be found
-	 */
-	@Override
-	public CouncilSession fetchByCouncilSessionId(long councilSessionId) {
-		return fetchByCouncilSessionId(councilSessionId, true);
-	}
-
-	/**
-	 * Returns the council session where councilSessionId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param councilSessionId the council session ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching council session, or <code>null</code> if a matching council session could not be found
-	 */
-	@Override
-	public CouncilSession fetchByCouncilSessionId(long councilSessionId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { councilSessionId };
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID,
-					finderArgs, this);
-		}
-
-		if (result instanceof CouncilSession) {
-			CouncilSession councilSession = (CouncilSession)result;
-
-			if ((councilSessionId != councilSession.getCouncilSessionId())) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_SELECT_COUNCILSESSION_WHERE);
-
-			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(councilSessionId);
-
-				List<CouncilSession> list = q.list();
-
-				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID,
-						finderArgs, list);
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"CouncilSessionPersistenceImpl.fetchByCouncilSessionId(long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					CouncilSession councilSession = list.get(0);
-
-					result = councilSession;
-
-					cacheResult(councilSession);
-
-					if ((councilSession.getCouncilSessionId() != councilSessionId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID,
-							finderArgs, councilSession);
-					}
-				}
-			}
-			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID,
-					finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (CouncilSession)result;
-		}
-	}
-
-	/**
-	 * Removes the council session where councilSessionId = &#63; from the database.
-	 *
-	 * @param councilSessionId the council session ID
-	 * @return the council session that was removed
-	 */
-	@Override
-	public CouncilSession removeByCouncilSessionId(long councilSessionId)
-		throws NoSuchCouncilSessionException {
-		CouncilSession councilSession = findByCouncilSessionId(councilSessionId);
-
-		return remove(councilSession);
-	}
-
-	/**
-	 * Returns the number of council sessions where councilSessionId = &#63;.
-	 *
-	 * @param councilSessionId the council session ID
-	 * @return the number of matching council sessions
-	 */
-	@Override
-	public int countByCouncilSessionId(long councilSessionId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONID;
-
-		Object[] finderArgs = new Object[] { councilSessionId };
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_COUNCILSESSION_WHERE);
-
-			query.append(_FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(councilSessionId);
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_COUNCILSESSIONID_COUNCILSESSIONID_2 =
-		"councilSession.councilSessionId = ?";
 
 	public CouncilSessionPersistenceImpl() {
 		setModelClass(CouncilSession.class);
@@ -1740,10 +1523,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { councilSession.getUuid(), councilSession.getGroupId() },
-			councilSession);
-
-		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID,
-			new Object[] { councilSession.getCouncilSessionId() },
 			councilSession);
 
 		councilSession.resetOriginalValues();
@@ -1827,13 +1606,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			councilSessionModelImpl, false);
-
-		args = new Object[] { councilSessionModelImpl.getCouncilSessionId() };
-
-		finderCache.putResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID, args,
-			councilSessionModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -1857,25 +1629,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					councilSessionModelImpl.getCouncilSessionId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID, args);
-		}
-
-		if ((councilSessionModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_COUNCILSESSIONID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					councilSessionModelImpl.getOriginalCouncilSessionId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONID, args);
 		}
 	}
 

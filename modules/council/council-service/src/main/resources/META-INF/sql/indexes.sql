@@ -1,8 +1,7 @@
-create index IX_2C142A9D on council_CouncilSession (councilSessionId);
 create index IX_A71BB2ED on council_CouncilSession (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_5FDE10AF on council_CouncilSession (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_B017553B on council_Deliberation (deliberationId);
+create index IX_B528576C on council_Deliberation (councilSessionId);
 create index IX_302FDFBC on council_Deliberation (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_6E65253E on council_Deliberation (uuid_[$COLUMN_LENGTH:75$], groupId);
 
