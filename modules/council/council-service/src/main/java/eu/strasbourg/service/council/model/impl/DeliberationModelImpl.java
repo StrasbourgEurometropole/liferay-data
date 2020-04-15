@@ -23,7 +23,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -38,16 +37,13 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.DeliberationModel;
-import eu.strasbourg.service.council.model.DeliberationSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,7 +59,6 @@ import java.util.Map;
  * @see DeliberationModel
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	implements DeliberationModel {
@@ -137,62 +132,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long TITLE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Deliberation toModel(DeliberationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Deliberation model = new DeliberationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setDeliberationId(soapModel.getDeliberationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setOrder(soapModel.getOrder());
-		model.setText(soapModel.getText());
-		model.setDocId(soapModel.getDocId());
-		model.setStage(soapModel.getStage());
-		model.setSessionId(soapModel.getSessionId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Deliberation> toModels(DeliberationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Deliberation> models = new ArrayList<Deliberation>(soapModels.length);
-
-		for (DeliberationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
-
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Deliberation"));
 
@@ -369,7 +308,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		}
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -393,7 +331,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getDeliberationId() {
 		return _deliberationId;
@@ -416,7 +353,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return _originalDeliberationId;
 	}
 
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -439,7 +375,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -462,7 +397,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -489,7 +423,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -505,7 +438,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_userName = userName;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -516,7 +448,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -533,7 +464,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_modifiedDate = modifiedDate;
 	}
 
-	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -544,7 +474,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_status = status;
 	}
 
-	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -571,7 +500,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -587,7 +515,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_statusByUserName = statusByUserName;
 	}
 
-	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -598,7 +525,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_statusDate = statusDate;
 	}
 
-	@JSON
 	@Override
 	public String getTitle() {
 		if (_title == null) {
@@ -616,7 +542,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_title = title;
 	}
 
-	@JSON
 	@Override
 	public int getOrder() {
 		return _order;
@@ -627,7 +552,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_order = order;
 	}
 
-	@JSON
 	@Override
 	public String getText() {
 		if (_text == null) {
@@ -643,7 +567,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_text = text;
 	}
 
-	@JSON
 	@Override
 	public String getDocId() {
 		if (_docId == null) {
@@ -659,7 +582,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_docId = docId;
 	}
 
-	@JSON
 	@Override
 	public String getStage() {
 		if (_stage == null) {
@@ -675,7 +597,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_stage = stage;
 	}
 
-	@JSON
 	@Override
 	public long getSessionId() {
 		return _sessionId;

@@ -20,7 +20,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -31,16 +30,13 @@ import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.model.VoteModel;
-import eu.strasbourg.service.council.model.VoteSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,7 +52,6 @@ import java.util.Map;
  * @see VoteModel
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	/*
@@ -109,52 +104,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long VOTEID_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Vote toModel(VoteSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Vote model = new VoteImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setVoteId(soapModel.getVoteId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setOfficialId(soapModel.getOfficialId());
-		model.setDeliberationId(soapModel.getDeliberationId());
-		model.setOfficialProcurationId(soapModel.getOfficialProcurationId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Vote> toModels(VoteSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Vote> models = new ArrayList<Vote>(soapModels.length);
-
-		for (VoteSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
-
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Vote"));
 
@@ -262,7 +211,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		}
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -286,7 +234,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getVoteId() {
 		return _voteId;
@@ -299,7 +246,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		_voteId = voteId;
 	}
 
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -322,7 +268,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -345,7 +290,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -356,7 +300,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public long getOfficialId() {
 		return _officialId;
@@ -367,7 +310,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		_officialId = officialId;
 	}
 
-	@JSON
 	@Override
 	public long getDeliberationId() {
 		return _deliberationId;
@@ -390,7 +332,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		return _originalDeliberationId;
 	}
 
-	@JSON
 	@Override
 	public long getOfficialProcurationId() {
 		return _officialProcurationId;

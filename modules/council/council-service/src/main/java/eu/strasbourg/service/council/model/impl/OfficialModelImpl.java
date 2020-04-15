@@ -23,7 +23,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -38,16 +37,13 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialModel;
-import eu.strasbourg.service.council.model.OfficialSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,7 +59,6 @@ import java.util.Map;
  * @see OfficialModel
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class OfficialModelImpl extends BaseModelImpl<Official>
 	implements OfficialModel {
@@ -138,62 +133,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final long OFFICAILID_COLUMN_BITMASK = 8L;
 	public static final long UUID_COLUMN_BITMASK = 16L;
 	public static final long LASTNAME_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Official toModel(OfficialSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Official model = new OfficialImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setOfficailId(soapModel.getOfficailId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setEmail(soapModel.getEmail());
-		model.setFirstname(soapModel.getFirstname());
-		model.setLastname(soapModel.getLastname());
-		model.setIsEms(soapModel.getIsEms());
-		model.setIsEurometropolitan(soapModel.getIsEurometropolitan());
-		model.setIsActive(soapModel.getIsActive());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Official> toModels(OfficialSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Official> models = new ArrayList<Official>(soapModels.length);
-
-		for (OfficialSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
-
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Official"));
 
@@ -371,7 +310,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		}
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -395,7 +333,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getOfficailId() {
 		return _officailId;
@@ -418,7 +355,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		return _originalOfficailId;
 	}
 
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -441,7 +377,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -464,7 +399,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -491,7 +425,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -507,7 +440,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_userName = userName;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -518,7 +450,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -535,7 +466,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_modifiedDate = modifiedDate;
 	}
 
-	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -546,7 +476,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_status = status;
 	}
 
-	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -573,7 +502,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -589,7 +517,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_statusByUserName = statusByUserName;
 	}
 
-	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -600,7 +527,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_statusDate = statusDate;
 	}
 
-	@JSON
 	@Override
 	public String getEmail() {
 		if (_email == null) {
@@ -626,7 +552,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		return GetterUtil.getString(_originalEmail);
 	}
 
-	@JSON
 	@Override
 	public String getFirstname() {
 		if (_firstname == null) {
@@ -642,7 +567,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_firstname = firstname;
 	}
 
-	@JSON
 	@Override
 	public String getLastname() {
 		if (_lastname == null) {
@@ -660,13 +584,11 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_lastname = lastname;
 	}
 
-	@JSON
 	@Override
 	public boolean getIsEms() {
 		return _isEms;
 	}
 
-	@JSON
 	@Override
 	public boolean isIsEms() {
 		return _isEms;
@@ -677,13 +599,11 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_isEms = isEms;
 	}
 
-	@JSON
 	@Override
 	public boolean getIsEurometropolitan() {
 		return _isEurometropolitan;
 	}
 
-	@JSON
 	@Override
 	public boolean isIsEurometropolitan() {
 		return _isEurometropolitan;
@@ -694,13 +614,11 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		_isEurometropolitan = isEurometropolitan;
 	}
 
-	@JSON
 	@Override
 	public boolean getIsActive() {
 		return _isActive;
 	}
 
-	@JSON
 	@Override
 	public boolean isIsActive() {
 		return _isActive;

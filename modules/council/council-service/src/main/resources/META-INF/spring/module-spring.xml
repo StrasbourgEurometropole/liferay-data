@@ -2,18 +2,13 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean class="eu.strasbourg.service.council.service.impl.DeliberationLocalServiceImpl" id="eu.strasbourg.service.council.service.DeliberationLocalService" />
-	<bean class="eu.strasbourg.service.council.service.impl.DeliberationServiceImpl" id="eu.strasbourg.service.council.service.DeliberationService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.DeliberationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.DeliberationPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialLocalServiceImpl" id="eu.strasbourg.service.council.service.OfficialLocalService" />
-	<bean class="eu.strasbourg.service.council.service.impl.OfficialServiceImpl" id="eu.strasbourg.service.council.service.OfficialService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.ProcurationLocalServiceImpl" id="eu.strasbourg.service.council.service.ProcurationLocalService" />
-	<bean class="eu.strasbourg.service.council.service.impl.ProcurationServiceImpl" id="eu.strasbourg.service.council.service.ProcurationService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.ProcurationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.ProcurationPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.SessionLocalServiceImpl" id="eu.strasbourg.service.council.service.SessionLocalService" />
-	<bean class="eu.strasbourg.service.council.service.impl.SessionServiceImpl" id="eu.strasbourg.service.council.service.SessionService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.SessionPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.SessionPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.VoteLocalServiceImpl" id="eu.strasbourg.service.council.service.VoteLocalService" />
-	<bean class="eu.strasbourg.service.council.service.impl.VoteServiceImpl" id="eu.strasbourg.service.council.service.VoteService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.VotePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.VotePersistence" parent="basePersistence" />
 </beans>

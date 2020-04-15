@@ -23,7 +23,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -38,16 +37,13 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Session;
 import eu.strasbourg.service.council.model.SessionModel;
-import eu.strasbourg.service.council.model.SessionSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,7 +59,6 @@ import java.util.Map;
  * @see SessionModel
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class SessionModelImpl extends BaseModelImpl<Session>
 	implements SessionModel {
@@ -135,61 +130,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 	public static final long SESSIONID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long TITLE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Session toModel(SessionSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Session model = new SessionImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setSessionId(soapModel.getSessionId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDate(soapModel.getDate());
-		model.setType(soapModel.getType());
-		model.setDocId(soapModel.getDocId());
-		model.setDocReportId(soapModel.getDocReportId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Session> toModels(SessionSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Session> models = new ArrayList<Session>(soapModels.length);
-
-		for (SessionSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
-
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Session"));
 
@@ -359,7 +299,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		}
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -383,7 +322,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getSessionId() {
 		return _sessionId;
@@ -406,7 +344,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		return _originalSessionId;
 	}
 
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -429,7 +366,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -452,7 +388,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -479,7 +414,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -495,7 +429,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_userName = userName;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -506,7 +439,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -523,7 +455,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_modifiedDate = modifiedDate;
 	}
 
-	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -534,7 +465,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_status = status;
 	}
 
-	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -561,7 +491,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -577,7 +506,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_statusByUserName = statusByUserName;
 	}
 
-	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -588,7 +516,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_statusDate = statusDate;
 	}
 
-	@JSON
 	@Override
 	public String getTitle() {
 		if (_title == null) {
@@ -606,7 +533,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_title = title;
 	}
 
-	@JSON
 	@Override
 	public Date getDate() {
 		return _date;
@@ -617,7 +543,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_date = date;
 	}
 
-	@JSON
 	@Override
 	public String getType() {
 		if (_type == null) {
@@ -633,7 +558,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_type = type;
 	}
 
-	@JSON
 	@Override
 	public String getDocId() {
 		if (_docId == null) {
@@ -649,7 +573,6 @@ public class SessionModelImpl extends BaseModelImpl<Session>
 		_docId = docId;
 	}
 
-	@JSON
 	@Override
 	public String getDocReportId() {
 		if (_docReportId == null) {

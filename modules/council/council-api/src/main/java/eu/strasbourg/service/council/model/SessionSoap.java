@@ -23,10 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.council.service.http.SessionServiceSoap}.
+ * This class is used by SOAP remote services.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.council.service.http.SessionServiceSoap
  * @generated
  */
 @ProviderType
