@@ -186,8 +186,6 @@ public interface DeliberationLocalService extends BaseLocalService,
 
 	/**
 	* Met à jour un projet et l'enregistre en base de données
-	*
-	* @throws IOException
 	*/
 	public Deliberation updateDeliberation(Deliberation deliberation,
 		ServiceContext sc) throws PortalException;
@@ -255,9 +253,6 @@ public interface DeliberationLocalService extends BaseLocalService,
 
 	/**
 	* Recherche par ID de CouncilSession
-	*
-	* @param councilSessionId
-	* @return Liste des Deliberations
 	*/
 	public List<Deliberation> findByCouncilSessionId(long councilSessionId);
 

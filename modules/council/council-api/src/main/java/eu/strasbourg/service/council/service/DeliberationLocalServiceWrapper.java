@@ -205,8 +205,6 @@ public class DeliberationLocalServiceWrapper implements DeliberationLocalService
 
 	/**
 	* Met à jour un projet et l'enregistre en base de données
-	*
-	* @throws IOException
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Deliberation updateDeliberation(
@@ -304,9 +302,6 @@ public class DeliberationLocalServiceWrapper implements DeliberationLocalService
 
 	/**
 	* Recherche par ID de CouncilSession
-	*
-	* @param councilSessionId
-	* @return Liste des Deliberations
 	*/
 	@Override
 	public java.util.List<eu.strasbourg.service.council.model.Deliberation> findByCouncilSessionId(

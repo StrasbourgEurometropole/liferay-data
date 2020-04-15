@@ -32,12 +32,10 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.base.DeliberationLocalServiceBaseImpl;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * The implementation of the deliberation local service.
@@ -82,7 +80,6 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 
 	/**
 	 * Met à jour un projet et l'enregistre en base de données
-	 * @throws IOException
 	 */
 	@Override
 	public Deliberation updateDeliberation(Deliberation deliberation, ServiceContext sc) throws PortalException {
@@ -200,8 +197,8 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 			// Supprime les liens avec les étiquettes
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
-			for (int i = 0; i < tagIds.length; i++) {
-				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
+			for (long tagId : tagIds) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagId,
 						entry.getEntryId());
 			}
 
@@ -245,8 +242,6 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 
 	/**
 	 * Recherche par ID de CouncilSession
-	 * @param councilSessionId
-	 * @return Liste des Deliberations
 	 */
 	@Override
 	public List<Deliberation> findByCouncilSessionId(long councilSessionId){
