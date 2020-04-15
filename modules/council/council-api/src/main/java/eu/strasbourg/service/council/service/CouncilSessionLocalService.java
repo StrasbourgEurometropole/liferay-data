@@ -41,6 +41,7 @@ import eu.strasbourg.service.council.model.CouncilSession;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for CouncilSession. Methods of this
@@ -169,6 +170,12 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 		java.lang.String uuid, long groupId) throws PortalException;
 
 	/**
+	* Supprime une entité
+	*/
+	public CouncilSession removeCouncilSession(long deliberationId)
+		throws PortalException;
+
+	/**
 	* Updates the council session in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param councilSession the council session
@@ -176,6 +183,19 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public CouncilSession updateCouncilSession(CouncilSession councilSession);
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public CouncilSession updateCouncilSession(CouncilSession councilSession,
+		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	public CouncilSession updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of council sessions.
@@ -288,4 +308,10 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(CouncilSession councilSession, int status)
+		throws PortalException;
 }

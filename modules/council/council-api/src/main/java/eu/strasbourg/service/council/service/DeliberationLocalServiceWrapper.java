@@ -204,7 +204,7 @@ public class DeliberationLocalServiceWrapper implements DeliberationLocalService
 	}
 
 	/**
-	* Met à jour un projet et l'enregistre en base de données
+	* Met à jour une entité et l'enregistre en base de données
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Deliberation updateDeliberation(

@@ -193,7 +193,7 @@ public class DeliberationLocalServiceUtil {
 	}
 
 	/**
-	* Met à jour un projet et l'enregistre en base de données
+	* Met à jour une entité et l'enregistre en base de données
 	*/
 	public static eu.strasbourg.service.council.model.Deliberation updateDeliberation(
 		eu.strasbourg.service.council.model.Deliberation deliberation,

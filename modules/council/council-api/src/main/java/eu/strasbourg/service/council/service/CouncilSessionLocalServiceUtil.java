@@ -173,6 +173,15 @@ public class CouncilSessionLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	public static eu.strasbourg.service.council.model.CouncilSession removeCouncilSession(
+		long deliberationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeCouncilSession(deliberationId);
+	}
+
+	/**
 	* Updates the council session in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param councilSession the council session
@@ -181,6 +190,28 @@ public class CouncilSessionLocalServiceUtil {
 	public static eu.strasbourg.service.council.model.CouncilSession updateCouncilSession(
 		eu.strasbourg.service.council.model.CouncilSession councilSession) {
 		return getService().updateCouncilSession(councilSession);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public static eu.strasbourg.service.council.model.CouncilSession updateCouncilSession(
+		eu.strasbourg.service.council.model.CouncilSession councilSession,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateCouncilSession(councilSession, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	public static eu.strasbourg.service.council.model.CouncilSession updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	/**
@@ -319,6 +350,15 @@ public class CouncilSessionLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.council.model.CouncilSession councilSession,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(councilSession, status);
 	}
 
 	public static CouncilSessionLocalService getService() {

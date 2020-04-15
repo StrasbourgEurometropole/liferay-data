@@ -79,7 +79,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 	}
 
 	/**
-	 * Met à jour un projet et l'enregistre en base de données
+	 * Met à jour une entité et l'enregistre en base de données
 	 */
 	@Override
 	public Deliberation updateDeliberation(Deliberation deliberation, ServiceContext sc) throws PortalException {

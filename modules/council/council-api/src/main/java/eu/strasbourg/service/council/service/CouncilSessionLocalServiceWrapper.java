@@ -183,6 +183,16 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.CouncilSession removeCouncilSession(
+		long deliberationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _councilSessionLocalService.removeCouncilSession(deliberationId);
+	}
+
+	/**
 	* Updates the council session in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param councilSession the council session
@@ -192,6 +202,31 @@ public class CouncilSessionLocalServiceWrapper
 	public eu.strasbourg.service.council.model.CouncilSession updateCouncilSession(
 		eu.strasbourg.service.council.model.CouncilSession councilSession) {
 		return _councilSessionLocalService.updateCouncilSession(councilSession);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.CouncilSession updateCouncilSession(
+		eu.strasbourg.service.council.model.CouncilSession councilSession,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _councilSessionLocalService.updateCouncilSession(councilSession,
+			sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.CouncilSession updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _councilSessionLocalService.updateStatus(userId, entryId,
+			status, sc, workflowContext);
 	}
 
 	/**
@@ -341,6 +376,16 @@ public class CouncilSessionLocalServiceWrapper
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _councilSessionLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.council.model.CouncilSession councilSession,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		_councilSessionLocalService.updateStatus(councilSession, status);
 	}
 
 	@Override
