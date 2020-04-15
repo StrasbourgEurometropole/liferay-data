@@ -87,7 +87,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "officialVotersId", Types.BIGINT },
-			{ "officialMissingId", Types.BIGINT },
+			{ "officialUnavailableId", Types.BIGINT },
 			{ "officialProcurationId", Types.BIGINT },
 			{ "sessionId", Types.BIGINT }
 		};
@@ -107,12 +107,12 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("officialVotersId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("officialMissingId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("officialUnavailableId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialProcurationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("sessionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialMissingId LONG,officialProcurationId LONG,sessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,officialProcurationId LONG,sessionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Procuration";
 	public static final String ORDER_BY_JPQL = " ORDER BY procuration.procurationId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Procuration.procurationId DESC";
@@ -160,7 +160,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setOfficialVotersId(soapModel.getOfficialVotersId());
-		model.setOfficialMissingId(soapModel.getOfficialMissingId());
+		model.setOfficialUnavailableId(soapModel.getOfficialUnavailableId());
 		model.setOfficialProcurationId(soapModel.getOfficialProcurationId());
 		model.setSessionId(soapModel.getSessionId());
 
@@ -240,7 +240,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("officialVotersId", getOfficialVotersId());
-		attributes.put("officialMissingId", getOfficialMissingId());
+		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
 		attributes.put("sessionId", getSessionId());
 
@@ -330,10 +330,11 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			setOfficialVotersId(officialVotersId);
 		}
 
-		Long officialMissingId = (Long)attributes.get("officialMissingId");
+		Long officialUnavailableId = (Long)attributes.get(
+				"officialUnavailableId");
 
-		if (officialMissingId != null) {
-			setOfficialMissingId(officialMissingId);
+		if (officialUnavailableId != null) {
+			setOfficialUnavailableId(officialUnavailableId);
 		}
 
 		Long officialProcurationId = (Long)attributes.get(
@@ -582,13 +583,13 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 	@JSON
 	@Override
-	public long getOfficialMissingId() {
-		return _officialMissingId;
+	public long getOfficialUnavailableId() {
+		return _officialUnavailableId;
 	}
 
 	@Override
-	public void setOfficialMissingId(long officialMissingId) {
-		_officialMissingId = officialMissingId;
+	public void setOfficialUnavailableId(long officialUnavailableId) {
+		_officialUnavailableId = officialUnavailableId;
 	}
 
 	@JSON
@@ -755,7 +756,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		procurationImpl.setStatusByUserName(getStatusByUserName());
 		procurationImpl.setStatusDate(getStatusDate());
 		procurationImpl.setOfficialVotersId(getOfficialVotersId());
-		procurationImpl.setOfficialMissingId(getOfficialMissingId());
+		procurationImpl.setOfficialUnavailableId(getOfficialUnavailableId());
 		procurationImpl.setOfficialProcurationId(getOfficialProcurationId());
 		procurationImpl.setSessionId(getSessionId());
 
@@ -916,7 +917,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		procurationCacheModel.officialVotersId = getOfficialVotersId();
 
-		procurationCacheModel.officialMissingId = getOfficialMissingId();
+		procurationCacheModel.officialUnavailableId = getOfficialUnavailableId();
 
 		procurationCacheModel.officialProcurationId = getOfficialProcurationId();
 
@@ -955,8 +956,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		sb.append(getStatusDate());
 		sb.append(", officialVotersId=");
 		sb.append(getOfficialVotersId());
-		sb.append(", officialMissingId=");
-		sb.append(getOfficialMissingId());
+		sb.append(", officialUnavailableId=");
+		sb.append(getOfficialUnavailableId());
 		sb.append(", officialProcurationId=");
 		sb.append(getOfficialProcurationId());
 		sb.append(", sessionId=");
@@ -1027,8 +1028,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		sb.append(getOfficialVotersId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>officialMissingId</column-name><column-value><![CDATA[");
-		sb.append(getOfficialMissingId());
+			"<column><column-name>officialUnavailableId</column-name><column-value><![CDATA[");
+		sb.append(getOfficialUnavailableId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>officialProcurationId</column-name><column-value><![CDATA[");
@@ -1067,7 +1068,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _officialVotersId;
-	private long _officialMissingId;
+	private long _officialUnavailableId;
 	private long _officialProcurationId;
 	private long _sessionId;
 	private long _originalSessionId;

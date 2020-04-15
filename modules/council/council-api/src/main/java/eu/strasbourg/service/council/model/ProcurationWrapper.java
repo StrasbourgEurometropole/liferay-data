@@ -73,7 +73,7 @@ public class ProcurationWrapper implements Procuration,
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("officialVotersId", getOfficialVotersId());
-		attributes.put("officialMissingId", getOfficialMissingId());
+		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
 		attributes.put("sessionId", getSessionId());
 
@@ -160,10 +160,11 @@ public class ProcurationWrapper implements Procuration,
 			setOfficialVotersId(officialVotersId);
 		}
 
-		Long officialMissingId = (Long)attributes.get("officialMissingId");
+		Long officialUnavailableId = (Long)attributes.get(
+				"officialUnavailableId");
 
-		if (officialMissingId != null) {
-			setOfficialMissingId(officialMissingId);
+		if (officialUnavailableId != null) {
+			setOfficialUnavailableId(officialUnavailableId);
 		}
 
 		Long officialProcurationId = (Long)attributes.get(
@@ -437,16 +438,6 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
-	* Returns the official missing ID of this procuration.
-	*
-	* @return the official missing ID of this procuration
-	*/
-	@Override
-	public long getOfficialMissingId() {
-		return _procuration.getOfficialMissingId();
-	}
-
-	/**
 	* Returns the official procuration ID of this procuration.
 	*
 	* @return the official procuration ID of this procuration
@@ -454,6 +445,16 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public long getOfficialProcurationId() {
 		return _procuration.getOfficialProcurationId();
+	}
+
+	/**
+	* Returns the official unavailable ID of this procuration.
+	*
+	* @return the official unavailable ID of this procuration
+	*/
+	@Override
+	public long getOfficialUnavailableId() {
+		return _procuration.getOfficialUnavailableId();
 	}
 
 	/**
@@ -588,16 +589,6 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
-	* Sets the official missing ID of this procuration.
-	*
-	* @param officialMissingId the official missing ID of this procuration
-	*/
-	@Override
-	public void setOfficialMissingId(long officialMissingId) {
-		_procuration.setOfficialMissingId(officialMissingId);
-	}
-
-	/**
 	* Sets the official procuration ID of this procuration.
 	*
 	* @param officialProcurationId the official procuration ID of this procuration
@@ -605,6 +596,16 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public void setOfficialProcurationId(long officialProcurationId) {
 		_procuration.setOfficialProcurationId(officialProcurationId);
+	}
+
+	/**
+	* Sets the official unavailable ID of this procuration.
+	*
+	* @param officialUnavailableId the official unavailable ID of this procuration
+	*/
+	@Override
+	public void setOfficialUnavailableId(long officialUnavailableId) {
+		_procuration.setOfficialUnavailableId(officialUnavailableId);
 	}
 
 	/**

@@ -18,7 +18,7 @@
 		<field name="order" type="int" />
 		<field name="text" type="String" />
 		<field name="docId" type="String" />
-		<field name="status" type="String" />
+		<field name="stage" type="String" />
 		<field name="sessionId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Official">
@@ -55,7 +55,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="officialVotersId" type="long" />
-		<field name="officialMissingId" type="long" />
+		<field name="officialUnavailableId" type="long" />
 		<field name="officialProcurationId" type="long" />
 		<field name="sessionId" type="long" />
 	</model>

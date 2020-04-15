@@ -26,7 +26,7 @@
 		<property column="order_" name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="text_" name="text" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="docId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="stage" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="sessionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="eu.strasbourg.service.council.model.impl.OfficialImpl" table="council_Official">
@@ -67,7 +67,7 @@
 		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="officialVotersId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="officialMissingId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="officialUnavailableId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="officialProcurationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="sessionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>

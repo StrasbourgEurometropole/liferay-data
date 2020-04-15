@@ -76,7 +76,7 @@ public class DeliberationWrapper implements Deliberation,
 		attributes.put("order", getOrder());
 		attributes.put("text", getText());
 		attributes.put("docId", getDocId());
-		attributes.put("status", getStatus());
+		attributes.put("stage", getStage());
 		attributes.put("sessionId", getSessionId());
 
 		return attributes;
@@ -180,10 +180,10 @@ public class DeliberationWrapper implements Deliberation,
 			setDocId(docId);
 		}
 
-		String status = (String)attributes.get("status");
+		String stage = (String)attributes.get("stage");
 
-		if (status != null) {
-			setStatus(status);
+		if (stage != null) {
+			setStage(stage);
 		}
 
 		Long sessionId = (Long)attributes.get("sessionId");
@@ -360,13 +360,13 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns the status of this deliberation.
+	* Returns the stage of this deliberation.
 	*
-	* @return the status of this deliberation
+	* @return the stage of this deliberation
 	*/
 	@Override
-	public java.lang.String getStatus() {
-		return _deliberation.getStatus();
+	public java.lang.String getStage() {
+		return _deliberation.getStage();
 	}
 
 	/**
@@ -676,13 +676,13 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Sets the status of this deliberation.
+	* Sets the stage of this deliberation.
 	*
-	* @param status the status of this deliberation
+	* @param stage the stage of this deliberation
 	*/
 	@Override
-	public void setStatus(int status) {
-		_deliberation.setStatus(status);
+	public void setStage(java.lang.String stage) {
+		_deliberation.setStage(stage);
 	}
 
 	/**
@@ -691,7 +691,7 @@ public class DeliberationWrapper implements Deliberation,
 	* @param status the status of this deliberation
 	*/
 	@Override
-	public void setStatus(java.lang.String status) {
+	public void setStatus(int status) {
 		_deliberation.setStatus(status);
 	}
 

@@ -352,21 +352,19 @@ public interface DeliberationModel extends BaseModel<Deliberation>, GroupedModel
 	public void setDocId(String docId);
 
 	/**
-	 * Returns the status of this deliberation.
+	 * Returns the stage of this deliberation.
 	 *
-	 * @return the status of this deliberation
+	 * @return the stage of this deliberation
 	 */
 	@AutoEscape
-	@Override
-	public String getStatus();
+	public String getStage();
 
 	/**
-	 * Sets the status of this deliberation.
+	 * Sets the stage of this deliberation.
 	 *
-	 * @param status the status of this deliberation
+	 * @param stage the stage of this deliberation
 	 */
-	@Override
-	public void setStatus(String status);
+	public void setStage(String stage);
 
 	/**
 	 * Returns the session ID of this deliberation.

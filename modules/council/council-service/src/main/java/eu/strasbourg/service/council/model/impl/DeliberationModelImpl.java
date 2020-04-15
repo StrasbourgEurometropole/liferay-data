@@ -90,7 +90,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			{ "order_", Types.INTEGER },
 			{ "text_", Types.VARCHAR },
 			{ "docId", Types.VARCHAR },
-			{ "status", Types.VARCHAR },
+			{ "stage", Types.VARCHAR },
 			{ "sessionId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -112,11 +112,11 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("text_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("docId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("status", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("stage", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("sessionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,text_ VARCHAR(75) null,docId VARCHAR(75) null,status VARCHAR(75) null,sessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,text_ VARCHAR(75) null,docId VARCHAR(75) null,stage VARCHAR(75) null,sessionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Deliberation";
 	public static final String ORDER_BY_JPQL = " ORDER BY deliberation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Deliberation.title ASC";
@@ -167,7 +167,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		model.setOrder(soapModel.getOrder());
 		model.setText(soapModel.getText());
 		model.setDocId(soapModel.getDocId());
-		model.setStatus(soapModel.getStatus());
+		model.setStage(soapModel.getStage());
 		model.setSessionId(soapModel.getSessionId());
 
 		return model;
@@ -249,7 +249,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		attributes.put("order", getOrder());
 		attributes.put("text", getText());
 		attributes.put("docId", getDocId());
-		attributes.put("status", getStatus());
+		attributes.put("stage", getStage());
 		attributes.put("sessionId", getSessionId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -356,10 +356,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			setDocId(docId);
 		}
 
-		String status = (String)attributes.get("status");
+		String stage = (String)attributes.get("stage");
 
-		if (status != null) {
-			setStatus(status);
+		if (stage != null) {
+			setStage(stage);
 		}
 
 		Long sessionId = (Long)attributes.get("sessionId");
@@ -661,18 +661,18 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@JSON
 	@Override
-	public String getStatus() {
-		if (_status == null) {
+	public String getStage() {
+		if (_stage == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _status;
+			return _stage;
 		}
 	}
 
 	@Override
-	public void setStatus(String status) {
-		_status = status;
+	public void setStage(String stage) {
+		_stage = stage;
 	}
 
 	@JSON
@@ -819,7 +819,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		deliberationImpl.setOrder(getOrder());
 		deliberationImpl.setText(getText());
 		deliberationImpl.setDocId(getDocId());
-		deliberationImpl.setStatus(getStatus());
+		deliberationImpl.setStage(getStage());
 		deliberationImpl.setSessionId(getSessionId());
 
 		deliberationImpl.resetOriginalValues();
@@ -993,12 +993,12 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			deliberationCacheModel.docId = null;
 		}
 
-		deliberationCacheModel.status = getStatus();
+		deliberationCacheModel.stage = getStage();
 
-		String status = deliberationCacheModel.status;
+		String stage = deliberationCacheModel.stage;
 
-		if ((status != null) && (status.length() == 0)) {
-			deliberationCacheModel.status = null;
+		if ((stage != null) && (stage.length() == 0)) {
+			deliberationCacheModel.stage = null;
 		}
 
 		deliberationCacheModel.sessionId = getSessionId();
@@ -1042,8 +1042,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getText());
 		sb.append(", docId=");
 		sb.append(getDocId());
-		sb.append(", status=");
-		sb.append(getStatus());
+		sb.append(", stage=");
+		sb.append(getStage());
 		sb.append(", sessionId=");
 		sb.append(getSessionId());
 		sb.append("}");
@@ -1124,8 +1124,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getDocId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>status</column-name><column-value><![CDATA[");
-		sb.append(getStatus());
+			"<column><column-name>stage</column-name><column-value><![CDATA[");
+		sb.append(getStage());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>sessionId</column-name><column-value><![CDATA[");
@@ -1165,7 +1165,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private int _order;
 	private String _text;
 	private String _docId;
-	private String _status;
+	private String _stage;
 	private long _sessionId;
 	private long _columnBitmask;
 	private Deliberation _escapedModel;

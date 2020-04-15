@@ -100,8 +100,8 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		sb.append(text);
 		sb.append(", docId=");
 		sb.append(docId);
-		sb.append(", status=");
-		sb.append(status);
+		sb.append(", stage=");
+		sb.append(stage);
 		sb.append(", sessionId=");
 		sb.append(sessionId);
 		sb.append("}");
@@ -186,11 +186,11 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			deliberationImpl.setDocId(docId);
 		}
 
-		if (status == null) {
-			deliberationImpl.setStatus(StringPool.BLANK);
+		if (stage == null) {
+			deliberationImpl.setStage(StringPool.BLANK);
 		}
 		else {
-			deliberationImpl.setStatus(status);
+			deliberationImpl.setStage(stage);
 		}
 
 		deliberationImpl.setSessionId(sessionId);
@@ -225,7 +225,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		order = objectInput.readInt();
 		text = objectInput.readUTF();
 		docId = objectInput.readUTF();
-		status = objectInput.readUTF();
+		stage = objectInput.readUTF();
 
 		sessionId = objectInput.readLong();
 	}
@@ -294,11 +294,11 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			objectOutput.writeUTF(docId);
 		}
 
-		if (status == null) {
+		if (stage == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(status);
+			objectOutput.writeUTF(stage);
 		}
 
 		objectOutput.writeLong(sessionId);
@@ -320,6 +320,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	public int order;
 	public String text;
 	public String docId;
-	public String status;
+	public String stage;
 	public long sessionId;
 }

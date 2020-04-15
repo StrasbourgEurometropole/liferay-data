@@ -15,7 +15,7 @@ create table council_Deliberation (
 	order_ INTEGER,
 	text_ VARCHAR(75) null,
 	docId VARCHAR(75) null,
-	status VARCHAR(75) null,
+	stage VARCHAR(75) null,
 	sessionId LONG
 );
 
@@ -54,7 +54,7 @@ create table council_Procuration (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	officialVotersId LONG,
-	officialMissingId LONG,
+	officialUnavailableId LONG,
 	officialProcurationId LONG,
 	sessionId LONG
 );

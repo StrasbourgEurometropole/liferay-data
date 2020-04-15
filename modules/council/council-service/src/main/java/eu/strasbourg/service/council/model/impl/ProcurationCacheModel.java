@@ -94,8 +94,8 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		sb.append(statusDate);
 		sb.append(", officialVotersId=");
 		sb.append(officialVotersId);
-		sb.append(", officialMissingId=");
-		sb.append(officialMissingId);
+		sb.append(", officialUnavailableId=");
+		sb.append(officialUnavailableId);
 		sb.append(", officialProcurationId=");
 		sb.append(officialProcurationId);
 		sb.append(", sessionId=");
@@ -160,7 +160,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		}
 
 		procurationImpl.setOfficialVotersId(officialVotersId);
-		procurationImpl.setOfficialMissingId(officialMissingId);
+		procurationImpl.setOfficialUnavailableId(officialUnavailableId);
 		procurationImpl.setOfficialProcurationId(officialProcurationId);
 		procurationImpl.setSessionId(sessionId);
 
@@ -192,7 +192,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		officialVotersId = objectInput.readLong();
 
-		officialMissingId = objectInput.readLong();
+		officialUnavailableId = objectInput.readLong();
 
 		officialProcurationId = objectInput.readLong();
 
@@ -242,7 +242,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		objectOutput.writeLong(officialVotersId);
 
-		objectOutput.writeLong(officialMissingId);
+		objectOutput.writeLong(officialUnavailableId);
 
 		objectOutput.writeLong(officialProcurationId);
 
@@ -262,7 +262,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 	public String statusByUserName;
 	public long statusDate;
 	public long officialVotersId;
-	public long officialMissingId;
+	public long officialUnavailableId;
 	public long officialProcurationId;
 	public long sessionId;
 }

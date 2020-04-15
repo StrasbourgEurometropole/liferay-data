@@ -115,7 +115,7 @@
 		<column name="order" type="int" />
 		<column name="text" type="String" />
 		<column name="docId" type="String" />
-		<column name="status" type="String" />
+		<column name="stage" type="String" />
 
 		<!-- Links with other entities -->
 		<column name="sessionId" type="long" />
@@ -160,7 +160,7 @@
 
 		<!-- Links with other entities -->
 		<column name="officialVotersId" type="long" />
-		<column name="officialMissingId" type="long" />
+		<column name="officialUnavailableId" type="long" />
 		<column name="officialProcurationId" type="long" />
 		<column name="sessionId" type="long" />
 

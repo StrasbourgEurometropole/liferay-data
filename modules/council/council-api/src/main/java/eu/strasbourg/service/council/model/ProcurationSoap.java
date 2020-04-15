@@ -47,7 +47,7 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setOfficialVotersId(model.getOfficialVotersId());
-		soapModel.setOfficialMissingId(model.getOfficialMissingId());
+		soapModel.setOfficialUnavailableId(model.getOfficialUnavailableId());
 		soapModel.setOfficialProcurationId(model.getOfficialProcurationId());
 		soapModel.setSessionId(model.getSessionId());
 
@@ -206,12 +206,12 @@ public class ProcurationSoap implements Serializable {
 		_officialVotersId = officialVotersId;
 	}
 
-	public long getOfficialMissingId() {
-		return _officialMissingId;
+	public long getOfficialUnavailableId() {
+		return _officialUnavailableId;
 	}
 
-	public void setOfficialMissingId(long officialMissingId) {
-		_officialMissingId = officialMissingId;
+	public void setOfficialUnavailableId(long officialUnavailableId) {
+		_officialUnavailableId = officialUnavailableId;
 	}
 
 	public long getOfficialProcurationId() {
@@ -243,7 +243,7 @@ public class ProcurationSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _officialVotersId;
-	private long _officialMissingId;
+	private long _officialUnavailableId;
 	private long _officialProcurationId;
 	private long _sessionId;
 }

@@ -307,18 +307,18 @@ public interface ProcurationModel extends BaseModel<Procuration>, GroupedModel,
 	public void setOfficialVotersId(long officialVotersId);
 
 	/**
-	 * Returns the official missing ID of this procuration.
+	 * Returns the official unavailable ID of this procuration.
 	 *
-	 * @return the official missing ID of this procuration
+	 * @return the official unavailable ID of this procuration
 	 */
-	public long getOfficialMissingId();
+	public long getOfficialUnavailableId();
 
 	/**
-	 * Sets the official missing ID of this procuration.
+	 * Sets the official unavailable ID of this procuration.
 	 *
-	 * @param officialMissingId the official missing ID of this procuration
+	 * @param officialUnavailableId the official unavailable ID of this procuration
 	 */
-	public void setOfficialMissingId(long officialMissingId);
+	public void setOfficialUnavailableId(long officialUnavailableId);
 
 	/**
 	 * Returns the official procuration ID of this procuration.
