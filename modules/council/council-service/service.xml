@@ -170,8 +170,8 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="DeliberationId" return-type="Collection">
-			<finder-column name="deliberationId" />
+		<finder name="SessionId" return-type="Collection">
+			<finder-column name="sessionId" />
 		</finder>
 
 	</entity>
