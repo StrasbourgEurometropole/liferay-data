@@ -14,6 +14,10 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditSessionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewDeliberationDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewSessionDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
