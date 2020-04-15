@@ -12,6 +12,12 @@
 </liferay-portlet:actionURL>
 
 <div class="container-fluid-1280 main-content-body">
+	<liferay-ui:error key="start-date-error" message="start-date-error" />
+	<liferay-ui:error key="end-date-error" message="end-date-error" />
+	<liferay-ui:error key="period-date-error" message="period-date-error" />
+	<liferay-ui:error key="ligne-error" message="ligne-error" />
+	<liferay-ui:error key="perturbation-error" message="perturbation-error" />
+
 	<aui:form action="${saveArretURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -55,7 +61,7 @@
 				label="categorization">
 					
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
@@ -68,6 +74,7 @@
 								    if ($(fieldContent).find('.icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
 								    	validated = false;
+		                                event.preventDefault();
 								    	break;
 								    }
 								}

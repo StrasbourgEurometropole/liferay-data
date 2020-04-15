@@ -20,7 +20,7 @@ jQuery(function() {
             var alertLigneAndDirection = $(
                     namespaceAUI + "alertLigneAndDirection" + index).val();
             var alertPerturbation =
-                    CKEDITOR.instances[namespace + "alertPerturbation" + index].getData();
+                    CKEDITOR.instances[namespace + "alertPerturbation" + index + "Editor"].getData();
             if(startDateAlert == ""){
                 if (endDateAlert != "" || alertLigneAndDirection != "" || alertPerturbation != "") {
                     $('.alert-start-date', $(alertLabel).parent()).show();
