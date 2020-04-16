@@ -13,6 +13,8 @@ import java.util.stream.LongStream;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetTag;
@@ -56,6 +58,7 @@ import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.SearchHelper;
+import org.osgi.service.component.annotations.Reference;
 
 public class InterestViewerDisplayContext {
 
@@ -263,9 +266,21 @@ public class InterestViewerDisplayContext {
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
 		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		if (prefilterCategoriesIds.size() > 0) {
+			List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList<AssetEntryAssetCategoryRel>();
 			for (Long[] categoriesIdsGroupByVocabulary : prefilterCategoriesIds) {
 				for (long categoryId : categoriesIdsGroupByVocabulary) {
-					entries.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+					entriesRel.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+				}
+			}
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		} else {
@@ -480,4 +495,7 @@ public class InterestViewerDisplayContext {
 	public boolean isFolded() {
 		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
+
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }
