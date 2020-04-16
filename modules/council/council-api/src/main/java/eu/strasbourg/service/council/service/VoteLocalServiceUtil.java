@@ -49,11 +49,6 @@ public class VoteLocalServiceUtil {
 		return getService().dynamicQuery();
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
-		return getService().getExportActionableDynamicQuery(portletDataContext);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
 		return getService().getIndexableActionableDynamicQuery();
 	}
@@ -82,6 +77,15 @@ public class VoteLocalServiceUtil {
 	public static eu.strasbourg.service.council.model.Vote addVote(
 		eu.strasbourg.service.council.model.Vote vote) {
 		return getService().addVote(vote);
+	}
+
+	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.council.model.Vote createVote(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createVote(sc);
 	}
 
 	/**
@@ -162,6 +166,14 @@ public class VoteLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	public static eu.strasbourg.service.council.model.Vote removeVote(
+		long voteId) throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeVote(voteId);
+	}
+
+	/**
 	* Updates the vote in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param vote the vote
@@ -170,6 +182,16 @@ public class VoteLocalServiceUtil {
 	public static eu.strasbourg.service.council.model.Vote updateVote(
 		eu.strasbourg.service.council.model.Vote vote) {
 		return getService().updateVote(vote);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public static eu.strasbourg.service.council.model.Vote updateVote(
+		eu.strasbourg.service.council.model.Vote vote,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateVote(vote, sc);
 	}
 
 	/**

@@ -84,15 +84,25 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official createOfficial(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _officialLocalService.createOfficial(sc);
+	}
+
+	/**
 	* Creates a new official with the primary key. Does not add the official to the database.
 	*
-	* @param officailId the primary key for the new official
+	* @param officialId the primary key for the new official
 	* @return the new official
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Official createOfficial(
-		long officailId) {
-		return _officialLocalService.createOfficial(officailId);
+		long officialId) {
+		return _officialLocalService.createOfficial(officialId);
 	}
 
 	/**
@@ -110,21 +120,21 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	/**
 	* Deletes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official that was removed
 	* @throws PortalException if a official with the primary key could not be found
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Official deleteOfficial(
-		long officailId)
+		long officialId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _officialLocalService.deleteOfficial(officailId);
+		return _officialLocalService.deleteOfficial(officialId);
 	}
 
 	@Override
 	public eu.strasbourg.service.council.model.Official fetchOfficial(
-		long officailId) {
-		return _officialLocalService.fetchOfficial(officailId);
+		long officialId) {
+		return _officialLocalService.fetchOfficial(officialId);
 	}
 
 	/**
@@ -143,15 +153,15 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	/**
 	* Returns the official with the primary key.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official
 	* @throws PortalException if a official with the primary key could not be found
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Official getOfficial(
-		long officailId)
+		long officialId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _officialLocalService.getOfficial(officailId);
+		return _officialLocalService.getOfficial(officialId);
 	}
 
 	/**
@@ -170,6 +180,16 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official removeOfficial(
+		long officialId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _officialLocalService.removeOfficial(officialId);
+	}
+
+	/**
 	* Updates the official in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param official the official
@@ -179,6 +199,30 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	public eu.strasbourg.service.council.model.Official updateOfficial(
 		eu.strasbourg.service.council.model.Official official) {
 		return _officialLocalService.updateOfficial(official);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official updateOfficial(
+		eu.strasbourg.service.council.model.Official official,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _officialLocalService.updateOfficial(official, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _officialLocalService.updateStatus(userId, entryId, status, sc,
+			workflowContext);
 	}
 
 	/**
@@ -255,6 +299,15 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	}
 
 	/**
+	* Recherche par ID de CouncilSession
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Official> findByEmail(
+		java.lang.String email) {
+		return _officialLocalService.findByEmail(email);
+	}
+
+	/**
 	* Returns a range of all the officials.
 	*
 	* <p>
@@ -327,6 +380,16 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _officialLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.council.model.Official official, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_officialLocalService.updateStatus(official, status);
 	}
 
 	@Override

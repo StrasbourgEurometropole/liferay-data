@@ -5,10 +5,10 @@
 	<namespace>council</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 
-	<entity local-service="true" cache-enabled="true" name="Official" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="Official" uuid="true">
 
 		<!-- PK fields -->
-		<column name="officailId" primary="true" type="long" />
+		<column name="officialId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
@@ -40,19 +40,21 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="OfficailId" return-type="Official">
-			<finder-column name="officailId" />
-		</finder>
 		<finder name="Email" return-type="Collection">
 			<finder-column name="email" />
 		</finder>
 
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
 	</entity>
 
-	<entity local-service="true" cache-enabled="true" name="Session" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="CouncilSession" uuid="true">
 
 		<!-- PK fields -->
-		<column name="sessionId" primary="true" type="long" />
+		<column name="councilSessionId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
@@ -74,22 +76,23 @@
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
 		<column name="type" type="String" />
-		<column name="docId" type="String" />
-		<column name="docReportId" type="String" />
+
+		<!-- Links with other entities -->
+		<column name="officialLeaderId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="title" />
 		</order>
 
-		<!-- Finder methods -->
-		<finder name="SessionId" return-type="Session">
-			<finder-column name="sessionId" />
-		</finder>
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
 
 	</entity>
 
-	<entity local-service="true" cache-enabled="true" name="Deliberation" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="Deliberation" uuid="true">
 
 		<!-- PK fields -->
 		<column name="deliberationId" primary="true" type="long" />
@@ -114,11 +117,10 @@
 		<column name="title" type="String" />
 		<column name="order" type="int" />
 		<column name="text" type="String" />
-		<column name="docId" type="String" />
-		<column name="status" type="String" />
+		<column name="stage" type="String" />
 
 		<!-- Links with other entities -->
-		<column name="sessionId" type="long" />
+		<column name="councilSessionId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -126,8 +128,8 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="DeliberationId" return-type="Deliberation">
-			<finder-column name="deliberationId" />
+		<finder name="CouncilSessionId" return-type="Collection">
+			<finder-column name="councilSessionId" />
 		</finder>
 
 		<!-- References -->
@@ -137,7 +139,7 @@
 
 	</entity>
 
-	<entity local-service="true" cache-enabled="true" name="Procuration" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="Procuration" uuid="true">
 
 		<!-- PK fields -->
 		<column name="procurationId" primary="true" type="long" />
@@ -160,9 +162,9 @@
 
 		<!-- Links with other entities -->
 		<column name="officialVotersId" type="long" />
-		<column name="officialMissingId" type="long" />
+		<column name="officialUnavailableId" type="long" />
 		<column name="officialProcurationId" type="long" />
-		<column name="sessionId" type="long" />
+		<column name="councilSessionId" type="long" />
 
 		<!-- Order -->
 		<order by="desc">
@@ -170,13 +172,13 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="SessionId" return-type="Collection">
-			<finder-column name="sessionId" />
+		<finder name="CouncilSessionId" return-type="Collection">
+			<finder-column name="councilSessionId" />
 		</finder>
 
 	</entity>
 
-	<entity local-service="true" cache-enabled="true" name="Vote" uuid="true">
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="Vote" uuid="true">
 
 		<!-- PK fields -->
 		<column name="voteId" primary="true" type="long" />
@@ -186,16 +188,7 @@
 
 		<!-- Audit fields -->
 		<column name="companyId" type="long" />
-		<column name="userId" type="long" />
-		<column name="userName" type="String" />
 		<column name="createDate" type="Date" />
-		<column name="modifiedDate" type="Date" />
-
-		<!-- Workflow fields -->
-		<column name="status" type="int" />
-		<column name="statusByUserId" type="long" />
-		<column name="statusByUserName" type="String" />
-		<column name="statusDate" type="Date" />
 
 		<!-- Links with other entities -->
 		<column name="officialId" type="long" />

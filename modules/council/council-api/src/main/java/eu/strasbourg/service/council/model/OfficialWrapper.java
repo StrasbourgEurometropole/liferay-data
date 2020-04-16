@@ -60,7 +60,7 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("officailId", getOfficailId());
+		attributes.put("officialId", getOfficialId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -89,10 +89,10 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 			setUuid(uuid);
 		}
 
-		Long officailId = (Long)attributes.get("officailId");
+		Long officialId = (Long)attributes.get("officialId");
 
-		if (officailId != null) {
-			setOfficailId(officailId);
+		if (officialId != null) {
+			setOfficialId(officialId);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -348,6 +348,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		return _official.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _official.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _official.getExpandoBridge();
@@ -416,6 +424,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.lang.String getFirstname() {
 		return _official.getFirstname();
+	}
+
+	/**
+	* Renvoie le nom de complet au format "Prénom NOM"
+	*/
+	@Override
+	public java.lang.String getFullName() {
+		return _official.getFullName();
 	}
 
 	/**
@@ -519,6 +535,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _official.getCategories();
+	}
+
+	/**
 	* Returns the company ID of this official.
 	*
 	* @return the company ID of this official
@@ -539,13 +563,13 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Returns the officail ID of this official.
+	* Returns the official ID of this official.
 	*
-	* @return the officail ID of this official
+	* @return the official ID of this official
 	*/
 	@Override
-	public long getOfficailId() {
-		return _official.getOfficailId();
+	public long getOfficialId() {
+		return _official.getOfficialId();
 	}
 
 	/**
@@ -710,13 +734,13 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Sets the officail ID of this official.
+	* Sets the official ID of this official.
 	*
-	* @param officailId the officail ID of this official
+	* @param officialId the official ID of this official
 	*/
 	@Override
-	public void setOfficailId(long officailId) {
-		_official.setOfficailId(officailId);
+	public void setOfficialId(long officialId) {
+		_official.setOfficialId(officialId);
 	}
 
 	/**

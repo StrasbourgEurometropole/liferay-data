@@ -18,8 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
-import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
@@ -63,14 +61,7 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		attributes.put("voteId", getVoteId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
-		attributes.put("userId", getUserId());
-		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
-		attributes.put("status", getStatus());
-		attributes.put("statusByUserId", getStatusByUserId());
-		attributes.put("statusByUserName", getStatusByUserName());
-		attributes.put("statusDate", getStatusDate());
 		attributes.put("officialId", getOfficialId());
 		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
@@ -104,52 +95,10 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 			setCompanyId(companyId);
 		}
 
-		Long userId = (Long)attributes.get("userId");
-
-		if (userId != null) {
-			setUserId(userId);
-		}
-
-		String userName = (String)attributes.get("userName");
-
-		if (userName != null) {
-			setUserName(userName);
-		}
-
 		Date createDate = (Date)attributes.get("createDate");
 
 		if (createDate != null) {
 			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
-		}
-
-		Integer status = (Integer)attributes.get("status");
-
-		if (status != null) {
-			setStatus(status);
-		}
-
-		Long statusByUserId = (Long)attributes.get("statusByUserId");
-
-		if (statusByUserId != null) {
-			setStatusByUserId(statusByUserId);
-		}
-
-		String statusByUserName = (String)attributes.get("statusByUserName");
-
-		if (statusByUserName != null) {
-			setStatusByUserName(statusByUserName);
-		}
-
-		Date statusDate = (Date)attributes.get("statusDate");
-
-		if (statusDate != null) {
-			setStatusDate(statusDate);
 		}
 
 		Long officialId = (Long)attributes.get("officialId");
@@ -172,39 +121,9 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		}
 	}
 
-	/**
-	* Returns <code>true</code> if this vote is approved.
-	*
-	* @return <code>true</code> if this vote is approved; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isApproved() {
-		return _vote.isApproved();
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _vote.isCachedModel();
-	}
-
-	/**
-	* Returns <code>true</code> if this vote is denied.
-	*
-	* @return <code>true</code> if this vote is denied; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isDenied() {
-		return _vote.isDenied();
-	}
-
-	/**
-	* Returns <code>true</code> if this vote is a draft.
-	*
-	* @return <code>true</code> if this vote is a draft; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isDraft() {
-		return _vote.isDraft();
 	}
 
 	@Override
@@ -212,59 +131,9 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		return _vote.isEscapedModel();
 	}
 
-	/**
-	* Returns <code>true</code> if this vote is expired.
-	*
-	* @return <code>true</code> if this vote is expired; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isExpired() {
-		return _vote.isExpired();
-	}
-
-	/**
-	* Returns <code>true</code> if this vote is inactive.
-	*
-	* @return <code>true</code> if this vote is inactive; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isInactive() {
-		return _vote.isInactive();
-	}
-
-	/**
-	* Returns <code>true</code> if this vote is incomplete.
-	*
-	* @return <code>true</code> if this vote is incomplete; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isIncomplete() {
-		return _vote.isIncomplete();
-	}
-
 	@Override
 	public boolean isNew() {
 		return _vote.isNew();
-	}
-
-	/**
-	* Returns <code>true</code> if this vote is pending.
-	*
-	* @return <code>true</code> if this vote is pending; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isPending() {
-		return _vote.isPending();
-	}
-
-	/**
-	* Returns <code>true</code> if this vote is scheduled.
-	*
-	* @return <code>true</code> if this vote is scheduled; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isScheduled() {
-		return _vote.isScheduled();
 	}
 
 	@Override
@@ -292,16 +161,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		return _vote.compareTo(vote);
 	}
 
-	/**
-	* Returns the status of this vote.
-	*
-	* @return the status of this vote
-	*/
-	@Override
-	public int getStatus() {
-		return _vote.getStatus();
-	}
-
 	@Override
 	public int hashCode() {
 		return _vote.hashCode();
@@ -315,46 +174,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public java.lang.Object clone() {
 		return new VoteWrapper((Vote)_vote.clone());
-	}
-
-	/**
-	* Returns the status by user name of this vote.
-	*
-	* @return the status by user name of this vote
-	*/
-	@Override
-	public java.lang.String getStatusByUserName() {
-		return _vote.getStatusByUserName();
-	}
-
-	/**
-	* Returns the status by user uuid of this vote.
-	*
-	* @return the status by user uuid of this vote
-	*/
-	@Override
-	public java.lang.String getStatusByUserUuid() {
-		return _vote.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the user name of this vote.
-	*
-	* @return the user name of this vote
-	*/
-	@Override
-	public java.lang.String getUserName() {
-		return _vote.getUserName();
-	}
-
-	/**
-	* Returns the user uuid of this vote.
-	*
-	* @return the user uuid of this vote
-	*/
-	@Override
-	public java.lang.String getUserUuid() {
-		return _vote.getUserUuid();
 	}
 
 	/**
@@ -385,26 +204,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public Date getCreateDate() {
 		return _vote.getCreateDate();
-	}
-
-	/**
-	* Returns the modified date of this vote.
-	*
-	* @return the modified date of this vote
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _vote.getModifiedDate();
-	}
-
-	/**
-	* Returns the status date of this vote.
-	*
-	* @return the status date of this vote
-	*/
-	@Override
-	public Date getStatusDate() {
-		return _vote.getStatusDate();
 	}
 
 	/**
@@ -465,26 +264,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public long getPrimaryKey() {
 		return _vote.getPrimaryKey();
-	}
-
-	/**
-	* Returns the status by user ID of this vote.
-	*
-	* @return the status by user ID of this vote
-	*/
-	@Override
-	public long getStatusByUserId() {
-		return _vote.getStatusByUserId();
-	}
-
-	/**
-	* Returns the user ID of this vote.
-	*
-	* @return the user ID of this vote
-	*/
-	@Override
-	public long getUserId() {
-		return _vote.getUserId();
 	}
 
 	/**
@@ -563,16 +342,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		_vote.setGroupId(groupId);
 	}
 
-	/**
-	* Sets the modified date of this vote.
-	*
-	* @param modifiedDate the modified date of this vote
-	*/
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_vote.setModifiedDate(modifiedDate);
-	}
-
 	@Override
 	public void setNew(boolean n) {
 		_vote.setNew(n);
@@ -614,86 +383,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	}
 
 	/**
-	* Sets the status of this vote.
-	*
-	* @param status the status of this vote
-	*/
-	@Override
-	public void setStatus(int status) {
-		_vote.setStatus(status);
-	}
-
-	/**
-	* Sets the status by user ID of this vote.
-	*
-	* @param statusByUserId the status by user ID of this vote
-	*/
-	@Override
-	public void setStatusByUserId(long statusByUserId) {
-		_vote.setStatusByUserId(statusByUserId);
-	}
-
-	/**
-	* Sets the status by user name of this vote.
-	*
-	* @param statusByUserName the status by user name of this vote
-	*/
-	@Override
-	public void setStatusByUserName(java.lang.String statusByUserName) {
-		_vote.setStatusByUserName(statusByUserName);
-	}
-
-	/**
-	* Sets the status by user uuid of this vote.
-	*
-	* @param statusByUserUuid the status by user uuid of this vote
-	*/
-	@Override
-	public void setStatusByUserUuid(java.lang.String statusByUserUuid) {
-		_vote.setStatusByUserUuid(statusByUserUuid);
-	}
-
-	/**
-	* Sets the status date of this vote.
-	*
-	* @param statusDate the status date of this vote
-	*/
-	@Override
-	public void setStatusDate(Date statusDate) {
-		_vote.setStatusDate(statusDate);
-	}
-
-	/**
-	* Sets the user ID of this vote.
-	*
-	* @param userId the user ID of this vote
-	*/
-	@Override
-	public void setUserId(long userId) {
-		_vote.setUserId(userId);
-	}
-
-	/**
-	* Sets the user name of this vote.
-	*
-	* @param userName the user name of this vote
-	*/
-	@Override
-	public void setUserName(java.lang.String userName) {
-		_vote.setUserName(userName);
-	}
-
-	/**
-	* Sets the user uuid of this vote.
-	*
-	* @param userUuid the user uuid of this vote
-	*/
-	@Override
-	public void setUserUuid(java.lang.String userUuid) {
-		_vote.setUserUuid(userUuid);
-	}
-
-	/**
 	* Sets the uuid of this vote.
 	*
 	* @param uuid the uuid of this vote
@@ -730,11 +419,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		}
 
 		return false;
-	}
-
-	@Override
-	public StagedModelType getStagedModelType() {
-		return _vote.getStagedModelType();
 	}
 
 	@Override

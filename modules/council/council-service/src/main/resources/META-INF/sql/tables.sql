@@ -1,3 +1,22 @@
+create table council_CouncilSession (
+	uuid_ VARCHAR(75) null,
+	councilSessionId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title VARCHAR(75) null,
+	date_ DATE null,
+	type_ VARCHAR(75) null,
+	officialLeaderId LONG
+);
+
 create table council_Deliberation (
 	uuid_ VARCHAR(75) null,
 	deliberationId LONG not null primary key,
@@ -14,14 +33,13 @@ create table council_Deliberation (
 	title VARCHAR(75) null,
 	order_ INTEGER,
 	text_ VARCHAR(75) null,
-	docId VARCHAR(75) null,
-	status VARCHAR(75) null,
-	sessionId LONG
+	stage VARCHAR(75) null,
+	councilSessionId LONG
 );
 
 create table council_Official (
 	uuid_ VARCHAR(75) null,
-	officailId LONG not null primary key,
+	officialId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,
@@ -54,29 +72,9 @@ create table council_Procuration (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	officialVotersId LONG,
-	officialMissingId LONG,
+	officialUnavailableId LONG,
 	officialProcurationId LONG,
-	sessionId LONG
-);
-
-create table council_Session (
-	uuid_ VARCHAR(75) null,
-	sessionId LONG not null primary key,
-	groupId LONG,
-	companyId LONG,
-	userId LONG,
-	userName VARCHAR(75) null,
-	createDate DATE null,
-	modifiedDate DATE null,
-	status INTEGER,
-	statusByUserId LONG,
-	statusByUserName VARCHAR(75) null,
-	statusDate DATE null,
-	title VARCHAR(75) null,
-	date_ DATE null,
-	type_ VARCHAR(75) null,
-	docId VARCHAR(75) null,
-	docReportId VARCHAR(75) null
+	councilSessionId LONG
 );
 
 create table council_Vote (
@@ -84,14 +82,7 @@ create table council_Vote (
 	voteId LONG not null primary key,
 	groupId LONG,
 	companyId LONG,
-	userId LONG,
-	userName VARCHAR(75) null,
 	createDate DATE null,
-	modifiedDate DATE null,
-	status INTEGER,
-	statusByUserId LONG,
-	statusByUserName VARCHAR(75) null,
-	statusDate DATE null,
 	officialId LONG,
 	deliberationId LONG,
 	officialProcurationId LONG

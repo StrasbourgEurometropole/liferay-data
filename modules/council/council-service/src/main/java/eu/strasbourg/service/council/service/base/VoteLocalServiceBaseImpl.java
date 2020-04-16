@@ -16,31 +16,17 @@ package eu.strasbourg.service.council.service.base;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
-import com.liferay.exportimport.kernel.lar.ManifestSummary;
-import com.liferay.exportimport.kernel.lar.PortletDataContext;
-import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
-import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
-import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
-import com.liferay.exportimport.kernel.lar.StagedModelType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DefaultActionableDynamicQuery;
-import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
-import com.liferay.portal.kernel.dao.orm.Property;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
@@ -53,15 +39,14 @@ import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.VoteLocalService;
+import eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
-import eu.strasbourg.service.council.service.persistence.SessionPersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
 import java.io.Serializable;
@@ -286,83 +271,6 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setPrimaryKeyPropertyName("voteId");
 	}
 
-	@Override
-	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		final PortletDataContext portletDataContext) {
-		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
-				@Override
-				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
-
-					StagedModelType stagedModelType = getStagedModelType();
-
-					long modelAdditionCount = super.performCount();
-
-					manifestSummary.addModelAdditionCount(stagedModelType,
-						modelAdditionCount);
-
-					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
-							stagedModelType);
-
-					manifestSummary.addModelDeletionCount(stagedModelType,
-						modelDeletionCount);
-
-					return modelAdditionCount;
-				}
-			};
-
-		initActionableDynamicQuery(exportActionableDynamicQuery);
-
-		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
-				@Override
-				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
-							"modifiedDate");
-
-					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
-							"statusDate");
-
-					if ((modifiedDateCriterion != null) &&
-							(statusDateCriterion != null)) {
-						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
-
-						disjunction.add(modifiedDateCriterion);
-						disjunction.add(statusDateCriterion);
-
-						dynamicQuery.add(disjunction);
-					}
-
-					Property workflowStatusProperty = PropertyFactoryUtil.forName(
-							"status");
-
-					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(workflowStatusProperty.ne(
-								WorkflowConstants.STATUS_IN_TRASH));
-					}
-					else {
-						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(Vote.class.getName());
-
-						dynamicQuery.add(workflowStatusProperty.in(
-								stagedModelDataHandler.getExportableStatuses()));
-					}
-				}
-			});
-
-		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
-
-		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<Vote>() {
-				@Override
-				public void performAction(Vote vote) throws PortalException {
-					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
-						vote);
-				}
-			});
-		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
-				PortalUtil.getClassNameId(Vote.class.getName())));
-
-		return exportActionableDynamicQuery;
-	}
-
 	/**
 	 * @throws PortalException
 	 */
@@ -457,6 +365,44 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	@Override
 	public Vote updateVote(Vote vote) {
 		return votePersistence.update(vote);
+	}
+
+	/**
+	 * Returns the council session local service.
+	 *
+	 * @return the council session local service
+	 */
+	public eu.strasbourg.service.council.service.CouncilSessionLocalService getCouncilSessionLocalService() {
+		return councilSessionLocalService;
+	}
+
+	/**
+	 * Sets the council session local service.
+	 *
+	 * @param councilSessionLocalService the council session local service
+	 */
+	public void setCouncilSessionLocalService(
+		eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService) {
+		this.councilSessionLocalService = councilSessionLocalService;
+	}
+
+	/**
+	 * Returns the council session persistence.
+	 *
+	 * @return the council session persistence
+	 */
+	public CouncilSessionPersistence getCouncilSessionPersistence() {
+		return councilSessionPersistence;
+	}
+
+	/**
+	 * Sets the council session persistence.
+	 *
+	 * @param councilSessionPersistence the council session persistence
+	 */
+	public void setCouncilSessionPersistence(
+		CouncilSessionPersistence councilSessionPersistence) {
+		this.councilSessionPersistence = councilSessionPersistence;
 	}
 
 	/**
@@ -570,43 +516,6 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public void setProcurationPersistence(
 		ProcurationPersistence procurationPersistence) {
 		this.procurationPersistence = procurationPersistence;
-	}
-
-	/**
-	 * Returns the session local service.
-	 *
-	 * @return the session local service
-	 */
-	public eu.strasbourg.service.council.service.SessionLocalService getSessionLocalService() {
-		return sessionLocalService;
-	}
-
-	/**
-	 * Sets the session local service.
-	 *
-	 * @param sessionLocalService the session local service
-	 */
-	public void setSessionLocalService(
-		eu.strasbourg.service.council.service.SessionLocalService sessionLocalService) {
-		this.sessionLocalService = sessionLocalService;
-	}
-
-	/**
-	 * Returns the session persistence.
-	 *
-	 * @return the session persistence
-	 */
-	public SessionPersistence getSessionPersistence() {
-		return sessionPersistence;
-	}
-
-	/**
-	 * Sets the session persistence.
-	 *
-	 * @param sessionPersistence the session persistence
-	 */
-	public void setSessionPersistence(SessionPersistence sessionPersistence) {
-		this.sessionPersistence = sessionPersistence;
 	}
 
 	/**
@@ -810,6 +719,10 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.council.service.CouncilSessionLocalService.class)
+	protected eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService;
+	@BeanReference(type = CouncilSessionPersistence.class)
+	protected CouncilSessionPersistence councilSessionPersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.DeliberationLocalService.class)
 	protected eu.strasbourg.service.council.service.DeliberationLocalService deliberationLocalService;
 	@BeanReference(type = DeliberationPersistence.class)
@@ -822,10 +735,6 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.council.service.ProcurationLocalService procurationLocalService;
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
-	@BeanReference(type = eu.strasbourg.service.council.service.SessionLocalService.class)
-	protected eu.strasbourg.service.council.service.SessionLocalService sessionLocalService;
-	@BeanReference(type = SessionPersistence.class)
-	protected SessionPersistence sessionPersistence;
 	@BeanReference(type = VoteLocalService.class)
 	protected VoteLocalService voteLocalService;
 	@BeanReference(type = VotePersistence.class)

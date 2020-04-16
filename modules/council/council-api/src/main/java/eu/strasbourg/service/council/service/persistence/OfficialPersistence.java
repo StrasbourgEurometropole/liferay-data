@@ -147,13 +147,13 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	/**
 	* Returns the officials before and after the current official in the ordered set where uuid = &#63;.
 	*
-	* @param officailId the primary key of the current official
+	* @param officialId the primary key of the current official
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public Official[] findByUuid_PrevAndNext(long officailId,
+	public Official[] findByUuid_PrevAndNext(long officialId,
 		java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException;
@@ -338,14 +338,14 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	/**
 	* Returns the officials before and after the current official in the ordered set where uuid = &#63; and companyId = &#63;.
 	*
-	* @param officailId the primary key of the current official
+	* @param officialId the primary key of the current official
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public Official[] findByUuid_C_PrevAndNext(long officailId,
+	public Official[] findByUuid_C_PrevAndNext(long officialId,
 		java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException;
@@ -366,50 +366,6 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	* @return the number of matching officials
 	*/
 	public int countByUuid_C(java.lang.String uuid, long companyId);
-
-	/**
-	* Returns the official where officailId = &#63; or throws a {@link NoSuchOfficialException} if it could not be found.
-	*
-	* @param officailId the officail ID
-	* @return the matching official
-	* @throws NoSuchOfficialException if a matching official could not be found
-	*/
-	public Official findByOfficailId(long officailId)
-		throws NoSuchOfficialException;
-
-	/**
-	* Returns the official where officailId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param officailId the officail ID
-	* @return the matching official, or <code>null</code> if a matching official could not be found
-	*/
-	public Official fetchByOfficailId(long officailId);
-
-	/**
-	* Returns the official where officailId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param officailId the officail ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching official, or <code>null</code> if a matching official could not be found
-	*/
-	public Official fetchByOfficailId(long officailId, boolean retrieveFromCache);
-
-	/**
-	* Removes the official where officailId = &#63; from the database.
-	*
-	* @param officailId the officail ID
-	* @return the official that was removed
-	*/
-	public Official removeByOfficailId(long officailId)
-		throws NoSuchOfficialException;
-
-	/**
-	* Returns the number of officials where officailId = &#63;.
-	*
-	* @param officailId the officail ID
-	* @return the number of matching officials
-	*/
-	public int countByOfficailId(long officailId);
 
 	/**
 	* Returns all the officials where email = &#63;.
@@ -517,13 +473,13 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	/**
 	* Returns the officials before and after the current official in the ordered set where email = &#63;.
 	*
-	* @param officailId the primary key of the current official
+	* @param officialId the primary key of the current official
 	* @param email the email
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public Official[] findByEmail_PrevAndNext(long officailId,
+	public Official[] findByEmail_PrevAndNext(long officialId,
 		java.lang.String email,
 		com.liferay.portal.kernel.util.OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException;
@@ -560,39 +516,39 @@ public interface OfficialPersistence extends BasePersistence<Official> {
 	/**
 	* Creates a new official with the primary key. Does not add the official to the database.
 	*
-	* @param officailId the primary key for the new official
+	* @param officialId the primary key for the new official
 	* @return the new official
 	*/
-	public Official create(long officailId);
+	public Official create(long officialId);
 
 	/**
 	* Removes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official that was removed
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public Official remove(long officailId) throws NoSuchOfficialException;
+	public Official remove(long officialId) throws NoSuchOfficialException;
 
 	public Official updateImpl(Official official);
 
 	/**
 	* Returns the official with the primary key or throws a {@link NoSuchOfficialException} if it could not be found.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public Official findByPrimaryKey(long officailId)
+	public Official findByPrimaryKey(long officialId)
 		throws NoSuchOfficialException;
 
 	/**
 	* Returns the official with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official, or <code>null</code> if a official with the primary key could not be found
 	*/
-	public Official fetchByPrimaryKey(long officailId);
+	public Official fetchByPrimaryKey(long officialId);
 
 	@Override
 	public java.util.Map<java.io.Serializable, Official> fetchByPrimaryKeys(

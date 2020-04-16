@@ -75,9 +75,8 @@ public class DeliberationWrapper implements Deliberation,
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("text", getText());
-		attributes.put("docId", getDocId());
-		attributes.put("status", getStatus());
-		attributes.put("sessionId", getSessionId());
+		attributes.put("stage", getStage());
+		attributes.put("councilSessionId", getCouncilSessionId());
 
 		return attributes;
 	}
@@ -174,22 +173,16 @@ public class DeliberationWrapper implements Deliberation,
 			setText(text);
 		}
 
-		String docId = (String)attributes.get("docId");
+		String stage = (String)attributes.get("stage");
 
-		if (docId != null) {
-			setDocId(docId);
+		if (stage != null) {
+			setStage(stage);
 		}
 
-		String status = (String)attributes.get("status");
+		Long councilSessionId = (Long)attributes.get("councilSessionId");
 
-		if (status != null) {
-			setStatus(status);
-		}
-
-		Long sessionId = (Long)attributes.get("sessionId");
-
-		if (sessionId != null) {
-			setSessionId(sessionId);
+		if (councilSessionId != null) {
+			setCouncilSessionId(councilSessionId);
 		}
 	}
 
@@ -288,6 +281,14 @@ public class DeliberationWrapper implements Deliberation,
 		return _deliberation.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _deliberation.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _deliberation.getExpandoBridge();
@@ -350,23 +351,13 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Returns the doc ID of this deliberation.
+	* Returns the stage of this deliberation.
 	*
-	* @return the doc ID of this deliberation
+	* @return the stage of this deliberation
 	*/
 	@Override
-	public java.lang.String getDocId() {
-		return _deliberation.getDocId();
-	}
-
-	/**
-	* Returns the status of this deliberation.
-	*
-	* @return the status of this deliberation
-	*/
-	@Override
-	public java.lang.String getStatus() {
-		return _deliberation.getStatus();
+	public java.lang.String getStage() {
+		return _deliberation.getStage();
 	}
 
 	/**
@@ -480,6 +471,14 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _deliberation.getCategories();
+	}
+
+	/**
 	* Returns the company ID of this deliberation.
 	*
 	* @return the company ID of this deliberation
@@ -487,6 +486,16 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public long getCompanyId() {
 		return _deliberation.getCompanyId();
+	}
+
+	/**
+	* Returns the council session ID of this deliberation.
+	*
+	* @return the council session ID of this deliberation
+	*/
+	@Override
+	public long getCouncilSessionId() {
+		return _deliberation.getCouncilSessionId();
 	}
 
 	/**
@@ -517,16 +526,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public long getPrimaryKey() {
 		return _deliberation.getPrimaryKey();
-	}
-
-	/**
-	* Returns the session ID of this deliberation.
-	*
-	* @return the session ID of this deliberation
-	*/
-	@Override
-	public long getSessionId() {
-		return _deliberation.getSessionId();
 	}
 
 	/**
@@ -570,6 +569,16 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
+	* Sets the council session ID of this deliberation.
+	*
+	* @param councilSessionId the council session ID of this deliberation
+	*/
+	@Override
+	public void setCouncilSessionId(long councilSessionId) {
+		_deliberation.setCouncilSessionId(councilSessionId);
+	}
+
+	/**
 	* Sets the create date of this deliberation.
 	*
 	* @param createDate the create date of this deliberation
@@ -587,16 +596,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public void setDeliberationId(long deliberationId) {
 		_deliberation.setDeliberationId(deliberationId);
-	}
-
-	/**
-	* Sets the doc ID of this deliberation.
-	*
-	* @param docId the doc ID of this deliberation
-	*/
-	@Override
-	public void setDocId(java.lang.String docId) {
-		_deliberation.setDocId(docId);
 	}
 
 	@Override
@@ -666,13 +665,13 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
-	* Sets the session ID of this deliberation.
+	* Sets the stage of this deliberation.
 	*
-	* @param sessionId the session ID of this deliberation
+	* @param stage the stage of this deliberation
 	*/
 	@Override
-	public void setSessionId(long sessionId) {
-		_deliberation.setSessionId(sessionId);
+	public void setStage(java.lang.String stage) {
+		_deliberation.setStage(stage);
 	}
 
 	/**
@@ -682,16 +681,6 @@ public class DeliberationWrapper implements Deliberation,
 	*/
 	@Override
 	public void setStatus(int status) {
-		_deliberation.setStatus(status);
-	}
-
-	/**
-	* Sets the status of this deliberation.
-	*
-	* @param status the status of this deliberation
-	*/
-	@Override
-	public void setStatus(java.lang.String status) {
 		_deliberation.setStatus(status);
 	}
 

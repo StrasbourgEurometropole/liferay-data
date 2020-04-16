@@ -16,6 +16,10 @@ package eu.strasbourg.service.council.service.base;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
+import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
+import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
+
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -58,10 +62,10 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
-import eu.strasbourg.service.council.service.persistence.SessionPersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
 import java.io.Serializable;
@@ -108,25 +112,25 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Creates a new official with the primary key. Does not add the official to the database.
 	 *
-	 * @param officailId the primary key for the new official
+	 * @param officialId the primary key for the new official
 	 * @return the new official
 	 */
 	@Override
-	public Official createOfficial(long officailId) {
-		return officialPersistence.create(officailId);
+	public Official createOfficial(long officialId) {
+		return officialPersistence.create(officialId);
 	}
 
 	/**
 	 * Deletes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official that was removed
 	 * @throws PortalException if a official with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Official deleteOfficial(long officailId) throws PortalException {
-		return officialPersistence.remove(officailId);
+	public Official deleteOfficial(long officialId) throws PortalException {
+		return officialPersistence.remove(officialId);
 	}
 
 	/**
@@ -224,8 +228,8 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	@Override
-	public Official fetchOfficial(long officailId) {
-		return officialPersistence.fetchByPrimaryKey(officailId);
+	public Official fetchOfficial(long officialId) {
+		return officialPersistence.fetchByPrimaryKey(officialId);
 	}
 
 	/**
@@ -243,13 +247,13 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Returns the official with the primary key.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official
 	 * @throws PortalException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official getOfficial(long officailId) throws PortalException {
-		return officialPersistence.findByPrimaryKey(officailId);
+	public Official getOfficial(long officialId) throws PortalException {
+		return officialPersistence.findByPrimaryKey(officialId);
 	}
 
 	@Override
@@ -260,7 +264,7 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Official.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("officailId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("officialId");
 
 		return actionableDynamicQuery;
 	}
@@ -273,7 +277,7 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Official.class);
 
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("officailId");
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("officialId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -284,7 +288,7 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Official.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("officailId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("officialId");
 	}
 
 	@Override
@@ -464,6 +468,44 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the council session local service.
+	 *
+	 * @return the council session local service
+	 */
+	public eu.strasbourg.service.council.service.CouncilSessionLocalService getCouncilSessionLocalService() {
+		return councilSessionLocalService;
+	}
+
+	/**
+	 * Sets the council session local service.
+	 *
+	 * @param councilSessionLocalService the council session local service
+	 */
+	public void setCouncilSessionLocalService(
+		eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService) {
+		this.councilSessionLocalService = councilSessionLocalService;
+	}
+
+	/**
+	 * Returns the council session persistence.
+	 *
+	 * @return the council session persistence
+	 */
+	public CouncilSessionPersistence getCouncilSessionPersistence() {
+		return councilSessionPersistence;
+	}
+
+	/**
+	 * Sets the council session persistence.
+	 *
+	 * @param councilSessionPersistence the council session persistence
+	 */
+	public void setCouncilSessionPersistence(
+		CouncilSessionPersistence councilSessionPersistence) {
+		this.councilSessionPersistence = councilSessionPersistence;
+	}
+
+	/**
 	 * Returns the deliberation local service.
 	 *
 	 * @return the deliberation local service
@@ -574,43 +616,6 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public void setProcurationPersistence(
 		ProcurationPersistence procurationPersistence) {
 		this.procurationPersistence = procurationPersistence;
-	}
-
-	/**
-	 * Returns the session local service.
-	 *
-	 * @return the session local service
-	 */
-	public eu.strasbourg.service.council.service.SessionLocalService getSessionLocalService() {
-		return sessionLocalService;
-	}
-
-	/**
-	 * Sets the session local service.
-	 *
-	 * @param sessionLocalService the session local service
-	 */
-	public void setSessionLocalService(
-		eu.strasbourg.service.council.service.SessionLocalService sessionLocalService) {
-		this.sessionLocalService = sessionLocalService;
-	}
-
-	/**
-	 * Returns the session persistence.
-	 *
-	 * @return the session persistence
-	 */
-	public SessionPersistence getSessionPersistence() {
-		return sessionPersistence;
-	}
-
-	/**
-	 * Sets the session persistence.
-	 *
-	 * @param sessionPersistence the session persistence
-	 */
-	public void setSessionPersistence(SessionPersistence sessionPersistence) {
-		this.sessionPersistence = sessionPersistence;
 	}
 
 	/**
@@ -763,6 +768,119 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		this.userPersistence = userPersistence;
 	}
 
+	/**
+	 * Returns the asset entry local service.
+	 *
+	 * @return the asset entry local service
+	 */
+	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
+		return assetEntryLocalService;
+	}
+
+	/**
+	 * Sets the asset entry local service.
+	 *
+	 * @param assetEntryLocalService the asset entry local service
+	 */
+	public void setAssetEntryLocalService(
+		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
+		this.assetEntryLocalService = assetEntryLocalService;
+	}
+
+	/**
+	 * Returns the asset entry persistence.
+	 *
+	 * @return the asset entry persistence
+	 */
+	public AssetEntryPersistence getAssetEntryPersistence() {
+		return assetEntryPersistence;
+	}
+
+	/**
+	 * Sets the asset entry persistence.
+	 *
+	 * @param assetEntryPersistence the asset entry persistence
+	 */
+	public void setAssetEntryPersistence(
+		AssetEntryPersistence assetEntryPersistence) {
+		this.assetEntryPersistence = assetEntryPersistence;
+	}
+
+	/**
+	 * Returns the asset link local service.
+	 *
+	 * @return the asset link local service
+	 */
+	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
+		return assetLinkLocalService;
+	}
+
+	/**
+	 * Sets the asset link local service.
+	 *
+	 * @param assetLinkLocalService the asset link local service
+	 */
+	public void setAssetLinkLocalService(
+		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
+		this.assetLinkLocalService = assetLinkLocalService;
+	}
+
+	/**
+	 * Returns the asset link persistence.
+	 *
+	 * @return the asset link persistence
+	 */
+	public AssetLinkPersistence getAssetLinkPersistence() {
+		return assetLinkPersistence;
+	}
+
+	/**
+	 * Sets the asset link persistence.
+	 *
+	 * @param assetLinkPersistence the asset link persistence
+	 */
+	public void setAssetLinkPersistence(
+		AssetLinkPersistence assetLinkPersistence) {
+		this.assetLinkPersistence = assetLinkPersistence;
+	}
+
+	/**
+	 * Returns the asset tag local service.
+	 *
+	 * @return the asset tag local service
+	 */
+	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
+		return assetTagLocalService;
+	}
+
+	/**
+	 * Sets the asset tag local service.
+	 *
+	 * @param assetTagLocalService the asset tag local service
+	 */
+	public void setAssetTagLocalService(
+		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
+		this.assetTagLocalService = assetTagLocalService;
+	}
+
+	/**
+	 * Returns the asset tag persistence.
+	 *
+	 * @return the asset tag persistence
+	 */
+	public AssetTagPersistence getAssetTagPersistence() {
+		return assetTagPersistence;
+	}
+
+	/**
+	 * Sets the asset tag persistence.
+	 *
+	 * @param assetTagPersistence the asset tag persistence
+	 */
+	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
+		this.assetTagPersistence = assetTagPersistence;
+	}
+
 	public void afterPropertiesSet() {
 		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.council.model.Official",
 			officialLocalService);
@@ -815,6 +933,10 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		}
 	}
 
+	@BeanReference(type = eu.strasbourg.service.council.service.CouncilSessionLocalService.class)
+	protected eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService;
+	@BeanReference(type = CouncilSessionPersistence.class)
+	protected CouncilSessionPersistence councilSessionPersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.DeliberationLocalService.class)
 	protected eu.strasbourg.service.council.service.DeliberationLocalService deliberationLocalService;
 	@BeanReference(type = DeliberationPersistence.class)
@@ -827,10 +949,6 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.council.service.ProcurationLocalService procurationLocalService;
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
-	@BeanReference(type = eu.strasbourg.service.council.service.SessionLocalService.class)
-	protected eu.strasbourg.service.council.service.SessionLocalService sessionLocalService;
-	@BeanReference(type = SessionPersistence.class)
-	protected SessionPersistence sessionPersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.VoteLocalService.class)
 	protected eu.strasbourg.service.council.service.VoteLocalService voteLocalService;
 	@BeanReference(type = VotePersistence.class)
@@ -847,6 +965,18 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
+	@ServiceReference(type = AssetEntryPersistence.class)
+	protected AssetEntryPersistence assetEntryPersistence;
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
+	@ServiceReference(type = AssetLinkPersistence.class)
+	protected AssetLinkPersistence assetLinkPersistence;
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
+	@ServiceReference(type = AssetTagPersistence.class)
+	protected AssetTagPersistence assetTagPersistence;
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
 	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
 }

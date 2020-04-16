@@ -337,50 +337,33 @@ public interface DeliberationModel extends BaseModel<Deliberation>, GroupedModel
 	public void setText(String text);
 
 	/**
-	 * Returns the doc ID of this deliberation.
+	 * Returns the stage of this deliberation.
 	 *
-	 * @return the doc ID of this deliberation
+	 * @return the stage of this deliberation
 	 */
 	@AutoEscape
-	public String getDocId();
+	public String getStage();
 
 	/**
-	 * Sets the doc ID of this deliberation.
+	 * Sets the stage of this deliberation.
 	 *
-	 * @param docId the doc ID of this deliberation
+	 * @param stage the stage of this deliberation
 	 */
-	public void setDocId(String docId);
+	public void setStage(String stage);
 
 	/**
-	 * Returns the status of this deliberation.
+	 * Returns the council session ID of this deliberation.
 	 *
-	 * @return the status of this deliberation
+	 * @return the council session ID of this deliberation
 	 */
-	@AutoEscape
-	@Override
-	public String getStatus();
+	public long getCouncilSessionId();
 
 	/**
-	 * Sets the status of this deliberation.
+	 * Sets the council session ID of this deliberation.
 	 *
-	 * @param status the status of this deliberation
+	 * @param councilSessionId the council session ID of this deliberation
 	 */
-	@Override
-	public void setStatus(String status);
-
-	/**
-	 * Returns the session ID of this deliberation.
-	 *
-	 * @return the session ID of this deliberation
-	 */
-	public long getSessionId();
-
-	/**
-	 * Sets the session ID of this deliberation.
-	 *
-	 * @param sessionId the session ID of this deliberation
-	 */
-	public void setSessionId(long sessionId);
+	public void setCouncilSessionId(long councilSessionId);
 
 	/**
 	 * Returns <code>true</code> if this deliberation is approved.

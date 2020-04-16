@@ -43,12 +43,6 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	@Override
-	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		com.liferay.exportimport.kernel.lar.PortletDataContext portletDataContext) {
-		return _voteLocalService.getExportActionableDynamicQuery(portletDataContext);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
 		return _voteLocalService.getIndexableActionableDynamicQuery();
 	}
@@ -80,6 +74,16 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	public eu.strasbourg.service.council.model.Vote addVote(
 		eu.strasbourg.service.council.model.Vote vote) {
 		return _voteLocalService.addVote(vote);
+	}
+
+	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Vote createVote(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _voteLocalService.createVote(sc);
 	}
 
 	/**
@@ -165,6 +169,15 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Vote removeVote(long voteId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _voteLocalService.removeVote(voteId);
+	}
+
+	/**
 	* Updates the vote in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param vote the vote
@@ -174,6 +187,17 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	public eu.strasbourg.service.council.model.Vote updateVote(
 		eu.strasbourg.service.council.model.Vote vote) {
 		return _voteLocalService.updateVote(vote);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Vote updateVote(
+		eu.strasbourg.service.council.model.Vote vote,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _voteLocalService.updateVote(vote, sc);
 	}
 
 	/**

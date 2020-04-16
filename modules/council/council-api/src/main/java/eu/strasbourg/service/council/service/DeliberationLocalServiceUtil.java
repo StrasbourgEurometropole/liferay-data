@@ -85,6 +85,15 @@ public class DeliberationLocalServiceUtil {
 	}
 
 	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public static eu.strasbourg.service.council.model.Deliberation createDeliberation(
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().createDeliberation(sc);
+	}
+
+	/**
 	* Creates a new deliberation with the primary key. Does not add the deliberation to the database.
 	*
 	* @param deliberationId the primary key for the new deliberation
@@ -164,6 +173,15 @@ public class DeliberationLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	public static eu.strasbourg.service.council.model.Deliberation removeDeliberation(
+		long deliberationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeDeliberation(deliberationId);
+	}
+
+	/**
 	* Updates the deliberation in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param deliberation the deliberation
@@ -172,6 +190,28 @@ public class DeliberationLocalServiceUtil {
 	public static eu.strasbourg.service.council.model.Deliberation updateDeliberation(
 		eu.strasbourg.service.council.model.Deliberation deliberation) {
 		return getService().updateDeliberation(deliberation);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public static eu.strasbourg.service.council.model.Deliberation updateDeliberation(
+		eu.strasbourg.service.council.model.Deliberation deliberation,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateDeliberation(deliberation, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	public static eu.strasbourg.service.council.model.Deliberation updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateStatus(userId, entryId, status, sc, workflowContext);
 	}
 
 	/**
@@ -243,6 +283,14 @@ public class DeliberationLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par ID de CouncilSession
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.Deliberation> findByCouncilSessionId(
+		long councilSessionId) {
+		return getService().findByCouncilSessionId(councilSessionId);
+	}
+
+	/**
 	* Returns a range of all the deliberations.
 	*
 	* <p>
@@ -310,6 +358,15 @@ public class DeliberationLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	public static void updateStatus(
+		eu.strasbourg.service.council.model.Deliberation deliberation,
+		int status) throws com.liferay.portal.kernel.exception.PortalException {
+		getService().updateStatus(deliberation, status);
 	}
 
 	public static DeliberationLocalService getService() {

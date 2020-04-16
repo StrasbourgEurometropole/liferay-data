@@ -23,7 +23,6 @@ import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
@@ -38,16 +37,13 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.DeliberationModel;
-import eu.strasbourg.service.council.model.DeliberationSoap;
 
 import java.io.Serializable;
 
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,7 +59,6 @@ import java.util.Map;
  * @see DeliberationModel
  * @generated
  */
-@JSON(strict = true)
 @ProviderType
 public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	implements DeliberationModel {
@@ -89,9 +84,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			{ "title", Types.VARCHAR },
 			{ "order_", Types.INTEGER },
 			{ "text_", Types.VARCHAR },
-			{ "docId", Types.VARCHAR },
-			{ "status", Types.VARCHAR },
-			{ "sessionId", Types.BIGINT }
+			{ "stage", Types.VARCHAR },
+			{ "councilSessionId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -111,12 +105,11 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("text_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("docId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("status", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("sessionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("stage", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,text_ VARCHAR(75) null,docId VARCHAR(75) null,status VARCHAR(75) null,sessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,text_ VARCHAR(75) null,stage VARCHAR(75) null,councilSessionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Deliberation";
 	public static final String ORDER_BY_JPQL = " ORDER BY deliberation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Deliberation.title ASC";
@@ -133,66 +126,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Deliberation"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long DELIBERATIONID_COLUMN_BITMASK = 2L;
+	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long UUID_COLUMN_BITMASK = 8L;
 	public static final long TITLE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Deliberation toModel(DeliberationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Deliberation model = new DeliberationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setDeliberationId(soapModel.getDeliberationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setOrder(soapModel.getOrder());
-		model.setText(soapModel.getText());
-		model.setDocId(soapModel.getDocId());
-		model.setStatus(soapModel.getStatus());
-		model.setSessionId(soapModel.getSessionId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Deliberation> toModels(DeliberationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Deliberation> models = new ArrayList<Deliberation>(soapModels.length);
-
-		for (DeliberationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
-
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Deliberation"));
 
@@ -248,9 +185,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("text", getText());
-		attributes.put("docId", getDocId());
-		attributes.put("status", getStatus());
-		attributes.put("sessionId", getSessionId());
+		attributes.put("stage", getStage());
+		attributes.put("councilSessionId", getCouncilSessionId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -350,26 +286,19 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			setText(text);
 		}
 
-		String docId = (String)attributes.get("docId");
+		String stage = (String)attributes.get("stage");
 
-		if (docId != null) {
-			setDocId(docId);
+		if (stage != null) {
+			setStage(stage);
 		}
 
-		String status = (String)attributes.get("status");
+		Long councilSessionId = (Long)attributes.get("councilSessionId");
 
-		if (status != null) {
-			setStatus(status);
-		}
-
-		Long sessionId = (Long)attributes.get("sessionId");
-
-		if (sessionId != null) {
-			setSessionId(sessionId);
+		if (councilSessionId != null) {
+			setCouncilSessionId(councilSessionId);
 		}
 	}
 
-	@JSON
 	@Override
 	public String getUuid() {
 		if (_uuid == null) {
@@ -393,7 +322,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return GetterUtil.getString(_originalUuid);
 	}
 
-	@JSON
 	@Override
 	public long getDeliberationId() {
 		return _deliberationId;
@@ -401,22 +329,9 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public void setDeliberationId(long deliberationId) {
-		_columnBitmask |= DELIBERATIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalDeliberationId) {
-			_setOriginalDeliberationId = true;
-
-			_originalDeliberationId = _deliberationId;
-		}
-
 		_deliberationId = deliberationId;
 	}
 
-	public long getOriginalDeliberationId() {
-		return _originalDeliberationId;
-	}
-
-	@JSON
 	@Override
 	public long getGroupId() {
 		return _groupId;
@@ -439,7 +354,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return _originalGroupId;
 	}
 
-	@JSON
 	@Override
 	public long getCompanyId() {
 		return _companyId;
@@ -462,7 +376,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		return _originalCompanyId;
 	}
 
-	@JSON
 	@Override
 	public long getUserId() {
 		return _userId;
@@ -489,7 +402,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getUserName() {
 		if (_userName == null) {
@@ -505,7 +417,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_userName = userName;
 	}
 
-	@JSON
 	@Override
 	public Date getCreateDate() {
 		return _createDate;
@@ -516,7 +427,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_createDate = createDate;
 	}
 
-	@JSON
 	@Override
 	public Date getModifiedDate() {
 		return _modifiedDate;
@@ -533,7 +443,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_modifiedDate = modifiedDate;
 	}
 
-	@JSON
 	@Override
 	public int getStatus() {
 		return _status;
@@ -544,7 +453,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_status = status;
 	}
 
-	@JSON
 	@Override
 	public long getStatusByUserId() {
 		return _statusByUserId;
@@ -571,7 +479,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	public void setStatusByUserUuid(String statusByUserUuid) {
 	}
 
-	@JSON
 	@Override
 	public String getStatusByUserName() {
 		if (_statusByUserName == null) {
@@ -587,7 +494,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_statusByUserName = statusByUserName;
 	}
 
-	@JSON
 	@Override
 	public Date getStatusDate() {
 		return _statusDate;
@@ -598,7 +504,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_statusDate = statusDate;
 	}
 
-	@JSON
 	@Override
 	public String getTitle() {
 		if (_title == null) {
@@ -616,7 +521,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_title = title;
 	}
 
-	@JSON
 	@Override
 	public int getOrder() {
 		return _order;
@@ -627,7 +531,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_order = order;
 	}
 
-	@JSON
 	@Override
 	public String getText() {
 		if (_text == null) {
@@ -643,47 +546,41 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		_text = text;
 	}
 
-	@JSON
 	@Override
-	public String getDocId() {
-		if (_docId == null) {
+	public String getStage() {
+		if (_stage == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _docId;
+			return _stage;
 		}
 	}
 
 	@Override
-	public void setDocId(String docId) {
-		_docId = docId;
+	public void setStage(String stage) {
+		_stage = stage;
 	}
 
-	@JSON
 	@Override
-	public String getStatus() {
-		if (_status == null) {
-			return StringPool.BLANK;
+	public long getCouncilSessionId() {
+		return _councilSessionId;
+	}
+
+	@Override
+	public void setCouncilSessionId(long councilSessionId) {
+		_columnBitmask |= COUNCILSESSIONID_COLUMN_BITMASK;
+
+		if (!_setOriginalCouncilSessionId) {
+			_setOriginalCouncilSessionId = true;
+
+			_originalCouncilSessionId = _councilSessionId;
 		}
-		else {
-			return _status;
-		}
+
+		_councilSessionId = councilSessionId;
 	}
 
-	@Override
-	public void setStatus(String status) {
-		_status = status;
-	}
-
-	@JSON
-	@Override
-	public long getSessionId() {
-		return _sessionId;
-	}
-
-	@Override
-	public void setSessionId(long sessionId) {
-		_sessionId = sessionId;
+	public long getOriginalCouncilSessionId() {
+		return _originalCouncilSessionId;
 	}
 
 	@Override
@@ -818,9 +715,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		deliberationImpl.setTitle(getTitle());
 		deliberationImpl.setOrder(getOrder());
 		deliberationImpl.setText(getText());
-		deliberationImpl.setDocId(getDocId());
-		deliberationImpl.setStatus(getStatus());
-		deliberationImpl.setSessionId(getSessionId());
+		deliberationImpl.setStage(getStage());
+		deliberationImpl.setCouncilSessionId(getCouncilSessionId());
 
 		deliberationImpl.resetOriginalValues();
 
@@ -883,10 +779,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 		deliberationModelImpl._originalUuid = deliberationModelImpl._uuid;
 
-		deliberationModelImpl._originalDeliberationId = deliberationModelImpl._deliberationId;
-
-		deliberationModelImpl._setOriginalDeliberationId = false;
-
 		deliberationModelImpl._originalGroupId = deliberationModelImpl._groupId;
 
 		deliberationModelImpl._setOriginalGroupId = false;
@@ -896,6 +788,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		deliberationModelImpl._setOriginalCompanyId = false;
 
 		deliberationModelImpl._setModifiedDate = false;
+
+		deliberationModelImpl._originalCouncilSessionId = deliberationModelImpl._councilSessionId;
+
+		deliberationModelImpl._setOriginalCouncilSessionId = false;
 
 		deliberationModelImpl._columnBitmask = 0;
 	}
@@ -985,30 +881,22 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			deliberationCacheModel.text = null;
 		}
 
-		deliberationCacheModel.docId = getDocId();
+		deliberationCacheModel.stage = getStage();
 
-		String docId = deliberationCacheModel.docId;
+		String stage = deliberationCacheModel.stage;
 
-		if ((docId != null) && (docId.length() == 0)) {
-			deliberationCacheModel.docId = null;
+		if ((stage != null) && (stage.length() == 0)) {
+			deliberationCacheModel.stage = null;
 		}
 
-		deliberationCacheModel.status = getStatus();
-
-		String status = deliberationCacheModel.status;
-
-		if ((status != null) && (status.length() == 0)) {
-			deliberationCacheModel.status = null;
-		}
-
-		deliberationCacheModel.sessionId = getSessionId();
+		deliberationCacheModel.councilSessionId = getCouncilSessionId();
 
 		return deliberationCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1040,12 +928,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getOrder());
 		sb.append(", text=");
 		sb.append(getText());
-		sb.append(", docId=");
-		sb.append(getDocId());
-		sb.append(", status=");
-		sb.append(getStatus());
-		sb.append(", sessionId=");
-		sb.append(getSessionId());
+		sb.append(", stage=");
+		sb.append(getStage());
+		sb.append(", councilSessionId=");
+		sb.append(getCouncilSessionId());
 		sb.append("}");
 
 		return sb.toString();
@@ -1053,7 +939,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Deliberation");
@@ -1120,16 +1006,12 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getText());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>docId</column-name><column-value><![CDATA[");
-		sb.append(getDocId());
+			"<column><column-name>stage</column-name><column-value><![CDATA[");
+		sb.append(getStage());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>status</column-name><column-value><![CDATA[");
-		sb.append(getStatus());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>sessionId</column-name><column-value><![CDATA[");
-		sb.append(getSessionId());
+			"<column><column-name>councilSessionId</column-name><column-value><![CDATA[");
+		sb.append(getCouncilSessionId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1144,8 +1026,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private String _uuid;
 	private String _originalUuid;
 	private long _deliberationId;
-	private long _originalDeliberationId;
-	private boolean _setOriginalDeliberationId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
@@ -1164,9 +1044,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private String _title;
 	private int _order;
 	private String _text;
-	private String _docId;
-	private String _status;
-	private long _sessionId;
+	private String _stage;
+	private long _councilSessionId;
+	private long _originalCouncilSessionId;
+	private boolean _setOriginalCouncilSessionId;
 	private long _columnBitmask;
 	private Deliberation _escapedModel;
 }

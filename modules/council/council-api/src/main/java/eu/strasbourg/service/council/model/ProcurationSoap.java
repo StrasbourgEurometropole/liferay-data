@@ -23,10 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.council.service.http.ProcurationServiceSoap}.
+ * This class is used by SOAP remote services.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.council.service.http.ProcurationServiceSoap
  * @generated
  */
 @ProviderType
@@ -47,9 +46,9 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setOfficialVotersId(model.getOfficialVotersId());
-		soapModel.setOfficialMissingId(model.getOfficialMissingId());
+		soapModel.setOfficialUnavailableId(model.getOfficialUnavailableId());
 		soapModel.setOfficialProcurationId(model.getOfficialProcurationId());
-		soapModel.setSessionId(model.getSessionId());
+		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 
 		return soapModel;
 	}
@@ -206,12 +205,12 @@ public class ProcurationSoap implements Serializable {
 		_officialVotersId = officialVotersId;
 	}
 
-	public long getOfficialMissingId() {
-		return _officialMissingId;
+	public long getOfficialUnavailableId() {
+		return _officialUnavailableId;
 	}
 
-	public void setOfficialMissingId(long officialMissingId) {
-		_officialMissingId = officialMissingId;
+	public void setOfficialUnavailableId(long officialUnavailableId) {
+		_officialUnavailableId = officialUnavailableId;
 	}
 
 	public long getOfficialProcurationId() {
@@ -222,12 +221,12 @@ public class ProcurationSoap implements Serializable {
 		_officialProcurationId = officialProcurationId;
 	}
 
-	public long getSessionId() {
-		return _sessionId;
+	public long getCouncilSessionId() {
+		return _councilSessionId;
 	}
 
-	public void setSessionId(long sessionId) {
-		_sessionId = sessionId;
+	public void setCouncilSessionId(long councilSessionId) {
+		_councilSessionId = councilSessionId;
 	}
 
 	private String _uuid;
@@ -243,7 +242,7 @@ public class ProcurationSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _officialVotersId;
-	private long _officialMissingId;
+	private long _officialUnavailableId;
 	private long _officialProcurationId;
-	private long _sessionId;
+	private long _councilSessionId;
 }

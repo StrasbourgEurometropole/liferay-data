@@ -66,7 +66,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,12 +98,10 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		sb.append(order);
 		sb.append(", text=");
 		sb.append(text);
-		sb.append(", docId=");
-		sb.append(docId);
-		sb.append(", status=");
-		sb.append(status);
-		sb.append(", sessionId=");
-		sb.append(sessionId);
+		sb.append(", stage=");
+		sb.append(stage);
+		sb.append(", councilSessionId=");
+		sb.append(councilSessionId);
 		sb.append("}");
 
 		return sb.toString();
@@ -179,21 +177,14 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			deliberationImpl.setText(text);
 		}
 
-		if (docId == null) {
-			deliberationImpl.setDocId(StringPool.BLANK);
+		if (stage == null) {
+			deliberationImpl.setStage(StringPool.BLANK);
 		}
 		else {
-			deliberationImpl.setDocId(docId);
+			deliberationImpl.setStage(stage);
 		}
 
-		if (status == null) {
-			deliberationImpl.setStatus(StringPool.BLANK);
-		}
-		else {
-			deliberationImpl.setStatus(status);
-		}
-
-		deliberationImpl.setSessionId(sessionId);
+		deliberationImpl.setCouncilSessionId(councilSessionId);
 
 		deliberationImpl.resetOriginalValues();
 
@@ -224,10 +215,9 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 
 		order = objectInput.readInt();
 		text = objectInput.readUTF();
-		docId = objectInput.readUTF();
-		status = objectInput.readUTF();
+		stage = objectInput.readUTF();
 
-		sessionId = objectInput.readLong();
+		councilSessionId = objectInput.readLong();
 	}
 
 	@Override
@@ -287,21 +277,14 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			objectOutput.writeUTF(text);
 		}
 
-		if (docId == null) {
+		if (stage == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(docId);
+			objectOutput.writeUTF(stage);
 		}
 
-		if (status == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(status);
-		}
-
-		objectOutput.writeLong(sessionId);
+		objectOutput.writeLong(councilSessionId);
 	}
 
 	public String uuid;
@@ -319,7 +302,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	public String title;
 	public int order;
 	public String text;
-	public String docId;
-	public String status;
-	public long sessionId;
+	public String stage;
+	public long councilSessionId;
 }

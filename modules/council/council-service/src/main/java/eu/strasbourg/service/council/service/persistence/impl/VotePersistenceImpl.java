@@ -25,8 +25,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
@@ -50,7 +48,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2225,28 +2222,6 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			vote.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
-
-		Date now = new Date();
-
-		if (isNew && (vote.getCreateDate() == null)) {
-			if (serviceContext == null) {
-				vote.setCreateDate(now);
-			}
-			else {
-				vote.setCreateDate(serviceContext.getCreateDate(now));
-			}
-		}
-
-		if (!voteModelImpl.hasSetModifiedDate()) {
-			if (serviceContext == null) {
-				vote.setModifiedDate(now);
-			}
-			else {
-				vote.setModifiedDate(serviceContext.getModifiedDate(now));
-			}
-		}
-
 		Session session = null;
 
 		try {
@@ -2381,14 +2356,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		voteImpl.setVoteId(vote.getVoteId());
 		voteImpl.setGroupId(vote.getGroupId());
 		voteImpl.setCompanyId(vote.getCompanyId());
-		voteImpl.setUserId(vote.getUserId());
-		voteImpl.setUserName(vote.getUserName());
 		voteImpl.setCreateDate(vote.getCreateDate());
-		voteImpl.setModifiedDate(vote.getModifiedDate());
-		voteImpl.setStatus(vote.getStatus());
-		voteImpl.setStatusByUserId(vote.getStatusByUserId());
-		voteImpl.setStatusByUserName(vote.getStatusByUserName());
-		voteImpl.setStatusDate(vote.getStatusDate());
 		voteImpl.setOfficialId(vote.getOfficialId());
 		voteImpl.setDeliberationId(vote.getDeliberationId());
 		voteImpl.setOfficialProcurationId(vote.getOfficialProcurationId());

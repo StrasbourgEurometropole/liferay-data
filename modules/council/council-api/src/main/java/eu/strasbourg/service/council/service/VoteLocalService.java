@@ -16,11 +16,8 @@ package eu.strasbourg.service.council.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.exportimport.kernel.lar.PortletDataContext;
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,6 +27,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -69,10 +67,6 @@ public interface VoteLocalService extends BaseLocalService,
 	public DynamicQuery dynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
-		PortletDataContext portletDataContext);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	/**
@@ -95,6 +89,11 @@ public interface VoteLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Vote addVote(Vote vote);
+
+	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Vote createVote(ServiceContext sc) throws PortalException;
 
 	/**
 	* Creates a new vote with the primary key. Does not add the vote to the database.
@@ -159,6 +158,11 @@ public interface VoteLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Supprime une entité
+	*/
+	public Vote removeVote(long voteId) throws PortalException;
+
+	/**
 	* Updates the vote in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param vote the vote
@@ -166,6 +170,12 @@ public interface VoteLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Vote updateVote(Vote vote);
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public Vote updateVote(Vote vote, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of votes.

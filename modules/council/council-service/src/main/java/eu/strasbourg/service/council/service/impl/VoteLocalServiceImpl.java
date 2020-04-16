@@ -14,7 +14,24 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.base.VoteLocalServiceBaseImpl;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * The implementation of the vote local service.
@@ -36,4 +53,40 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.VoteLocalServiceUtil} to access the vote local service.
 	 */
+
+	public final static Log log = LogFactoryUtil.getLog(VoteLocalServiceImpl.class);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public Vote createVote(ServiceContext sc) throws PortalException {
+		long pk = this.counterLocalService.increment();
+		Vote vote = this.voteLocalService.createVote(pk);
+
+		vote.setGroupId(sc.getScopeGroupId());
+
+		return vote;
+	}
+
+	/**
+	 * Met à jour une entité et l'enregistre en base de données
+	 */
+	@Override
+	public Vote updateVote(Vote vote, ServiceContext sc) throws PortalException {
+		vote = this.voteLocalService.updateVote(vote);
+
+		return vote;
+	}
+
+	/**
+	 * Supprime une entité
+	 */
+	@Override
+	public Vote removeVote(long voteId) throws PortalException {
+		Vote vote = this.votePersistence.remove(voteId);
+
+		return vote;
+	}
+
 }

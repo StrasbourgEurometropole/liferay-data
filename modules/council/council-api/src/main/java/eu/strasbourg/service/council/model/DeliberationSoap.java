@@ -23,10 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link eu.strasbourg.service.council.service.http.DeliberationServiceSoap}.
+ * This class is used by SOAP remote services.
  *
  * @author Brian Wing Shun Chan
- * @see eu.strasbourg.service.council.service.http.DeliberationServiceSoap
  * @generated
  */
 @ProviderType
@@ -49,9 +48,8 @@ public class DeliberationSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setOrder(model.getOrder());
 		soapModel.setText(model.getText());
-		soapModel.setDocId(model.getDocId());
-		soapModel.setStatus(model.getStatus());
-		soapModel.setSessionId(model.getSessionId());
+		soapModel.setStage(model.getStage());
+		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 
 		return soapModel;
 	}
@@ -224,28 +222,20 @@ public class DeliberationSoap implements Serializable {
 		_text = text;
 	}
 
-	public String getDocId() {
-		return _docId;
+	public String getStage() {
+		return _stage;
 	}
 
-	public void setDocId(String docId) {
-		_docId = docId;
+	public void setStage(String stage) {
+		_stage = stage;
 	}
 
-	public String getStatus() {
-		return _status;
+	public long getCouncilSessionId() {
+		return _councilSessionId;
 	}
 
-	public void setStatus(String status) {
-		_status = status;
-	}
-
-	public long getSessionId() {
-		return _sessionId;
-	}
-
-	public void setSessionId(long sessionId) {
-		_sessionId = sessionId;
+	public void setCouncilSessionId(long councilSessionId) {
+		_councilSessionId = councilSessionId;
 	}
 
 	private String _uuid;
@@ -263,7 +253,6 @@ public class DeliberationSoap implements Serializable {
 	private String _title;
 	private int _order;
 	private String _text;
-	private String _docId;
-	private String _status;
-	private long _sessionId;
+	private String _stage;
+	private long _councilSessionId;
 }
