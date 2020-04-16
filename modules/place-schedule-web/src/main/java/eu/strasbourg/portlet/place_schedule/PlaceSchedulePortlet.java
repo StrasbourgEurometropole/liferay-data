@@ -19,6 +19,8 @@ import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -46,6 +48,7 @@ import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author 01i454
@@ -227,9 +230,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			// Récupère tous les lieux publiés de la catégorie
 			List<Place> places = new ArrayList<Place>();
 			if (Validator.isNotNull(category)) {
-				List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId);
-				for (AssetEntry assetEntry : assetEntries) {
-					if (Validator.isNotNull(assetEntry)) {
+				List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId);
+				for (AssetEntryAssetCategoryRel assetEntryAssetCategory : assetEntriesAssetCategories) {
+					if (Validator.isNotNull(assetEntryAssetCategory)) {
+						AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(assetEntryAssetCategory.getAssetEntryId());
 						Place place = PlaceLocalServiceUtil.fetchPlaceByUuidAndGroupId(assetEntry.getClassUuid(),
 								themeDisplay.getCompanyGroupId());
 						if (Validator.isNotNull(place) && place.isApproved()) {
@@ -352,6 +356,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			return LocalDate.now().getYear();
 		}
 	}
+
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
