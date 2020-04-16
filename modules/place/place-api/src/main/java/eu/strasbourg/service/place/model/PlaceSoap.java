@@ -58,6 +58,7 @@ public class PlaceSoap implements Serializable {
 		soapModel.setMercatorY(model.getMercatorY());
 		soapModel.setRGF93X(model.getRGF93X());
 		soapModel.setRGF93Y(model.getRGF93Y());
+		soapModel.setLocationId(model.getLocationId());
 		soapModel.setAlias(model.getAlias());
 		soapModel.setPresentation(model.getPresentation());
 		soapModel.setServiceAndActivities(model.getServiceAndActivities());
@@ -76,6 +77,8 @@ public class PlaceSoap implements Serializable {
 		soapModel.setSiteLabel(model.getSiteLabel());
 		soapModel.setFacebookURL(model.getFacebookURL());
 		soapModel.setFacebookLabel(model.getFacebookLabel());
+		soapModel.setInstagramURL(model.getInstagramURL());
+		soapModel.setInstagramLabel(model.getInstagramLabel());
 		soapModel.setAccesMap(model.getAccesMap());
 		soapModel.setAccess(model.getAccess());
 		soapModel.setAccessForDisabled(model.getAccessForDisabled());
@@ -343,6 +346,14 @@ public class PlaceSoap implements Serializable {
 		_RGF93Y = RGF93Y;
 	}
 
+	public String getLocationId() {
+		return _locationId;
+	}
+
+	public void setLocationId(String locationId) {
+		_locationId = locationId;
+	}
+
 	public String getAlias() {
 		return _alias;
 	}
@@ -497,6 +508,22 @@ public class PlaceSoap implements Serializable {
 
 	public void setFacebookLabel(String facebookLabel) {
 		_facebookLabel = facebookLabel;
+	}
+
+	public String getInstagramURL() {
+		return _instagramURL;
+	}
+
+	public void setInstagramURL(String instagramURL) {
+		_instagramURL = instagramURL;
+	}
+
+	public String getInstagramLabel() {
+		return _instagramLabel;
+	}
+
+	public void setInstagramLabel(String instagramLabel) {
+		_instagramLabel = instagramLabel;
 	}
 
 	public String getAccesMap() {
@@ -710,6 +737,7 @@ public class PlaceSoap implements Serializable {
 
 	private String _RGF93Y;
 
+	private String _locationId;
 	private String _alias;
 	private String _presentation;
 	private String _serviceAndActivities;
@@ -728,6 +756,8 @@ public class PlaceSoap implements Serializable {
 	private String _siteLabel;
 	private String _facebookURL;
 	private String _facebookLabel;
+	private String _instagramURL;
+	private String _instagramLabel;
 	private String _accesMap;
 	private String _access;
 	private String _accessForDisabled;

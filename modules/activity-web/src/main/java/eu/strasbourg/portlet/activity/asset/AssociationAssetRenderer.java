@@ -49,7 +49,7 @@ public class AssociationAssetRenderer extends BaseJSPAssetRenderer<Association> 
 	}
 
 	@Override
-	public long getClassPK() {return _entry.getAssociationId();}
+	public long getClassPK() {return _entry.getPrimaryKey();}
 
 	@Override
 	public String getSummary(PortletRequest portletRequest,

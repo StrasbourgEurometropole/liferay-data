@@ -14,7 +14,7 @@
 
 //Pour afficher le header du thème en mode admin
 .has-control-menu #th-global #pro-header{
-	top: 64px;
+	top: 56px;
 }
 
 //Force l'affichage du header de configuration des portlet en mode admin
@@ -36,6 +36,35 @@
 //Corrige l'affichage de la bare de configuration d'un portlet en mode admin qui devenait trop haute
 #th-global ul.dropdown-menu {
 	display : none;
+}
+
+#pro-header .pro-header .pro-wrapper-nav nav ul li a:active {
+    @media (min-width: 993px){
+        background-color: white;
+    }
+    @media (max-width: 992px){
+        background-color: black;
+    }
+}
+
+#pro-header .pro-header .pro-wrapper-nav nav ul li ul.show {
+    @media (max-width: 992px){
+        position: relative !important;
+        transform: none !important;
+    }
+    max-height: 320px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	display : block;
+}
+
+#pro-header .pro-header .pro-wrapper-nav nav ul li ul li a.active {
+    @media (min-width: 993px){
+        background-color: white;
+    }
+    @media (max-width: 992px){
+        background-color: black;
+        color: white;
+    }
 }
 
 //centrage des popup

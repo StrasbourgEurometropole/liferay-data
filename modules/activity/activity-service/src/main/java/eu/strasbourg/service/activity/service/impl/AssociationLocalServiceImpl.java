@@ -299,7 +299,7 @@ public class AssociationLocalServiceImpl extends AssociationLocalServiceBaseImpl
 
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("name", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery
@@ -320,7 +320,7 @@ public class AssociationLocalServiceImpl extends AssociationLocalServiceBaseImpl
 		DynamicQuery dynamicQuery = dynamicQuery();
 		if (keyword.length() > 0) {
 			dynamicQuery.add(
-					RestrictionsFactoryUtil.like("title", "%" + keyword + "%"));
+					RestrictionsFactoryUtil.like("name", "%" + keyword + "%"));
 		}
 		if (groupId > 0) {
 			dynamicQuery

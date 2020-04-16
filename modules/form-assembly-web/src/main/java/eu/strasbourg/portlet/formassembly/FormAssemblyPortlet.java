@@ -13,6 +13,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.log.Log;
@@ -36,6 +37,7 @@ import eu.strasbourg.portlet.formassembly.configuration.FormAssemblyConfiguratio
 		"com.liferay.portlet.css-class-wrapper=formassembly-portlet form-assembly-portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/formassembly-view.jsp",
+		"javax.portlet.name=" + StrasbourgPortletKeys.FORMASSEMBLY_WEB,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)

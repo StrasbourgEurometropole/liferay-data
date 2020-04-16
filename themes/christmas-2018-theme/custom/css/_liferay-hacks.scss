@@ -11,14 +11,14 @@
 }
 
 .has-control-menu #mns-header {
-  margin-top: 65px;
+  margin-top: 56px;
   @include mobile {
       margin-top: 45px;
     }
 }
 
 .has-control-menu #mns-header .mns-nav.mns-nav-scroll {
-  margin-top: 65px;
+  margin-top: 56px;
   @include mobile {
       margin-top: 45px;
     }
@@ -82,13 +82,17 @@ h2.portlet-title-text {
 
 .taglib-page-iterator {
     position: relative;
-    border-top: 1px solid #d8dae4;
-    border-bottom: 1px solid #d8dae4;
     padding: 10px 0;
     margin-bottom: 30px;
-  .lfr-pagination-buttons {
-    line-height: 46px;
-  }
+    .lfr-icon-menu-text{
+      color: #333;
+    }
+    .lfr-icon-menu-arrow{
+      color: #333;
+    }
+    .lfr-pagination-buttons {
+      line-height: 46px;
+    }
 }
 
 .mns-triple-actu-bloc .mns-bloc-actu img{

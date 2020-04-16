@@ -36,7 +36,7 @@ public class ImportFoundObjectListener extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		// Création du trigger "Tous les jours à 4h"
+		// Création du trigger "Tous les jours à 5h"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, new Date(),
 				null, "0 0 5 * * ?");

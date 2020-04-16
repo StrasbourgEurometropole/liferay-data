@@ -67,7 +67,7 @@ public class ActivityOrganizerItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Galeries";
+		return "Organisateurs";
 	}
 
 	@Override

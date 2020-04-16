@@ -39,6 +39,7 @@ import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.api.AssetPublisherTemplateHelperService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import org.osgi.service.component.annotations.Component;
@@ -67,6 +68,7 @@ import java.util.concurrent.ConcurrentHashMap;
             "javax.portlet.init-param.template-path=/",
             "javax.portlet.init-param.view-template=/search-asset-view.jsp",
             "javax.portlet.init-param.check-auth-token=false",
+            "javax.portlet.name=" + StrasbourgPortletKeys.SEARCH_ASSET_WEB,
             "javax.portlet.init-param.config-template=/search-asset-configuration.jsp",
             "javax.portlet.resource-bundle=content.Language",
             "javax.portlet.security-role-ref=power-user,user"
@@ -502,8 +504,7 @@ public class SearchAssetPortlet extends MVCPortlet {
                             }
                             json.put("title", title);
                             String thumbnail = docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()");
-                            String imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
-                            json.put("thumbnail", imageURL);
+                            json.put("thumbnail", thumbnail);
                             JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
                             AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
                             List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");

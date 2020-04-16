@@ -71,10 +71,14 @@
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true"
-				label="eu.dates-and-times">				
+				label="eu.dates-and-times">
+
+				<div class="no-event-period" style="display: none; margin-top: 0">
+                    <liferay-ui:message key="no-event-period" />
+                </div>
 				
 				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-period-creation" /></p>
+					<p class="control-label"><liferay-ui:message key="event-period-creation" /><span class="icon-asterisk text-warning"></span></p>
 				</div>
 				
 				<div class="add-dates-section">
@@ -162,7 +166,7 @@
 							<aui:input type="hidden" name="placeSIGId" value="${dc.event.placeSIGId}" />
 						</span>
 						<aui:input label="Lieu choisi" type="text" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace" disabled="true" cssClass="selected-place" />
-						<aui:input type="hidden" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace2"  >
+						<aui:input type="hidden" value="${not empty dc.event.placeSIGId ? dc.event.getPlaceAlias(locale) : ''}" name="selectedPlace2" cssClass="selected-place2" >
                             <aui:validator name="required" errorMessage="this-field-is-required" />
 						</aui:input>
 					</div>

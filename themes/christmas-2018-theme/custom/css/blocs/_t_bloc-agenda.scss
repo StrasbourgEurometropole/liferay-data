@@ -9,6 +9,11 @@
 .mns-bloc-agenda {
 	position: relative;
 	margin: 65px 0 40px;
+
+figure{
+	background: transparent;
+}
+
 	@include mobile {
 		margin: 65px 0 0;
 	}

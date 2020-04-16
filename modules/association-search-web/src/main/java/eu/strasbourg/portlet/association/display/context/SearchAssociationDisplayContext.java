@@ -29,10 +29,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -62,18 +59,11 @@ public class SearchAssociationDisplayContext {
     }
 
     private void initSearchContainer() {
+        Map<String, String[]> parameterMap = _request.getParameterMap();
         PortletURL iteratorURL = this._response.createRenderURL();
-        iteratorURL.setParameter("orderByCol", "modified_sortable");
-        iteratorURL.setParameter("orderByType", "desc");
-        int i = 0;
-        for (Long[] categoriesIds : this.getFilterCategoriesIds()) {
-            iteratorURL.setParameter("vocabulary_" + i, ArrayUtil.toStringArray(categoriesIds));
-            i++;
-        }
-        iteratorURL.setParameter("paginate", String.valueOf(true));
-        iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
+        iteratorURL.setParameters(parameterMap);
 
-        iteratorURL.setParameter("className", Practice.class.getName());
+        iteratorURL.setParameter("paginate", String.valueOf(true));
 
         if (this._searchContainer == null) {
             this._searchContainer = new SearchContainer<AssetEntry>(this._request, iteratorURL, null,
@@ -175,8 +165,8 @@ public class SearchAssociationDisplayContext {
         // Recherche
         this._hits = SearchHelper.getGlobalSearchHits(searchContext, classNames, groupId, globalGroupId, false,
                 "", false, "", null, null, categoriesIds, new ArrayList<Long[]>(),
-                new String[]{}, "", false, this._themeDisplay.getLocale(), getSearchContainer().getStart(),
-                getSearchContainer().getEnd(), "modified_sortable", true);
+                new String[]{}, "", false, this._themeDisplay.getLocale(), -1,
+                -1, "modified_sortable", true);
 
         List<AssetEntry> results = new ArrayList<AssetEntry>();
         if (this._hits != null) {
@@ -202,10 +192,16 @@ public class SearchAssociationDisplayContext {
                     associationList.add(practice.getAssociationId());
                 }
             }
+            // on tri les associations par nom
+            results.sort(Comparator.comparing(AssetEntry::getTitle));
             this.getSearchContainer().setTotal(results.size());
         }
 
-        this._entries = results;
+        int start = this._searchContainer.getStart();
+        int end = this._searchContainer.getEnd();
+        int total = this.getSearchContainer().getTotal();
+
+        this._entries = results.subList(start, end > total ? total : end);
     }
 
     /**

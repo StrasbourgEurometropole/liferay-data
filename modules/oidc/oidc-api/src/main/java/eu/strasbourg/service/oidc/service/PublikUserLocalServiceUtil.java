@@ -53,6 +53,21 @@ public class PublikUserLocalServiceUtil {
 		return getService().addPublikUser(publikUser);
 	}
 
+	/**
+	 * Anonymise l'utilisateur pour placit
+	 * suppression de la signature du pacte,
+	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
+	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
+	 *
+	 * @return
+	 */
+	public static void anonymisedUserPlacit(
+		eu.strasbourg.service.oidc.model.PublikUser anonymUser,
+		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
+
+		getService().anonymisedUserPlacit(anonymUser, publikUser);
+	}
+
 	public static eu.strasbourg.service.oidc.model.PublikUser
 		createPublikUser() {
 

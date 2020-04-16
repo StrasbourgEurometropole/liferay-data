@@ -44,6 +44,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.service.PriceLocalService;
+import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
 import eu.strasbourg.service.place.service.persistence.PlacePersistence;
 import eu.strasbourg.service.place.service.persistence.PricePersistence;
@@ -326,6 +327,55 @@ public abstract class PriceLocalServiceBaseImpl
 	@Override
 	public Price updatePrice(Price price) {
 		return pricePersistence.update(price);
+	}
+
+	/**
+	 * Returns the google my business historic local service.
+	 *
+	 * @return the google my business historic local service
+	 */
+	public
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			getGoogleMyBusinessHistoricLocalService() {
+
+		return googleMyBusinessHistoricLocalService;
+	}
+
+	/**
+	 * Sets the google my business historic local service.
+	 *
+	 * @param googleMyBusinessHistoricLocalService the google my business historic local service
+	 */
+	public void setGoogleMyBusinessHistoricLocalService(
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService) {
+
+		this.googleMyBusinessHistoricLocalService =
+			googleMyBusinessHistoricLocalService;
+	}
+
+	/**
+	 * Returns the google my business historic persistence.
+	 *
+	 * @return the google my business historic persistence
+	 */
+	public GoogleMyBusinessHistoricPersistence
+		getGoogleMyBusinessHistoricPersistence() {
+
+		return googleMyBusinessHistoricPersistence;
+	}
+
+	/**
+	 * Sets the google my business historic persistence.
+	 *
+	 * @param googleMyBusinessHistoricPersistence the google my business historic persistence
+	 */
+	public void setGoogleMyBusinessHistoricPersistence(
+		GoogleMyBusinessHistoricPersistence
+			googleMyBusinessHistoricPersistence) {
+
+		this.googleMyBusinessHistoricPersistence =
+			googleMyBusinessHistoricPersistence;
 	}
 
 	/**
@@ -795,6 +845,17 @@ public abstract class PriceLocalServiceBaseImpl
 			throw new SystemException(e);
 		}
 	}
+
+	@BeanReference(
+		type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class
+	)
+	protected
+		eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService
+			googleMyBusinessHistoricLocalService;
+
+	@BeanReference(type = GoogleMyBusinessHistoricPersistence.class)
+	protected GoogleMyBusinessHistoricPersistence
+		googleMyBusinessHistoricPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.place.service.PeriodLocalService.class

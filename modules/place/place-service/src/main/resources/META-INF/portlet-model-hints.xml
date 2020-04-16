@@ -1,6 +1,33 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="eu.strasbourg.service.place.model.GoogleMyBusinessHistoric">
+		<field name="uuid" type="String" />
+		<field name="googleMyBusinessHistoricId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="lastPublishDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="result" type="int" />
+		<field name="operations" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorStackTrace" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="startDate" type="Date" />
+		<field name="finishDate" type="Date" />
+	</model>
 	<model name="eu.strasbourg.service.place.model.Period">
 		<field name="uuid" type="String" />
 		<field name="periodId" type="long" />
@@ -56,6 +83,7 @@
 		<field name="mercatorY" type="String" />
 		<field name="RGF93X" type="String" />
 		<field name="RGF93Y" type="String" />
+		<field name="locationId" type="String" />
 		<field localized="true" name="alias" type="String" />
 		<field localized="true" name="presentation" type="String">
 			<hint-collection name="EDITOR" />
@@ -88,6 +116,8 @@
 		<field localized="true" name="siteLabel" type="String" />
 		<field localized="true" name="facebookURL" type="String" />
 		<field localized="true" name="facebookLabel" type="String" />
+		<field localized="true" name="instagramURL" type="String" />
+		<field localized="true" name="instagramLabel" type="String" />
 		<field localized="true" name="accesMap" type="String" />
 		<field localized="true" name="access" type="String">
 			<hint-collection name="EDITOR" />

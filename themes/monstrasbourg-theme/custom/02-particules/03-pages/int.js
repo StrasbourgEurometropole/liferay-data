@@ -59,7 +59,7 @@ function dot(){
 			
 	}); // End onReady  
 
-	$(window).load(function(){
+	$(window).on("load", function(){
 		manageStickyHeader();
 		$(window).scroll(function(){
 			manageStickyHeader();

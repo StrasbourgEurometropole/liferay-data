@@ -3,7 +3,7 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
-<nav class="navbar mns-nav">
+<nav class="navbar mns-nav navbar-expand-md navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
@@ -16,11 +16,11 @@
     </div>
     <div class="container mns-navbar-wrapper">
         <div class="sully-navbar-header">
+            <a class="navbar-brand" href="${homeURL}">
+            </a>
             <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="${homeURL}">
-            </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -55,7 +55,7 @@
                 <#list nav_items as nav_item>
                     <#if nav_item.hasChildren()>
                         <li class="dropdown">
-                            <a href="${nav_item.getURL()}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${nav_item.getName()}</a>
+                            <a href="${nav_item.getURL()}" class="dropdown-toggle" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false">${nav_item.getName()}</a>
                             <ul class="dropdown-menu">
                                 <#list nav_item.getChildren() as nav_child>
                                     <li>

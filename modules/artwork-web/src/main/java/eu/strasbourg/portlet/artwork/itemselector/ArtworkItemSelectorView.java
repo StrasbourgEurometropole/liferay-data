@@ -59,7 +59,7 @@ public class ArtworkItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Artworks";
+		return "Oeuvres";
 	}
 
 	@Override

@@ -3,7 +3,7 @@
 <#else>
   <#assign homeURL = "" />
 </#if>
-<nav class="navbar mns-nav">
+<nav class="navbar mns-nav navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="container mns-navbar-wrapper">
+    <div class="container navbar-expand-md mns-navbar-wrapper">
         <div class="sully-navbar-header">
             <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="navbar-toggler-icon"></span>

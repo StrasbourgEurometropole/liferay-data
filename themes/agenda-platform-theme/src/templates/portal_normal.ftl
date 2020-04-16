@@ -64,12 +64,10 @@
 
 	<footer id="footer" role="contentinfo">
 		<div class="container-fluid">
-			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 			<@liferay_portlet["runtime"]
 				defaultPreferences="${freeMarkerPortletPreferences}"
 				portletProviderAction=portletProviderAction.VIEW
 				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet" />
-			${freeMarkerPortletPreferences.reset()}
 		</div>
 	</footer>
 </div>

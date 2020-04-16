@@ -15,6 +15,7 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 
 <liferay-util:html-bottom>
+    <script type="text/javascript" src="/o/monstrasbourg-theme/js/strasbourg.js"></script>
 	<aui:script>
 		$(document).ready(function() {
 		    $('body').on('click', '[data-favconfirm]', function(e){

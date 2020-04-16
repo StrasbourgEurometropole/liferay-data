@@ -7,6 +7,11 @@
 }
 
 
+a {
+  color: #337ab7;
+}
+
+
 /* Formulaire de connexion */
 .portlet-login {
   margin: 100px auto 200px auto;
@@ -24,6 +29,10 @@
   }
 }
 
+/* Masquage du menu du contenu web en mode non connecté liferay */
+.signed-out .seu section .mb-2 {
+ display: none;
+}
 
 /* Formulaire d'acceptation des terme d'utilisation */
 #portlet_terms-of-use + form {
@@ -55,14 +64,14 @@ form.update-reminder-query  {
 /* Décallage lorsqu'un utilisateur est connecté */
 
 .has-control-menu .seu-header, .has-control-menu .smag-header {
-  top: 66px;
+  top: 56px;
 }
 .has-control-menu .seu-nav-bottom.seu-nav-bottom {
   top: calc(100vh - 120px);
 }
 
 .seu-not-front.has-control-menu, .smag.has-control-menu {
-  margin-top: 66px;
+  margin-top: 56px;
 }
 
 .page-header {

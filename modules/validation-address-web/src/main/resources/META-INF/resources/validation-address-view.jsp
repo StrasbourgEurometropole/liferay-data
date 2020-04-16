@@ -80,13 +80,8 @@
 </c:if>
 
 <liferay-util:html-bottom>
-	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
-	</aui:script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
 	<script>
-		define.amd = define._amd;
 		window.forcedCity = '';
 	</script>
 	<script

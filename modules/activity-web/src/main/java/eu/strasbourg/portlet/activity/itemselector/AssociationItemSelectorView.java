@@ -62,7 +62,7 @@ public class AssociationItemSelectorView
 
 	@Override
 	public String getTitle(Locale locale) {
-		return "Association";
+		return "Associations";
 	}
 
 	@Override

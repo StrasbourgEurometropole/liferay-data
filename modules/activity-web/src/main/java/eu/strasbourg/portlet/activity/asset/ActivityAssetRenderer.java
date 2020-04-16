@@ -1,12 +1,12 @@
 package eu.strasbourg.portlet.activity.asset;
+import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
+
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
 
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;

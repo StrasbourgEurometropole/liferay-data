@@ -12,7 +12,7 @@
                 WHERE event.status = 0
                 GROUP BY event.eventId
                 ORDER BY next_representation, multiple_representation, lastEndDate) AS next_representations
-            INNER JOIN agenda_Event AS event ON event.eventId = next_representations.eventId;
+            INNER JOIN agenda_Event AS event ON event.eventId = next_representations.eventId
 		]]>
     </sql>
 </custom-sql>

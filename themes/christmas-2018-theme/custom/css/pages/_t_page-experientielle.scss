@@ -303,10 +303,11 @@
 			}
 			.label-wrapper {
 				position: relative;
-				display: block;
+				display: flex;
 				text-align: center;
 				margin-bottom: 30px;
 				.label {
+					border: none;
 					position: relative;
 					display: inline-block;
 					vertical-align: middle;
@@ -945,7 +946,7 @@
 			position: absolute;
 			left: 0;
 			right: 0;
-			bottom: 50px;
+			bottom: 40px;
 			width: 100%;
 			text-align: center;
 			@media screen and (min-height: 900px) {

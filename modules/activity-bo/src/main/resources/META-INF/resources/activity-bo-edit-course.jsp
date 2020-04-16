@@ -126,7 +126,7 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="places-and-schedules">
 					
-				<div id="place-fields">
+				<div id="place-fields" class="form-group">
 					<c:if test="${empty dc.activityCourse.activityCoursePlaces}">
 						<div class="lfr-form-row lfr-form-row-inline main-content-card">
 							<h3><liferay-ui:message key="place" /></h3>

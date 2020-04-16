@@ -1,5 +1,6 @@
 package eu.strasbourg.service.social.impl.instagram;
 
+
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -8,7 +9,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.social.SocialPost;
 import eu.strasbourg.service.social.impl.SocialMedia;
-import eu.strasbourg.service.social.impl.twitter.twemoji.Twemoji;
 import eu.strasbourg.utils.JSONHelper;
 
 import java.io.IOException;
@@ -26,8 +26,10 @@ public class InstagramClient {
 
 	public static List<SocialPost> getInstagramPosts(String token, int count) {
 
+
 		Object timelineFromCache = MultiVMPoolUtil.getPortalCache("instagram_cache").get(token);
 		Object lastTimelineUpdate = MultiVMPoolUtil.getPortalCache("instagram_cache").get(token + "_last_update");
+
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
 			//Cache de 5min car 200 appels (tout confondus, dont get:User/media + get:Media) autorisés par heure
@@ -37,6 +39,7 @@ public class InstagramClient {
 				return (List<SocialPost>) timelineFromCache;
 			}
 		}
+
 
 		Object[] stringData = {token, count};
 		String apiURL = "https://graph.instagram.com/me?access_token=%s&fields=media&limit=%s";
@@ -101,10 +104,12 @@ public class InstagramClient {
 		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(token);
 		MultiVMPoolUtil.getPortalCache("instagram_cache")
 				.remove(token + "_last_update");
+
 		MultiVMPoolUtil.getPortalCache("instagram_cache")
 				.put(token, (Serializable) posts);
 		MultiVMPoolUtil.getPortalCache("instagram_cache")
 				.put(token + "_last_update", new Date().getTime());
+
 		return posts;
 	}
 
