@@ -20,6 +20,8 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -48,6 +50,7 @@ import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
@@ -300,12 +303,25 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
 		List<Participation> participationResults = new ArrayList<Participation>();
 
-		if(getProjectCategory() != null)
-			assetResults = AssetEntryLocalServiceUtil
-					.getAssetCategoryAssetEntries(getProjectCategory()
-							.getCategoryId()).stream()
+		if(getProjectCategory() != null) {
+			List<AssetEntryAssetCategoryRel> entriesRel = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(getProjectCategory()
+					.getCategoryId());
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						assetResults.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			assetResults.stream()
 					.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 					.collect(Collectors.toList());
+		}
 
 		for (AssetEntry assetEntry : assetResults) {
 			participationResults.add(ParticipationLocalServiceUtil.fetchParticipation(assetEntry.getClassPK()));
@@ -319,12 +335,25 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<AssetEntry> assetResults = new ArrayList<>();
 		List<Petition> petitionsResults = new ArrayList<>();
 
-		if(getProjectCategory() != null)
-			assetResults = AssetEntryLocalServiceUtil
-					.getAssetCategoryAssetEntries(getProjectCategory()
-							.getCategoryId()).stream()
+		if(getProjectCategory() != null) {
+			List<AssetEntryAssetCategoryRel> entriesRel = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(getProjectCategory()
+					.getCategoryId());
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						assetResults.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			assetResults.stream()
 					.filter(cat -> cat.getClassName().equals(Petition.class.getName()) && cat.isVisible())
 					.collect(Collectors.toList());
+		}
 
 		for (AssetEntry assetEntry : assetResults) {
             petitionsResults.add(PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK()));
@@ -341,16 +370,29 @@ public class ProjectImpl extends ProjectBaseImpl {
 		List<AssetEntry> assetResults = new ArrayList<AssetEntry>();
 		List<Event> eventResults = new ArrayList<Event>();
 		
-		if(getProjectCategory() != null)
-			assetResults = AssetEntryLocalServiceUtil
-			.getAssetCategoryAssetEntries(getProjectCategory()
-			.getCategoryId()).stream()
-			.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
-			.collect(Collectors.toList());
-		
-			for (AssetEntry assetEntry : assetResults) {
-				eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
+		if(getProjectCategory() != null) {
+			List<AssetEntryAssetCategoryRel> entriesRel = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(getProjectCategory()
+					.getCategoryId());
+
+			//transforme les AssetEntriesAssetCategories en AssetEntries
+			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+				if (Validator.isNotNull(entryRel)) {
+					try {
+						assetResults.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+					} catch (PortalException e) {
+						e.printStackTrace();
+					}
+				}
 			}
+
+			assetResults.stream()
+					.filter(cat -> cat.getClassName().equals(Event.class.getName()) && cat.isVisible())
+					.collect(Collectors.toList());
+		}
+		
+		for (AssetEntry assetEntry : assetResults) {
+			eventResults.add(EventLocalServiceUtil.fetchEvent(assetEntry.getClassPK()));
+		}
 
 		return eventResults;
 	}
@@ -475,5 +517,8 @@ public class ProjectImpl extends ProjectBaseImpl {
 
 		return jsonProject;
 	}
+
+	@Reference
+	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 }
