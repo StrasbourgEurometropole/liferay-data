@@ -1,0 +1,34 @@
+%organism-wi-embed{
+    background-color: #f6f6f6;
+    .seu-media-container{
+        @include RWD(mobile){
+            display: block;
+        }
+    }
+    .seu-media-picto{
+        background-color: #FFFFFF;
+        background-image: url( svg-bg-uri($svg-movie, $core-color) );
+    }
+    .seu-media-text{
+        .seu-media-title{
+            color: $core-color;
+        }
+        p{
+            color: $text-basis-color;
+        }
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+    }
+
+    // Ratio embed
+    .seu-media-ratio{
+        height: unset;
+        padding-bottom: 56.36%;
+        position: relative;
+        & > * {
+            position: absolute;
+            top: 0; left: 0; height: 100%; width: 100%;
+        }
+    }
+}
