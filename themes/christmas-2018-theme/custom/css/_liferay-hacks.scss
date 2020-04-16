@@ -84,9 +84,15 @@ h2.portlet-title-text {
     position: relative;
     padding: 10px 0;
     margin-bottom: 30px;
-  .lfr-pagination-buttons {
-    line-height: 46px;
-  }
+    .lfr-icon-menu-text{
+      color: #333;
+    }
+    .lfr-icon-menu-arrow{
+      color: #333;
+    }
+    .lfr-pagination-buttons {
+      line-height: 46px;
+    }
 }
 
 .mns-triple-actu-bloc .mns-bloc-actu img{
