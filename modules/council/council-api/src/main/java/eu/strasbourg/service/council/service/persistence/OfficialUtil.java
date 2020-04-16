@@ -232,17 +232,17 @@ public class OfficialUtil {
 	/**
 	* Returns the officials before and after the current official in the ordered set where uuid = &#63;.
 	*
-	* @param officailId the primary key of the current official
+	* @param officialId the primary key of the current official
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public static Official[] findByUuid_PrevAndNext(long officailId,
+	public static Official[] findByUuid_PrevAndNext(long officialId,
 		java.lang.String uuid, OrderByComparator<Official> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
 		return getPersistence()
-				   .findByUuid_PrevAndNext(officailId, uuid, orderByComparator);
+				   .findByUuid_PrevAndNext(officialId, uuid, orderByComparator);
 	}
 
 	/**
@@ -461,19 +461,19 @@ public class OfficialUtil {
 	/**
 	* Returns the officials before and after the current official in the ordered set where uuid = &#63; and companyId = &#63;.
 	*
-	* @param officailId the primary key of the current official
+	* @param officialId the primary key of the current official
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public static Official[] findByUuid_C_PrevAndNext(long officailId,
+	public static Official[] findByUuid_C_PrevAndNext(long officialId,
 		java.lang.String uuid, long companyId,
 		OrderByComparator<Official> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
 		return getPersistence()
-				   .findByUuid_C_PrevAndNext(officailId, uuid, companyId,
+				   .findByUuid_C_PrevAndNext(officialId, uuid, companyId,
 			orderByComparator);
 	}
 
@@ -496,61 +496,6 @@ public class OfficialUtil {
 	*/
 	public static int countByUuid_C(java.lang.String uuid, long companyId) {
 		return getPersistence().countByUuid_C(uuid, companyId);
-	}
-
-	/**
-	* Returns the official where officailId = &#63; or throws a {@link NoSuchOfficialException} if it could not be found.
-	*
-	* @param officailId the officail ID
-	* @return the matching official
-	* @throws NoSuchOfficialException if a matching official could not be found
-	*/
-	public static Official findByOfficailId(long officailId)
-		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
-		return getPersistence().findByOfficailId(officailId);
-	}
-
-	/**
-	* Returns the official where officailId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param officailId the officail ID
-	* @return the matching official, or <code>null</code> if a matching official could not be found
-	*/
-	public static Official fetchByOfficailId(long officailId) {
-		return getPersistence().fetchByOfficailId(officailId);
-	}
-
-	/**
-	* Returns the official where officailId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param officailId the officail ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching official, or <code>null</code> if a matching official could not be found
-	*/
-	public static Official fetchByOfficailId(long officailId,
-		boolean retrieveFromCache) {
-		return getPersistence().fetchByOfficailId(officailId, retrieveFromCache);
-	}
-
-	/**
-	* Removes the official where officailId = &#63; from the database.
-	*
-	* @param officailId the officail ID
-	* @return the official that was removed
-	*/
-	public static Official removeByOfficailId(long officailId)
-		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
-		return getPersistence().removeByOfficailId(officailId);
-	}
-
-	/**
-	* Returns the number of officials where officailId = &#63;.
-	*
-	* @param officailId the officail ID
-	* @return the number of matching officials
-	*/
-	public static int countByOfficailId(long officailId) {
-		return getPersistence().countByOfficailId(officailId);
 	}
 
 	/**
@@ -675,17 +620,17 @@ public class OfficialUtil {
 	/**
 	* Returns the officials before and after the current official in the ordered set where email = &#63;.
 	*
-	* @param officailId the primary key of the current official
+	* @param officialId the primary key of the current official
 	* @param email the email
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public static Official[] findByEmail_PrevAndNext(long officailId,
+	public static Official[] findByEmail_PrevAndNext(long officialId,
 		java.lang.String email, OrderByComparator<Official> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
 		return getPersistence()
-				   .findByEmail_PrevAndNext(officailId, email, orderByComparator);
+				   .findByEmail_PrevAndNext(officialId, email, orderByComparator);
 	}
 
 	/**
@@ -728,23 +673,23 @@ public class OfficialUtil {
 	/**
 	* Creates a new official with the primary key. Does not add the official to the database.
 	*
-	* @param officailId the primary key for the new official
+	* @param officialId the primary key for the new official
 	* @return the new official
 	*/
-	public static Official create(long officailId) {
-		return getPersistence().create(officailId);
+	public static Official create(long officialId) {
+		return getPersistence().create(officialId);
 	}
 
 	/**
 	* Removes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official that was removed
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public static Official remove(long officailId)
+	public static Official remove(long officialId)
 		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
-		return getPersistence().remove(officailId);
+		return getPersistence().remove(officialId);
 	}
 
 	public static Official updateImpl(Official official) {
@@ -754,23 +699,23 @@ public class OfficialUtil {
 	/**
 	* Returns the official with the primary key or throws a {@link NoSuchOfficialException} if it could not be found.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official
 	* @throws NoSuchOfficialException if a official with the primary key could not be found
 	*/
-	public static Official findByPrimaryKey(long officailId)
+	public static Official findByPrimaryKey(long officialId)
 		throws eu.strasbourg.service.council.exception.NoSuchOfficialException {
-		return getPersistence().findByPrimaryKey(officailId);
+		return getPersistence().findByPrimaryKey(officialId);
 	}
 
 	/**
 	* Returns the official with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official, or <code>null</code> if a official with the primary key could not be found
 	*/
-	public static Official fetchByPrimaryKey(long officailId) {
-		return getPersistence().fetchByPrimaryKey(officailId);
+	public static Official fetchByPrimaryKey(long officialId) {
+		return getPersistence().fetchByPrimaryKey(officialId);
 	}
 
 	public static java.util.Map<java.io.Serializable, Official> fetchByPrimaryKeys(

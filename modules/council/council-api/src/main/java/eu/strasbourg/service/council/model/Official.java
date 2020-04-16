@@ -37,10 +37,10 @@ public interface Official extends OfficialModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.OfficialImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Official, Long> OFFICAIL_ID_ACCESSOR = new Accessor<Official, Long>() {
+	public static final Accessor<Official, Long> OFFICIAL_ID_ACCESSOR = new Accessor<Official, Long>() {
 			@Override
 			public Long get(Official official) {
-				return official.getOfficailId();
+				return official.getOfficialId();
 			}
 
 			@Override

@@ -108,25 +108,25 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Creates a new official with the primary key. Does not add the official to the database.
 	 *
-	 * @param officailId the primary key for the new official
+	 * @param officialId the primary key for the new official
 	 * @return the new official
 	 */
 	@Override
-	public Official createOfficial(long officailId) {
-		return officialPersistence.create(officailId);
+	public Official createOfficial(long officialId) {
+		return officialPersistence.create(officialId);
 	}
 
 	/**
 	 * Deletes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official that was removed
 	 * @throws PortalException if a official with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Official deleteOfficial(long officailId) throws PortalException {
-		return officialPersistence.remove(officailId);
+	public Official deleteOfficial(long officialId) throws PortalException {
+		return officialPersistence.remove(officialId);
 	}
 
 	/**
@@ -224,8 +224,8 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	@Override
-	public Official fetchOfficial(long officailId) {
-		return officialPersistence.fetchByPrimaryKey(officailId);
+	public Official fetchOfficial(long officialId) {
+		return officialPersistence.fetchByPrimaryKey(officialId);
 	}
 
 	/**
@@ -243,13 +243,13 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Returns the official with the primary key.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official
 	 * @throws PortalException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official getOfficial(long officailId) throws PortalException {
-		return officialPersistence.findByPrimaryKey(officailId);
+	public Official getOfficial(long officialId) throws PortalException {
+		return officialPersistence.findByPrimaryKey(officialId);
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Official.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("officailId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("officialId");
 
 		return actionableDynamicQuery;
 	}
@@ -273,7 +273,7 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Official.class);
 
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("officailId");
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("officialId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -284,7 +284,7 @@ public abstract class OfficialLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Official.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("officailId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName("officialId");
 	}
 
 	@Override

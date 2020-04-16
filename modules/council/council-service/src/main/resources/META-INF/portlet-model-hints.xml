@@ -42,7 +42,7 @@
 	</model>
 	<model name="eu.strasbourg.service.council.model.Official">
 		<field name="uuid" type="String" />
-		<field name="officailId" type="long" />
+		<field name="officialId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />

@@ -51,7 +51,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 		OfficialCacheModel officialCacheModel = (OfficialCacheModel)obj;
 
-		if (officailId == officialCacheModel.officailId) {
+		if (officialId == officialCacheModel.officialId) {
 			return true;
 		}
 
@@ -60,7 +60,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, officailId);
+		return HashUtil.hash(0, officialId);
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", officailId=");
-		sb.append(officailId);
+		sb.append(", officialId=");
+		sb.append(officialId);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
@@ -119,7 +119,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			officialImpl.setUuid(uuid);
 		}
 
-		officialImpl.setOfficailId(officailId);
+		officialImpl.setOfficialId(officialId);
 		officialImpl.setGroupId(groupId);
 		officialImpl.setCompanyId(companyId);
 		officialImpl.setUserId(userId);
@@ -196,7 +196,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		officailId = objectInput.readLong();
+		officialId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
 
@@ -233,7 +233,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(officailId);
+		objectOutput.writeLong(officialId);
 
 		objectOutput.writeLong(groupId);
 
@@ -293,7 +293,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	}
 
 	public String uuid;
-	public long officailId;
+	public long officialId;
 	public long groupId;
 	public long companyId;
 	public long userId;

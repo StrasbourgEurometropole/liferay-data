@@ -70,7 +70,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final String TABLE_NAME = "council_Official";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
-			{ "officailId", Types.BIGINT },
+			{ "officialId", Types.BIGINT },
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
@@ -92,7 +92,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("officailId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("officialId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
@@ -111,7 +111,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officailId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isEms BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isEms BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
 	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC";
@@ -130,9 +130,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long EMAIL_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long OFFICAILID_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long LASTNAME_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long LASTNAME_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Official"));
 
@@ -141,17 +140,17 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public long getPrimaryKey() {
-		return _officailId;
+		return _officialId;
 	}
 
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		setOfficailId(primaryKey);
+		setOfficialId(primaryKey);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _officailId;
+		return _officialId;
 	}
 
 	@Override
@@ -174,7 +173,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("officailId", getOfficailId());
+		attributes.put("officialId", getOfficialId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -206,10 +205,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			setUuid(uuid);
 		}
 
-		Long officailId = (Long)attributes.get("officailId");
+		Long officialId = (Long)attributes.get("officialId");
 
-		if (officailId != null) {
-			setOfficailId(officailId);
+		if (officialId != null) {
+			setOfficialId(officialId);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -334,25 +333,13 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	}
 
 	@Override
-	public long getOfficailId() {
-		return _officailId;
+	public long getOfficialId() {
+		return _officialId;
 	}
 
 	@Override
-	public void setOfficailId(long officailId) {
-		_columnBitmask |= OFFICAILID_COLUMN_BITMASK;
-
-		if (!_setOriginalOfficailId) {
-			_setOriginalOfficailId = true;
-
-			_originalOfficailId = _officailId;
-		}
-
-		_officailId = officailId;
-	}
-
-	public long getOriginalOfficailId() {
-		return _originalOfficailId;
+	public void setOfficialId(long officialId) {
+		_officialId = officialId;
 	}
 
 	@Override
@@ -747,7 +734,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		OfficialImpl officialImpl = new OfficialImpl();
 
 		officialImpl.setUuid(getUuid());
-		officialImpl.setOfficailId(getOfficailId());
+		officialImpl.setOfficialId(getOfficialId());
 		officialImpl.setGroupId(getGroupId());
 		officialImpl.setCompanyId(getCompanyId());
 		officialImpl.setUserId(getUserId());
@@ -826,10 +813,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		officialModelImpl._originalUuid = officialModelImpl._uuid;
 
-		officialModelImpl._originalOfficailId = officialModelImpl._officailId;
-
-		officialModelImpl._setOriginalOfficailId = false;
-
 		officialModelImpl._originalGroupId = officialModelImpl._groupId;
 
 		officialModelImpl._setOriginalGroupId = false;
@@ -857,7 +840,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			officialCacheModel.uuid = null;
 		}
 
-		officialCacheModel.officailId = getOfficailId();
+		officialCacheModel.officialId = getOfficialId();
 
 		officialCacheModel.groupId = getGroupId();
 
@@ -951,8 +934,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
-		sb.append(", officailId=");
-		sb.append(getOfficailId());
+		sb.append(", officialId=");
+		sb.append(getOfficialId());
 		sb.append(", groupId=");
 		sb.append(getGroupId());
 		sb.append(", companyId=");
@@ -1003,8 +986,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getUuid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>officailId</column-name><column-value><![CDATA[");
-		sb.append(getOfficailId());
+			"<column><column-name>officialId</column-name><column-value><![CDATA[");
+		sb.append(getOfficialId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>groupId</column-name><column-value><![CDATA[");
@@ -1082,9 +1065,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		};
 	private String _uuid;
 	private String _originalUuid;
-	private long _officailId;
-	private long _originalOfficailId;
-	private boolean _setOriginalOfficailId;
+	private long _officialId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;

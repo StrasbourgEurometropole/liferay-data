@@ -34,7 +34,7 @@ public class OfficialSoap implements Serializable {
 		OfficialSoap soapModel = new OfficialSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setOfficailId(model.getOfficailId());
+		soapModel.setOfficialId(model.getOfficialId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -96,11 +96,11 @@ public class OfficialSoap implements Serializable {
 	}
 
 	public long getPrimaryKey() {
-		return _officailId;
+		return _officialId;
 	}
 
 	public void setPrimaryKey(long pk) {
-		setOfficailId(pk);
+		setOfficialId(pk);
 	}
 
 	public String getUuid() {
@@ -111,12 +111,12 @@ public class OfficialSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getOfficailId() {
-		return _officailId;
+	public long getOfficialId() {
+		return _officialId;
 	}
 
-	public void setOfficailId(long officailId) {
-		_officailId = officailId;
+	public void setOfficialId(long officialId) {
+		_officialId = officialId;
 	}
 
 	public long getGroupId() {
@@ -260,7 +260,7 @@ public class OfficialSoap implements Serializable {
 	}
 
 	private String _uuid;
-	private long _officailId;
+	private long _officialId;
 	private long _groupId;
 	private long _companyId;
 	private long _userId;

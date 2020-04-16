@@ -18,11 +18,21 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the official local service.
@@ -63,6 +73,99 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		official.setStatus(WorkflowConstants.STATUS_DRAFT);
 
 		return official;
+	}
+
+	/**
+	 * Met à jour une entité et l'enregistre en base de données
+	 */
+	@Override
+	public Official updateOfficial(Official official, ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		official.setStatusByUserId(sc.getUserId());
+		official.setStatusByUserName(user.getFullName());
+		official.setStatusDate(sc.getModifiedDate());
+
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			official.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			official.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		official = this.officialLocalService.updateOfficial(official);
+
+		this.reindex(official, false);
+
+		return official;
+	}
+
+	/**
+	 * Met à jour le statut de l'entité par le framework workflow
+	 */
+	@Override
+	public Official updateStatus(long userId, long entryId, int status, ServiceContext sc,
+								 Map<String, Serializable> workflowContext) throws PortalException {
+		// Statut de l'entité
+		Official official = this.getOfficial(entryId);
+		official.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			official.setStatusByUserId(user.getUserId());
+			official.setStatusByUserName(user.getFullName());
+		}
+		official.setStatusDate(new Date());
+		official = this.officialLocalService.updateOfficial(official);
+
+		this.reindex(official, false);
+
+		return official;
+	}
+
+	/**
+	 * Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(Official official, int status) throws PortalException {
+		this.updateStatus(official.getUserId(), official.getOfficialId(), status, null,
+				null);
+	}
+
+	/**
+	 * Supprime une entité
+	 */
+	@Override
+	public Official removeOfficial(long officialId) throws PortalException {
+		// Supprime l'entité
+		Official official = this.officialPersistence.remove(officialId);
+
+		// Supprime l'index
+		this.reindex(official, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+				official.getCompanyId(), official.getGroupId(), Official.class.getName(),
+				official.getOfficialId());
+
+		return official;
+	}
+
+	/**
+	 * Reindex l'entité dans le moteur de recherche
+	 */
+	private void reindex(Official deliberation, boolean delete) throws SearchException {
+		Indexer<Official> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Official.class);
+		if (delete) {
+			indexer.delete(deliberation);
+		} else {
+			indexer.reindex(deliberation);
+		}
+	}
+
+	/**
+	 * Recherche par ID de CouncilSession
+	 */
+	@Override
+	public List<Official> findByEmail(String email) {
+		return this.officialPersistence.findByEmail(email);
 	}
 
 }

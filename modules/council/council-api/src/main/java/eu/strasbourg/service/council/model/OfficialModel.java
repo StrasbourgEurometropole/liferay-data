@@ -85,18 +85,18 @@ public interface OfficialModel extends BaseModel<Official>, GroupedModel,
 	public void setUuid(String uuid);
 
 	/**
-	 * Returns the officail ID of this official.
+	 * Returns the official ID of this official.
 	 *
-	 * @return the officail ID of this official
+	 * @return the official ID of this official
 	 */
-	public long getOfficailId();
+	public long getOfficialId();
 
 	/**
-	 * Sets the officail ID of this official.
+	 * Sets the official ID of this official.
 	 *
-	 * @param officailId the officail ID of this official
+	 * @param officialId the official ID of this official
 	 */
-	public void setOfficailId(long officailId);
+	public void setOfficialId(long officialId);
 
 	/**
 	 * Returns the group ID of this official.

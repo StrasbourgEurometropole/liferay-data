@@ -35,7 +35,6 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -399,17 +398,17 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	/**
 	 * Returns the officials before and after the current official in the ordered set where uuid = &#63;.
 	 *
-	 * @param officailId the primary key of the current official
+	 * @param officialId the primary key of the current official
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next official
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official[] findByUuid_PrevAndNext(long officailId, String uuid,
+	public Official[] findByUuid_PrevAndNext(long officialId, String uuid,
 		OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = findByPrimaryKey(officailId);
+		Official official = findByPrimaryKey(officialId);
 
 		Session session = null;
 
@@ -1227,7 +1226,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	/**
 	 * Returns the officials before and after the current official in the ordered set where uuid = &#63; and companyId = &#63;.
 	 *
-	 * @param officailId the primary key of the current official
+	 * @param officialId the primary key of the current official
 	 * @param uuid the uuid
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1235,10 +1234,10 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official[] findByUuid_C_PrevAndNext(long officailId, String uuid,
+	public Official[] findByUuid_C_PrevAndNext(long officialId, String uuid,
 		long companyId, OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = findByPrimaryKey(officailId);
+		Official official = findByPrimaryKey(officialId);
 
 		Session session = null;
 
@@ -1477,220 +1476,6 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "official.uuid = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(official.uuid IS NULL OR official.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "official.companyId = ?";
-	public static final FinderPath FINDER_PATH_FETCH_BY_OFFICAILID = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByOfficailId",
-			new String[] { Long.class.getName() },
-			OfficialModelImpl.OFFICAILID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_OFFICAILID = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOfficailId",
-			new String[] { Long.class.getName() });
-
-	/**
-	 * Returns the official where officailId = &#63; or throws a {@link NoSuchOfficialException} if it could not be found.
-	 *
-	 * @param officailId the officail ID
-	 * @return the matching official
-	 * @throws NoSuchOfficialException if a matching official could not be found
-	 */
-	@Override
-	public Official findByOfficailId(long officailId)
-		throws NoSuchOfficialException {
-		Official official = fetchByOfficailId(officailId);
-
-		if (official == null) {
-			StringBundler msg = new StringBundler(4);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("officailId=");
-			msg.append(officailId);
-
-			msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchOfficialException(msg.toString());
-		}
-
-		return official;
-	}
-
-	/**
-	 * Returns the official where officailId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param officailId the officail ID
-	 * @return the matching official, or <code>null</code> if a matching official could not be found
-	 */
-	@Override
-	public Official fetchByOfficailId(long officailId) {
-		return fetchByOfficailId(officailId, true);
-	}
-
-	/**
-	 * Returns the official where officailId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param officailId the officail ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching official, or <code>null</code> if a matching official could not be found
-	 */
-	@Override
-	public Official fetchByOfficailId(long officailId, boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { officailId };
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_OFFICAILID,
-					finderArgs, this);
-		}
-
-		if (result instanceof Official) {
-			Official official = (Official)result;
-
-			if ((officailId != official.getOfficailId())) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_SELECT_OFFICIAL_WHERE);
-
-			query.append(_FINDER_COLUMN_OFFICAILID_OFFICAILID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(officailId);
-
-				List<Official> list = q.list();
-
-				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_OFFICAILID,
-						finderArgs, list);
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"OfficialPersistenceImpl.fetchByOfficailId(long, boolean) with parameters (" +
-								StringUtil.merge(finderArgs) +
-								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					Official official = list.get(0);
-
-					result = official;
-
-					cacheResult(official);
-
-					if ((official.getOfficailId() != officailId)) {
-						finderCache.putResult(FINDER_PATH_FETCH_BY_OFFICAILID,
-							finderArgs, official);
-					}
-				}
-			}
-			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_OFFICAILID,
-					finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (Official)result;
-		}
-	}
-
-	/**
-	 * Removes the official where officailId = &#63; from the database.
-	 *
-	 * @param officailId the officail ID
-	 * @return the official that was removed
-	 */
-	@Override
-	public Official removeByOfficailId(long officailId)
-		throws NoSuchOfficialException {
-		Official official = findByOfficailId(officailId);
-
-		return remove(official);
-	}
-
-	/**
-	 * Returns the number of officials where officailId = &#63;.
-	 *
-	 * @param officailId the officail ID
-	 * @return the number of matching officials
-	 */
-	@Override
-	public int countByOfficailId(long officailId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_OFFICAILID;
-
-		Object[] finderArgs = new Object[] { officailId };
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_OFFICIAL_WHERE);
-
-			query.append(_FINDER_COLUMN_OFFICAILID_OFFICAILID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				qPos.add(officailId);
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_OFFICAILID_OFFICAILID_2 = "official.officailId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEmail",
@@ -1996,17 +1781,17 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	/**
 	 * Returns the officials before and after the current official in the ordered set where email = &#63;.
 	 *
-	 * @param officailId the primary key of the current official
+	 * @param officialId the primary key of the current official
 	 * @param email the email
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next official
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official[] findByEmail_PrevAndNext(long officailId, String email,
+	public Official[] findByEmail_PrevAndNext(long officialId, String email,
 		OrderByComparator<Official> orderByComparator)
 		throws NoSuchOfficialException {
-		Official official = findByPrimaryKey(officailId);
+		Official official = findByPrimaryKey(officialId);
 
 		Session session = null;
 
@@ -2268,9 +2053,6 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { official.getUuid(), official.getGroupId() }, official);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_OFFICAILID,
-			new Object[] { official.getOfficailId() }, official);
-
 		official.resetOriginalValues();
 	}
 
@@ -2348,13 +2130,6 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			officialModelImpl, false);
-
-		args = new Object[] { officialModelImpl.getOfficailId() };
-
-		finderCache.putResult(FINDER_PATH_COUNT_BY_OFFICAILID, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_OFFICAILID, args,
-			officialModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2378,37 +2153,20 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] { officialModelImpl.getOfficailId() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_OFFICAILID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_OFFICAILID, args);
-		}
-
-		if ((officialModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_OFFICAILID.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					officialModelImpl.getOriginalOfficailId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_OFFICAILID, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_OFFICAILID, args);
-		}
 	}
 
 	/**
 	 * Creates a new official with the primary key. Does not add the official to the database.
 	 *
-	 * @param officailId the primary key for the new official
+	 * @param officialId the primary key for the new official
 	 * @return the new official
 	 */
 	@Override
-	public Official create(long officailId) {
+	public Official create(long officialId) {
 		Official official = new OfficialImpl();
 
 		official.setNew(true);
-		official.setPrimaryKey(officailId);
+		official.setPrimaryKey(officialId);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -2422,13 +2180,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	/**
 	 * Removes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official that was removed
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official remove(long officailId) throws NoSuchOfficialException {
-		return remove((Serializable)officailId);
+	public Official remove(long officialId) throws NoSuchOfficialException {
+		return remove((Serializable)officialId);
 	}
 
 	/**
@@ -2670,7 +2428,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		officialImpl.setPrimaryKey(official.getPrimaryKey());
 
 		officialImpl.setUuid(official.getUuid());
-		officialImpl.setOfficailId(official.getOfficailId());
+		officialImpl.setOfficialId(official.getOfficialId());
 		officialImpl.setGroupId(official.getGroupId());
 		officialImpl.setCompanyId(official.getCompanyId());
 		officialImpl.setUserId(official.getUserId());
@@ -2718,14 +2476,14 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	/**
 	 * Returns the official with the primary key or throws a {@link NoSuchOfficialException} if it could not be found.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official
 	 * @throws NoSuchOfficialException if a official with the primary key could not be found
 	 */
 	@Override
-	public Official findByPrimaryKey(long officailId)
+	public Official findByPrimaryKey(long officialId)
 		throws NoSuchOfficialException {
-		return findByPrimaryKey((Serializable)officailId);
+		return findByPrimaryKey((Serializable)officialId);
 	}
 
 	/**
@@ -2778,12 +2536,12 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	/**
 	 * Returns the official with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param officailId the primary key of the official
+	 * @param officialId the primary key of the official
 	 * @return the official, or <code>null</code> if a official with the primary key could not be found
 	 */
 	@Override
-	public Official fetchByPrimaryKey(long officailId) {
-		return fetchByPrimaryKey((Serializable)officailId);
+	public Official fetchByPrimaryKey(long officialId) {
+		return fetchByPrimaryKey((Serializable)officialId);
 	}
 
 	@Override
@@ -3100,7 +2858,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_OFFICIAL = "SELECT official FROM Official official";
-	private static final String _SQL_SELECT_OFFICIAL_WHERE_PKS_IN = "SELECT official FROM Official official WHERE officailId IN (";
+	private static final String _SQL_SELECT_OFFICIAL_WHERE_PKS_IN = "SELECT official FROM Official official WHERE officialId IN (";
 	private static final String _SQL_SELECT_OFFICIAL_WHERE = "SELECT official FROM Official official WHERE ";
 	private static final String _SQL_COUNT_OFFICIAL = "SELECT COUNT(official) FROM Official official";
 	private static final String _SQL_COUNT_OFFICIAL_WHERE = "SELECT COUNT(official) FROM Official official WHERE ";

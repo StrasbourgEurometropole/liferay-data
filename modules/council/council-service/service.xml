@@ -8,7 +8,7 @@
 	<entity local-service="true" remote-service="false" cache-enabled="true" name="Official" uuid="true">
 
 		<!-- PK fields -->
-		<column name="officailId" primary="true" type="long" />
+		<column name="officialId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
@@ -40,9 +40,6 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="OfficailId" return-type="Official">
-			<finder-column name="officailId" />
-		</finder>
 		<finder name="Email" return-type="Collection">
 			<finder-column name="email" />
 		</finder>

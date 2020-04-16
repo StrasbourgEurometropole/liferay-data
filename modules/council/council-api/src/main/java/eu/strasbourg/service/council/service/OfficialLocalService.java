@@ -41,6 +41,7 @@ import eu.strasbourg.service.council.model.Official;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Official. Methods of this
@@ -105,10 +106,10 @@ public interface OfficialLocalService extends BaseLocalService,
 	/**
 	* Creates a new official with the primary key. Does not add the official to the database.
 	*
-	* @param officailId the primary key for the new official
+	* @param officialId the primary key for the new official
 	* @return the new official
 	*/
-	public Official createOfficial(long officailId);
+	public Official createOfficial(long officialId);
 
 	/**
 	* Deletes the official from the database. Also notifies the appropriate model listeners.
@@ -122,15 +123,15 @@ public interface OfficialLocalService extends BaseLocalService,
 	/**
 	* Deletes the official with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official that was removed
 	* @throws PortalException if a official with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public Official deleteOfficial(long officailId) throws PortalException;
+	public Official deleteOfficial(long officialId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Official fetchOfficial(long officailId);
+	public Official fetchOfficial(long officialId);
 
 	/**
 	* Returns the official matching the UUID and group.
@@ -146,12 +147,12 @@ public interface OfficialLocalService extends BaseLocalService,
 	/**
 	* Returns the official with the primary key.
 	*
-	* @param officailId the primary key of the official
+	* @param officialId the primary key of the official
 	* @return the official
 	* @throws PortalException if a official with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Official getOfficial(long officailId) throws PortalException;
+	public Official getOfficial(long officialId) throws PortalException;
 
 	/**
 	* Returns the official matching the UUID and group.
@@ -166,6 +167,11 @@ public interface OfficialLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
+	* Supprime une entité
+	*/
+	public Official removeOfficial(long officialId) throws PortalException;
+
+	/**
 	* Updates the official in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param official the official
@@ -173,6 +179,19 @@ public interface OfficialLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Official updateOfficial(Official official);
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public Official updateOfficial(Official official, ServiceContext sc)
+		throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	public Official updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of officials.
@@ -227,6 +246,11 @@ public interface OfficialLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Recherche par ID de CouncilSession
+	*/
+	public List<Official> findByEmail(java.lang.String email);
 
 	/**
 	* Returns a range of all the officials.
@@ -285,4 +309,10 @@ public interface OfficialLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Official official, int status)
+		throws PortalException;
 }
