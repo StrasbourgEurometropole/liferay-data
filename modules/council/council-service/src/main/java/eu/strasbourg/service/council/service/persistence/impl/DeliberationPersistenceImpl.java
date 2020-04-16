@@ -2428,7 +2428,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 		deliberationImpl.setTitle(deliberation.getTitle());
 		deliberationImpl.setOrder(deliberation.getOrder());
 		deliberationImpl.setText(deliberation.getText());
-		deliberationImpl.setDocId(deliberation.getDocId());
 		deliberationImpl.setStage(deliberation.getStage());
 		deliberationImpl.setCouncilSessionId(deliberation.getCouncilSessionId());
 

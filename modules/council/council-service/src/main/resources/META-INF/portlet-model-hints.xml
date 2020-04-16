@@ -17,8 +17,6 @@
 		<field name="title" type="String" />
 		<field name="date" type="Date" />
 		<field name="type" type="String" />
-		<field name="docId" type="String" />
-		<field name="docReportId" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Deliberation">
 		<field name="uuid" type="String" />
@@ -36,7 +34,6 @@
 		<field name="title" type="String" />
 		<field name="order" type="int" />
 		<field name="text" type="String" />
-		<field name="docId" type="String" />
 		<field name="stage" type="String" />
 		<field name="councilSessionId" type="long" />
 	</model>

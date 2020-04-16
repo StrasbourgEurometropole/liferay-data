@@ -48,7 +48,6 @@ public class DeliberationSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setOrder(model.getOrder());
 		soapModel.setText(model.getText());
-		soapModel.setDocId(model.getDocId());
 		soapModel.setStage(model.getStage());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 
@@ -223,14 +222,6 @@ public class DeliberationSoap implements Serializable {
 		_text = text;
 	}
 
-	public String getDocId() {
-		return _docId;
-	}
-
-	public void setDocId(String docId) {
-		_docId = docId;
-	}
-
 	public String getStage() {
 		return _stage;
 	}
@@ -262,7 +253,6 @@ public class DeliberationSoap implements Serializable {
 	private String _title;
 	private int _order;
 	private String _text;
-	private String _docId;
 	private String _stage;
 	private long _councilSessionId;
 }

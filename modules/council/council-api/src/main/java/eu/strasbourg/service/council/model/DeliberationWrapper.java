@@ -75,7 +75,6 @@ public class DeliberationWrapper implements Deliberation,
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("text", getText());
-		attributes.put("docId", getDocId());
 		attributes.put("stage", getStage());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
@@ -172,12 +171,6 @@ public class DeliberationWrapper implements Deliberation,
 
 		if (text != null) {
 			setText(text);
-		}
-
-		String docId = (String)attributes.get("docId");
-
-		if (docId != null) {
-			setDocId(docId);
 		}
 
 		String stage = (String)attributes.get("stage");
@@ -347,16 +340,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public java.lang.Object clone() {
 		return new DeliberationWrapper((Deliberation)_deliberation.clone());
-	}
-
-	/**
-	* Returns the doc ID of this deliberation.
-	*
-	* @return the doc ID of this deliberation
-	*/
-	@Override
-	public java.lang.String getDocId() {
-		return _deliberation.getDocId();
 	}
 
 	/**
@@ -597,16 +580,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public void setDeliberationId(long deliberationId) {
 		_deliberation.setDeliberationId(deliberationId);
-	}
-
-	/**
-	* Sets the doc ID of this deliberation.
-	*
-	* @param docId the doc ID of this deliberation
-	*/
-	@Override
-	public void setDocId(java.lang.String docId) {
-		_deliberation.setDocId(docId);
 	}
 
 	@Override

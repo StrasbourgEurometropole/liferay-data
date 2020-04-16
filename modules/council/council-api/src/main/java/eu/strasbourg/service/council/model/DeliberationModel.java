@@ -337,21 +337,6 @@ public interface DeliberationModel extends BaseModel<Deliberation>, GroupedModel
 	public void setText(String text);
 
 	/**
-	 * Returns the doc ID of this deliberation.
-	 *
-	 * @return the doc ID of this deliberation
-	 */
-	@AutoEscape
-	public String getDocId();
-
-	/**
-	 * Sets the doc ID of this deliberation.
-	 *
-	 * @param docId the doc ID of this deliberation
-	 */
-	public void setDocId(String docId);
-
-	/**
 	 * Returns the stage of this deliberation.
 	 *
 	 * @return the stage of this deliberation

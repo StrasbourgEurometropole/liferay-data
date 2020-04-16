@@ -66,7 +66,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,8 +98,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		sb.append(order);
 		sb.append(", text=");
 		sb.append(text);
-		sb.append(", docId=");
-		sb.append(docId);
 		sb.append(", stage=");
 		sb.append(stage);
 		sb.append(", councilSessionId=");
@@ -179,13 +177,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			deliberationImpl.setText(text);
 		}
 
-		if (docId == null) {
-			deliberationImpl.setDocId(StringPool.BLANK);
-		}
-		else {
-			deliberationImpl.setDocId(docId);
-		}
-
 		if (stage == null) {
 			deliberationImpl.setStage(StringPool.BLANK);
 		}
@@ -224,7 +215,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 
 		order = objectInput.readInt();
 		text = objectInput.readUTF();
-		docId = objectInput.readUTF();
 		stage = objectInput.readUTF();
 
 		councilSessionId = objectInput.readLong();
@@ -287,13 +277,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			objectOutput.writeUTF(text);
 		}
 
-		if (docId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(docId);
-		}
-
 		if (stage == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -319,7 +302,6 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	public String title;
 	public int order;
 	public String text;
-	public String docId;
 	public String stage;
 	public long councilSessionId;
 }

@@ -1901,8 +1901,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 		councilSessionImpl.setTitle(councilSession.getTitle());
 		councilSessionImpl.setDate(councilSession.getDate());
 		councilSessionImpl.setType(councilSession.getType());
-		councilSessionImpl.setDocId(councilSession.getDocId());
-		councilSessionImpl.setDocReportId(councilSession.getDocReportId());
 
 		return councilSessionImpl;
 	}

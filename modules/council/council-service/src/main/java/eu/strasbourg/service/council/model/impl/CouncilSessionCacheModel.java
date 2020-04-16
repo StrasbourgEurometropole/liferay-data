@@ -66,7 +66,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,10 +98,6 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		sb.append(date);
 		sb.append(", type=");
 		sb.append(type);
-		sb.append(", docId=");
-		sb.append(docId);
-		sb.append(", docReportId=");
-		sb.append(docReportId);
 		sb.append("}");
 
 		return sb.toString();
@@ -182,20 +178,6 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 			councilSessionImpl.setType(type);
 		}
 
-		if (docId == null) {
-			councilSessionImpl.setDocId(StringPool.BLANK);
-		}
-		else {
-			councilSessionImpl.setDocId(docId);
-		}
-
-		if (docReportId == null) {
-			councilSessionImpl.setDocReportId(StringPool.BLANK);
-		}
-		else {
-			councilSessionImpl.setDocReportId(docReportId);
-		}
-
 		councilSessionImpl.resetOriginalValues();
 
 		return councilSessionImpl;
@@ -224,8 +206,6 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		title = objectInput.readUTF();
 		date = objectInput.readLong();
 		type = objectInput.readUTF();
-		docId = objectInput.readUTF();
-		docReportId = objectInput.readUTF();
 	}
 
 	@Override
@@ -284,20 +264,6 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		else {
 			objectOutput.writeUTF(type);
 		}
-
-		if (docId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(docId);
-		}
-
-		if (docReportId == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(docReportId);
-		}
 	}
 
 	public String uuid;
@@ -315,6 +281,4 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 	public String title;
 	public long date;
 	public String type;
-	public String docId;
-	public String docReportId;
 }

@@ -75,8 +75,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
 		attributes.put("type", getType());
-		attributes.put("docId", getDocId());
-		attributes.put("docReportId", getDocReportId());
 
 		return attributes;
 	}
@@ -171,18 +169,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 
 		if (type != null) {
 			setType(type);
-		}
-
-		String docId = (String)attributes.get("docId");
-
-		if (docId != null) {
-			setDocId(docId);
-		}
-
-		String docReportId = (String)attributes.get("docReportId");
-
-		if (docReportId != null) {
-			setDocReportId(docReportId);
 		}
 	}
 
@@ -330,26 +316,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public java.lang.Object clone() {
 		return new CouncilSessionWrapper((CouncilSession)_councilSession.clone());
-	}
-
-	/**
-	* Returns the doc ID of this council session.
-	*
-	* @return the doc ID of this council session
-	*/
-	@Override
-	public java.lang.String getDocId() {
-		return _councilSession.getDocId();
-	}
-
-	/**
-	* Returns the doc report ID of this council session.
-	*
-	* @return the doc report ID of this council session
-	*/
-	@Override
-	public java.lang.String getDocReportId() {
-		return _councilSession.getDocReportId();
 	}
 
 	/**
@@ -580,26 +546,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public void setDate(Date date) {
 		_councilSession.setDate(date);
-	}
-
-	/**
-	* Sets the doc ID of this council session.
-	*
-	* @param docId the doc ID of this council session
-	*/
-	@Override
-	public void setDocId(java.lang.String docId) {
-		_councilSession.setDocId(docId);
-	}
-
-	/**
-	* Sets the doc report ID of this council session.
-	*
-	* @param docReportId the doc report ID of this council session
-	*/
-	@Override
-	public void setDocReportId(java.lang.String docReportId) {
-		_councilSession.setDocReportId(docReportId);
 	}
 
 	@Override

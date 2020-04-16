@@ -13,9 +13,7 @@ create table council_CouncilSession (
 	statusDate DATE null,
 	title VARCHAR(75) null,
 	date_ DATE null,
-	type_ VARCHAR(75) null,
-	docId VARCHAR(75) null,
-	docReportId VARCHAR(75) null
+	type_ VARCHAR(75) null
 );
 
 create table council_Deliberation (
@@ -34,7 +32,6 @@ create table council_Deliberation (
 	title VARCHAR(75) null,
 	order_ INTEGER,
 	text_ VARCHAR(75) null,
-	docId VARCHAR(75) null,
 	stage VARCHAR(75) null,
 	councilSessionId LONG
 );

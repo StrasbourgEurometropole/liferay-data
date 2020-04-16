@@ -83,9 +83,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "date_", Types.TIMESTAMP },
-			{ "type_", Types.VARCHAR },
-			{ "docId", Types.VARCHAR },
-			{ "docReportId", Types.VARCHAR }
+			{ "type_", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -105,11 +103,9 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("docId", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("docReportId", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,type_ VARCHAR(75) null,docId VARCHAR(75) null,docReportId VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,type_ VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table council_CouncilSession";
 	public static final String ORDER_BY_JPQL = " ORDER BY councilSession.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_CouncilSession.title ASC";
@@ -184,8 +180,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
 		attributes.put("type", getType());
-		attributes.put("docId", getDocId());
-		attributes.put("docReportId", getDocReportId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -283,18 +277,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 		if (type != null) {
 			setType(type);
-		}
-
-		String docId = (String)attributes.get("docId");
-
-		if (docId != null) {
-			setDocId(docId);
-		}
-
-		String docReportId = (String)attributes.get("docReportId");
-
-		if (docReportId != null) {
-			setDocReportId(docReportId);
 		}
 	}
 
@@ -546,36 +528,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	}
 
 	@Override
-	public String getDocId() {
-		if (_docId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _docId;
-		}
-	}
-
-	@Override
-	public void setDocId(String docId) {
-		_docId = docId;
-	}
-
-	@Override
-	public String getDocReportId() {
-		if (_docReportId == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _docReportId;
-		}
-	}
-
-	@Override
-	public void setDocReportId(String docReportId) {
-		_docReportId = docReportId;
-	}
-
-	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
 				CouncilSession.class.getName()));
@@ -707,8 +659,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		councilSessionImpl.setTitle(getTitle());
 		councilSessionImpl.setDate(getDate());
 		councilSessionImpl.setType(getType());
-		councilSessionImpl.setDocId(getDocId());
-		councilSessionImpl.setDocReportId(getDocReportId());
 
 		councilSessionImpl.resetOriginalValues();
 
@@ -876,28 +826,12 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			councilSessionCacheModel.type = null;
 		}
 
-		councilSessionCacheModel.docId = getDocId();
-
-		String docId = councilSessionCacheModel.docId;
-
-		if ((docId != null) && (docId.length() == 0)) {
-			councilSessionCacheModel.docId = null;
-		}
-
-		councilSessionCacheModel.docReportId = getDocReportId();
-
-		String docReportId = councilSessionCacheModel.docReportId;
-
-		if ((docReportId != null) && (docReportId.length() == 0)) {
-			councilSessionCacheModel.docReportId = null;
-		}
-
 		return councilSessionCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -929,10 +863,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		sb.append(getDate());
 		sb.append(", type=");
 		sb.append(getType());
-		sb.append(", docId=");
-		sb.append(getDocId());
-		sb.append(", docReportId=");
-		sb.append(getDocReportId());
 		sb.append("}");
 
 		return sb.toString();
@@ -940,7 +870,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.CouncilSession");
@@ -1006,14 +936,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			"<column><column-name>type</column-name><column-value><![CDATA[");
 		sb.append(getType());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>docId</column-name><column-value><![CDATA[");
-		sb.append(getDocId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>docReportId</column-name><column-value><![CDATA[");
-		sb.append(getDocReportId());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1045,8 +967,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	private String _title;
 	private Date _date;
 	private String _type;
-	private String _docId;
-	private String _docReportId;
 	private long _columnBitmask;
 	private CouncilSession _escapedModel;
 }

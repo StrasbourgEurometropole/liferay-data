@@ -71,8 +71,6 @@
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
 		<column name="type" type="String" />
-		<column name="docId" type="String" />
-		<column name="docReportId" type="String" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -111,7 +109,6 @@
 		<column name="title" type="String" />
 		<column name="order" type="int" />
 		<column name="text" type="String" />
-		<column name="docId" type="String" />
 		<column name="stage" type="String" />
 
 		<!-- Links with other entities -->

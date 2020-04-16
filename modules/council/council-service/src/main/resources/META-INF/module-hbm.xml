@@ -25,8 +25,6 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
 		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="docId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="docReportId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.council.model.impl.DeliberationImpl" table="council_Deliberation">
 		<id name="deliberationId" type="long">
@@ -46,7 +44,6 @@
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="order_" name="order" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="text_" name="text" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="docId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="stage" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="councilSessionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>

@@ -337,36 +337,6 @@ public interface CouncilSessionModel extends BaseModel<CouncilSession>,
 	public void setType(String type);
 
 	/**
-	 * Returns the doc ID of this council session.
-	 *
-	 * @return the doc ID of this council session
-	 */
-	@AutoEscape
-	public String getDocId();
-
-	/**
-	 * Sets the doc ID of this council session.
-	 *
-	 * @param docId the doc ID of this council session
-	 */
-	public void setDocId(String docId);
-
-	/**
-	 * Returns the doc report ID of this council session.
-	 *
-	 * @return the doc report ID of this council session
-	 */
-	@AutoEscape
-	public String getDocReportId();
-
-	/**
-	 * Sets the doc report ID of this council session.
-	 *
-	 * @param docReportId the doc report ID of this council session
-	 */
-	public void setDocReportId(String docReportId);
-
-	/**
 	 * Returns <code>true</code> if this council session is approved.
 	 *
 	 * @return <code>true</code> if this council session is approved; <code>false</code> otherwise
