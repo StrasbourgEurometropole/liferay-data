@@ -274,6 +274,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 		return _councilSession.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _councilSession.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _councilSession.getExpandoBridge();

@@ -281,6 +281,14 @@ public class DeliberationWrapper implements Deliberation,
 		return _deliberation.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _deliberation.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _deliberation.getExpandoBridge();

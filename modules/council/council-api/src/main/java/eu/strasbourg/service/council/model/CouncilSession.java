@@ -54,4 +54,9 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 				return CouncilSession.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 }

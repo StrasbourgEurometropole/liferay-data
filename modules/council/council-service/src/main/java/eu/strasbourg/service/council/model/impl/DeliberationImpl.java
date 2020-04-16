@@ -15,6 +15,10 @@
 package eu.strasbourg.service.council.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
 
 /**
  * The extended model implementation for the Deliberation service. Represents a row in the &quot;council_Deliberation&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +38,13 @@ public class DeliberationImpl extends DeliberationBaseImpl {
 	 */
 	public DeliberationImpl() {
 	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(Deliberation.class.getName(), this.getDeliberationId());
+	}
+
 }

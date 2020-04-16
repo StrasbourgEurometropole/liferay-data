@@ -53,4 +53,9 @@ public interface Deliberation extends DeliberationModel, PersistedModel {
 				return Deliberation.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 }
