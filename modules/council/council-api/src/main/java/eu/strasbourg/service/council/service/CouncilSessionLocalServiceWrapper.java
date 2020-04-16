@@ -187,9 +187,9 @@ public class CouncilSessionLocalServiceWrapper
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.CouncilSession removeCouncilSession(
-		long deliberationId)
+		long councilSessionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _councilSessionLocalService.removeCouncilSession(deliberationId);
+		return _councilSessionLocalService.removeCouncilSession(councilSessionId);
 	}
 
 	/**

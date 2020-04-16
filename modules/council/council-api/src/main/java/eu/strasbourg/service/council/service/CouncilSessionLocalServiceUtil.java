@@ -176,9 +176,9 @@ public class CouncilSessionLocalServiceUtil {
 	* Supprime une entité
 	*/
 	public static eu.strasbourg.service.council.model.CouncilSession removeCouncilSession(
-		long deliberationId)
+		long councilSessionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().removeCouncilSession(deliberationId);
+		return getService().removeCouncilSession(councilSessionId);
 	}
 
 	/**

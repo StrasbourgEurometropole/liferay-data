@@ -15,6 +15,14 @@
 package eu.strasbourg.service.council.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
 
 /**
  * The extended model implementation for the Official service. Represents a row in the &quot;council_Official&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +42,29 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 */
 	public OfficialImpl() {
 	}
+
+	/**
+	 * Retourne l'AssetEntry rattaché cet item
+	 */
+	@Override
+	public AssetEntry getAssetEntry() {
+		return AssetEntryLocalServiceUtil.fetchEntry(Official.class.getName(), this.getOfficialId());
+	}
+
+	/**
+	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	 */
+	@Override
+	public List<AssetCategory> getCategories() {
+		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Renvoie le nom de complet au format "Prénom NOM"
+	 */
+	@Override
+	public String getFullName() {
+		return this.getFirstname() + " " + StringUtil.upperCase(this.getLastname());
+	}
+
 }

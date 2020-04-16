@@ -15,6 +15,13 @@
 package eu.strasbourg.service.council.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
 
 /**
  * The extended model implementation for the Procuration service. Represents a row in the &quot;council_Procuration&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +41,5 @@ public class ProcurationImpl extends ProcurationBaseImpl {
 	 */
 	public ProcurationImpl() {
 	}
+
 }

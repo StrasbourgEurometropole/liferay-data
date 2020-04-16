@@ -53,4 +53,19 @@ public interface Official extends OfficialModel, PersistedModel {
 				return Official.class;
 			}
 		};
+
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Renvoie le nom de complet au format "Prénom NOM"
+	*/
+	public java.lang.String getFullName();
 }

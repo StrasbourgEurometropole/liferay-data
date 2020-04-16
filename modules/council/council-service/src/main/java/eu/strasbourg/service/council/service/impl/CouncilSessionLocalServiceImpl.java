@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
 
 import java.io.Serializable;
@@ -112,7 +111,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 				sc.getScopeGroupId(), // Group ID
 				councilSession.getCreateDate(), // Date of creation
 				councilSession.getModifiedDate(), // Date of modification
-				Deliberation.class.getName(), // Class name
+				CouncilSession.class.getName(), // Class name
 				councilSession.getPrimaryKey(), // Class PK
 				councilSession.getUuid(), // UUID
 				0, // Class type ID
@@ -184,9 +183,9 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	 * Supprime une entité
 	 */
 	@Override
-	public CouncilSession removeCouncilSession(long deliberationId) throws PortalException {
+	public CouncilSession removeCouncilSession(long councilSessionId) throws PortalException {
 		AssetEntry entry = AssetEntryLocalServiceUtil
-				.fetchEntry(CouncilSession.class.getName(), deliberationId);
+				.fetchEntry(CouncilSession.class.getName(), councilSessionId);
 
 		if (entry != null) {
 			// Supprime les liens avec les catégories
@@ -211,11 +210,11 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			}
 
 			// Supprime l'AssetEntry
-			AssetEntryLocalServiceUtil.deleteEntry(CouncilSession.class.getName(), deliberationId);
+			AssetEntryLocalServiceUtil.deleteEntry(CouncilSession.class.getName(), councilSessionId);
 		}
 
 		// Supprime l'entité
-		CouncilSession councilSession = councilSessionPersistence.remove(deliberationId);
+		CouncilSession councilSession = councilSessionPersistence.remove(councilSessionId);
 
 		// Supprime l'index
 		this.reindex(councilSession, true);
@@ -231,12 +230,12 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	/**
 	 * Reindex l'entité dans le moteur de recherche
 	 */
-	private void reindex(CouncilSession deliberation, boolean delete) throws SearchException {
+	private void reindex(CouncilSession councilSession, boolean delete) throws SearchException {
 		Indexer<CouncilSession> indexer = IndexerRegistryUtil.nullSafeGetIndexer(CouncilSession.class);
 		if (delete) {
-			indexer.delete(deliberation);
+			indexer.delete(councilSession);
 		} else {
-			indexer.reindex(deliberation);
+			indexer.reindex(councilSession);
 		}
 	}
 

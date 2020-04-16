@@ -172,7 +172,7 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	/**
 	* Supprime une entité
 	*/
-	public CouncilSession removeCouncilSession(long deliberationId)
+	public CouncilSession removeCouncilSession(long councilSessionId)
 		throws PortalException;
 
 	/**

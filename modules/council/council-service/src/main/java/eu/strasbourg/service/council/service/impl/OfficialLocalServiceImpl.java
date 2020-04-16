@@ -14,6 +14,9 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -24,6 +27,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Official;
@@ -93,9 +97,45 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		}
 		official = this.officialLocalService.updateOfficial(official);
 
+		this.updateAssetEntry(official, sc);
 		this.reindex(official, false);
 
 		return official;
+	}
+
+	/**
+	 * Met à jour l'AssetEntry rattachée à l'entité
+	 */
+	private void updateAssetEntry(Official official, ServiceContext sc)
+			throws PortalException {
+		this.assetEntryLocalService.updateEntry(sc.getUserId(), // User ID
+				sc.getScopeGroupId(), // Group ID
+				official.getCreateDate(), // Date of creation
+				official.getModifiedDate(), // Date of modification
+				Official.class.getName(), // Class name
+				official.getPrimaryKey(), // Class PK
+				official.getUuid(), // UUID
+				0, // Class type ID
+				sc.getAssetCategoryIds(), // Categories IDs
+				sc.getAssetTagNames(), // Tags IDs
+				true, // Listable
+				official.isApproved(), // Visible
+				official.getCreateDate(), // Start date
+				null, // End date
+				official.getCreateDate(), // Publication date
+				null, // Date of expiration
+				ContentTypes.TEXT_HTML, // Content type
+				official.getFullName(), // Title
+				official.getEmail(), // Description
+				official.getEmail(), // Summary
+				null, // URL
+				null, // Layout uuid
+				0, // Width
+				0, // Height
+				null); // Priority
+
+		// Réindexe l'entité
+		this.reindex(official, false);
 	}
 
 	/**
@@ -104,6 +144,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	@Override
 	public Official updateStatus(long userId, long entryId, int status, ServiceContext sc,
 								 Map<String, Serializable> workflowContext) throws PortalException {
+		Date now = new Date();
 		// Statut de l'entité
 		Official official = this.getOfficial(entryId);
 		official.setStatus(status);
@@ -114,6 +155,15 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		}
 		official.setStatusDate(new Date());
 		official = this.officialLocalService.updateOfficial(official);
+
+		// Statut de l'entry
+		AssetEntry entry = this.assetEntryLocalService
+				.getEntry(Official.class.getName(), official.getPrimaryKey());
+		entry.setVisible(status == WorkflowConstants.STATUS_APPROVED);
+		if (entry.isVisible()) {
+			entry.setPublishDate(now);
+		}
+		this.assetEntryLocalService.updateAssetEntry(entry);
 
 		this.reindex(official, false);
 
@@ -134,6 +184,35 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	 */
 	@Override
 	public Official removeOfficial(long officialId) throws PortalException {
+		AssetEntry entry = AssetEntryLocalServiceUtil
+				.fetchEntry(Official.class.getName(), officialId);
+
+		if (entry != null) {
+			// Supprime les liens avec les catégories
+			for (long categoryId : entry.getCategoryIds()) {
+				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
+						categoryId, entry.getEntryId());
+			}
+
+			// Supprime les liens avec les étiquettes
+			long[] tagIds = AssetEntryLocalServiceUtil
+					.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (long tagId : tagIds) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagId,
+						entry.getEntryId());
+			}
+
+			// Supprime lien avec les autres entries
+			List<AssetLink> links = this.assetLinkLocalService
+					.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
+
+			// Supprime l'AssetEntry
+			AssetEntryLocalServiceUtil.deleteEntry(Official.class.getName(), officialId);
+		}
+
 		// Supprime l'entité
 		Official official = this.officialPersistence.remove(officialId);
 

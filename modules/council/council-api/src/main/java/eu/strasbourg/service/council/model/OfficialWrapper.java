@@ -348,6 +348,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		return _official.isScheduled();
 	}
 
+	/**
+	* Retourne l'AssetEntry rattaché cet item
+	*/
+	@Override
+	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
+		return _official.getAssetEntry();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _official.getExpandoBridge();
@@ -416,6 +424,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.lang.String getFirstname() {
 		return _official.getFirstname();
+	}
+
+	/**
+	* Renvoie le nom de complet au format "Prénom NOM"
+	*/
+	@Override
+	public java.lang.String getFullName() {
+		return _official.getFullName();
 	}
 
 	/**
@@ -516,6 +532,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public Date getStatusDate() {
 		return _official.getStatusDate();
+	}
+
+	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _official.getCategories();
 	}
 
 	/**

@@ -18,9 +18,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
@@ -92,8 +89,6 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		}
 		procuration = this.procurationLocalService.updateProcuration(procuration);
 
-		this.reindex(procuration, false);
-
 		return procuration;
 	}
 
@@ -113,8 +108,6 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		}
 		procuration.setStatusDate(new Date());
 		procuration = this.procurationLocalService.updateProcuration(procuration);
-
-		this.reindex(procuration, false);
 
 		return procuration;
 	}
@@ -136,27 +129,12 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		// Supprime l'entité
 		Procuration procuration = this.procurationPersistence.remove(procurationId);
 
-		// Supprime l'index
-		this.reindex(procuration, true);
-
 		// Supprime ce qui a rapport au workflow
 		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
 				procuration.getCompanyId(), procuration.getGroupId(), Procuration.class.getName(),
 				procuration.getProcurationId());
 
 		return procuration;
-	}
-
-	/**
-	 * Reindex l'entité dans le moteur de recherche
-	 */
-	private void reindex(Procuration procuration, boolean delete) throws SearchException {
-		Indexer<Procuration> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Procuration.class);
-		if (delete) {
-			indexer.delete(procuration);
-		} else {
-			indexer.reindex(procuration);
-		}
 	}
 
 	/**
