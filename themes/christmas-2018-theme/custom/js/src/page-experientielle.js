@@ -96,6 +96,6 @@ $('.mns-questions-pagination .mns-next').on('click', function (e) {
 
 
 
-$(window).load(function() {
+$(window).on("load",function() {
     $('.mns-page-experientielle').addClass('mns-loaded');
 });

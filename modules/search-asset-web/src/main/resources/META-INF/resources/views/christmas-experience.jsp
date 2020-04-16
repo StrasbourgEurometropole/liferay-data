@@ -4,9 +4,9 @@
 
 
 <!-- Formulaire -->
-<div class="container mns-filtres row">
+<div class="container mns-filtres">
 	<div>
-		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
+		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters row">
 		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
 			<liferay-util:include page="/forms/${dc.searchForm}-form.jsp" servletContext="<%=application %>" />
 		</aui:form>

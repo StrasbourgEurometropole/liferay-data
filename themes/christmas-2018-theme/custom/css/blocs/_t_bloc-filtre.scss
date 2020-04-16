@@ -4,7 +4,7 @@
 	margin: auto;
 	> div{
 		background: $c_main;
-		margin-top: -90px;
+		margin-top: -75px;
 		position: relative;
 		z-index: 1000;
 		&:before{
@@ -297,6 +297,7 @@ display: flex;
 -ms-flex-pack: center;
 justify-content: center;
 padding-top: 20px;
+padding-left: 490px;
 }
 
 .seu-btn-square.seu-bordered.seu-core {	
