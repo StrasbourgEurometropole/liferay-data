@@ -41,6 +41,7 @@ import eu.strasbourg.service.council.model.Procuration;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service interface for Procuration. Methods of this
@@ -169,6 +170,12 @@ public interface ProcurationLocalService extends BaseLocalService,
 		long groupId) throws PortalException;
 
 	/**
+	* Supprime une entité
+	*/
+	public Procuration removeProcuration(long procurationId)
+		throws PortalException;
+
+	/**
 	* Updates the procuration in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param procuration the procuration
@@ -176,6 +183,19 @@ public interface ProcurationLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Procuration updateProcuration(Procuration procuration);
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public Procuration updateProcuration(Procuration procuration,
+		ServiceContext sc) throws PortalException;
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	public Procuration updateStatus(long userId, long entryId, int status,
+		ServiceContext sc, Map<java.lang.String, Serializable> workflowContext)
+		throws PortalException;
 
 	/**
 	* Returns the number of procurations.
@@ -230,6 +250,11 @@ public interface ProcurationLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	/**
+	* Recherche par ID de CouncilSession
+	*/
+	public List<Procuration> findByCouncilSessionId(long councilSessionId);
 
 	/**
 	* Returns a range of all the procurations.
@@ -288,4 +313,10 @@ public interface ProcurationLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	public void updateStatus(Procuration procuration, int status)
+		throws PortalException;
 }

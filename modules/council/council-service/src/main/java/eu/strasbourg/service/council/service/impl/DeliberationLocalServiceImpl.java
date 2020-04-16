@@ -213,7 +213,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 			AssetEntryLocalServiceUtil.deleteEntry(Deliberation.class.getName(), deliberationId);
 		}
 
-		// Supprime le projet
+		// Supprime l'entité
 		Deliberation deliberation = deliberationPersistence.remove(deliberationId);
 
 		// Supprime l'index

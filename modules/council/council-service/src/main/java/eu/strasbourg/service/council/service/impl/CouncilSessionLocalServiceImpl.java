@@ -214,7 +214,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			AssetEntryLocalServiceUtil.deleteEntry(CouncilSession.class.getName(), deliberationId);
 		}
 
-		// Supprime le projet
+		// Supprime l'entité
 		CouncilSession councilSession = councilSessionPersistence.remove(deliberationId);
 
 		// Supprime l'index

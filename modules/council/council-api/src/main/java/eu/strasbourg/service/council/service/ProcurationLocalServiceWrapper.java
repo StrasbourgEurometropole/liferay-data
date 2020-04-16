@@ -182,6 +182,16 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Procuration removeProcuration(
+		long procurationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _procurationLocalService.removeProcuration(procurationId);
+	}
+
+	/**
 	* Updates the procuration in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param procuration the procuration
@@ -191,6 +201,30 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 	public eu.strasbourg.service.council.model.Procuration updateProcuration(
 		eu.strasbourg.service.council.model.Procuration procuration) {
 		return _procurationLocalService.updateProcuration(procuration);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Procuration updateProcuration(
+		eu.strasbourg.service.council.model.Procuration procuration,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _procurationLocalService.updateProcuration(procuration, sc);
+	}
+
+	/**
+	* Met à jour le statut de l'entité par le framework workflow
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Procuration updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.kernel.service.ServiceContext sc,
+		java.util.Map<java.lang.String, java.io.Serializable> workflowContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _procurationLocalService.updateStatus(userId, entryId, status,
+			sc, workflowContext);
 	}
 
 	/**
@@ -267,6 +301,15 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 	}
 
 	/**
+	* Recherche par ID de CouncilSession
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Procuration> findByCouncilSessionId(
+		long councilSessionId) {
+		return _procurationLocalService.findByCouncilSessionId(councilSessionId);
+	}
+
+	/**
 	* Returns a range of all the procurations.
 	*
 	* <p>
@@ -340,6 +383,16 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _procurationLocalService.dynamicQueryCount(dynamicQuery,
 			projection);
+	}
+
+	/**
+	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	*/
+	@Override
+	public void updateStatus(
+		eu.strasbourg.service.council.model.Procuration procuration, int status)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_procurationLocalService.updateStatus(procuration, status);
 	}
 
 	@Override

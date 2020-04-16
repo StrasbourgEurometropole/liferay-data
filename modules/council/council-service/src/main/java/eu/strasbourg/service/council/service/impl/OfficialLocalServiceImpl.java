@@ -151,12 +151,12 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	/**
 	 * Reindex l'entité dans le moteur de recherche
 	 */
-	private void reindex(Official deliberation, boolean delete) throws SearchException {
+	private void reindex(Official official, boolean delete) throws SearchException {
 		Indexer<Official> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Official.class);
 		if (delete) {
-			indexer.delete(deliberation);
+			indexer.delete(official);
 		} else {
-			indexer.reindex(deliberation);
+			indexer.reindex(official);
 		}
 	}
 

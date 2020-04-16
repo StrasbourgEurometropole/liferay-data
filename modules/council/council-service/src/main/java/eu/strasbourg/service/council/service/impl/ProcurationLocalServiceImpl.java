@@ -18,11 +18,20 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.base.ProcurationLocalServiceBaseImpl;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the procuration local service.
@@ -63,6 +72,99 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		procuration.setStatus(WorkflowConstants.STATUS_DRAFT);
 
 		return procuration;
+	}
+
+	/**
+	 * Met à jour une entité et l'enregistre en base de données
+	 */
+	@Override
+	public Procuration updateProcuration(Procuration procuration, ServiceContext sc) throws PortalException {
+		User user = UserLocalServiceUtil.getUser(sc.getUserId());
+
+		procuration.setStatusByUserId(sc.getUserId());
+		procuration.setStatusByUserName(user.getFullName());
+		procuration.setStatusDate(sc.getModifiedDate());
+
+		if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
+			procuration.setStatus(WorkflowConstants.STATUS_APPROVED);
+		} else {
+			procuration.setStatus(WorkflowConstants.STATUS_DRAFT);
+		}
+		procuration = this.procurationLocalService.updateProcuration(procuration);
+
+		this.reindex(procuration, false);
+
+		return procuration;
+	}
+
+	/**
+	 * Met à jour le statut de l'entité par le framework workflow
+	 */
+	@Override
+	public Procuration updateStatus(long userId, long entryId, int status, ServiceContext sc,
+								 Map<String, Serializable> workflowContext) throws PortalException {
+		// Statut de l'entité
+		Procuration procuration = this.getProcuration(entryId);
+		procuration.setStatus(status);
+		User user = UserLocalServiceUtil.fetchUser(userId);
+		if (user != null) {
+			procuration.setStatusByUserId(user.getUserId());
+			procuration.setStatusByUserName(user.getFullName());
+		}
+		procuration.setStatusDate(new Date());
+		procuration = this.procurationLocalService.updateProcuration(procuration);
+
+		this.reindex(procuration, false);
+
+		return procuration;
+	}
+
+	/**
+	 * Met à jour le statut de l'entité "manuellement" (pas via le workflow)
+	 */
+	@Override
+	public void updateStatus(Procuration procuration, int status) throws PortalException {
+		this.updateStatus(procuration.getUserId(), procuration.getProcurationId(), status, null,
+				null);
+	}
+
+	/**
+	 * Supprime une entité
+	 */
+	@Override
+	public Procuration removeProcuration(long procurationId) throws PortalException {
+		// Supprime l'entité
+		Procuration procuration = this.procurationPersistence.remove(procurationId);
+
+		// Supprime l'index
+		this.reindex(procuration, true);
+
+		// Supprime ce qui a rapport au workflow
+		WorkflowInstanceLinkLocalServiceUtil.deleteWorkflowInstanceLinks(
+				procuration.getCompanyId(), procuration.getGroupId(), Procuration.class.getName(),
+				procuration.getProcurationId());
+
+		return procuration;
+	}
+
+	/**
+	 * Reindex l'entité dans le moteur de recherche
+	 */
+	private void reindex(Procuration procuration, boolean delete) throws SearchException {
+		Indexer<Procuration> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Procuration.class);
+		if (delete) {
+			indexer.delete(procuration);
+		} else {
+			indexer.reindex(procuration);
+		}
+	}
+
+	/**
+	 * Recherche par ID de CouncilSession
+	 */
+	@Override
+	public List<Procuration> findByCouncilSessionId(long councilSessionId){
+		return this.procurationPersistence.findByCouncilSessionId(councilSessionId);
 	}
 
 }
