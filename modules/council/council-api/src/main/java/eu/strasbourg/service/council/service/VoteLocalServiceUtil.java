@@ -166,6 +166,14 @@ public class VoteLocalServiceUtil {
 	}
 
 	/**
+	* Supprime une entité
+	*/
+	public static eu.strasbourg.service.council.model.Vote removeVote(
+		long voteId) throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().removeVote(voteId);
+	}
+
+	/**
 	* Updates the vote in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param vote the vote
@@ -174,6 +182,16 @@ public class VoteLocalServiceUtil {
 	public static eu.strasbourg.service.council.model.Vote updateVote(
 		eu.strasbourg.service.council.model.Vote vote) {
 		return getService().updateVote(vote);
+	}
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public static eu.strasbourg.service.council.model.Vote updateVote(
+		eu.strasbourg.service.council.model.Vote vote,
+		com.liferay.portal.kernel.service.ServiceContext sc)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateVote(vote, sc);
 	}
 
 	/**

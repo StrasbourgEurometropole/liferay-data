@@ -158,6 +158,11 @@ public interface VoteLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
+	* Supprime une entité
+	*/
+	public Vote removeVote(long voteId) throws PortalException;
+
+	/**
 	* Updates the vote in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
 	* @param vote the vote
@@ -165,6 +170,12 @@ public interface VoteLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Vote updateVote(Vote vote);
+
+	/**
+	* Met à jour une entité et l'enregistre en base de données
+	*/
+	public Vote updateVote(Vote vote, ServiceContext sc)
+		throws PortalException;
 
 	/**
 	* Returns the number of votes.
