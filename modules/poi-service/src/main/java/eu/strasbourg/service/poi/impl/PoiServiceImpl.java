@@ -1,25 +1,16 @@
 package eu.strasbourg.service.poi.impl;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
-import eu.strasbourg.service.place.model.Period;
-import org.osgi.service.component.annotations.Component;
-
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -40,6 +31,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -69,7 +61,7 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	public JSONObject getPois(String idInterests, String idCategories, String prefilters, long groupId,
-							  String classNames, String localeId) {
+			String classNames, String localeId) {
 		JSONObject geoJson = null;
 
 		long globalGroupId = -1;
@@ -279,21 +271,33 @@ public class PoiServiceImpl implements PoiService {
 
 	private List<Place> getPlaces(Long[] categoryIds, Long[] prefilters, long globalGroupId) {
 
-		List<AssetEntry> entriesFromFilters = new ArrayList<>();
+		List<AssetEntryAssetCategoryRel> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+			entriesFromFilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 		}
-		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
+		List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList(entriesFromFilters);
 
 		if (prefilters.length > 0) {
-			List<AssetEntry> entriesFromPrefilters = new ArrayList<>();
+			List<AssetEntryAssetCategoryRel> entriesFromPrefilters = new ArrayList<>();
 			for (Long categoryId : prefilters) {
-				entriesFromPrefilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+				entriesFromPrefilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 			}
 
-			entries = entries.stream()
-					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getEntryId() == e.getEntryId()))
+			entriesRel = entriesRel.stream()
+					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getAssetEntryId() == e.getAssetEntryId()))
 					.collect(Collectors.toList());
+		}
+
+		//transforme les AssetEntriesAssetCategories en AssetEntries
+		List<AssetEntry> entries = new ArrayList<>();
+		for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+			if (Validator.isNotNull(entryRel)) {
+				try {
+					entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).distinct().collect(Collectors.toList());
@@ -309,21 +313,33 @@ public class PoiServiceImpl implements PoiService {
 
 	private List<Event> getEvents(Long[] categoryIds, Long[] prefilters, long globalGroupId) {
 
-		List<AssetEntry> entriesFromFilters = new ArrayList<>();
+		List<AssetEntryAssetCategoryRel> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+			entriesFromFilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 		}
-		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
+		List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList(entriesFromFilters);
 
 		if (prefilters.length > 0) {
-			List<AssetEntry> entriesFromPrefilters = new ArrayList<>();
+			List<AssetEntryAssetCategoryRel> entriesFromPrefilters = new ArrayList<>();
 			for (Long categoryId : prefilters) {
-				entriesFromPrefilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+				entriesFromPrefilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 			}
 
-			entries = entriesFromFilters.stream()
-					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getEntryId() == e.getEntryId()))
+			entriesRel = entriesRel.stream()
+					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getAssetEntryId() == e.getAssetEntryId()))
 					.collect(Collectors.toList());
+		}
+
+		//transforme les AssetEntriesAssetCategories en AssetEntries
+		List<AssetEntry> entries = new ArrayList<>();
+		for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+			if (Validator.isNotNull(entryRel)) {
+				try {
+					entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
@@ -344,21 +360,33 @@ public class PoiServiceImpl implements PoiService {
 
 	private List<Arret> getArrets(Long[] categoryIds, Long[] prefilters, long globalGroupId) {
 
-		List<AssetEntry> entriesFromFilters = new ArrayList<>();
+		List<AssetEntryAssetCategoryRel> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+			entriesFromFilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 		}
-		List<AssetEntry> entries = new ArrayList(entriesFromFilters);
+		List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList(entriesFromFilters);
 
 		if (prefilters.length > 0) {
-			List<AssetEntry> entriesFromPrefilters = new ArrayList<>();
+			List<AssetEntryAssetCategoryRel> entriesFromPrefilters = new ArrayList<>();
 			for (Long categoryId : prefilters) {
-				entriesFromPrefilters.addAll(AssetEntryLocalServiceUtil.getAssetCategoryAssetEntries(categoryId));
+				entriesFromPrefilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 			}
 
-			entries = entries.stream()
-					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getEntryId() == e.getEntryId()))
+			entriesRel = entriesRel.stream()
+					.filter(e -> entriesFromPrefilters.stream().anyMatch(p -> p.getAssetEntryId() == e.getAssetEntryId()))
 					.collect(Collectors.toList());
+		}
+
+		//transforme les AssetEntriesAssetCategories en AssetEntries
+		List<AssetEntry> entries = new ArrayList<>();
+		for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
+			if (Validator.isNotNull(entryRel)) {
+				try {
+					entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).distinct().collect(Collectors.toList());
