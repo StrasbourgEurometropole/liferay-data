@@ -454,6 +454,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _councilSession.getCategories();
+	}
+
+	/**
 	* Returns the company ID of this council session.
 	*
 	* @return the company ID of this council session

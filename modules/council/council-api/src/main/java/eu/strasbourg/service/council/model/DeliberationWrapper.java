@@ -471,6 +471,14 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	/**
+	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
+	*/
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories() {
+		return _deliberation.getCategories();
+	}
+
+	/**
 	* Returns the company ID of this deliberation.
 	*
 	* @return the company ID of this deliberation
