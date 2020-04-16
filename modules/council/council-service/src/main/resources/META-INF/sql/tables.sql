@@ -13,7 +13,8 @@ create table council_CouncilSession (
 	statusDate DATE null,
 	title VARCHAR(75) null,
 	date_ DATE null,
-	type_ VARCHAR(75) null
+	type_ VARCHAR(75) null,
+	officialLeaderId LONG
 );
 
 create table council_Deliberation (

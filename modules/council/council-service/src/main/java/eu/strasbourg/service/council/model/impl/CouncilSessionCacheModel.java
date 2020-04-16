@@ -66,7 +66,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,6 +98,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		sb.append(date);
 		sb.append(", type=");
 		sb.append(type);
+		sb.append(", officialLeaderId=");
+		sb.append(officialLeaderId);
 		sb.append("}");
 
 		return sb.toString();
@@ -178,6 +180,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 			councilSessionImpl.setType(type);
 		}
 
+		councilSessionImpl.setOfficialLeaderId(officialLeaderId);
+
 		councilSessionImpl.resetOriginalValues();
 
 		return councilSessionImpl;
@@ -206,6 +210,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		title = objectInput.readUTF();
 		date = objectInput.readLong();
 		type = objectInput.readUTF();
+
+		officialLeaderId = objectInput.readLong();
 	}
 
 	@Override
@@ -264,6 +270,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		else {
 			objectOutput.writeUTF(type);
 		}
+
+		objectOutput.writeLong(officialLeaderId);
 	}
 
 	public String uuid;
@@ -281,4 +289,5 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 	public String title;
 	public long date;
 	public String type;
+	public long officialLeaderId;
 }

@@ -48,6 +48,7 @@ public class CouncilSessionSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDate(model.getDate());
 		soapModel.setType(model.getType());
+		soapModel.setOfficialLeaderId(model.getOfficialLeaderId());
 
 		return soapModel;
 	}
@@ -220,6 +221,14 @@ public class CouncilSessionSoap implements Serializable {
 		_type = type;
 	}
 
+	public long getOfficialLeaderId() {
+		return _officialLeaderId;
+	}
+
+	public void setOfficialLeaderId(long officialLeaderId) {
+		_officialLeaderId = officialLeaderId;
+	}
+
 	private String _uuid;
 	private long _councilSessionId;
 	private long _groupId;
@@ -235,4 +244,5 @@ public class CouncilSessionSoap implements Serializable {
 	private String _title;
 	private Date _date;
 	private String _type;
+	private long _officialLeaderId;
 }

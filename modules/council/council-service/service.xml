@@ -72,6 +72,9 @@
 		<column name="date" type="Date" />
 		<column name="type" type="String" />
 
+		<!-- Links with other entities -->
+		<column name="officialLeaderId" type="long" />
+
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="title" />

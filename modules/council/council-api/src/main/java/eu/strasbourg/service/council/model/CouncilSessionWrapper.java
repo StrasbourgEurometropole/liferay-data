@@ -75,6 +75,7 @@ public class CouncilSessionWrapper implements CouncilSession,
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
 		attributes.put("type", getType());
+		attributes.put("officialLeaderId", getOfficialLeaderId());
 
 		return attributes;
 	}
@@ -169,6 +170,12 @@ public class CouncilSessionWrapper implements CouncilSession,
 
 		if (type != null) {
 			setType(type);
+		}
+
+		Long officialLeaderId = (Long)attributes.get("officialLeaderId");
+
+		if (officialLeaderId != null) {
+			setOfficialLeaderId(officialLeaderId);
 		}
 	}
 
@@ -469,6 +476,16 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
+	* Returns the official leader ID of this council session.
+	*
+	* @return the official leader ID of this council session
+	*/
+	@Override
+	public long getOfficialLeaderId() {
+		return _councilSession.getOfficialLeaderId();
+	}
+
+	/**
 	* Returns the primary key of this council session.
 	*
 	* @return the primary key of this council session
@@ -587,6 +604,16 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public void setNew(boolean n) {
 		_councilSession.setNew(n);
+	}
+
+	/**
+	* Sets the official leader ID of this council session.
+	*
+	* @param officialLeaderId the official leader ID of this council session
+	*/
+	@Override
+	public void setOfficialLeaderId(long officialLeaderId) {
+		_councilSession.setOfficialLeaderId(officialLeaderId);
 	}
 
 	/**
