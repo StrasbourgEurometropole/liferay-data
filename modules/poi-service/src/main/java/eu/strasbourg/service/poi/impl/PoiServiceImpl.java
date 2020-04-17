@@ -1,12 +1,12 @@
 package eu.strasbourg.service.poi.impl;
 
 import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -31,7 +31,6 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -273,14 +272,14 @@ public class PoiServiceImpl implements PoiService {
 
 		List<AssetEntryAssetCategoryRel> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+			entriesFromFilters.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 		}
 		List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList(entriesFromFilters);
 
 		if (prefilters.length > 0) {
 			List<AssetEntryAssetCategoryRel> entriesFromPrefilters = new ArrayList<>();
 			for (Long categoryId : prefilters) {
-				entriesFromPrefilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+				entriesFromPrefilters.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 			}
 
 			entriesRel = entriesRel.stream()
@@ -315,14 +314,14 @@ public class PoiServiceImpl implements PoiService {
 
 		List<AssetEntryAssetCategoryRel> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+			entriesFromFilters.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 		}
 		List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList(entriesFromFilters);
 
 		if (prefilters.length > 0) {
 			List<AssetEntryAssetCategoryRel> entriesFromPrefilters = new ArrayList<>();
 			for (Long categoryId : prefilters) {
-				entriesFromPrefilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+				entriesFromPrefilters.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 			}
 
 			entriesRel = entriesRel.stream()
@@ -362,14 +361,14 @@ public class PoiServiceImpl implements PoiService {
 
 		List<AssetEntryAssetCategoryRel> entriesFromFilters = new ArrayList<>();
 		for (Long categoryId : categoryIds) {
-			entriesFromFilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+			entriesFromFilters.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 		}
 		List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList(entriesFromFilters);
 
 		if (prefilters.length > 0) {
 			List<AssetEntryAssetCategoryRel> entriesFromPrefilters = new ArrayList<>();
 			for (Long categoryId : prefilters) {
-				entriesFromPrefilters.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
+				entriesFromPrefilters.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
 			}
 
 			entriesRel = entriesRel.stream()
