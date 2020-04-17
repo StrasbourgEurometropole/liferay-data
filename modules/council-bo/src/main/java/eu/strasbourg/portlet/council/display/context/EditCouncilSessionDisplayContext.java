@@ -6,15 +6,13 @@ import com.liferay.portal.kernel.util.WebKeys;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-public class EditSessionDisplayContext {
+public class EditCouncilSessionDisplayContext {
 
     private final RenderRequest _request;
     private final ThemeDisplay _themeDisplay;
 
-    public EditSessionDisplayContext(RenderRequest request,
-                                   RenderResponse response) {
+    public EditCouncilSessionDisplayContext(RenderRequest request, RenderResponse response) {
         this._request = request;
-        this._themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
+        this._themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     }
 }

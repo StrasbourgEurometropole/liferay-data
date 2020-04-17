@@ -1,11 +1,10 @@
 <%@ include file="/council-init.jsp" %>
 
 
-<c:set var="tab"
-	value="${not empty param.tab ? param.tab : 'sessions' }" />
+<c:set var="tab" value="${not empty param.tab ? param.tab : 'councilSessions' }" />
 
-<liferay-portlet:renderURL var="sessionsURL">
-	<portlet:param name="tab" value="sessions" />
+<liferay-portlet:renderURL var="councilSessionsURL">
+	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL var="deliberationsURL">
@@ -14,8 +13,8 @@
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${sessionsURL}" label="sessions"
-			selected="${tab eq 'sessions'}" />
+		<aui:nav-item href="${councilSessionsURL}" label="councilSessions"
+			selected="${tab eq 'councilSessions'}" />
 
 		<aui:nav-item href="${deliberationsURL}" label="deliberations"
 			selected="${tab eq 'deliberations'}" />
@@ -24,7 +23,7 @@
 </aui:nav-bar>
 
 <c:choose>
-    <c:when test="${tab eq 'sessions'}">
+    <c:when test="${tab eq 'councilSessions'}">
 		<liferay-util:include page="/council-bo-view-sessions.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
