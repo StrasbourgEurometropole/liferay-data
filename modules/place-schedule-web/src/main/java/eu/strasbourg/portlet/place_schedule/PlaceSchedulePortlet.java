@@ -1,30 +1,7 @@
 package eu.strasbourg.portlet.place_schedule;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
-import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -35,20 +12,23 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ObjectValuePair;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import org.osgi.service.component.annotations.Reference;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.*;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author 01i454
@@ -230,7 +210,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			// Récupère tous les lieux publiés de la catégorie
 			List<Place> places = new ArrayList<Place>();
 			if (Validator.isNotNull(category)) {
-				List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId);
+				List<AssetEntryAssetCategoryRel> assetEntriesAssetCategories = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId);
 				for (AssetEntryAssetCategoryRel assetEntryAssetCategory : assetEntriesAssetCategories) {
 					if (Validator.isNotNull(assetEntryAssetCategory)) {
 						AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(assetEntryAssetCategory.getAssetEntryId());
@@ -356,9 +336,6 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			return LocalDate.now().getYear();
 		}
 	}
-
-	@Reference
-	private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
