@@ -73,7 +73,6 @@
 		<field name="statusDate" type="Date" />
 		<field name="officialVotersId" type="long" />
 		<field name="officialUnavailableId" type="long" />
-		<field name="officialProcurationId" type="long" />
 		<field name="councilSessionId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Vote">

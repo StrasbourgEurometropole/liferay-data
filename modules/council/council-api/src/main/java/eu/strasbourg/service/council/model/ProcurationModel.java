@@ -321,20 +321,6 @@ public interface ProcurationModel extends BaseModel<Procuration>, GroupedModel,
 	public void setOfficialUnavailableId(long officialUnavailableId);
 
 	/**
-	 * Returns the official procuration ID of this procuration.
-	 *
-	 * @return the official procuration ID of this procuration
-	 */
-	public long getOfficialProcurationId();
-
-	/**
-	 * Sets the official procuration ID of this procuration.
-	 *
-	 * @param officialProcurationId the official procuration ID of this procuration
-	 */
-	public void setOfficialProcurationId(long officialProcurationId);
-
-	/**
 	 * Returns the council session ID of this procuration.
 	 *
 	 * @return the council session ID of this procuration

@@ -73,7 +73,6 @@ create table council_Procuration (
 	statusDate DATE null,
 	officialVotersId LONG,
 	officialUnavailableId LONG,
-	officialProcurationId LONG,
 	councilSessionId LONG
 );
 
