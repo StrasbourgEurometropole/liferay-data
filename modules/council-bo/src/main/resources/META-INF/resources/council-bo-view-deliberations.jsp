@@ -88,4 +88,4 @@
 		<liferay-frontend:add-menu-item title="Ajouter une deliberation"
 			url="${addDeliberationURL}" />
 	</liferay-frontend:add-menu>
-</c:if
+</c:if>

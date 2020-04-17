@@ -53,7 +53,7 @@ public class ViewCouncilSessionsDisplayContext extends ViewListBaseDisplayContex
         List<CouncilSession> results = new ArrayList<>();
         if (hits != null) {
             for (Document document : hits.getDocs()) {
-                CouncilSession councilSession =CouncilSessionLocalServiceUtil
+                CouncilSession councilSession = CouncilSessionLocalServiceUtil
                         .fetchCouncilSession(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
                 if (councilSession != null) {
                     results.add(councilSession);
