@@ -123,4 +123,6 @@ public class StrasbourgPortletKeys {
 	public static final String GTFS_WEB = "eu_strasbourg_portlet_gtfs_GTFSPortlet";
 
 	public static final String AGENDA_EXPORT_BO = "eu_strasbourg_portlet_agendaExport_AgendaExportBOPortlet";
+
+	public static final String COUNCIL_BO = "eu_strasbourg_portlet_council_CouncilBOPortlet";
 }
