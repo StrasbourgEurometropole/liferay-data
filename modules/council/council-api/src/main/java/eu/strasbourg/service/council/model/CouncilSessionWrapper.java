@@ -462,6 +462,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
+	* Renvoie la liste des procurations rattachées à cette sessions
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Procuration> getProcurations() {
+		return _councilSession.getProcurations();
+	}
+
+	/**
 	* Returns the company ID of this council session.
 	*
 	* @return the company ID of this council session

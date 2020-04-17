@@ -64,4 +64,9 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	/**
+	* Renvoie la liste des procurations rattachées à cette sessions
+	*/
+	public java.util.List<eu.strasbourg.service.council.model.Procuration> getProcurations();
 }
