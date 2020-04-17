@@ -1,0 +1,11 @@
+.seu-wi-trombinoscope{
+  @extend %molecule-wi-section; 
+  @extend %organism-wi-trombinoscope;
+}
+
+.portlet-nested-portlets .seu-wi-trombinoscope {
+  margin: 0;
+  .seu-btn-line {
+    justify-content: left !important;
+  }
+}

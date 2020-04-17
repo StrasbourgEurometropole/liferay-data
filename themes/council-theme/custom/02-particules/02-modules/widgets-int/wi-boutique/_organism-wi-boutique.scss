@@ -1,0 +1,32 @@
+%organism-wi-boutique{
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background-color: $core-color;
+    @extend %wi-centered-text;
+    // Couleurs Titre
+    .seu-section-title{
+        .seu-title{
+            color: #FFFFFF;
+        }
+        &:before{
+            background-image: url( svg-bg-uri($svg-wave, #505d6d) ); 
+        }
+    }
+    // Contenu
+    .seu-wi-content{
+        text-align: center;
+        margin-bottom: 40px;
+
+        @include RWD(mobile){
+            margin-bottom: 20px;
+        }
+    }
+    .seu-wi-content{
+        .seu-wi-title{
+            color: #FFFFFF;
+        }
+        p{
+            color: #FFFFFF;
+        }
+    }
+}

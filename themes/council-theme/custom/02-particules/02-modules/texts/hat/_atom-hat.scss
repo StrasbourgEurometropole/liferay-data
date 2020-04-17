@@ -1,0 +1,10 @@
+%atom-hat-default{
+    @extend %molecule-inlines-rte;
+    // text-align: center;
+    .container{
+        @extend %container;
+    }
+    & > * {        
+        @extend %text-hat;
+    }
+}

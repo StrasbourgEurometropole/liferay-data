@@ -1,0 +1,45 @@
+.search-asset-portlet.officials {
+    .btn-line {
+        width: 100%;
+        text-align: center;
+    }
+    #seu-grid--list01 {
+        @include RWD(desktop) {
+            @include grid-distribution(4, 20, 'official-thumbnail');
+        }
+        @include RWD(tablet) {
+            @include grid-distribution(2, 20, 'official-thumbnail');
+        }
+        @include RWD(mobile) {
+            @include grid-distribution(1, 0, 'official-thumbnail');
+        }
+        padding: 0;
+    }
+    .official-thumbnail {
+        @extend %atom-slider-une-vignette;
+        height: 425px;
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        &.seu-mag .seu-link {
+            background-color: white;
+            &:hover {
+                background-color: #E3E3E3;
+            }
+        }
+    }
+}
+.official-detail {
+    .official-portrait {
+        text-align: center;
+        img {
+            max-width: 100%;
+        }
+    }
+    .official-contact {
+        .seu-container:before, .seu-container:after {
+            display: none;
+        }
+        margin-top: 50px;
+        margin-bottom: -50px;
+    }
+}

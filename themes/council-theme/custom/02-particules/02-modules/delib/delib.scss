@@ -1,0 +1,362 @@
+h1 {
+    @extend %text-h1;  
+    font-size: 3.7rem;
+    @include RWD(mobile) {
+        font-size: 2.5rem;
+    }
+    margin: 25px auto !important;
+}
+
+.council-flex {
+	display: flex;
+    @include RWD(desktop){    
+        flex-flow: row;
+    }
+    @include RWD(tablet){
+        flex-flow: row;
+    }
+
+
+    .council-list-delib {
+        overflow: hidden;
+        max-height: 130vh;
+        @include RWD(desktop){
+            width: 20%;
+        }
+        @include RWD(tablet){
+            width: 25%;
+        }
+        @media only screen and (max-width: 830px) { 
+            width: 100%;
+            height: 40vh;
+            display: none;
+        }
+
+        .delib-link {
+            width: 100%;
+            color: #31455d;
+            margin: 0 0 1px 0;
+            padding: 15px 20px;
+            text-decoration: none;
+            display: inline-block;
+            background-size: 100% 200%;
+            background-image: linear-gradient(to top, #31455d 50%, transparent 50%);
+            transition: background-position 0.3s;
+            border-bottom: 1px solid #31455d;
+            
+            &.active {
+                color: #ffffff;
+                background-position: 0 100%;
+                text-decoration: none;
+
+                .delib-catch {
+                    color: #ffffff;   
+                }
+            }
+        }
+
+        .delib-flexbox {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: space-between;
+        }
+
+        .delib-text {
+            font-family: "Montserrat", arial;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all, 0.3s;
+            margin-right: 20px;
+        }
+        .delib-catch {
+            font-family: OpenSans,arial;
+            font-size: 1.6rem;
+            line-height: 1.66666666;
+            color: #5c5c5c;
+            font-weight: 400;
+        }
+    }
+
+    .detail-delib {   
+        padding: 0 25px 0 25px;
+        overflow: auto;
+        margin-bottom: 30px;
+         @include RWD(mobile){
+            margin-top: 25px;
+         }
+
+         h1 {
+            @extend %text-h1;           
+            text-align: left;
+            margin-left: 0;
+            margin-bottom: 0;
+            padding-left: 0;
+         }
+         h2 {
+            @extend %text-h2;           
+            text-align: left;
+            margin-left: 0;
+            margin-bottom: 0;
+            margin-top: 0;
+            padding-left: 0;
+         }
+
+        .delib-title {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+                cursor: pointer;
+            }
+        }
+
+        .confirmation-vote {
+                margin-top: 30px;
+        }
+
+        h3 {
+            @extend %text-h3;
+        }
+        
+
+        .vote-forms {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+
+            .vote-form {
+                width: 100%;
+                margin-top: 30px;
+
+                .vote-title{
+                    color: #ffffff;
+                    background-color:#31455d; 
+                    padding: 5px;
+                }
+                .vote-answers {
+                    display: flex;
+                    flex-direction : column;
+                    margin-top: 10px;
+
+                    .answer-wrapper {
+                        line-height: 30px;
+                        @include RWD(mobile){
+                            line-height: 35px;
+                        }
+                    }
+                }
+                input[type="radio"] {
+                    position: absolute;
+                    left: -99999999px; 
+
+                    &:checked {
+                        + span {
+
+                            &:before {
+                                opacity: 0;
+                            }
+                            &:after {
+                                opacity: 1;
+                            }
+                        }
+                    }
+
+                    &:disabled {
+                        + span {
+                            color: #808080;
+
+                            &:before {
+                                border-color: #808080;
+                            }
+                            &:after {
+                                background-color: #808080;
+                            }
+                        }
+                    }
+
+                    + span {
+                        padding-left: 40px;
+                        display: block; 
+                        position: relative;
+
+                        &:before {
+                            display: inline-block;
+                            content: '';
+                            height: 25px;
+                            width: 25px;
+                            background-color: transparent;
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            -webkit-transform: translateY(-50%);
+                                  transform: translateY(-50%);
+                            border-radius: 50%;
+                            border: solid 3px #31455d;
+                        }
+
+                        &:after {
+                            display: inline-block;
+                            content: '';
+                            height: 25px;
+                            width: 25px;
+                            background-color: #46cfc0;
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            -webkit-transform: translateY(-50%);
+                            transform: translateY(-50%);
+                            border-radius: 50%;
+                            opacity: 0; 
+                        }
+                    }
+                }
+            }
+            .btn-validate-vote {
+                margin: auto;
+                margin-top: 30px;
+            }
+        }
+
+        .resultat-general {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+            margin-top: 30px;
+            text-align: center;
+            @media only screen and (max-width: 600px) { 
+                flex-direction: column;
+            }
+            width: 100%;
+            max-width: 450px;
+
+            .resultat {
+                color: #ffffff;
+                font-family: Montserrat,arial;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                font-weight: 600;
+                padding: 10px;
+                flex: 1;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+
+
+                &.pour {
+                    background-color: #19A375;
+                }
+                &.contre {
+                    background-color: #C73C42;
+                }
+                &.abstention {
+                    background-color: #4d98b1;
+                }
+                &.nonvote {
+                    background-color: #F47521;
+                }
+            }
+        }
+        .resultat-specifique {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-top: 30px;
+
+            .liste {
+                font-family: OpenSans,arial;
+                font-size: 1.8rem;
+                line-height: 1.66666666;
+                color: #5c5c5c;
+                font-weight: 400;
+                display: flex;
+                flex-direction: column;
+
+                @include RWD(mobile) {
+                    font-size: 1.4rem;
+                }
+
+                width: 450px;
+                margin: auto;
+
+                .elu-wrapper {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .pour {
+                        width: 120px;
+                        @include RWD(mobile) {
+                             width: 90px;
+                        }
+                        color: #ffffff;
+                        text-align: center;
+                        background-color: #19A375;
+                    }
+                    .contre {
+                        width: 120px;
+                        @include RWD(mobile) {
+                             width: 90px;
+                        }
+                        color: #ffffff;
+                        text-align: center;
+                        background-color: #C73C42;
+                    }
+                    .abstention {
+                        width: 120px;
+                        @include RWD(mobile) {
+                             width: 90px;
+                        }
+                        color: #ffffff;
+                        text-align: center;
+                        background-color: #4d98b1;
+                    }
+                    .nonvote {
+                        width: 120px;
+                        @include RWD(mobile) {
+                             width: 90px;
+                        }
+                        color: #ffffff;
+                        text-align: center;
+                        background-color: #F47521;
+                    }
+
+                }
+            }
+            .resultat {
+                color: #ffffff;
+                font-family: Montserrat,arial;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                font-weight: 600;
+                padding: 10px;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+
+                span.pour {
+                    padding: 10px;
+                    background-color: #19A375;
+                }
+                span.contre {
+                    padding: 10px;
+                    background-color: #C73C42;
+                }
+                span.abstention {
+                    padding: 10px;
+                    background-color: #4d98b1;
+                }
+                span.nonvote {
+                    padding: 10px;
+                    background-color: #F47521;
+                }
+            }
+        }
+    }
+}
