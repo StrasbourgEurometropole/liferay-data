@@ -4,8 +4,7 @@
 	<portlet:param name="tab" value="councilSessions" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
@@ -17,25 +16,20 @@
 </liferay-portlet:renderURL>
 
 
-<liferay-frontend:management-bar includeCheckBox="true"
-	searchContainerId="councilSessionsSearchContainer">
-
-		<liferay-frontend:management-bar-filters>
-
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"title", "modified-date", "publication-date", "status"} %>'
-				portletURL="${councilSessionsURL}" />
-		</liferay-frontend:management-bar-filters>
-
+<liferay-frontend:management-bar includeCheckBox="true"searchContainerId="councilSessionsSearchContainer">
+    <liferay-frontend:management-bar-filters>
+        <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
+            orderByType="${dc.orderByType}"
+            orderColumns='<%= new String[] {"title", "modified-date", "publication-date", "status"} %>'
+            portletURL="${councilSessionsURL}" />
+    </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
 
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
-		<liferay-ui:search-container id="councilSessionsSearchContainer"
-			searchContainer="${dc.searchContainer}">
+		<liferay-ui:search-container id="councilSessionsSearchContainer" searchContainer="${dc.searchContainer}">
 			<liferay-ui:search-container-results results="${dc.councilSessions}" />
 
 			<liferay-ui:search-container-row
@@ -64,8 +58,7 @@
 							<liferay-ui:icon message="edit" url="${editCouncilSessionURL}" />
 						</c:if>
 
-						<liferay-portlet:actionURL name="deleteCouncilSession"
-							var="deleteCouncilSessionURL">
+						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 							<portlet:param name="cmd" value="deleteCouncilSession" />
 							<portlet:param name="tab" value="councilSessions" />
 							<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
@@ -86,7 +79,6 @@
 
 <c:if test="${dc.hasPermission('ADD_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une session"
-			url="${addCouncilSessionURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter une session" url="${addCouncilSessionURL}" />
 	</liferay-frontend:add-menu>
-</c:if
+</c:if>

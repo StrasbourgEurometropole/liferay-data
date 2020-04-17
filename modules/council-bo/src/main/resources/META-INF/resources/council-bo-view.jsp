@@ -1,6 +1,5 @@
 <%@ include file="/council-init.jsp" %>
 
-
 <c:set var="tab" value="${not empty param.tab ? param.tab : 'councilSessions' }" />
 
 <liferay-portlet:renderURL var="councilSessionsURL">
@@ -24,7 +23,7 @@
 
 <c:choose>
     <c:when test="${tab eq 'councilSessions'}">
-		<liferay-util:include page="/council-bo-view-sessions.jsp" servletContext="<%=application %>">
+		<liferay-util:include page="/council-bo-view-council-sessions.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
     <c:when test="${tab eq 'deliberations'}">
