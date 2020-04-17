@@ -10,6 +10,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.log.Log;
@@ -34,6 +35,7 @@ import eu.strasbourg.utils.PortletHelper;
 		"javax.portlet.init-param.view-template=/internal-link-view.jsp",
 		"javax.portlet.init-param.config-template=/internal-link-configuration.jsp",
 		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.name=" + StrasbourgPortletKeys.INTERNAL_LINK_VIEWER_WEB,
 		"javax.portlet.security-role-ref=power-user,user" },
 	service = Portlet.class)
 public class InternalLinkViewerPortlet extends MVCPortlet {
