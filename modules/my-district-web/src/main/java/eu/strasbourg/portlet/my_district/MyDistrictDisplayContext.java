@@ -1,17 +1,13 @@
 package eu.strasbourg.portlet.my_district;
 
 import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.portal.kernel.dao.orm.Criterion;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -36,7 +32,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
@@ -175,7 +170,7 @@ public class MyDistrictDisplayContext {
     public Official getOfficial() {
         Official official = null;
         if (Validator.isNotNull(district)) {
-            List<AssetEntryAssetCategoryRel> entriesRel = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
+            List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
 
             //transforme les AssetEntriesAssetCategories en AssetEntries
             List<AssetEntry> assetEntries = new ArrayList<AssetEntry>();
@@ -219,7 +214,7 @@ public class MyDistrictDisplayContext {
     public Place getTownHall() {
         Place townHall = null;
         if (Validator.isNotNull(district)) {
-            List<AssetEntryAssetCategoryRel> entriesRel = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
+            List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
 
             //transforme les AssetEntriesAssetCategories en AssetEntries
             List<AssetEntry> assetEntries = new ArrayList<AssetEntry>();
@@ -273,7 +268,7 @@ public class MyDistrictDisplayContext {
     public Place getTerritoryDirection() {
         Place territoryDirection = null;
         if (Validator.isNotNull(district)) {
-            List<AssetEntryAssetCategoryRel> entriesRel = assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
+            List<AssetEntryAssetCategoryRel> entriesRel = AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId());
 
             //transforme les AssetEntriesAssetCategories en AssetEntries
             List<AssetEntry> assetEntries = new ArrayList<AssetEntry>();
@@ -423,7 +418,7 @@ public class MyDistrictDisplayContext {
     public List<AssetEntry> getEvents() {
         if (events == null) {
             List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList<AssetEntryAssetCategoryRel>();
-            entriesRel.addAll(assetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId()));
+            entriesRel.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(district.getCategoryId()));
 
             //transforme les AssetEntriesAssetCategories en AssetEntries
             List<AssetEntry> entries = new ArrayList<>();
@@ -464,7 +459,4 @@ public class MyDistrictDisplayContext {
         LocalDate publicationDate = entry.getPublishDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return (int) Math.abs(ChronoUnit.DAYS.between(today, publicationDate));
     }
-
-    @Reference
-    private AssetEntryAssetCategoryRelLocalService assetEntryAssetCategoryRelLocalService;
 }
