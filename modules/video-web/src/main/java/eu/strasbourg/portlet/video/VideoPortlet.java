@@ -14,7 +14,6 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"javax.portlet.version=3.0",
 		"com.liferay.portlet.display-category=category.hidden",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.init-param.template-path=/",
