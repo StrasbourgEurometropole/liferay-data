@@ -7,6 +7,11 @@
 <#assign catcher = docXml.valueOf("//dynamic-element[@name='catcher']/dynamic-content/text()") />
 <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
 <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+<#assign imageURL ="" />
+<#if image?has_content>
+    <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+</#if>
 <#assign lieu = docXml.valueOf("//dynamic-element[@name='lieu']/dynamic-content/text()") />
 
 
@@ -33,7 +38,7 @@
     <a href="${detailURLFilter}" class="mns-bloc-exp" style="min-height: 391px;">
       <div class="mns-img">
           <figure class="fit-cover">
-              <img src="${image}" width="375" height="280" alt="${title}">
+              <img src="${imageURL}" width="375" height="280" alt="${title}">
           </figure>
           <!-- <div class="mns-wrap-tag">
             <#list typeNoel as type>

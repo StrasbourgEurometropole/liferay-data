@@ -8,7 +8,7 @@
             <#list image.getSiblings() as curImage>
                 <div class="item">
                     <figure class="fit-cover">
-                        <img src="${curImage.data}" alt="${curImage.children[0].data}" width="1600" height="1000" />
+                        <img src="${curImage.getData()}" alt="${curImage.children[0].getData()}" width="1600" height="1000" />
                     </figure>
                     <div class="caption">
                         <h3>${curImage.children[0].data}</h3>

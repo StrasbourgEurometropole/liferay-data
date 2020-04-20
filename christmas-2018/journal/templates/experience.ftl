@@ -30,7 +30,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <div class="mns-page-experience">
     <header class="container mns-top-experience">
         <div class="small-container">
-            <div class="row">
+            <div>
                 <h1>${title.data}</h1>
                 <div class="mns-meta">
                     <div class="mns-wrap-tag">
@@ -40,7 +40,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </div>
                     <span class="mns-location">${lieu.data}</span>
                     <figure class="fit-cover">
-                        <img src="${image.data}" width="60" height="60" alt="Nom de l'auteur de l'expérience">
+                        <img src="${image.getData()}" width="60" height="60" alt="Nom de l'auteur de l'expérience">
                     </figure>
                 </div>
                 <a href="#" class="add-favorites"
