@@ -44,6 +44,17 @@
 			    <%-- Champ : Titre --%>
                 <aui:input name="title" required="true" />
 
+                <%-- Champ : Type --%>
+                <div><label><liferay-ui:message key="type" /></label></div>
+                <label><input type="radio" value="internalImage" name="imageType"
+                    <c:if test="${!dc.councilSession.isEurometropolitan}">checked</c:if>>
+                        <liferay-ui:message key="type-municipal" />
+                </label><br>
+                <label><input type="radio" value="externalImage" name="imageType"
+                    <c:if test="${dc.councilSession.isEurometropolitan}">checked</c:if>>
+                        <liferay-ui:message key="type-eurometropolitan" />s
+                </label><br><br>
+
 			    <%-- Champ : Duree --%>
                 <aui:input name="date" required="true" />
 

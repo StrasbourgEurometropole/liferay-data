@@ -220,6 +220,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
+	* Si le type de la session est Eurmetropolitan
+	*/
+	@Override
+	public boolean isEurometropolitan() {
+		return _councilSession.isEurometropolitan();
+	}
+
+	/**
 	* Returns <code>true</code> if this council session is expired.
 	*
 	* @return <code>true</code> if this council session is expired; <code>false</code> otherwise
@@ -247,6 +255,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public boolean isIncomplete() {
 		return _councilSession.isIncomplete();
+	}
+
+	/**
+	* Si le type de la session est Municipal
+	*/
+	@Override
+	public boolean isMinicipal() {
+		return _councilSession.isMinicipal();
 	}
 
 	@Override
