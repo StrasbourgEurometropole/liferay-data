@@ -66,9 +66,32 @@
 			<%-- Groupe de champs : Procuration --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="procurations">
 
-				<div class="procuration-label"><label><liferay-ui:message key="enter-a-procuration" /></label></div>
-
-
+                <div id="procurations-table">
+                    <table border="1">
+                        <tr>
+                            <th>
+                                <strong><liferay-ui:message key="official-voters" /></strong>
+                            </th>
+                            <th >
+                                <strong><liferay-ui:message key="official-unavailable" /></strong>
+                            </th>
+                            <th >
+                                <strong><liferay-ui:message key="is-absent" /></strong>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Jean-Luc PIPIER
+                            </td>
+                            <td>
+                                <aui:input name="official-voters" label="" type="text" value="Patrick POIVRE" />
+                            </td>
+                            <td>
+                                <aui:input name="is-absent" label="" type="checkbox" value="checked" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 
 			</aui:fieldset>
 
