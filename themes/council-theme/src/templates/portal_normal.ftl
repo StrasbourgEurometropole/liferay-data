@@ -64,6 +64,14 @@
       <@subnavtop "seu"/>
     </header>
 
+    <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+    <div class="region-post-header <#if layoutImage?has_content>has-banner</#if>">
+      <#if layoutImage?has_content>
+        <div class="region-banner" style="background-image: url(${layoutImage})">
+        </div>
+      </#if>
+    </div>
+
     <#if selectable>
       <@liferay_util["include"] page=content_include />
     <#else>
