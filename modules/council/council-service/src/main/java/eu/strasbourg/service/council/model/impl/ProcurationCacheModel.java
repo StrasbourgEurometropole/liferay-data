@@ -196,7 +196,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		councilSessionId = objectInput.readLong();
 
-		isAbsent = objectInput.readLong();
+		isAbsent = objectInput.readBoolean();
 	}
 
 	@Override
@@ -246,7 +246,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		objectOutput.writeLong(councilSessionId);
 
-		objectOutput.writeLong(isAbsent);
+		objectOutput.writeBoolean(isAbsent);
 	}
 
 	public String uuid;
@@ -264,5 +264,5 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 	public long officialVotersId;
 	public long officialUnavailableId;
 	public long councilSessionId;
-	public long isAbsent;
+	public boolean isAbsent;
 }

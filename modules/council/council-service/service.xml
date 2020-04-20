@@ -163,7 +163,7 @@
 		<column name="officialVotersId" type="long" />
 		<column name="officialUnavailableId" type="long" />
 		<column name="councilSessionId" type="long" />
-		<column name="isAbsent" type="long" />
+		<column name="isAbsent" type="boolean" />
 
 		<!-- Order -->
 		<order by="desc">

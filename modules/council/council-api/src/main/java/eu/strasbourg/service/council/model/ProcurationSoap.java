@@ -221,11 +221,15 @@ public class ProcurationSoap implements Serializable {
 		_councilSessionId = councilSessionId;
 	}
 
-	public long getIsAbsent() {
+	public boolean getIsAbsent() {
 		return _isAbsent;
 	}
 
-	public void setIsAbsent(long isAbsent) {
+	public boolean isIsAbsent() {
+		return _isAbsent;
+	}
+
+	public void setIsAbsent(boolean isAbsent) {
 		_isAbsent = isAbsent;
 	}
 
@@ -244,5 +248,5 @@ public class ProcurationSoap implements Serializable {
 	private long _officialVotersId;
 	private long _officialUnavailableId;
 	private long _councilSessionId;
-	private long _isAbsent;
+	private boolean _isAbsent;
 }

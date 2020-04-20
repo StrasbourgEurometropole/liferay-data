@@ -173,11 +173,21 @@ public class ProcurationWrapper implements Procuration,
 			setCouncilSessionId(councilSessionId);
 		}
 
-		Long isAbsent = (Long)attributes.get("isAbsent");
+		Boolean isAbsent = (Boolean)attributes.get("isAbsent");
 
 		if (isAbsent != null) {
 			setIsAbsent(isAbsent);
 		}
+	}
+
+	/**
+	* Returns the is absent of this procuration.
+	*
+	* @return the is absent of this procuration
+	*/
+	@Override
+	public boolean getIsAbsent() {
+		return _procuration.getIsAbsent();
 	}
 
 	/**
@@ -248,6 +258,16 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public boolean isIncomplete() {
 		return _procuration.isIncomplete();
+	}
+
+	/**
+	* Returns <code>true</code> if this procuration is is absent.
+	*
+	* @return <code>true</code> if this procuration is is absent; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsAbsent() {
+		return _procuration.isIsAbsent();
 	}
 
 	@Override
@@ -447,16 +467,6 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
-	* Returns the is absent of this procuration.
-	*
-	* @return the is absent of this procuration
-	*/
-	@Override
-	public long getIsAbsent() {
-		return _procuration.getIsAbsent();
-	}
-
-	/**
 	* Returns the official unavailable ID of this procuration.
 	*
 	* @return the official unavailable ID of this procuration
@@ -583,12 +593,12 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
-	* Sets the is absent of this procuration.
+	* Sets whether this procuration is is absent.
 	*
 	* @param isAbsent the is absent of this procuration
 	*/
 	@Override
-	public void setIsAbsent(long isAbsent) {
+	public void setIsAbsent(boolean isAbsent) {
 		_procuration.setIsAbsent(isAbsent);
 	}
 

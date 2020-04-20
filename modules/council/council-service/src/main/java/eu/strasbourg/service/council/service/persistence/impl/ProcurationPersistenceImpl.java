@@ -2423,7 +2423,7 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		procurationImpl.setOfficialVotersId(procuration.getOfficialVotersId());
 		procurationImpl.setOfficialUnavailableId(procuration.getOfficialUnavailableId());
 		procurationImpl.setCouncilSessionId(procuration.getCouncilSessionId());
-		procurationImpl.setIsAbsent(procuration.getIsAbsent());
+		procurationImpl.setIsAbsent(procuration.isIsAbsent());
 
 		return procurationImpl;
 	}

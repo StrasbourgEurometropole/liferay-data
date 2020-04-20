@@ -84,7 +84,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			{ "officialVotersId", Types.BIGINT },
 			{ "officialUnavailableId", Types.BIGINT },
 			{ "councilSessionId", Types.BIGINT },
-			{ "isAbsent", Types.BIGINT }
+			{ "isAbsent", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -104,10 +104,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		TABLE_COLUMNS_MAP.put("officialVotersId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialUnavailableId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("isAbsent", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("isAbsent", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table council_Procuration";
 	public static final String ORDER_BY_JPQL = " ORDER BY procuration.procurationId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Procuration.procurationId DESC";
@@ -284,7 +284,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			setCouncilSessionId(councilSessionId);
 		}
 
-		Long isAbsent = (Long)attributes.get("isAbsent");
+		Boolean isAbsent = (Boolean)attributes.get("isAbsent");
 
 		if (isAbsent != null) {
 			setIsAbsent(isAbsent);
@@ -541,12 +541,17 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	}
 
 	@Override
-	public long getIsAbsent() {
+	public boolean getIsAbsent() {
 		return _isAbsent;
 	}
 
 	@Override
-	public void setIsAbsent(long isAbsent) {
+	public boolean isIsAbsent() {
+		return _isAbsent;
+	}
+
+	@Override
+	public void setIsAbsent(boolean isAbsent) {
 		_isAbsent = isAbsent;
 	}
 
@@ -996,7 +1001,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private long _councilSessionId;
 	private long _originalCouncilSessionId;
 	private boolean _setOriginalCouncilSessionId;
-	private long _isAbsent;
+	private boolean _isAbsent;
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 }
