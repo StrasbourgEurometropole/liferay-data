@@ -1,4 +1,4 @@
-<%@ include file="/council-init.jsp" %>
+<%@ include file="/council-bo-init.jsp" %>
 
 <liferay-portlet:renderURL varImpl="councilSessionsURL">
 	<portlet:param name="tab" value="councilSessions" />
@@ -20,7 +20,7 @@
     <liferay-frontend:management-bar-filters>
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
             orderByType="${dc.orderByType}"
-            orderColumns='<%= new String[] {"title", "modified-date", "publication-date", "status"} %>'
+            orderColumns='<%= new String[] {"title", "publication-date"} %>'
             portletURL="${councilSessionsURL}" />
     </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
@@ -35,6 +35,7 @@
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.council.model.CouncilSession"
 				modelVar="councilSession" keyProperty="councilSessionId" rowIdProperty="councilSessionId">
+
 				<liferay-portlet:renderURL varImpl="editCouncilSessionURL">
 					<portlet:param name="cmd" value="editCouncilSession" />
 					<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
@@ -42,15 +43,23 @@
 					<portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 				</liferay-portlet:renderURL>
 
+                <!-- Colonne : Titre -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCouncilSessionURL}" name="title" truncate="true"
 					orderable="true" value="${councilSession.title}" />
 
 				<fmt:formatDate value="${councilSession.date}"
 					var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
+
+				<!-- Colonne : Date -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					name="publication-date" truncate="true" orderable="true"
 					value="${formattedPublicationDate}" />
+
+                <!-- Colonne : Président -->
+                <liferay-ui:search-container-column-text cssClass="content-column"
+                    name="official-leader" truncate="true" orderable="true"
+                    value="${councilSession.officialLeader.fullName}" />
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">

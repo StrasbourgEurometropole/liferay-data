@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.council;
 
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -29,7 +30,8 @@ import java.io.IOException;
 	immediate = true,
 	property = {
 		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.footer-portlet-javascript=/js/council-bo-main.js",
+		"com.liferay.portlet.header-portlet-css=/css/council-bo-main.css",
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
@@ -52,6 +54,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 		String tab = ParamUtil.getString(renderRequest, "tab");
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
+		// Verification des requetes issues d'un champ repetable
+		Boolean fromAjax = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjax"));
+
 		renderResponse.setTitle("CouncilSessions");
 
 		// If we are on an "add" page, we set a return URL and show the "back"
@@ -65,7 +70,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		// If we are on the Session, we add the corresponding
 		// display context
-		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-session.jsp")) {
+		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-session.jsp") || fromAjax) {
 			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editDeliberation") || mvcPath.equals("/council-bo-edit-deliberation.jsp")) {

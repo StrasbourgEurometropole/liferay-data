@@ -1,4 +1,4 @@
-<%@ include file="/council-init.jsp" %>
+<%@ include file="/council-bo-init.jsp" %>
 
 <c:set var="tab" value="${not empty param.tab ? param.tab : 'councilSessions' }" />
 
