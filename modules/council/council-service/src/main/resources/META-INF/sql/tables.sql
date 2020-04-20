@@ -52,7 +52,7 @@ create table council_Official (
 	email VARCHAR(75) null,
 	firstname VARCHAR(75) null,
 	lastname VARCHAR(75) null,
-	isEms BOOLEAN,
+	isMunicipal BOOLEAN,
 	isEurometropolitan BOOLEAN,
 	isActive BOOLEAN
 );
@@ -72,7 +72,8 @@ create table council_Procuration (
 	statusDate DATE null,
 	officialVotersId LONG,
 	officialUnavailableId LONG,
-	councilSessionId LONG
+	councilSessionId LONG,
+	isAbsent LONG
 );
 
 create table council_Vote (

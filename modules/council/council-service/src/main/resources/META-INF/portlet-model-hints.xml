@@ -53,7 +53,7 @@
 		<field name="email" type="String" />
 		<field name="firstname" type="String" />
 		<field name="lastname" type="String" />
-		<field name="isEms" type="boolean" />
+		<field name="isMunicipal" type="boolean" />
 		<field name="isEurometropolitan" type="boolean" />
 		<field name="isActive" type="boolean" />
 	</model>
@@ -73,6 +73,7 @@
 		<field name="officialVotersId" type="long" />
 		<field name="officialUnavailableId" type="long" />
 		<field name="councilSessionId" type="long" />
+		<field name="isAbsent" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Vote">
 		<field name="uuid" type="String" />

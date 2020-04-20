@@ -48,7 +48,7 @@ public class OfficialSoap implements Serializable {
 		soapModel.setEmail(model.getEmail());
 		soapModel.setFirstname(model.getFirstname());
 		soapModel.setLastname(model.getLastname());
-		soapModel.setIsEms(model.getIsEms());
+		soapModel.setIsMunicipal(model.getIsMunicipal());
 		soapModel.setIsEurometropolitan(model.getIsEurometropolitan());
 		soapModel.setIsActive(model.getIsActive());
 
@@ -223,16 +223,16 @@ public class OfficialSoap implements Serializable {
 		_lastname = lastname;
 	}
 
-	public boolean getIsEms() {
-		return _isEms;
+	public boolean getIsMunicipal() {
+		return _isMunicipal;
 	}
 
-	public boolean isIsEms() {
-		return _isEms;
+	public boolean isIsMunicipal() {
+		return _isMunicipal;
 	}
 
-	public void setIsEms(boolean isEms) {
-		_isEms = isEms;
+	public void setIsMunicipal(boolean isMunicipal) {
+		_isMunicipal = isMunicipal;
 	}
 
 	public boolean getIsEurometropolitan() {
@@ -274,7 +274,7 @@ public class OfficialSoap implements Serializable {
 	private String _email;
 	private String _firstname;
 	private String _lastname;
-	private boolean _isEms;
+	private boolean _isMunicipal;
 	private boolean _isEurometropolitan;
 	private boolean _isActive;
 }

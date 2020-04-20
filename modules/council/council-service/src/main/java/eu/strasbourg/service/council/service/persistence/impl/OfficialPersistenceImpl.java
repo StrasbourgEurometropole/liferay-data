@@ -2442,7 +2442,7 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		officialImpl.setEmail(official.getEmail());
 		officialImpl.setFirstname(official.getFirstname());
 		officialImpl.setLastname(official.getLastname());
-		officialImpl.setIsEms(official.isIsEms());
+		officialImpl.setIsMunicipal(official.isIsMunicipal());
 		officialImpl.setIsEurometropolitan(official.isIsEurometropolitan());
 		officialImpl.setIsActive(official.isIsActive());
 

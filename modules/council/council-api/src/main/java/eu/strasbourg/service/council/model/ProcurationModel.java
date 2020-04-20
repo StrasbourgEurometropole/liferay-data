@@ -335,6 +335,20 @@ public interface ProcurationModel extends BaseModel<Procuration>, GroupedModel,
 	public void setCouncilSessionId(long councilSessionId);
 
 	/**
+	 * Returns the is absent of this procuration.
+	 *
+	 * @return the is absent of this procuration
+	 */
+	public long getIsAbsent();
+
+	/**
+	 * Sets the is absent of this procuration.
+	 *
+	 * @param isAbsent the is absent of this procuration
+	 */
+	public void setIsAbsent(long isAbsent);
+
+	/**
 	 * Returns <code>true</code> if this procuration is approved.
 	 *
 	 * @return <code>true</code> if this procuration is approved; <code>false</code> otherwise

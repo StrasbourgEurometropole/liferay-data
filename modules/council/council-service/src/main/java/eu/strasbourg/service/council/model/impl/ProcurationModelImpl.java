@@ -83,7 +83,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "officialVotersId", Types.BIGINT },
 			{ "officialUnavailableId", Types.BIGINT },
-			{ "councilSessionId", Types.BIGINT }
+			{ "councilSessionId", Types.BIGINT },
+			{ "isAbsent", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -103,9 +104,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		TABLE_COLUMNS_MAP.put("officialVotersId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialUnavailableId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("isAbsent", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Procuration (uuid_ VARCHAR(75) null,procurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,officialVotersId LONG,officialUnavailableId LONG,councilSessionId LONG,isAbsent LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Procuration";
 	public static final String ORDER_BY_JPQL = " ORDER BY procuration.procurationId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Procuration.procurationId DESC";
@@ -181,6 +183,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		attributes.put("officialVotersId", getOfficialVotersId());
 		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("councilSessionId", getCouncilSessionId());
+		attributes.put("isAbsent", getIsAbsent());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -279,6 +282,12 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		if (councilSessionId != null) {
 			setCouncilSessionId(councilSessionId);
+		}
+
+		Long isAbsent = (Long)attributes.get("isAbsent");
+
+		if (isAbsent != null) {
+			setIsAbsent(isAbsent);
 		}
 	}
 
@@ -532,6 +541,16 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	}
 
 	@Override
+	public long getIsAbsent() {
+		return _isAbsent;
+	}
+
+	@Override
+	public void setIsAbsent(long isAbsent) {
+		_isAbsent = isAbsent;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
 				Procuration.class.getName()));
@@ -663,6 +682,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		procurationImpl.setOfficialVotersId(getOfficialVotersId());
 		procurationImpl.setOfficialUnavailableId(getOfficialUnavailableId());
 		procurationImpl.setCouncilSessionId(getCouncilSessionId());
+		procurationImpl.setIsAbsent(getIsAbsent());
 
 		procurationImpl.resetOriginalValues();
 
@@ -825,12 +845,14 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		procurationCacheModel.councilSessionId = getCouncilSessionId();
 
+		procurationCacheModel.isAbsent = getIsAbsent();
+
 		return procurationCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -862,6 +884,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		sb.append(getOfficialUnavailableId());
 		sb.append(", councilSessionId=");
 		sb.append(getCouncilSessionId());
+		sb.append(", isAbsent=");
+		sb.append(getIsAbsent());
 		sb.append("}");
 
 		return sb.toString();
@@ -869,7 +893,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(52);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Procuration");
@@ -935,6 +959,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 			"<column><column-name>councilSessionId</column-name><column-value><![CDATA[");
 		sb.append(getCouncilSessionId());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isAbsent</column-name><column-value><![CDATA[");
+		sb.append(getIsAbsent());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -968,6 +996,7 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private long _councilSessionId;
 	private long _originalCouncilSessionId;
 	private boolean _setOriginalCouncilSessionId;
+	private long _isAbsent;
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 }

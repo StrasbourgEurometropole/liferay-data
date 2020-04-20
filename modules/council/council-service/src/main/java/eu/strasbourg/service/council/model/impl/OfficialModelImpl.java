@@ -84,7 +84,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			{ "email", Types.VARCHAR },
 			{ "firstname", Types.VARCHAR },
 			{ "lastname", Types.VARCHAR },
-			{ "isEms", Types.BOOLEAN },
+			{ "isMunicipal", Types.BOOLEAN },
 			{ "isEurometropolitan", Types.BOOLEAN },
 			{ "isActive", Types.BOOLEAN }
 		};
@@ -106,12 +106,12 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastname", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("isEms", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("isMunicipal", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isEurometropolitan", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isEms BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
 	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC";
@@ -187,7 +187,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		attributes.put("email", getEmail());
 		attributes.put("firstname", getFirstname());
 		attributes.put("lastname", getLastname());
-		attributes.put("isEms", getIsEms());
+		attributes.put("isMunicipal", getIsMunicipal());
 		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
 
@@ -289,10 +289,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			setLastname(lastname);
 		}
 
-		Boolean isEms = (Boolean)attributes.get("isEms");
+		Boolean isMunicipal = (Boolean)attributes.get("isMunicipal");
 
-		if (isEms != null) {
-			setIsEms(isEms);
+		if (isMunicipal != null) {
+			setIsMunicipal(isMunicipal);
 		}
 
 		Boolean isEurometropolitan = (Boolean)attributes.get(
@@ -572,18 +572,18 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	}
 
 	@Override
-	public boolean getIsEms() {
-		return _isEms;
+	public boolean getIsMunicipal() {
+		return _isMunicipal;
 	}
 
 	@Override
-	public boolean isIsEms() {
-		return _isEms;
+	public boolean isIsMunicipal() {
+		return _isMunicipal;
 	}
 
 	@Override
-	public void setIsEms(boolean isEms) {
-		_isEms = isEms;
+	public void setIsMunicipal(boolean isMunicipal) {
+		_isMunicipal = isMunicipal;
 	}
 
 	@Override
@@ -748,7 +748,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialImpl.setEmail(getEmail());
 		officialImpl.setFirstname(getFirstname());
 		officialImpl.setLastname(getLastname());
-		officialImpl.setIsEms(getIsEms());
+		officialImpl.setIsMunicipal(getIsMunicipal());
 		officialImpl.setIsEurometropolitan(getIsEurometropolitan());
 		officialImpl.setIsActive(getIsActive());
 
@@ -919,7 +919,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			officialCacheModel.lastname = null;
 		}
 
-		officialCacheModel.isEms = getIsEms();
+		officialCacheModel.isMunicipal = getIsMunicipal();
 
 		officialCacheModel.isEurometropolitan = getIsEurometropolitan();
 
@@ -962,8 +962,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getFirstname());
 		sb.append(", lastname=");
 		sb.append(getLastname());
-		sb.append(", isEms=");
-		sb.append(getIsEms());
+		sb.append(", isMunicipal=");
+		sb.append(getIsMunicipal());
 		sb.append(", isEurometropolitan=");
 		sb.append(getIsEurometropolitan());
 		sb.append(", isActive=");
@@ -1042,8 +1042,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getLastname());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>isEms</column-name><column-value><![CDATA[");
-		sb.append(getIsEms());
+			"<column><column-name>isMunicipal</column-name><column-value><![CDATA[");
+		sb.append(getIsMunicipal());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>isEurometropolitan</column-name><column-value><![CDATA[");
@@ -1085,7 +1085,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private String _originalEmail;
 	private String _firstname;
 	private String _lastname;
-	private boolean _isEms;
+	private boolean _isMunicipal;
 	private boolean _isEurometropolitan;
 	private boolean _isActive;
 	private long _columnBitmask;

@@ -338,25 +338,25 @@ public interface OfficialModel extends BaseModel<Official>, GroupedModel,
 	public void setLastname(String lastname);
 
 	/**
-	 * Returns the is ems of this official.
+	 * Returns the is municipal of this official.
 	 *
-	 * @return the is ems of this official
+	 * @return the is municipal of this official
 	 */
-	public boolean getIsEms();
+	public boolean getIsMunicipal();
 
 	/**
-	 * Returns <code>true</code> if this official is is ems.
+	 * Returns <code>true</code> if this official is is municipal.
 	 *
-	 * @return <code>true</code> if this official is is ems; <code>false</code> otherwise
+	 * @return <code>true</code> if this official is is municipal; <code>false</code> otherwise
 	 */
-	public boolean isIsEms();
+	public boolean isIsMunicipal();
 
 	/**
-	 * Sets whether this official is is ems.
+	 * Sets whether this official is is municipal.
 	 *
-	 * @param isEms the is ems of this official
+	 * @param isMunicipal the is municipal of this official
 	 */
-	public void setIsEms(boolean isEms);
+	public void setIsMunicipal(boolean isMunicipal);
 
 	/**
 	 * Returns the is eurometropolitan of this official.

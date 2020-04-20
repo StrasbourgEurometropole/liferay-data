@@ -48,6 +48,7 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setOfficialVotersId(model.getOfficialVotersId());
 		soapModel.setOfficialUnavailableId(model.getOfficialUnavailableId());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
+		soapModel.setIsAbsent(model.getIsAbsent());
 
 		return soapModel;
 	}
@@ -220,6 +221,14 @@ public class ProcurationSoap implements Serializable {
 		_councilSessionId = councilSessionId;
 	}
 
+	public long getIsAbsent() {
+		return _isAbsent;
+	}
+
+	public void setIsAbsent(long isAbsent) {
+		_isAbsent = isAbsent;
+	}
+
 	private String _uuid;
 	private long _procurationId;
 	private long _groupId;
@@ -235,4 +244,5 @@ public class ProcurationSoap implements Serializable {
 	private long _officialVotersId;
 	private long _officialUnavailableId;
 	private long _councilSessionId;
+	private long _isAbsent;
 }

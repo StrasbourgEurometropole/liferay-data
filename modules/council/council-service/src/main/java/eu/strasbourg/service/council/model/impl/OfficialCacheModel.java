@@ -97,8 +97,8 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		sb.append(firstname);
 		sb.append(", lastname=");
 		sb.append(lastname);
-		sb.append(", isEms=");
-		sb.append(isEms);
+		sb.append(", isMunicipal=");
+		sb.append(isMunicipal);
 		sb.append(", isEurometropolitan=");
 		sb.append(isEurometropolitan);
 		sb.append(", isActive=");
@@ -183,7 +183,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			officialImpl.setLastname(lastname);
 		}
 
-		officialImpl.setIsEms(isEms);
+		officialImpl.setIsMunicipal(isMunicipal);
 		officialImpl.setIsEurometropolitan(isEurometropolitan);
 		officialImpl.setIsActive(isActive);
 
@@ -216,7 +216,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		firstname = objectInput.readUTF();
 		lastname = objectInput.readUTF();
 
-		isEms = objectInput.readBoolean();
+		isMunicipal = objectInput.readBoolean();
 
 		isEurometropolitan = objectInput.readBoolean();
 
@@ -285,7 +285,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			objectOutput.writeUTF(lastname);
 		}
 
-		objectOutput.writeBoolean(isEms);
+		objectOutput.writeBoolean(isMunicipal);
 
 		objectOutput.writeBoolean(isEurometropolitan);
 
@@ -307,7 +307,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public String email;
 	public String firstname;
 	public String lastname;
-	public boolean isEms;
+	public boolean isMunicipal;
 	public boolean isEurometropolitan;
 	public boolean isActive;
 }

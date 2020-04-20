@@ -75,6 +75,7 @@ public class ProcurationWrapper implements Procuration,
 		attributes.put("officialVotersId", getOfficialVotersId());
 		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("councilSessionId", getCouncilSessionId());
+		attributes.put("isAbsent", getIsAbsent());
 
 		return attributes;
 	}
@@ -170,6 +171,12 @@ public class ProcurationWrapper implements Procuration,
 
 		if (councilSessionId != null) {
 			setCouncilSessionId(councilSessionId);
+		}
+
+		Long isAbsent = (Long)attributes.get("isAbsent");
+
+		if (isAbsent != null) {
+			setIsAbsent(isAbsent);
 		}
 	}
 
@@ -440,6 +447,16 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
+	* Returns the is absent of this procuration.
+	*
+	* @return the is absent of this procuration
+	*/
+	@Override
+	public long getIsAbsent() {
+		return _procuration.getIsAbsent();
+	}
+
+	/**
 	* Returns the official unavailable ID of this procuration.
 	*
 	* @return the official unavailable ID of this procuration
@@ -563,6 +580,16 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public void setGroupId(long groupId) {
 		_procuration.setGroupId(groupId);
+	}
+
+	/**
+	* Sets the is absent of this procuration.
+	*
+	* @param isAbsent the is absent of this procuration
+	*/
+	@Override
+	public void setIsAbsent(long isAbsent) {
+		_procuration.setIsAbsent(isAbsent);
 	}
 
 	/**

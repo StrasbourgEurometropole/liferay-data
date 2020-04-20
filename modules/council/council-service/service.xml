@@ -30,7 +30,7 @@
 		<column name="email" type="String" />
 		<column name="firstname" type="String" />
 		<column name="lastname" type="String" />
-		<column name="isEms" type="boolean" />
+		<column name="isMunicipal" type="boolean" />
 		<column name="isEurometropolitan" type="boolean" />
 		<column name="isActive" type="boolean" />
 
@@ -163,6 +163,7 @@
 		<column name="officialVotersId" type="long" />
 		<column name="officialUnavailableId" type="long" />
 		<column name="councilSessionId" type="long" />
+		<column name="isAbsent" type="long" />
 
 		<!-- Order -->
 		<order by="desc">
