@@ -125,8 +125,8 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 				null, // Date of expiration
 				ContentTypes.TEXT_HTML, // Content type
 				deliberation.getTitle(), // Title
-				deliberation.getText(), // Description
-				deliberation.getText(), // Summary
+				deliberation.getTitle(), // Description
+				deliberation.getTitle(), // Summary
 				null, // URL
 				null, // Layout uuid
 				0, // Width

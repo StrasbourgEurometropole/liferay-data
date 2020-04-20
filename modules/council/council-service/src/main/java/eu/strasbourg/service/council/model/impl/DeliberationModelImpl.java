@@ -83,7 +83,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "order_", Types.INTEGER },
-			{ "text_", Types.VARCHAR },
 			{ "stage", Types.VARCHAR },
 			{ "councilSessionId", Types.BIGINT }
 		};
@@ -104,12 +103,11 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("text_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stage", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,text_ VARCHAR(75) null,stage VARCHAR(75) null,councilSessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,stage VARCHAR(75) null,councilSessionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Deliberation";
 	public static final String ORDER_BY_JPQL = " ORDER BY deliberation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Deliberation.title ASC";
@@ -184,7 +182,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
-		attributes.put("text", getText());
 		attributes.put("stage", getStage());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
@@ -278,12 +275,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 		if (order != null) {
 			setOrder(order);
-		}
-
-		String text = (String)attributes.get("text");
-
-		if (text != null) {
-			setText(text);
 		}
 
 		String stage = (String)attributes.get("stage");
@@ -532,21 +523,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	}
 
 	@Override
-	public String getText() {
-		if (_text == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _text;
-		}
-	}
-
-	@Override
-	public void setText(String text) {
-		_text = text;
-	}
-
-	@Override
 	public String getStage() {
 		if (_stage == null) {
 			return StringPool.BLANK;
@@ -714,7 +690,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		deliberationImpl.setStatusDate(getStatusDate());
 		deliberationImpl.setTitle(getTitle());
 		deliberationImpl.setOrder(getOrder());
-		deliberationImpl.setText(getText());
 		deliberationImpl.setStage(getStage());
 		deliberationImpl.setCouncilSessionId(getCouncilSessionId());
 
@@ -873,14 +848,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 		deliberationCacheModel.order = getOrder();
 
-		deliberationCacheModel.text = getText();
-
-		String text = deliberationCacheModel.text;
-
-		if ((text != null) && (text.length() == 0)) {
-			deliberationCacheModel.text = null;
-		}
-
 		deliberationCacheModel.stage = getStage();
 
 		String stage = deliberationCacheModel.stage;
@@ -896,7 +863,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -926,8 +893,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getTitle());
 		sb.append(", order=");
 		sb.append(getOrder());
-		sb.append(", text=");
-		sb.append(getText());
 		sb.append(", stage=");
 		sb.append(getStage());
 		sb.append(", councilSessionId=");
@@ -939,7 +904,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(52);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Deliberation");
@@ -1002,10 +967,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getOrder());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>text</column-name><column-value><![CDATA[");
-		sb.append(getText());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>stage</column-name><column-value><![CDATA[");
 		sb.append(getStage());
 		sb.append("]]></column-value></column>");
@@ -1043,7 +1004,6 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private Date _statusDate;
 	private String _title;
 	private int _order;
-	private String _text;
 	private String _stage;
 	private long _councilSessionId;
 	private long _originalCouncilSessionId;

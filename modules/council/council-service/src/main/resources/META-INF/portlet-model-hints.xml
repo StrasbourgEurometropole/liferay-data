@@ -34,7 +34,6 @@
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
 		<field name="order" type="int" />
-		<field name="text" type="String" />
 		<field name="stage" type="String" />
 		<field name="councilSessionId" type="long" />
 	</model>

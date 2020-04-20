@@ -322,21 +322,6 @@ public interface DeliberationModel extends BaseModel<Deliberation>, GroupedModel
 	public void setOrder(int order);
 
 	/**
-	 * Returns the text of this deliberation.
-	 *
-	 * @return the text of this deliberation
-	 */
-	@AutoEscape
-	public String getText();
-
-	/**
-	 * Sets the text of this deliberation.
-	 *
-	 * @param text the text of this deliberation
-	 */
-	public void setText(String text);
-
-	/**
 	 * Returns the stage of this deliberation.
 	 *
 	 * @return the stage of this deliberation

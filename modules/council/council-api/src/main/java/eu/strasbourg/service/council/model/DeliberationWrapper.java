@@ -74,7 +74,6 @@ public class DeliberationWrapper implements Deliberation,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
-		attributes.put("text", getText());
 		attributes.put("stage", getStage());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
@@ -165,12 +164,6 @@ public class DeliberationWrapper implements Deliberation,
 
 		if (order != null) {
 			setOrder(order);
-		}
-
-		String text = (String)attributes.get("text");
-
-		if (text != null) {
-			setText(text);
 		}
 
 		String stage = (String)attributes.get("stage");
@@ -378,16 +371,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public java.lang.String getStatusByUserUuid() {
 		return _deliberation.getStatusByUserUuid();
-	}
-
-	/**
-	* Returns the text of this deliberation.
-	*
-	* @return the text of this deliberation
-	*/
-	@Override
-	public java.lang.String getText() {
-		return _deliberation.getText();
 	}
 
 	/**
@@ -722,16 +705,6 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public void setStatusDate(Date statusDate) {
 		_deliberation.setStatusDate(statusDate);
-	}
-
-	/**
-	* Sets the text of this deliberation.
-	*
-	* @param text the text of this deliberation
-	*/
-	@Override
-	public void setText(java.lang.String text) {
-		_deliberation.setText(text);
 	}
 
 	/**

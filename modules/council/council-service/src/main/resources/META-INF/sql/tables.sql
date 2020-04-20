@@ -32,7 +32,6 @@ create table council_Deliberation (
 	statusDate DATE null,
 	title VARCHAR(75) null,
 	order_ INTEGER,
-	text_ VARCHAR(75) null,
 	stage VARCHAR(75) null,
 	councilSessionId LONG
 );

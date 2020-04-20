@@ -116,7 +116,6 @@
 		<!-- Business fields -->
 		<column name="title" type="String" />
 		<column name="order" type="int" />
-		<column name="text" type="String" />
 		<column name="stage" type="String" />
 
 		<!-- Links with other entities -->

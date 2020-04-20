@@ -47,7 +47,6 @@ public class DeliberationSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setOrder(model.getOrder());
-		soapModel.setText(model.getText());
 		soapModel.setStage(model.getStage());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 
@@ -214,14 +213,6 @@ public class DeliberationSoap implements Serializable {
 		_order = order;
 	}
 
-	public String getText() {
-		return _text;
-	}
-
-	public void setText(String text) {
-		_text = text;
-	}
-
 	public String getStage() {
 		return _stage;
 	}
@@ -252,7 +243,6 @@ public class DeliberationSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private int _order;
-	private String _text;
 	private String _stage;
 	private long _councilSessionId;
 }

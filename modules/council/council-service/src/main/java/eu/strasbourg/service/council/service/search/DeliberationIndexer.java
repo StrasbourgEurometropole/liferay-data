@@ -65,7 +65,7 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         titleFieldMap.put(Locale.FRANCE, deliberation.getTitle());
 
         Map<Locale, String> descriptionFieldMap = new HashMap<>();
-        descriptionFieldMap.put(Locale.FRANCE, deliberation.getText());
+        descriptionFieldMap.put(Locale.FRANCE, deliberation.getTitle());
 
         document.addLocalizedText(Field.TITLE, titleFieldMap);
         document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);

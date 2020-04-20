@@ -2004,7 +2004,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 
 			dbColumnNames.put("uuid", "uuid_");
 			dbColumnNames.put("order", "order_");
-			dbColumnNames.put("text", "text_");
 
 			field.set(this, dbColumnNames);
 		}
@@ -2427,7 +2426,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 		deliberationImpl.setStatusDate(deliberation.getStatusDate());
 		deliberationImpl.setTitle(deliberation.getTitle());
 		deliberationImpl.setOrder(deliberation.getOrder());
-		deliberationImpl.setText(deliberation.getText());
 		deliberationImpl.setStage(deliberation.getStage());
 		deliberationImpl.setCouncilSessionId(deliberation.getCouncilSessionId());
 
@@ -2854,6 +2852,6 @@ public class DeliberationPersistenceImpl extends BasePersistenceImpl<Deliberatio
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Deliberation exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(DeliberationPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "order", "text"
+				"uuid", "order"
 			});
 }
