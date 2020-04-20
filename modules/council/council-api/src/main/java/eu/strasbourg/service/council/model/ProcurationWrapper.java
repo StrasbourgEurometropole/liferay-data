@@ -74,7 +74,6 @@ public class ProcurationWrapper implements Procuration,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("officialVotersId", getOfficialVotersId());
 		attributes.put("officialUnavailableId", getOfficialUnavailableId());
-		attributes.put("officialProcurationId", getOfficialProcurationId());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
 		return attributes;
@@ -165,13 +164,6 @@ public class ProcurationWrapper implements Procuration,
 
 		if (officialUnavailableId != null) {
 			setOfficialUnavailableId(officialUnavailableId);
-		}
-
-		Long officialProcurationId = (Long)attributes.get(
-				"officialProcurationId");
-
-		if (officialProcurationId != null) {
-			setOfficialProcurationId(officialProcurationId);
 		}
 
 		Long councilSessionId = (Long)attributes.get("councilSessionId");
@@ -448,16 +440,6 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
-	* Returns the official procuration ID of this procuration.
-	*
-	* @return the official procuration ID of this procuration
-	*/
-	@Override
-	public long getOfficialProcurationId() {
-		return _procuration.getOfficialProcurationId();
-	}
-
-	/**
 	* Returns the official unavailable ID of this procuration.
 	*
 	* @return the official unavailable ID of this procuration
@@ -596,16 +578,6 @@ public class ProcurationWrapper implements Procuration,
 	@Override
 	public void setNew(boolean n) {
 		_procuration.setNew(n);
-	}
-
-	/**
-	* Sets the official procuration ID of this procuration.
-	*
-	* @param officialProcurationId the official procuration ID of this procuration
-	*/
-	@Override
-	public void setOfficialProcurationId(long officialProcurationId) {
-		_procuration.setOfficialProcurationId(officialProcurationId);
 	}
 
 	/**

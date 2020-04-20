@@ -1,11 +1,10 @@
-<%@ include file="/council-init.jsp" %>
+<%@ include file="/council-bo-init.jsp" %>
 
 <liferay-portlet:renderURL varImpl="deliberationsURL">
 	<portlet:param name="tab" value="deliberations" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds"
-		value="${dc.filterCategoriesIds}" />
+	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
@@ -17,8 +16,7 @@
 </liferay-portlet:renderURL>
 
 
-<liferay-frontend:management-bar includeCheckBox="true"
-	searchContainerId="deliberationsSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="deliberationsSearchContainer">
 
 		<liferay-frontend:management-bar-filters>
 
@@ -85,7 +83,6 @@
 
 <c:if test="${dc.hasPermission('ADD_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une deliberation"
-			url="${addDeliberationURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}" />
 	</liferay-frontend:add-menu>
-</c:if
+</c:if>

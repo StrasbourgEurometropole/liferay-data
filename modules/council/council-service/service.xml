@@ -163,7 +163,6 @@
 		<!-- Links with other entities -->
 		<column name="officialVotersId" type="long" />
 		<column name="officialUnavailableId" type="long" />
-		<column name="officialProcurationId" type="long" />
 		<column name="councilSessionId" type="long" />
 
 		<!-- Order -->

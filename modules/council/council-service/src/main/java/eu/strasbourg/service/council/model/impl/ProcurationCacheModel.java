@@ -66,7 +66,7 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,8 +96,6 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		sb.append(officialVotersId);
 		sb.append(", officialUnavailableId=");
 		sb.append(officialUnavailableId);
-		sb.append(", officialProcurationId=");
-		sb.append(officialProcurationId);
 		sb.append(", councilSessionId=");
 		sb.append(councilSessionId);
 		sb.append("}");
@@ -161,7 +159,6 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		procurationImpl.setOfficialVotersId(officialVotersId);
 		procurationImpl.setOfficialUnavailableId(officialUnavailableId);
-		procurationImpl.setOfficialProcurationId(officialProcurationId);
 		procurationImpl.setCouncilSessionId(councilSessionId);
 
 		procurationImpl.resetOriginalValues();
@@ -193,8 +190,6 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 		officialVotersId = objectInput.readLong();
 
 		officialUnavailableId = objectInput.readLong();
-
-		officialProcurationId = objectInput.readLong();
 
 		councilSessionId = objectInput.readLong();
 	}
@@ -244,8 +239,6 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 
 		objectOutput.writeLong(officialUnavailableId);
 
-		objectOutput.writeLong(officialProcurationId);
-
 		objectOutput.writeLong(councilSessionId);
 	}
 
@@ -263,6 +256,5 @@ public class ProcurationCacheModel implements CacheModel<Procuration>,
 	public long statusDate;
 	public long officialVotersId;
 	public long officialUnavailableId;
-	public long officialProcurationId;
 	public long councilSessionId;
 }

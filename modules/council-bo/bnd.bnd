@@ -1,4 +1,3 @@
-Bundle-Name: council-bo
-Bundle-SymbolicName: eu.strasbourg.portlet.council
+Bundle-SymbolicName: council.bo
 Bundle-Version: 1.0.0
-Export-Package: eu.strasbourg.portlet.council.constants
+Web-ContextPath: /councilbo

@@ -19,6 +19,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
@@ -56,6 +58,14 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	@Override
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Renvoie la liste des procurations rattachées à cette sessions
+	 */
+	@Override
+	public List<Procuration> getProcurations() {
+		return ProcurationLocalServiceUtil.findByCouncilSessionId(this.getCouncilSessionId());
 	}
 
 }
