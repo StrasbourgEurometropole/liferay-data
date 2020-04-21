@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
@@ -63,5 +64,13 @@ public class DeliberationImpl extends DeliberationBaseImpl {
 	public CouncilSession getCouncilSession() {
 		return CouncilSessionLocalServiceUtil.fetchCouncilSession(this.getCouncilSessionId());
 	}
+
+	public boolean IsCree() { return this.getStage().equals(StageDeliberation.get(1).getName());}
+	public boolean IsAffichaeEnCours() { return this.getStage().equals(StageDeliberation.get(2).getName());}
+	public boolean IsVoteOuvert() { return this.getStage().equals(StageDeliberation.get(3).getName());}
+	public boolean IsAdopte() { return this.getStage().equals(StageDeliberation.get(4).getName());}
+	public boolean IsRejete() { return this.getStage().equals(StageDeliberation.get(5).getName());}
+	public boolean IsCommunique() { return this.getStage().equals(StageDeliberation.get(6).getName());}
+	public boolean IsRetire() { return this.getStage().equals(StageDeliberation.get(7).getName());}
 
 }
