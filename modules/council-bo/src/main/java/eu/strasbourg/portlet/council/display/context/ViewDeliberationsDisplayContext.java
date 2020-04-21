@@ -90,4 +90,19 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
                 actionId);
     }
 
+    /**
+     * Class CSS de la couleur du Statut
+     * @param deliberation
+     * @return
+     */
+    public String getCSSClassColor(Deliberation deliberation) {
+        String cssClass="";
+        if(deliberation.isAdopte()) {
+            cssClass="green";
+        } else if (deliberation.isRejete()) {
+            cssClass="red";
+        }
+
+        return cssClass;
+    }
 }

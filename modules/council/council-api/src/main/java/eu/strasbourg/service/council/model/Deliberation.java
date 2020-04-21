@@ -65,4 +65,18 @@ public interface Deliberation extends DeliberationModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
 
 	public eu.strasbourg.service.council.model.CouncilSession getCouncilSession();
+
+	public boolean isCree();
+
+	public boolean isAffichageEnCours();
+
+	public boolean isVoteOuvert();
+
+	public boolean isAdopte();
+
+	public boolean isRejete();
+
+	public boolean isCommunique();
+
+	public boolean isRetire();
 }

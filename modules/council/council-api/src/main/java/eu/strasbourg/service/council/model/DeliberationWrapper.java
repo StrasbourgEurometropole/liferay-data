@@ -179,6 +179,16 @@ public class DeliberationWrapper implements Deliberation,
 		}
 	}
 
+	@Override
+	public boolean isAdopte() {
+		return _deliberation.isAdopte();
+	}
+
+	@Override
+	public boolean isAffichageEnCours() {
+		return _deliberation.isAffichageEnCours();
+	}
+
 	/**
 	* Returns <code>true</code> if this deliberation is approved.
 	*
@@ -192,6 +202,16 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public boolean isCachedModel() {
 		return _deliberation.isCachedModel();
+	}
+
+	@Override
+	public boolean isCommunique() {
+		return _deliberation.isCommunique();
+	}
+
+	@Override
+	public boolean isCree() {
+		return _deliberation.isCree();
 	}
 
 	/**
@@ -264,6 +284,16 @@ public class DeliberationWrapper implements Deliberation,
 		return _deliberation.isPending();
 	}
 
+	@Override
+	public boolean isRejete() {
+		return _deliberation.isRejete();
+	}
+
+	@Override
+	public boolean isRetire() {
+		return _deliberation.isRetire();
+	}
+
 	/**
 	* Returns <code>true</code> if this deliberation is scheduled.
 	*
@@ -272,6 +302,11 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public boolean isScheduled() {
 		return _deliberation.isScheduled();
+	}
+
+	@Override
+	public boolean isVoteOuvert() {
+		return _deliberation.isVoteOuvert();
 	}
 
 	/**

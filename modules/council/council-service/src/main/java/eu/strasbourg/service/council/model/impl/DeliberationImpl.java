@@ -65,12 +65,12 @@ public class DeliberationImpl extends DeliberationBaseImpl {
 		return CouncilSessionLocalServiceUtil.fetchCouncilSession(this.getCouncilSessionId());
 	}
 
-	public boolean IsCree() { return this.getStage().equals(StageDeliberation.get(1).getName());}
-	public boolean IsAffichaeEnCours() { return this.getStage().equals(StageDeliberation.get(2).getName());}
-	public boolean IsVoteOuvert() { return this.getStage().equals(StageDeliberation.get(3).getName());}
-	public boolean IsAdopte() { return this.getStage().equals(StageDeliberation.get(4).getName());}
-	public boolean IsRejete() { return this.getStage().equals(StageDeliberation.get(5).getName());}
-	public boolean IsCommunique() { return this.getStage().equals(StageDeliberation.get(6).getName());}
-	public boolean IsRetire() { return this.getStage().equals(StageDeliberation.get(7).getName());}
+	public boolean isCree() { return this.getStage().equals(StageDeliberation.get(1).getName());}
+	public boolean isAffichageEnCours() { return this.getStage().equals(StageDeliberation.get(2).getName());}
+	public boolean isVoteOuvert() { return this.getStage().equals(StageDeliberation.get(3).getName());}
+	public boolean isAdopte() { return this.getStage().equals(StageDeliberation.get(4).getName());}
+	public boolean isRejete() { return this.getStage().equals(StageDeliberation.get(5).getName());}
+	public boolean isCommunique() { return this.getStage().equals(StageDeliberation.get(6).getName());}
+	public boolean isRetire() { return this.getStage().equals(StageDeliberation.get(7).getName());}
 
 }
