@@ -40,6 +40,7 @@ import eu.strasbourg.service.council.model.CouncilSession;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -290,6 +291,15 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	public List<CouncilSession> getCouncilSessionsByUuidAndCompanyId(
 		java.lang.String uuid, long companyId, int start, int end,
 		OrderByComparator<CouncilSession> orderByComparator);
+
+	/**
+	* Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
+	*
+	* @param date
+	* @return
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<CouncilSession> getFutureCouncilSessions(Date date);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

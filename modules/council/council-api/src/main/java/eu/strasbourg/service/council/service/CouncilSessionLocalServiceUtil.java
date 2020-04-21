@@ -329,6 +329,17 @@ public class CouncilSessionLocalServiceUtil {
 	}
 
 	/**
+	* Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
+	*
+	* @param date
+	* @return
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.CouncilSession> getFutureCouncilSessions(
+		java.util.Date date) {
+		return getService().getFutureCouncilSessions(date);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

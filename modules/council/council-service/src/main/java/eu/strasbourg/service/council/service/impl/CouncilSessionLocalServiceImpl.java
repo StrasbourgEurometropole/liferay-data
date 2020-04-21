@@ -17,6 +17,9 @@ package eu.strasbourg.service.council.service.impl;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -30,6 +33,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
 
 import java.io.Serializable;
@@ -239,4 +243,16 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 		}
 	}
 
+	/**
+	 * Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
+	 * @param date
+	 * @return
+	 */
+	public List<CouncilSession> getFutureCouncilSessions(Date date) {
+		DynamicQuery dq = this.councilSessionLocalService.dynamicQuery();
+		dq.add(RestrictionsFactoryUtil.ge("date", date));
+		dq.addOrder(OrderFactoryUtil.desc("date"));
+
+		return this.councilSessionLocalService.dynamicQuery(dq);
+	}
 }
