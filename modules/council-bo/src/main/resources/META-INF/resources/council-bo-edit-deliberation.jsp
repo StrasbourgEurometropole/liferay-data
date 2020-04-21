@@ -45,7 +45,7 @@
                 <aui:input name="order" required="true" />
 
 			    <%-- Champ : Titre --%>
-                <aui:input type=textarea" name="title" required="true" />
+                <aui:input type="textarea" name="title" required="true" />
 
 			    <%-- Champ : Session --%>
                 <aui:select name="councilSessionId" label="council">
@@ -57,7 +57,13 @@
                 </aui:select>
 
 			    <%-- Champ : Statut --%>
-                <aui:input name="stage" />
+                 <aui:select name="stage" label="stage">
+                    <c:forEach var="stage" items="${dc.stages}">
+                        <aui:option value="${stage.name}"
+                            label="${stage.name}"
+                            selected="${stage.name eq dc.deliberation.stage}" />
+                    </c:forEach>
+                </aui:select>
 
 			</aui:fieldset>
 
