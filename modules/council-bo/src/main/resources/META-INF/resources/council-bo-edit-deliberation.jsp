@@ -15,11 +15,20 @@
 	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
 </liferay-portlet:actionURL>
 
+<%-- URL : definit le lien menant vers la suppression de l'entite --%>
+<liferay-portlet:actionURL name="resetDeliberation" var="resetDeliberationURL">
+	<portlet:param name="cmd" value="resetDeliberation" />
+	<portlet:param name="tab" value="deliberations" />
+	<portlet:param name="deliberationId"
+	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
+</liferay-portlet:actionURL>
+
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveDeliberation" varImpl="saveDeliberationURL">
 	<portlet:param name="cmd" value="saveDeliberation" />
 	<portlet:param name="tab" value="deliberations" />
 </liferay-portlet:actionURL>
+
 
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
@@ -48,7 +57,7 @@
                 <aui:input type="textarea" name="title" required="true" />
 
 			    <%-- Champ : Session --%>
-                <aui:select name="councilSessionId" label="council">
+                <aui:select name="councilSessionId" label="councilSession" required="true">
                     <c:forEach var="council" items="${dc.availableCouncilSessions}">
                         <aui:option value="${council.councilSessionId}"
                             label="${council.getTitle()}"
@@ -119,6 +128,10 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
 			</c:if>
 
+			<c:if test="${not empty dc.deliberation and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "resetEntity();"%>' type="cancel" value="delete" />
+            </c:if>
+
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 
@@ -127,3 +140,17 @@
 	</aui:form>
 
 </div>
+
+<aui:script>
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteDeliberationURL}';
+		}
+	}
+
+	function <portlet:namespace />deleteEntity() {
+        if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-reset-this-deliberation" />')) {
+            window.location = '${resetDeliberationURL}';
+        }
+    }
+</aui:script>

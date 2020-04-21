@@ -44,13 +44,20 @@
 				</liferay-portlet:renderURL>
 
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                name="title" truncate="true"
+                name="order" truncate="true"
                 orderable="true" value="${deliberation.order}" />
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editDeliberationURL}" name="title" truncate="true"
 					orderable="true" value="${deliberation.title}" />
 
+                <liferay-ui:search-container-column-text cssClass="content-column"
+                    name="councilSession" truncate="true"
+                    orderable="true" value="${deliberation.councilSession.title}" />
+
+                <liferay-ui:search-container-column-text cssClass="content-column"
+                    name="stage" truncate="true"
+                    orderable="true" value="${deliberation.stage}" />
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
@@ -58,15 +65,82 @@
 							<liferay-ui:icon message="edit" url="${editDeliberationURL}" />
 						</c:if>
 
-						<liferay-portlet:actionURL name="deleteDeliberation"
-							var="deleteDeliberationURL">
-							<portlet:param name="cmd" value="deleteDeliberation" />
+						<liferay-portlet:actionURL name="examinateDeliberation"
+							var="examinateDeliberationURL">
+							<portlet:param name="cmd" value="stageChangeDeliberation" />
 							<portlet:param name="tab" value="deliberations" />
 							<portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+							<portlet:param name="stage" value="${StageDeliberation.get(3).name}" />
 						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteDeliberationURL}" />
+						<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+							<liferay-ui:icon message="examinate" url="${examinateDeliberationURL}" />
 						</c:if>
+
+						<liferay-portlet:actionURL name="openDeliberation"
+                            var="openDeliberationURL">
+                            <portlet:param name="cmd" value="stageChangeDeliberation" />
+                            <portlet:param name="tab" value="deliberations" />
+                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+                            <portlet:param name="stage" value="${StageDeliberation.get(4).name}" />
+                        </liferay-portlet:actionURL>
+                        <c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="open" url="${openDeliberationURL}" />
+                        </c:if>
+
+						<liferay-portlet:actionURL name="closeDeliberation"
+                            var="closeDeliberationURL">
+                            <portlet:param name="cmd" value="closeDeliberation" />
+                            <portlet:param name="tab" value="deliberations" />
+                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+                            <portlet:param name="stage" value="${StageDeliberation.get(4).name}" />
+                        </liferay-portlet:actionURL>
+                        <c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="close" url="${closeDeliberationURL}" />
+                        </c:if>
+
+						<liferay-portlet:actionURL name="adoptDeliberation"
+                            var="adoptDeliberationURL">
+                            <portlet:param name="cmd" value="stageChangeDeliberation" />
+                            <portlet:param name="tab" value="deliberations" />
+                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+                            <portlet:param name="stage" value="${StageDeliberation.get(5).name}" />
+                        </liferay-portlet:actionURL>
+                        <c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="adopt" url="${adoptDeliberationURL}" />
+                        </c:if>
+
+						<liferay-portlet:actionURL name="rejectDeliberation"
+                            var="rejectDeliberationURL">
+                            <portlet:param name="cmd" value="stageChangeDeliberation" />
+                            <portlet:param name="tab" value="deliberations" />
+                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+                            <portlet:param name="stage" value="${StageDeliberation.get(6).name}" />
+                        </liferay-portlet:actionURL>
+                        <c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="reject" url="${rejectDeliberationURL}" />
+                        </c:if>
+
+						<liferay-portlet:actionURL name="communicateDeliberation"
+                            var="communicateDeliberationURL">
+                            <portlet:param name="cmd" value="stageChangeDeliberation" />
+                            <portlet:param name="tab" value="deliberations" />
+                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+                            <portlet:param name="stage" value="${StageDeliberation.get(7).name}" />
+                        </liferay-portlet:actionURL>
+                        <c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="communicate" url="${communicateDeliberationURL}" />
+                        </c:if>
+
+						<liferay-portlet:actionURL name="pullOutDeliberation"
+                            var="pullOutDeliberationURL">
+                            <portlet:param name="cmd" value="stageChangeDeliberation" />
+                            <portlet:param name="tab" value="deliberations" />
+                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
+                            <portlet:param name="stage" value="${StageDeliberation.get(8).name}" />
+                        </liferay-portlet:actionURL>
+                        <c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
+                            <liferay-ui:icon message="pull-out" url="${pullOutDeliberationURL}" />
+                        </c:if>
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
