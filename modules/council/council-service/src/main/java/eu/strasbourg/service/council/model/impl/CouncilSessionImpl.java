@@ -41,6 +41,10 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	 *
 	 * Never reference this class directly. All methods that expect a council session model instance should use the {@link eu.strasbourg.service.council.model.CouncilSession} interface instead.
 	 */
+
+	public static final String MUNICIPAL = "municipal";
+	public static final String EUROMETROPOLITAN = "eurometropolitan";
+
 	public CouncilSessionImpl() {
 	}
 
@@ -66,6 +70,22 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	@Override
 	public List<Procuration> getProcurations() {
 		return ProcurationLocalServiceUtil.findByCouncilSessionId(this.getCouncilSessionId());
+	}
+
+	/**
+	 * Si le type de la session est Municipal
+	 */
+	@Override
+	public boolean isMinicipal() {
+		return this.getType().equals(MUNICIPAL);
+	}
+
+	/**
+	 * Si le type de la session est Eurmetropolitan
+	 */
+	@Override
+	public boolean isEurometropolitan() {
+		return this.getType().equals(EUROMETROPOLITAN);
 	}
 
 }

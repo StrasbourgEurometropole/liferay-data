@@ -44,6 +44,17 @@
 			    <%-- Champ : Titre --%>
                 <aui:input name="title" required="true" />
 
+                <%-- Champ : Type --%>
+                <div><label><liferay-ui:message key="type" /></label></div>
+                <label><input type="radio" value="internalImage" name="imageType"
+                    <c:if test="${!dc.councilSession.isEurometropolitan}">checked</c:if>>
+                        <liferay-ui:message key="type-municipal" />
+                </label><br>
+                <label><input type="radio" value="externalImage" name="imageType"
+                    <c:if test="${dc.councilSession.isEurometropolitan}">checked</c:if>>
+                        <liferay-ui:message key="type-eurometropolitan" />
+                </label><br><br>
+
 			    <%-- Champ : Duree --%>
                 <aui:input name="date" required="true" />
 
@@ -55,36 +66,31 @@
 			<%-- Groupe de champs : Procuration --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="procurations">
 
-				<div class="procuration-label"><label><liferay-ui:message key="enter-a-procuration" /></label></div>
-
-                <%-- Composant : Definit l'utilisation d'un selecteur multiple --%>
-                <div id="procuration-fields">
-
-                    <c:if test="${empty dc.councilSession.procurations}">
-                        <div class="lfr-form-row lfr-form-row-inline row-procuration">
-                            <div class="row-fields">
-                                <liferay-util:include page="/includes/procuration-row.jsp" servletContext="<%=application %>">
-                                    <liferay-util:param name="index" value="0" />
-                                </liferay-util:include>
-                            </div>
-                        </div>
-                    </c:if>
-
-                    <c:forEach items="${dc.councilSession.procurations}" var="procuration" varStatus="status">
-                        <div class="lfr-form-row lfr-form-row-inline row-procuration">
-                            <div class="row-fields">
-                                <liferay-util:include page="/includes/procuration-row.jsp" servletContext="<%=application %>">
-                                    <liferay-util:param name="officialVoters" value="${procuration.officialVoters}" />
-                                    <liferay-util:param name="officialUnavailable" value="${procuration.officialUnavailable}" />
-                                </liferay-util:include>
-                            </div>
-                        </div>
-                    </c:forEach>
-
-                    <%-- Variable : Definit les variables de gestion et de retour du selecteur
-                    (voir "autofields" dans le .js de l'edit de l'entite)  --%>
-                    <aui:input type="hidden" name="procurationIndexes" value="${dc.defaultProcurationIndexes}" />
-
+                <div id="procurations-table">
+                    <table border="1">
+                        <tr>
+                            <th>
+                                <strong><liferay-ui:message key="official-voters" /></strong>
+                            </th>
+                            <th >
+                                <strong><liferay-ui:message key="official-unavailable" /></strong>
+                            </th>
+                            <th >
+                                <strong><liferay-ui:message key="is-absent" /></strong>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Jean-Luc PIPIER
+                            </td>
+                            <td>
+                                <aui:input name="official-voters" label="" type="text" value="Patrick POIVRE" />
+                            </td>
+                            <td>
+                                <aui:input name="is-absent" label="" type="checkbox" value="checked" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
 			</aui:fieldset>
@@ -150,14 +156,9 @@
 
 </div>
 
-<liferay-portlet:actionURL name="getProcurationRow" varImpl="procurationRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-	<liferay-portlet:param name="mvcPath" value="/includes/procuration-row.jsp" />
-</liferay-portlet:actionURL>
-
 <liferay-util:html-top>
 	<script>
 		var editCouncilSession = true;
-		var getProcurationRowURL = '${procurationRowURL}';
 	</script>
 </liferay-util:html-top>
 

@@ -73,7 +73,7 @@ create table council_Procuration (
 	officialVotersId LONG,
 	officialUnavailableId LONG,
 	councilSessionId LONG,
-	isAbsent LONG
+	isAbsent BOOLEAN
 );
 
 create table council_Vote (

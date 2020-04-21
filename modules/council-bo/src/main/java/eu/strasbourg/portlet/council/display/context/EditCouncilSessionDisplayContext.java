@@ -1,18 +1,15 @@
 package eu.strasbourg.portlet.council.display.context;
 
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.List;
 
 public class EditCouncilSessionDisplayContext {
 
@@ -31,19 +28,6 @@ public class EditCouncilSessionDisplayContext {
             councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         }
         return councilSession;
-    }
-
-    @SuppressWarnings("unused")
-    public String getDefaultProcurationIndexes() {
-        if (this.getCouncilSession() != null) {
-            List<Procuration> procurations = this.getCouncilSession().getProcurations();
-            String indexes = "0";
-            for (int i = 1; i <= procurations.size(); i++) {
-                indexes += "," + i;
-            }
-            return indexes;
-        }
-        return "";
     }
 
     /**

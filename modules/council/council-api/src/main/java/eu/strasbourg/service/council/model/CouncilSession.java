@@ -69,4 +69,14 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 	* Renvoie la liste des procurations rattachées à cette sessions
 	*/
 	public java.util.List<eu.strasbourg.service.council.model.Procuration> getProcurations();
+
+	/**
+	* Si le type de la session est Municipal
+	*/
+	public boolean isMinicipal();
+
+	/**
+	* Si le type de la session est Eurmetropolitan
+	*/
+	public boolean isEurometropolitan();
 }

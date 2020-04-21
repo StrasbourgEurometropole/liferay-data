@@ -73,7 +73,7 @@
 		<field name="officialVotersId" type="long" />
 		<field name="officialUnavailableId" type="long" />
 		<field name="councilSessionId" type="long" />
-		<field name="isAbsent" type="long" />
+		<field name="isAbsent" type="boolean" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Vote">
 		<field name="uuid" type="String" />

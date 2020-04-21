@@ -54,9 +54,6 @@ public class CouncilBOPortlet extends MVCPortlet {
 		String tab = ParamUtil.getString(renderRequest, "tab");
 		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
 
-		// Verification des requetes issues d'un champ repetable
-		Boolean fromAjax = GetterUtil.getBoolean(renderRequest.getAttribute("fromAjax"));
-
 		renderResponse.setTitle("CouncilSessions");
 
 		// If we are on an "add" page, we set a return URL and show the "back"
@@ -70,7 +67,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		// If we are on the Session, we add the corresponding
 		// display context
-		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-session.jsp") || fromAjax) {
+		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-session.jsp")) {
 			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editDeliberation") || mvcPath.equals("/council-bo-edit-deliberation.jsp")) {
