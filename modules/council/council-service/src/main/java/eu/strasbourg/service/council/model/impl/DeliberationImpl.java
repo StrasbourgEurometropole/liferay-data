@@ -20,6 +20,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
@@ -57,6 +58,10 @@ public class DeliberationImpl extends DeliberationBaseImpl {
 	@Override
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	public CouncilSession getCouncilSession() {
+		return CouncilSessionLocalServiceUtil.fetchCouncilSession(this.getCouncilSessionId());
 	}
 
 }

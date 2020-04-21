@@ -293,6 +293,11 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	@Override
+	public eu.strasbourg.service.council.model.CouncilSession getCouncilSession() {
+		return _deliberation.getCouncilSession();
+	}
+
+	@Override
 	public eu.strasbourg.service.council.model.Deliberation toEscapedModel() {
 		return new DeliberationWrapper(_deliberation.toEscapedModel());
 	}

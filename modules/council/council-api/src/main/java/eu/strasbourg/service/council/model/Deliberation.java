@@ -63,4 +63,6 @@ public interface Deliberation extends DeliberationModel, PersistedModel {
 	* Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	*/
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory> getCategories();
+
+	public eu.strasbourg.service.council.model.CouncilSession getCouncilSession();
 }
