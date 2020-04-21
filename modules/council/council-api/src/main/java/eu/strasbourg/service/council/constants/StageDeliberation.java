@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum StageDeliberation {
-    CREE(1, "Cr\u00E9e"),
+    CREE(1, "Cr\u00E9\u00E9"),
     A_VENIR(2, "A venir"),
     AFFICHAGE_EN_COURS(3, "Affichage en cours"),
     VOTE_OUVERT(4, "Vote ouvert"),
