@@ -17,15 +17,12 @@
 
 
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="deliberationsSearchContainer">
-
 		<liferay-frontend:management-bar-filters>
-
 			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
 				orderByType="${dc.orderByType}"
 				orderColumns='<%= new String[] {"title", "modified-date", "publication-date", "status"} %>'
 				portletURL="${deliberationsURL}" />
 		</liferay-frontend:management-bar-filters>
-
 </liferay-frontend:management-bar>
 
 
