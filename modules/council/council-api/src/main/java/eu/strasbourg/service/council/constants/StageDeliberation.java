@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum StageDeliberation {
-    CREE(1, "Crée"),
+    CREE(1, "Cr\u00E9e"),
     A_VENIR(2, "A venir"),
     AFFICHAGE_EN_COURS(3, "Affichage en cours"),
     VOTE_OUVERT(4, "Vote ouvert"),
-    ADOPTE(5, "Adopté"),
-    REJETE(6, "Rejeté"),
-    COMMUNIQUE(7, "Communiqué"),
-    RETIRE(8, "Retiré");
+    ADOPTE(5, "Adopt\u00E9"),
+    REJETE(6, "Rejet\u00E9"),
+    COMMUNIQUE(7, "Communiqu\u00E9"),
+    RETIRE(8, "Retir\u00E9");
 
     private long id;
     private String name;
