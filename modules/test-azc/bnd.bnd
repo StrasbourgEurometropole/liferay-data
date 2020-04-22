@@ -1,4 +1,0 @@
-Bundle-Name: test-azc
-Bundle-SymbolicName: eu.strasbourg.portlet.testAZC
-Bundle-Version: 1.0.0
-Export-Package: eu.strasbourg.portlet.testAZC.constants

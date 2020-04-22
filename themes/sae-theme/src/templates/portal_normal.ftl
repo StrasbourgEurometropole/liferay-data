@@ -138,14 +138,12 @@
          <#if !isHome>
           <div style="display: none">
         </#if>
-        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
           defaultPreferences="${freeMarkerPortletPreferences}"
           portletProviderAction=portletProviderAction.VIEW
           portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
           instanceId="header-sae"
           settingsScope="group" />
-        ${freeMarkerPortletPreferences.reset()}
         <#if !isHome>
           </div>
 	        <script>
@@ -168,14 +166,12 @@
         </div>
         <#if isHome>
           <!-- Contenu web header-title-sae -->
-          <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
           <@liferay_portlet["runtime"]
             defaultPreferences="${freeMarkerPortletPreferences}"
             portletProviderAction=portletProviderAction.VIEW
             portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
             instanceId="header-title-sae"
             settingsScope="group" />
-          ${freeMarkerPortletPreferences.reset()}
         </#if>
       
         <#if !isHome>
@@ -247,14 +243,12 @@
 
       <!-- FOOTER -->
       <footer class="footer">
-        <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
         <@liferay_portlet["runtime"]
           defaultPreferences="${freeMarkerPortletPreferences}"
           portletProviderAction=portletProviderAction.VIEW
           portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
           instanceId="footer"
           settingsScope="group" />
-        ${freeMarkerPortletPreferences.reset()}
         <!-- <div class="closure">
             <div class="center">
                 <a href="${websiteUrl}" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" target="_blank">Strasbourg.eu</a>
