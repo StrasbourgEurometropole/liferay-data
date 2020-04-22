@@ -11,7 +11,7 @@
 <liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 	<portlet:param name="cmd" value="deleteCouncilSession" />
 	<portlet:param name="tab" value="councilSessions" />
-	<portlet:param name="concilSessionId"
+	<portlet:param name="councilSessionId"
 	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
 </liferay-portlet:actionURL>
 
