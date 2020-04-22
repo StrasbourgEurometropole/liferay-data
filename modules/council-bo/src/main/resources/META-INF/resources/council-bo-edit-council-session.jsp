@@ -46,20 +46,20 @@
 
                 <%-- Champ : Type --%>
                 <div><label><liferay-ui:message key="type" /></label></div>
-                <label><input type="radio" value="internalImage" name="imageType"
-                    <c:if test="${!dc.councilSession.isEurometropolitan}">checked</c:if>>
+                <label><input type="radio" value="municipal" name="<portlet:namespace />type"
+                    <c:if test="${!dc.councilSession.isEurometropolitan()}">checked</c:if>>
                         <liferay-ui:message key="type-municipal" />
                 </label><br>
-                <label><input type="radio" value="externalImage" name="imageType"
-                    <c:if test="${dc.councilSession.isEurometropolitan}">checked</c:if>>
+                <label><input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
+                    <c:if test="${dc.councilSession.isEurometropolitan()}">checked</c:if>>
                         <liferay-ui:message key="type-eurometropolitan" />
                 </label><br><br>
 
-			    <%-- Champ : Duree --%>
+			    <%-- Champ : Date --%>
                 <aui:input name="date" required="true" />
 
 				<%-- Champ : President --%>
-                <aui:input type="text" name="officialLeader" required="true" />
+                <aui:input type="number" name="officialLeaderId" required="true" />
 
 			</aui:fieldset>
 

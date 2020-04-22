@@ -9,6 +9,8 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />

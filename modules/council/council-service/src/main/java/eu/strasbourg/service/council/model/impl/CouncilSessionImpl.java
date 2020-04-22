@@ -19,7 +19,9 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
@@ -70,6 +72,14 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	@Override
 	public List<Procuration> getProcurations() {
 		return ProcurationLocalServiceUtil.findByCouncilSessionId(this.getCouncilSessionId());
+	}
+
+	/**
+	 * Renvoie l'élu président du conseil rattachées à cette sessions
+	 */
+	@Override
+	public Official getOfficialLeader() {
+		return OfficialLocalServiceUtil.fetchOfficial(this.getOfficialLeaderId());
 	}
 
 	/**

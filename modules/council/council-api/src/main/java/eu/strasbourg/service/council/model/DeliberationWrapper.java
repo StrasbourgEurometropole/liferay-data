@@ -179,6 +179,41 @@ public class DeliberationWrapper implements Deliberation,
 		}
 	}
 
+	@Override
+	public boolean IsAdopte() {
+		return _deliberation.IsAdopte();
+	}
+
+	@Override
+	public boolean IsAffichaeEnCours() {
+		return _deliberation.IsAffichaeEnCours();
+	}
+
+	@Override
+	public boolean IsCommunique() {
+		return _deliberation.IsCommunique();
+	}
+
+	@Override
+	public boolean IsCree() {
+		return _deliberation.IsCree();
+	}
+
+	@Override
+	public boolean IsRejete() {
+		return _deliberation.IsRejete();
+	}
+
+	@Override
+	public boolean IsRetire() {
+		return _deliberation.IsRetire();
+	}
+
+	@Override
+	public boolean IsVoteOuvert() {
+		return _deliberation.IsVoteOuvert();
+	}
+
 	/**
 	* Returns <code>true</code> if this deliberation is approved.
 	*
