@@ -31,6 +31,7 @@ import eu.strasbourg.service.council.service.base.VoteLocalServiceBaseImpl;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,4 +90,22 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 		return vote;
 	}
 
+	/**
+	 * Supprime les votes d'une délibération
+	 */
+	public void removeVotesFromDeliberation(long deliberationId) throws PortalException {
+		List<Vote> votesToRemove = this.findByDeliberationId(deliberationId);
+
+		for (Vote vote: votesToRemove) {
+			this.removeVote(vote.getVoteId());
+		}
+	}
+
+	/**
+	 * Retourne la liste des votes d'une délibération
+	 */
+	@Override
+	public List<Vote> findByDeliberationId(long deliberationId) {
+		return this.votePersistence.findByDeliberationId(deliberationId);
+	}
 }

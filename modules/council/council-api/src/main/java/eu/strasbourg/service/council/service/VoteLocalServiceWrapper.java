@@ -274,6 +274,15 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	/**
+	* Retourne la liste des votes d'une délibération
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Vote> findByDeliberationId(
+		long deliberationId) {
+		return _voteLocalService.findByDeliberationId(deliberationId);
+	}
+
+	/**
 	* Returns a range of all the votes.
 	*
 	* <p>
@@ -345,6 +354,15 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _voteLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Supprime les votes d'une délibération
+	*/
+	@Override
+	public void removeVotesFromDeliberation(long deliberationId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_voteLocalService.removeVotesFromDeliberation(deliberationId);
 	}
 
 	@Override
