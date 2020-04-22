@@ -66,17 +66,17 @@ public interface Deliberation extends DeliberationModel, PersistedModel {
 
 	public eu.strasbourg.service.council.model.CouncilSession getCouncilSession();
 
-	public boolean IsCree();
+	public boolean isCree();
 
-	public boolean IsAffichaeEnCours();
+	public boolean isAffichageEnCours();
 
-	public boolean IsVoteOuvert();
+	public boolean isVoteOuvert();
 
-	public boolean IsAdopte();
+	public boolean isAdopte();
 
-	public boolean IsRejete();
+	public boolean isRejete();
 
-	public boolean IsCommunique();
+	public boolean isCommunique();
 
-	public boolean IsRetire();
+	public boolean isRetire();
 }

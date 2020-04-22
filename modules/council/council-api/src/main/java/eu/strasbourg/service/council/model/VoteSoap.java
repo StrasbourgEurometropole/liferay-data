@@ -38,6 +38,7 @@ public class VoteSoap implements Serializable {
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setCreateDate(model.getCreateDate());
+		soapModel.setResult(model.getResult());
 		soapModel.setOfficialId(model.getOfficialId());
 		soapModel.setDeliberationId(model.getDeliberationId());
 		soapModel.setOfficialProcurationId(model.getOfficialProcurationId());
@@ -133,6 +134,14 @@ public class VoteSoap implements Serializable {
 		_createDate = createDate;
 	}
 
+	public String getResult() {
+		return _result;
+	}
+
+	public void setResult(String result) {
+		_result = result;
+	}
+
 	public long getOfficialId() {
 		return _officialId;
 	}
@@ -162,6 +171,7 @@ public class VoteSoap implements Serializable {
 	private long _groupId;
 	private long _companyId;
 	private Date _createDate;
+	private String _result;
 	private long _officialId;
 	private long _deliberationId;
 	private long _officialProcurationId;

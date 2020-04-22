@@ -232,6 +232,11 @@ public interface VoteLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Retourne la liste des votes d'une délibération
+	*/
+	public List<Vote> findByDeliberationId(long deliberationId);
+
+	/**
 	* Returns a range of all the votes.
 	*
 	* <p>
@@ -288,4 +293,10 @@ public interface VoteLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Supprime les votes d'une délibération
+	*/
+	public void removeVotesFromDeliberation(long deliberationId)
+		throws PortalException;
 }

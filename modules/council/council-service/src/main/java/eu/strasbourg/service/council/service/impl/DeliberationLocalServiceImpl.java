@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.DeliberationLocalServiceBaseImpl;
 
 import java.io.Serializable;
@@ -211,6 +212,9 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 
 			// Supprime l'AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Deliberation.class.getName(), deliberationId);
+
+			// Supprime les votes associés
+			VoteLocalServiceUtil.removeVotesFromDeliberation(deliberationId);
 		}
 
 		// Supprime l'entité
@@ -239,6 +243,8 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 			indexer.reindex(deliberation);
 		}
 	}
+
+
 
 	/**
 	 * Recherche par ID de CouncilSession

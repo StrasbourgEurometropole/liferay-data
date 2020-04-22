@@ -62,6 +62,7 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("createDate", getCreateDate());
+		attributes.put("result", getResult());
 		attributes.put("officialId", getOfficialId());
 		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
@@ -99,6 +100,12 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 
 		if (createDate != null) {
 			setCreateDate(createDate);
+		}
+
+		String result = (String)attributes.get("result");
+
+		if (result != null) {
+			setResult(result);
 		}
 
 		Long officialId = (Long)attributes.get("officialId");
@@ -174,6 +181,16 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public java.lang.Object clone() {
 		return new VoteWrapper((Vote)_vote.clone());
+	}
+
+	/**
+	* Returns the result of this vote.
+	*
+	* @return the result of this vote
+	*/
+	@Override
+	public java.lang.String getResult() {
+		return _vote.getResult();
 	}
 
 	/**
@@ -380,6 +397,16 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_vote.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the result of this vote.
+	*
+	* @param result the result of this vote
+	*/
+	@Override
+	public void setResult(java.lang.String result) {
+		_vote.setResult(result);
 	}
 
 	/**

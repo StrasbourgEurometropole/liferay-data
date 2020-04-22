@@ -2357,6 +2357,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		voteImpl.setGroupId(vote.getGroupId());
 		voteImpl.setCompanyId(vote.getCompanyId());
 		voteImpl.setCreateDate(vote.getCreateDate());
+		voteImpl.setResult(vote.getResult());
 		voteImpl.setOfficialId(vote.getOfficialId());
 		voteImpl.setDeliberationId(vote.getDeliberationId());
 		voteImpl.setOfficialProcurationId(vote.getOfficialProcurationId());

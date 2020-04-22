@@ -150,7 +150,7 @@
 		}
 	}
 
-	function <portlet:namespace />deleteEntity() {
+	function <portlet:namespace />resetEntity() {
         if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-reset-this-deliberation" />')) {
             window.location = '${resetDeliberationURL}';
         }

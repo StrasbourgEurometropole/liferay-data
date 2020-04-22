@@ -180,38 +180,13 @@ public class DeliberationWrapper implements Deliberation,
 	}
 
 	@Override
-	public boolean IsAdopte() {
-		return _deliberation.IsAdopte();
+	public boolean isAdopte() {
+		return _deliberation.isAdopte();
 	}
 
 	@Override
-	public boolean IsAffichaeEnCours() {
-		return _deliberation.IsAffichaeEnCours();
-	}
-
-	@Override
-	public boolean IsCommunique() {
-		return _deliberation.IsCommunique();
-	}
-
-	@Override
-	public boolean IsCree() {
-		return _deliberation.IsCree();
-	}
-
-	@Override
-	public boolean IsRejete() {
-		return _deliberation.IsRejete();
-	}
-
-	@Override
-	public boolean IsRetire() {
-		return _deliberation.IsRetire();
-	}
-
-	@Override
-	public boolean IsVoteOuvert() {
-		return _deliberation.IsVoteOuvert();
+	public boolean isAffichageEnCours() {
+		return _deliberation.isAffichageEnCours();
 	}
 
 	/**
@@ -227,6 +202,16 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public boolean isCachedModel() {
 		return _deliberation.isCachedModel();
+	}
+
+	@Override
+	public boolean isCommunique() {
+		return _deliberation.isCommunique();
+	}
+
+	@Override
+	public boolean isCree() {
+		return _deliberation.isCree();
 	}
 
 	/**
@@ -299,6 +284,16 @@ public class DeliberationWrapper implements Deliberation,
 		return _deliberation.isPending();
 	}
 
+	@Override
+	public boolean isRejete() {
+		return _deliberation.isRejete();
+	}
+
+	@Override
+	public boolean isRetire() {
+		return _deliberation.isRetire();
+	}
+
 	/**
 	* Returns <code>true</code> if this deliberation is scheduled.
 	*
@@ -307,6 +302,11 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public boolean isScheduled() {
 		return _deliberation.isScheduled();
+	}
+
+	@Override
+	public boolean isVoteOuvert() {
+		return _deliberation.isVoteOuvert();
 	}
 
 	/**

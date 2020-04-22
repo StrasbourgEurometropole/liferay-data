@@ -65,7 +65,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -77,6 +77,8 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		sb.append(companyId);
 		sb.append(", createDate=");
 		sb.append(createDate);
+		sb.append(", result=");
+		sb.append(result);
 		sb.append(", officialId=");
 		sb.append(officialId);
 		sb.append(", deliberationId=");
@@ -110,6 +112,13 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 			voteImpl.setCreateDate(new Date(createDate));
 		}
 
+		if (result == null) {
+			voteImpl.setResult(StringPool.BLANK);
+		}
+		else {
+			voteImpl.setResult(result);
+		}
+
 		voteImpl.setOfficialId(officialId);
 		voteImpl.setDeliberationId(deliberationId);
 		voteImpl.setOfficialProcurationId(officialProcurationId);
@@ -129,6 +138,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 
 		companyId = objectInput.readLong();
 		createDate = objectInput.readLong();
+		result = objectInput.readUTF();
 
 		officialId = objectInput.readLong();
 
@@ -154,6 +164,13 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		objectOutput.writeLong(companyId);
 		objectOutput.writeLong(createDate);
 
+		if (result == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(result);
+		}
+
 		objectOutput.writeLong(officialId);
 
 		objectOutput.writeLong(deliberationId);
@@ -166,6 +183,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 	public long groupId;
 	public long companyId;
 	public long createDate;
+	public String result;
 	public long officialId;
 	public long deliberationId;
 	public long officialProcurationId;

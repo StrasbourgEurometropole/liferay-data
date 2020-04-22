@@ -188,6 +188,7 @@
 		<!-- Audit fields -->
 		<column name="companyId" type="long" />
 		<column name="createDate" type="Date" />
+		<column name="result" type="String" />
 
 		<!-- Links with other entities -->
 		<column name="officialId" type="long" />
