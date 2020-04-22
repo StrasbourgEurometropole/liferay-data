@@ -114,7 +114,7 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	 * Retourne le vote d'un élu pour une délibération
 	 */
 	@Override
-	public Vote findByDeliberationIdandOfficialId(long deliberationId, long officialId) throws NoSuchVoteException {
-		return this.votePersistence.findByDeliberationIdAndOfficialId(deliberationId, officialId);
+	public Vote findByDeliberationIdandOfficialId(long deliberationId, long officialId) {
+		return this.votePersistence.fetchByDeliberationIdAndOfficialId(deliberationId, officialId);
 	}
 }
