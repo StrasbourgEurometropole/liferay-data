@@ -49,27 +49,27 @@ public class CouncilSessionIndexer extends BaseIndexer<CouncilSession> {
      * C'est ici qu'on choisi les champs à indexer
      */
     @Override
-    protected Document doGetDocument(CouncilSession deliberation) {
-        Document document = getBaseModelDocument(CLASS_NAME, deliberation);
+    protected Document doGetDocument(CouncilSession councilSession) {
+        Document document = getBaseModelDocument(CLASS_NAME, councilSession);
 
         // On indexe toute la hiérarchie de catégories (parents et enfants des
         // catégories de l'entité)
         long[] assetCategoryIds = AssetVocabularyHelper
-                .getFullHierarchyCategoriesIds(deliberation.getCategories());
+                .getFullHierarchyCategoriesIds(councilSession.getCategories());
         List<AssetCategory> assetCategories = AssetVocabularyHelper
-                .getFullHierarchyCategories(deliberation.getCategories());
+                .getFullHierarchyCategories(councilSession.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
         addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
-        titleFieldMap.put(Locale.FRANCE, deliberation.getTitle());
+        titleFieldMap.put(Locale.FRANCE, councilSession.getTitle());
 
         Map<Locale, String> descriptionFieldMap = new HashMap<>();
-        descriptionFieldMap.put(Locale.FRANCE, deliberation.getTitle());
+        descriptionFieldMap.put(Locale.FRANCE, councilSession.getTitle());
 
         document.addLocalizedText(Field.TITLE, titleFieldMap);
         document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
-        document.addNumber(Field.STATUS, deliberation.getStatus());
+        document.addNumber(Field.STATUS, councilSession.getStatus());
         return document;
     }
 
