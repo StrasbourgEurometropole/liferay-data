@@ -98,7 +98,7 @@
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Categorisations --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="categorization">
 
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
@@ -137,10 +137,6 @@
 			<c:if test="${(dc.hasPermission('ADD_COUNCIL_SESSION') and empty dc.councilSession or dc.hasPermission('EDIT_COUNCIL_SESSION') and not empty dc.councilSession) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
-				</c:if>
-				<c:if test="${not dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" name="publish" value="eu.publish" />
-					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft" value="save-as-draft" />
 				</c:if>
 			</c:if>
 

@@ -5,11 +5,13 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.List;
 
 public class EditCouncilSessionDisplayContext {
 
@@ -23,6 +25,14 @@ public class EditCouncilSessionDisplayContext {
     }
 
     public CouncilSession getCouncilSession() {
+        long councilSessionId = ParamUtil.getLong(this.request, "councilSessionId");
+        if (councilSession == null && councilSessionId > 0) {
+            councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+        }
+        return councilSession;
+    }
+
+    public List<Official> getOfficials() {
         long councilSessionId = ParamUtil.getLong(this.request, "councilSessionId");
         if (councilSession == null && councilSessionId > 0) {
             councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
