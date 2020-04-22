@@ -141,6 +141,17 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	/**
+	* Retourne le vote d'un élu pour une délibération
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Vote findByDeliberationIdandOfficialId(
+		long deliberationId, long officialId)
+		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
+		return _voteLocalService.findByDeliberationIdandOfficialId(deliberationId,
+			officialId);
+	}
+
+	/**
 	* Returns the vote with the primary key.
 	*
 	* @param voteId the primary key of the vote

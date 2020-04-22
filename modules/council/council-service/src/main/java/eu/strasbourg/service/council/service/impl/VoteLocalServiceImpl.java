@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.council.exception.NoSuchVoteException;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.base.VoteLocalServiceBaseImpl;
@@ -107,5 +108,13 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	@Override
 	public List<Vote> findByDeliberationId(long deliberationId) {
 		return this.votePersistence.findByDeliberationId(deliberationId);
+	}
+
+	/**
+	 * Retourne le vote d'un élu pour une délibération
+	 */
+	@Override
+	public Vote findByDeliberationIdandOfficialId(long deliberationId, long officialId) throws NoSuchVoteException {
+		return this.votePersistence.findByDeliberationIdAndOfficialId(deliberationId, officialId);
 	}
 }

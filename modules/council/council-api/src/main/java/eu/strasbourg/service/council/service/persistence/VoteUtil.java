@@ -658,6 +658,79 @@ public class VoteUtil {
 	}
 
 	/**
+	* Returns the vote where deliberationId = &#63; and officialId = &#63; or throws a {@link NoSuchVoteException} if it could not be found.
+	*
+	* @param deliberationId the deliberation ID
+	* @param officialId the official ID
+	* @return the matching vote
+	* @throws NoSuchVoteException if a matching vote could not be found
+	*/
+	public static Vote findByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId)
+		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
+		return getPersistence()
+				   .findByDeliberationIdAndOfficialId(deliberationId, officialId);
+	}
+
+	/**
+	* Returns the vote where deliberationId = &#63; and officialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param deliberationId the deliberation ID
+	* @param officialId the official ID
+	* @return the matching vote, or <code>null</code> if a matching vote could not be found
+	*/
+	public static Vote fetchByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId) {
+		return getPersistence()
+				   .fetchByDeliberationIdAndOfficialId(deliberationId,
+			officialId);
+	}
+
+	/**
+	* Returns the vote where deliberationId = &#63; and officialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param deliberationId the deliberation ID
+	* @param officialId the official ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching vote, or <code>null</code> if a matching vote could not be found
+	*/
+	public static Vote fetchByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId, boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByDeliberationIdAndOfficialId(deliberationId,
+			officialId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the vote where deliberationId = &#63; and officialId = &#63; from the database.
+	*
+	* @param deliberationId the deliberation ID
+	* @param officialId the official ID
+	* @return the vote that was removed
+	*/
+	public static Vote removeByDeliberationIdAndOfficialId(
+		long deliberationId, long officialId)
+		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
+		return getPersistence()
+				   .removeByDeliberationIdAndOfficialId(deliberationId,
+			officialId);
+	}
+
+	/**
+	* Returns the number of votes where deliberationId = &#63; and officialId = &#63;.
+	*
+	* @param deliberationId the deliberation ID
+	* @param officialId the official ID
+	* @return the number of matching votes
+	*/
+	public static int countByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId) {
+		return getPersistence()
+				   .countByDeliberationIdAndOfficialId(deliberationId,
+			officialId);
+	}
+
+	/**
 	* Caches the vote in the entity cache if it is enabled.
 	*
 	* @param vote the vote

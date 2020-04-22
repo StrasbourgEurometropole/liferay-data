@@ -104,8 +104,9 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long DELIBERATIONID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long VOTEID_COLUMN_BITMASK = 16L;
+	public static final long OFFICIALID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long VOTEID_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Vote"));
 
@@ -331,7 +332,19 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setOfficialId(long officialId) {
+		_columnBitmask |= OFFICIALID_COLUMN_BITMASK;
+
+		if (!_setOriginalOfficialId) {
+			_setOriginalOfficialId = true;
+
+			_originalOfficialId = _officialId;
+		}
+
 		_officialId = officialId;
+	}
+
+	public long getOriginalOfficialId() {
+		return _originalOfficialId;
 	}
 
 	@Override
@@ -486,6 +499,10 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 		voteModelImpl._setOriginalCompanyId = false;
 
+		voteModelImpl._originalOfficialId = voteModelImpl._officialId;
+
+		voteModelImpl._setOriginalOfficialId = false;
+
 		voteModelImpl._originalDeliberationId = voteModelImpl._deliberationId;
 
 		voteModelImpl._setOriginalDeliberationId = false;
@@ -630,6 +647,8 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	private Date _createDate;
 	private String _result;
 	private long _officialId;
+	private long _originalOfficialId;
+	private boolean _setOriginalOfficialId;
 	private long _deliberationId;
 	private long _originalDeliberationId;
 	private boolean _setOriginalDeliberationId;

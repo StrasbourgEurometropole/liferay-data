@@ -204,6 +204,10 @@
 		<finder name="DeliberationId" return-type="Collection">
 			<finder-column name="deliberationId" />
 		</finder>
+		<finder name="DeliberationIdAndOfficialId" return-type="Vote">
+			<finder-column name="deliberationId" />
+			<finder-column name="officialId" />
+		</finder>
 
 	</entity>
 
