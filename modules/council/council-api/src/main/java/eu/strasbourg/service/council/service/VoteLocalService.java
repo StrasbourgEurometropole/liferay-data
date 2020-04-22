@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.council.exception.NoSuchVoteException;
 import eu.strasbourg.service.council.model.Vote;
 
 import java.io.Serializable;
@@ -140,7 +139,7 @@ public interface VoteLocalService extends BaseLocalService,
 	* Retourne le vote d'un élu pour une délibération
 	*/
 	public Vote findByDeliberationIdandOfficialId(long deliberationId,
-		long officialId) throws NoSuchVoteException;
+		long officialId);
 
 	/**
 	* Returns the vote with the primary key.

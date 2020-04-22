@@ -247,4 +247,12 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		return this.officialPersistence.findByEmail(email);
 	}
 
+	/**
+	 * Recherche par site et activité ou non de l'élu
+	 */
+	@Override
+	public List<Official> findByEmail(long groupId, boolean isActive) {
+		return this.officialPersistence.findByGroupIdAndIsActive(groupId, isActive);
+	}
+
 }

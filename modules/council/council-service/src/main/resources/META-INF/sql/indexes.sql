@@ -6,6 +6,7 @@ create index IX_302FDFBC on council_Deliberation (uuid_[$COLUMN_LENGTH:75$], com
 create unique index IX_6E65253E on council_Deliberation (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_263C73FD on council_Official (email[$COLUMN_LENGTH:75$]);
+create index IX_E139471F on council_Official (groupId, isActive);
 create index IX_C307D0A3 on council_Official (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_148223E5 on council_Official (uuid_[$COLUMN_LENGTH:75$], groupId);
 

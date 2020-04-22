@@ -291,6 +291,14 @@ public class OfficialLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par site et activité ou non de l'élu
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.Official> findByEmail(
+		long groupId, boolean isActive) {
+		return getService().findByEmail(groupId, isActive);
+	}
+
+	/**
 	* Returns a range of all the officials.
 	*
 	* <p>

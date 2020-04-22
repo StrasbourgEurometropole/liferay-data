@@ -130,8 +130,9 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long EMAIL_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long LASTNAME_COLUMN_BITMASK = 16L;
+	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long LASTNAME_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Official"));
 
@@ -613,7 +614,19 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public void setIsActive(boolean isActive) {
+		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
+
+		if (!_setOriginalIsActive) {
+			_setOriginalIsActive = true;
+
+			_originalIsActive = _isActive;
+		}
+
 		_isActive = isActive;
+	}
+
+	public boolean getOriginalIsActive() {
+		return _originalIsActive;
 	}
 
 	@Override
@@ -824,6 +837,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialModelImpl._setModifiedDate = false;
 
 		officialModelImpl._originalEmail = officialModelImpl._email;
+
+		officialModelImpl._originalIsActive = officialModelImpl._isActive;
+
+		officialModelImpl._setOriginalIsActive = false;
 
 		officialModelImpl._columnBitmask = 0;
 	}
@@ -1088,6 +1105,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private boolean _isMunicipal;
 	private boolean _isEurometropolitan;
 	private boolean _isActive;
+	private boolean _originalIsActive;
+	private boolean _setOriginalIsActive;
 	private long _columnBitmask;
 	private Official _escapedModel;
 }

@@ -43,6 +43,10 @@
 		<finder name="Email" return-type="Collection">
 			<finder-column name="email" />
 		</finder>
+		<finder name="GroupIdAndIsActive" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="isActive" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
