@@ -71,6 +71,11 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.council.model.Procuration> getProcurations();
 
 	/**
+	* Renvoie l'élu président du conseil rattachées à cette sessions
+	*/
+	public eu.strasbourg.service.council.model.Official getOfficialLeader();
+
+	/**
 	* Si le type de la session est Municipal
 	*/
 	public boolean isMinicipal();

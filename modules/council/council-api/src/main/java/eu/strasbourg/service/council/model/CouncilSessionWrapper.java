@@ -318,6 +318,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 		return new CouncilSessionWrapper(_councilSession.toUnescapedModel());
 	}
 
+	/**
+	* Renvoie l'élu président du conseil rattachées à cette sessions
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official getOfficialLeader() {
+		return _councilSession.getOfficialLeader();
+	}
+
 	@Override
 	public int compareTo(
 		eu.strasbourg.service.council.model.CouncilSession councilSession) {

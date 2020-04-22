@@ -20,7 +20,7 @@
     <liferay-frontend:management-bar-filters>
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
             orderByType="${dc.orderByType}"
-            orderColumns='<%= new String[] {"title", "publication-date"} %>'
+            orderColumns='<%= new String[] {"title", "date"} %>'
             portletURL="${councilSessionsURL}" />
     </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
@@ -49,12 +49,12 @@
 					orderable="true" value="${councilSession.title}" />
 
 				<fmt:formatDate value="${councilSession.date}"
-					var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
+					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 
 				<!-- Colonne : Date -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="publication-date" truncate="true" orderable="true"
-					value="${formattedPublicationDate}" />
+					name="date" truncate="true" orderable="true"
+					value="${formattedDate}" />
 
                 <!-- Colonne : Président -->
                 <liferay-ui:search-container-column-text cssClass="content-column"
