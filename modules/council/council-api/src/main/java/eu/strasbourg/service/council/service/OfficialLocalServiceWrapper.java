@@ -311,9 +311,9 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	* Recherche par site et activité ou non de l'élu
 	*/
 	@Override
-	public java.util.List<eu.strasbourg.service.council.model.Official> findByEmail(
+	public java.util.List<eu.strasbourg.service.council.model.Official> findByGroupIdAndIsActive(
 		long groupId, boolean isActive) {
-		return _officialLocalService.findByEmail(groupId, isActive);
+		return _officialLocalService.findByGroupIdAndIsActive(groupId, isActive);
 	}
 
 	/**

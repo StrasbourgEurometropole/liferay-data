@@ -293,9 +293,9 @@ public class OfficialLocalServiceUtil {
 	/**
 	* Recherche par site et activité ou non de l'élu
 	*/
-	public static java.util.List<eu.strasbourg.service.council.model.Official> findByEmail(
+	public static java.util.List<eu.strasbourg.service.council.model.Official> findByGroupIdAndIsActive(
 		long groupId, boolean isActive) {
-		return getService().findByEmail(groupId, isActive);
+		return getService().findByGroupIdAndIsActive(groupId, isActive);
 	}
 
 	/**

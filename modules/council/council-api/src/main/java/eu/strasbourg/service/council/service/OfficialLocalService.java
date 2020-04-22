@@ -255,7 +255,8 @@ public interface OfficialLocalService extends BaseLocalService,
 	/**
 	* Recherche par site et activité ou non de l'élu
 	*/
-	public List<Official> findByEmail(long groupId, boolean isActive);
+	public List<Official> findByGroupIdAndIsActive(long groupId,
+		boolean isActive);
 
 	/**
 	* Returns a range of all the officials.
