@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -46,9 +47,12 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         Deliberation deliberation;
+        String stage;
         if (deliberationId == 0) {
+            stage = StageDeliberation.get(1).getName();
             deliberation = deliberationLocalService.createDeliberation(sc);
         } else {
+            stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);
         }
 
@@ -82,7 +86,6 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         deliberation.setCouncilSessionId(councilSessionId);
 
         // Statut
-        String stage = ParamUtil.getString(request, "stage");
         deliberation.setStage(stage);
 
         // Update de l'entité

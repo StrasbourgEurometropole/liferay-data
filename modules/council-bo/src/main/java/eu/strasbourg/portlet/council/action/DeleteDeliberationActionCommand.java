@@ -45,7 +45,7 @@ public class DeleteDeliberationActionCommand extends BaseMVCActionCommand {
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
 
-        // Update de l'entité
+        // Suppression de l'entité
         deliberationLocalService.removeDeliberation(deliberationId);
 
         // Post / Redirect / Get si tout est bon

@@ -39,7 +39,7 @@
 	<liferay-ui:error key="text-error" message="description-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
-	<aui:form action="${saveCouncilSessionURL}" method="post" name="fm" onSubmit="submitForm(event);">
+	<aui:form action="${saveDeliberationURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.deliberation}" model="<%=Deliberation.class %>" />
@@ -67,12 +67,12 @@
                 </aui:select>
 
 			    <%-- Champ : Statut --%>
-			     <c:set value="${empty stage.deliberation ? 'true':''}" var="isDisabled"/>
+			     <c:set value="${empty dc.deliberation ? 'true':'false'}" var="isDisabled"/>
                  <aui:select name="stage" label="stage" disabled="${isDisabled}">
                     <c:forEach var="stage" items="${dc.stages}">
                         <aui:option value="${stage.name}"
                             label="${stage.name}"
-                            selected="${(empty dc.deliberation and stage.name eq StageDeliberation.get(1)) or (stage.name eq dc.deliberation.stage)}" />
+                            selected="${(empty dc.deliberation and stage.name eq StageDeliberation.get(1).getName()) or (stage.name eq dc.deliberation.stage)}" />
                     </c:forEach>
                 </aui:select>
 
@@ -173,12 +173,12 @@
 			</c:if>
 
 			<%-- Test : Verification des droits de supression --%>
-			<c:if test="${not empty dc.deliberation && dc.hasPermission('DELETE_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
+			<c:if test="${not empty dc.deliberation and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' value="delete" />
 			</c:if>
 
 			<c:if test="${not empty dc.deliberation and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "resetEntity();"%>' type="cancel" value="delete" />
+                <aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "resetEntity();"%>' value="reset" />
             </c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
