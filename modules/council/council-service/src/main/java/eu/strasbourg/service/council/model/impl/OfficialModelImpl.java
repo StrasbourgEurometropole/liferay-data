@@ -131,8 +131,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final long EMAIL_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long LASTNAME_COLUMN_BITMASK = 32L;
+	public static final long ISEUROMETROPOLITAN_COLUMN_BITMASK = 16L;
+	public static final long ISMUNICIPAL_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long LASTNAME_COLUMN_BITMASK = 128L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Official"));
 
@@ -584,7 +586,19 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public void setIsMunicipal(boolean isMunicipal) {
+		_columnBitmask |= ISMUNICIPAL_COLUMN_BITMASK;
+
+		if (!_setOriginalIsMunicipal) {
+			_setOriginalIsMunicipal = true;
+
+			_originalIsMunicipal = _isMunicipal;
+		}
+
 		_isMunicipal = isMunicipal;
+	}
+
+	public boolean getOriginalIsMunicipal() {
+		return _originalIsMunicipal;
 	}
 
 	@Override
@@ -599,7 +613,19 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public void setIsEurometropolitan(boolean isEurometropolitan) {
+		_columnBitmask |= ISEUROMETROPOLITAN_COLUMN_BITMASK;
+
+		if (!_setOriginalIsEurometropolitan) {
+			_setOriginalIsEurometropolitan = true;
+
+			_originalIsEurometropolitan = _isEurometropolitan;
+		}
+
 		_isEurometropolitan = isEurometropolitan;
+	}
+
+	public boolean getOriginalIsEurometropolitan() {
+		return _originalIsEurometropolitan;
 	}
 
 	@Override
@@ -837,6 +863,14 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialModelImpl._setModifiedDate = false;
 
 		officialModelImpl._originalEmail = officialModelImpl._email;
+
+		officialModelImpl._originalIsMunicipal = officialModelImpl._isMunicipal;
+
+		officialModelImpl._setOriginalIsMunicipal = false;
+
+		officialModelImpl._originalIsEurometropolitan = officialModelImpl._isEurometropolitan;
+
+		officialModelImpl._setOriginalIsEurometropolitan = false;
 
 		officialModelImpl._originalIsActive = officialModelImpl._isActive;
 
@@ -1103,7 +1137,11 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private String _firstname;
 	private String _lastname;
 	private boolean _isMunicipal;
+	private boolean _originalIsMunicipal;
+	private boolean _setOriginalIsMunicipal;
 	private boolean _isEurometropolitan;
+	private boolean _originalIsEurometropolitan;
+	private boolean _setOriginalIsEurometropolitan;
 	private boolean _isActive;
 	private boolean _originalIsActive;
 	private boolean _setOriginalIsActive;
