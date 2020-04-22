@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.kernel.service.persistence.AssetCategoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -13,9 +14,11 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -635,6 +638,20 @@ public class AssetVocabularyHelper {
 		}
 
 		return parentCategories;
+	}
+
+	/**
+	 * Ajout une nouvelle categorie au vocabulaire du site donné (marche en locale FR_fr)
+	 * @param categoryName Nom de la categorie à ajouter
+	 * @param vocabularyName Nom du vocabulaire où ajouter la categorie
+	 * @param sc Contexte de la requête
+	 * @return La catégorie ajouté
+	 */
+	public static AssetCategory addCategoryToVocabulary(String categoryName, String vocabularyName, ServiceContext sc)
+			throws PortalException {
+		AssetVocabulary assetVocabulary = AssetVocabularyHelper.getVocabulary(vocabularyName, sc.getScopeGroupId());
+		return AssetCategoryLocalServiceUtil.addCategory( sc.getUserId(), sc.getScopeGroupId(), categoryName,
+				assetVocabulary.getVocabularyId(), sc);
 	}
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");

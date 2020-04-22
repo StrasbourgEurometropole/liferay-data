@@ -3,6 +3,8 @@ package eu.strasbourg.utils;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 import org.osgi.service.component.annotations.Component;
 
@@ -97,4 +99,17 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	public List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
 		return AssetVocabularyHelper.getSortedCategories(vocabulary, groupId);
 	}
+
+	/**
+	 * Ajout une nouvelle categorie au vocabulaire du site donné (marche en locale FR_fr)
+	 * @param categoryName Nom de la categorie à ajouter
+	 * @param vocabularyName Nom du vocabulaire où ajouter la categorie
+	 * @param sc Contexte de la requête
+	 * @return La catégorie ajouté
+	 */
+	public static AssetCategory addCategoryToVocabulary(String categoryName, String vocabularyName, ServiceContext sc)
+			throws PortalException {
+		return AssetVocabularyHelper.addCategoryToVocabulary(categoryName, vocabularyName, sc);
+	}
+
 }
