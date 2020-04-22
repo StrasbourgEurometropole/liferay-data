@@ -294,9 +294,6 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 
 	/**
 	* Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
-	*
-	* @param date
-	* @return
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<CouncilSession> getFutureCouncilSessions(Date date);

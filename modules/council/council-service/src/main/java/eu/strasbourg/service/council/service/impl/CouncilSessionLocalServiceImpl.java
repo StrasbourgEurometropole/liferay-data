@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
-import eu.strasbourg.service.council.service.CouncilSessionLocalService;
+import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
 
 import java.io.Serializable;
@@ -217,6 +217,12 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			AssetEntryLocalServiceUtil.deleteEntry(CouncilSession.class.getName(), councilSessionId);
 		}
 
+		// Supprime les délibérations
+		List<Deliberation> deliberations = this.deliberationLocalService.findByCouncilSessionId(councilSessionId);
+		for (Deliberation deliberation : deliberations) {
+			this.deliberationLocalService.removeDeliberation(deliberation.getDeliberationId());
+		}
+
 		// Supprime l'entité
 		CouncilSession councilSession = councilSessionPersistence.remove(councilSessionId);
 
@@ -245,8 +251,6 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 	/**
 	 * Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
-	 * @param date
-	 * @return
 	 */
 	public List<CouncilSession> getFutureCouncilSessions(Date date) {
 		DynamicQuery dq = this.councilSessionLocalService.dynamicQuery();
