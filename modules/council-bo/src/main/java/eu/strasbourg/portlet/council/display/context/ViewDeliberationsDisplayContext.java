@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
+import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -88,6 +89,10 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
                 this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO,
                 actionId);
+    }
+
+    public String getStageDeliberationName(long id) {
+        return StageDeliberation.get(id).getName();
     }
 
     /**

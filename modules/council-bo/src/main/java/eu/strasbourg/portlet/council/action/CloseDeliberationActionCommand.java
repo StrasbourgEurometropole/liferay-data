@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.council.action;
 
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -14,6 +15,8 @@ import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.service.council.service.VoteLocalService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
@@ -22,6 +25,11 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.List;
 
+@Component(
+        immediate = true,
+        property = { "javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
+                "mvc.command.name=closeDeliberation" },
+        service = MVCActionCommand.class)
 public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
 
     final private static String POUR="pour";
@@ -114,6 +122,9 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
             /// Pas de majorité absolue pour le Pour => REJETE
             deliberation.setStage(StageDeliberation.get(5).getName());
         }
+
+        // Update de l'entité
+        deliberationLocalService.updateDeliberation(deliberation);
 
         // Post / Redirect / Get si tout est bon
         PortletURL renderURL = PortletURLFactoryUtil.create(request,

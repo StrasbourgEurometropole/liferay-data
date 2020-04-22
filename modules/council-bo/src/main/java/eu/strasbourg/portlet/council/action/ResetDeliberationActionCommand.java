@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.council.action;
 
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -11,6 +12,8 @@ import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.service.council.service.VoteLocalService;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
@@ -18,6 +21,11 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+@Component(
+        immediate = true,
+        property = { "javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_BO,
+                "mvc.command.name=resetDeliberation" },
+        service = MVCActionCommand.class)
 public class ResetDeliberationActionCommand extends BaseMVCActionCommand {
 
     private VoteLocalService voteLocalService;

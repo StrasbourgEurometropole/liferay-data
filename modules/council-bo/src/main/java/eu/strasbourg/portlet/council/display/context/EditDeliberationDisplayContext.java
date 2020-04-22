@@ -34,14 +34,14 @@ public class EditDeliberationDisplayContext {
     public EditDeliberationDisplayContext(RenderRequest request, RenderResponse response) {
         this.request = request;
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        // Pour initialiser la liste des votes
+        this.initVotes();
     }
 
     public Deliberation getDeliberation() {
         long deliberationId = ParamUtil.getLong(this.request, "deliberationId");
         if (deliberation == null && deliberationId > 0) {
             deliberation = DeliberationLocalServiceUtil.fetchDeliberation(deliberationId);
-            // Pour initialiser la liste des votes
-            this.initVotes();
         }
         return deliberation;
     }
