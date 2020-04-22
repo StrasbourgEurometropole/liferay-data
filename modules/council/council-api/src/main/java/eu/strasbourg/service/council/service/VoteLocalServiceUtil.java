@@ -143,8 +143,7 @@ public class VoteLocalServiceUtil {
 	* Retourne le vote d'un élu pour une délibération
 	*/
 	public static eu.strasbourg.service.council.model.Vote findByDeliberationIdandOfficialId(
-		long deliberationId, long officialId)
-		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
+		long deliberationId, long officialId) {
 		return getService()
 				   .findByDeliberationIdandOfficialId(deliberationId, officialId);
 	}

@@ -253,6 +253,12 @@ public interface OfficialLocalService extends BaseLocalService,
 	public List<Official> findByEmail(java.lang.String email);
 
 	/**
+	* Recherche par site et activité ou non de l'élu
+	*/
+	public List<Official> findByGroupIdAndIsActive(long groupId,
+		boolean isActive);
+
+	/**
 	* Returns a range of all the officials.
 	*
 	* <p>

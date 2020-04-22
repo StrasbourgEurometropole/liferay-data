@@ -81,24 +81,28 @@
                                 <strong><liferay-ui:message key="is-absent" /></strong>
                             </th>
                         </tr>
-                        <tr>
-                            <td>
-                                Jean-Luc PIPIER
-                            </td>
-                            <td>
-                                <aui:input name="official-voters" label="" type="text" value="Patrick POIVRE" />
-                            </td>
-                            <td>
-                                <aui:input name="is-absent" label="" type="checkbox" value="checked" />
-                            </td>
-                        </tr>
+
+                        <c:forEach var="official" items="${dc.getAllActiveOfficials()}">
+                            <tr data-is-municipal="${official.isMunicipal}" data-is-eurometropolitan="${official.isEurometropolitan}">
+                                <td>
+                                    ${official.fullName}
+                                </td>
+                                <td>
+                                    <aui:input name="${official.officialId}-official-voters" label="" type="text" value="Patrick POIVRE" />
+                                </td>
+                                <td>
+                                    <aui:input name="${official.officialId}-is-absent" label="" type="checkbox" value="checked" />
+                                </td>
+                            </tr>
+                        </c:forEach>
+
                     </table>
                 </div>
 
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Categorisations --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="categorization">
 
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
 				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
@@ -138,10 +142,9 @@
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
-				<c:if test="${not dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" name="publish" value="eu.publish" />
-					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft" value="save-as-draft" />
-				</c:if>
+                <c:if test="${not dc.workflowEnabled}">
+                    <aui:button cssClass="btn-lg" type="submit" name="publish" value="save" />
+                </c:if>
 			</c:if>
 
 			<%-- Test : Verification des droits de supression --%>

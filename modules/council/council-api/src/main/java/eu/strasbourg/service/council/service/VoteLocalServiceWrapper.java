@@ -145,8 +145,7 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Vote findByDeliberationIdandOfficialId(
-		long deliberationId, long officialId)
-		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
+		long deliberationId, long officialId) {
 		return _voteLocalService.findByDeliberationIdandOfficialId(deliberationId,
 			officialId);
 	}

@@ -5,11 +5,14 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.List;
 
 public class EditCouncilSessionDisplayContext {
 
@@ -28,6 +31,13 @@ public class EditCouncilSessionDisplayContext {
             councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         }
         return councilSession;
+    }
+
+    /**
+     * Renvoie tous les élus actifs
+     */
+    public List<Official> getAllActiveOfficials() {
+        return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
     }
 
     /**
