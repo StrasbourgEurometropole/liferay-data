@@ -17,7 +17,9 @@ import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -40,7 +42,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
         try {
-            // Récupération du contexte de la requête
+            // Récupération du contexte de la requêtes
             ServiceContext sc = ServiceContextFactory.getInstance(request);
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
@@ -84,6 +86,11 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             // Champ : président du conseil
             long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
             councilSession.setOfficialLeaderId(officialLeaderId);
+
+            // Création d'une catégorie du même nom que la session dans le vocabulaire "Conseil" (si n'existe pas déjà)
+            if (AssetVocabularyHelper.getCategory(title, sc.getScopeGroupId()) == null) {
+                AssetVocabularyHelper.addCategoryToVocabulary(title, VocabularyNames.COUNCIL_SESSION, sc);
+            }
 
             // Mise à jour de l'entrée en base
             this.councilSessionLocalService.updateCouncilSession(councilSession, sc);

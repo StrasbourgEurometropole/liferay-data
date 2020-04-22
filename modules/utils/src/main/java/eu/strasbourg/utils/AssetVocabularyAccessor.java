@@ -189,4 +189,13 @@ public class AssetVocabularyAccessor {
 			return null;
 		}
 	}
+
+	public AssetVocabulary getCouncilSession(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 }
