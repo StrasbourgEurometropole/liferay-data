@@ -64,7 +64,7 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 */
 	@Override
 	public String getFullName() {
-		return this.getFirstname() + " " + StringUtil.upperCase(this.getLastname());
+		return StringUtil.upperCase(this.getLastname()) + " " +  this.getFirstname() ;
 	}
 
 }
