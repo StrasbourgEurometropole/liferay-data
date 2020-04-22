@@ -3,6 +3,11 @@
         <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
         <#assign illustration = docXml.valueOf("//dynamic-element[@name='illustration']/dynamic-content/text()") />
+		<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+		<#assign imageURL ="" />
+		<#if illustration?has_content>
+			<#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(illustration) />
+		</#if>
         <#assign price = docXml.valueOf("//dynamic-element[@name='price']/dynamic-content/text()") />
         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
         <#assign article = curEntry.getAssetRenderer().getArticle() />
@@ -18,7 +23,7 @@
         
 		<article class="produit">
 			<div class="entry-header">
-				<a class="boutique-popup-link" href="${previewArticleContentURL}"><img src="${illustration}" title="${title}" alt="${title}"></a>
+				<a class="boutique-popup-link" href="${previewArticleContentURL}"><img src="${imageURL}" title="${title}" alt="${title}"></a>
 				<h3> <a class="boutique-popup-link" href="${previewArticleContentURL}">${title}</a></h3>
 			</div>
 			<footer class="entry-meta">
