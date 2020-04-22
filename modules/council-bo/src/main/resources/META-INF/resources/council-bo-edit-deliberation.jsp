@@ -72,58 +72,60 @@
                     <c:forEach var="stage" items="${dc.stages}">
                         <aui:option value="${stage.name}"
                             label="${stage.name}"
-                            selected="${(empty dc.deliberation and stage.name eq StageDeliberation.get(1).getName()) or (stage.name eq dc.deliberation.stage)}" />
+                            selected="${(empty dc.deliberation and stage.name eq dc.getStageDeliberationName(1)) or (stage.name eq dc.deliberation.stage)}" />
                     </c:forEach>
                 </aui:select>
 
 			</aui:fieldset>
 
-            <%-- Groupe de champs : Votes --%>
-            <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="votes">
-                <div class="wrapper-vote">
-                    <label>${dc.getPOUR()}</label>
-                    <span>${dc.getVoteCountForAResult(dc.getPOUR())}</span>
+            <c:if test="${not empty dc.getVoteBeans()}">
+                <%-- Groupe de champs : Votes --%>
+                <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="votes">
+                    <div class="wrapper-vote">
+                        <label>${dc.getPOUR()}</label>
+                        <span>${dc.getVoteCountForAResult(dc.getPOUR())}</span>
 
-                    <label>${dc.getCONTRE()}</label>
-                    <span>${dc.getVoteCountForAResult(dc.getCONTRE())}</span>
+                        <label>${dc.getCONTRE()}</label>
+                        <span>${dc.getVoteCountForAResult(dc.getCONTRE())}</span>
 
-                    <label>${dc.getABSTENTION()}</label>
-                    <span>${dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
-                </div>
-            </aui:fieldset>
+                        <label>${dc.getABSTENTION()}</label>
+                        <span>${dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
+                    </div>
+                </aui:fieldset>
 
-            <%-- Groupe de champs : Détai des Votes --%>
-            <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="detail-votes">
-                <div id="procurations-table">
-                    <table border="1">
-                        <tr>
-                            <th>
-                                <strong><liferay-ui:message key="voter" /></strong>
-                            </th>
-                            <th >
-                                <strong><liferay-ui:message key="vote" /></strong>
-                            </th>
-                            <th >
-                                <strong><liferay-ui:message key="vote-by-procuration-by" /></strong>
-                            </th>
-                        </tr>
-                        <c:forEach var="vote" items="${dc.getVoteBeans()}">
+                <%-- Groupe de champs : Détai des Votes --%>
+                <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="detail-votes">
+                    <div id="procurations-table">
+                        <table border="1">
                             <tr>
-                                <td>
-                                    ${vote.voter}
-                                </td>
-                                <td>
-                                   <div class="${vote.cssClass}"> ${vote.result}</div>
-                                </td>
-                                <td>
-                                    ${vote.procurationVoter}
-                                </td>
+                                <th>
+                                    <strong><liferay-ui:message key="voter" /></strong>
+                                </th>
+                                <th >
+                                    <strong><liferay-ui:message key="vote" /></strong>
+                                </th>
+                                <th >
+                                    <strong><liferay-ui:message key="vote-by-procuration-by" /></strong>
+                                </th>
                             </tr>
-                        </c:forEach>
+                            <c:forEach var="vote" items="${dc.getVoteBeans()}">
+                                <tr>
+                                    <td>
+                                        ${vote.voter}
+                                    </td>
+                                    <td>
+                                       <div class="${vote.cssClass}"> ${vote.result}</div>
+                                    </td>
+                                    <td>
+                                        ${vote.procurationVoter}
+                                    </td>
+                                </tr>
+                            </c:forEach>
 
-                    </table>
-                </div>
-            </aui:fieldset>
+                        </table>
+                    </div>
+                </aui:fieldset>
+            </c:if>
 
 			<%-- Groupe de champs : Categorisations --%>
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
