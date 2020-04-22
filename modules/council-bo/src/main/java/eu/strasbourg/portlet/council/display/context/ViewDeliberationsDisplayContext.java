@@ -1,11 +1,15 @@
 package eu.strasbourg.portlet.council.display.context;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
@@ -20,9 +24,11 @@ import java.util.List;
 public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<Deliberation> {
 
     private List<Deliberation> deliberations;
+    private String sessionCategoryToAdd;
 
-    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response) {
+    public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String categoryToAdd) {
         super(Deliberation.class, request, response);
+        this.sessionCategoryToAdd=categoryToAdd;
     }
 
     @SuppressWarnings("unused")
@@ -140,5 +146,39 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         }
 
         return cssClass;
+    }
+
+    @Override
+    public String getFilterCategoriesIds() throws PortalException {
+        if (Validator.isNotNull(_filterCategoriesIds)) {
+            return _filterCategoriesIds;
+        }
+        _filterCategoriesIds = ParamUtil.getString(_request,
+                "filterCategoriesIds");
+        if (_filterCategoriesIds.length() == 0) {
+            _filterCategoriesIds = ",";
+        }
+        Long vocabularyToRemove = ParamUtil.getLong(_request,
+                "vocabularyToRemove");
+        if (vocabularyToRemove > 0) {
+            AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil
+                    .getVocabulary(vocabularyToRemove);
+            List<AssetCategory> categories = vocabulary.getCategories();
+            for (AssetCategory category : categories) {
+                if (_filterCategoriesIds
+                        .contains(String.valueOf(category.getCategoryId()))) {
+                    _filterCategoriesIds = _filterCategoriesIds
+                            .replace("," + category.getCategoryId(), "");
+                }
+            }
+            _filterCategoriesIds = _filterCategoriesIds
+                    .replace(vocabularyToRemove + ",", "");
+        }
+        String categoryToAdd =sessionCategoryToAdd;
+
+        if (Validator.isNotNull(categoryToAdd)) {
+            _filterCategoriesIds += categoryToAdd + ",";
+        }
+        return _filterCategoriesIds;
     }
 }

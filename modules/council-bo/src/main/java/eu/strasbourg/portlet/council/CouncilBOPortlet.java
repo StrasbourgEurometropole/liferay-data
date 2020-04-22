@@ -2,10 +2,7 @@ package eu.strasbourg.portlet.council;
 
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
@@ -13,6 +10,7 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
 import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
@@ -56,6 +54,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		renderResponse.setTitle("CouncilSessions");
 
+
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
@@ -73,8 +72,32 @@ public class CouncilBOPortlet extends MVCPortlet {
 			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
-			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse);
+
+			HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			// Récupère la catégorie de conseil sélectionné
+			String categoryCouncilId = ParamUtil.getString(renderRequest, "categoryToAdd");
+			// Récupère la catégorie de conseil en session
+			Object sessionObject = originalRequest.getSession().getAttribute("categoryCouncilId");
+			String sessionCategoryCouncilId = null;
+			if(!Validator.isNull(sessionObject)) {
+				sessionCategoryCouncilId = sessionObject.toString();
+			}
+
+			String categoryId = null;
+			// Si aucun conseil sélectionné, on prend celui de la session
+			if(Validator.isNull(categoryCouncilId)) {
+				categoryId=sessionCategoryCouncilId;
+			}
+			// Si on a sélectionné une catégorie différente à celle de la session, on prend la nouvelle et on l'enregistre en session
+			else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
+				categoryId = categoryCouncilId;
+				originalRequest.getSession().setAttribute("categoryCouncilId", categoryCouncilId);
+			}
+
+			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, categoryId);
 			renderRequest.setAttribute("dc", dc);
+
+
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
