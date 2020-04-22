@@ -15,8 +15,10 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -26,6 +28,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -86,6 +89,41 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             // Champ : président du conseil
             long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
             councilSession.setOfficialLeaderId(officialLeaderId);
+
+            // Champs : procurations
+            // suppression des anciennes procurations
+            List<Procuration> oldProcurations = this.procurationLocalService.findByCouncilSessionId(
+                    councilSession.getCouncilSessionId());
+            for (Procuration oldProcuration : oldProcurations) {
+                this.procurationLocalService.removeProcuration(oldProcuration.getProcurationId());
+            }
+
+            // recherche des élus ayant potentiellement une procuration
+            List<Official> availableOfficials = this.officialLocalService.findByGroupIdAndIsActiveAndType(
+                    sc.getScopeGroupId(), true, type);
+
+            boolean isAbsent;
+            long officialVotersId;
+            Procuration newProcuration;
+
+            // parcours des élus potentiels et recherche de procurations rempliess
+            for (Official availableOfficial : availableOfficials) {
+                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
+                if (officialVotersId > 0) {
+                    isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
+                            .equals("checked") ? true : false;
+
+                    newProcuration = this.procurationLocalService.createProcuration(sc);
+
+                    newProcuration.setCouncilSessionId(councilSession.getCouncilSessionId());
+                    newProcuration.setOfficialUnavailableId(availableOfficial.getOfficialId());
+                    newProcuration.setOfficialVotersId(officialVotersId);
+                    newProcuration.setIsAbsent(isAbsent);
+
+                    this.procurationLocalService.updateProcuration(newProcuration, sc);
+                }
+            }
+            // Fin Champs : procurations
 
             // Création d'une catégorie du même nom que la session dans le vocabulaire "Conseil" (si n'existe pas déjà)
             if (AssetVocabularyHelper.getCategory(title, sc.getScopeGroupId()) == null) {
@@ -151,7 +189,13 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         this.councilSessionLocalService = councilSessionLocalService;
     }
 
+    @Reference(unbind = "-")
+    protected void setProcurationLocalService(ProcurationLocalService procurationLocalService) {
+        this.procurationLocalService = procurationLocalService;
+    }
+
     private CouncilSessionLocalService councilSessionLocalService;
     private OfficialLocalService officialLocalService;
+    private ProcurationLocalService procurationLocalService;
 
 }

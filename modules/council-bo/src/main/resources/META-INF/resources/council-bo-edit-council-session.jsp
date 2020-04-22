@@ -66,67 +66,38 @@
 			</aui:fieldset>
 
 			<%-- Groupe de champs : Procuration --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="procurations">
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="absents-and-procurations">
 
                 <div id="procurations-table">
                     <table border="1">
                         <tr>
                             <th>
-                                <strong><liferay-ui:message key="official-voters" /></strong>
+                                <strong><liferay-ui:message key="official" /></strong>
                             </th>
-                            <th >
-                                <strong><liferay-ui:message key="official-unavailable" /></strong>
-                            </th>
-                            <th >
+                            <th>
                                 <strong><liferay-ui:message key="is-absent" /></strong>
+                            </th>
+                            <th>
+                                <strong><liferay-ui:message key="official-receiver" /></strong>
                             </th>
                         </tr>
 
                         <c:forEach var="official" items="${dc.getAllActiveOfficials()}">
                             <tr data-is-municipal="${official.isMunicipal}" data-is-eurometropolitan="${official.isEurometropolitan}">
-                                <td>
+                                <td class="text-left" >
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-official-voters" label="" type="text" value="Patrick POIVRE" />
+                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox" value="checked" />
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-is-absent" label="" type="checkbox" value="checked" />
+                                    <aui:input name="${official.officialId}-officialVotersId" label="" type="number" value="" />
                                 </td>
                             </tr>
                         </c:forEach>
 
                     </table>
                 </div>
-
-			</aui:fieldset>
-
-			<%-- Groupe de champs : Categorisations --%>
-			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="categorization">
-
-				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-
-				<%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
-				<div class="has-error">
-					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
-						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
-							function (val, fieldNode, ruleValue) {
-								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
-								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
-								    	validated = false;
-								    	break;
-								    }
-								}
-								return validated;
-							}
-						</aui:validator>
-					</aui:input>
-				</div>
 
 			</aui:fieldset>
 
