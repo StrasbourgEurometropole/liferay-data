@@ -26,7 +26,9 @@
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
-	<liferay-ui:error key="text-error" message="description-error" />
+	<liferay-ui:error key="date-error" message="date-error" />
+	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
+	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveCouncilSessionURL}" method="post" name="fm" onSubmit="submitForm(event);">
