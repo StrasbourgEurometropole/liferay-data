@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -32,12 +33,11 @@ public class EditCouncilSessionDisplayContext {
         return councilSession;
     }
 
-    public List<Official> getOfficials() {
-        long councilSessionId = ParamUtil.getLong(this.request, "councilSessionId");
-        if (councilSession == null && councilSessionId > 0) {
-            councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-        }
-        return councilSession;
+    /**
+     * Renvoie tous les élus actifs
+     */
+    public List<Official> getAllActiveOfficials() {
+        return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
     }
 
     /**

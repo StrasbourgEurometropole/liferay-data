@@ -81,17 +81,21 @@
                                 <strong><liferay-ui:message key="is-absent" /></strong>
                             </th>
                         </tr>
-                        <tr>
-                            <td>
-                                Jean-Luc PIPIER
-                            </td>
-                            <td>
-                                <aui:input name="official-voters" label="" type="text" value="Patrick POIVRE" />
-                            </td>
-                            <td>
-                                <aui:input name="is-absent" label="" type="checkbox" value="checked" />
-                            </td>
-                        </tr>
+
+                        <c:forEach var="official" items="${dc.getAllActiveOfficials()}">
+                            <tr data-is-municipal="${official.isMunicipal}" data-is-eurometropolitan="${official.isEurometropolitan}">
+                                <td>
+                                    ${official.fullName}
+                                </td>
+                                <td>
+                                    <aui:input name="${official.officialId}-official-voters" label="" type="text" value="Patrick POIVRE" />
+                                </td>
+                                <td>
+                                    <aui:input name="${official.officialId}-is-absent" label="" type="checkbox" value="checked" />
+                                </td>
+                            </tr>
+                        </c:forEach>
+
                     </table>
                 </div>
 
@@ -138,6 +142,9 @@
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
+                <c:if test="${not dc.workflowEnabled}">
+                    <aui:button cssClass="btn-lg" type="submit" name="publish" value="save" />
+                </c:if>
 			</c:if>
 
 			<%-- Test : Verification des droits de supression --%>
