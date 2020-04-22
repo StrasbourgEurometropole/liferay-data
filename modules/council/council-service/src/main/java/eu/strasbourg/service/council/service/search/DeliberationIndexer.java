@@ -61,15 +61,9 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
         addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
-        Map<Locale, String> titleFieldMap = new HashMap<>();
-        titleFieldMap.put(Locale.FRANCE, deliberation.getTitle());
-
-        Map<Locale, String> descriptionFieldMap = new HashMap<>();
-        descriptionFieldMap.put(Locale.FRANCE, deliberation.getTitle());
-
-        document.addLocalizedText(Field.TITLE, titleFieldMap);
-        document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
-        document.addNumber(Field.STATUS, deliberation.getStatus());
+        document.addNumber(Field.TITLE, deliberation.getTitle());
+        document.addNumber("order", deliberation.getOrder());
+        document.addNumber("stage", deliberation.getStage());
         return document;
     }
 

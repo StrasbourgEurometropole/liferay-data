@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
@@ -78,6 +79,36 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
             deliberationsIds.append(deliberation.getDeliberationId());
         }
         return deliberationsIds.toString();
+    }
+
+    @Override
+    public String getOrderByColSearchField() {
+        switch (this.getOrderByCol()) {
+            case "title":
+            case "alias":
+                return "localized_title_fr_FR_sortable";
+            case "modified-date":
+                return "modified_sortable";
+            case "publication-date":
+                return "publishDate_sortable";
+            case "status":
+                return "status_sortable";
+            case "order":
+                return "order_sortable";
+            default:
+                return "modified_sortable";
+        }
+    }
+
+    @Override
+    public String getOrderByCol() {
+        return ParamUtil.getString(this._request, "orderByCol",
+                "order");
+    }
+
+    @Override
+    public String getOrderByType() {
+        return ParamUtil.getString(this._request, "orderByType", "asc");
     }
 
     /**
