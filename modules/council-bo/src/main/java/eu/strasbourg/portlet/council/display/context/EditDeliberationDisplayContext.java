@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.council.display.context;
 
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.bean.VoteBean;
@@ -106,9 +107,10 @@ public class EditDeliberationDisplayContext {
     /**
      * Récupère les votes de la délibération
      */
-    public List<VoteBean> initVotes() {
-        if(voteBeans == null && deliberation != null) {
+    public void initVotes() {
+        if(this.getDeliberation() != null) {
             List<Vote> votes = VoteLocalServiceUtil.findByDeliberationId(deliberation.getDeliberationId());
+            voteBeans = new ArrayList<>();
             for (Vote vote : votes) {
                 Official voter = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
                 Official procurationVoter = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialProcurationId());
@@ -126,7 +128,6 @@ public class EditDeliberationDisplayContext {
                 voteBeans.add(voteBean);
             }
         }
-        return voteBeans;
     }
 
     /**
@@ -138,6 +139,10 @@ public class EditDeliberationDisplayContext {
             count = voteBeans.stream().filter(x -> x.getResult().toLowerCase().equals(result.toLowerCase())).count();
         }
         return count;
+    }
+
+    public String getStageDeliberationName(long id) {
+        return StageDeliberation.get(id).getName();
     }
 
     /**
