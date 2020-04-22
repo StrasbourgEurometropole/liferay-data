@@ -86,7 +86,6 @@
 		           </a>
 		       </div>
 		       <!-- HEADEROND -->
-				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 		        <#if layout.getFriendlyURL() == "/accueil">
 			       	<@liferay_portlet["runtime"]
 						defaultPreferences="${freeMarkerPortletPreferences}"
@@ -102,7 +101,6 @@
 						instanceId="header-pages"
 						settingsScope="group" />
 				</#if>
-				${freeMarkerPortletPreferences.reset()}
 		       <!-- /HEADEROND -->
 
 				<#if has_navigation>
@@ -156,14 +154,12 @@
 			<a href="#" class="btn-top" title="Haut de page"><span><@liferay_ui.message key='eu.ond-theme.top' /></span></a>
 		    <footer class="footer">
 		        
-				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 				<@liferay_portlet["runtime"]
 					defaultPreferences="${freeMarkerPortletPreferences}"
 					portletProviderAction=portletProviderAction.VIEW
 					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 					instanceId="footer"
 					settingsScope="group" />
-				${freeMarkerPortletPreferences.reset()}
 		        <div class="closure">
 		            <div class="center">
 		                <a href="${websiteUrl}" title="Strasbourg.eu (<@liferay_ui.message key='new-window' />)" target="_blank">Strasbourg.eu</a>
