@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1969,6 +1970,250 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	}
 
 	private static final String _FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2 = "vote.deliberationId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID =
+		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByDeliberationIdAndOfficialId",
+			new String[] { Long.class.getName(), Long.class.getName() },
+			VoteModelImpl.DELIBERATIONID_COLUMN_BITMASK |
+			VoteModelImpl.OFFICIALID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID =
+		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
+			VoteModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByDeliberationIdAndOfficialId",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns the vote where deliberationId = &#63; and officialId = &#63; or throws a {@link NoSuchVoteException} if it could not be found.
+	 *
+	 * @param deliberationId the deliberation ID
+	 * @param officialId the official ID
+	 * @return the matching vote
+	 * @throws NoSuchVoteException if a matching vote could not be found
+	 */
+	@Override
+	public Vote findByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId) throws NoSuchVoteException {
+		Vote vote = fetchByDeliberationIdAndOfficialId(deliberationId,
+				officialId);
+
+		if (vote == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("deliberationId=");
+			msg.append(deliberationId);
+
+			msg.append(", officialId=");
+			msg.append(officialId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchVoteException(msg.toString());
+		}
+
+		return vote;
+	}
+
+	/**
+	 * Returns the vote where deliberationId = &#63; and officialId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param deliberationId the deliberation ID
+	 * @param officialId the official ID
+	 * @return the matching vote, or <code>null</code> if a matching vote could not be found
+	 */
+	@Override
+	public Vote fetchByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId) {
+		return fetchByDeliberationIdAndOfficialId(deliberationId, officialId,
+			true);
+	}
+
+	/**
+	 * Returns the vote where deliberationId = &#63; and officialId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param deliberationId the deliberation ID
+	 * @param officialId the official ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching vote, or <code>null</code> if a matching vote could not be found
+	 */
+	@Override
+	public Vote fetchByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { deliberationId, officialId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Vote) {
+			Vote vote = (Vote)result;
+
+			if ((deliberationId != vote.getDeliberationId()) ||
+					(officialId != vote.getOfficialId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_SELECT_VOTE_WHERE);
+
+			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2);
+
+			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(deliberationId);
+
+				qPos.add(officialId);
+
+				List<Vote> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"VotePersistenceImpl.fetchByDeliberationIdAndOfficialId(long, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Vote vote = list.get(0);
+
+					result = vote;
+
+					cacheResult(vote);
+
+					if ((vote.getDeliberationId() != deliberationId) ||
+							(vote.getOfficialId() != officialId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+							finderArgs, vote);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Vote)result;
+		}
+	}
+
+	/**
+	 * Removes the vote where deliberationId = &#63; and officialId = &#63; from the database.
+	 *
+	 * @param deliberationId the deliberation ID
+	 * @param officialId the official ID
+	 * @return the vote that was removed
+	 */
+	@Override
+	public Vote removeByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId) throws NoSuchVoteException {
+		Vote vote = findByDeliberationIdAndOfficialId(deliberationId, officialId);
+
+		return remove(vote);
+	}
+
+	/**
+	 * Returns the number of votes where deliberationId = &#63; and officialId = &#63;.
+	 *
+	 * @param deliberationId the deliberation ID
+	 * @param officialId the official ID
+	 * @return the number of matching votes
+	 */
+	@Override
+	public int countByDeliberationIdAndOfficialId(long deliberationId,
+		long officialId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID;
+
+		Object[] finderArgs = new Object[] { deliberationId, officialId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_VOTE_WHERE);
+
+			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2);
+
+			query.append(_FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(deliberationId);
+
+				qPos.add(officialId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2 =
+		"vote.deliberationId = ? AND ";
+	private static final String _FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2 =
+		"vote.officialId = ?";
 
 	public VotePersistenceImpl() {
 		setModelClass(Vote.class);
@@ -2002,6 +2247,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { vote.getUuid(), vote.getGroupId() }, vote);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+			new Object[] { vote.getDeliberationId(), vote.getOfficialId() },
+			vote);
 
 		vote.resetOriginalValues();
 	}
@@ -2080,6 +2329,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args, voteModelImpl,
 			false);
+
+		args = new Object[] {
+				voteModelImpl.getDeliberationId(), voteModelImpl.getOfficialId()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID,
+			args, Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+			args, voteModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(VoteModelImpl voteModelImpl,
@@ -2102,6 +2360,31 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					voteModelImpl.getDeliberationId(),
+					voteModelImpl.getOfficialId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+				args);
+		}
+
+		if ((voteModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					voteModelImpl.getOriginalDeliberationId(),
+					voteModelImpl.getOriginalOfficialId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_DELIBERATIONIDANDOFFICIALID,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID,
+				args);
 		}
 	}
 

@@ -140,6 +140,16 @@ public class VoteLocalServiceUtil {
 	}
 
 	/**
+	* Retourne le vote d'un élu pour une délibération
+	*/
+	public static eu.strasbourg.service.council.model.Vote findByDeliberationIdandOfficialId(
+		long deliberationId, long officialId)
+		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
+		return getService()
+				   .findByDeliberationIdandOfficialId(deliberationId, officialId);
+	}
+
+	/**
 	* Returns the vote with the primary key.
 	*
 	* @param voteId the primary key of the vote
