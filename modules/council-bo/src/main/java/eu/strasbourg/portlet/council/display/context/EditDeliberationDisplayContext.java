@@ -4,11 +4,16 @@ import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.bean.VoteBean;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -17,9 +22,14 @@ import java.util.*;
 
 public class EditDeliberationDisplayContext {
 
+    final static private String  POUR="Pour";
+    final static private String  CONTRE="Contre";
+    final static private String  ABSTENTION="Abstention";
+
     private Deliberation deliberation;
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
+    private List<VoteBean> voteBeans;
 
     public EditDeliberationDisplayContext(RenderRequest request, RenderResponse response) {
         this.request = request;
@@ -30,6 +40,8 @@ public class EditDeliberationDisplayContext {
         long deliberationId = ParamUtil.getLong(this.request, "deliberationId");
         if (deliberation == null && deliberationId > 0) {
             deliberation = DeliberationLocalServiceUtil.fetchDeliberation(deliberationId);
+            // Pour initialiser la liste des votes
+            this.initVotes();
         }
         return deliberation;
     }
@@ -91,4 +103,73 @@ public class EditDeliberationDisplayContext {
                 StrasbourgPortletKeys.COUNCIL_BO, actionId);
     }
 
+    /**
+     * Récupère les votes de la délibération
+     */
+    public List<VoteBean> initVotes() {
+        if(voteBeans == null && deliberation != null) {
+            List<Vote> votes = VoteLocalServiceUtil.findByDeliberationId(deliberation.getDeliberationId());
+            for (Vote vote : votes) {
+                Official voter = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+                Official procurationVoter = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialProcurationId());
+
+                VoteBean voteBean = new VoteBean();
+                if(voter != null) {
+                    voteBean.setVoter(voter.getFullName());
+                }
+                if(procurationVoter != null) {
+                    voteBean.setProcurationVoter(procurationVoter.getFullName());
+                }
+                voteBean.setResult(vote.getResult());
+                voteBean.setCssClass(this.getCSSClassColor(vote));
+
+                voteBeans.add(voteBean);
+            }
+        }
+        return voteBeans;
+    }
+
+    /**
+     * Récupère le nombre de votes d'un résultat (Pour, Contre, Abstention)
+     */
+    public long getVoteCountForAResult(String result) {
+        long count = 0;
+        if(voteBeans != null) {
+            count = voteBeans.stream().filter(x -> x.getResult().toLowerCase().equals(result.toLowerCase())).count();
+        }
+        return count;
+    }
+
+    /**
+     * Class CSS de la couleur du Statut
+     * @return
+     */
+    public String getCSSClassColor(Vote vote) {
+        String cssClass="";
+        if(vote.getResult().toLowerCase().equals(POUR.toLowerCase())) {
+            cssClass="green";
+        } else if (vote.getResult().toLowerCase().equals(CONTRE.toLowerCase())) {
+            cssClass="red";
+        } else if (vote.getResult().toLowerCase().equals(ABSTENTION.toLowerCase())){
+            cssClass="orange";
+        }
+
+        return cssClass;
+    }
+
+    public static String getPOUR() {
+        return POUR;
+    }
+
+    public static String getCONTRE() {
+        return CONTRE;
+    }
+
+    public static String getABSTENTION() {
+        return ABSTENTION;
+    }
+
+    public List<VoteBean> getVoteBeans() {
+        return voteBeans;
+    }
 }
