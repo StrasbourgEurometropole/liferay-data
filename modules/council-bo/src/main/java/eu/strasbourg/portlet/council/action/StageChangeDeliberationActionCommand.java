@@ -40,7 +40,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
 
         deliberation.setStage(stage);
-        
+
         // Update de l'entité
         deliberationLocalService.removeDeliberation(deliberationId);
 
