@@ -22,7 +22,7 @@
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid-1280 main-content-body council-bo">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
@@ -48,11 +48,11 @@
 
                 <%-- Champ : Type --%>
                 <div><label><liferay-ui:message key="type" /></label></div>
-                <label><input type="radio" value="municipal" name="<portlet:namespace />type"
+                <label class="text-normal"><input type="radio" value="municipal" name="<portlet:namespace />type"
                     <c:if test="${!dc.councilSession.isEurometropolitan()}">checked</c:if>>
                         <liferay-ui:message key="type-municipal" />
                 </label><br>
-                <label><input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
+                <label class="text-normal"><input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
                     <c:if test="${dc.councilSession.isEurometropolitan()}">checked</c:if>>
                         <liferay-ui:message key="type-eurometropolitan" />
                 </label><br><br>
