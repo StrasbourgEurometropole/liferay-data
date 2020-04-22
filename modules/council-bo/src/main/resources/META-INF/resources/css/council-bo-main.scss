@@ -40,3 +40,18 @@
     color: #C73C42;
 }
 
+.orange {
+    color: #F47521;
+}
+
+.wrapper-vote {
+    display: flex;
+    flex-direction: column;
+
+    span:first-child {
+        margin-bottom: 20px;
+    }
+    span:nth-child(2n) {
+        margin-bottom: 20px;
+    }
+}
