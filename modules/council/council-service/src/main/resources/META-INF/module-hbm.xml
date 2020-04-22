@@ -97,6 +97,7 @@
 		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="result" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="officialId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="deliberationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="officialProcurationId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

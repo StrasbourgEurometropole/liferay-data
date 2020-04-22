@@ -81,6 +81,7 @@
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="createDate" type="Date" />
+		<field name="result" type="String" />
 		<field name="officialId" type="long" />
 		<field name="deliberationId" type="long" />
 		<field name="officialProcurationId" type="long" />

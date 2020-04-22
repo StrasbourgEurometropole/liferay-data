@@ -82,6 +82,7 @@ create table council_Vote (
 	groupId LONG,
 	companyId LONG,
 	createDate DATE null,
+	result VARCHAR(75) null,
 	officialId LONG,
 	deliberationId LONG,
 	officialProcurationId LONG

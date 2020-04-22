@@ -66,6 +66,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
+			{ "result", Types.VARCHAR },
 			{ "officialId", Types.BIGINT },
 			{ "deliberationId", Types.BIGINT },
 			{ "officialProcurationId", Types.BIGINT }
@@ -78,12 +79,13 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("result", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("officialId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("deliberationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialProcurationId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Vote (uuid_ VARCHAR(75) null,voteId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,officialId LONG,deliberationId LONG,officialProcurationId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Vote (uuid_ VARCHAR(75) null,voteId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,result VARCHAR(75) null,officialId LONG,deliberationId LONG,officialProcurationId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Vote";
 	public static final String ORDER_BY_JPQL = " ORDER BY vote.voteId DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Vote.voteId DESC";
@@ -149,6 +151,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("createDate", getCreateDate());
+		attributes.put("result", getResult());
 		attributes.put("officialId", getOfficialId());
 		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
@@ -189,6 +192,12 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 		if (createDate != null) {
 			setCreateDate(createDate);
+		}
+
+		String result = (String)attributes.get("result");
+
+		if (result != null) {
+			setResult(result);
 		}
 
 		Long officialId = (Long)attributes.get("officialId");
@@ -301,6 +310,21 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	}
 
 	@Override
+	public String getResult() {
+		if (_result == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _result;
+		}
+	}
+
+	@Override
+	public void setResult(String result) {
+		_result = result;
+	}
+
+	@Override
 	public long getOfficialId() {
 		return _officialId;
 	}
@@ -378,6 +402,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		voteImpl.setGroupId(getGroupId());
 		voteImpl.setCompanyId(getCompanyId());
 		voteImpl.setCreateDate(getCreateDate());
+		voteImpl.setResult(getResult());
 		voteImpl.setOfficialId(getOfficialId());
 		voteImpl.setDeliberationId(getDeliberationId());
 		voteImpl.setOfficialProcurationId(getOfficialProcurationId());
@@ -495,6 +520,14 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			voteCacheModel.createDate = Long.MIN_VALUE;
 		}
 
+		voteCacheModel.result = getResult();
+
+		String result = voteCacheModel.result;
+
+		if ((result != null) && (result.length() == 0)) {
+			voteCacheModel.result = null;
+		}
+
 		voteCacheModel.officialId = getOfficialId();
 
 		voteCacheModel.deliberationId = getDeliberationId();
@@ -506,7 +539,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -518,6 +551,8 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		sb.append(getCompanyId());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
+		sb.append(", result=");
+		sb.append(getResult());
 		sb.append(", officialId=");
 		sb.append(getOfficialId());
 		sb.append(", deliberationId=");
@@ -531,7 +566,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Vote");
@@ -556,6 +591,10 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>result</column-name><column-value><![CDATA[");
+		sb.append(getResult());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>officialId</column-name><column-value><![CDATA[");
@@ -589,6 +628,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
 	private Date _createDate;
+	private String _result;
 	private long _officialId;
 	private long _deliberationId;
 	private long _originalDeliberationId;

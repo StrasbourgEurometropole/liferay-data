@@ -137,6 +137,21 @@ public interface VoteModel extends BaseModel<Vote>, ShardedModel {
 	public void setCreateDate(Date createDate);
 
 	/**
+	 * Returns the result of this vote.
+	 *
+	 * @return the result of this vote
+	 */
+	@AutoEscape
+	public String getResult();
+
+	/**
+	 * Sets the result of this vote.
+	 *
+	 * @param result the result of this vote
+	 */
+	public void setResult(String result);
+
+	/**
 	 * Returns the official ID of this vote.
 	 *
 	 * @return the official ID of this vote
