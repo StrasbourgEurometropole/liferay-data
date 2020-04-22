@@ -95,7 +95,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             background-color: rgba(255,255,255,0.6);
         }
 
-        .legend .label{
+        .legend .label{  
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -106,6 +106,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             font-size: 0.8em;
             font-weight: 400;
             color: #333333;
+            border: none;
         }
 
         .legend .paginate{
@@ -186,7 +187,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <@liferay_util["html-bottom"]>
     <script type="text/javascript" src="/o/strasbourg-theme/js/slick.js"></script>
     <script type="text/javascript">
-        $(document).on('ready', function() {
+        $(document).ready(function() {
             $('.slider-for').slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
