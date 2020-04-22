@@ -64,10 +64,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(returnURL);
 		}
-
 		// If we are on the Session, we add the corresponding
 		// display context
-		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-session.jsp")) {
+		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
 			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editDeliberation") || mvcPath.equals("/council-bo-edit-deliberation.jsp")) {

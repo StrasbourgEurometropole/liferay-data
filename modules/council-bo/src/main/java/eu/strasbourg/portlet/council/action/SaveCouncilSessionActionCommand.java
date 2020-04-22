@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -111,11 +112,22 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
+        // Récupération du type
+        String type = ParamUtil.getString(request, "type");
+
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
-        if (Validator.isNull(officialLeaderId)
-                || Validator.isNull(this.officialLocalService.fetchOfficial(officialLeaderId))) {
-            SessionErrors.add(request, "official-leader-error");
+        if (Validator.isNull(officialLeaderId)) {
+            SessionErrors.add(request, "official-leader-not-found-error");
+            isValid = false;
+        }
+        Official official = this.officialLocalService.fetchOfficial(officialLeaderId);
+        if (Validator.isNull(officialLeaderId)) {
+            SessionErrors.add(request, "official-leader-not-found-error");
+            isValid = false;
+        } else if (type.equals("municipal") && !official.isIsMunicipal()
+            || type.equals("eurometropolitan") && !official.isIsEurometropolitan()) {
+            SessionErrors.add(request, "official-leader-type-error");
             isValid = false;
         }
 
