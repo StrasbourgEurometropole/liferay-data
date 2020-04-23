@@ -13,6 +13,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditCouncilSessionDisplayContext {
@@ -40,7 +41,10 @@ public class EditCouncilSessionDisplayContext {
      */
     @SuppressWarnings("unused")
     public Procuration findAssociatedProcuration(long officialId) {
-        List<Procuration> procurations = this.getCouncilSession().getProcurations();
+        List<Procuration> procurations = new ArrayList<>();
+
+        if(this.getCouncilSession() != null)
+            procurations = this.getCouncilSession().getProcurations();
 
         return procurations.stream()
                 .filter(procuration -> procuration.getOfficialUnavailableId() == officialId)
