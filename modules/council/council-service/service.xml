@@ -5,7 +5,7 @@
 	<namespace>council</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 
-	<entity local-service="true" remote-service="false" cache-enabled="true" name="Official" uuid="true">
+	<entity local-service="true" remote-service="true" cache-enabled="true" name="Official" uuid="true">
 
 		<!-- PK fields -->
 		<column name="officialId" primary="true" type="long" />

@@ -361,6 +361,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		return _official.getExpandoBridge();
 	}
 
+	/**
+	* Renvoie l'élu au format JSON
+	*/
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return _official.toJSON();
+	}
+
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel<eu.strasbourg.service.council.model.Official> toCacheModel() {
 		return _official.toCacheModel();
