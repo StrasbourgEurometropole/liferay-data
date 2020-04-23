@@ -57,6 +57,10 @@ public class ResetDeliberationActionCommand extends BaseMVCActionCommand {
 
         // Passe au statut Créé
         deliberation.setStage(StageDeliberation.get(1).getName());
+        //Vide les données lié au quorum
+        deliberation.setCountOfficialsVoting(0);
+        deliberation.setCountOfficialsActive(0);
+
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
