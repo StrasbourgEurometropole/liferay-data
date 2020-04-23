@@ -75,6 +75,8 @@ public class DeliberationWrapper implements Deliberation,
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("stage", getStage());
+		attributes.put("countOfficialsVoting", getCountOfficialsVoting());
+		attributes.put("countOfficialsActive", getCountOfficialsActive());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
 		return attributes;
@@ -170,6 +172,20 @@ public class DeliberationWrapper implements Deliberation,
 
 		if (stage != null) {
 			setStage(stage);
+		}
+
+		Integer countOfficialsVoting = (Integer)attributes.get(
+				"countOfficialsVoting");
+
+		if (countOfficialsVoting != null) {
+			setCountOfficialsVoting(countOfficialsVoting);
+		}
+
+		Integer countOfficialsActive = (Integer)attributes.get(
+				"countOfficialsActive");
+
+		if (countOfficialsActive != null) {
+			setCountOfficialsActive(countOfficialsActive);
 		}
 
 		Long councilSessionId = (Long)attributes.get("councilSessionId");
@@ -346,6 +362,26 @@ public class DeliberationWrapper implements Deliberation,
 	public int compareTo(
 		eu.strasbourg.service.council.model.Deliberation deliberation) {
 		return _deliberation.compareTo(deliberation);
+	}
+
+	/**
+	* Returns the count officials active of this deliberation.
+	*
+	* @return the count officials active of this deliberation
+	*/
+	@Override
+	public int getCountOfficialsActive() {
+		return _deliberation.getCountOfficialsActive();
+	}
+
+	/**
+	* Returns the count officials voting of this deliberation.
+	*
+	* @return the count officials voting of this deliberation
+	*/
+	@Override
+	public int getCountOfficialsVoting() {
+		return _deliberation.getCountOfficialsVoting();
 	}
 
 	/**
@@ -599,6 +635,26 @@ public class DeliberationWrapper implements Deliberation,
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
 		_deliberation.setCouncilSessionId(councilSessionId);
+	}
+
+	/**
+	* Sets the count officials active of this deliberation.
+	*
+	* @param countOfficialsActive the count officials active of this deliberation
+	*/
+	@Override
+	public void setCountOfficialsActive(int countOfficialsActive) {
+		_deliberation.setCountOfficialsActive(countOfficialsActive);
+	}
+
+	/**
+	* Sets the count officials voting of this deliberation.
+	*
+	* @param countOfficialsVoting the count officials voting of this deliberation
+	*/
+	@Override
+	public void setCountOfficialsVoting(int countOfficialsVoting) {
+		_deliberation.setCountOfficialsVoting(countOfficialsVoting);
 	}
 
 	/**

@@ -35,6 +35,8 @@
 		<field name="title" type="String" />
 		<field name="order" type="int" />
 		<field name="stage" type="String" />
+		<field name="countOfficialsVoting" type="int" />
+		<field name="countOfficialsActive" type="int" />
 		<field name="councilSessionId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Official">

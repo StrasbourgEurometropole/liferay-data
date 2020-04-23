@@ -337,6 +337,34 @@ public interface DeliberationModel extends BaseModel<Deliberation>, GroupedModel
 	public void setStage(String stage);
 
 	/**
+	 * Returns the count officials voting of this deliberation.
+	 *
+	 * @return the count officials voting of this deliberation
+	 */
+	public int getCountOfficialsVoting();
+
+	/**
+	 * Sets the count officials voting of this deliberation.
+	 *
+	 * @param countOfficialsVoting the count officials voting of this deliberation
+	 */
+	public void setCountOfficialsVoting(int countOfficialsVoting);
+
+	/**
+	 * Returns the count officials active of this deliberation.
+	 *
+	 * @return the count officials active of this deliberation
+	 */
+	public int getCountOfficialsActive();
+
+	/**
+	 * Sets the count officials active of this deliberation.
+	 *
+	 * @param countOfficialsActive the count officials active of this deliberation
+	 */
+	public void setCountOfficialsActive(int countOfficialsActive);
+
+	/**
 	 * Returns the council session ID of this deliberation.
 	 *
 	 * @return the council session ID of this deliberation

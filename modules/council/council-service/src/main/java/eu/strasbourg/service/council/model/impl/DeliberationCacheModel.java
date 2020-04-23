@@ -66,7 +66,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -98,6 +98,10 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 		sb.append(order);
 		sb.append(", stage=");
 		sb.append(stage);
+		sb.append(", countOfficialsVoting=");
+		sb.append(countOfficialsVoting);
+		sb.append(", countOfficialsActive=");
+		sb.append(countOfficialsActive);
 		sb.append(", councilSessionId=");
 		sb.append(councilSessionId);
 		sb.append("}");
@@ -175,6 +179,8 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			deliberationImpl.setStage(stage);
 		}
 
+		deliberationImpl.setCountOfficialsVoting(countOfficialsVoting);
+		deliberationImpl.setCountOfficialsActive(countOfficialsActive);
 		deliberationImpl.setCouncilSessionId(councilSessionId);
 
 		deliberationImpl.resetOriginalValues();
@@ -206,6 +212,10 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 
 		order = objectInput.readInt();
 		stage = objectInput.readUTF();
+
+		countOfficialsVoting = objectInput.readInt();
+
+		countOfficialsActive = objectInput.readInt();
 
 		councilSessionId = objectInput.readLong();
 	}
@@ -267,6 +277,10 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 			objectOutput.writeUTF(stage);
 		}
 
+		objectOutput.writeInt(countOfficialsVoting);
+
+		objectOutput.writeInt(countOfficialsActive);
+
 		objectOutput.writeLong(councilSessionId);
 	}
 
@@ -285,5 +299,7 @@ public class DeliberationCacheModel implements CacheModel<Deliberation>,
 	public String title;
 	public int order;
 	public String stage;
+	public int countOfficialsVoting;
+	public int countOfficialsActive;
 	public long councilSessionId;
 }

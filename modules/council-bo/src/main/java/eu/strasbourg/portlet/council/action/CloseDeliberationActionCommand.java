@@ -68,8 +68,6 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
 
-        // Passe au statut Créé
-        deliberation.setStage(StageDeliberation.get(1).getName());
         //Récupération des votes associés
         List<Vote> votes  = voteLocalService.findByDeliberationId(deliberationId);
 

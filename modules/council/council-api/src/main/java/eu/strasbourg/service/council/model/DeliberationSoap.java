@@ -48,6 +48,8 @@ public class DeliberationSoap implements Serializable {
 		soapModel.setTitle(model.getTitle());
 		soapModel.setOrder(model.getOrder());
 		soapModel.setStage(model.getStage());
+		soapModel.setCountOfficialsVoting(model.getCountOfficialsVoting());
+		soapModel.setCountOfficialsActive(model.getCountOfficialsActive());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 
 		return soapModel;
@@ -221,6 +223,22 @@ public class DeliberationSoap implements Serializable {
 		_stage = stage;
 	}
 
+	public int getCountOfficialsVoting() {
+		return _countOfficialsVoting;
+	}
+
+	public void setCountOfficialsVoting(int countOfficialsVoting) {
+		_countOfficialsVoting = countOfficialsVoting;
+	}
+
+	public int getCountOfficialsActive() {
+		return _countOfficialsActive;
+	}
+
+	public void setCountOfficialsActive(int countOfficialsActive) {
+		_countOfficialsActive = countOfficialsActive;
+	}
+
 	public long getCouncilSessionId() {
 		return _councilSessionId;
 	}
@@ -244,5 +262,7 @@ public class DeliberationSoap implements Serializable {
 	private String _title;
 	private int _order;
 	private String _stage;
+	private int _countOfficialsVoting;
+	private int _countOfficialsActive;
 	private long _councilSessionId;
 }

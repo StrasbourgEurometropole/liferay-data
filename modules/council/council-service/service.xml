@@ -131,6 +131,8 @@
 		<column name="title" type="String" />
 		<column name="order" type="int" />
 		<column name="stage" type="String" />
+		<column name="countOfficialsVoting" type="int" />
+		<column name="countOfficialsActive" type="int" />
 
 		<!-- Links with other entities -->
 		<column name="councilSessionId" type="long" />

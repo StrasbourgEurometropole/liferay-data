@@ -86,7 +86,12 @@ public class CouncilBOPortlet extends MVCPortlet {
 			String categoryId = null;
 			// Si aucun conseil sélectionné, on prend celui de la session
 			if(Validator.isNull(categoryCouncilId)) {
-				categoryId=sessionCategoryCouncilId;
+				// SI on a rien en session, on cherche le conseil du jour ou le conseil le plus lointain
+				if(Validator.isNull(sessionCategoryCouncilId)) {
+
+				} else {
+					categoryId=sessionCategoryCouncilId;
+				}
 			}
 			// Si on a sélectionné une catégorie différente à celle de la session, on prend la nouvelle et on l'enregistre en session
 			else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {

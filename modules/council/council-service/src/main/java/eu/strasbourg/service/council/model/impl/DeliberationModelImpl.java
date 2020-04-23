@@ -84,6 +84,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			{ "title", Types.VARCHAR },
 			{ "order_", Types.INTEGER },
 			{ "stage", Types.VARCHAR },
+			{ "countOfficialsVoting", Types.INTEGER },
+			{ "countOfficialsActive", Types.INTEGER },
 			{ "councilSessionId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -104,10 +106,12 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("stage", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("countOfficialsVoting", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("countOfficialsActive", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,stage VARCHAR(75) null,councilSessionId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,order_ INTEGER,stage VARCHAR(75) null,countOfficialsVoting INTEGER,countOfficialsActive INTEGER,councilSessionId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Deliberation";
 	public static final String ORDER_BY_JPQL = " ORDER BY deliberation.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Deliberation.title ASC";
@@ -183,6 +187,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("stage", getStage());
+		attributes.put("countOfficialsVoting", getCountOfficialsVoting());
+		attributes.put("countOfficialsActive", getCountOfficialsActive());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -281,6 +287,20 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 		if (stage != null) {
 			setStage(stage);
+		}
+
+		Integer countOfficialsVoting = (Integer)attributes.get(
+				"countOfficialsVoting");
+
+		if (countOfficialsVoting != null) {
+			setCountOfficialsVoting(countOfficialsVoting);
+		}
+
+		Integer countOfficialsActive = (Integer)attributes.get(
+				"countOfficialsActive");
+
+		if (countOfficialsActive != null) {
+			setCountOfficialsActive(countOfficialsActive);
 		}
 
 		Long councilSessionId = (Long)attributes.get("councilSessionId");
@@ -538,6 +558,26 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	}
 
 	@Override
+	public int getCountOfficialsVoting() {
+		return _countOfficialsVoting;
+	}
+
+	@Override
+	public void setCountOfficialsVoting(int countOfficialsVoting) {
+		_countOfficialsVoting = countOfficialsVoting;
+	}
+
+	@Override
+	public int getCountOfficialsActive() {
+		return _countOfficialsActive;
+	}
+
+	@Override
+	public void setCountOfficialsActive(int countOfficialsActive) {
+		_countOfficialsActive = countOfficialsActive;
+	}
+
+	@Override
 	public long getCouncilSessionId() {
 		return _councilSessionId;
 	}
@@ -691,6 +731,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		deliberationImpl.setTitle(getTitle());
 		deliberationImpl.setOrder(getOrder());
 		deliberationImpl.setStage(getStage());
+		deliberationImpl.setCountOfficialsVoting(getCountOfficialsVoting());
+		deliberationImpl.setCountOfficialsActive(getCountOfficialsActive());
 		deliberationImpl.setCouncilSessionId(getCouncilSessionId());
 
 		deliberationImpl.resetOriginalValues();
@@ -856,6 +898,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 			deliberationCacheModel.stage = null;
 		}
 
+		deliberationCacheModel.countOfficialsVoting = getCountOfficialsVoting();
+
+		deliberationCacheModel.countOfficialsActive = getCountOfficialsActive();
+
 		deliberationCacheModel.councilSessionId = getCouncilSessionId();
 
 		return deliberationCacheModel;
@@ -863,7 +909,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -895,6 +941,10 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getOrder());
 		sb.append(", stage=");
 		sb.append(getStage());
+		sb.append(", countOfficialsVoting=");
+		sb.append(getCountOfficialsVoting());
+		sb.append(", countOfficialsActive=");
+		sb.append(getCountOfficialsActive());
 		sb.append(", councilSessionId=");
 		sb.append(getCouncilSessionId());
 		sb.append("}");
@@ -904,7 +954,7 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Deliberation");
@@ -971,6 +1021,14 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 		sb.append(getStage());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>countOfficialsVoting</column-name><column-value><![CDATA[");
+		sb.append(getCountOfficialsVoting());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>countOfficialsActive</column-name><column-value><![CDATA[");
+		sb.append(getCountOfficialsActive());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>councilSessionId</column-name><column-value><![CDATA[");
 		sb.append(getCouncilSessionId());
 		sb.append("]]></column-value></column>");
@@ -1005,6 +1063,8 @@ public class DeliberationModelImpl extends BaseModelImpl<Deliberation>
 	private String _title;
 	private int _order;
 	private String _stage;
+	private int _countOfficialsVoting;
+	private int _countOfficialsActive;
 	private long _councilSessionId;
 	private long _originalCouncilSessionId;
 	private boolean _setOriginalCouncilSessionId;

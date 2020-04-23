@@ -33,6 +33,8 @@ create table council_Deliberation (
 	title VARCHAR(75) null,
 	order_ INTEGER,
 	stage VARCHAR(75) null,
+	countOfficialsVoting INTEGER,
+	countOfficialsActive INTEGER,
 	councilSessionId LONG
 );
 
