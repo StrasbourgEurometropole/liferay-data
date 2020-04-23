@@ -88,10 +88,10 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
 
         // Calcule la majorité absolue
         if((countContre + countPour) % 2 ==0  ) {
-            majoriteAbsolue = ((countContre + countPour)/2) + 1;
+            majoriteAbsolue = ((countContre + countPour)/2);
         }
         else {
-            majoriteAbsolue = (countContre + countPour + 1)/2;
+            majoriteAbsolue = (countContre + countPour - 1)/2;
         }
 
         // Calcule le résultat
