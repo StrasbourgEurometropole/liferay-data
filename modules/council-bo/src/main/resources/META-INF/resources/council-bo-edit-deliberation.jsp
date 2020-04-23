@@ -91,7 +91,7 @@
                         <table border="1">
                             <tr>
                                 <th>
-                                    <strong><liferay-ui:message key="voter" /></strong>
+                                    <strong><liferay-ui:message key="official" /></strong>
                                 </th>
                                 <th >
                                     <strong><liferay-ui:message key="vote" /></strong>
@@ -102,13 +102,13 @@
                             </tr>
                             <c:forEach var="vote" items="${dc.getVoteBeans()}">
                                 <tr>
-                                    <td>
+                                    <td class="text-left">
                                         ${vote.voter}
                                     </td>
                                     <td>
                                        <div class="${vote.cssClass}"> ${vote.result}</div>
                                     </td>
-                                    <td>
+                                    <td class="text-left">
                                         ${vote.procurationVoter}
                                     </td>
                                 </tr>
@@ -119,35 +119,6 @@
                 </aui:fieldset>
             </c:if>
 
-			<%-- Groupe de champs : Categorisations --%>
-			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
-
-				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-
-				<%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
-				<div class="has-error">
-					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
-						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
-							function (val, fieldNode, ruleValue) {
-								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
-								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
-								    	validated = false;
-								    	break;
-								    }
-								}
-								return validated;
-							}
-						</aui:validator>
-					</aui:input>
-				</div>
-
-			</aui:fieldset>
-
 		</aui:fieldset-group>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
@@ -157,13 +128,7 @@
 
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
 			<c:if test="${(dc.hasPermission('ADD_DELIBERATION') and empty dc.deliberation or dc.hasPermission('EDIT_DELIBERATION') and not empty dc.deliberation) and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<c:if test="${dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" value="save" />
-				</c:if>
-				<c:if test="${not dc.workflowEnabled}">
-					<aui:button cssClass="btn-lg" type="submit" name="publish" value="eu.publish" />
-					<aui:button cssClass="btn-lg btn-default" type="submit" name="save-as-draft" value="save-as-draft" />
-				</c:if>
+                <aui:button cssClass="btn-lg" type="submit" value="save" />
 			</c:if>
 
 			<%-- Test : Verification des droits de supression --%>
