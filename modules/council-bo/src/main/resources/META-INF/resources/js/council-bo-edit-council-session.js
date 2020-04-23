@@ -1,5 +1,6 @@
 var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
 
+/** Définition des types de session **/
 let sessionTypes = [
     'municipal',
     'eurometropolitan'
