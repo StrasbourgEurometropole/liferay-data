@@ -103,6 +103,10 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 						.filter(OfficialModel::isIsEurometropolitan)
 						.collect(Collectors.toList());
 				break;
+			default:
+				filteredOfficial = results.stream()
+						.filter(OfficialModel::isIsActive)
+						.collect(Collectors.toList());
 		}
 
 		for (Official official : filteredOfficial) {
