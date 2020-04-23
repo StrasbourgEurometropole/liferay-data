@@ -35,7 +35,8 @@
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
-	<liferay-ui:error key="text-error" message="description-error" />
+	<liferay-ui:error key="order-error" message="order-error" />
+	<liferay-ui:error key="council-session-error" message="council-session-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveDeliberationURL}" method="post" name="fm" onSubmit="submitForm(event);">

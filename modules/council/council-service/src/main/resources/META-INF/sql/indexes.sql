@@ -12,7 +12,7 @@ create index IX_F191C259 on council_Official (groupId, isActive, isMunicipal);
 create index IX_C307D0A3 on council_Official (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_148223E5 on council_Official (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_4433A78E on council_Procuration (councilSessionId);
+create index IX_13370DF3 on council_Procuration (councilSessionId, officialVotersId);
 create index IX_BF3B2FDE on council_Procuration (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_AEA15E0 on council_Procuration (uuid_[$COLUMN_LENGTH:75$], groupId);
 

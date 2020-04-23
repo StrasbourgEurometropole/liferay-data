@@ -195,6 +195,10 @@
 		<finder name="CouncilSessionId" return-type="Collection">
 			<finder-column name="councilSessionId" />
 		</finder>
+		<finder name="CouncilSessionIdAndOfficialVotersId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialVotersId" />
+		</finder>
 
 	</entity>
 

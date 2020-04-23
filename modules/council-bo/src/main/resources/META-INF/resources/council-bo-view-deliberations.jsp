@@ -1,6 +1,7 @@
 <%@ include file="/council-bo-init.jsp" %>
 
 <%@page import="eu.strasbourg.service.council.constants.StageDeliberation"%>
+<%@page import="com.liferay.portal.kernel.servlet.SessionErrors"%>
 
 <liferay-portlet:renderURL varImpl="deliberationsURL">
 	<portlet:param name="tab" value="deliberations" />
@@ -37,6 +38,12 @@
 
 
 <div class="container-fluid-1280 main-content-body">
+
+    <%-- Composant : definit la liste des messages d'erreur --%>
+    <liferay-ui:error key="quorum-error">
+        <liferay-ui:message key="quorum-error" arguments='<%= SessionErrors.get(liferayPortletRequest, "quorum-error") %>' />
+    </liferay-ui:error>
+
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="deliberationsSearchContainer"
