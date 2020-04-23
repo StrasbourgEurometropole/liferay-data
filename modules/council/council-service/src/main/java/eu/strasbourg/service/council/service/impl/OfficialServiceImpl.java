@@ -55,8 +55,16 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 	public static final String MUNICIPAL = "municipal";
 	public static final String EUROMETROPOLITAN = "eurometropolitan";
 
+	/**
+	 * Recherche d'élu pour l'autocompletion
+	 * @param fullName Nom, prénom ou les deux de l'élu à trouver
+	 * @param type Type de l'élu recherché
+	 * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	 * @param groupId Site sur lequel cherchés
+	 * @return Liste des élus au format JSON
+	 */
 	@Override
-	public JSONArray getOfficialByFullNameAndType(String fullName, String type, long groupId) {
+	public JSONArray getOfficialByFullNameAndType(String fullName, String type, long removedOfficialId, long groupId) {
 		JSONArray jsonOfficials = JSONFactoryUtil.createJSONArray();
 
 		// Création du context de recherche
@@ -64,7 +72,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 		searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 		searchContext.setGroupIds(new long[]{groupId});
 
-		// TODO : utilisation d'une méthode de reccherche plus "light que BOSearchHit
+		// TODO : utilisation d'une méthode de reccherche plus "light" que BOSearchHit
 		Hits hits = SearchHelper.getBOSearchHits(searchContext, 0, 50, Official.class.getName(), groupId,
 				"", fullName, "title", true);
 
@@ -74,7 +82,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 			for (Document document : hits.getDocs()) {
 				Official official = this.officialLocalService.fetchOfficial(
 						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-				if (official != null) {
+				if (official != null && official.getOfficialId() != removedOfficialId) {
 					results.add(official);
 				}
 			}

@@ -41,9 +41,22 @@ public class OfficialServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.OfficialServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Recherche d'élu pour l'autocompletion
+	*
+	* @param fullName Nom, prénom ou les deux de l'élu à trouver
+	* @param type Type de l'élu recherché
+	* @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	* @param groupId Site sur lequel cherchés
+	* @return Liste des élus au format JSON
+	*/
 	public static com.liferay.portal.kernel.json.JSONArray getOfficialByFullNameAndType(
-		java.lang.String fullName, java.lang.String type, long groupId) {
-		return getService().getOfficialByFullNameAndType(fullName, type, groupId);
+		java.lang.String fullName, java.lang.String type,
+		long removedOfficialId, long groupId) {
+		return getService()
+				   .getOfficialByFullNameAndType(fullName, type,
+			removedOfficialId, groupId);
 	}
 
 	/**

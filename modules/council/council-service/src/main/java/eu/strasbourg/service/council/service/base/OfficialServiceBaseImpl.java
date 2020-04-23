@@ -119,6 +119,25 @@ public abstract class OfficialServiceBaseImpl extends BaseServiceImpl
 	}
 
 	/**
+	 * Returns the deliberation remote service.
+	 *
+	 * @return the deliberation remote service
+	 */
+	public eu.strasbourg.service.council.service.DeliberationService getDeliberationService() {
+		return deliberationService;
+	}
+
+	/**
+	 * Sets the deliberation remote service.
+	 *
+	 * @param deliberationService the deliberation remote service
+	 */
+	public void setDeliberationService(
+		eu.strasbourg.service.council.service.DeliberationService deliberationService) {
+		this.deliberationService = deliberationService;
+	}
+
+	/**
 	 * Returns the deliberation persistence.
 	 *
 	 * @return the deliberation persistence
@@ -623,6 +642,8 @@ public abstract class OfficialServiceBaseImpl extends BaseServiceImpl
 	protected CouncilSessionPersistence councilSessionPersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.DeliberationLocalService.class)
 	protected eu.strasbourg.service.council.service.DeliberationLocalService deliberationLocalService;
+	@BeanReference(type = eu.strasbourg.service.council.service.DeliberationService.class)
+	protected eu.strasbourg.service.council.service.DeliberationService deliberationService;
 	@BeanReference(type = DeliberationPersistence.class)
 	protected DeliberationPersistence deliberationPersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.OfficialLocalService.class)

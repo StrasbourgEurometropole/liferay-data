@@ -51,9 +51,19 @@ public interface OfficialService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link OfficialServiceUtil} to access the official remote service. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.OfficialServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* Recherche d'élu pour l'autocompletion
+	*
+	* @param fullName Nom, prénom ou les deux de l'élu à trouver
+	* @param type Type de l'élu recherché
+	* @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	* @param groupId Site sur lequel cherchés
+	* @return Liste des élus au format JSON
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getOfficialByFullNameAndType(java.lang.String fullName,
-		java.lang.String type, long groupId);
+		java.lang.String type, long removedOfficialId, long groupId);
 
 	/**
 	* Returns the OSGi service identifier.

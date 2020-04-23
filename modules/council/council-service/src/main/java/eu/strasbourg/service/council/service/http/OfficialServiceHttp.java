@@ -57,14 +57,14 @@ import eu.strasbourg.service.council.service.OfficialServiceUtil;
 public class OfficialServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONArray getOfficialByFullNameAndType(
 		HttpPrincipal httpPrincipal, java.lang.String fullName,
-		java.lang.String type, long groupId) {
+		java.lang.String type, long removedOfficialId, long groupId) {
 		try {
 			MethodKey methodKey = new MethodKey(OfficialServiceUtil.class,
 					"getOfficialByFullNameAndType",
 					_getOfficialByFullNameAndTypeParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					fullName, type, groupId);
+					fullName, type, removedOfficialId, groupId);
 
 			Object returnObj = null;
 
@@ -86,5 +86,8 @@ public class OfficialServiceHttp {
 
 	private static Log _log = LogFactoryUtil.getLog(OfficialServiceHttp.class);
 	private static final Class<?>[] _getOfficialByFullNameAndTypeParameterTypes0 =
-		new Class[] { java.lang.String.class, java.lang.String.class, long.class };
+		new Class[] {
+			java.lang.String.class, java.lang.String.class, long.class,
+			long.class
+		};
 }

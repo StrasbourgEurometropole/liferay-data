@@ -65,12 +65,21 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class OfficialServiceSoap {
+	/**
+	* Recherche d'élu pour l'autocompletion
+	*
+	* @param fullName Nom, prénom ou les deux de l'élu à trouver
+	* @param type Type de l'élu recherché
+	* @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	* @param groupId Site sur lequel cherchés
+	* @return Liste des élus au format JSON
+	*/
 	public static java.lang.String getOfficialByFullNameAndType(
-		java.lang.String fullName, java.lang.String type, long groupId)
-		throws RemoteException {
+		java.lang.String fullName, java.lang.String type,
+		long removedOfficialId, long groupId) throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue = OfficialServiceUtil.getOfficialByFullNameAndType(fullName,
-					type, groupId);
+					type, removedOfficialId, groupId);
 
 			return returnValue.toString();
 		}

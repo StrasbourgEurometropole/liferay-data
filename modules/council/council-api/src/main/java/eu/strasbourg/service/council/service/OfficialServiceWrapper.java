@@ -32,11 +32,21 @@ public class OfficialServiceWrapper implements OfficialService,
 		_officialService = officialService;
 	}
 
+	/**
+	* Recherche d'élu pour l'autocompletion
+	*
+	* @param fullName Nom, prénom ou les deux de l'élu à trouver
+	* @param type Type de l'élu recherché
+	* @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
+	* @param groupId Site sur lequel cherchés
+	* @return Liste des élus au format JSON
+	*/
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getOfficialByFullNameAndType(
-		java.lang.String fullName, java.lang.String type, long groupId) {
+		java.lang.String fullName, java.lang.String type,
+		long removedOfficialId, long groupId) {
 		return _officialService.getOfficialByFullNameAndType(fullName, type,
-			groupId);
+			removedOfficialId, groupId);
 	}
 
 	/**
