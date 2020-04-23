@@ -9,11 +9,15 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.council.constants.StageDeliberation;
-import eu.strasbourg.service.council.model.*;
-import eu.strasbourg.service.council.service.*;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.service.CouncilSessionLocalService;
+import eu.strasbourg.service.council.service.DeliberationLocalService;
+import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -99,9 +103,9 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
             deliberation.setStage(stage);
         } else {
             // Pas de quorum, on avertit
-            SessionErrors.add(request, "quorum-error");
+            String[] args = new String[]{String.valueOf(countOfficialActive), String.valueOf(countOfficialVoting)};
+            SessionErrors.add(request, "quorum-error", args);
         }
-
         // Update de l'entité (même si pas de quorum on enregistre les chiffres pour que les gens puissent vérifier
         deliberationLocalService.updateDeliberation(deliberation);
 
