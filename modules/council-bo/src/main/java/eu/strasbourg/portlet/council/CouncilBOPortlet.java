@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
@@ -17,9 +18,16 @@ import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayCont
 
 import eu.strasbourg.portlet.council.display.context.ViewCouncilSessionsDisplayContext;
 import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayContext;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author jeremy.zwickert
@@ -72,37 +80,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
-
-			HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
-			// Récupère la catégorie de conseil sélectionné
-			String categoryCouncilId = ParamUtil.getString(renderRequest, "categoryToAdd");
-			// Récupère la catégorie de conseil en session
-			Object sessionObject = originalRequest.getSession().getAttribute("categoryCouncilId");
-			String sessionCategoryCouncilId = null;
-			if(!Validator.isNull(sessionObject)) {
-				sessionCategoryCouncilId = sessionObject.toString();
-			}
-
-			String categoryId = null;
-			// Si aucun conseil sélectionné, on prend celui de la session
-			if(Validator.isNull(categoryCouncilId)) {
-				// SI on a rien en session, on cherche le conseil du jour ou le conseil le plus lointain
-				if(Validator.isNull(sessionCategoryCouncilId)) {
-
-				} else {
-					categoryId=sessionCategoryCouncilId;
-				}
-			}
-			// Si on a sélectionné une catégorie différente à celle de la session, on prend la nouvelle et on l'enregistre en session
-			else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
-				categoryId = categoryCouncilId;
-				originalRequest.getSession().setAttribute("categoryCouncilId", categoryCouncilId);
-			}
-
-			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse, categoryId);
+			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
+			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
 			renderRequest.setAttribute("dc", dc);
-
-
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
@@ -112,6 +92,62 @@ public class CouncilBOPortlet extends MVCPortlet {
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 
 		super.render(renderRequest, renderResponse);
+	}
+
+	/**
+	 * Récupère la catégorie du CouncilSession de la session, ou de celui du jour ou du dernier
+	 */
+	private String getCategoryIdSession(RenderRequest renderRequest, ThemeDisplay themeDisplay) {
+
+		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
+		// Récupère la catégorie de conseil sélectionné
+		String categoryCouncilId = ParamUtil.getString(renderRequest, "categoryToAdd");
+		// Récupère la catégorie de conseil en session
+		Object sessionObject = originalRequest.getSession().getAttribute("categoryCouncilId");
+		String sessionCategoryCouncilId = null;
+		if(!Validator.isNull(sessionObject)) {
+			sessionCategoryCouncilId = sessionObject.toString();
+		}
+
+		String categoryId = null;
+		// Si aucun conseil sélectionné, on prend celui de la session
+		if(Validator.isNull(categoryCouncilId)) {
+
+			if(Validator.isNull(sessionCategoryCouncilId)) {
+				// Récupère la date d'aujourd'hui, minuit
+				GregorianCalendar gc = new GregorianCalendar();
+				gc.setTime(new Date());
+				gc.set(Calendar.HOUR_OF_DAY, 0);
+				gc.set(Calendar.MINUTE, 0);
+				gc.set(Calendar.SECOND, 0);
+				gc.set(Calendar.MILLISECOND, 0);
+				List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
+
+				// SI on a rien en session, on cherche le conseil du jour ou le conseil le plus lointain
+				if(todayCouncils.size() >0) {
+					CouncilSession todayCouncil = todayCouncils.get(0);
+					AssetCategory councilCategory = AssetVocabularyHelper.getCategory(todayCouncil.getTitle(), themeDisplay.getScopeGroupId());
+					categoryId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
+					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+				} else {
+					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime());
+					CouncilSession lastCouncil = futureCouncilSessions.get(futureCouncilSessions.size()-1);
+					AssetCategory councilCategory = AssetVocabularyHelper.getCategory(lastCouncil.getTitle(), themeDisplay.getScopeGroupId());
+					categoryId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
+					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+				}
+
+			} else {
+				categoryId=sessionCategoryCouncilId;
+			}
+		}
+		// Si on a sélectionné une catégorie différente à celle de la session, on prend la nouvelle et on l'enregistre en session
+		else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
+			categoryId = categoryCouncilId;
+			originalRequest.getSession().setAttribute("categoryCouncilId", categoryCouncilId);
+		}
+
+		return categoryId;
 	}
 
 }

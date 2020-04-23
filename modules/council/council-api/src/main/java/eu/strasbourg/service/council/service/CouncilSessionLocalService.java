@@ -253,6 +253,11 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par Date de CouncilSession
+	*/
+	public List<CouncilSession> findByDate(Date date);
+
+	/**
 	* Returns a range of all the council sessions.
 	*
 	* <p>

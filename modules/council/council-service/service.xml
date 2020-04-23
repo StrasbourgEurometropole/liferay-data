@@ -99,6 +99,11 @@
 			<order-column name="title" />
 		</order>
 
+		<!-- Finder methods -->
+		<finder name="Date" return-type="Collection">
+			<finder-column name="date" />
+		</finder>
+
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
@@ -106,7 +111,7 @@
 
 	</entity>
 
-	<entity local-service="true" remote-service="false" cache-enabled="true" name="Deliberation" uuid="true">
+	<entity local-service="true" remote-service="true" cache-enabled="true" name="Deliberation" uuid="true">
 
 		<!-- PK fields -->
 		<column name="deliberationId" primary="true" type="long" />

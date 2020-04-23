@@ -255,8 +255,16 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	public List<CouncilSession> getFutureCouncilSessions(Date date) {
 		DynamicQuery dq = this.councilSessionLocalService.dynamicQuery();
 		dq.add(RestrictionsFactoryUtil.ge("date", date));
-		dq.addOrder(OrderFactoryUtil.desc("date"));
+		dq.addOrder(OrderFactoryUtil.asc("date"));
 
 		return this.councilSessionLocalService.dynamicQuery(dq);
+	}
+
+	/**
+	 * Recherche par Date de CouncilSession
+	 */
+	@Override
+	public List<CouncilSession> findByDate(Date date){
+		return this.councilSessionPersistence.findByDate(date);
 	}
 }

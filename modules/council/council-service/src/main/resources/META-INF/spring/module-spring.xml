@@ -4,6 +4,7 @@
 	<bean class="eu.strasbourg.service.council.service.impl.CouncilSessionLocalServiceImpl" id="eu.strasbourg.service.council.service.CouncilSessionLocalService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.CouncilSessionPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.DeliberationLocalServiceImpl" id="eu.strasbourg.service.council.service.DeliberationLocalService" />
+	<bean class="eu.strasbourg.service.council.service.impl.DeliberationServiceImpl" id="eu.strasbourg.service.council.service.DeliberationService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.DeliberationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.DeliberationPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialLocalServiceImpl" id="eu.strasbourg.service.council.service.OfficialLocalService" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialServiceImpl" id="eu.strasbourg.service.council.service.OfficialService" />

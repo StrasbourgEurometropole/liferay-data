@@ -124,9 +124,10 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 				"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.CouncilSession"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long DATE_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long TITLE_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.CouncilSession"));
 
@@ -518,7 +519,17 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 	@Override
 	public void setDate(Date date) {
+		_columnBitmask |= DATE_COLUMN_BITMASK;
+
+		if (_originalDate == null) {
+			_originalDate = _date;
+		}
+
 		_date = date;
+	}
+
+	public Date getOriginalDate() {
+		return _originalDate;
 	}
 
 	@Override
@@ -750,6 +761,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		councilSessionModelImpl._setOriginalCompanyId = false;
 
 		councilSessionModelImpl._setModifiedDate = false;
+
+		councilSessionModelImpl._originalDate = councilSessionModelImpl._date;
 
 		councilSessionModelImpl._columnBitmask = 0;
 	}
@@ -994,6 +1007,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	private Date _statusDate;
 	private String _title;
 	private Date _date;
+	private Date _originalDate;
 	private String _type;
 	private long _officialLeaderId;
 	private long _columnBitmask;
