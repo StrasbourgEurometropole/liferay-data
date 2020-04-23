@@ -54,8 +54,9 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         Deliberation deliberation;
         String stage;
         if (deliberationId == 0) {
-            stage = StageDeliberation.get(1).getName();
             deliberation = deliberationLocalService.createDeliberation(sc);
+            stage = StageDeliberation.get(1).getName();
+            deliberation.setStage(stage);
         } else {
             stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);
@@ -90,8 +91,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
         deliberation.setCouncilSessionId(councilSessionId);
 
-        // Statut
-        deliberation.setStage(stage);
+
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation, sc);

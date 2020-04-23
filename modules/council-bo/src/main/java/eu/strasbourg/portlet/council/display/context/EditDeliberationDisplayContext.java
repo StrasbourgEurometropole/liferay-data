@@ -52,28 +52,30 @@ public class EditDeliberationDisplayContext {
      * @return
      */
     public List<CouncilSession> getAvailableCouncilSessions() {
-        List<CouncilSession> availableSessions = new ArrayList<>();
+
+        List<CouncilSession> availableCouncilSessions = new ArrayList<>();
+        List<CouncilSession>  otherList= new ArrayList<>();
 
         // Récupère la date d'aujourd'hui, minuit
         GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime( new Date() );
-        gc.set( Calendar.HOUR_OF_DAY, 0 );
-        gc.set( Calendar.MINUTE, 0 );
-        gc.set( Calendar.SECOND, 0 );
-        gc.set( Calendar.MILLISECOND, 0 );
+        gc.setTime(new Date());
+        gc.set(Calendar.HOUR_OF_DAY, 0);
+        gc.set(Calendar.MINUTE, 0);
+        gc.set(Calendar.SECOND, 0);
+        gc.set(Calendar.MILLISECOND, 0);
 
-        availableSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime());
-        if(deliberation != null) {
+        otherList = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime());
+        if (deliberation != null) {
             CouncilSession councilDelib = CouncilSessionLocalServiceUtil.fetchCouncilSession(deliberation.getCouncilSessionId());
 
             // Rajoute la session de la délib à la liste si elle n'y est pas (une déblib d'une ancienne session par exemple)
-            if(councilDelib != null && !availableSessions.contains(councilDelib))
-            {
-                availableSessions.add(0, councilDelib);
+            if (councilDelib != null && !otherList.contains(councilDelib)) {
+                availableCouncilSessions.add(0, councilDelib);
             }
         }
+        availableCouncilSessions.addAll(otherList);
 
-        return availableSessions;
+        return availableCouncilSessions;
     }
 
     /**
@@ -177,4 +179,5 @@ public class EditDeliberationDisplayContext {
     public List<VoteBean> getVoteBeans() {
         return voteBeans;
     }
+
 }
