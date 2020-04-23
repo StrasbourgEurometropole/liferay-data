@@ -18,7 +18,9 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
@@ -40,6 +42,18 @@ public class ProcurationImpl extends ProcurationBaseImpl {
 	 * Never reference this class directly. All methods that expect a procuration model instance should use the {@link eu.strasbourg.service.council.model.Procuration} interface instead.
 	 */
 	public ProcurationImpl() {
+	}
+
+	/**
+	 * Retourne le nom complet de l'élu reçevant la procuration
+	 */
+	@Override
+	public String getOfficialVotersFullName() {
+		String result = "";
+		Official official = OfficialLocalServiceUtil.fetchOfficial(this.getOfficialVotersId());
+		if (official != null)
+			result = official.getFullName();
+		return result;
 	}
 
 }

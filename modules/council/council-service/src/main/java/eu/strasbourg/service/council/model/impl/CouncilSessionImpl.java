@@ -83,6 +83,15 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	}
 
 	/**
+	 * Renvoie le nom complet de l'élu président du conseil
+	 */
+	@Override
+	public String getOfficialLeaderFullName() {
+		Official official = this.getOfficialLeader();
+		return official != null ? official.getFullName() : "";
+	}
+
+	/**
 	 * Si le type de la session est Municipal
 	 */
 	@Override

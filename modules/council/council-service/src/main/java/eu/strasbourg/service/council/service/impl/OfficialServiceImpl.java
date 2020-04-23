@@ -58,7 +58,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 	/**
 	 * Recherche d'élu pour l'autocompletion
 	 * @param fullName Nom, prénom ou les deux de l'élu à trouver
-	 * @param type Type de l'élu recherché
+	 * @param type Type de l'élu recherché (peut être vide)
 	 * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
 	 * @param groupId Site sur lequel cherchés
 	 * @return Liste des élus au format JSON

@@ -76,6 +76,11 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 	public eu.strasbourg.service.council.model.Official getOfficialLeader();
 
 	/**
+	* Renvoie le nom complet de l'élu président du conseil
+	*/
+	public java.lang.String getOfficialLeaderFullName();
+
+	/**
 	* Si le type de la session est Municipal
 	*/
 	public boolean isMinicipal();

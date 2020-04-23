@@ -347,6 +347,14 @@ public class ProcurationWrapper implements Procuration,
 	}
 
 	/**
+	* Retourne le nom complet de l'élu reçevant la procuration
+	*/
+	@Override
+	public java.lang.String getOfficialVotersFullName() {
+		return _procuration.getOfficialVotersFullName();
+	}
+
+	/**
 	* Returns the status by user name of this procuration.
 	*
 	* @return the status by user name of this procuration

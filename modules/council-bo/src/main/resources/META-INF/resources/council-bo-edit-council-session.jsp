@@ -49,20 +49,26 @@
 
                 <%-- Champ : Type --%>
                 <div><label><liferay-ui:message key="type" /></label></div>
-                <label class="text-normal"><input type="radio" value="municipal" name="<portlet:namespace />type"
-                    <c:if test="${!dc.councilSession.isEurometropolitan()}">checked</c:if>>
-                        <liferay-ui:message key="type-municipal" />
+                <label class="text-normal">
+                    <input type="radio" value="municipal" name="<portlet:namespace />type"
+                        <c:if test="${!dc.councilSession.isEurometropolitan()}">checked</c:if>>
+                    <liferay-ui:message key="type-municipal" />
                 </label><br>
-                <label class="text-normal"><input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
-                    <c:if test="${dc.councilSession.isEurometropolitan()}">checked</c:if>>
-                        <liferay-ui:message key="type-eurometropolitan" />
+                <label class="text-normal">
+                    <input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
+                        <c:if test="${dc.councilSession.isEurometropolitan()}">checked</c:if>>
+                    <liferay-ui:message key="type-eurometropolitan" />
                 </label><br><br>
 
 			    <%-- Champ : Date --%>
                 <aui:input name="date" required="true" />
 
 				<%-- Champ : President --%>
-                <aui:input type="number" name="officialLeaderId" required="true" />
+				<c:set var="officialLeaderFullName" value="${not empty officialLeaderId ? dc.officialLeaderFullName : ''}" />
+				<div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper">
+                    <aui:input cssClass="autocomplete-shown" label="official-leader" type="text" name="officialLeaderFullName" value="${officialLeaderFullName}" required="true" />
+                    <aui:input cssClass="autocomplete-hidden" type="hidden" name="officialLeaderId" required="true" />
+                </div>
 
 			</aui:fieldset>
 
@@ -91,10 +97,12 @@
                                 <c:when test="${procuration != null}">
                                     <c:set var="isAbsentValue" value="${procuration.isAbsent ? 'true' : 'false'}" />
                                     <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
+                                    <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
                                 </c:when>
                                 <c:otherwise>
                                     <c:set var="isAbsentValue" value="false" />
                                     <c:set var="officialVotersIdValue" value="0" />
+                                    <c:set var="officialVotersFullName" value="" />
                                 </c:otherwise>
                             </c:choose>
 
@@ -106,7 +114,10 @@
                                     <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-officialVotersId" label="" type="number" value="${officialVotersIdValue}" />
+                                    <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
+                                        <aui:input cssClass="autocomplete-shown" label="" type="text" name="${official.officialId}-officialVoters" value="${officialVotersFullName}" />
+                                        <aui:input cssClass="autocomplete-hidden" type="hidden" name="${official.officialId}-officialVotersId"  value="${officialVotersIdValue}" />
+                                    </div>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -150,6 +161,7 @@
 <liferay-util:html-top>
 	<script>
 		var editCouncilSession = true;
+		var currentGroupId = ${dc.groupId}
 	</script>
 </liferay-util:html-top>
 
@@ -158,7 +170,7 @@
 		define._amd = define.amd;
 		define.amd = false;
 	</aui:script>
-	<script	src="/o/councilbo/js/vendors/jquery.autocomplete.js"></script>
+	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
 	<script>
 		define.amd = define._amd;
 	</script>

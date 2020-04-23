@@ -358,6 +358,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
+	* Renvoie le nom complet de l'élu président du conseil
+	*/
+	@Override
+	public java.lang.String getOfficialLeaderFullName() {
+		return _councilSession.getOfficialLeaderFullName();
+	}
+
+	/**
 	* Returns the status by user name of this council session.
 	*
 	* @return the status by user name of this council session

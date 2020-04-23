@@ -60,6 +60,11 @@ public class EditCouncilSessionDisplayContext {
         return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
     }
 
+    @SuppressWarnings("unused")
+    public long getGroupId() {
+        return this.themeDisplay.getScopeGroupId();
+    }
+
     /**
      * @return True si le framework workflow est actif pour ce type d'entité
      */

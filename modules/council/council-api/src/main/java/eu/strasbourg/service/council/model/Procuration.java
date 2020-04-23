@@ -53,4 +53,9 @@ public interface Procuration extends ProcurationModel, PersistedModel {
 				return Procuration.class;
 			}
 		};
+
+	/**
+	* Retourne le nom complet de l'élu reçevant la procuration
+	*/
+	public java.lang.String getOfficialVotersFullName();
 }
