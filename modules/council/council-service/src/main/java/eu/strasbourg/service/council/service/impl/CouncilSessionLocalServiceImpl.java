@@ -259,4 +259,12 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		return this.councilSessionLocalService.dynamicQuery(dq);
 	}
+
+	/**
+	 * Recherche par Date de CouncilSession
+	 */
+	@Override
+	public List<CouncilSession> findByDate(Date date){
+		return this.councilSessionPersistence.findByDate(date);
+	}
 }

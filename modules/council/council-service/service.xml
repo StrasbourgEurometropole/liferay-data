@@ -99,6 +99,11 @@
 			<order-column name="title" />
 		</order>
 
+		<!-- Finder methods -->
+		<finder name="Date" return-type="Collection">
+			<finder-column name="date" />
+		</finder>
+
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />

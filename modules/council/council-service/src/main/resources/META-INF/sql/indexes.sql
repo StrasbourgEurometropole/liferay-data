@@ -1,3 +1,4 @@
+create index IX_24287588 on council_CouncilSession (date_);
 create index IX_A71BB2ED on council_CouncilSession (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_5FDE10AF on council_CouncilSession (uuid_[$COLUMN_LENGTH:75$], groupId);
 

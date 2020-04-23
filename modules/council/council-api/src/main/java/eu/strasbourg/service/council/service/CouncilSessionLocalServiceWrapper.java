@@ -303,6 +303,15 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
+	* Recherche par Date de CouncilSession
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByDate(
+		java.util.Date date) {
+		return _councilSessionLocalService.findByDate(date);
+	}
+
+	/**
 	* Returns a range of all the council sessions.
 	*
 	* <p>
