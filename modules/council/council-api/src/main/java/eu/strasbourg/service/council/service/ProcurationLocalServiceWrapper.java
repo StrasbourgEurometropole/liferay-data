@@ -310,6 +310,16 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 	}
 
 	/**
+	* Recherche par ID de CouncilSession et Mandataire
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVoter) {
+		return _procurationLocalService.findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
+			officialVoter);
+	}
+
+	/**
 	* Returns a range of all the procurations.
 	*
 	* <p>

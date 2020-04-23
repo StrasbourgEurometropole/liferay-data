@@ -16,9 +16,16 @@ package eu.strasbourg.service.council.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.council.service.DeliberationServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link eu.strasbourg.service.council.service.DeliberationServiceUtil} service utility. The
+ * {@link DeliberationServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,24 @@ import aQute.bnd.annotation.ProviderType;
  * @author Brian Wing Shun Chan
  * @see DeliberationServiceHttp
  * @see eu.strasbourg.service.council.model.DeliberationSoap
- * @see eu.strasbourg.service.council.service.DeliberationServiceUtil
+ * @see DeliberationServiceUtil
  * @generated
  */
 @ProviderType
 public class DeliberationServiceSoap {
+	public static java.lang.String getUserFront(long officialId)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = DeliberationServiceUtil.getUserFront(officialId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(DeliberationServiceSoap.class);
 }

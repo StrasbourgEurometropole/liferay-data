@@ -291,6 +291,16 @@ public class ProcurationLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par ID de CouncilSession et Mandataire
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVoter) {
+		return getService()
+				   .findByCouncilSessionIdAndOfficialVotersId(councilSessionId,
+			officialVoter);
+	}
+
+	/**
 	* Returns a range of all the procurations.
 	*
 	* <p>

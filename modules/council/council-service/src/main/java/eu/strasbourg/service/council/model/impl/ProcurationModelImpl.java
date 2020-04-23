@@ -126,8 +126,9 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long PROCURATIONID_COLUMN_BITMASK = 16L;
+	public static final long OFFICIALVOTERSID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long PROCURATIONID_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Procuration"));
 
@@ -505,7 +506,19 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 	@Override
 	public void setOfficialVotersId(long officialVotersId) {
+		_columnBitmask |= OFFICIALVOTERSID_COLUMN_BITMASK;
+
+		if (!_setOriginalOfficialVotersId) {
+			_setOriginalOfficialVotersId = true;
+
+			_originalOfficialVotersId = _officialVotersId;
+		}
+
 		_officialVotersId = officialVotersId;
+	}
+
+	public long getOriginalOfficialVotersId() {
+		return _originalOfficialVotersId;
 	}
 
 	@Override
@@ -770,6 +783,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		procurationModelImpl._setModifiedDate = false;
 
+		procurationModelImpl._originalOfficialVotersId = procurationModelImpl._officialVotersId;
+
+		procurationModelImpl._setOriginalOfficialVotersId = false;
+
 		procurationModelImpl._originalCouncilSessionId = procurationModelImpl._councilSessionId;
 
 		procurationModelImpl._setOriginalCouncilSessionId = false;
@@ -997,6 +1014,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _officialVotersId;
+	private long _originalOfficialVotersId;
+	private boolean _setOriginalOfficialVotersId;
 	private long _officialUnavailableId;
 	private long _councilSessionId;
 	private long _originalCouncilSessionId;

@@ -257,6 +257,12 @@ public interface ProcurationLocalService extends BaseLocalService,
 	public List<Procuration> findByCouncilSessionId(long councilSessionId);
 
 	/**
+	* Recherche par ID de CouncilSession et Mandataire
+	*/
+	public List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVoter);
+
+	/**
 	* Returns a range of all the procurations.
 	*
 	* <p>

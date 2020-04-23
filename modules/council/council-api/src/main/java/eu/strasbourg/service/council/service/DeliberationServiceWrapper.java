@@ -32,6 +32,12 @@ public class DeliberationServiceWrapper implements DeliberationService,
 		_deliberationService = deliberationService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getUserFront(
+		long officialId) {
+		return _deliberationService.getUserFront(officialId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

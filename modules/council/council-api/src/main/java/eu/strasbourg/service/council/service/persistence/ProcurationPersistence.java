@@ -504,6 +504,156 @@ public interface ProcurationPersistence extends BasePersistence<Procuration> {
 	public int countByCouncilSessionId(long councilSessionId);
 
 	/**
+	* Returns all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @return the matching procurations
+	*/
+	public java.util.List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVotersId);
+
+	/**
+	* Returns a range of all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param start the lower bound of the range of procurations
+	* @param end the upper bound of the range of procurations (not inclusive)
+	* @return the range of matching procurations
+	*/
+	public java.util.List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVotersId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param start the lower bound of the range of procurations
+	* @param end the upper bound of the range of procurations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching procurations
+	*/
+	public java.util.List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVotersId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the procurations where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param start the lower bound of the range of procurations
+	* @param end the upper bound of the range of procurations (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching procurations
+	*/
+	public java.util.List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVotersId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first procuration in the ordered set where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching procuration
+	* @throws NoSuchProcurationException if a matching procuration could not be found
+	*/
+	public Procuration findByCouncilSessionIdAndOfficialVotersId_First(
+		long councilSessionId, long officialVotersId,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator)
+		throws NoSuchProcurationException;
+
+	/**
+	* Returns the first procuration in the ordered set where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching procuration, or <code>null</code> if a matching procuration could not be found
+	*/
+	public Procuration fetchByCouncilSessionIdAndOfficialVotersId_First(
+		long councilSessionId, long officialVotersId,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator);
+
+	/**
+	* Returns the last procuration in the ordered set where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching procuration
+	* @throws NoSuchProcurationException if a matching procuration could not be found
+	*/
+	public Procuration findByCouncilSessionIdAndOfficialVotersId_Last(
+		long councilSessionId, long officialVotersId,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator)
+		throws NoSuchProcurationException;
+
+	/**
+	* Returns the last procuration in the ordered set where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching procuration, or <code>null</code> if a matching procuration could not be found
+	*/
+	public Procuration fetchByCouncilSessionIdAndOfficialVotersId_Last(
+		long councilSessionId, long officialVotersId,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator);
+
+	/**
+	* Returns the procurations before and after the current procuration in the ordered set where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param procurationId the primary key of the current procuration
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next procuration
+	* @throws NoSuchProcurationException if a procuration with the primary key could not be found
+	*/
+	public Procuration[] findByCouncilSessionIdAndOfficialVotersId_PrevAndNext(
+		long procurationId, long councilSessionId, long officialVotersId,
+		com.liferay.portal.kernel.util.OrderByComparator<Procuration> orderByComparator)
+		throws NoSuchProcurationException;
+
+	/**
+	* Removes all the procurations where councilSessionId = &#63; and officialVotersId = &#63; from the database.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	*/
+	public void removeByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVotersId);
+
+	/**
+	* Returns the number of procurations where councilSessionId = &#63; and officialVotersId = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialVotersId the official voters ID
+	* @return the number of matching procurations
+	*/
+	public int countByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVotersId);
+
+	/**
 	* Caches the procuration in the entity cache if it is enabled.
 	*
 	* @param procuration the procuration
