@@ -181,6 +181,16 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 			session.put("message", "no-council-today");
 		}
 
+		//On assemble les pièces du puzzle, les ingrédients du Tacos
+		userFront.put("session", session);
+		votes.put("for", pour);
+		votes.put("against", contre);
+		votes.put("abstention", abstention);
+		deliberation.put("votes", votes);
+		userFront.put("deliberation", deliberation);
+		official.put("procurations", procurations);
+		userFront.put("official", official);
+
 		return userFront;
 	}
 }
