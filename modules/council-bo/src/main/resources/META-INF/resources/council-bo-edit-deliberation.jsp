@@ -1,7 +1,6 @@
 <%@ include file="/council-bo-init.jsp"%>
 
 <%@page import="eu.strasbourg.service.council.model.Deliberation"%>
-<%@page import="eu.strasbourg.service.council.constants.StageDeliberation"%>
 
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="deliberationsURL">
@@ -67,14 +66,7 @@
                 </aui:select>
 
 			    <%-- Champ : Statut --%>
-			     <c:set value="${empty dc.deliberation ? 'true':'false'}" var="isDisabled"/>
-                 <aui:select name="stage" label="stage" disabled="${isDisabled}">
-                    <c:forEach var="stage" items="${dc.stages}">
-                        <aui:option value="${stage.name}"
-                            label="${stage.name}"
-                            selected="${(empty dc.deliberation and stage.name eq dc.getStageDeliberationName(1)) or (stage.name eq dc.deliberation.stage)}" />
-                    </c:forEach>
-                </aui:select>
+                <aui:input name="stage" disabled="true" />
 
 			</aui:fieldset>
 
