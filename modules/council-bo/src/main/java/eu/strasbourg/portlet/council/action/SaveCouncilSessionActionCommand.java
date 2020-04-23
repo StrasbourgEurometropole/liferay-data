@@ -108,10 +108,10 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
             // parcours des élus potentiels et recherche de procurations rempliess
             for (Official availableOfficial : availableOfficials) {
-                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
-                if (officialVotersId > 0) {
-                    isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
-                            .equals("checked") ? true : false;
+                isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
+                        .equals("isAbsent");
+                if (isAbsent) {
+                    officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
 
                     newProcuration = this.procurationLocalService.createProcuration(sc);
 
