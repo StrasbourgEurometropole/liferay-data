@@ -68,4 +68,9 @@ public interface Official extends OfficialModel, PersistedModel {
 	* Renvoie le nom de complet au format "Prénom NOM"
 	*/
 	public java.lang.String getFullName();
+
+	/**
+	* Renvoie l'élu au format JSON
+	*/
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
 }

@@ -18,9 +18,12 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import netscape.javascript.JSObject;
 
 import java.util.List;
 
@@ -40,6 +43,13 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 *
 	 * Never reference this class directly. All methods that expect a official model instance should use the {@link eu.strasbourg.service.council.model.Official} interface instead.
 	 */
+
+	public static final String JSON_OFFICIAL_ID = "officialId";
+	public static final String JSON_FULL_NAME = "fullName";
+	public static final String JSON_IS_MUNICIPAL = "isMunicipal";
+	public static final String JSON_IS_EUROMETROPOL = "isEurometropol";
+	public static final String JSON_IS_ACTIVE = "isActive";
+
 	public OfficialImpl() {
 	}
 
@@ -65,6 +75,22 @@ public class OfficialImpl extends OfficialBaseImpl {
 	@Override
 	public String getFullName() {
 		return StringUtil.upperCase(this.getLastname()) + " " +  this.getFirstname() ;
+	}
+
+	/**
+	 * Renvoie l'élu au format JSON
+	 */
+	@Override
+	public JSONObject toJSON() {
+		JSONObject jsonOfficial = JSONFactoryUtil.createJSONObject();
+
+		jsonOfficial.put(JSON_OFFICIAL_ID, this.getOfficialId());
+		jsonOfficial.put(JSON_FULL_NAME, this.getFullName());
+		jsonOfficial.put(JSON_IS_MUNICIPAL, this.getIsMunicipal());
+		jsonOfficial.put(JSON_IS_EUROMETROPOL, this.getIsEurometropolitan());
+		jsonOfficial.put(JSON_IS_ACTIVE, this.getIsActive());
+
+		return jsonOfficial;
 	}
 
 }
