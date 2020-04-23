@@ -28,7 +28,9 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component(
         immediate = true,
@@ -41,6 +43,8 @@ import java.util.List;
 public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    private List<Official> availableOfficials;
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
@@ -98,10 +102,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
                 this.procurationLocalService.removeProcuration(oldProcuration.getProcurationId());
             }
 
-            // recherche des élus ayant potentiellement une procuration
-            List<Official> availableOfficials = this.officialLocalService.findByGroupIdAndIsActiveAndType(
-                    sc.getScopeGroupId(), true, type);
-
             boolean isAbsent;
             long officialVotersId;
             Procuration newProcuration;
@@ -142,8 +142,10 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
     /**
      * Validation des champs obligatoires
      */
-    private boolean validate(ActionRequest request) {
+    private boolean validate(ActionRequest request) throws PortalException {
         boolean isValid = true;
+
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
 
         // Titre
         if (Validator.isNull(ParamUtil.getString(request, "title"))) {
@@ -174,6 +176,39 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             || type.equals("eurometropolitan") && !official.isIsEurometropolitan()) {
             SessionErrors.add(request, "official-leader-type-error");
             isValid = false;
+        }
+
+        // Procurations : test du nombre de procuration recevable max
+        // recherche des élus ayant potentiellement une procuration
+        this.availableOfficials = this.officialLocalService.findByGroupIdAndIsActiveAndType(
+                sc.getScopeGroupId(), true, type);
+
+        boolean isAbsent;
+        long officialVotersId;
+        Map<Long, Integer> officialProcurationCounts = new HashMap<>();
+
+        // parcours des élus potentiels et recherche de procurations rempliess
+        for (Official availableOfficial : availableOfficials) {
+            isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
+                    .equals("isAbsent");
+            if (isAbsent) {
+                officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
+                if (officialProcurationCounts.containsKey(officialVotersId)) {
+                    officialProcurationCounts.put(
+                            officialVotersId,
+                            officialProcurationCounts.get(officialVotersId) + 1
+                    );
+                } else {
+                    officialProcurationCounts.put(officialVotersId, 1);
+                }
+            }
+        }
+
+        for (Map.Entry<Long, Integer> entry : officialProcurationCounts.entrySet()) {
+            if (entry.getValue() > 2) {
+                SessionErrors.add(request, "official-voters-limit-error");
+                isValid = false;
+            }
         }
 
         return isValid;

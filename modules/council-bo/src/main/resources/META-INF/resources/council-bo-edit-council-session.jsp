@@ -29,6 +29,7 @@
 	<liferay-ui:error key="date-error" message="date-error" />
 	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
+	<liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveCouncilSessionURL}" method="post" name="fm" onSubmit="submitForm(event);">
