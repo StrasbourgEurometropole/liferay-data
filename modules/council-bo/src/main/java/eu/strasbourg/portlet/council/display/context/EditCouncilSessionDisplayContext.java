@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -27,15 +28,30 @@ public class EditCouncilSessionDisplayContext {
 
     public CouncilSession getCouncilSession() {
         long councilSessionId = ParamUtil.getLong(this.request, "councilSessionId");
-        if (councilSession == null && councilSessionId > 0) {
-            councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+        if (this.councilSession == null && councilSessionId > 0) {
+            this.councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         }
         return councilSession;
     }
 
     /**
+     * Recherche s'il existe une procuration dans la session courrante pour l'élu donné
+     * @return la procuration ou null
+     */
+    @SuppressWarnings("unused")
+    public Procuration findAssociatedProcuration(long officialId) {
+        List<Procuration> procurations = this.getCouncilSession().getProcurations();
+
+        return procurations.stream()
+                .filter(procuration -> procuration.getOfficialUnavailableId() == officialId)
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
      * Renvoie tous les élus actifs
      */
+    @SuppressWarnings("unused")
     public List<Official> getAllActiveOfficials() {
         return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
     }

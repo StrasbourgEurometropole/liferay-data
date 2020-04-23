@@ -29,6 +29,7 @@
 	<liferay-ui:error key="date-error" message="date-error" />
 	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
+	<liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveCouncilSessionURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -70,6 +71,7 @@
 
                 <div id="procurations-table">
                     <table border="1">
+
                         <tr>
                             <th>
                                 <strong><liferay-ui:message key="official" /></strong>
@@ -83,15 +85,28 @@
                         </tr>
 
                         <c:forEach var="official" items="${dc.getAllActiveOfficials()}">
+
+                            <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
+                            <c:choose>
+                                <c:when test="${procuration != null}">
+                                    <c:set var="isAbsentValue" value="${procuration.isAbsent ? 'true' : 'false'}" />
+                                    <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="isAbsentValue" value="false" />
+                                    <c:set var="officialVotersIdValue" value="0" />
+                                </c:otherwise>
+                            </c:choose>
+
                             <tr data-is-municipal="${official.isMunicipal}" data-is-eurometropolitan="${official.isEurometropolitan}">
                                 <td class="text-left" >
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox" value="checked" />
+                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-officialVotersId" label="" type="number" value="" />
+                                    <aui:input name="${official.officialId}-officialVotersId" label="" type="number" value="${officialVotersIdValue}" />
                                 </td>
                             </tr>
                         </c:forEach>
