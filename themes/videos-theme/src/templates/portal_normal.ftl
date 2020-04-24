@@ -35,7 +35,6 @@
 	<div id="wrapper">
 		<div class="video-header">
 	       <!-- HEADEROND -->
-			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 	        <#if layout.getFriendlyURL() == "/accueil">
 		       	<@liferay_portlet["runtime"]
 					defaultPreferences="${freeMarkerPortletPreferences}"
@@ -51,7 +50,6 @@
 					instanceId="header-pages"
 					settingsScope="group" />
 			</#if>
-			${freeMarkerPortletPreferences.reset()}
 	       <!-- /HEADEROND -->
 		</div>
 		<#if has_navigation>
@@ -72,14 +70,12 @@
 		<a class="to-top"></a>
 		<div class="footer">
 
-			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 			<@liferay_portlet["runtime"]
 				defaultPreferences="${freeMarkerPortletPreferences}"
 				portletProviderAction=portletProviderAction.VIEW
 				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 				instanceId="footer"
 				settingsScope="group" />
-			${freeMarkerPortletPreferences.reset()}
 		</div>
 	</div>
 </div>
