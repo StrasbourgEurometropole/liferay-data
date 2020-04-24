@@ -30,6 +30,16 @@ function showSelectedTypeOfficials(type) {
     $('tr[data-is-' + type + '="true"]').show();
 }
 
+/** Lors d'un check/unchecked d'une absence **/
+$('input[name$=-isAbsent]').on('change',function(){
+    var val = $(this).is(':checked');
+    var officialId = $(this).attr("name").replace(namespace,'').replace("-isAbsent",'');;
+    if (val)
+        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', false);
+    else
+        $("input[name=" + namespace + "" + officialId + "-officialVoters]").prop('disabled', true);
+});
+
 jQuery(function() {
     /** Autocomplete des élus */
     var options = {
