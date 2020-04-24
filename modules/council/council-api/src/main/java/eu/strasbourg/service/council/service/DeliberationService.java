@@ -27,6 +27,9 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import eu.strasbourg.service.council.model.*;
+import eu.strasbourg.service.council.service.*;
+
 import java.util.*;
 
 /**
