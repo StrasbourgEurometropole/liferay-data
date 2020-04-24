@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -1476,132 +1477,86 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "official.uuid = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(official.uuid IS NULL OR official.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "official.companyId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEmail",
-			new String[] {
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialModelImpl.FINDER_CACHE_ENABLED, OfficialImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEmail",
+			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
 			new String[] { String.class.getName() },
-			OfficialModelImpl.EMAIL_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK);
+			OfficialModelImpl.EMAIL_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_EMAIL = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
 			new String[] { String.class.getName() });
 
 	/**
-	 * Returns all the officials where email = &#63;.
+	 * Returns the official where email = &#63; or throws a {@link NoSuchOfficialException} if it could not be found.
 	 *
 	 * @param email the email
-	 * @return the matching officials
+	 * @return the matching official
+	 * @throws NoSuchOfficialException if a matching official could not be found
 	 */
 	@Override
-	public List<Official> findByEmail(String email) {
-		return findByEmail(email, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public Official findByEmail(String email) throws NoSuchOfficialException {
+		Official official = fetchByEmail(email);
+
+		if (official == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("email=");
+			msg.append(email);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchOfficialException(msg.toString());
+		}
+
+		return official;
 	}
 
 	/**
-	 * Returns a range of all the officials where email = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the official where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param email the email
-	 * @param start the lower bound of the range of officials
-	 * @param end the upper bound of the range of officials (not inclusive)
-	 * @return the range of matching officials
+	 * @return the matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public List<Official> findByEmail(String email, int start, int end) {
-		return findByEmail(email, start, end, null);
+	public Official fetchByEmail(String email) {
+		return fetchByEmail(email, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the officials where email = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the official where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param email the email
-	 * @param start the lower bound of the range of officials
-	 * @param end the upper bound of the range of officials (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching officials
-	 */
-	@Override
-	public List<Official> findByEmail(String email, int start, int end,
-		OrderByComparator<Official> orderByComparator) {
-		return findByEmail(email, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the officials where email = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link OfficialModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param email the email
-	 * @param start the lower bound of the range of officials
-	 * @param end the upper bound of the range of officials (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching officials
+	 * @return the matching official, or <code>null</code> if a matching official could not be found
 	 */
 	@Override
-	public List<Official> findByEmail(String email, int start, int end,
-		OrderByComparator<Official> orderByComparator, boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+	public Official fetchByEmail(String email, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { email };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAIL;
-			finderArgs = new Object[] { email };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_EMAIL;
-			finderArgs = new Object[] { email, start, end, orderByComparator };
-		}
-
-		List<Official> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<Official>)finderCache.getResult(finderPath,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_EMAIL,
 					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (Official official : list) {
-					if (!Objects.equals(email, official.getEmail())) {
-						list = null;
+		if (result instanceof Official) {
+			Official official = (Official)result;
 
-						break;
-					}
-				}
+			if (!Objects.equals(email, official.getEmail())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(3 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(3);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_SELECT_OFFICIAL_WHERE);
 
@@ -1619,15 +1574,6 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 				query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
 			}
 
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(OfficialModelImpl.ORDER_BY_JPQL);
-			}
-
 			String sql = query.toString();
 
 			Session session = null;
@@ -1643,25 +1589,39 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 					qPos.add(email);
 				}
 
-				if (!pagination) {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+				List<Official> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+						finderArgs, list);
 				}
 				else {
-					list = (List<Official>)QueryUtil.list(q, getDialect(),
-							start, end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"OfficialPersistenceImpl.fetchByEmail(String, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Official official = list.get(0);
+
+					result = official;
+
+					cacheResult(official);
+
+					if ((official.getEmail() == null) ||
+							!official.getEmail().equals(email)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+							finderArgs, official);
+					}
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, finderArgs);
 
 				throw processException(e);
 			}
@@ -1670,285 +1630,25 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first official in the ordered set where email = &#63;.
-	 *
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching official
-	 * @throws NoSuchOfficialException if a matching official could not be found
-	 */
-	@Override
-	public Official findByEmail_First(String email,
-		OrderByComparator<Official> orderByComparator)
-		throws NoSuchOfficialException {
-		Official official = fetchByEmail_First(email, orderByComparator);
-
-		if (official != null) {
-			return official;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("email=");
-		msg.append(email);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchOfficialException(msg.toString());
-	}
-
-	/**
-	 * Returns the first official in the ordered set where email = &#63;.
-	 *
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching official, or <code>null</code> if a matching official could not be found
-	 */
-	@Override
-	public Official fetchByEmail_First(String email,
-		OrderByComparator<Official> orderByComparator) {
-		List<Official> list = findByEmail(email, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last official in the ordered set where email = &#63;.
-	 *
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching official
-	 * @throws NoSuchOfficialException if a matching official could not be found
-	 */
-	@Override
-	public Official findByEmail_Last(String email,
-		OrderByComparator<Official> orderByComparator)
-		throws NoSuchOfficialException {
-		Official official = fetchByEmail_Last(email, orderByComparator);
-
-		if (official != null) {
-			return official;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("email=");
-		msg.append(email);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchOfficialException(msg.toString());
-	}
-
-	/**
-	 * Returns the last official in the ordered set where email = &#63;.
-	 *
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching official, or <code>null</code> if a matching official could not be found
-	 */
-	@Override
-	public Official fetchByEmail_Last(String email,
-		OrderByComparator<Official> orderByComparator) {
-		int count = countByEmail(email);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<Official> list = findByEmail(email, count - 1, count,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the officials before and after the current official in the ordered set where email = &#63;.
-	 *
-	 * @param officialId the primary key of the current official
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next official
-	 * @throws NoSuchOfficialException if a official with the primary key could not be found
-	 */
-	@Override
-	public Official[] findByEmail_PrevAndNext(long officialId, String email,
-		OrderByComparator<Official> orderByComparator)
-		throws NoSuchOfficialException {
-		Official official = findByPrimaryKey(officialId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Official[] array = new OfficialImpl[3];
-
-			array[0] = getByEmail_PrevAndNext(session, official, email,
-					orderByComparator, true);
-
-			array[1] = official;
-
-			array[2] = getByEmail_PrevAndNext(session, official, email,
-					orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Official getByEmail_PrevAndNext(Session session,
-		Official official, String email,
-		OrderByComparator<Official> orderByComparator, boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(4 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
 		else {
-			query = new StringBundler(3);
-		}
-
-		query.append(_SQL_SELECT_OFFICIAL_WHERE);
-
-		boolean bindEmail = false;
-
-		if (email == null) {
-			query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
-		}
-		else if (email.equals(StringPool.BLANK)) {
-			query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
-		}
-		else {
-			bindEmail = true;
-
-			query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(OfficialModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindEmail) {
-			qPos.add(email);
-		}
-
-		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(official);
-
-			for (Object value : values) {
-				qPos.add(value);
-			}
-		}
-
-		List<Official> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
+			return (Official)result;
 		}
 	}
 
 	/**
-	 * Removes all the officials where email = &#63; from the database.
+	 * Removes the official where email = &#63; from the database.
 	 *
 	 * @param email the email
+	 * @return the official that was removed
 	 */
 	@Override
-	public void removeByEmail(String email) {
-		for (Official official : findByEmail(email, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
-			remove(official);
-		}
+	public Official removeByEmail(String email) throws NoSuchOfficialException {
+		Official official = findByEmail(email);
+
+		return remove(official);
 	}
 
 	/**
@@ -3816,6 +3516,9 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { official.getUuid(), official.getGroupId() }, official);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+			new Object[] { official.getEmail() }, official);
+
 		official.resetOriginalValues();
 	}
 
@@ -3893,6 +3596,13 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			officialModelImpl, false);
+
+		args = new Object[] { officialModelImpl.getEmail() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_EMAIL, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL, args,
+			officialModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -3915,6 +3625,21 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { officialModelImpl.getEmail() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
+		}
+
+		if ((officialModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_EMAIL.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { officialModelImpl.getOriginalEmail() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
 		}
 	}
 
@@ -4103,12 +3828,6 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 				args);
 
-			args = new Object[] { officialModelImpl.getEmail() };
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAIL,
-				args);
-
 			args = new Object[] {
 					officialModelImpl.getGroupId(),
 					officialModelImpl.getIsActive()
@@ -4180,23 +3899,6 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
-					args);
-			}
-
-			if ((officialModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAIL.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						officialModelImpl.getOriginalEmail()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAIL,
-					args);
-
-				args = new Object[] { officialModelImpl.getEmail() };
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_EMAIL,
 					args);
 			}
 

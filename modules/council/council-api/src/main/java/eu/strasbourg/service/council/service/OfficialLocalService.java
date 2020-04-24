@@ -145,6 +145,11 @@ public interface OfficialLocalService extends BaseLocalService,
 		long groupId);
 
 	/**
+	* Recherche par ID de CouncilSession
+	*/
+	public Official findByEmail(java.lang.String email);
+
+	/**
 	* Returns the official with the primary key.
 	*
 	* @param officialId the primary key of the official
@@ -246,11 +251,6 @@ public interface OfficialLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
-
-	/**
-	* Recherche par ID de CouncilSession
-	*/
-	public List<Official> findByEmail(java.lang.String email);
 
 	/**
 	* Recherche par site et activité ou non de l'élu

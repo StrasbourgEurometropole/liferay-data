@@ -146,6 +146,14 @@ public class OfficialLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par ID de CouncilSession
+	*/
+	public static eu.strasbourg.service.council.model.Official findByEmail(
+		java.lang.String email) {
+		return getService().findByEmail(email);
+	}
+
+	/**
 	* Returns the official with the primary key.
 	*
 	* @param officialId the primary key of the official
@@ -280,14 +288,6 @@ public class OfficialLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
-	}
-
-	/**
-	* Recherche par ID de CouncilSession
-	*/
-	public static java.util.List<eu.strasbourg.service.council.model.Official> findByEmail(
-		java.lang.String email) {
-		return getService().findByEmail(email);
 	}
 
 	/**

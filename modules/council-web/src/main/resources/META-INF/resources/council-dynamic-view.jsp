@@ -15,8 +15,9 @@
 <!-- Définition des variables à partager avec le JS -->
 <liferay-util:html-top>
 	<script>
-		var groupId = ${dc.groupId}
-		var useSkypeView = ${dc.configuration.useSkypeView()}
+		var groupId = ${dc.groupId};
+		var useSkypeView = ${dc.configuration.useSkypeView()};
+		var officialConnectedId = ${dc.officialId};
 	</script>
 </liferay-util:html-top>
 
