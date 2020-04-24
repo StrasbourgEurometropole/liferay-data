@@ -153,4 +153,14 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 		return this.procurationPersistence.findByCouncilSessionIdAndOfficialVotersId(councilSessionId, officialVoter);
 	}
 
+	/**
+	 * Recherche par ID de CouncilSession, élu et mandataire,
+	 */
+	@Override
+	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+			long councilSessionId, long officialVoter, long officialUnavailableId){
+		return this.procurationPersistence.fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+				councilSessionId, officialVoter, officialUnavailableId);
+	}
+
 }

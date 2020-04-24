@@ -147,6 +147,12 @@ public interface ProcurationLocalService extends BaseLocalService,
 		long groupId);
 
 	/**
+	* Recherche par ID de CouncilSession, élu et mandataire,
+	*/
+	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVoter, long officialUnavailableId);
+
+	/**
 	* Returns the procuration with the primary key.
 	*
 	* @param procurationId the primary key of the procuration

@@ -146,6 +146,16 @@ public class ProcurationLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par ID de CouncilSession, élu et mandataire,
+	*/
+	public static eu.strasbourg.service.council.model.Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVoter, long officialUnavailableId) {
+		return getService()
+				   .findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
+			officialVoter, officialUnavailableId);
+	}
+
+	/**
 	* Returns the procuration with the primary key.
 	*
 	* @param procurationId the primary key of the procuration

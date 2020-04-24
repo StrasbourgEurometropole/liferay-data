@@ -126,9 +126,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long OFFICIALVOTERSID_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long PROCURATIONID_COLUMN_BITMASK = 32L;
+	public static final long OFFICIALUNAVAILABLEID_COLUMN_BITMASK = 8L;
+	public static final long OFFICIALVOTERSID_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long PROCURATIONID_COLUMN_BITMASK = 64L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Procuration"));
 
@@ -528,7 +529,19 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 	@Override
 	public void setOfficialUnavailableId(long officialUnavailableId) {
+		_columnBitmask |= OFFICIALUNAVAILABLEID_COLUMN_BITMASK;
+
+		if (!_setOriginalOfficialUnavailableId) {
+			_setOriginalOfficialUnavailableId = true;
+
+			_originalOfficialUnavailableId = _officialUnavailableId;
+		}
+
 		_officialUnavailableId = officialUnavailableId;
+	}
+
+	public long getOriginalOfficialUnavailableId() {
+		return _originalOfficialUnavailableId;
 	}
 
 	@Override
@@ -787,6 +800,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 		procurationModelImpl._setOriginalOfficialVotersId = false;
 
+		procurationModelImpl._originalOfficialUnavailableId = procurationModelImpl._officialUnavailableId;
+
+		procurationModelImpl._setOriginalOfficialUnavailableId = false;
+
 		procurationModelImpl._originalCouncilSessionId = procurationModelImpl._councilSessionId;
 
 		procurationModelImpl._setOriginalCouncilSessionId = false;
@@ -1017,6 +1034,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private long _originalOfficialVotersId;
 	private boolean _setOriginalOfficialVotersId;
 	private long _officialUnavailableId;
+	private long _originalOfficialUnavailableId;
+	private boolean _setOriginalOfficialUnavailableId;
 	private long _councilSessionId;
 	private long _originalCouncilSessionId;
 	private boolean _setOriginalCouncilSessionId;

@@ -199,6 +199,11 @@
 			<finder-column name="councilSessionId" />
 			<finder-column name="officialVotersId" />
 		</finder>
+		<finder name="CouncilSessionIdAndOfficialVotersAndUnavailableIds" return-type="Procuration">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialVotersId" />
+			<finder-column name="officialUnavailableId" />
+		</finder>
 
 	</entity>
 
