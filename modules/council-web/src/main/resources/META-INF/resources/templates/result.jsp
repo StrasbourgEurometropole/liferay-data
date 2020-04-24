@@ -1,4 +1,4 @@
-<%@ include file="/init.jsp"%>
+<%@ include file="/council-init.jsp"%>
 
 <!-- STATUT A AFFICHER DES QUE REJET/ADOPTE/COMMUNIQUE  (ELU ET SKYPE-->
 <div class="resultat-vote">

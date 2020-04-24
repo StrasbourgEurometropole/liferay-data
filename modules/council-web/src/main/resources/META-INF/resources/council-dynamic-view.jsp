@@ -1,6 +1,6 @@
-<%@ include file="/init.jsp"%>
+<%@ include file="/council-init.jsp"%>
 
-<div class="council-flex">
+<div class="council-flex council-web">
 	<div class="detail-delib seu-container">
 
         <%@ include file="/templates/message.jsp"%>

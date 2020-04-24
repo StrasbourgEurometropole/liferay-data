@@ -1,10 +1,9 @@
-<%@ include file="/init.jsp"%>
+<%@ include file="/council-init.jsp"%>
 
 <!-- AFFICHAE SEULEMENT SI L'ELU A VOTE -->
 <div class="confirmation-vote">
     <h3>Votre vote a bien été enregistré. Retrouvez votre récapitulatif ci-dessous.</h3>
 </div>
-
 
 <!-- FORMULAIRE (ICI PRESENT AVEC PROCURATION) -->
 <form class="vote-forms">

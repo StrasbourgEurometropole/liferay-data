@@ -1,5 +1,4 @@
-<%@ include file="/init.jsp"%>
-
+<%@ include file="/council-init.jsp"%>
 
 <div class="delib-title">
     <h2>CM 05/05/20 Point 12</h2>

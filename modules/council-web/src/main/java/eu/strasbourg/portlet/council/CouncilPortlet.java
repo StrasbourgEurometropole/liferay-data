@@ -20,7 +20,7 @@ import java.io.IOException;
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name=Council",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/dynamic-view.jsp",
+		"javax.portlet.init-param.view-template=/council-dynamic-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_WEB,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
@@ -41,8 +41,6 @@ public class CouncilPortlet extends MVCPortlet {
 
 		// Attribution des variables à fournir à la vue
 		request.setAttribute("dc", dc);
-
-
 
 		super.render(request, response);
 	}

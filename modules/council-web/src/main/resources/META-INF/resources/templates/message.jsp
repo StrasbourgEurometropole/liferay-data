@@ -1,2 +1,2 @@
-<%@ include file="/init.jsp"%>
+<%@ include file="/council-init.jsp"%>
 
