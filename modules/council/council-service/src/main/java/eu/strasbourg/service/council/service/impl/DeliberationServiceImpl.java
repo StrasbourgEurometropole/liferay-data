@@ -65,7 +65,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 		JSONArray abstention = JSONFactoryUtil.createJSONArray();
 
 		// On remplit l'info JSON du User
-		official.put("idOfficial", officialId);
+		official.put("officialId", officialId);
 
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(new Date());
@@ -80,7 +80,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 			CouncilSession todayCouncil =todayCouncils.get(0);
 
 			//Remplit les infos de la session pour le JSON
-			session.put("idSession", todayCouncil.getCouncilSessionId());
+			session.put("councilSessionId", todayCouncil.getCouncilSessionId());
 			session.put("title", todayCouncil.getTitle());
 
 			List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(todayCouncil.getCouncilSessionId());
@@ -100,7 +100,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 					Deliberation delibAffichageEnCours = sortedDeliberations.stream().filter(Deliberation::isAffichageEnCours).collect(Collectors.toList()).get(0);
 
 					//Remplit les infos JSON de la delib
-					deliberation.put("idDelib", delibAffichageEnCours.getDeliberationId());
+					deliberation.put("deliberationId", delibAffichageEnCours.getDeliberationId());
 					deliberation.put("order", delibAffichageEnCours.getOrder());
 					deliberation.put("title", delibAffichageEnCours.getTitle());
 					deliberation.put("stage", delibAffichageEnCours.getStage());
@@ -111,7 +111,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 					Deliberation delibVoteOuvert = sortedDeliberations.stream().filter(Deliberation::isVoteOuvert).collect(Collectors.toList()).get(0);
 
 					//Remplit les infos JSON de la delib
-					deliberation.put("idDelib", delibVoteOuvert.getDeliberationId());
+					deliberation.put("deliberationId", delibVoteOuvert.getDeliberationId());
 					deliberation.put("order", delibVoteOuvert.getOrder());
 					deliberation.put("title", delibVoteOuvert.getTitle());
 					deliberation.put("stage", delibVoteOuvert.getStage());
@@ -139,7 +139,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 					Deliberation delibRejeteCommunqiueAdopte = sortedDeliberations.stream().filter(x -> x.isRejete() || x.isAdopte() || x.isCommunique()).collect(Collectors.toList()).get(0);
 
 					//Remplit les infos JSON de la delib
-					deliberation.put("idDelib", delibRejeteCommunqiueAdopte.getDeliberationId());
+					deliberation.put("deliberationId", delibRejeteCommunqiueAdopte.getDeliberationId());
 					deliberation.put("order", delibRejeteCommunqiueAdopte.getOrder());
 					deliberation.put("title", delibRejeteCommunqiueAdopte.getTitle());
 					deliberation.put("stage", delibRejeteCommunqiueAdopte.getStage());
