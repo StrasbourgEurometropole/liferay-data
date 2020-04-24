@@ -11,5 +11,5 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 public interface CommentConfiguration {
 	
 	@Meta.AD(name="orderBy", deflt = "", required = false)
-	public String orderBy();
+	public Boolean orderBy();
 }

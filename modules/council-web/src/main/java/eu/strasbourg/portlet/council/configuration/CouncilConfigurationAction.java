@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.comment.configuration;
+package eu.strasbourg.portlet.council.configuration;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -19,18 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component(
-		configurationPid = "eu.strasbourg.portlet.comment.configuration.CommentConfiguration",
+		configurationPid = "eu.strasbourg.portlet.council.configuration.CouncilConfiguration",
 		configurationPolicy = ConfigurationPolicy.OPTIONAL,
 		immediate = true,	
 		property = {
-				"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB },
-		service = ConfigurationAction.class)
-public class CommentConfigurationAction extends DefaultConfigurationAction{
+				"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_WEB
+		},
+		service = ConfigurationAction.class
+)
+public class CouncilConfigurationAction extends DefaultConfigurationAction{
 	
 	/**
-	 * Action : Sauvegarde de la configuration si on a validé le formulaire ou
-	 * envoi de la JSP des sélecteurs si on a changé la liste déroulante des
-	 * types d'entité
+	 * Enregistrement de la configuration
 	 */
 	@Override
 	public void processAction(PortletConfig portletConfig,
@@ -40,9 +40,10 @@ public class CommentConfigurationAction extends DefaultConfigurationAction{
 
 		if (cmd.equals("update")) {
 			
-			// Ordre des commentaires par date
-			String orderBy = ParamUtil.getString(request, "orderBy");
-			setPreference(request, "orderBy", orderBy);			
+			// Vue skype
+			String useSkypeView = ParamUtil.getString(request, "useSkypeView");
+			this.setPreference(request, "useSkypeView", useSkypeView);
+
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -54,26 +55,23 @@ public class CommentConfigurationAction extends DefaultConfigurationAction{
 	public void include(PortletConfig portletConfig, HttpServletRequest request,
 		HttpServletResponse response) throws Exception {
 		try {
-			ThemeDisplay themeDisplay = (ThemeDisplay) request
-				.getAttribute(WebKeys.THEME_DISPLAY);
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-			CommentConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						CommentConfiguration.class);
+			CouncilConfiguration configuration = themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
+					CouncilConfiguration.class);
 			
 			// Ordre des commentaires par date
-			request.setAttribute("orderBy", configuration.orderBy());
+			request.setAttribute("useSkypeView", configuration.useSkypeView());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}
 		super.include(portletConfig, request, response);
 	}
-	
 
 	@Override
 	public String getJspPath(HttpServletRequest request) {
-		return "/configuration/comment-viewer-configuration.jsp";
+		return "/configuration/council-configuration.jsp";
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

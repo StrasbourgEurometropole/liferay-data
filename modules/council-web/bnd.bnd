@@ -1,2 +1,4 @@
 Bundle-SymbolicName: council.web
 Bundle-Version: 1.0.0
+Web-ContextPath: /councilweb
+-metatype: *

@@ -2,11 +2,11 @@ package eu.strasbourg.portlet.council;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.*;
 
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.display.context.CouncilDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -31,6 +31,19 @@ public class CouncilPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+
+		// Récupération du contexte de la requete
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletPreferences preferences = request.getPreferences();
+
+		// Création du display context
+		CouncilDisplayContext dc = new CouncilDisplayContext(themeDisplay, preferences);
+
+		// Attribution des variables à fournir à la vue
+		request.setAttribute("dc", dc);
+
+
+
 		super.render(request, response);
 	}
 
