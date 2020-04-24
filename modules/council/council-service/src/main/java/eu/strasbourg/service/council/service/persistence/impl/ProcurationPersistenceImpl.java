@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.ReflectionUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -2554,6 +2555,284 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		"procuration.councilSessionId = ? AND ";
 	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSID_OFFICIALVOTERSID_2 =
 		"procuration.officialVotersId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS =
+		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_ENTITY,
+			"fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName()
+			},
+			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+			ProcurationModelImpl.OFFICIALVOTERSID_COLUMN_BITMASK |
+			ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS =
+		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCouncilSessionIdAndOfficialVotersAndUnavailableIds",
+			new String[] {
+				Long.class.getName(), Long.class.getName(), Long.class.getName()
+			});
+
+	/**
+	 * Returns the procuration where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63; or throws a {@link NoSuchProcurationException} if it could not be found.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialVotersId the official voters ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @return the matching procuration
+	 * @throws NoSuchProcurationException if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVotersId, long officialUnavailableId)
+		throws NoSuchProcurationException {
+		Procuration procuration = fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
+				officialVotersId, officialUnavailableId);
+
+		if (procuration == null) {
+			StringBundler msg = new StringBundler(8);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("councilSessionId=");
+			msg.append(councilSessionId);
+
+			msg.append(", officialVotersId=");
+			msg.append(officialVotersId);
+
+			msg.append(", officialUnavailableId=");
+			msg.append(officialUnavailableId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchProcurationException(msg.toString());
+		}
+
+		return procuration;
+	}
+
+	/**
+	 * Returns the procuration where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialVotersId the official voters ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVotersId, long officialUnavailableId) {
+		return fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
+			officialVotersId, officialUnavailableId, true);
+	}
+
+	/**
+	 * Returns the procuration where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialVotersId the official voters ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVotersId,
+		long officialUnavailableId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] {
+				councilSessionId, officialVotersId, officialUnavailableId
+			};
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+					finderArgs, this);
+		}
+
+		if (result instanceof Procuration) {
+			Procuration procuration = (Procuration)result;
+
+			if ((councilSessionId != procuration.getCouncilSessionId()) ||
+					(officialVotersId != procuration.getOfficialVotersId()) ||
+					(officialUnavailableId != procuration.getOfficialUnavailableId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_SELECT_PROCURATION_WHERE);
+
+			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2);
+
+			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2);
+
+			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(councilSessionId);
+
+				qPos.add(officialVotersId);
+
+				qPos.add(officialUnavailableId);
+
+				List<Procuration> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"ProcurationPersistenceImpl.fetchByCouncilSessionIdAndOfficialVotersAndUnavailableIds(long, long, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Procuration procuration = list.get(0);
+
+					result = procuration;
+
+					cacheResult(procuration);
+
+					if ((procuration.getCouncilSessionId() != councilSessionId) ||
+							(procuration.getOfficialVotersId() != officialVotersId) ||
+							(procuration.getOfficialUnavailableId() != officialUnavailableId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+							finderArgs, procuration);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Procuration)result;
+		}
+	}
+
+	/**
+	 * Removes the procuration where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63; from the database.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialVotersId the official voters ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @return the procuration that was removed
+	 */
+	@Override
+	public Procuration removeByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVotersId, long officialUnavailableId)
+		throws NoSuchProcurationException {
+		Procuration procuration = findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
+				officialVotersId, officialUnavailableId);
+
+		return remove(procuration);
+	}
+
+	/**
+	 * Returns the number of procurations where councilSessionId = &#63; and officialVotersId = &#63; and officialUnavailableId = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialVotersId the official voters ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @return the number of matching procurations
+	 */
+	@Override
+	public int countByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVotersId, long officialUnavailableId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS;
+
+		Object[] finderArgs = new Object[] {
+				councilSessionId, officialVotersId, officialUnavailableId
+			};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_COUNT_PROCURATION_WHERE);
+
+			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2);
+
+			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2);
+
+			query.append(_FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(councilSessionId);
+
+				qPos.add(officialVotersId);
+
+				qPos.add(officialUnavailableId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_COUNCILSESSIONID_2 =
+		"procuration.councilSessionId = ? AND ";
+	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALVOTERSID_2 =
+		"procuration.officialVotersId = ? AND ";
+	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2 =
+		"procuration.officialUnavailableId = ?";
 
 	public ProcurationPersistenceImpl() {
 		setModelClass(Procuration.class);
@@ -2588,6 +2867,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { procuration.getUuid(), procuration.getGroupId() },
 			procuration);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+			new Object[] {
+				procuration.getCouncilSessionId(),
+				procuration.getOfficialVotersId(),
+				procuration.getOfficialUnavailableId()
+			}, procuration);
 
 		procuration.resetOriginalValues();
 	}
@@ -2669,6 +2955,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			procurationModelImpl, false);
+
+		args = new Object[] {
+				procurationModelImpl.getCouncilSessionId(),
+				procurationModelImpl.getOfficialVotersId(),
+				procurationModelImpl.getOfficialUnavailableId()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+			args, Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+			args, procurationModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -2692,6 +2989,33 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					procurationModelImpl.getCouncilSessionId(),
+					procurationModelImpl.getOfficialVotersId(),
+					procurationModelImpl.getOfficialUnavailableId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+				args);
+		}
+
+		if ((procurationModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					procurationModelImpl.getOriginalCouncilSessionId(),
+					procurationModelImpl.getOriginalOfficialVotersId(),
+					procurationModelImpl.getOriginalOfficialUnavailableId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+				args);
 		}
 	}
 

@@ -152,6 +152,16 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 	}
 
 	/**
+	* Recherche par ID de CouncilSession, élu et mandataire,
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
+		long councilSessionId, long officialVoter, long officialUnavailableId) {
+		return _procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(councilSessionId,
+			officialVoter, officialUnavailableId);
+	}
+
+	/**
 	* Returns the procuration with the primary key.
 	*
 	* @param procurationId the primary key of the procuration
