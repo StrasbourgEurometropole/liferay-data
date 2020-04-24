@@ -1,12 +1,8 @@
 $(document).ready(function(){
     var request = new XMLHttpRequest();
-    }
+
     request.open('GET',
-                Liferay.Service(
-                  '/council.deliberation/get-user-front',
-                  {
-                    officialId: 22697306
-                  }
+                '/api/jsonws/council.deliberation/get-user-front/official-id/22697306'
                 , true);
 
     request.onload = function() {
@@ -24,4 +20,4 @@ $(document).ready(function(){
     };
 
     request.send();
-}
+});
