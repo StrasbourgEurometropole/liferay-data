@@ -51,6 +51,28 @@ public class StrasbourgServiceUtil {
 		return getService().getPracticeCategories(parentCategoryId, localeId);
 	}
 
+	/**
+	* Envoie <code>error</code> si le document n'a pas été envoyé.
+	*
+	* Returns <code>succes</code> un document de commission.
+	*
+	* @param fileContent le fichier en base 64
+	* @param fileName le nom du fichier
+	* @param commissionName le nom de la commission
+	* @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	* @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	* @param documentName Le nom du document
+	* @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject addDocument(
+		java.lang.String fileContent, java.lang.String fileName,
+		java.lang.String commissionName, java.lang.String publicationDate,
+		java.lang.String documentType, java.lang.String documentName) {
+		return getService()
+				   .addDocument(fileContent, fileName, commissionName,
+			publicationDate, documentType, documentName);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getAlerts() {
 		return getService().getAlerts();
 	}

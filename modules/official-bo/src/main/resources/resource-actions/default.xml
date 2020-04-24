@@ -12,6 +12,7 @@
 				<action-key>ADD_OFFICIAL</action-key>
 				<action-key>DELETE_OFFICIAL</action-key>
 				<action-key>EDIT_OFFICIAL</action-key>
+				<action-key>API_ADD_DOCUMENT</action-key>
 			</supports>
 			<site-member-defaults>
 			</site-member-defaults>
@@ -24,6 +25,7 @@
 				<action-key>ADD_OFFICIAL</action-key>
 				<action-key>DELETE_OFFICIAL</action-key>
 				<action-key>EDIT_OFFICIAL</action-key>
+				<action-key>API_ADD_DOCUMENT</action-key>
 			</guest-unsupported>
 		</permissions>
 	</portlet-resource>
