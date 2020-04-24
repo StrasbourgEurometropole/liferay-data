@@ -95,7 +95,7 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
 
 
         // Calcule la valeur du quorum
-        int quorum = (int)Math.floor((double) countOfficialActive / 3);
+        int quorum = (int)Math.floor(((double) countOfficialActive / 3) + 1);
 
         // Vérifie la présence du quorum
         if(countOfficialVoting >= quorum) {
@@ -103,7 +103,7 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
             deliberation.setStage(stage);
         } else {
             // Pas de quorum, on avertit
-            String[] args = new String[]{String.valueOf(countOfficialActive), String.valueOf(countOfficialVoting)};
+            String[] args = new String[]{String.valueOf(countOfficialVoting), String.valueOf(countOfficialActive), String.valueOf(quorum)};
             SessionErrors.add(request, "quorum-error", args);
         }
         // Update de l'entité (même si pas de quorum on enregistre les chiffres pour que les gens puissent vérifier

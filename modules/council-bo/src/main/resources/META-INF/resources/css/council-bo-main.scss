@@ -19,6 +19,7 @@
 
 #procurations-table table {
 	border: #869CAD;
+	width: 100%;
 }
 
 #procurations-table table tr{
@@ -66,13 +67,32 @@
 
 .wrapper-vote {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
-    span:first-child {
-        margin-bottom: 20px;
-    }
-    span:nth-child(2n) {
-        margin-bottom: 20px;
+    .wrapper-column {
+        display: flex;
+        flex-direction: column;
+        width: 33%;
+
+        .wrapper-row {
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            &:first-child {
+                margin-bottom: 25px;
+            }
+
+            label {
+                padding-right: 15px;
+            }
+
+            span {
+                font-weight: 600;
+                margin-right: 50px;
+            }
+        }
     }
 }
 

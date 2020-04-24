@@ -164,6 +164,17 @@ public class EditDeliberationDisplayContext {
         return cssClass;
     }
 
+    /**
+     * Calcule le Quorum de la délibération
+     */
+    public int getQuorum() {
+        int quorum = 0;
+        if(deliberation!=null) {
+            quorum= (int)Math.floor(((double) deliberation.getCountOfficialsActive() / 3) + 1);
+        }
+        return quorum;
+    }
+
     public static String getPOUR() {
         return POUR;
     }

@@ -75,14 +75,36 @@
                 <%-- Groupe de champs : Votes --%>
                 <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="votes">
                     <div class="wrapper-vote">
-                        <label>${dc.getPOUR()}</label>
-                        <span>${dc.getVoteCountForAResult(dc.getPOUR())}</span>
-
-                        <label>${dc.getCONTRE()}</label>
-                        <span>${dc.getVoteCountForAResult(dc.getCONTRE())}</span>
-
-                        <label>${dc.getABSTENTION()}</label>
-                        <span>${dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
+                        <div class="wrapper-column">
+                            <div class="wrapper-row">
+                                <label>${dc.getPOUR()}</label>
+                                <span>${dc.getVoteCountForAResult(dc.getPOUR())}</span>
+                            </div>
+                            <div class="wrapper-row">
+                                <label><liferay-ui:message key="officials-voting"/></label>
+                                <span>${dc.deliberation.countOfficialsVoting}</span>
+                            </div>
+                        </div>
+                        <div class="wrapper-column">
+                            <div class="wrapper-row">
+                                <label>${dc.getCONTRE()}</label>
+                                <span>${dc.getVoteCountForAResult(dc.getCONTRE())}</span>
+                            </div>
+                            <div class="wrapper-row">
+                                <label><liferay-ui:message key="officials-active"/></label>
+                                <span>${dc.deliberation.countOfficialsVoting}</span>
+                            </div>
+                        </div>
+                        <div class="wrapper-column">
+                            <div class="wrapper-row">
+                                <label>${dc.getABSTENTION()}</label>
+                                <span>${dc.deliberation.countOfficialsActive}</span>
+                            </div>
+                            <div class="wrapper-row">
+                                <label><liferay-ui:message key="quorum"/></label>
+                                <span>${dc.quorum}</span>
+                            </div>
+                        </div>
                     </div>
                 </aui:fieldset>
 
