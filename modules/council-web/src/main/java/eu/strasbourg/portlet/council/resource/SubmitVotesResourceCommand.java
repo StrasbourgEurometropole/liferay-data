@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 @Component(
         immediate = true,
         property = {
-                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-                "mvc.command.name=giveBudgetSupport"
+                "javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_WEB,
+                "mvc.command.name=submitVotes"
         },
         service = MVCResourceCommand.class
 )
