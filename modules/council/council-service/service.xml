@@ -40,7 +40,7 @@
 		</order>
 
 		<!-- Finder methods -->
-		<finder name="Email" return-type="Collection">
+		<finder name="Email" return-type="Official">
 			<finder-column name="email" />
 		</finder>
 		<finder name="GroupIdAndIsActive" return-type="Collection">

@@ -247,8 +247,8 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	 * Recherche par ID de CouncilSession
 	 */
 	@Override
-	public List<Official> findByEmail(String email) {
-		return this.officialPersistence.findByEmail(email);
+	public Official findByEmail(String email) {
+		return this.officialPersistence.fetchByEmail(email);
 	}
 
 	/**

@@ -151,6 +151,15 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	}
 
 	/**
+	* Recherche par ID de CouncilSession
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official findByEmail(
+		java.lang.String email) {
+		return _officialLocalService.findByEmail(email);
+	}
+
+	/**
 	* Returns the official with the primary key.
 	*
 	* @param officialId the primary key of the official
@@ -296,15 +305,6 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _officialLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
-	}
-
-	/**
-	* Recherche par ID de CouncilSession
-	*/
-	@Override
-	public java.util.List<eu.strasbourg.service.council.model.Official> findByEmail(
-		java.lang.String email) {
-		return _officialLocalService.findByEmail(email);
 	}
 
 	/**
