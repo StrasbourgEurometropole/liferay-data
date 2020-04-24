@@ -37,5 +37,12 @@ public class CouncilDisplayContext {
         return this.configuration;
     }
 
+    /**
+     * Accesseur du groupId
+     */
+    @SuppressWarnings("unused")
+    public long getGroupId() {
+        return this.themeDisplay.getScopeGroupId();
+    }
 
 }

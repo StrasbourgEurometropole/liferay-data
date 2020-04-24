@@ -10,3 +10,17 @@
 
 	</div>
 </div>
+
+
+<!-- Définition des variables à partager avec le JS -->
+<liferay-util:html-top>
+	<script>
+		var groupId = ${dc.groupId}
+		var useSkypeView = ${dc.configuration.useSkypeView()}
+	</script>
+</liferay-util:html-top>
+
+<!-- Import des JS -->
+<liferay-util:html-bottom>
+    <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
+</liferay-util:html-bottom>

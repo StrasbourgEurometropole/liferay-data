@@ -1,4 +1,4 @@
-<%@ include file="../init.jsp"%>
+<%@ include file="../council-init.jsp"%>
 
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationActionURL" />
 
