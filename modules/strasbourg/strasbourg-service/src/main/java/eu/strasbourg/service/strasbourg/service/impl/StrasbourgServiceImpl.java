@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
 import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
@@ -365,7 +366,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		try {
 			fos = new FileOutputStream(document);
 		} catch (FileNotFoundException e) {
-			return error("document recovery problem");
+			return error("file not found");
 		}
 		byte[] decoder = Base64.decode(fileContent);
 		try {
@@ -378,6 +379,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		} catch (IOException e) {
 			return error("document closing problem");
 		}
+
 		if (document.exists()) {
 			long groupId = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(),
 					"/strasbourg.eu").getGroupId();
@@ -502,16 +504,16 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					} catch (PortalException ex) {
 						return error("document type change problem");
 					}
-
 					//mise à jour du champs expando
 					dlFileEntry.getExpandoBridge().setAttribute("publication-date", publicationLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 					DLFileEntryLocalServiceUtil.updateDLFileEntry(dlFileEntry);
 				}
 
 			}
+			return success();
+		}else{
+			return error("file inexistant");
 		}
-
-		return success();
 	}
 
 	private boolean isAuthorized() {
