@@ -20,7 +20,7 @@ import java.io.IOException;
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name=Council",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.init-param.view-template=/dynamic-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.COUNCIL_WEB,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
