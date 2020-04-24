@@ -66,7 +66,8 @@
 				<%-- Champ : President --%>
 				<c:set var="officialLeaderFullName" value="${not empty officialLeaderId ? dc.officialLeaderFullName : ''}" />
 				<div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper">
-                    <aui:input cssClass="autocomplete-shown" label="official-leader" type="text" name="officialLeaderFullName" value="${officialLeaderFullName}" required="true" />
+                    <aui:input cssClass="autocomplete-shown" label="official-leader" type="text"
+                        name="officialLeaderFullName" value="${officialLeaderFullName}" required="true" />
                     <aui:input cssClass="autocomplete-hidden" type="hidden" name="officialLeaderId" required="true" />
                 </div>
 
@@ -98,11 +99,13 @@
                                     <c:set var="isAbsentValue" value="${procuration.isAbsent ? 'true' : 'false'}" />
                                     <c:set var="officialVotersIdValue" value="${procuration.officialVotersId}" />
                                     <c:set var="officialVotersFullName" value="${procuration.officialVotersFullName}" />
+                                    <c:set var="disabledInput" value="false" />
                                 </c:when>
                                 <c:otherwise>
                                     <c:set var="isAbsentValue" value="false" />
                                     <c:set var="officialVotersIdValue" value="0" />
                                     <c:set var="officialVotersFullName" value="" />
+                                    <c:set var="disabledInput" value="true" />
                                 </c:otherwise>
                             </c:choose>
 
@@ -115,8 +118,12 @@
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
-                                        <aui:input cssClass="autocomplete-shown" label="" type="text" name="${official.officialId}-officialVoters" value="${officialVotersFullName}" />
-                                        <aui:input cssClass="autocomplete-hidden" type="hidden" name="${official.officialId}-officialVotersId"  value="${officialVotersIdValue}" />
+                                        <aui:input cssClass="autocomplete-shown" label="" type="text"
+                                            name="${official.officialId}-officialVoters" value="${officialVotersFullName}"
+                                            disabled="${disabledInput}" />
+                                        <aui:input cssClass="autocomplete-hidden" type="hidden"
+                                            name="${official.officialId}-officialVotersId"
+                                            value="${officialVotersIdValue}" />
                                     </div>
                                 </td>
                             </tr>
