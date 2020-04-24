@@ -361,14 +361,15 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 		// Tout est ok, on peut enregistrer
 		// transforme le fichier base 64 en fichier
-		File document = new File("./" + fileName);
+		byte[] decoder = Base64.decode(fileContent);
+		File document = new File(System.getProperty("java.io.tmpdir") + fileName);
 		FileOutputStream fos;
 		try {
 			fos = new FileOutputStream(document);
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 			return error("file not found");
 		}
-		byte[] decoder = Base64.decode(fileContent);
 		try {
 			fos.write(decoder);
 		} catch (IOException e) {
