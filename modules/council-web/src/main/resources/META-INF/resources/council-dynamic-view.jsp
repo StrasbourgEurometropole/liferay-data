@@ -17,6 +17,7 @@
 	<script>
 		var groupId = ${dc.groupId};
 		var useSkypeView = ${dc.configuration.useSkypeView()};
+		var officialConnectedId = ${dc.officialId};
 	</script>
 </liferay-util:html-top>
 
