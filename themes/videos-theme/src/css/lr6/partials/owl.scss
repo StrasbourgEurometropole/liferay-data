@@ -4,7 +4,7 @@
 .owl-carousel,
 .live-mobile {
 	.owl-dot {
-		width: 15px;
+		padding-left: 5px;
 		height: 15px;
 		border: 1px solid white;
 		display: inline-block;
@@ -21,7 +21,6 @@
 		text-align: center;
 		margin-top: 1rem;
 		margin-bottom: 1rem;
-		height: 15px;
 	}
 
 	.owl-video-cover {
