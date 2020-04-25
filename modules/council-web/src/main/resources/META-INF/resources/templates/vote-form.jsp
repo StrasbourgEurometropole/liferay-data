@@ -4,12 +4,12 @@
 </portlet:resourceURL>
 
 <!-- AFFICHAGE SEULEMENT SI L'ELU A VOTE -->
-<div class="confirmation-vote" id="confirmation-vote">
+<div class="confirmation-vote" id="confirmation-vote" style="display:none;">
     <h3><liferay-ui:message key="vote-confirmation" /></h3>
 </div>
 
 <!-- FORMULAIRE (ICI PRESENT AVEC PROCURATION) -->
-<form class="vote-forms" id="vote-forms">
+<form class="vote-forms" id="vote-forms" style="display:none;">
 
     <input type="hidden" id="<portlet:namespace />session-id" value="" >
     <input type="hidden" id="<portlet:namespace />deliberation-id" value="" >

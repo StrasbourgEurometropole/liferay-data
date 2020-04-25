@@ -32,12 +32,15 @@ $(document).ready(function(){
 
             if(deliberationJSON.stage == "Affichage en cours") {
 
+
                 frontResultatVote.style.display = "none";
                 frontResultatGeneral.style.display = "none";
                 frontResultatSpecifique.style.display = "none";
                 frontConfirmationVote.style.display = "none";
                 frontVoteForm.style.display = "none";
                 frontVoteEnCours.style.display = "none";
+
+                frontDelibTitle.style.display="flex";
 
             } else if (deliberationJSON.stage == "Vote ouvert") {
                 var officialVote = obj.official.vote;
