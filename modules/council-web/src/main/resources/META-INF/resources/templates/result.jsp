@@ -7,15 +7,15 @@
 
 <!-- RESULTAT A AFFICHER POUR L'ELU -->
 <div class="resultat-general" id="resultat-general">
-    <div class="resultat pour">
+    <div class="resultat pour" id="general-pour">
         <span>Pour</span>
         <span>35</span>
     </div>
-    <div class="resultat contre">
+    <div class="resultat contre" id="general-contre">
         <span>Contre</span>
         <span>10</span>
     </div>
-    <div class="resultat abstention">
+    <div class="resultat abstention" id="general-abstention">
         <span>Abstention</span>
         <span>1</span>
     </div>
