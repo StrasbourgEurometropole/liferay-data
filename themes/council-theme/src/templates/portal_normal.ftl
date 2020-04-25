@@ -14,7 +14,7 @@
 
 
     <!-- Magnific Popup core JS file -->
-    <script type="text/javascript" src="/o/strasbourg-theme/js/lightbox.js" charset="utf-8"></script> 
+    <script type="text/javascript" src="/o/council-theme/js/lightbox.js" charset="utf-8"></script> 
 
     <title>${the_title?replace('-', '|')}</title>
 
