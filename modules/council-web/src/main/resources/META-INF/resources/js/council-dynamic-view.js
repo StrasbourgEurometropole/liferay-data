@@ -17,6 +17,19 @@ $(document).ready(function(){
             hiddenDelibId.value = deliberationJSON.deliberationId;
             hiddenDelibStatut.value = deliberationJSON.stage;
 
+            // A partir du moment où on a des infos sur la delib, on peut l'afficher
+            if(deliberationJSON.order && deliberationJSON.title) {
+                var title = frontDelibTitle.getElementsByTagName("h2")[0];
+                title.textContent = obj.session.title +' Point '+deliberationJSON.order;
+
+                var description = frontDelibDescription.getElementsByTagName("div")[0];
+                description.textContent = deliberationJSON.title;
+
+                frontDelibTitle.style.display = "flex";
+                frontDelibRefresh.style.display = "block";
+            }
+
+
             if(deliberationJSON.stage == "Affichage en cours") {
 
                 frontResultatVote.style.display = "none";
@@ -25,12 +38,6 @@ $(document).ready(function(){
                 frontConfirmationVote.style.display = "none";
                 frontVoteForm.style.display = "none";
                 frontVoteEnCours.style.display = "none";
-
-                var title = frontDelibTitle.getElementsByTagName("h2")[0];
-                title.textContent = obj.session.title +' Point '+deliberationJSON.order;
-
-                var description = frontDelibDescription.getElementsByTagName("div")[0];
-                description.textContent = deliberationJSON.title;
 
             } else if (deliberationJSON.stage == "Vote ouvert") {
                 var officialVote = obj.official.vote;
