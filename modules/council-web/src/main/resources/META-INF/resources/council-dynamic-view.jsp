@@ -3,6 +3,9 @@
 <div class="council-flex council-web">
 	<div class="detail-delib seu-container">
 
+        <input type="hidden" id="deliberationId" value=""/>
+        <input type="hidden" id="stage" value=""/>
+
         <%@ include file="/templates/message.jsp"%>
         <%@ include file="/templates/presentation-delib.jsp"%>
         <%@ include file="/templates/result.jsp"%>
@@ -23,5 +26,6 @@
 
 <!-- Import des JS -->
 <liferay-util:html-bottom>
+    <script src="/o/councilweb/js/council-init-javascript.js" type="text/javascript"></script>
     <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
 </liferay-util:html-bottom>

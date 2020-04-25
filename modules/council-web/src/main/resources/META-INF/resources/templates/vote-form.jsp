@@ -1,15 +1,12 @@
 <%@ include file="/council-init.jsp"%>
 
-<portlet:resourceURL id="submitVotes" var="submitVotesURL">
-</portlet:resourceURL>
-
 <!-- AFFICHAE SEULEMENT SI L'ELU A VOTE -->
-<div class="confirmation-vote">
+<div class="confirmation-vote" id="confirmation-vote">
     <h3>Votre vote a bien été enregistré. Retrouvez votre récapitulatif ci-dessous.</h3>
 </div>
 
 <!-- FORMULAIRE (ICI PRESENT AVEC PROCURATION) -->
-<form class="vote-forms">
+<form class="vote-forms" id="vote-forms">
     <div class="vote-form">
         <div class="vote-title">
             Mon vote
@@ -74,15 +71,10 @@
         </div>
     </div>
     <div class="btn-validate-vote seu-btn-line">
-        <button type="submit" id="sendVotes" class="seu-btn-square seu-filled seu-second" title="Valider">
+        <button type="submit" class="seu-btn-square seu-filled seu-second" title="Valider" id="vote-button-submit">
             <span class="seu-flexbox">
                 <span class="seu-btn-text">Valider</span>
             </span>
         </button>
     </div>
 </form>
-
-<!-- Import des JS -->
-<liferay-util:html-bottom>
-    <script src="/o/councilweb/js/vote-form.js" type="text/javascript"></script>
-</liferay-util:html-bottom>
