@@ -40,10 +40,10 @@
     <!-- END : Vote élu -->
 
     <!-- Vote procuration 1 -->
-    <div class="vote-form">
+    <div class="vote-form" id="form-procu-1">
 
-        <div class="vote-title">
-            Procuration MARTIN Lucas
+        <div class="vote-title" id="title-procu-1">
+            Procuration <span>MARTIN Lucas</span>
         </div>
 
         <input type="hidden" id="<portlet:namespace />official-procuration-id-1" value="" >
@@ -67,10 +67,10 @@
     <!-- END : Vote procuration 1 -->
 
     <!-- Vote procuration 2 -->
-    <div class="vote-form">
+    <div class="vote-form" id="form-procu-2">
 
-        <div class="vote-title">
-            Procuration HANTOUIN Bénédicte
+        <div class="vote-title" id="title-procu-2">
+            Procuration <span>HANTOUIN Bénédicte</span>
         </div>
 
         <input type="hidden" id="<portlet:namespace />official-procuration-id-2" value="" >

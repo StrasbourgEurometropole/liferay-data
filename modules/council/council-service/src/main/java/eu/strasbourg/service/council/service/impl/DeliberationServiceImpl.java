@@ -125,9 +125,11 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 					}
 					for (Procuration procuration:procurationsUserHave) {
 						Vote voteAbsent = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), procuration.getOfficialUnavailableId());
+						Official officalUnavailable = OfficialLocalServiceUtil.fetchOfficial(procuration.getOfficialUnavailableId());
 						// On ajoute l'info JSON des procurations
 						JSONObject procu = JSONFactoryUtil.createJSONObject();
 						procu.put("officialUnavailableId", procuration.getOfficialUnavailableId());
+						procu.put("fullName", officalUnavailable != null ? officalUnavailable.getFullName():null);
 						procu.put("vote", voteAbsent != null ? voteAbsent.getResult():null);
 						procurations.put(procu);
 					}
