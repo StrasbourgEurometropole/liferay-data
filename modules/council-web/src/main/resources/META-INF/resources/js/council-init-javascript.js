@@ -13,6 +13,10 @@ var frontVoteEnCours = document.getElementById("vote-en-cours");
 var frontConfirmationVote= document.getElementById("confirmation-vote");
 var frontVoteForm= document.getElementById("vote-forms");
 var frontVoteButtonSubmit= document.getElementById("vote-button-submit");
+var frontProcuOne= document.getElementById("form-procu-1");
+var frontProcuTwo= document.getElementById("form-procu-2");
+var frontTitleProcuOne= document.getElementById("title-procu-1");
+var frontTitleProcuTwo= document.getElementById("title-procu-2");
 // Résultats vote
 var frontResultatVote = document.getElementById("resultat-vote");
 var frontResultatStatut = document.getElementById("statut-delib");
