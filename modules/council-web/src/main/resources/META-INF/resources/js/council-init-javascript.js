@@ -15,6 +15,7 @@ var frontVoteForm= document.getElementById("vote-forms");
 var frontVoteButtonSubmit= document.getElementById("vote-button-submit");
 // Résultats vote
 var frontResultatVote = document.getElementById("resultat-vote");
+var frontResultatStatut = document.getElementById("statut-delib");
 var frontResultatGeneral = document.getElementById("resultat-general");
 var frontGeneralPour = document.getElementById("general-pour");
 var frontGeneralContre = document.getElementById("general-contre");

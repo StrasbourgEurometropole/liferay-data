@@ -2,22 +2,22 @@
 
 <!-- STATUT A AFFICHER DES QUE REJET/ADOPTE/COMMUNIQUE  (ELU ET SKYPE-->
 <div class="resultat-vote" id="resultat-vote">
-    <h3>Le point est : <span class="statut-delib">Retenu</span></h3>
+    <h3>Le point est : <span class="statut-delib" id="statut-delib"></span></h3>
 </div>
 
 <!-- RESULTAT A AFFICHER POUR L'ELU -->
 <div class="resultat-general" id="resultat-general">
     <div class="resultat pour" id="general-pour">
         <span>Pour</span>
-        <span>35</span>
+        <span></span>
     </div>
     <div class="resultat contre" id="general-contre">
         <span>Contre</span>
-        <span>10</span>
+        <span></span>
     </div>
     <div class="resultat abstention" id="general-abstention">
         <span>Abstention</span>
-        <span>1</span>
+        <span></span>
     </div>
 </div>
 
