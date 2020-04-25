@@ -21,9 +21,12 @@ var frontGeneralPour = document.getElementById("general-pour");
 var frontGeneralContre = document.getElementById("general-contre");
 var frontGeneralAbstention = document.getElementById("general-abstention");
 var frontResultatSpecifique = document.getElementById("resultat-specifique");
-var frontSpecifiquePour = document.getElementById("liste-pour");
-var frontSpecifiqueContre = document.getElementById("liste-contre");
-var frontSpecifiqueAbstention = document.getElementById("liste-abstention");
+var frontSpecifiqueListePour = document.getElementById("liste-pour");
+var frontSpecifiqueListeContre = document.getElementById("liste-contre");
+var frontSpecifiqueListeAbstention = document.getElementById("liste-abstention");
+var frontSpecifiqueEncartPour = document.getElementById("encart-pour");
+var frontSpecifiqueEncartContre = document.getElementById("encart-contre");
+var frontSpecifiqueEncartAbstention = document.getElementById("encart-abstention");
 
 /* On peut direct cacher le refresh si présentation Skype*/
 if(useSkypeView) {
