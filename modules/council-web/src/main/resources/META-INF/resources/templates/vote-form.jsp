@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="btn-validate-vote seu-btn-line">
-        <button type="submit" class="seu-btn-square seu-filled seu-second" title="Valider">
+        <button type="submit" class="seu-btn-square seu-filled seu-second" title="Valider" id="vote-button-submit">
             <span class="seu-flexbox">
                 <span class="seu-btn-text">Valider</span>
             </span>

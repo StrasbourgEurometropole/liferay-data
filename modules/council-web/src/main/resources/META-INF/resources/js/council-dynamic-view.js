@@ -5,16 +5,20 @@ $(document).ready(function(){
         officialId: officialConnectedId
       },
       function(obj) {
-        var delibAfficheId = document.getElementById("deliberationId");
-        var delibAfficheStatut = document.getElementById("stage");
+
 
         var deliberationJSON = obj.deliberation;
 
         // On modifie uniquement si l'id de la délib ou son statut a changé
-        if(delibAfficheId.value != deliberationJSON.deliberationId || delibAfficheStatut.value != deliberationJSON.stage) {
+        if(hiddenDelibId.value != deliberationJSON.deliberationId || hiddenDelibStatut.value != deliberationJSON.stage) {
             console.log("true");
 
+            hiddenDelibId.value = deliberationJSON.deliberationId;
+            hiddenDelibStatut.value = deliberationJSON.stage;
+
             if(deliberationJSON.stage == "Affichage en cours") {
+
+
 
             } else if (deliberationJSON.stage == "Vote ouvert") {
                 var officialVote = obj.official.vote;

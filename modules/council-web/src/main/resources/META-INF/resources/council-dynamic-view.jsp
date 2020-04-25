@@ -21,6 +21,22 @@
 		var groupId = ${dc.groupId};
 		var useSkypeView = ${dc.configuration.useSkypeView()};
 		var officialConnectedId = ${dc.officialId};
+
+        //Sélection des input hidden
+        var hiddenDelibId = document.getElementById("deliberationId");
+        var hiddenDelibStatut = document.getElementById("stage");
+
+		// Sélection des différents éléments
+		var frontDelibTitle = document.getElementById("delib-title");
+		var frontDelibRefresh = document.getElementById("delib-refresh");
+		var frontDelibDescription = document.getElementById("delib-description");
+		var frontResultatVote = document.getElementById("resultat-vote");
+		var frontResultatGeneral = document.getElementById("resultat-general");
+		var frontResultatSpecifique = document.getElementById("resultat-specifique");
+		var frontConfirmationVote= document.getElementById("confirmation-vote");
+		var frontConfirmationVote= document.getElementById("vote-forms");
+		var frontVoteButtonSubmit= document.getElementById("vote-button-submit");
+
 	</script>
 </liferay-util:html-top>
 
