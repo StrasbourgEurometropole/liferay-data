@@ -21,6 +21,9 @@ var frontGeneralPour = document.getElementById("general-pour");
 var frontGeneralContre = document.getElementById("general-contre");
 var frontGeneralAbstention = document.getElementById("general-abstention");
 var frontResultatSpecifique = document.getElementById("resultat-specifique");
+var frontSpecifiquePour = document.getElementById("liste-pour");
+var frontSpecifiqueContre = document.getElementById("liste-contre");
+var frontSpecifiqueAbstention = document.getElementById("liste-abstention");
 
 /* On peut direct cacher le refresh si présentation Skype*/
 if(useSkypeView) {

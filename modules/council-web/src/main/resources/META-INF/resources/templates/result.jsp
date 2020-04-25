@@ -71,7 +71,7 @@
             <span>Contre</span>
             <span>10</span>
         </div>
-        <div class="liste">
+        <div class="liste" id="liste-contre">
             AGHA BABAEI-Syamak,
             BARSEGHIAN-Jeanne,
             CUTAJAR-Chantal,
@@ -89,7 +89,7 @@
             <span>Abstention</span>
             <span>1</span>
         </div>
-        <div class="liste">
+        <div class="liste" id="liste-abstention">
             WERCKMANN-Françoise
         </div>
     </div>
