@@ -1,5 +1,5 @@
 
-$(document).ready(function(){
+window.setInterval(function(){
     Liferay.Service(
       '/council.deliberation/get-user-front',
       {
@@ -32,12 +32,15 @@ $(document).ready(function(){
 
             if(deliberationJSON.stage == "Affichage en cours") {
 
+
                 frontResultatVote.style.display = "none";
                 frontResultatGeneral.style.display = "none";
                 frontResultatSpecifique.style.display = "none";
                 frontConfirmationVote.style.display = "none";
                 frontVoteForm.style.display = "none";
                 frontVoteEnCours.style.display = "none";
+
+                frontDelibTitle.style.display="flex";
 
             } else if (deliberationJSON.stage == "Vote ouvert") {
                 var officialVote = obj.official.vote;
@@ -48,74 +51,77 @@ $(document).ready(function(){
 
                 if(useSkypeView) {
                    frontVoteEnCours.style.display="block";
-                }
-
-                var procurationsJSON = obj.official.procurations;
-                var procurationOne = procurationsJSON[0];
-                var procurationTwo = procurationsJSON[1];
-
-                if(officialVote) {
-
-                    if(officialVote == "Pour") {
-                        document.getElementById('pour').checked= true;
-                    } else if (officialVote == "Contre") {
-                        document.getElementById('contre').checked= true;
-                    }else if (officialVote == "Pour") {
-                        document.getElementById('abstention').checked= true;
-                    }
-
-                    if(procurationOne) {
-                        var procurationOneVote = procurationOne.vote;
-                        if(procurationOneVote == "Pour") {
-                            document.getElementById('pour1').checked= true;
-                        } else if (procurationOneVote == "Contre") {
-                            document.getElementById('contre1').checked= true;
-                        }else if (procurationOneVote == "Pour") {
-                            document.getElementById('abstention1').checked= true;
-                        }
-                    }
-
-                    if(procurationTwo) {
-                        var procurationTwoVote = procurationTwo.vote;
-                        if(procurationTwoVote == "Pour") {
-                            document.getElementById('pour2').checked= true;
-                        } else if (procurationTwoVote == "Contre") {
-                            document.getElementById('contre2').checked= true;
-                        }else if (procurationTwoVote == "Pour") {
-                            document.getElementById('abstention2').checked= true;
-                        }
-                    }
-
-                    disabledAllInput();
-                    frontConfirmationVote.style.display = "block";
-                    frontVoteButtonSubmit.style.display = "none";
                 } else {
+                    var procurationsJSON = obj.official.procurations;
+                    var procurationOne = procurationsJSON[0];
+                    var procurationTwo = procurationsJSON[1];
 
-                    document.getElementById(namespace+"session-id").value = obj.session.councilSessionId;
-                    document.getElementById(namespace+"deliberation-id").value = deliberationJSON.deliberationId;
+                    if(officialVote) {
+
+                        if(officialVote == "Pour") {
+                            document.getElementById('pour').checked= true;
+                        } else if (officialVote == "Contre") {
+                            document.getElementById('contre').checked= true;
+                        }else if (officialVote == "Pour") {
+                            document.getElementById('abstention').checked= true;
+                        }
+
+                        if(procurationOne) {
+                            var procurationOneVote = procurationOne.vote;
+                            if(procurationOneVote == "Pour") {
+                                document.getElementById('pour1').checked= true;
+                            } else if (procurationOneVote == "Contre") {
+                                document.getElementById('contre1').checked= true;
+                            }else if (procurationOneVote == "Pour") {
+                                document.getElementById('abstention1').checked= true;
+                            }
+                        }
+
+                        if(procurationTwo) {
+                            var procurationTwoVote = procurationTwo.vote;
+                            if(procurationTwoVote == "Pour") {
+                                document.getElementById('pour2').checked= true;
+                            } else if (procurationTwoVote == "Contre") {
+                                document.getElementById('contre2').checked= true;
+                            }else if (procurationTwoVote == "Pour") {
+                                document.getElementById('abstention2').checked= true;
+                            }
+                        }
+
+                        disabledAllInput();
+                        frontConfirmationVote.style.display = "block";
+                        frontVoteButtonSubmit.style.display = "none";
+
+                    } else {
+
+                        document.getElementById(namespace+"session-id").value = obj.session.councilSessionId;
+                        document.getElementById(namespace+"deliberation-id").value = deliberationJSON.deliberationId;
+
+                        if(procurationOne) {
+                            document.getElementById(namespace+"official-procuration-id-1").value = procurationOne.officialUnavailableId;
+                        }
+                        if(procurationTwo) {
+                            document.getElementById(namespace+"official-procuration-id-2").value = procurationTwo.officialUnavailableId;
+                        }
+
+                        frontVoteButtonSubmit.style.display = "block";
+                    }
 
                     if(procurationOne) {
-                        document.getElementById(namespace+"official-procuration-id-1").value = procurationOne.officialUnavailableId;
+                        frontTitleProcuOne.getElementsByTagName('span')[0].textContent = procurationOne.fullName;
+                        frontProcuOne.style.display="block";
                     }
                     if(procurationTwo) {
-                        document.getElementById(namespace+"official-procuration-id-2").value = procurationTwo.officialUnavailableId;
+                        frontTitleProcuTwo.getElementsByTagName('span')[0].textContent = procurationTwo.fullName;
+                        frontProcuTwo.style.display="block";
                     }
 
-                    frontVoteButtonSubmit.style.display = "block";
+                    frontVoteForm.style.display = "flex";
                 }
-
-                if(procurationOne) {
-                    frontTitleProcuOne.getElementsByTagName('span')[0].textContent = procurationOne.fullName;
-                    frontProcuOne.style.display="block";
-                }
-                if(procurationTwo) {
-                    frontTitleProcuTwo.getElementsByTagName('span')[0].textContent = procurationTwo.fullName;
-                    frontProcuTwo.style.display="block";
-                }
-
-                frontVoteForm.style.display = "flex";
-
             } else if(deliberationJSON.stage == "Adopté" || deliberationJSON.stage == "Rejeté" || deliberationJSON.stage == "Communiqué" ) {
+                // Reset le formulaire pour le prochain vote
+                resetFormValues()
+
                 frontVoteEnCours.style.display = "none";
                 frontVoteForm.style.display = "none";
                 frontConfirmationVote.style.display = "none";
@@ -192,7 +198,7 @@ $(document).ready(function(){
         }
       }
     );
-});
+}, 3000);
 
 function disabledAllInput() {
     document.getElementById('pour').disabled= true;

@@ -1,12 +1,12 @@
 <%@ include file="/council-init.jsp"%>
 
 <!-- STATUT A AFFICHER DES QUE REJET/ADOPTE/COMMUNIQUE  (ELU ET SKYPE-->
-<div class="resultat-vote" id="resultat-vote">
+<div class="resultat-vote" id="resultat-vote" style="display:none;">
     <h3>Le point est : <span class="statut-delib" id="statut-delib"></span></h3>
 </div>
 
 <!-- RESULTAT A AFFICHER POUR L'ELU -->
-<div class="resultat-general" id="resultat-general">
+<div class="resultat-general" id="resultat-general" style="display:none;">
     <div class="resultat pour" id="general-pour">
         <span>Pour</span>
         <span></span>
@@ -22,7 +22,7 @@
 </div>
 
 <!-- RESULTAT A AFFICHER POUR PRESENTATION SKYPE-->
-<div class="resultat-specifique" id="resultat-specifique">
+<div class="resultat-specifique" id="resultat-specifique" style="display:none;">
     <div class="resultat">
         <div class="encart pour" id="encart-pour">
             <span>Pour</span>
