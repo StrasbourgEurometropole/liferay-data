@@ -5,7 +5,7 @@
 
 <!-- AFFICHAGE SEULEMENT SI L'ELU A VOTE -->
 <div class="confirmation-vote" id="confirmation-vote">
-    <h3>Votre vote a bien été enregistré. Retrouvez votre récapitulatif ci-dessous.</h3>
+    <h3><liferay-ui:message key='vote.registered.find.your.recap'/></h3>
 </div>
 
 <!-- FORMULAIRE (ICI PRESENT AVEC PROCURATION) -->
@@ -18,21 +18,21 @@
     <div class="vote-form">
 
         <div class="vote-title">
-            Mon vote
+            <liferay-ui:message key='my.vote'/>
         </div>
 
         <div class="vote-answers">
             <label class="answer-wrapper">
                 <input type="radio" id="pour" name="<portlet:namespace />official-vote" value="Pour" >
-                <span>Pour</span>
+                <span><liferay-ui:message key='vote.for'/></span>
             </label>
             <label class="answer-wrapper">
                 <input type="radio" id="contre" name="<portlet:namespace />official-vote" value="Contre">
-                <span>Contre</span>
+                <span><liferay-ui:message key='vote.against'/></span>
             </label>
             <label class="answer-wrapper">
                 <input type="radio" id="abstention" name="<portlet:namespace />official-vote" value="Abstention">
-                <span>Abstention</span>
+                <span><liferay-ui:message key='vote.abstention'/></span>
             </label>
         </div>
 
@@ -51,15 +51,15 @@
         <div class="vote-answers">
             <label class="answer-wrapper">
                 <input type="radio" id="pour1" name="<portlet:namespace />official-procuration-vote-1" value="Pour" >
-                <span>Pour</span>
+                <span><liferay-ui:message key='vote.for'/></span>
             </label>
             <label class="answer-wrapper">
                 <input type="radio" id="contre1" name="<portlet:namespace />official-procuration-vote-1" value="Contre">
-                <span>Contre</span>
+                <span><liferay-ui:message key='vote.against'/></span>
             </label>
             <label class="answer-wrapper">
                 <input type="radio" id="abstention1" name="<portlet:namespace />official-procuration-vote-1" value="Abstention">
-                <span>Abstention</span>
+                <span><liferay-ui:message key='vote.abstention'/></span>
             </label>
         </div>
 
@@ -78,15 +78,15 @@
         <div class="vote-answers">
             <label class="answer-wrapper">
                 <input type="radio" id="pour2" name="<portlet:namespace />official-procuration-vote-2" value="Pour" >
-                <span>Pour</span>
+                <span><liferay-ui:message key='vote.for'/></span>
             </label>
             <label class="answer-wrapper">
                 <input type="radio" id="contre2" name="<portlet:namespace />official-procuration-vote-2" value="Contre">
-                <span>Contre</span>
+                <span><liferay-ui:message key='vote.against'/></span>
             </label>
             <label class="answer-wrapper">
                 <input type="radio" id="abstention2" name="<portlet:namespace />official-procuration-vote-2" value="Abstention">
-                <span>Abstention</span>
+                <span><liferay-ui:message key='vote.abstention'/></span>
             </label>
         </div>
 
@@ -96,7 +96,7 @@
     <div class="btn-validate-vote seu-btn-line">
         <button class="seu-btn-square seu-filled seu-second" title="Valider" id="vote-button-submit">
             <span class="seu-flexbox">
-                <span class="seu-btn-text">Valider</span>
+                <span class="seu-btn-text"><liferay-ui:message key='validate'/></span>
             </span>
         </button>
     </div>
