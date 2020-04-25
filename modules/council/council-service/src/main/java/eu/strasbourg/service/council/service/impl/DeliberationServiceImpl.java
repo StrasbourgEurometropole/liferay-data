@@ -183,7 +183,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 		//On assemble les pièces du puzzle, les ingrédients du Tacos
 		userFront.put("session", session);
-		votes.put("for", pour);
+		votes.put("approve", pour);
 		votes.put("against", contre);
 		votes.put("abstention", abstention);
 		deliberation.put("votes", votes);
