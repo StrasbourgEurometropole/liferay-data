@@ -59,7 +59,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 		JSONObject deliberation = JSONFactoryUtil.createJSONObject();
 		JSONObject votes = JSONFactoryUtil.createJSONObject();
 		JSONObject official = JSONFactoryUtil.createJSONObject();
-		JSONObject procurations = JSONFactoryUtil.createJSONObject();
+		JSONArray procurations = JSONFactoryUtil.createJSONArray();
 		JSONArray pour = JSONFactoryUtil.createJSONArray();
 		JSONArray contre = JSONFactoryUtil.createJSONArray();
 		JSONArray abstention = JSONFactoryUtil.createJSONArray();
@@ -126,7 +126,10 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 					for (Procuration procuration:procurationsUserHave) {
 						Vote voteAbsent = VoteLocalServiceUtil.findByDeliberationIdandOfficialId(delibVoteOuvert.getDeliberationId(), procuration.getOfficialUnavailableId());
 						// On ajoute l'info JSON des procurations
-						procurations.put(String.valueOf(procuration.getOfficialUnavailableId()), voteAbsent != null ? voteAbsent.getResult():null);
+						JSONObject procu = JSONFactoryUtil.createJSONObject();
+						procu.put("officialUnavailableId", procuration.getOfficialUnavailableId());
+						procu.put("vote", voteAbsent != null ? voteAbsent.getResult():null);
+						procurations.put(procu);
 					}
 
 				}

@@ -46,11 +46,18 @@ $(document).ready(function(){
                    frontVoteEnCours.style.display="block";
                 }
 
-                //Procurations
+                var procurationsJSON = obj.official.procurations;
+                var procurationOne = procurationsJSON[0];
+                var procurationTwo = procurationsJSON[1];
 
                 if(officialVote) {
 
+                    frontVoteButtonSubmit.style.display = "none";
+                } else {
+                    frontVoteButtonSubmit.style.display = "block";
                 }
+
+                frontVoteForm.style.display = "flex";
 
             } else if(deliberationJSON.stage == "Adopté" || deliberationJSON.stage == "Rejeté" || deliberationJSON.stage == "Communiqué" ) {
                 frontVoteEnCours.style.display = "none";
