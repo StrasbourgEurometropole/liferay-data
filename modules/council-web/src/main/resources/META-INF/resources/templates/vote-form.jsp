@@ -139,7 +139,7 @@
                                 var data = JSON.parse(e.details[1].responseText);
                                 if (data.result) {
                                     // Retour du serveResource avec succes
-                                    resetFormValues();
+                                    showFormRecap();
                                 } else {
                                     // Retour du serveResource avec erreur
                                     alert(data.message);
@@ -164,9 +164,25 @@
         return true;
     }
 
+    /** Montre le récapitulatif de vote **/
+    function showFormRecap() {
+        // Désactivations des inputs et du bouton de validation
+        $('input[name=' + namespace + 'official-vote]').prop("disabled", true);
+        $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", true);
+        $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", true);
+        $("#vote-button-submit").prop("disabled", true);
+        $("#confirmation-vote").show();
+        return true;
+    }
+
     /** Réinitialise le formulaire de vote **/
     function resetFormValues() {
-        return true;
+        $("#confirmation-vote").hide();
+        $("#" + namespace + "deliberation-id").val(0);
+        $('input[name=' + namespace + 'official-vote]').prop("disabled", false).prop('checked', false);
+        $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", false).prop('checked', false);
+        $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", false).prop('checked', false);
+        $("#vote-button-submit").prop("disabled", false);
     }
 
 </script>
