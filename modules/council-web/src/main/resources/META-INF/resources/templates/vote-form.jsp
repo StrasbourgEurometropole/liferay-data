@@ -171,7 +171,7 @@
         $('input[name=' + namespace + 'official-vote]').prop("disabled", true);
         $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", true);
         $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", true);
-        $("#vote-button-submit").prop("disabled", true);
+        $("#vote-button-submit").show();
         $("#confirmation-vote").show();
         return true;
     }
@@ -183,7 +183,7 @@
         $('input[name=' + namespace + 'official-vote]').prop("disabled", false).prop('checked', false);
         $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", false).prop('checked', false);
         $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", false).prop('checked', false);
-        $("#vote-button-submit").prop("disabled", false);
+        $("#vote-button-submit").hide();
     }
 
 </script>
