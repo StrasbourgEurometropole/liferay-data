@@ -50,29 +50,74 @@ $(document).ready(function(){
                 frontVoteForm.style.display = "none";
                 frontConfirmationVote.style.display = "none";
 
-               var votesJSON = deliberationJSON.votes;
+                var votesJSON = deliberationJSON.votes;
+
+                var countPour = votesJSON.approve.length;
+                var countContre = votesJSON.against.length;
+                var countAbstention = votesJSON.abstention.length;
 
                 frontResultatStatut.textContent = deliberationJSON.stage
 
+                // VUE AGENT DES RESULTATS
                 if(useSkypeView) {
-                    frontResultatVote.style.display = "block";
-                    frontResultatSpecifique.style.display = "flex";
-                    frontResultatGeneral.style.display = "none";
-                } else {
 
-                    var countPour = votesJSON.approve.length;
-                    var countContre = votesJSON.against.length;
-                    var countAbstention = votesJSON.abstention.length;
+                    var listePour ='';
+                    var listeContre ='';
+                    var listeAbstention ='';
+
+                    for (var i = 0; i < votesJSON.approve.length; i++) {
+                        if(i == countPour - 1) {
+                            listePour += votesJSON.approve[i];
+                        } else {
+                            listePour += votesJSON.approve[i] +', ';
+                        }
+                    };
+                   for (var j = 0; j < votesJSON.against.length; j++) {
+                        if(j == countContre - 1) {
+                            listeContre += votesJSON.against[j];
+                        } else {
+                            listeContre += votesJSON.against[j] +', ';
+                        }
+                    };
+                    for (var k = 0; k < votesJSON.abstention.length; k++) {
+                        if(k == countAbstention - 1) {
+                            listeAbstention += votesJSON.abstention[k];
+                        } else {
+                            listeAbstention += votesJSON.abstention[k] +', ';
+                        }
+                    };
+
+                    frontSpecifiqueEncartPour.getElementsByTagName('span')[1].textContent = countPour;
+                    frontSpecifiqueEncartContre.getElementsByTagName('span')[1].textContent = countContre;
+                    frontSpecifiqueEncartAbstention.getElementsByTagName('span')[1].textContent = countAbstention;
+
+                    frontSpecifiqueListePour.textContent = listePour;
+                    frontSpecifiqueListeContre.textContent = listeContre;
+                    frontSpecifiqueListeAbstention.textContent = listeAbstention;
+
+                    // On affiche les résultats uniquement si ADOPTE ou REJETE et s'il y a des votes
+                    if(deliberationJSON.stage != "Communiqué" && (countPour > 0 || countContre > 0 || countAbstention > 0)) {
+                        frontResultatSpecifique.style.display = "flex";
+                    }
+                    frontResultatGeneral.style.display = "none";
+                }
+                // VUE ELU DES RESULTATS
+                else {
 
                     frontGeneralPour.getElementsByTagName('span')[1].textContent = countPour;
                     frontGeneralContre.getElementsByTagName('span')[1].textContent = countContre;
                     frontGeneralAbstention.getElementsByTagName('span')[1].textContent = countAbstention;
 
                     frontResultatVote.style.display = "block";
-                    frontResultatGeneral.style.display = "flex";
+                    // On affiche les résultats uniquement si ADOPTE ou REJETE et s'il y a des votes
+                    if(deliberationJSON.stage != "Communiqué" && (countPour > 0 || countContre > 0 || countAbstention > 0)) {
+                        frontResultatGeneral.style.display = "flex";
+                    }
                     frontResultatSpecifique.style.display = "none";
                 }
 
+                // On affiche le statut du résultat qu'importe le reste
+                frontResultatVote.style.display = "block";
             }
         }
       }
