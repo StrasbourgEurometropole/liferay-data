@@ -11,10 +11,10 @@
 	</div>
 </div>
 
-
 <!-- Définition des variables à partager avec le JS -->
 <liferay-util:html-top>
 	<script>
+	    var namespace = "<portlet:namespace />";
 		var groupId = ${dc.groupId};
 		var useSkypeView = ${dc.configuration.useSkypeView()};
 		var officialConnectedId = ${dc.officialId};
