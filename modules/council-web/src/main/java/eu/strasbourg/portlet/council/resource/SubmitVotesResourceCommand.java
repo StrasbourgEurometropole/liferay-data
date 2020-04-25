@@ -98,6 +98,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                     officialProcurationVote1.setOfficialId(this.officialProcurationId_1);
                     officialProcurationVote1.setResult(this.officialProcurationVote_1);
                     officialProcurationVote1.setOfficialProcurationId(this.officialId);
+                    officialProcurationVote1.setDeliberationId(this.deliberationId);
                     this.voteLocalService.updateVote(officialProcurationVote1, sc);
                 }
 
@@ -107,6 +108,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                     officialProcurationVote2.setOfficialId(this.officialProcurationId_2);
                     officialProcurationVote2.setResult(this.officialProcurationVote_2);
                     officialProcurationVote2.setOfficialProcurationId(this.officialId);
+                    officialProcurationVote2.setDeliberationId(this.deliberationId);
                     this.voteLocalService.updateVote(officialProcurationVote2, sc);
                 }
 
