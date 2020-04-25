@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     Liferay.Service(
       '/council.deliberation/get-user-front',
@@ -18,18 +19,18 @@ $(document).ready(function(){
 
             if(deliberationJSON.stage == "Affichage en cours") {
 
-                frontResultatVote.hide();
-                frontResultatGeneral.hide();
-                frontResultatSpecifique.hide();
-                frontConfirmationVote.hide();
-                frontVoteForm.hide();
-                frontVoteButtonSubmit.hide();
-                frontVoteEnCours.hide();
+                frontResultatVote.style.display = "none";
+                frontResultatGeneral.style.display = "none";
+                frontResultatSpecifique.style.display = "none";
+                frontConfirmationVote.style.display = "none";
+                frontVoteForm.style.display = "none";
+                frontVoteButtonSubmit.style.display = "none";
+                frontVoteEnCours.style.display = "none";
 
-                var title = frontDelibTitle.document.getElementsByTagName("h2")[0];
+                var title = frontDelibTitle.getElementsByTagName("h2")[0];
                 title.innerText = obj.session.title +' Point '+deliberationJSON.order;
 
-                var description = frontDelibDescription.document.getElementsByTagName("div")[0];
+                var description = frontDelibDescription.getElementsByTagName("div")[0];
                 description.innerText = deliberationJSON.title;
 
             } else if (deliberationJSON.stage == "Vote ouvert") {
