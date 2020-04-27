@@ -110,7 +110,7 @@
 
 <script type="text/javascript">
 
-    /** Lors de l'envoie du formulaire **/
+    /* Lors de l'envoie du formulaire */
     $("#vote-button-submit").click(function(event){
         event.preventDefault();
         hideErrorMessage(); // Cache un potentiel précédent message d'erreur
@@ -168,7 +168,9 @@
     /* Validation des informations du formulaire */
     function validateFormValues() {
         // Si l'utilisateur à au moins valider son vote
-        if ($('input[name=' + namespace + 'official-vote]:checked').length < 1) {
+        if ($('input[name=' + namespace + 'official-vote]:checked').length < 1
+                && $('input[name=' + namespace + 'official-procuration-vote-1]:checked').length < 1
+                && $('input[name=' + namespace + 'official-procuration-vote-2]:checked').length < 1) {
             showErrorMessage("<liferay-ui:message key='vote-empty-error'/>");
             return false;
         }
