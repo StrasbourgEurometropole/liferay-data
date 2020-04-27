@@ -1,5 +1,5 @@
 
-/*Sélection des input hidden*/
+/* Sélection des input hidden */
 var hiddenDelibId = document.getElementById("deliberationId");
 var hiddenDelibStatut = document.getElementById("stage");
 
