@@ -166,3 +166,7 @@
 		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}" />
 	</liferay-frontend:add-menu>
 </c:if>
+
+<liferay-util:html-bottom>
+    <script src="/o/councilbo/js/council-bo-view-deliberations.js" type="text/javascript"></script>
+</liferay-util:html-bottom>
