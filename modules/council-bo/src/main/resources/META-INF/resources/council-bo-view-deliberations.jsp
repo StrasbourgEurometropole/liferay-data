@@ -72,7 +72,7 @@
                     name="councilSession" truncate="true"
                     orderable="true" value="${deliberation.councilSession.title}" />
 
-                <liferay-ui:search-container-column-text cssClass="content-column ${dc.getCSSClassColor(deliberation)}"
+                <liferay-ui:search-container-column-text cssClass="content-column ${dc.getCSSClass(deliberation)}"
                     name="stage" truncate="true"
                     orderable="true" value="${deliberation.stage}" />
 

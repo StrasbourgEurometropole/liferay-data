@@ -144,12 +144,14 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
      * @param deliberation
      * @return
      */
-    public String getCSSClassColor(Deliberation deliberation) {
+    public String getCSSClass(Deliberation deliberation) {
         String cssClass="";
         if(deliberation.isAdopte()) {
             cssClass="green";
         } else if (deliberation.isRejete()) {
             cssClass="red";
+        } else if (deliberation.isAffichageEnCours() || deliberation.isVoteOuvert()) {
+            cssClass="focus-stage";
         }
 
         return cssClass;
