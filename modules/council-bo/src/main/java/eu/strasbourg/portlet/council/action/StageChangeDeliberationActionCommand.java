@@ -5,9 +5,11 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -19,6 +21,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.Date;
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -47,6 +50,21 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         String stage = ParamUtil.getString(request, "stage");
 
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
+
+        // Si on essaie de passer à "Affichage en cours"
+        if(stage.equals(StageDeliberation.get(2).getName())) {
+            // On vérifie qu'il n'y ait pas d'autres délibs en "Affichae en cours" ou "Vote ouvert" pour la session
+            List<Deliberation> delibsCouncilSession = deliberationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId());
+            if(delibsCouncilSession.stream().anyMatch(x-> x.isVoteOuvert() || x.isAffichageEnCours())) {
+                SessionErrors.add(request, "council.deliberation-already-open");
+                // Post / Redirect / Get si tout est bon
+                PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                        portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+                renderURL.setParameter("tab", request.getParameter("tab"));
+                response.sendRedirect(renderURL.toString());
+                return;
+            }
+        }
 
         deliberation.setStage(stage);
         deliberation.setStatusDate(new Date());

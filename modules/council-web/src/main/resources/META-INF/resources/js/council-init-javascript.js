@@ -4,6 +4,9 @@ var hiddenDelibId = document.getElementById("deliberationId");
 var hiddenDelibStatut = document.getElementById("stage");
 
 /* Sélection des différents éléments*/
+//message
+var frontMessage = document.getElementById("front-message");
+var frontNoDelib = document.getElementById("no-delib");
 // Presentation
 var frontDelibTitle = document.getElementById("delib-title");
 var frontDelibRefresh = document.getElementById("delib-refresh");
@@ -33,7 +36,9 @@ var frontSpecifiqueEncartPour = document.getElementById("encart-pour");
 var frontSpecifiqueEncartContre = document.getElementById("encart-contre");
 var frontSpecifiqueEncartAbstention = document.getElementById("encart-abstention");
 
-/* On peut direct cacher le refresh si présentation Skype*/
 if(useSkypeView) {
+    /* On peut direct cacher le refresh si présentation Skype*/
    frontDelibRefresh.style.display = "none";
+   var description = frontDelibDescription.getElementsByTagName("div")[0];
+   description.classList.add("skype-description");
 }

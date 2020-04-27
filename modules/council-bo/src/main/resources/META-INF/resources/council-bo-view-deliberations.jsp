@@ -43,6 +43,7 @@
     <liferay-ui:error key="quorum-error">
         <liferay-ui:message key="quorum-error" arguments='<%= SessionErrors.get(liferayPortletRequest, "quorum-error") %>' />
     </liferay-ui:error>
+    <liferay-ui:error key="council.deliberation-already-open" message="council.deliberation-already-open" />
 
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />

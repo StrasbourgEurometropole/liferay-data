@@ -11,3 +11,6 @@
     <h2 style="text-align:center;margin-top: 30px; display:none;" id="vote-en-cours">VOTE EN COURS</h2>
 
 </div>
+
+<!-- PAS DE DELIB -->
+<h2 style="margin-top: 30px; display:none;" id="no-delib"></h2>

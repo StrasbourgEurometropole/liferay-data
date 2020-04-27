@@ -23,6 +23,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.util.Date;
 import java.util.List;
 
 @Component(
@@ -93,7 +94,7 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         // Calcule le résultat
-        if(countPour >= majoriteAbsolue) {
+        if(countPour > majoriteAbsolue) {
             // Majorité absolue de Pour => ADOPTE
             deliberation.setStage(StageDeliberation.get(4).getName());
         } else if (countPour == countContre) {
@@ -103,23 +104,24 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
 
             // S'il a voté
             if(voteLeader != null) {
-                if(voteLeader.getResult().toLowerCase().equals(POUR)) {
-                    // Si il a voté pour => ADOPTE
-                    deliberation.setStage(StageDeliberation.get(4).getName());
-                } else {
-                    // Sinon => REJETE
+                if(voteLeader.getResult().toLowerCase().equals(CONTRE)) {
+                    // Si il a voté Contre => REJETE
                     deliberation.setStage(StageDeliberation.get(5).getName());
+                } else {
+                    // Sinon => POUR
+                    deliberation.setStage(StageDeliberation.get(4).getName());
                 }
 
             } else {
-                // S'il n'a pas voté )> REJETE
-                deliberation.setStage(StageDeliberation.get(5).getName());
+                // S'il n'a pas voté )> ADOPTE
+                deliberation.setStage(StageDeliberation.get(4).getName());
             }
 
         } else {
-            /// Pas de majorité absolue pour le Pour => REJETE
+            /// Pas de majorité pour le Pour => REJETE
             deliberation.setStage(StageDeliberation.get(5).getName());
         }
+        deliberation.setStatusDate(new Date());
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
