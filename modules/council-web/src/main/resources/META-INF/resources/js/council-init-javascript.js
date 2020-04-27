@@ -36,7 +36,9 @@ var frontSpecifiqueEncartPour = document.getElementById("encart-pour");
 var frontSpecifiqueEncartContre = document.getElementById("encart-contre");
 var frontSpecifiqueEncartAbstention = document.getElementById("encart-abstention");
 
-/* On peut direct cacher le refresh si présentation Skype*/
 if(useSkypeView) {
+    /* On peut direct cacher le refresh si présentation Skype*/
    frontDelibRefresh.style.display = "none";
+   var description = frontDelibDescription.getElementsByTagName("div")[0];
+   description.classList.add("skype-description");
 }
