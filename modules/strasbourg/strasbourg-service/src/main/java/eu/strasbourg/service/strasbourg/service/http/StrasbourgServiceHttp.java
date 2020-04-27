@@ -647,6 +647,37 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject addDocument(
+		HttpPrincipal httpPrincipal, java.lang.String fileContent,
+		java.lang.String fileName, java.lang.String commissionName,
+		java.lang.String publicationDate, java.lang.String documentType,
+		java.lang.String documentName) {
+		try {
+			MethodKey methodKey = new MethodKey(StrasbourgServiceUtil.class,
+					"addDocument", _addDocumentParameterTypes24);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					fileContent, fileName, commissionName, publicationDate,
+					documentType, documentName);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceHttp.class);
 	private static final Class<?>[] _getCopyrightParameterTypes2 = new Class[] {
 			long.class, java.lang.String.class, java.lang.String.class
@@ -713,5 +744,10 @@ public class StrasbourgServiceHttp {
 		};
 	private static final Class<?>[] _getPracticeCategoriesParameterTypes23 = new Class[] {
 			long.class, java.lang.String.class
+		};
+	private static final Class<?>[] _addDocumentParameterTypes24 = new Class[] {
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, java.lang.String.class
 		};
 }
