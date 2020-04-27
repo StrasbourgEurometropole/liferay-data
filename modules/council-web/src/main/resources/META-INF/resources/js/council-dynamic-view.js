@@ -45,7 +45,6 @@ window.setInterval(function(){
 
             // On modifie uniquement si l'id de la délib ou son statut a changé
             if(hiddenDelibId.value != deliberationJSON.deliberationId || hiddenDelibStatut.value != deliberationJSON.stage) {
-                console.log("true");
 
                 hiddenDelibId.value = deliberationJSON.deliberationId;
                 hiddenDelibStatut.value = deliberationJSON.stage;
