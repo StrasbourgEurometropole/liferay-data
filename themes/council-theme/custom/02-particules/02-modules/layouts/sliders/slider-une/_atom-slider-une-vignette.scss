@@ -1,0 +1,277 @@
+%atom-slider-une-vignette{
+    .seu-link{
+        padding: 40px;
+        padding-bottom: 60px;
+        height: 100%;
+        width: 100%;
+        display: block;
+        opacity: 1;
+        transition: all, 0.5s;
+        background-color: #FFFFFF;
+        position: relative;
+
+        &:hover, &:focus{ 
+            text-decoration: none;
+            background-color: #E3E3E3;
+        }
+        @include RWD(mobile){
+            padding: 20px;
+            padding-bottom: 40px;
+        }
+    }
+    .seu-title{
+        font-family: $montserrat;
+        font-weight: 700;
+        font-size: 1.7rem;
+        color: #505050;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+
+        @include RWD(mobile){
+            font-size: 1.5rem;
+        }
+    }
+    .seu-lead{
+        font-family: $opensans;
+        font-weight: 600;
+        font-size: 1.4rem;
+        color: #7e7e7e;
+        line-height: 1.8;
+
+        @include RWD(mobile){
+            font-size: 1.2rem;
+        }
+    }
+    .seu-picture{
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        position: relative;
+        &:before{
+            opacity: 0;
+            position: absolute;
+            content: '';
+            display: block;
+            top: 0; left: 0;
+            height: 100%; width: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            transition: all, 0.5s;
+        }
+    }
+    .seu-date-start{
+        font-size: 2.4rem;
+    }
+    .seu-date-end{
+        font-family: $montserrat;
+        font-weight: 700;
+        font-size: 5.0rem;
+        color: $second-color;
+        text-transform: uppercase;  
+        margin-bottom: 40px;   
+        line-height: 1;   
+        color:  #2da192;
+        @include RWD(mobile){
+            font-size: 4.0rem;
+        }
+    }
+    .seu-date-prefix{}
+    .seu-date-suffix{}
+    .seu-date-sup{
+        font-family: $montserrat;
+        font-weight: 700;
+        font-size: 1.7rem;
+        color: $second-color;
+        text-transform: uppercase;
+        color:  #2da192;
+        @include RWD(mobile){
+            font-size: 1.2rem;
+        }
+    }
+    &.seu-event{
+        .item-categories{
+            font-family: $montserrat;
+            color: #2da192;
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+            &:before{
+                content: '';
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-size: 12px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-image: url( svg-bg-uri($svg-label, #2da192) );
+                    position: absolute;
+                    top: 50%; left: 0;
+                    transform: translateY(-50%);
+               
+            }
+        }
+    }
+    &.seu-actu{
+        .seu-link{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .seu-picture{
+            padding-bottom: 75%;
+            margin-top: 30px;
+            @include RWD(mobile){
+                padding-bottom: 0;
+                flex: 1;
+            }
+        }
+        &.seu-big{
+            @include RWD(desktop){
+                .seu-picture{
+                    position: absolute;
+                    top: 0; left: 0; 
+                    height: 100%; width: 100%;
+                    margin: 0;
+                }
+                .seu-text{
+                    height: 50%; width: 50%;
+                    position: absolute;
+                    top: 0; right: 0;
+                    z-index: 10;
+                    background-color: #FFFFFF;
+                    padding: 35px;
+                }                
+            }
+        }
+    }
+    &.seu-mag{
+        .seu-link{
+            padding: 0;
+            background-color: $second-color;
+            transition: all, 0.5s;
+
+            &:hover, &:focus{
+                background: #3CB0A4;
+            }
+        }
+        .seu-picture{
+            height: 50%;
+            position: relative;
+            &:after{
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.09) 23%,rgba(0,0,0,0.4) 75%,rgba(0,0,0,0.5) 100%);
+                z-index: 1;
+            }
+        }
+        .seu-text{
+            padding: 30px;
+            @include RWD(mobile){
+                padding: 20px;
+                padding-bottom: 40px;
+            }
+        }
+        .seu-title{
+            color: $core-color;
+        }
+        .seu-lead{
+            color: $core-color;
+        }
+        .seu-mag-logo{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateY(-26px);
+            text-align: center;
+            z-index: 10; 
+            .seu-mag-text{
+                font-family: $montserrat;
+                font-size: 4.5rem;
+                font-weight: 700;
+                color: #FFFFFF;
+                text-transform: uppercase;
+            }
+            .seu-mag-picto{
+                content: '';
+                display: inline-block;
+                width: 60px;
+                height: 20px;
+                background-size: 50px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-wave, #FFFFFF) );
+            }
+        }
+        &.seu-big{
+            @include RWD(desktop){
+                .seu-picture{
+                    position: absolute;
+                    top: 0; left: 0;  
+                    height: 100%; width: 100%;
+                    margin: 0;
+                }
+                .seu-mag-logo{
+                    z-index: 20;
+                    left: 75%;
+                }
+                .seu-text{
+                    height: 50%; width: 50%;
+                    position: absolute;
+                    bottom: 0; right: 0;
+                    z-index: 10;
+                    transition: all, 0.5s;
+                    background-color: $second-color;
+                }                
+            }
+            .seu-link{
+                &:hover, &:focus{
+                    .seu-text{
+                        background-color: #3CB0A4;
+                    }
+                }
+            }
+        }
+    }
+    &.seu-has-picture{
+        .seu-link{
+            &:hover, &:focus{
+                .seu-picture{
+                    &:before{
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+    &.seu-has-ville{
+        .seu-ville{
+            font-family: $montserrat;
+            font-size: 1.4rem;
+            color: #2da192;
+            text-transform: none;
+            font-weight: 400;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+
+            &:before{
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background-size: 12px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-marker, #2da192) );
+                position: absolute;
+                top: 50%; left: 0;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}

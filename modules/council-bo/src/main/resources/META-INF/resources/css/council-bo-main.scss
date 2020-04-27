@@ -1,0 +1,122 @@
+.council-bo {
+
+    /* Tableau des procurations */
+    .lfr-input-time {
+        display : none;
+    }
+
+    .text-normal {
+        font-weight: normal;
+        margin-top: 7px;
+    }
+
+}
+
+#procurations-table{
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+#procurations-table table {
+	border: #869CAD;
+	width: 100%;
+}
+
+#procurations-table table tr{
+	vertical-align: middle;
+	text-align: center !important;
+}
+
+#procurations-table table th{
+	padding: 10px;
+	text-align: center !important;
+	font-size: 18px;
+	background-color: #ddd;
+	width: 25%;
+	height: 50px;
+}
+
+#procurations-table table td{
+	height: 35px;
+}
+
+#procurations-table table td .input-text-wrapper{
+	height: 35px;
+}
+
+#procurations-table table .text-left {
+	text-align: left;
+    padding-left: 5px;
+}
+
+#procurations-table .form-group{
+	margin-bottom: 0px;
+}
+
+.green {
+    color: #76BD4A;
+}
+
+.red {
+    color: #C73C42;
+}
+
+.orange {
+    color: #F47521;
+}
+
+.focus-stage {
+    font-weight: 800;
+    text-decoration: underline;
+    color: black;
+}
+
+.wrapper-vote {
+    display: flex;
+    flex-direction: row;
+
+    .wrapper-column {
+        display: flex;
+        flex-direction: column;
+        width: 33%;
+
+        .wrapper-row {
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            &:first-child {
+                margin-bottom: 25px;
+            }
+
+            label {
+                padding-right: 15px;
+            }
+
+            span {
+                font-weight: 600;
+                margin-right: 50px;
+            }
+        }
+    }
+}
+
+/* Autocomplete */
+.official-leader-autocomplete-input-wrapper {
+    position: relative;
+}
+
+.autocomplete-suggestions {
+    margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}

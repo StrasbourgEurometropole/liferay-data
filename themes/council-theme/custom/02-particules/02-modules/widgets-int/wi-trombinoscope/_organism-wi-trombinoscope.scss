@@ -1,0 +1,32 @@
+%organism-wi-trombinoscope{
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background-color: $third-color;
+    @extend %wi-centered-text;
+    // Couleurs Titre
+    .seu-section-title{
+        .seu-title{
+            color: $core-color;
+        }
+        &:before{
+            background-image: url( svg-bg-uri($svg-wave, #ffffff) ); 
+        }
+    }
+    // Contenu
+    .seu-wi-content{
+        text-align: center;
+        margin-bottom: 40px;
+
+        @include RWD(mobile){
+            margin-bottom: 20px;
+        }
+    }
+    .seu-wi-content{
+        .seu-wi-title{
+            color: $core-color;
+        }
+        p{
+            color: $core-color;
+        }
+    }
+}

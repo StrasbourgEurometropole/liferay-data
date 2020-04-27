@@ -1,0 +1,68 @@
+%atom-home-slider-arrow{
+    position: absolute;
+    top: 0;
+    transition: all, 0.5s;
+    cursor: pointer;
+    content: '';
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 100%;
+    z-index: 100;
+
+    
+    .seu-picto{
+        background-size: 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+        z-index: 10;
+        height: 60px;
+        width: 60px;
+        background-color: $second-color;
+        border-radius: 50%;
+        position: relative;
+        left: 30px;
+        @include RWD(tablet){
+            width: 35px;
+            height: 35px;
+            background-size: 20px;
+        }
+        @include RWD(mobile){
+            left: 35px;
+            width: 40px;
+            height: 40px;
+            background-size: 18px;
+        }
+    }
+
+    .flexbox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.owl-prev{
+        transform: rotate(180deg);
+    }
+
+    &.disabled{
+        pointer-events: none;
+        opacity: 0 !important;
+        @include RWD(mobile){
+            display: none;
+        }
+    }
+
+    &--grey{
+        @extend %atom-home-slider-arrow;
+        background-color: #202020;
+        path{
+            fill: #FFFFFF;
+            transition: all, 0.5s;
+        }
+        &:hover, &:focus{
+            background-color: $core-color;
+        }
+    }
+}

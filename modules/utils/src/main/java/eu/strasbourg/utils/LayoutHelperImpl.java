@@ -34,6 +34,9 @@ public class LayoutHelperImpl implements LayoutHelperService {
 		return LayoutHelper.getJournalArticleLayoutURL(groupId, articleId, themeDisplay);
 	}
 
+	/**
+	 * TODO : appeler les méthodes statiques du Helper associé
+	 */
 	@Override
 	public String getPublikLoginURL(String currentURL) throws MalformedURLException, UnsupportedEncodingException {
 		URL url = new URL(currentURL);
@@ -68,6 +71,9 @@ public class LayoutHelperImpl implements LayoutHelperService {
 		return logoutURL;
 	}
 
+	/**
+	 * TODO : appeler les méthodes statiques du Helper associé
+	 */
 	public static Map<String, List<String>> getQueryParams(URL url)
 			throws UnsupportedEncodingException, MalformedURLException {
 		final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();

@@ -1,0 +1,48 @@
+%molecule-ariane{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    
+
+    li, li a{
+        font-family: $site-font;
+        font-size: 1.3rem;
+        color: #858585;
+        text-transform: uppercase;
+    }
+    li a{
+        &:hover, &:focus{
+            text-decoration: underline;
+        }
+    }
+    li{
+        display: flex;
+        align-items: center;
+        &:before{
+            margin-left: 10px;
+            margin-right: 10px;
+            content: '';
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-size: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-arrow1, #858585) );
+            flex-shrink: 0;
+        }
+        &:first-child{
+            &:before{
+                display: none;
+            }
+        }
+        .page.active{
+            font-weight: 700;
+            color: $core-color;
+        }
+    }
+
+ /*   @include RWD(mobile){
+        display: none;
+    }*/
+}

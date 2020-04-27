@@ -1,0 +1,76 @@
+.seu-no-js{
+    @keyframes loaderNoJS{
+        0%{
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        99%{
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        100%{
+            left: -9999999px;
+            height: 0;
+            width: 0;
+            visibility: hidden;
+        }
+    }
+    @keyframes bannerNoJS{
+         0%{
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        99%{
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        100%{
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    #seu-loader{
+        animation: loaderNoJS 3s;
+        animation-fill-mode: forwards;
+    }
+    &.seu-front #seu-banner h1,
+    &.seu-front #seu-banner .seu-banner-form,
+    &.seu-front #seu-banner .seu-quicklinks .seu-quicklink{
+        animation: bannerNoJS 3s;
+        animation-fill-mode: forwards;
+    }
+    &.seu-front #seu-une .seu-slider-une-container,
+    &.seu-front #seu-une .seu-filters,
+    &.seu-front #seu-socials .seu-slider-social-container,
+    &.seu-front #seu-socials .seu-filters{
+        display: none;
+    }
+    #seu-footer{
+        padding-top: 50px;
+        margin-top: 0;
+    }
+    .seu-no-js-links{
+        display: flex !important;
+        justify-content: center;
+        a{
+            font-family: $montserrat;
+            @extend %atom-btn-round--core;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin: 0 20px;
+            &:hover, &:focus{
+                background-color: $second-color !important;
+            }
+        }
+        padding-bottom: 50px;
+    }
+    .seu-wi-slideNpop{
+        opacity: 0;
+    }
+    .seu-collapsing-box{
+        display: block !important;
+    }
+}

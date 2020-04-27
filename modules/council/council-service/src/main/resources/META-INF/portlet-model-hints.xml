@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.council.model.CouncilSession">
+		<field name="uuid" type="String" />
+		<field name="councilSessionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="date" type="Date" />
+		<field name="type" type="String" />
+		<field name="officialLeaderId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.council.model.Deliberation">
+		<field name="uuid" type="String" />
+		<field name="deliberationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="order" type="int" />
+		<field name="stage" type="String" />
+		<field name="countOfficialsVoting" type="int" />
+		<field name="countOfficialsActive" type="int" />
+		<field name="councilSessionId" type="long" />
+	</model>
+	<model name="eu.strasbourg.service.council.model.Official">
+		<field name="uuid" type="String" />
+		<field name="officialId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="email" type="String" />
+		<field name="firstname" type="String" />
+		<field name="lastname" type="String" />
+		<field name="isMunicipal" type="boolean" />
+		<field name="isEurometropolitan" type="boolean" />
+		<field name="isActive" type="boolean" />
+	</model>
+	<model name="eu.strasbourg.service.council.model.Procuration">
+		<field name="uuid" type="String" />
+		<field name="procurationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="officialVotersId" type="long" />
+		<field name="officialUnavailableId" type="long" />
+		<field name="councilSessionId" type="long" />
+		<field name="isAbsent" type="boolean" />
+	</model>
+	<model name="eu.strasbourg.service.council.model.Vote">
+		<field name="uuid" type="String" />
+		<field name="voteId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="result" type="String" />
+		<field name="officialId" type="long" />
+		<field name="deliberationId" type="long" />
+		<field name="officialProcurationId" type="long" />
+	</model>
+</model-hints>
