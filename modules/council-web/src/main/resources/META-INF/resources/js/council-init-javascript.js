@@ -1,5 +1,5 @@
 
-/*Sélection des input hidden*/
+/* Sélection des input hidden */
 var hiddenDelibId = document.getElementById("deliberationId");
 var hiddenDelibStatut = document.getElementById("stage");
 
@@ -17,6 +17,7 @@ var frontProcuOne= document.getElementById("form-procu-1");
 var frontProcuTwo= document.getElementById("form-procu-2");
 var frontTitleProcuOne= document.getElementById("title-procu-1");
 var frontTitleProcuTwo= document.getElementById("title-procu-2");
+var frontErrorVoteMessage= document.getElementById("error-vote-message");
 // Résultats vote
 var frontResultatVote = document.getElementById("resultat-vote");
 var frontResultatStatut = document.getElementById("statut-delib");

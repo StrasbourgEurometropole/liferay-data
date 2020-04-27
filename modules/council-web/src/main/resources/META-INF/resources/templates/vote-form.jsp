@@ -4,7 +4,6 @@
 </portlet:resourceURL>
 
 <!-- AFFICHAGE SEULEMENT SI L'ELU A VOTE -->
-
 <div class="confirmation-vote" id="confirmation-vote" style="display:none;">
     <h3><liferay-ui:message key='vote.registered.find.your.recap'/></h3>
 </div>
@@ -94,6 +93,11 @@
     </div>
     <!-- END : Vote procuration 2 -->
 
+    <!-- Messsage d'erreur -->
+    <div class="error-vote-message" id="error-vote-message" style="display:none;">
+        <p></p>
+    </div>
+
     <div class="btn-validate-vote seu-btn-line">
         <button class="seu-btn-square seu-filled seu-second" title="Valider" id="vote-button-submit">
             <span class="seu-flexbox">
@@ -109,6 +113,7 @@
     /** Lors de l'envoie du formulaire **/
     $("#vote-button-submit").click(function(event){
         event.preventDefault();
+        hideErrorMessage(); // Cache un potentiel précédent message d'erreur
         if (validateFormValues()){
             // Récupération des informations
             var sessionId = $("#" + namespace + "session-id").val();
@@ -143,7 +148,7 @@
                                     showFormRecap();
                                 } else {
                                     // Retour du serveResource avec erreur
-                                    alert(data.message);
+                                    showErrorMessage(data.message);
                                 }
                             }
                         }
@@ -160,30 +165,47 @@
         }
     });
 
-    /** Validation des inforamtions du formulaire **/
+    /* Validation des informations du formulaire */
     function validateFormValues() {
+        // Si l'utilisateur à au moins valider son vote
+        if ($('input[name=' + namespace + 'official-vote]:checked').length < 1) {
+            showErrorMessage("<liferay-ui:message key='vote-empty-error'/>");
+            return false;
+        }
         return true;
     }
 
-    /** Montre le récapitulatif de vote **/
+    /* Montre le récapitulatif de vote */
     function showFormRecap() {
         // Désactivations des inputs et du bouton de validation
         $('input[name=' + namespace + 'official-vote]').prop("disabled", true);
         $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", true);
         $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", true);
-        $("#vote-button-submit").show();
+        $("#vote-button-submit").hide();
         $("#confirmation-vote").show();
-        return true;
     }
 
-    /** Réinitialise le formulaire de vote **/
+    /* Réinitialise le formulaire de vote */
     function resetFormValues() {
         $("#confirmation-vote").hide();
         $("#" + namespace + "deliberation-id").val(0);
         $('input[name=' + namespace + 'official-vote]').prop("disabled", false).prop('checked', false);
         $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", false).prop('checked', false);
         $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", false).prop('checked', false);
-        $("#vote-button-submit").hide();
+        hideErrorMessage();
+        $("#vote-button-submit").show();
+    }
+
+    /* Affiche l'encart d'erreur avec le message donné */
+    function showErrorMessage(message) {
+        $("#error-vote-message").show();
+        $("#error-vote-message").html('<p>' + message + '</p>');
+    }
+
+    /* Cache l'encart d'erreur */
+    function hideErrorMessage() {
+        $("#error-vote-message").hide();
+        $("#error-vote-message").html('<p></p>');
     }
 
 </script>
