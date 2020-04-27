@@ -8,12 +8,39 @@ window.setInterval(function(){
       function(obj) {
 
         // On a un message (d'erreur, pas de session, pas de délib)
-        if(obj.messsage) {
-            frontMessage.textContent = Liferay.Language.get(obj.message);
-            frontMessage.style.display="block";
+        if(obj.message) {
+
+            frontResultatVote.style.display = "none";
+            frontResultatGeneral.style.display = "none";
+            frontResultatSpecifique.style.display = "none";
+            frontConfirmationVote.style.display = "none";
+            frontVoteForm.style.display = "none";
+            frontVoteEnCours.style.display = "none";
+            frontDelibTitle.style.display="none";
+            frontDelibDescription.style.display = "none";
+            frontMessage.style.display="none";
+            frontNoDelib.style.display="none";
+
+            // Il y a une session mais pas de delib
+            if(obj.message == "no-deliberation-yet") {
+                frontNoDelib.textContent = Liferay.Language.get(obj.message);
+
+
+                var title = frontDelibTitle.getElementsByTagName("h2")[0];
+                title.textContent = obj.session.title;
+
+                frontDelibTitle.style.display = "flex";
+                frontDelibRefresh.style.display = "block";
+                frontNoDelib.style.display="block";
+            } else {
+                frontMessage.textContent = Liferay.Language.get(obj.message);
+                frontMessage.style.display="block";
+            }
         }
         else {
             frontMessage.style.display="none";
+            frontNoDelib.style.display="none";
+
             var deliberationJSON = obj.deliberation;
 
             // On modifie uniquement si l'id de la délib ou son statut a changé
@@ -32,7 +59,7 @@ window.setInterval(function(){
                     description.textContent = deliberationJSON.title;
 
                     frontDelibTitle.style.display = "flex";
-                    frontDelibRefresh.style.display = "block";
+                    frontDelibDescription.style.display = "block";
                 }
 
 

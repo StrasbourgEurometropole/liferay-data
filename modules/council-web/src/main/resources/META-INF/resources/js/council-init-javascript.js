@@ -6,6 +6,7 @@ var hiddenDelibStatut = document.getElementById("stage");
 /* Sélection des différents éléments*/
 //message
 var frontMessage = document.getElementById("front-message");
+var frontNoDelib = document.getElementById("no-delib");
 // Presentation
 var frontDelibTitle = document.getElementById("delib-title");
 var frontDelibRefresh = document.getElementById("delib-refresh");
