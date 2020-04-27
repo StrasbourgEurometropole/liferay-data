@@ -25,6 +25,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.util.Date;
 import java.util.List;
 
 @Component(
@@ -101,6 +102,7 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         if(countOfficialVoting >= quorum) {
             // Passe au statut "Vote ouvert"
             deliberation.setStage(stage);
+            deliberation.setStatusDate(new Date());
         } else {
             // Pas de quorum, on avertit
             String[] args = new String[]{String.valueOf(countOfficialVoting), String.valueOf(countOfficialActive), String.valueOf(quorum)};

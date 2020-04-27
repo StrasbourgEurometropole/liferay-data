@@ -86,7 +86,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 			List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(todayCouncil.getCouncilSessionId());
 			// Trie par ordre inverse (plus facile pour chercher le dernier, juste à filter et get(0))
 			List<Deliberation> sortedDeliberations = deliberations.stream()
-					.sorted(Comparator.comparing(Deliberation::getOrder).reversed())
+					.sorted(Comparator.comparing(Deliberation::getStatusDate).reversed())
 					.collect(Collectors.toList());
 			// Si Toutes les délibs sont à "Créé" ou "Retiré"
 			if(sortedDeliberations.stream().allMatch(x -> x.isCree() || x.isRetire())) {

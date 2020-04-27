@@ -18,6 +18,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.util.Date;
 
 @Component(
         immediate = true,
@@ -48,6 +49,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
 
         deliberation.setStage(stage);
+        deliberation.setStatusDate(new Date());
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);

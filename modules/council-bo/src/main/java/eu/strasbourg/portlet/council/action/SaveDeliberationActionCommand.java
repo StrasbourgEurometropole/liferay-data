@@ -9,7 +9,10 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
@@ -24,8 +27,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-import java.util.Locale;
-import java.util.Map;
+import java.util.Date;
 
 @Component(
         immediate = true,
@@ -57,6 +59,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
             deliberation = deliberationLocalService.createDeliberation(sc);
             stage = StageDeliberation.get(1).getName();
             deliberation.setStage(stage);
+            deliberation.setStatusDate(new Date());
         } else {
             stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);

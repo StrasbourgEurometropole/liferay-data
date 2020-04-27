@@ -20,6 +20,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.util.Date;
 
 @Component(
         immediate = true,
@@ -57,6 +58,7 @@ public class ResetDeliberationActionCommand extends BaseMVCActionCommand {
 
         // Passe au statut Créé
         deliberation.setStage(StageDeliberation.get(1).getName());
+        deliberation.setStatusDate(new Date());
         //Vide les données lié au quorum
         deliberation.setCountOfficialsVoting(0);
         deliberation.setCountOfficialsActive(0);
