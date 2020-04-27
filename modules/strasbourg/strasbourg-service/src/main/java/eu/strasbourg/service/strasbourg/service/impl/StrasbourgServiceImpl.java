@@ -367,7 +367,6 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		try {
 			fos = new FileOutputStream(document);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			return error("file not found");
 		}
 		try {
@@ -476,28 +475,29 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					}
 				}
 
-				//lier à la catégorie de la commission
-				assert commissionCateg != null;
-				sc.setAssetCategoryIds(new long[]{commissionCateg.getCategoryId()});
-				//lier au tag Strasbourg ou Eurométropole
-				sc.setAssetTagNames(new String[]{documentType});
-				try {
-					fileEntry = DLAppLocalServiceUtil.addFileEntry(
-							userId, folder.getRepositoryId(),
-							folder.getFolderId(), fileName,
-							MimeTypesUtil.getContentType(document),
-							fileName, documentName,
-							"", decoder, sc);
-				} catch (PortalException ex) {
-					return error("document adding problem");
-				}
-
 				// changement du type de document
 				Optional<DLFileEntryType> fileTypeOptional = DLFileEntryTypeLocalServiceUtil.getDLFileEntryTypes(-1, -1).stream()
 						.filter(t -> t.getGroupId() == groupId && t.getName(Locale.FRANCE).equals(LanguageUtil.get(Locale.FRANCE, "eu.rep-commission")))
 						.findFirst();
 				if(fileTypeOptional.isPresent()){
 					DLFileEntryType fileType = fileTypeOptional.get();
+
+					//lier à la catégorie de la commission
+					assert commissionCateg != null;
+					sc.setAssetCategoryIds(new long[]{commissionCateg.getCategoryId()});
+					//lier au tag Strasbourg ou Eurométropole
+					sc.setAssetTagNames(new String[]{documentType});
+					try {
+						fileEntry = DLAppLocalServiceUtil.addFileEntry(
+								userId, folder.getRepositoryId(),
+								folder.getFolderId(), fileName,
+								MimeTypesUtil.getContentType(document),
+								fileName, documentName,
+								"", decoder, sc);
+					} catch (PortalException ex) {
+						return error("document adding problem");
+					}
+
 					DLFileEntry dlFileEntry;
 					try {
 						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntryType(userId, fileEntry.getFileEntryId(),
@@ -505,9 +505,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 					} catch (PortalException ex) {
 						return error("document type change problem");
 					}
+
 					//mise à jour du champs expando
 					dlFileEntry.getExpandoBridge().setAttribute("publication-date", publicationLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 					DLFileEntryLocalServiceUtil.updateDLFileEntry(dlFileEntry);
+				}else{
+					return error("document type not found");
 				}
 
 			}
