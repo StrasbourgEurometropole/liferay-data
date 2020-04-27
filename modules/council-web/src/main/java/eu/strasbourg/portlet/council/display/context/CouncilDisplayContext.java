@@ -115,7 +115,8 @@ public class CouncilDisplayContext {
                 && !this.isSessionNotAvailable()
                 && !this.isSimplePublikUser()
                 && !this.isOfficialTypeMismatchOrNotActive()
-                && !this.isOfficialNotedAbsent();
+                && !this.isOfficialNotedAbsent()
+                || this.configuration.useSkypeView().equals("true");
     }
 
     /**
