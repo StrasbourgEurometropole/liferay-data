@@ -4,6 +4,8 @@ var hiddenDelibId = document.getElementById("deliberationId");
 var hiddenDelibStatut = document.getElementById("stage");
 
 /* Sélection des différents éléments*/
+//message
+var frontMessage = document.getElementById("front-message");
 // Presentation
 var frontDelibTitle = document.getElementById("delib-title");
 var frontDelibRefresh = document.getElementById("delib-refresh");
