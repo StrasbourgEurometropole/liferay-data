@@ -95,20 +95,20 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
         deliberation.setCouncilSessionId(councilSessionId);
 
+        CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+        AssetCategory councilCategory = AssetVocabularyHelper.getCategory(council.getTitle(), themeDisplay.getScopeGroupId());
 
+        if (councilCategory != null)
+            sc.setAssetCategoryIds(new long[]{councilCategory.getCategoryId()});
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation, sc);
+
         // Parce que le SC enregistre une date NULL
         if(isNew) {
             deliberation.setStatusDate(new Date());
             deliberationLocalService.updateDeliberation(deliberation);
         }
-
-        CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-        AssetCategory councilCategory = AssetVocabularyHelper.getCategory(council.getTitle(), themeDisplay.getScopeGroupId());
-
-        AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(councilCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
 
         // Post / Redirect / Get si tout est bon
         PortletURL renderURL = PortletURLFactoryUtil.create(request,
