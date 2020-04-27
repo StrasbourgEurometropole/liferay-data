@@ -192,6 +192,7 @@
         $('input[name=' + namespace + 'official-vote]').prop("disabled", false).prop('checked', false);
         $('input[name=' + namespace + 'official-procuration-vote-1]').prop("disabled", false).prop('checked', false);
         $('input[name=' + namespace + 'official-procuration-vote-2]').prop("disabled", false).prop('checked', false);
+        hideErrorMessage();
         $("#vote-button-submit").show();
     }
 
