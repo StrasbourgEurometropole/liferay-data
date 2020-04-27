@@ -387,5 +387,36 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	/**
+	* Envoie <code>error</code> si le document n'a pas été envoyé.
+	*
+	* Returns <code>succes</code> un document de commission.
+	*
+	* @param fileContent le fichier en base 64
+	* @param fileName le nom du fichier
+	* @param commissionName le nom de la commission
+	* @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	* @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	* @param documentName Le nom du document
+	* @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	*/
+	public static java.lang.String addDocument(java.lang.String fileContent,
+		java.lang.String fileName, java.lang.String commissionName,
+		java.lang.String publicationDate, java.lang.String documentType,
+		java.lang.String documentName) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = StrasbourgServiceUtil.addDocument(fileContent,
+					fileName, commissionName, publicationDate, documentType,
+					documentName);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(StrasbourgServiceSoap.class);
 }
