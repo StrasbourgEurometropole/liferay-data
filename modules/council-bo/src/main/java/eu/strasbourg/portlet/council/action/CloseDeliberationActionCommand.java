@@ -23,6 +23,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.util.Date;
 import java.util.List;
 
 @Component(
@@ -120,6 +121,7 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
             /// Pas de majorité absolue pour le Pour => REJETE
             deliberation.setStage(StageDeliberation.get(5).getName());
         }
+        deliberation.setStatusDate(new Date());
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
