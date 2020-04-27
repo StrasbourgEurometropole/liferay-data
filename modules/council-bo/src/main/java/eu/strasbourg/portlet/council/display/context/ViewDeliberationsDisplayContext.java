@@ -29,6 +29,13 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
     public ViewDeliberationsDisplayContext(RenderRequest request, RenderResponse response, String categoryToAdd) {
         super(Deliberation.class, request, response);
         this.sessionCategoryToAdd=categoryToAdd;
+        try {
+            // Hack : forçage du delta du SearchContainer
+            // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
+            this.getSearchContainer().setDelta(100);
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unused")
