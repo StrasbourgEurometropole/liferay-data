@@ -122,6 +122,8 @@ window.setInterval(function(){
                 // Reset le formulaire pour le prochain vote
                 resetFormValues()
 
+                frontResultatSpecifique.style.display = "none";
+                frontResultatGeneral.style.display = "none";
                 frontVoteEnCours.style.display = "none";
                 frontVoteForm.style.display = "none";
                 frontConfirmationVote.style.display = "none";
