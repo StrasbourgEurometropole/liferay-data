@@ -16,6 +16,7 @@ window.setInterval(function(){
             frontConfirmationVote.style.display = "none";
             frontVoteForm.style.display = "none";
             frontVoteEnCours.style.display = "none";
+            frontErrorVoteMessage.style.display = "none";
             frontDelibTitle.style.display="none";
             frontDelibDescription.style.display = "none";
             frontMessage.style.display="none";
@@ -71,6 +72,7 @@ window.setInterval(function(){
                     frontConfirmationVote.style.display = "none";
                     frontVoteForm.style.display = "none";
                     frontVoteEnCours.style.display = "none";
+                    frontErrorVoteMessage.style.display = "none";
 
                     frontDelibTitle.style.display="flex";
 
@@ -159,6 +161,7 @@ window.setInterval(function(){
                     frontVoteEnCours.style.display = "none";
                     frontVoteForm.style.display = "none";
                     frontConfirmationVote.style.display = "none";
+                    frontErrorVoteMessage.style.display = "none";
 
                     var votesJSON = deliberationJSON.votes;
 
