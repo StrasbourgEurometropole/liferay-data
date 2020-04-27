@@ -63,6 +63,12 @@
 	@include tablet_portrait{
 		padding: 40px 0;
 	}
+
+	.journal-content-article{
+		display: flex;
+		flex-wrap: wrap;
+	}
+
 	.mns-social-noel{
 		position: relative;
 		padding: 10px 35px 0 35px;

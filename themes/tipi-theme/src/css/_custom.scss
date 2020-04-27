@@ -5,6 +5,14 @@
 
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
 
+.header {
+	.nav-lang {
+		a{
+			padding: 8px !important;
+		}
+	}
+}
+
 a:hover, a:focus{
 	color: white;
 }
@@ -59,16 +67,37 @@ body{
 		clear: both;
 	}
 
-	.breadcrumbs{
+	.breadcrumb{
+		display: table;
 		padding: 0px;
-    	margin-bottom: 20px;
+		border-bottom: 4px solid white;
+		margin-bottom: 20px;
+		
+		.breadcrumb-item{
+			margin-right: 0em;
+		}
 
-		> li + li:before {
+		.breadcrumb-item + .breadcrumb-item::before {
+			margin-left: 0.2rem;
+			font-size: 14px;
+		}
+
+		> li {
 			background-image: url();
 			content: "\00a0>\00a0";
 			margin-top: -0.5em;
 			color: #333333;
 			margin-left: 2px;
+
+			> a {
+				> span {
+					font-size: 14px;
+				}
+			}
+
+			> span {
+				font-size: 14px;
+			}
 		}
 	}
 
