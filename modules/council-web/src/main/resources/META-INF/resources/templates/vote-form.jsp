@@ -94,7 +94,7 @@
     <!-- END : Vote procuration 2 -->
 
     <!-- Messsage d'erreur -->
-    <div class="error-message" id="error-message" style="display:none;">
+    <div class="error-vote-message" id="error-vote-message" style="display:none;">
         <p></p>
     </div>
 
@@ -197,14 +197,14 @@
 
     /* Affiche l'encart d'erreur avec le message donné */
     function showErrorMessage(message) {
-        $("#error-message").show();
-        $("#error-message").html('<p>' + message + '</p>');
+        $("#error-vote-message").show();
+        $("#error-vote-message").html('<p>' + message + '</p>');
     }
 
     /* Cache l'encart d'erreur */
     function hideErrorMessage() {
-        $("#error-message").hide();
-        $("#error-message").html('<p></p>');
+        $("#error-vote-message").hide();
+        $("#error-vote-message").html('<p></p>');
     }
 
 </script>
