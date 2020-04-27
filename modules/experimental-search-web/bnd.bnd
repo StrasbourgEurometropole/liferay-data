@@ -1,4 +1,0 @@
-Bundle-Name: experimental-search-web
-Bundle-SymbolicName: eu.strasbourg.portlet.search
-Bundle-Version: 1.31.0
-Export-Package: eu.strasbourg.portlet.search.constants
