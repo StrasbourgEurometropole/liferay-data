@@ -91,7 +91,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 			// Si Toutes les délibs sont à "Créé" ou "Retiré"
 			if(sortedDeliberations.stream().allMatch(x -> x.isCree() || x.isRetire())) {
 				// JSON pas de délib
-				session.put("message", "no-deliberation-yet");
+				userFront.put("message", "no-deliberation-yet");
 			}
 			// Au moins une délib à afficher ("Affichage en cours" / "Vote ouvert" / "Rejete" / "Adopte" / "Communique")
 			else {
@@ -181,7 +181,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 		// Il n'y a pas de Conseil aujourd'hui
 		else {
 			// JSON pas de session
-			session.put("message", "no-council-today");
+			userFront.put("message", "no-council-today");
 		}
 
 		//On assemble les pièces du puzzle, les ingrédients du Tacos
