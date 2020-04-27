@@ -55,11 +55,12 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         Deliberation deliberation;
         String stage;
+        boolean isNew=false;
         if (deliberationId == 0) {
             deliberation = deliberationLocalService.createDeliberation(sc);
             stage = StageDeliberation.get(1).getName();
             deliberation.setStage(stage);
-            deliberation.setStatusDate(new Date());
+            isNew=true;
         } else {
             stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);
@@ -98,6 +99,11 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation, sc);
+        // Parce que le SC enregistre une date NULL
+        if(isNew) {
+            deliberation.setStatusDate(new Date());
+            deliberationLocalService.updateDeliberation(deliberation);
+        }
 
         CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         AssetCategory councilCategory = AssetVocabularyHelper.getCategory(council.getTitle(), themeDisplay.getScopeGroupId());
