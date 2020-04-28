@@ -135,15 +135,15 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
                 actionId);
     }
 
+    @SuppressWarnings("unused")
     public String getStageDeliberationName(long id) {
         return StageDeliberation.get(id).getName();
     }
 
     /**
      * Class CSS de la couleur du Statut
-     * @param deliberation
-     * @return
      */
+    @SuppressWarnings("unused")
     public String getCSSClass(Deliberation deliberation) {
         String cssClass="";
         if(deliberation.isAdopte()) {
