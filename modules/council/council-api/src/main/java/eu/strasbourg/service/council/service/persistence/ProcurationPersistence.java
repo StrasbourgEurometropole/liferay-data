@@ -714,6 +714,65 @@ public interface ProcurationPersistence extends BasePersistence<Procuration> {
 		long councilSessionId, long officialVotersId, long officialUnavailableId);
 
 	/**
+	* Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or throws a {@link NoSuchProcurationException} if it could not be found.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialUnavailableId the official unavailable ID
+	* @param isAbsent the is absent
+	* @return the matching procuration
+	* @throws NoSuchProcurationException if a matching procuration could not be found
+	*/
+	public Procuration findByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent)
+		throws NoSuchProcurationException;
+
+	/**
+	* Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialUnavailableId the official unavailable ID
+	* @param isAbsent the is absent
+	* @return the matching procuration, or <code>null</code> if a matching procuration could not be found
+	*/
+	public Procuration fetchByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent);
+
+	/**
+	* Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialUnavailableId the official unavailable ID
+	* @param isAbsent the is absent
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching procuration, or <code>null</code> if a matching procuration could not be found
+	*/
+	public Procuration fetchByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent, boolean retrieveFromCache);
+
+	/**
+	* Removes the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; from the database.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialUnavailableId the official unavailable ID
+	* @param isAbsent the is absent
+	* @return the procuration that was removed
+	*/
+	public Procuration removeByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent)
+		throws NoSuchProcurationException;
+
+	/**
+	* Returns the number of procurations where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63;.
+	*
+	* @param councilSessionId the council session ID
+	* @param officialUnavailableId the official unavailable ID
+	* @param isAbsent the is absent
+	* @return the number of matching procurations
+	*/
+	public int countByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent);
+
+	/**
 	* Caches the procuration in the entity cache if it is enabled.
 	*
 	* @param procuration the procuration

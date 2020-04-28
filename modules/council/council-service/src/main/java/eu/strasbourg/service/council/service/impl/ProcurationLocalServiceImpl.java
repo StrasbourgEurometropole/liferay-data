@@ -163,4 +163,12 @@ public class ProcurationLocalServiceImpl extends ProcurationLocalServiceBaseImpl
 				councilSessionId, officialVoter, officialUnavailableId);
 	}
 
+	/**
+	 * Recherche d'une absence à une session
+	 */
+	@Override
+	public Procuration findAbsenceForCouncilSession(long councilSessionId, long officialId){
+		return this.procurationPersistence.fetchByAbsenceForCouncilSession(councilSessionId, officialId, true);
+	}
+
 }

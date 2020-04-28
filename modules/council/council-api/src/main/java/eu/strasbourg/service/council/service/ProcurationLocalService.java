@@ -147,6 +147,12 @@ public interface ProcurationLocalService extends BaseLocalService,
 		long groupId);
 
 	/**
+	* Recherche d'une absence à une session
+	*/
+	public Procuration findAbsenceForCouncilSession(long councilSessionId,
+		long officialId);
+
+	/**
 	* Recherche par ID de CouncilSession, élu et mandataire,
 	*/
 	public Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
