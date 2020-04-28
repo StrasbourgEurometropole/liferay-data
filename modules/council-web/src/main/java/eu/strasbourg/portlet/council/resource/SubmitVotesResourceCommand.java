@@ -85,12 +85,15 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             if (this.validate()) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
 
-                // Enregistrement du vote de l'élu
-                Vote officialVote = this.voteLocalService.createVote(sc);
-                officialVote.setOfficialId(this.officialId);
-                officialVote.setDeliberationId(this.deliberationId);
-                officialVote.setResult(this.officialVote);
-                this.voteLocalService.updateVote(officialVote, sc);
+
+                // Si exite, enregistrement du vote de l'élu
+                if (Validator.isNotNull(this.officialVote)) {
+                    Vote officialVote = this.voteLocalService.createVote(sc);
+                    officialVote.setOfficialId(this.officialId);
+                    officialVote.setDeliberationId(this.deliberationId);
+                    officialVote.setResult(this.officialVote);
+                    this.voteLocalService.updateVote(officialVote, sc);
+                }
 
                 // Si exite, enregistrement de la 1ere procuration
                 if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
