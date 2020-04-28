@@ -14,15 +14,13 @@
 
 package eu.strasbourg.service.place.service;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import aQute.bnd.annotation.ProviderType;
+
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 
 /**
  * Provides a wrapper for {@link PlaceLocalService}.

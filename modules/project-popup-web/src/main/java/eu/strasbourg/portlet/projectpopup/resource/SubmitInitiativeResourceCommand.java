@@ -268,7 +268,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 			configuration.setClassForTemplateLoading(this.getClass(), "/META-INF/resources/templates/");
 			configuration.setTagSyntax(Configuration.ANGLE_BRACKET_TAG_SYNTAX);
 			
-			Template bodyTemplate = configuration.getTemplate("contact-mail-copy-body-fr_FR.ftl");
+			Template bodyTemplate = configuration.getTemplate("contact-mail-initiative-copy-body-fr_FR.ftl");
 			StringWriter bodyWriter = new StringWriter();
 			bodyTemplate.process(context, bodyWriter);
 			

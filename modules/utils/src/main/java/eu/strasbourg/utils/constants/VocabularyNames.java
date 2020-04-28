@@ -43,7 +43,8 @@ public class VocabularyNames {
 	public static final String ACCESSIBILITY = "accessibilite de pratique";
 	public static final String ARRET_TYPE = "type d'arret";
 	public static final String COUNCIL_SESSION = "Conseil";
-	
+	public static final String COMMISSION = "commission des actes reglementaires et normatifs";
+
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";
 	public static final String DUREE_NOEL = "duree noel";
