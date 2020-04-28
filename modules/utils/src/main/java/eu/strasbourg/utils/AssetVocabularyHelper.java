@@ -654,5 +654,36 @@ public class AssetVocabularyHelper {
 				assetVocabulary.getVocabularyId(), sc);
 	}
 
+	/**
+	 * Renommer une categorie du vocabulaire du site donné
+	 * @param categoryName Nom de la categorie à ajouter
+	 * @param newName Nouveau nom de la catégorie
+	 * @param groupId Id du site
+	 * @return La catégorie renommée si trouvée, sinon null
+	 */
+	public static AssetCategory renameCategory(String categoryName, String newName, long groupId) {
+		AssetCategory assetCategory = AssetVocabularyHelper.getCategory(categoryName, groupId);
+		if (assetCategory != null) {
+			assetCategory.setTitle(newName);
+			assetCategory.setName(newName);
+			assetCategory = AssetCategoryLocalServiceUtil.updateAssetCategory(assetCategory);
+		}
+		return assetCategory;
+	}
+
+	/**
+	 * Supprimer une categorie du vocabulaire du site donné
+	 * @param categoryName Nom de la categorie à ajouter
+	 * @param groupId Id du site
+	 * @return La catégorie supprimée si trouvée, sinon null
+	 */
+	public static AssetCategory removeCategory(String categoryName, long groupId) {
+		AssetCategory assetCategory = AssetVocabularyHelper.getCategory(categoryName, groupId);
+		if (assetCategory != null) {
+			assetCategory = AssetCategoryLocalServiceUtil.deleteAssetCategory(assetCategory);
+		}
+		return assetCategory;
+	}
+
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
 }
