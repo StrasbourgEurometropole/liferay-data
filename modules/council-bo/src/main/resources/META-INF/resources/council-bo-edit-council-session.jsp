@@ -45,7 +45,7 @@
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
 			    <%-- Champ : Titre --%>
-                <aui:input name="title" required="true" />
+                <aui:input name="title" required="true" size="75" />
 
                 <%-- Champ : Type --%>
                 <div><label><liferay-ui:message key="type" /></label></div>

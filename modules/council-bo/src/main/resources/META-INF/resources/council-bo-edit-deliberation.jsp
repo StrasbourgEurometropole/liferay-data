@@ -55,7 +55,9 @@
                 <aui:input name="order" required="true" />
 
 			    <%-- Champ : Titre --%>
-                <aui:input type="textarea" name="title" required="true" />
+                <aui:input type="textarea" name="title" required="true">
+                    <aui:validator name="maxLength">500</aui:validator>
+                </aui:input>
 
 			    <%-- Champ : Session --%>
                 <aui:select name="councilSessionId" label="councilSession" required="true">
