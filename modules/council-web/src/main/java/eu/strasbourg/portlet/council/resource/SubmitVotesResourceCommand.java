@@ -150,6 +150,14 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             return false;
         }
 
+        // Vérification qu'au moins un vote est rempli
+        if (Validator.isNull(this.officialVote)
+                && Validator.isNull(this.officialProcurationVote_1)
+                && Validator.isNull(this.officialProcurationVote_2)) {
+            this.message = LanguageUtil.get(bundle, "vote-empty-error");
+            return false;
+        }
+
         // Vérification que le vote n'existe pas déjà
         Vote vote = this.voteLocalService.findByDeliberationIdandOfficialId(
                 this.deliberationId, this.officialId);
