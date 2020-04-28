@@ -17,13 +17,9 @@
             <#if file.description?has_content>
                 <#assign description = file.description />
             <#else>
-                <#if fileEntryHelper.getFileTitle??>
-                    <#assign description = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                <#else>
-                    <#assign description = file.getTitle() />
-                </#if>
-            </#if>
-
+                <#assign description = file.getTitle()?keep_before_last(".") />
+            </#if> 
+            <#assign description = file.getTitle()?keep_before_last(".") />
             <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
             <#assign categories = assetVocabularyHelper.getAssetEntryCategories(curEntry) />
 
