@@ -118,7 +118,7 @@
                             <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
                             <portlet:param name="stage" value="${dc.getStageDeliberationName(4)}" />
                         </liferay-portlet:actionURL>
-                        <c:if test="${(deliberation.isCree() or deliberation.isRejete()) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                        <c:if test="${(deliberation.isCree() or deliberation.isRejete() or deliberation.isAffichageEnCours()) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <liferay-ui:icon message="adopt" url="${adoptDeliberationURL}" />
                         </c:if>
 
@@ -128,7 +128,7 @@
                             <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
                             <portlet:param name="stage" value="${dc.getStageDeliberationName(5)}" />
                         </liferay-portlet:actionURL>
-                        <c:if test="${(deliberation.isCree() or deliberation.isAdopte()) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                        <c:if test="${(deliberation.isCree() or deliberation.isAdopte() or deliberation.isAffichageEnCours()) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <liferay-ui:icon message="reject" url="${rejectDeliberationURL}" />
                         </c:if>
 
@@ -138,7 +138,7 @@
                             <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
                             <portlet:param name="stage" value="${dc.getStageDeliberationName(6)}" />
                         </liferay-portlet:actionURL>
-                        <c:if test="${deliberation.isCree() and empty themeDisplay.scopeGroup.getStagingGroup()}">
+                        <c:if test="${deliberation.isCree() or deliberation.isAffichageEnCours() and empty themeDisplay.scopeGroup.getStagingGroup()}">
                             <liferay-ui:icon message="communicate" url="${communicateDeliberationURL}" />
                         </c:if>
 
