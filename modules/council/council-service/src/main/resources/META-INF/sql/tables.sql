@@ -30,7 +30,7 @@ create table council_Deliberation (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	title VARCHAR(75) null,
+	title VARCHAR(500) null,
 	order_ INTEGER,
 	stage VARCHAR(75) null,
 	countOfficialsVoting INTEGER,

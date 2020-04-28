@@ -32,7 +32,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
-		<field name="title" type="String" />
+		<field name="title" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 		<field name="order" type="int" />
 		<field name="stage" type="String" />
 		<field name="countOfficialsVoting" type="int" />
