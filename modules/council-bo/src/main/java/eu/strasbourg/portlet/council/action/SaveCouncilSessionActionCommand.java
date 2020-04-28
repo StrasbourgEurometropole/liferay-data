@@ -125,11 +125,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             }
             // Fin Champs : procurations
 
-            // Création d'une catégorie du même nom que la session dans le vocabulaire "Conseil" (si n'existe pas déjà)
-            if (AssetVocabularyHelper.getCategory(title, sc.getScopeGroupId()) == null) {
-                AssetVocabularyHelper.addCategoryToVocabulary(title, VocabularyNames.COUNCIL_SESSION, sc);
-            }
-
             // Mise à jour de l'entrée en base
             this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
 
