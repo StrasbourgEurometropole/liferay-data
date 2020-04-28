@@ -35,6 +35,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -98,6 +100,21 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 		} else {
 			councilSession.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
+
+		// Ajout ou renommmage de la catégorie associée
+		CouncilSession oldCouncilSession = this.councilSessionLocalService.fetchCouncilSession(
+				councilSession.getCouncilSessionId());
+		// Si elle existe déjà, c'est une mise à jour sinon on la créée
+		if (oldCouncilSession != null) {
+			// On renomme la catégorie si le titre a été modifié
+			if (!oldCouncilSession.getTitle().equals(councilSession.getTitle()))
+				AssetVocabularyHelper.renameCategory(oldCouncilSession.getTitle(), councilSession.getTitle(),
+						sc.getScopeGroupId());
+		} else {
+			AssetVocabularyHelper.addCategoryToVocabulary(councilSession.getTitle(),
+					VocabularyNames.COUNCIL_SESSION, sc);
+		}
+
 		councilSession = this.councilSessionLocalService.updateCouncilSession(councilSession);
 
 		this.updateAssetEntry(councilSession, sc);
@@ -223,8 +240,13 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			this.deliberationLocalService.removeDeliberation(deliberation.getDeliberationId());
 		}
 
+		// Suppression de la catégorie associée
+		CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(councilSessionId);
+		if (councilSession != null)
+			AssetVocabularyHelper.removeCategory(councilSession.getTitle(), councilSession.getGroupId());
+
 		// Supprime l'entité
-		CouncilSession councilSession = councilSessionPersistence.remove(councilSessionId);
+		councilSession = this.councilSessionPersistence.remove(councilSessionId);
 
 		// Supprime l'index
 		this.reindex(councilSession, true);
