@@ -94,7 +94,10 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         // Calcule le résultat
-        if(countPour > majoriteAbsolue) {
+        if (countPour < 1) {
+            // Si pas de vote Pour => REJETE
+            deliberation.setStage(StageDeliberation.get(5).getName());
+        } else if(countPour > majoriteAbsolue) {
             // Majorité absolue de Pour => ADOPTE
             deliberation.setStage(StageDeliberation.get(4).getName());
         } else if (countPour == countContre) {
