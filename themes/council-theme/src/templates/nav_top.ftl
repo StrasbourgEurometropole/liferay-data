@@ -23,13 +23,6 @@
               <span class="${prefix}-arrow" style="display: none;"></span>
             </span>
           </button>
-          <!-- Menu connecté -->
-          <@liferay_portlet["runtime"]
-            portletProviderAction=portletProviderAction.VIEW
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="loggedinmenu"
-            settingsScope="group" />
-        </div>
       <#else>
         <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="${prefix}-nav-account ${prefix}-nav-btn" title="Connexion">
           <span class="${prefix}-flexbox">
