@@ -9,7 +9,7 @@
 				<a href="${item.getChildren()[0].data}" target="_blank">
 				<div class="center-vertical">
 					<div class="logo-partners">
-						<img alt="${item.data}" class="on" src="${item.getChildren()[2].data}" /><img alt="${item.data}" class="off" src="${item.getChildren()[1].data}" />
+						<img alt="${item.getData()}" class="on" src="${item.getChildren()[2].getData()}" /><img alt="${item.getData()}" class="off" src="${item.getChildren()[1].getData()}" />
 					</div>
 				</div>
 				</a>
