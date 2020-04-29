@@ -126,8 +126,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long DATE_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long TITLE_COLUMN_BITMASK = 16L;
+	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.CouncilSession"));
 
@@ -509,7 +509,15 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	public void setTitle(String title) {
 		_columnBitmask = -1L;
 
+		if (_originalTitle == null) {
+			_originalTitle = _title;
+		}
+
 		_title = title;
+	}
+
+	public String getOriginalTitle() {
+		return GetterUtil.getString(_originalTitle);
 	}
 
 	@Override
@@ -762,6 +770,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 		councilSessionModelImpl._setModifiedDate = false;
 
+		councilSessionModelImpl._originalTitle = councilSessionModelImpl._title;
+
 		councilSessionModelImpl._originalDate = councilSessionModelImpl._date;
 
 		councilSessionModelImpl._columnBitmask = 0;
@@ -1006,6 +1016,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+	private String _originalTitle;
 	private Date _date;
 	private Date _originalDate;
 	private String _type;

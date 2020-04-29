@@ -41,6 +41,15 @@ public class CouncilSessionLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.CouncilSessionLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	*/
+	public static boolean isTitleAlreadyUsed(java.lang.String title,
+		long councilSessionId) {
+		return getService().isTitleAlreadyUsed(title, councilSessionId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -288,6 +297,14 @@ public class CouncilSessionLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByDate(
 		java.util.Date date) {
 		return getService().findByDate(date);
+	}
+
+	/**
+	* Recherche par titre de CouncilSession
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByTitre(
+		java.lang.String title) {
+		return getService().findByTitre(title);
 	}
 
 	/**
