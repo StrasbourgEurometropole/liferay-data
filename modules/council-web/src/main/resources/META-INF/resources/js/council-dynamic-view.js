@@ -53,8 +53,11 @@ window.setInterval(function(){
             frontNoDelib.style.display="none";
 
             hiddenOfficialAbsent.value = obj.official.absent;
-
-            frontMessage.textContent = Liferay.Language.get("noted.absent");
+            if(obj.official.officialVoters) {
+                frontMessage.textContent = Liferay.Language.get("noted.absent.and.give.procuration") +' ' + obj.official.officialVoters ;
+            } else {
+                frontMessage.textContent = Liferay.Language.get("noted.absent");
+            }
             frontMessage.style.display="block";
         }
         else {
