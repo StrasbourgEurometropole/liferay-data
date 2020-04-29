@@ -152,6 +152,16 @@ public class ProcurationLocalServiceWrapper implements ProcurationLocalService,
 	}
 
 	/**
+	* Recherche d'une absence à une session
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Procuration findAbsenceForCouncilSession(
+		long councilSessionId, long officialId) {
+		return _procurationLocalService.findAbsenceForCouncilSession(councilSessionId,
+			officialId);
+	}
+
+	/**
 	* Recherche par ID de CouncilSession, élu et mandataire,
 	*/
 	@Override

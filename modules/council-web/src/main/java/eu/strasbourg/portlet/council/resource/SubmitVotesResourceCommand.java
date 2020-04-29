@@ -85,12 +85,15 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             if (this.validate()) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
 
-                // Enregistrement du vote de l'élu
-                Vote officialVote = this.voteLocalService.createVote(sc);
-                officialVote.setOfficialId(this.officialId);
-                officialVote.setDeliberationId(this.deliberationId);
-                officialVote.setResult(this.officialVote);
-                this.voteLocalService.updateVote(officialVote, sc);
+
+                // Si exite, enregistrement du vote de l'élu
+                if (Validator.isNotNull(this.officialVote)) {
+                    Vote officialVote = this.voteLocalService.createVote(sc);
+                    officialVote.setOfficialId(this.officialId);
+                    officialVote.setDeliberationId(this.deliberationId);
+                    officialVote.setResult(this.officialVote);
+                    this.voteLocalService.updateVote(officialVote, sc);
+                }
 
                 // Si exite, enregistrement de la 1ere procuration
                 if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
@@ -137,7 +140,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
         // Vérification de l'existance de la délibération
         Deliberation deliberation = this.deliberationLocalService.fetchDeliberation(this.deliberationId);
         if (deliberation ==  null) {
-            this.message = LanguageUtil.get(bundle, "deliberation-not-exist-error");
+            this.message = LanguageUtil.get(this.bundle, "deliberation-not-exist-error");
             return false;
         }
 
@@ -147,11 +150,27 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             return false;
         }
 
+        // Vérification qu'au moins un vote est rempli
+        if (Validator.isNull(this.officialVote)
+                && Validator.isNull(this.officialProcurationVote_1)
+                && Validator.isNull(this.officialProcurationVote_2)) {
+            this.message = LanguageUtil.get(this.bundle, "vote-empty-error");
+            return false;
+        }
+
         // Vérification que le vote n'existe pas déjà
         Vote vote = this.voteLocalService.findByDeliberationIdandOfficialId(
                 this.deliberationId, this.officialId);
         if (vote != null) {
-            this.message = LanguageUtil.get(bundle, "vote-already-register");
+            this.message = LanguageUtil.get(this.bundle, "vote-already-register");
+            return false;
+        }
+
+        // Vérification qu'il n'existe pas une procuration définissant l'absence de l'élu
+        Procuration absenceProcuration = this.procurationLocalService.findAbsenceForCouncilSession(
+                this.sessionId, this.officialId);
+        if (absenceProcuration != null) {
+            this.message = LanguageUtil.get(this.bundle, "defined.as.absent.error");
             return false;
         }
 

@@ -146,6 +146,15 @@ public class ProcurationLocalServiceUtil {
 	}
 
 	/**
+	* Recherche d'une absence à une session
+	*/
+	public static eu.strasbourg.service.council.model.Procuration findAbsenceForCouncilSession(
+		long councilSessionId, long officialId) {
+		return getService()
+				   .findAbsenceForCouncilSession(councilSessionId, officialId);
+	}
+
+	/**
 	* Recherche par ID de CouncilSession, élu et mandataire,
 	*/
 	public static eu.strasbourg.service.council.model.Procuration findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(

@@ -126,10 +126,11 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long OFFICIALUNAVAILABLEID_COLUMN_BITMASK = 8L;
-	public static final long OFFICIALVOTERSID_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
-	public static final long PROCURATIONID_COLUMN_BITMASK = 64L;
+	public static final long ISABSENT_COLUMN_BITMASK = 8L;
+	public static final long OFFICIALUNAVAILABLEID_COLUMN_BITMASK = 16L;
+	public static final long OFFICIALVOTERSID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+	public static final long PROCURATIONID_COLUMN_BITMASK = 128L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Procuration"));
 
@@ -578,7 +579,19 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 
 	@Override
 	public void setIsAbsent(boolean isAbsent) {
+		_columnBitmask |= ISABSENT_COLUMN_BITMASK;
+
+		if (!_setOriginalIsAbsent) {
+			_setOriginalIsAbsent = true;
+
+			_originalIsAbsent = _isAbsent;
+		}
+
 		_isAbsent = isAbsent;
+	}
+
+	public boolean getOriginalIsAbsent() {
+		return _originalIsAbsent;
 	}
 
 	@Override
@@ -807,6 +820,10 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 		procurationModelImpl._originalCouncilSessionId = procurationModelImpl._councilSessionId;
 
 		procurationModelImpl._setOriginalCouncilSessionId = false;
+
+		procurationModelImpl._originalIsAbsent = procurationModelImpl._isAbsent;
+
+		procurationModelImpl._setOriginalIsAbsent = false;
 
 		procurationModelImpl._columnBitmask = 0;
 	}
@@ -1040,6 +1057,8 @@ public class ProcurationModelImpl extends BaseModelImpl<Procuration>
 	private long _originalCouncilSessionId;
 	private boolean _setOriginalCouncilSessionId;
 	private boolean _isAbsent;
+	private boolean _originalIsAbsent;
+	private boolean _setOriginalIsAbsent;
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 }

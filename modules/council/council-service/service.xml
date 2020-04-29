@@ -204,6 +204,11 @@
 			<finder-column name="officialVotersId" />
 			<finder-column name="officialUnavailableId" />
 		</finder>
+		<finder name="AbsenceForCouncilSession" return-type="Procuration">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialUnavailableId" />
+			<finder-column name="isAbsent" />
+		</finder>
 
 	</entity>
 
