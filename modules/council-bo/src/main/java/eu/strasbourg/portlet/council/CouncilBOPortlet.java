@@ -131,10 +131,12 @@ public class CouncilBOPortlet extends MVCPortlet {
 					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
 				} else {
 					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime());
-					CouncilSession lastCouncil = futureCouncilSessions.get(futureCouncilSessions.size()-1);
-					AssetCategory councilCategory = AssetVocabularyHelper.getCategory(lastCouncil.getTitle(), themeDisplay.getScopeGroupId());
-					categoryId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
-					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+					if(futureCouncilSessions.size() > 0) {
+						CouncilSession lastCouncil = futureCouncilSessions.get(futureCouncilSessions.size()-1);
+						AssetCategory councilCategory = AssetVocabularyHelper.getCategory(lastCouncil.getTitle(), themeDisplay.getScopeGroupId());
+						categoryId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
+						originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
+					}
 				}
 
 			} else {
