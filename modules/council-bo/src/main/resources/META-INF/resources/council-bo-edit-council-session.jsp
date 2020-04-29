@@ -117,13 +117,14 @@
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox" checked="${isAbsentValue}" value="isAbsent" />
+                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox"
+                                        title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
-                                            name="${official.officialId}-officialVoters" value="${officialVotersFullName}"
-                                            disabled="${disabledInput}" />
+                                            title="official-receiver" name="${official.officialId}-officialVoters"
+                                            value="${officialVotersFullName}" disabled="${disabledInput}" />
                                         <aui:input cssClass="autocomplete-hidden" type="hidden"
                                             name="${official.officialId}-officialVotersId"
                                             value="${officialVotersIdValue}" />
