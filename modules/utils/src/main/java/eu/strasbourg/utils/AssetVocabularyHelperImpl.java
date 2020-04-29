@@ -100,16 +100,4 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 		return AssetVocabularyHelper.getSortedCategories(vocabulary, groupId);
 	}
 
-	/**
-	 * Ajout une nouvelle categorie au vocabulaire du site donné (marche en locale FR_fr)
-	 * @param categoryName Nom de la categorie à ajouter
-	 * @param vocabularyName Nom du vocabulaire où ajouter la categorie
-	 * @param sc Contexte de la requête
-	 * @return La catégorie ajouté
-	 */
-	public static AssetCategory addCategoryToVocabulary(String categoryName, String vocabularyName, ServiceContext sc)
-			throws PortalException {
-		return AssetVocabularyHelper.addCategoryToVocabulary(categoryName, vocabularyName, sc);
-	}
-
 }

@@ -2833,6 +2833,284 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 		"procuration.officialVotersId = ? AND ";
 	private static final String _FINDER_COLUMN_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS_OFFICIALUNAVAILABLEID_2 =
 		"procuration.officialUnavailableId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION =
+		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, ProcurationImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByAbsenceForCouncilSession",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Boolean.class.getName()
+			},
+			ProcurationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
+			ProcurationModelImpl.OFFICIALUNAVAILABLEID_COLUMN_BITMASK |
+			ProcurationModelImpl.ISABSENT_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION =
+		new FinderPath(ProcurationModelImpl.ENTITY_CACHE_ENABLED,
+			ProcurationModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAbsenceForCouncilSession",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Boolean.class.getName()
+			});
+
+	/**
+	 * Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or throws a {@link NoSuchProcurationException} if it could not be found.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param isAbsent the is absent
+	 * @return the matching procuration
+	 * @throws NoSuchProcurationException if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration findByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent)
+		throws NoSuchProcurationException {
+		Procuration procuration = fetchByAbsenceForCouncilSession(councilSessionId,
+				officialUnavailableId, isAbsent);
+
+		if (procuration == null) {
+			StringBundler msg = new StringBundler(8);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("councilSessionId=");
+			msg.append(councilSessionId);
+
+			msg.append(", officialUnavailableId=");
+			msg.append(officialUnavailableId);
+
+			msg.append(", isAbsent=");
+			msg.append(isAbsent);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchProcurationException(msg.toString());
+		}
+
+		return procuration;
+	}
+
+	/**
+	 * Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param isAbsent the is absent
+	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration fetchByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent) {
+		return fetchByAbsenceForCouncilSession(councilSessionId,
+			officialUnavailableId, isAbsent, true);
+	}
+
+	/**
+	 * Returns the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param isAbsent the is absent
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
+	 */
+	@Override
+	public Procuration fetchByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] {
+				councilSessionId, officialUnavailableId, isAbsent
+			};
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+					finderArgs, this);
+		}
+
+		if (result instanceof Procuration) {
+			Procuration procuration = (Procuration)result;
+
+			if ((councilSessionId != procuration.getCouncilSessionId()) ||
+					(officialUnavailableId != procuration.getOfficialUnavailableId()) ||
+					(isAbsent != procuration.getIsAbsent())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_SELECT_PROCURATION_WHERE);
+
+			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2);
+
+			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2);
+
+			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(councilSessionId);
+
+				qPos.add(officialUnavailableId);
+
+				qPos.add(isAbsent);
+
+				List<Procuration> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"ProcurationPersistenceImpl.fetchByAbsenceForCouncilSession(long, long, boolean, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Procuration procuration = list.get(0);
+
+					result = procuration;
+
+					cacheResult(procuration);
+
+					if ((procuration.getCouncilSessionId() != councilSessionId) ||
+							(procuration.getOfficialUnavailableId() != officialUnavailableId) ||
+							(procuration.getIsAbsent() != isAbsent)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+							finderArgs, procuration);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Procuration)result;
+		}
+	}
+
+	/**
+	 * Removes the procuration where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63; from the database.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param isAbsent the is absent
+	 * @return the procuration that was removed
+	 */
+	@Override
+	public Procuration removeByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent)
+		throws NoSuchProcurationException {
+		Procuration procuration = findByAbsenceForCouncilSession(councilSessionId,
+				officialUnavailableId, isAbsent);
+
+		return remove(procuration);
+	}
+
+	/**
+	 * Returns the number of procurations where councilSessionId = &#63; and officialUnavailableId = &#63; and isAbsent = &#63;.
+	 *
+	 * @param councilSessionId the council session ID
+	 * @param officialUnavailableId the official unavailable ID
+	 * @param isAbsent the is absent
+	 * @return the number of matching procurations
+	 */
+	@Override
+	public int countByAbsenceForCouncilSession(long councilSessionId,
+		long officialUnavailableId, boolean isAbsent) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION;
+
+		Object[] finderArgs = new Object[] {
+				councilSessionId, officialUnavailableId, isAbsent
+			};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_COUNT_PROCURATION_WHERE);
+
+			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2);
+
+			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2);
+
+			query.append(_FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(councilSessionId);
+
+				qPos.add(officialUnavailableId);
+
+				qPos.add(isAbsent);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_COUNCILSESSIONID_2 =
+		"procuration.councilSessionId = ? AND ";
+	private static final String _FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_OFFICIALUNAVAILABLEID_2 =
+		"procuration.officialUnavailableId = ? AND ";
+	private static final String _FINDER_COLUMN_ABSENCEFORCOUNCILSESSION_ISABSENT_2 =
+		"procuration.isAbsent = ?";
 
 	public ProcurationPersistenceImpl() {
 		setModelClass(Procuration.class);
@@ -2873,6 +3151,13 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 				procuration.getCouncilSessionId(),
 				procuration.getOfficialVotersId(),
 				procuration.getOfficialUnavailableId()
+			}, procuration);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+			new Object[] {
+				procuration.getCouncilSessionId(),
+				procuration.getOfficialUnavailableId(),
+				procuration.getIsAbsent()
 			}, procuration);
 
 		procuration.resetOriginalValues();
@@ -2966,6 +3251,17 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			args, Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
 			args, procurationModelImpl, false);
+
+		args = new Object[] {
+				procurationModelImpl.getCouncilSessionId(),
+				procurationModelImpl.getOfficialUnavailableId(),
+				procurationModelImpl.getIsAbsent()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION,
+			args, Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+			args, procurationModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -3015,6 +3311,33 @@ public class ProcurationPersistenceImpl extends BasePersistenceImpl<Procuration>
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
 				args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_COUNCILSESSIONIDANDOFFICIALVOTERSANDUNAVAILABLEIDS,
+				args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					procurationModelImpl.getCouncilSessionId(),
+					procurationModelImpl.getOfficialUnavailableId(),
+					procurationModelImpl.getIsAbsent()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
+				args);
+		}
+
+		if ((procurationModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					procurationModelImpl.getOriginalCouncilSessionId(),
+					procurationModelImpl.getOriginalOfficialUnavailableId(),
+					procurationModelImpl.getOriginalIsAbsent()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_ABSENCEFORCOUNCILSESSION,
+				args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_ABSENCEFORCOUNCILSESSION,
 				args);
 		}
 	}

@@ -81,7 +81,7 @@
                 font-weight: 700;
                 font-size: 1.7rem;
                 @include RWD(mobile){
-                    display: none;
+                    font-size: 1.3rem;
                 }
                 position: relative;
                 &:after{
@@ -101,6 +101,7 @@
                 margin-right: 10px;
                 @include RWD(mobile){
                     margin: 0;
+                    display: none;
                 }
             }
             .notif-amount{
@@ -125,7 +126,7 @@
             .seu-arrow{
                 content: '';
                 @include RWD(mobile) {
-                  display: inline-block !important;
+                    display: none !important;
                 }
                 width: 17px;
                 height: 17px;
