@@ -55,6 +55,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         Deliberation deliberation;
         String stage;
+        Date dateStatus = null;
         boolean isNew=false;
         if (deliberationId == 0) {
             deliberation = deliberationLocalService.createDeliberation(sc);
@@ -64,6 +65,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         } else {
             stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);
+            dateStatus = deliberation.getStatusDate();
         }
 
         // Validation
@@ -114,6 +116,9 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         // Parce que le SC enregistre une date NULL
         if(isNew) {
             deliberation.setStatusDate(new Date());
+            deliberationLocalService.updateDeliberation(deliberation);
+        } else {
+            deliberation.setStatusDate(dateStatus);
             deliberationLocalService.updateDeliberation(deliberation);
         }
 
