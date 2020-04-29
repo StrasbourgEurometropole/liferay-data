@@ -20,6 +20,8 @@ window.setInterval(function(){
             frontDelibTitle.style.display="none";
             frontDelibDescription.style.display = "none";
             frontMessage.style.display="none";
+            frontMessageWrapper.style.display="none";
+            frontAbsentRefresh.style.display="none";
             frontNoDelib.style.display="none";
 
             // Il y a une session mais pas de delib
@@ -36,6 +38,7 @@ window.setInterval(function(){
             } else {
                 frontMessage.textContent = Liferay.Language.get(obj.message);
                 frontMessage.style.display="block";
+                frontMessageWrapper.style.display="flex";
             }
         }
         // ELU ABSENT
@@ -50,6 +53,8 @@ window.setInterval(function(){
             frontDelibTitle.style.display="none";
             frontDelibDescription.style.display = "none";
             frontMessage.style.display="none";
+            frontMessageWrapper.style.display="none";
+            frontAbsentRefresh.style.display="none";
             frontNoDelib.style.display="none";
 
             hiddenOfficialAbsent.value = obj.official.absent;
@@ -59,9 +64,13 @@ window.setInterval(function(){
                 frontMessage.textContent = Liferay.Language.get("noted.absent");
             }
             frontMessage.style.display="block";
+            frontAbsentRefresh.style.display="block";
+            frontMessageWrapper.style.display="flex";
         }
         else {
             frontMessage.style.display="none";
+            frontMessageWrapper.style.display="none";
+            frontAbsentRefresh.style.display="none";
             frontNoDelib.style.display="none";
 
             var deliberationJSON = obj.deliberation;
@@ -96,6 +105,9 @@ window.setInterval(function(){
                     frontVoteForm.style.display = "none";
                     frontVoteEnCours.style.display = "none";
                     frontErrorVoteMessage.style.display = "none";
+                    frontMessage.style.display="none";
+                    frontMessageWrapper.style.display="none";
+                    frontAbsentRefresh.style.display="none";
 
                     frontDelibTitle.style.display="flex";
 

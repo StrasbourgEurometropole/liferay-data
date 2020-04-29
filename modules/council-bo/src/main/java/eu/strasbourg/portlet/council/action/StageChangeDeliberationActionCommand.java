@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.council.action;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -10,8 +12,11 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.StageDeliberation;
+import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -68,6 +73,11 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
 
         deliberation.setStage(stage);
         deliberation.setStatusDate(new Date());
+
+        AssetCategory stageCategory = AssetVocabularyHelper.getCategory(stage, themeDisplay.getScopeGroupId());
+        if(stageCategory != null)
+            AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
