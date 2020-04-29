@@ -66,11 +66,12 @@ h2 {
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
-
-            p {
-                cursor: pointer;
-            }
         }
+
+        .delib-refresh {
+            cursor: pointer;
+        }
+
         .delib-description div{
             max-height: 3rem;
             overflow: hidden;

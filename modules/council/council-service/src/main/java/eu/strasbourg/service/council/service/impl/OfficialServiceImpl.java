@@ -74,7 +74,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 
 		// TODO : utilisation d'une méthode de reccherche plus "light" que BOSearchHit
 		Hits hits = SearchHelper.getBOSearchHits(searchContext, 0, 50, Official.class.getName(), groupId,
-				"", fullName, "title", true);
+				"", fullName.toLowerCase(), "title", true);
 
 		List<Official> results = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 		}
 
 		// TODO : voir pour indexer les champs sur lesquels on filtre : type et statut d'activité
-		List<Official> filteredOfficial = new ArrayList<>();
+		List<Official> filteredOfficial;
 		switch (type) {
 			case MUNICIPAL:
 				filteredOfficial = results.stream()

@@ -20,6 +20,8 @@ window.setInterval(function(){
             frontDelibTitle.style.display="none";
             frontDelibDescription.style.display = "none";
             frontMessage.style.display="none";
+            frontMessageWrapper.style.display="none";
+            frontAbsentRefresh.style.display="none";
             frontNoDelib.style.display="none";
 
             // Il y a une session mais pas de delib
@@ -36,19 +38,50 @@ window.setInterval(function(){
             } else {
                 frontMessage.textContent = Liferay.Language.get(obj.message);
                 frontMessage.style.display="block";
+                frontAbsentRefresh.style.display = "block";
+                frontMessageWrapper.style.display="flex";
             }
+        }
+        // ELU ABSENT
+        else if (obj.official.absent) {
+            frontResultatVote.style.display = "none";
+            frontResultatGeneral.style.display = "none";
+            frontResultatSpecifique.style.display = "none";
+            frontConfirmationVote.style.display = "none";
+            frontVoteForm.style.display = "none";
+            frontVoteEnCours.style.display = "none";
+            frontErrorVoteMessage.style.display = "none";
+            frontDelibTitle.style.display="none";
+            frontDelibDescription.style.display = "none";
+            frontMessage.style.display="none";
+            frontMessageWrapper.style.display="none";
+            frontAbsentRefresh.style.display="none";
+            frontNoDelib.style.display="none";
+
+            hiddenOfficialAbsent.value = obj.official.absent;
+            if(obj.official.officialVoters) {
+                frontMessage.textContent = Liferay.Language.get("noted.absent.and.give.procuration") +' ' + obj.official.officialVoters ;
+            } else {
+                frontMessage.textContent = Liferay.Language.get("noted.absent");
+            }
+            frontMessage.style.display="block";
+            frontAbsentRefresh.style.display="block";
+            frontMessageWrapper.style.display="flex";
         }
         else {
             frontMessage.style.display="none";
+            frontMessageWrapper.style.display="none";
+            frontAbsentRefresh.style.display="none";
             frontNoDelib.style.display="none";
 
             var deliberationJSON = obj.deliberation;
 
             // On modifie uniquement si l'id de la délib ou son statut a changé
-            if(hiddenDelibId.value != deliberationJSON.deliberationId || hiddenDelibStatut.value != deliberationJSON.stage) {
+            if(hiddenDelibId.value != deliberationJSON.deliberationId || hiddenDelibStatut.value != deliberationJSON.stage || (!obj.official.absent && hiddenOfficialAbsent.value != obj.official.absent)) {
 
                 hiddenDelibId.value = deliberationJSON.deliberationId;
                 hiddenDelibStatut.value = deliberationJSON.stage;
+                hiddenOfficialAbsent.value = obj.official.absent;
 
                 // A partir du moment où on a des infos sur la delib, on peut l'afficher
                 if(deliberationJSON.order && deliberationJSON.title) {
@@ -73,7 +106,14 @@ window.setInterval(function(){
                     frontVoteForm.style.display = "none";
                     frontVoteEnCours.style.display = "none";
                     frontErrorVoteMessage.style.display = "none";
+                    frontMessage.style.display="none";
+                    frontMessageWrapper.style.display="none";
+                    frontAbsentRefresh.style.display="none";
 
+                    var description = frontDelibDescription.getElementsByTagName("div")[0];
+                    if(!description.classList.contains("skype-description")) {
+                        description.classList.add("skype-description");
+                    }
                     frontDelibTitle.style.display="flex";
 
                 } else if (deliberationJSON.stage == "Vote ouvert") {
@@ -148,6 +188,11 @@ window.setInterval(function(){
                         if(procurationTwo) {
                             frontTitleProcuTwo.getElementsByTagName('span')[0].textContent = procurationTwo.fullName;
                             frontProcuTwo.style.display="block";
+                        }
+
+                        var description = frontDelibDescription.getElementsByTagName("div")[0];
+                        if(description.classList.contains("skype-description")) {
+                            description.classList.remove("skype-description");
                         }
 
                         frontVoteForm.style.display = "flex";
@@ -227,6 +272,11 @@ window.setInterval(function(){
                             frontResultatGeneral.style.display = "flex";
                         }
                         frontResultatSpecifique.style.display = "none";
+                    }
+
+                    var description = frontDelibDescription.getElementsByTagName("div")[0];
+                    if(description.classList.contains("skype-description")) {
+                        description.classList.remove("skype-description");
                     }
 
                     // On affiche le statut du résultat qu'importe le reste

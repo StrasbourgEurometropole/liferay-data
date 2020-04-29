@@ -2,11 +2,14 @@
 /* Sélection des input hidden */
 var hiddenDelibId = document.getElementById("deliberationId");
 var hiddenDelibStatut = document.getElementById("stage");
+var hiddenOfficialAbsent = document.getElementById("absent");
 
 /* Sélection des différents éléments*/
 //message
 var frontMessage = document.getElementById("front-message");
+var frontMessageWrapper = document.getElementById("front-message-wrapper");
 var frontNoDelib = document.getElementById("no-delib");
+var frontAbsentRefresh= document.getElementById("absent-refresh");
 // Presentation
 var frontDelibTitle = document.getElementById("delib-title");
 var frontDelibRefresh = document.getElementById("delib-refresh");
@@ -39,6 +42,4 @@ var frontSpecifiqueEncartAbstention = document.getElementById("encart-abstention
 if(useSkypeView) {
     /* On peut direct cacher le refresh si présentation Skype*/
    frontDelibRefresh.style.display = "none";
-   var description = frontDelibDescription.getElementsByTagName("div")[0];
-   description.classList.add("skype-description");
 }

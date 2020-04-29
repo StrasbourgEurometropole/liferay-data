@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.council.action;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -17,6 +19,7 @@ import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
 import eu.strasbourg.service.council.service.ProcurationLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -103,11 +106,17 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
             // Passe au statut "Vote ouvert"
             deliberation.setStage(stage);
             deliberation.setStatusDate(new Date());
+
+            AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
+            if(stageCategory != null)
+                AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+
         } else {
             // Pas de quorum, on avertit
             String[] args = new String[]{String.valueOf(countOfficialVoting), String.valueOf(countOfficialActive), String.valueOf(quorum)};
             SessionErrors.add(request, "quorum-error", args);
         }
+
         // Update de l'entité (même si pas de quorum on enregistre les chiffres pour que les gens puissent vérifier
         deliberationLocalService.updateDeliberation(deliberation);
 

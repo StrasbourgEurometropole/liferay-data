@@ -55,6 +55,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         Deliberation deliberation;
         String stage;
+        Date dateStatus = null;
         boolean isNew=false;
         if (deliberationId == 0) {
             deliberation = deliberationLocalService.createDeliberation(sc);
@@ -64,6 +65,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         } else {
             stage = ParamUtil.getString(request, "stage");
             deliberation = deliberationLocalService.getDeliberation(deliberationId);
+            dateStatus = deliberation.getStatusDate();
         }
 
         // Validation
@@ -98,8 +100,15 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         AssetCategory councilCategory = AssetVocabularyHelper.getCategory(council.getTitle(), themeDisplay.getScopeGroupId());
 
-        if (councilCategory != null)
+        AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
+
+        if(councilCategory != null && stageCategory != null) {
+            sc.setAssetCategoryIds(new long[]{councilCategory.getCategoryId(), stageCategory.getCategoryId()});
+        }
+        else if (councilCategory != null)
             sc.setAssetCategoryIds(new long[]{councilCategory.getCategoryId()});
+        else if (stageCategory != null)
+            sc.setAssetCategoryIds(new long[]{stageCategory.getCategoryId()});
 
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation, sc);
@@ -107,6 +116,9 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         // Parce que le SC enregistre une date NULL
         if(isNew) {
             deliberation.setStatusDate(new Date());
+            deliberationLocalService.updateDeliberation(deliberation);
+        } else {
+            deliberation.setStatusDate(dateStatus);
             deliberationLocalService.updateDeliberation(deliberation);
         }
 

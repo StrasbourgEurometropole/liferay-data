@@ -115,7 +115,6 @@ public class CouncilDisplayContext {
                 && !this.isSessionNotAvailable()
                 && !this.isSimplePublikUser()
                 && !this.isOfficialTypeMismatchOrNotActive()
-                && !this.isOfficialNotedAbsent()
                 || this.configuration.useSkypeView().equals("true");
     }
 
@@ -158,24 +157,6 @@ public class CouncilDisplayContext {
             else
                 result = true;
         }
-        return result;
-    }
-
-    /**
-     * Si l'élu connecté est un élu noté comme absent pour la session
-     */
-    @SuppressWarnings("unused")
-    public boolean isOfficialNotedAbsent() {
-        boolean result = false;
-        if (this.getCouncilSession() != null) {
-            List<Procuration> procurations = ProcurationLocalServiceUtil.findByCouncilSessionId(
-                    this.getCouncilSession().getCouncilSessionId());
-            for (Procuration procuration : procurations) {
-                if (procuration.getOfficialUnavailableId() == this.getOfficialId())
-                    result = true;
-            }
-        }
-
         return result;
     }
 
