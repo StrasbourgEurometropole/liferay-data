@@ -26,7 +26,7 @@
             <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
             <#assign categories = assetVocabularyHelper.getAssetEntryCategories(curEntry) />
             <#if categories?has_content>
-                <#assign commissionCateg = categories[0].name />
+                <#assign commissionCateg = categories[0].getTitle(locale) />
                 <#if commission != commissionCateg>
                     <h2>${commissionCateg}</h2>
                     <#assign commission = commissionCateg />
