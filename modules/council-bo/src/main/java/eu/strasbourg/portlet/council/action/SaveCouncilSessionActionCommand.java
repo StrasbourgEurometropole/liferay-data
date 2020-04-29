@@ -43,6 +43,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
     private List<Official> availableOfficials;
+    private long councilSessionId;
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
@@ -67,13 +68,12 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
                 return false;
             }
 
-            // Réucpération de l'ID si édition ou création d'une nouvelle entrée
+            // Si édition ou création d'une nouvelle entrée
             CouncilSession councilSession;
-            long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
-            if (councilSessionId == 0) {
+            if (this.councilSessionId == 0) {
                 councilSession = this.councilSessionLocalService.createCouncilSession(sc);
             } else {
-                councilSession = this.councilSessionLocalService.getCouncilSession(councilSessionId);
+                councilSession = this.councilSessionLocalService.getCouncilSession(this.councilSessionId);
             }
 
             // Champ : titre
@@ -141,8 +141,16 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         ServiceContext sc = ServiceContextFactory.getInstance(request);
 
         // Titre
-        if (Validator.isNull(ParamUtil.getString(request, "title"))) {
+        String title = ParamUtil.getString(request, "title");
+        if (Validator.isNull(title)) {
             SessionErrors.add(request, "title-error");
+            isValid = false;
+        }
+
+        // Titre déjà utilisé ?
+        this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+        if (this.councilSessionLocalService.isTitleAlreadyUsed(title, this.councilSessionId)) {
+            SessionErrors.add(request, "title-already-used-error");
             isValid = false;
         }
 
