@@ -26,10 +26,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author jeremy.zwickert
@@ -140,16 +138,19 @@ public class CouncilBOPortlet extends MVCPortlet {
 				gc.set(Calendar.MILLISECOND, 0);
 				List<CouncilSession> todayCouncils = CouncilSessionLocalServiceUtil.findByDate(gc.getTime());
 
-				// SI on a rien en session, on cherche le conseil du jour ou le conseil le plus lointain
+				// SI on a rien en session, on cherche le conseil du jour ou le dernier conseil
 				if(todayCouncils.size() >0) {
 					CouncilSession todayCouncil = todayCouncils.get(0);
 					AssetCategory councilCategory = AssetVocabularyHelper.getCategory(todayCouncil.getTitle(), themeDisplay.getScopeGroupId());
 					categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
 					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
 				} else {
-					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime());
+					List<CouncilSession> futureCouncilSessions = CouncilSessionLocalServiceUtil.getCouncilSessions(-1,-1);
+					futureCouncilSessions = futureCouncilSessions.stream()
+							.sorted(Comparator.comparing(CouncilSession::getDate).reversed())
+							.collect(Collectors.toList());
 					if(futureCouncilSessions.size() > 0) {
-						CouncilSession lastCouncil = futureCouncilSessions.get(futureCouncilSessions.size()-1);
+						CouncilSession lastCouncil = futureCouncilSessions.get(0);
 						AssetCategory councilCategory = AssetVocabularyHelper.getCategory(lastCouncil.getTitle(), themeDisplay.getScopeGroupId());
 						categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
 						originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
