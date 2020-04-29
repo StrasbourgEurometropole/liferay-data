@@ -34,6 +34,25 @@ public class CouncilSessionLocalServiceWrapper
 		_councilSessionLocalService = councilSessionLocalService;
 	}
 
+	/**
+	* Si la date avec l'ID donné est déjà utilisé par une autre session
+	*/
+	@Override
+	public boolean isDateAlreadyUsed(java.util.Date date, long councilSessionId) {
+		return _councilSessionLocalService.isDateAlreadyUsed(date,
+			councilSessionId);
+	}
+
+	/**
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	*/
+	@Override
+	public boolean isTitleAlreadyUsed(java.lang.String title,
+		long councilSessionId) {
+		return _councilSessionLocalService.isTitleAlreadyUsed(title,
+			councilSessionId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _councilSessionLocalService.getActionableDynamicQuery();
@@ -309,6 +328,15 @@ public class CouncilSessionLocalServiceWrapper
 	public java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByDate(
 		java.util.Date date) {
 		return _councilSessionLocalService.findByDate(date);
+	}
+
+	/**
+	* Recherche par titre de CouncilSession
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByTitre(
+		java.lang.String title) {
+		return _councilSessionLocalService.findByTitre(title);
 	}
 
 	/**

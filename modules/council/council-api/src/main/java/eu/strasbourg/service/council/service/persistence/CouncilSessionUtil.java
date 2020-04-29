@@ -508,6 +508,163 @@ public class CouncilSessionUtil {
 	}
 
 	/**
+	* Returns all the council sessions where title = &#63;.
+	*
+	* @param title the title
+	* @return the matching council sessions
+	*/
+	public static List<CouncilSession> findByTitle(java.lang.String title) {
+		return getPersistence().findByTitle(title);
+	}
+
+	/**
+	* Returns a range of all the council sessions where title = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CouncilSessionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param title the title
+	* @param start the lower bound of the range of council sessions
+	* @param end the upper bound of the range of council sessions (not inclusive)
+	* @return the range of matching council sessions
+	*/
+	public static List<CouncilSession> findByTitle(java.lang.String title,
+		int start, int end) {
+		return getPersistence().findByTitle(title, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the council sessions where title = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CouncilSessionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param title the title
+	* @param start the lower bound of the range of council sessions
+	* @param end the upper bound of the range of council sessions (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching council sessions
+	*/
+	public static List<CouncilSession> findByTitle(java.lang.String title,
+		int start, int end, OrderByComparator<CouncilSession> orderByComparator) {
+		return getPersistence().findByTitle(title, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the council sessions where title = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link CouncilSessionModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param title the title
+	* @param start the lower bound of the range of council sessions
+	* @param end the upper bound of the range of council sessions (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching council sessions
+	*/
+	public static List<CouncilSession> findByTitle(java.lang.String title,
+		int start, int end,
+		OrderByComparator<CouncilSession> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByTitle(title, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first council session in the ordered set where title = &#63;.
+	*
+	* @param title the title
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching council session
+	* @throws NoSuchCouncilSessionException if a matching council session could not be found
+	*/
+	public static CouncilSession findByTitle_First(java.lang.String title,
+		OrderByComparator<CouncilSession> orderByComparator)
+		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
+		return getPersistence().findByTitle_First(title, orderByComparator);
+	}
+
+	/**
+	* Returns the first council session in the ordered set where title = &#63;.
+	*
+	* @param title the title
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching council session, or <code>null</code> if a matching council session could not be found
+	*/
+	public static CouncilSession fetchByTitle_First(java.lang.String title,
+		OrderByComparator<CouncilSession> orderByComparator) {
+		return getPersistence().fetchByTitle_First(title, orderByComparator);
+	}
+
+	/**
+	* Returns the last council session in the ordered set where title = &#63;.
+	*
+	* @param title the title
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching council session
+	* @throws NoSuchCouncilSessionException if a matching council session could not be found
+	*/
+	public static CouncilSession findByTitle_Last(java.lang.String title,
+		OrderByComparator<CouncilSession> orderByComparator)
+		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
+		return getPersistence().findByTitle_Last(title, orderByComparator);
+	}
+
+	/**
+	* Returns the last council session in the ordered set where title = &#63;.
+	*
+	* @param title the title
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching council session, or <code>null</code> if a matching council session could not be found
+	*/
+	public static CouncilSession fetchByTitle_Last(java.lang.String title,
+		OrderByComparator<CouncilSession> orderByComparator) {
+		return getPersistence().fetchByTitle_Last(title, orderByComparator);
+	}
+
+	/**
+	* Returns the council sessions before and after the current council session in the ordered set where title = &#63;.
+	*
+	* @param councilSessionId the primary key of the current council session
+	* @param title the title
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next council session
+	* @throws NoSuchCouncilSessionException if a council session with the primary key could not be found
+	*/
+	public static CouncilSession[] findByTitle_PrevAndNext(
+		long councilSessionId, java.lang.String title,
+		OrderByComparator<CouncilSession> orderByComparator)
+		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
+		return getPersistence()
+				   .findByTitle_PrevAndNext(councilSessionId, title,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the council sessions where title = &#63; from the database.
+	*
+	* @param title the title
+	*/
+	public static void removeByTitle(java.lang.String title) {
+		getPersistence().removeByTitle(title);
+	}
+
+	/**
+	* Returns the number of council sessions where title = &#63;.
+	*
+	* @param title the title
+	* @return the number of matching council sessions
+	*/
+	public static int countByTitle(java.lang.String title) {
+		return getPersistence().countByTitle(title);
+	}
+
+	/**
 	* Returns all the council sessions where date = &#63;.
 	*
 	* @param date the date
