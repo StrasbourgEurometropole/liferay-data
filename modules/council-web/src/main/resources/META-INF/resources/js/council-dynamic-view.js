@@ -110,6 +110,10 @@ window.setInterval(function(){
                     frontMessageWrapper.style.display="none";
                     frontAbsentRefresh.style.display="none";
 
+                    var description = frontDelibDescription.getElementsByTagName("div")[0];
+                    if(!description.classList.contains("skype-description")) {
+                        description.classList.add("skype-description");
+                    }
                     frontDelibTitle.style.display="flex";
 
                 } else if (deliberationJSON.stage == "Vote ouvert") {
@@ -184,6 +188,11 @@ window.setInterval(function(){
                         if(procurationTwo) {
                             frontTitleProcuTwo.getElementsByTagName('span')[0].textContent = procurationTwo.fullName;
                             frontProcuTwo.style.display="block";
+                        }
+
+                        var description = frontDelibDescription.getElementsByTagName("div")[0];
+                        if(description.classList.contains("skype-description")) {
+                            description.classList.remove("skype-description");
                         }
 
                         frontVoteForm.style.display = "flex";
@@ -263,6 +272,11 @@ window.setInterval(function(){
                             frontResultatGeneral.style.display = "flex";
                         }
                         frontResultatSpecifique.style.display = "none";
+                    }
+
+                    var description = frontDelibDescription.getElementsByTagName("div")[0];
+                    if(description.classList.contains("skype-description")) {
+                        description.classList.remove("skype-description");
                     }
 
                     // On affiche le statut du résultat qu'importe le reste

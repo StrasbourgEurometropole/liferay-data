@@ -42,6 +42,4 @@ var frontSpecifiqueEncartAbstention = document.getElementById("encart-abstention
 if(useSkypeView) {
     /* On peut direct cacher le refresh si présentation Skype*/
    frontDelibRefresh.style.display = "none";
-   var description = frontDelibDescription.getElementsByTagName("div")[0];
-   description.classList.add("skype-description");
 }
