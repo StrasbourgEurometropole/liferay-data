@@ -38,6 +38,7 @@ window.setInterval(function(){
             } else {
                 frontMessage.textContent = Liferay.Language.get(obj.message);
                 frontMessage.style.display="block";
+                frontAbsentRefresh.style.display = "block";
                 frontMessageWrapper.style.display="flex";
             }
         }
