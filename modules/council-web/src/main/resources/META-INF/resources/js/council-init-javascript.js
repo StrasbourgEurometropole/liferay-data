@@ -2,6 +2,7 @@
 /* Sélection des input hidden */
 var hiddenDelibId = document.getElementById("deliberationId");
 var hiddenDelibStatut = document.getElementById("stage");
+var hiddenOfficialAbsent = document.getElementById("absent");
 
 /* Sélection des différents éléments*/
 //message

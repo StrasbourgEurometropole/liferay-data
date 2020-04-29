@@ -10,6 +10,7 @@
 
                 <input type="hidden" id="deliberationId" value=""/>
                 <input type="hidden" id="stage" value=""/>
+                <input type="hidden" id="absent" value=""/>
 
                 <%-- INCLUSION DES TEMPLATES --%>
                 <%@ include file="/templates/message.jsp"%>
