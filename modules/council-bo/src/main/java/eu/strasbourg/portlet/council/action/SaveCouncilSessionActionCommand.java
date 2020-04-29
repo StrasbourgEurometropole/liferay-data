@@ -44,6 +44,8 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
     private List<Official> availableOfficials;
     private long councilSessionId;
+    private String title;
+    private Date date;
 
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
@@ -77,16 +79,14 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             }
 
             // Champ : titre
-            String title = ParamUtil.getString(request, "title");
-            councilSession.setTitle(title);
+            councilSession.setTitle(this.title);
 
             // Champ : type
             String type = ParamUtil.getString(request, "type");
             councilSession.setType(type);
 
             // Champ : date
-            Date date = ParamUtil.getDate(request, "date", new SimpleDateFormat("dd/MM/yyyy"));
-            councilSession.setDate(date);
+            councilSession.setDate(this.date);
 
             // Champ : président du conseil
             long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
@@ -140,23 +140,31 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
         ServiceContext sc = ServiceContextFactory.getInstance(request);
 
+        this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+
         // Titre
-        String title = ParamUtil.getString(request, "title");
+        this.title = ParamUtil.getString(request, "title");
         if (Validator.isNull(title)) {
             SessionErrors.add(request, "title-error");
             isValid = false;
         }
 
         // Titre déjà utilisé ?
-        this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
-        if (this.councilSessionLocalService.isTitleAlreadyUsed(title, this.councilSessionId)) {
+        if (this.councilSessionLocalService.isTitleAlreadyUsed(this.title, this.councilSessionId)) {
             SessionErrors.add(request, "title-already-used-error");
             isValid = false;
         }
 
-        // Description
+        // Date
         if (Validator.isNull(ParamUtil.getString(request, "date"))) {
             SessionErrors.add(request, "date-error");
+            isValid = false;
+        }
+
+        // Date déjà utilisée ?
+        this.date = ParamUtil.getDate(request, "date", new SimpleDateFormat("dd/MM/yyyy"));
+        if (this.councilSessionLocalService.isDateAlreadyUsed(this.date, this.councilSessionId)) {
+            SessionErrors.add(request, "date-already-used-error");
             isValid = false;
         }
 
