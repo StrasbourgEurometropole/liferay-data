@@ -68,6 +68,12 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	 */
 
 	/**
+	* Si la date avec l'ID donné est déjà utilisé par une autre session
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
+
+	/**
 	* Si le titre avec l'ID donné est déjà utilisé par une autre session
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

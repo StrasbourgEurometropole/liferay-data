@@ -291,6 +291,19 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	}
 
 	/**
+	 * Si la date avec l'ID donné est déjà utilisé par une autre session
+	 */
+	@Override
+	public boolean isDateAlreadyUsed(Date date, long councilSessionId) {
+		boolean result = false;
+		for (CouncilSession councilSession : this.findByDate(date)) {
+			if (councilSession.getCouncilSessionId() != councilSessionId)
+				result = true;
+		}
+		return result;
+	}
+
+	/**
 	 * Recherche par titre de CouncilSession
 	 */
 	@Override

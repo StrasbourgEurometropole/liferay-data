@@ -43,6 +43,14 @@ public class CouncilSessionLocalServiceUtil {
 	 */
 
 	/**
+	* Si la date avec l'ID donné est déjà utilisé par une autre session
+	*/
+	public static boolean isDateAlreadyUsed(java.util.Date date,
+		long councilSessionId) {
+		return getService().isDateAlreadyUsed(date, councilSessionId);
+	}
+
+	/**
 	* Si le titre avec l'ID donné est déjà utilisé par une autre session
 	*/
 	public static boolean isTitleAlreadyUsed(java.lang.String title,
