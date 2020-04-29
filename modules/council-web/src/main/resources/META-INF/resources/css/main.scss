@@ -20,4 +20,14 @@
         justify-content: space-around;
     }
 
+    .java-front-message-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+       .delib-refresh {
+            margin-left : 40px;
+       }
+    }
+
 }
