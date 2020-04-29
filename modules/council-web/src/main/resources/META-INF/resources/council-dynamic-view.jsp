@@ -86,13 +86,6 @@
                         </h2>
                     </c:when>
 
-                    <%-- TEST D'ABSENCE DE L'ELU  --%>
-                    <c:when test = "${dc.isOfficialNotedAbsent()}">
-                        <h2 class="main-message-text">
-                            <liferay-ui:message key='noted.absent'/>
-                        </h2>
-                    </c:when>
-
                 </c:choose>
 
             </div>
