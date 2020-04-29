@@ -95,6 +95,11 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 				List<Deliberation> sortedDeliberations = deliberations.stream()
 						.sorted(Comparator.comparing(Deliberation::getStatusDate).reversed())
 						.collect(Collectors.toList());
+
+				//Vérifie si l'élu est noté absent ou non pour le conseil
+				Procuration absenceProcuration = ProcurationLocalServiceUtil.findAbsenceForCouncilSession(todayCouncil.getCouncilSessionId(), officialId);
+				official.put("absent", absenceProcuration != null);
+
 				// Si Toutes les délibs sont à "Créé" ou "Retiré"
 				if (sortedDeliberations.stream().allMatch(x -> x.isCree() || x.isRetire())) {
 					// JSON pas de délib

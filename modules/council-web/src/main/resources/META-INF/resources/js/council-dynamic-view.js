@@ -38,6 +38,25 @@ window.setInterval(function(){
                 frontMessage.style.display="block";
             }
         }
+        // ELU ABSENT
+        else if (obj.official.absent) {
+            frontResultatVote.style.display = "none";
+            frontResultatGeneral.style.display = "none";
+            frontResultatSpecifique.style.display = "none";
+            frontConfirmationVote.style.display = "none";
+            frontVoteForm.style.display = "none";
+            frontVoteEnCours.style.display = "none";
+            frontErrorVoteMessage.style.display = "none";
+            frontDelibTitle.style.display="none";
+            frontDelibDescription.style.display = "none";
+            frontMessage.style.display="none";
+            frontNoDelib.style.display="none";
+
+            hiddenOfficialAbsent.value = obj.official.absent;
+
+            frontMessage.textContent = Liferay.Language.get("noted.absent");
+            frontMessage.style.display="block";
+        }
         else {
             frontMessage.style.display="none";
             frontNoDelib.style.display="none";
@@ -45,10 +64,11 @@ window.setInterval(function(){
             var deliberationJSON = obj.deliberation;
 
             // On modifie uniquement si l'id de la délib ou son statut a changé
-            if(hiddenDelibId.value != deliberationJSON.deliberationId || hiddenDelibStatut.value != deliberationJSON.stage) {
+            if(hiddenDelibId.value != deliberationJSON.deliberationId || hiddenDelibStatut.value != deliberationJSON.stage || (!obj.official.absent && hiddenOfficialAbsent.value != obj.official.absent)) {
 
                 hiddenDelibId.value = deliberationJSON.deliberationId;
                 hiddenDelibStatut.value = deliberationJSON.stage;
+                hiddenOfficialAbsent.value = obj.official.absent;
 
                 // A partir du moment où on a des infos sur la delib, on peut l'afficher
                 if(deliberationJSON.order && deliberationJSON.title) {
