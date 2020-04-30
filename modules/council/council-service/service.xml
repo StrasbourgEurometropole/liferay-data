@@ -100,6 +100,9 @@
 		</order>
 
 		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
 		<finder name="Date" return-type="Collection">
 			<finder-column name="date" />
 		</finder>

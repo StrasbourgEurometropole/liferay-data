@@ -289,4 +289,39 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	public List<CouncilSession> findByDate(Date date){
 		return this.councilSessionPersistence.findByDate(date);
 	}
+
+	/**
+	 * Si la date avec l'ID donné est déjà utilisé par une autre session
+	 */
+	@Override
+	public boolean isDateAlreadyUsed(Date date, long councilSessionId) {
+		boolean result = false;
+		for (CouncilSession councilSession : this.findByDate(date)) {
+			if (councilSession.getCouncilSessionId() != councilSessionId)
+				result = true;
+		}
+		return result;
+	}
+
+	/**
+	 * Recherche par titre de CouncilSession
+	 */
+	@Override
+	public List<CouncilSession> findByTitre(String title){
+		return this.councilSessionPersistence.findByTitle(title);
+	}
+
+	/**
+	 * Si le titre avec l'ID donné est déjà utilisé par une autre session
+	 */
+	@Override
+	public boolean isTitleAlreadyUsed(String title, long councilSessionId) {
+		boolean result = false;
+		for (CouncilSession councilSession : this.findByTitre(title)) {
+			if (councilSession.getCouncilSessionId() != councilSessionId)
+				result = true;
+		}
+		return result;
+	}
+
 }

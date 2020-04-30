@@ -66,6 +66,20 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link CouncilSessionLocalServiceUtil} to access the council session local service. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.CouncilSessionLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	* Si la date avec l'ID donné est déjà utilisé par une autre session
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
+
+	/**
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isTitleAlreadyUsed(java.lang.String title,
+		long councilSessionId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -256,6 +270,11 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	* Recherche par Date de CouncilSession
 	*/
 	public List<CouncilSession> findByDate(Date date);
+
+	/**
+	* Recherche par titre de CouncilSession
+	*/
+	public List<CouncilSession> findByTitre(java.lang.String title);
 
 	/**
 	* Returns a range of all the council sessions.

@@ -26,7 +26,10 @@
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="title-already-used-error" message="title-already-used-error" />
 	<liferay-ui:error key="date-error" message="date-error" />
+	<liferay-ui:error key="date-already-used-error" message="date-already-used-error" />
+	<liferay-ui:error key="title-already-exist-error" message="title-already-exist-error" />
 	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
 	<liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
@@ -114,13 +117,14 @@
                                     ${official.fullName}
                                 </td>
                                 <td>
-                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox" checked="${isAbsentValue}" value="isAbsent" />
+                                    <aui:input name="${official.officialId}-isAbsent" label="" type="checkbox"
+                                        title="is-absent" checked="${isAbsentValue}" value="isAbsent" />
                                 </td>
                                 <td>
                                     <div class="official-autocomplete-input-wrapper" id="official-autocomplete-input-wrapper-${official.officialId}">
                                         <aui:input cssClass="autocomplete-shown" label="" type="text"
-                                            name="${official.officialId}-officialVoters" value="${officialVotersFullName}"
-                                            disabled="${disabledInput}" />
+                                            title="official-receiver" name="${official.officialId}-officialVoters"
+                                            value="${officialVotersFullName}" disabled="${disabledInput}" />
                                         <aui:input cssClass="autocomplete-hidden" type="hidden"
                                             name="${official.officialId}-officialVotersId"
                                             value="${officialVotersIdValue}" />
