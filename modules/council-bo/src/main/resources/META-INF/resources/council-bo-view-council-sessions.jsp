@@ -61,8 +61,10 @@
                     name="official-leader" truncate="true" orderable="true"
                     value="${councilSession.officialLeader.fullName}" />
 
+                <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
+
 						<liferay-portlet:actionURL name="getDeliberationsPDF" var="getDeliberationsPDFURL">
 							<portlet:param name="cmd" value="getDeliberationsPDF" />
 							<portlet:param name="tab" value="councilSessions" />
@@ -70,10 +72,19 @@
 						</liferay-portlet:actionURL>
                         <liferay-ui:icon message="getDeliberationsPDF" url="${getDeliberationsPDFURL}" />
 
+                        <!-- ACTION : Édition -->
 						<c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editCouncilSessionURL}" />
 						</c:if>
 
+						<!-- RESOURCE ACTION : Export des résultats de la session -->
+						<liferay-portlet:resourceURL id="exportCouncilSessionResults" var="exportCouncilSessionResultsURL"
+						        copyCurrentRenderParameters="false">
+                            <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
+                        </liferay-portlet:resourceURL>
+                        <liferay-ui:icon message="export-results" url="${exportCouncilSessionResultsURL}" />
+
+                        <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 							<portlet:param name="cmd" value="deleteCouncilSession" />
 							<portlet:param name="tab" value="councilSessions" />
@@ -82,6 +93,7 @@
 						<c:if test="${dc.hasPermission('DELETE_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="delete" url="${deleteCouncilSessionURL}" />
 						</c:if>
+
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 
