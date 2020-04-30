@@ -7,7 +7,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.portlet.council.action.PrintPDF;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
-import eu.strasbourg.utils.ZipHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -16,6 +15,11 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Component(
         immediate = true,
@@ -61,7 +65,8 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
                     // Récupération de l'ouputStream de la réponse et création du zipOutputStream
                     OutputStream os = response.getPortletOutputStream();
 
-                    ZipHelper.zipDirectoryinOutputStream(repository, os);
+                    // TODO remettre celui de utils
+                    zipDirectoryinOutputStream(repository, os);
 
                     os.flush();
 
@@ -77,6 +82,39 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
         }
 
         return false;
+    }
+
+
+    /**
+     * Compresse un répertoire local et l'écrit dans la sortie donnée
+     * @implNote Ne prend pas en compte l'arborescence ("[directoryPath]/rep/ex.txt" devient "[zipName]/ex.txt")
+     * @param directoryPath Le chemin du dossier à compresser
+     * @param os Le flux dans lequel sera écrit le zip
+     */
+    public static void zipDirectoryinOutputStream(String directoryPath, OutputStream os) throws IOException {
+        // Création du flux
+        ZipOutputStream zos = new ZipOutputStream(os);
+
+        // Création de l'objet permettant le parcours du répertoire
+        Path pp = Paths.get(directoryPath);
+
+        // Parcours de l'arborescence et écriture de tous les fichiers dans le flux zip
+        Files.walk(pp)
+                .filter(path -> !Files.isDirectory(path))
+                .forEach(path -> {
+                    ZipEntry zipEntry = new ZipEntry(pp.relativize(path).toString());
+                    try {
+                        zos.putNextEntry(zipEntry);
+                        Files.copy(path, zos);
+                        zos.closeEntry();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+        // Envoie et fermeture
+        zos.flush();
+        zos.close();
     }
 
     /**
