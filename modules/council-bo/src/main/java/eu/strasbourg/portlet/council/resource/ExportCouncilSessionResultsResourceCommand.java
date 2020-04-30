@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import eu.strasbourg.portlet.council.action.PrintPDF;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.utils.ZipHelper;
@@ -37,34 +38,42 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
 
     @Override
     public boolean serveResource(ResourceRequest request, ResourceResponse response) {
-        // Définition d'un téléchargement dans le content-type
-        response.setContentType("application/force-download");
 
-        // Récupération des paramètres
-        this.loadParameters(request);
+        long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
+        try {
+            String repository = PrintPDF.printPDFs(councilSessionId);
 
-        // Récupération de la session à traiter
-        CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(this.councilSessionId);
+            // Définition d'un téléchargement dans le content-type
+            response.setContentType("application/force-download");
 
-        if (councilSession != null) {
-            String zipFileName = councilSession.getTitle().replace(" ", "_");
+            // Récupération des paramètres
+            this.loadParameters(request);
 
-            response.setProperty("content-disposition","attachment; filename=" + zipFileName + ".zip");
+            // Récupération de la session à traiter
+            CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(this.councilSessionId);
 
-            try {
-                // Récupération de l'ouputStream de la réponse et création du zipOutputStream
-                OutputStream os = response.getPortletOutputStream();
+            if (councilSession != null) {
+                String zipFileName = councilSession.getTitle().replace(" ", "_");
 
-                ZipHelper.zipDirectoryinOutputStream("C:/Users/cedric.henry/Documents/toZip", os);
-                
-                os.flush();
+                response.setProperty("content-disposition","attachment; filename=" + zipFileName + ".zip");
 
-                // Fermeture des outputStreams
-                os.close();
+                try {
+                    // Récupération de l'ouputStream de la réponse et création du zipOutputStream
+                    OutputStream os = response.getPortletOutputStream();
 
-            } catch (IOException e) {
-                this.log.error("Une erreur est survenu lors de l'extraction de résultat de la session ", e);
+                    ZipHelper.zipDirectoryinOutputStream(repository, os);
+
+                    os.flush();
+
+                    // Fermeture des outputStreams
+                    os.close();
+
+                } catch (IOException e) {
+                    this.log.error("Une erreur est survenu lors de l'extraction de résultat de la session ", e);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return false;

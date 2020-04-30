@@ -1,104 +1,165 @@
 package eu.strasbourg.portlet.council.action;
 
-import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfObject;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.colorspace.PdfColorSpace;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
-import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 
-import javax.portlet.*;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.ResourceRequest;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class PrintPDF {
 
-	public static String domaine;
-	public static PdfFont fontBold;
+	private static CouncilSession council;
+	private static LocalDateTime now;
+	private static Timestamp timestamp;
 
-	public static void printPDF(ActionRequest req, ActionResponse res, String titreConseil, String titreDeliberation, List<Vote> votes)
+	public static String printPDFs(long councilSessionId)
 			throws IOException, SystemException {
 
-		// récupération du domaine
-		domaine = "http://localhost:8080";
+		now = LocalDateTime.now();
+		timestamp = new Timestamp(System.currentTimeMillis());
+
+		File folder = new File(System.getProperty("java.io.tmpdir") + "/council_results_" +
+				timestamp.getTime());
+		folder.mkdirs();
+
+		council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+
+		// on récpère toutes les délibérations du conseil de session qui sont adoptées ou rejetées avec des votes
+		List<Deliberation> deliberations = DeliberationLocalServiceUtil.findByCouncilSessionId(councilSessionId)
+				.stream().filter(d -> d.isRejete() || d.isAdopte()).collect(Collectors.toList());
+		for (Deliberation deliberation : deliberations) {
+			// on vérifi s'il y a des votes
+			if(Validator.isNotNull(deliberation)) {
+				List<Vote> votes = VoteLocalServiceUtil.findByDeliberationId(deliberation.getDeliberationId());
+				if (Validator.isNotNull(votes) && !votes.isEmpty()) {
+					PrintPDF.printPDF(folder, deliberation, votes);
+				}
+			}
+		}
+
+		return folder.getAbsolutePath();
+	}
+
+		public static void printPDF(File folder, Deliberation deliberation, List<Vote> votes)
+			throws IOException, SystemException {
 
 		// génération du pdf
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PdfWriter pdfWriter = new PdfWriter(baos);
 		PdfDocument pdf = new PdfDocument(pdfWriter);
-		fontBold = PdfFontFactory.createRegisteredFont("Helvetica-Bold");
+		PdfFont fontBold = PdfFontFactory.createRegisteredFont("Helvetica-Bold");
+		PdfFont font = PdfFontFactory.createRegisteredFont("Helvetica");
+
 		// mise en page paysage
 		pdf.setDefaultPageSize(PageSize.A4.rotate());
 		try (Document document = new Document(pdf)) {
-			document.setMargins(60f, 0f, 60f, 0f);
+			document.setMargins(40f, 0f, 40f, 0f);
 			document.setFont(fontBold).setFontSize(12f);
 
 			// titre du PDF
-			Table table = new Table(new float[1]).useAllAvailableWidth()
-					.setHeight(500f)
-					.setBackgroundColor(new DeviceRgb(238, 236, 225));
-			Cell cell = new Cell().setKeepTogether(true)
-					.add(new Paragraph(titreConseil.toUpperCase() + "\n" + titreDeliberation))
-					.setPaddingLeft(15f).setPaddingRight(1.5f)
-					.setTextAlignment(TextAlignment.CENTER)
-					.setFontSize(13f).setBorder(Border.NO_BORDER);
-			table.addCell(cell);
-			document.add(table);
+			String titleCouncil = "CONSEIL " ;
+			if (Validator.isNotNull(council)) {
+				if (!council.getType().equals("municipal")) {
+					titleCouncil +=  " DE L'";
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyy", Locale.FRANCE);
+				titleCouncil += council.getType() + " DU " + sdf.format(council.getDate());
+			}
+
+			Paragraph title = new Paragraph(titleCouncil.toUpperCase() + " - Point n"
+					+ LanguageUtil.get(Locale.FRANCE, "eu.num")
+					+ deliberation.getOrder())
+				.setTextAlignment(TextAlignment.CENTER);
+			document.add(title);
+			title = new Paragraph(deliberation.getTitle()).setFont(font)
+				.setPaddings(0f,10f,0f,150f)
+				.setTextAlignment(TextAlignment.CENTER)
+				.setFontSize(13.5f);
+			document.add(title);
 
 			// image d'entête
+			String domaine = "http://localhost:8080";
 			ImageData image = ImageDataFactory.create(domaine + "/o/councilbo/images/logo_strasbourg_vert.jpg");
 			Image img = new Image(image);
 			float newWidth = 140;
 			float newHeight = (img.getImageHeight() / img.getImageWidth()) * newWidth;
 			img.scaleAbsolute(newWidth, newHeight)
-			.setFixedPosition(0f,500f);
+					.setFixedPosition(0f,520f);
 			document.add(img);
 
-			table = new Table(new UnitValue[]{UnitValue.createPercentValue(10.5f), UnitValue.createPercentValue(89.5f)})
-				.useAllAvailableWidth()
-			.setFixedPosition(1,1f,60f,850f);
+			float hauteur_pour = 245f;
+			float hauteur_contre = 70f;
+			float hauteur_abstention = 70f;
+			float hauteur_totale = hauteur_pour + hauteur_contre + hauteur_abstention;
+
+			Table table = new Table(new float[]{60f, 780f}).useAllAvailableWidth()
+					.setFixedPosition(1,1f,40f,840f);
 
 			// votes pour
 			List<Vote> votesPour = votes.stream().filter(v -> v.getResult().equals("Pour")).collect(Collectors.toList());
-			// colonne
-			cell = new Cell().add(new Paragraph("Pour").setFontSize(15f))
-					.add(new Paragraph(""+votesPour.size()).setFontSize(28f).setMarginTop(70f))
+			int nbVotesPour = votesPour.size();
+			// votes contre
+			List<Vote> votesContre = votes.stream().filter(v -> v.getResult().equals("Contre")).collect(Collectors.toList());
+			int nbVotesContre = votesContre.size();
+			// abstention
+			List<Vote> abstentions = votes.stream().filter(v -> v.getResult().equals("Abstention")).collect(Collectors.toList());
+			int nbAbstentions = abstentions.size();
+
+			int nbVotesTotal = votes.size();
+
+
+			if(nbVotesContre >= 25 || nbAbstentions >= 25){
+				float hauteur_min = 70f;
+				float hauteur_restante = hauteur_totale - 3 * hauteur_min;
+				hauteur_abstention = hauteur_min + nbAbstentions * hauteur_restante / nbVotesTotal;
+				hauteur_contre = hauteur_min + nbVotesContre * hauteur_restante / nbVotesTotal;
+				hauteur_pour = hauteur_totale - hauteur_contre - hauteur_abstention;
+			}
+
+			// colonne verte
+			Cell cell = new Cell().add(new Paragraph("Pour").setFontSize(15f))
+					.add(new Paragraph(""+nbVotesPour).setFontSize(28f).setMarginTop(hauteur_pour / 2 - 28f - 15f))
 					.setTextAlignment(TextAlignment.CENTER)
-					.setBackgroundColor(new DeviceRgb(153, 204, 0)).setHeight(245f)
+					.setBackgroundColor(new DeviceRgb(153, 204, 0)).setHeight(hauteur_pour)
 					.setBorder(new SolidBorder(ColorConstants.BLACK, 2f));
 			table.addCell(cell);
 			// liste élus
@@ -111,17 +172,15 @@ public class PrintPDF {
 			}
 			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.MIDDLE)
 					.add(new Paragraph(listePour)
-						.setFontColor(new DeviceRgb(85, 104, 59)));
-			cell.setBorder(Border.NO_BORDER);
+							.setFontColor(new DeviceRgb(85, 104, 59)))
+					.setBorder(Border.NO_BORDER);
 			table.addCell(cell);
 
-			// votes contre
-			List<Vote> votesContre = votes.stream().filter(v -> v.getResult().equals("Contre")).collect(Collectors.toList());
-			// colonne
+			// colonne rouge
 			cell = new Cell().add(new Paragraph("Contre").setFontSize(15f))
-					.add(new Paragraph(""+votesContre.size()).setFontSize(28f))
+					.add(new Paragraph(""+nbVotesContre).setFontSize(28f).setMarginTop(hauteur_contre / 2 - 28f - 15f))
 					.setTextAlignment(TextAlignment.CENTER)
-					.setBackgroundColor(new DeviceRgb(255, 0, 0)).setHeight(70f)
+					.setBackgroundColor(new DeviceRgb(255, 0, 0)).setHeight(hauteur_contre)
 					.setBorder(new SolidBorder(ColorConstants.BLACK, 2f));
 			table.addCell(cell);
 			// liste élus
@@ -134,17 +193,15 @@ public class PrintPDF {
 			}
 			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.BOTTOM)
 					.add(new Paragraph(listeContre)
-							.setFontColor(new DeviceRgb(255, 0, 0)));
-			cell.setBorder(Border.NO_BORDER);
+							.setFontColor(new DeviceRgb(255, 0, 0)))
+					.setBorder(Border.NO_BORDER);
 			table.addCell(cell);
 
-			// abstention
-			List<Vote> abstentions = votes.stream().filter(v -> v.getResult().equals("Abstention")).collect(Collectors.toList());
-			// colonne
+			// colonne bleue
 			cell = new Cell().add(new Paragraph("Abstention").setFontSize(15f))
-					.add(new Paragraph(""+abstentions.size()).setFontSize(28f))
+					.add(new Paragraph(""+nbAbstentions).setFontSize(28f).setMarginTop(hauteur_abstention / 2 - 28f - 15f))
 					.setTextAlignment(TextAlignment.CENTER)
-					.setBackgroundColor(new DeviceRgb(85, 142, 213)).setHeight(70f)
+					.setBackgroundColor(new DeviceRgb(85, 142, 213)).setHeight(hauteur_abstention)
 					.setBorder(new SolidBorder(ColorConstants.BLACK, 2f));
 			table.addCell(cell);
 			// liste élus
@@ -157,8 +214,8 @@ public class PrintPDF {
 			}
 			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.BOTTOM)
 					.add(new Paragraph(listeAbstention)
-							.setFontColor(new DeviceRgb(99, 77, 124)));
-			cell.setBorder(Border.NO_BORDER);
+							.setFontColor(new DeviceRgb(99, 77, 124)))
+					.setBorder(Border.NO_BORDER);
 			table.addCell(cell);
 			document.add(table);
 
@@ -168,28 +225,24 @@ public class PrintPDF {
 			if (pdfWriter != null)
 				pdfWriter.close();
 
-			// ouverture du PDF dans le navigateur
-			HttpServletResponse response = PortalUtil.getHttpServletResponse(res);
-			response.setContentType("application/pdf");
-			response.addHeader("Content-Disposition", "inline; filename=" + titreDeliberation + ".pdf");
-
-			response.setContentLength(baos.size());
-			OutputStream os = response.getOutputStream();
-			if (os != null) {
-				baos.writeTo(os);
-				os.flush();
-				os.close();
+			String fileName = "Conseil ";
+			if (Validator.isNotNull(council)) {
+				fileName += council.getType().toLowerCase();
 			}
+			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			fileName += " " + now.format(formatterDate) + " - Point " + deliberation.getOrder() + ".pdf";
 
-			File deliberationpdf = new File("./" + titreDeliberation.substring(0,9) + ".pdf");
-			FileOutputStream fos;
-			try {
-				fos = new FileOutputStream(deliberationpdf);
-				fos.write(baos.toByteArray());
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// enregistrement du fichier
+			File deliberationpdf = new File(folder.getAbsolutePath() + "/" + fileName);
+			deliberationpdf.getParentFile().mkdirs();
+				FileOutputStream fos;
+				try {
+					fos = new FileOutputStream(deliberationpdf);
+					fos.write(baos.toByteArray());
+					fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
