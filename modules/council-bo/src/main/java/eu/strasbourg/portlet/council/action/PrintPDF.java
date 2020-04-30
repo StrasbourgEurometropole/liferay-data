@@ -96,18 +96,21 @@ public class PrintPDF {
 			document.setFont(fontBold).setFontSize(12f);
 
 			// titre du PDF
-			String titleCouncil = "CONSEIL " ;
+			String titleCouncil = "CONSEIL" ;
 			if (Validator.isNotNull(council)) {
-				if (!council.getType().equals("municipal")) {
-					titleCouncil +=  " DE L'";
+				if (council.getType().equals("municipal")) {
+					titleCouncil +=  " MUNICIPAL";
+				}else{
+					titleCouncil +=  " DE L'EUROMETROPOLE";
 				}
-				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyy", Locale.FRANCE);
-				titleCouncil += council.getType() + " DU " + sdf.format(council.getDate());
+				SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyy", Locale.FRANCE);
+				titleCouncil += " DU " + sdf.format(council.getDate());
 			}
 
 			Paragraph title = new Paragraph(titleCouncil.toUpperCase() + " - Point n"
-					+ LanguageUtil.get(Locale.FRANCE, "eu.num")
+					+ LanguageUtil.get(Locale.FRANCE, "eu.numero")
 					+ deliberation.getOrder())
+				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER);
 			document.add(title);
 			title = new Paragraph(deliberation.getTitle()).setFont(font)
@@ -191,7 +194,7 @@ public class PrintPDF {
 					listeContre += ", ";
 				listeContre += elu.getLastname().toUpperCase() + "-" + elu.getFirstname();
 			}
-			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.BOTTOM)
+			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.MIDDLE)
 					.add(new Paragraph(listeContre)
 							.setFontColor(new DeviceRgb(255, 0, 0)))
 					.setBorder(Border.NO_BORDER);
@@ -212,7 +215,7 @@ public class PrintPDF {
 					listeAbstention += ", ";
 				listeAbstention += elu.getLastname().toUpperCase() + "-" + elu.getFirstname();
 			}
-			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.BOTTOM)
+			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.MIDDLE)
 					.add(new Paragraph(listeAbstention)
 							.setFontColor(new DeviceRgb(99, 77, 124)))
 					.setBorder(Border.NO_BORDER);
@@ -227,7 +230,11 @@ public class PrintPDF {
 
 			String fileName = "Conseil ";
 			if (Validator.isNotNull(council)) {
-				fileName += council.getType().toLowerCase();
+				if (council.getType().equals("municipal")) {
+					fileName +=  " municipal";
+				}else{
+					fileName +=  " Eurometropole";
+				}
 			}
 			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			fileName += " " + now.format(formatterDate) + " - Point " + deliberation.getOrder() + ".pdf";
