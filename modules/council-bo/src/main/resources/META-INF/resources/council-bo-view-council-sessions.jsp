@@ -77,13 +77,12 @@
 							<liferay-ui:icon message="edit" url="${editCouncilSessionURL}" />
 						</c:if>
 
-						<!-- ACTION : Export des résultats de la session -->
-                        <liferay-portlet:actionURL name="exportResultsCouncilSession" var="exportResultsCouncilSessionURL">
-                            <portlet:param name="cmd" value="exportResultsCouncilSession" />
-                            <portlet:param name="tab" value="councilSessions" />
+						<!-- RESOURCE ACTION : Export des résultats de la session -->
+						<liferay-portlet:resourceURL id="exportCouncilSessionResults" var="exportCouncilSessionResultsURL"
+						        copyCurrentRenderParameters="false">
                             <portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
-                        </liferay-portlet:actionURL>
-                        <liferay-ui:icon message="export-results" url="${exportResultsCouncilSessionURL}" />
+                        </liferay-portlet:resourceURL>
+                        <liferay-ui:icon message="export-results" url="${exportCouncilSessionResultsURL}" />
 
                         <!-- ACTION : Supprimer -->
 						<liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
