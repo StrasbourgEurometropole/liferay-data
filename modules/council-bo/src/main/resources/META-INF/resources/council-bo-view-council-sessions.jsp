@@ -63,6 +63,13 @@
 
 				<liferay-ui:search-container-column-text>
 					<liferay-ui:icon-menu markupView="lexicon">
+						<liferay-portlet:actionURL name="getDeliberationsPDF" var="getDeliberationsPDFURL">
+							<portlet:param name="cmd" value="getDeliberationsPDF" />
+							<portlet:param name="tab" value="councilSessions" />
+							<portlet:param name="councilSessionId" value="${councilSession.councilSessionId}" />
+						</liferay-portlet:actionURL>
+                        <liferay-ui:icon message="getDeliberationsPDF" url="${getDeliberationsPDFURL}" />
+
 						<c:if test="${dc.hasPermission('EDIT_COUNCIL_SESSION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 							<liferay-ui:icon message="edit" url="${editCouncilSessionURL}" />
 						</c:if>
