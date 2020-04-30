@@ -1,1 +1,30 @@
 @import "style.css";
+
+//Enleve le petit espace quand connecté liferay car la bar en haut est plus petite en 7.2
+body.signed-in {
+    padding-top: 54px;
+  }
+
+//Afficher les imges de home-carousel
+.owl-carousel {
+    display: flex;
+
+    .carousel-item {
+        display: flex;
+    }
+}
+
+//enlever le fond gris du titre des articles
+.page-header-title-and-share{
+    background-color: white;
+}
+
+//affichage des articles en ipad doit etre comme en mobile et pas comme desktop
+.portlet-layout.row{
+    .col-md-8 {
+        @media (min-width: 768px) and (max-width: 991px){
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+}
