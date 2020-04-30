@@ -43,7 +43,6 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
         // Définition d'un téléchargement dans le content-type
         response.setContentType("application/force-download");
 
-
         // Récupération des paramètres
         this.loadParameters(request);
 
@@ -53,9 +52,10 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
         if (councilSession != null) {
             String zipFileName = councilSession.getTitle().replace(" ", "_");
 
-            response.setProperty("content-disposition","attachment; filename=" + zipFileName +".zip");
+            response.setProperty("content-disposition","attachment; filename=" + zipFileName + ".zip");
 
             try {
+                // Récupération de l'ouputStream de la réponse et création du zipOutputStream
                 OutputStream out = response.getPortletOutputStream();
                 ZipOutputStream zos = new ZipOutputStream(out);
 
@@ -75,10 +75,13 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
                 zos.write(testFileContent2, 0, testFileContent2.length);
                 zos.closeEntry();
 
+                // Envoie des données
                 zos.flush();
                 out.flush();
 
+                // Fermeture des outputStreams
                 zos.close();
+                out.flush();
 
             } catch (IOException e) {
                 this.log.error("Une erreur est survenu lors de l'extraction de résultat de la session ", e);
