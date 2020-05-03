@@ -93,8 +93,9 @@ public class OIDCFilter extends BaseFilter {
                 redirectToIdPLogout(request, response);
                 return;
             }
-            // Si son jwt n'est plus valide, on le déconnecte
+            // On fait des vérifications sur le JWT provenant des cookies
             String jwtFromCookies = this.getCookieValue(request, "jwt_" + StrasbourgPropsUtil.getEnvironment());
+            // S'il est vide, on force la déconnexion
             if (jwtFromCookies == null || jwtFromCookies.equals("")) {
                 LOG.info("Logout because no JWT");
                 logout(request, response);
@@ -103,9 +104,22 @@ public class OIDCFilter extends BaseFilter {
             } else {
                 boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
                         StrasbourgPropsUtil.getInternalIssuer());
-                if (!isJwtValid) {
+                if (!isJwtValid) { // S'il n'est plus valide, on force également la déconnexion
                     LOG.info("Logout because of invalid JWT");
                     logout(request, response);
+                } else {
+                    // On vérifie aussi le jwt enregistré en session
+                    // S'il ne correspond pas au même utilisateur que celui dans les cookies
+                    // on force le flag isAlreadyLoggedIn à false
+                    // Cela permet plus loin de bien exécuter le code mettant en session les données provenant du JWT
+                    String internalIdFromCookie = JWTUtils.getJWTClaim(jwtFromCookies, "sub", StrasbourgPropsUtil.getInternalSecret(),
+                            StrasbourgPropsUtil.getInternalIssuer());
+                    String internalIdFromSession = SessionParamUtil.getString(request, internalIdAttribute);
+                    if (!internalIdFromCookie.equals("") && !internalIdFromCookie.equals(internalIdFromSession)) {
+                        isAlreadyLoggedIn = false;
+                        request.getSession().invalidate();
+                        LOG.info("SESSION INVALIDATION - id from cookie: " + internalIdFromCookie + " - id from session: " + internalIdFromSession);
+                    }
                 }
             }
         } else {
