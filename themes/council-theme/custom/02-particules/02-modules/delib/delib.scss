@@ -263,12 +263,14 @@ h2 {
                 font-size: 1.8rem;
                 line-height: 1.66666666;
                 color: #5c5c5c;
-                font-weight: 400;
+                font-weight: 600;
                 margin: auto 0;
                 padding-left: 10px;
 
                 @include RWD(mobile) {
                     font-size: 1.4rem;
+                    margin: 10px 0;
+                    padding-left: 0px;
                 }
             }
 
@@ -279,6 +281,9 @@ h2 {
                 flex: 1;
                 display: flex;
                 flex-direction: row;
+                @include RWD(mobile) {
+                    flex-direction: column;
+                }
 
                 .encart {
                     padding: 10px;
@@ -291,9 +296,28 @@ h2 {
                     position: relative;  
                     text-transform: uppercase;
 
+                    @include RWD(mobile) {
+                        flex-direction: row;
+                        justify-content: space-around;
+                    }
+
                     span:nth-child(2n) {
                         font-size: 5rem;
+                        @include RWD(mobile) {
+                            font-size: 3rem;
+                            line-height: 3rem;
+                        }
                     }
+                }
+
+                #liste-pour {
+                    color:#576328;
+                }
+                #liste-contre {
+                    color:#FF0216;
+                }
+                #liste-abstention {
+                    color:#604A7A;
                 }
 
                 .pour {
