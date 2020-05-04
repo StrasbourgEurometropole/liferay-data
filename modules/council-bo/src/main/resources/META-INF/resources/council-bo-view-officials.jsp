@@ -20,7 +20,7 @@
     <liferay-frontend:management-bar-filters>
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
             orderByType="${dc.orderByType}"
-            orderColumns='<%= new String[] {"title", "date"} %>'
+            orderColumns='<%= new String[] {"full-name"} %>'
             portletURL="${officialsURL}" />
     </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
@@ -44,23 +44,28 @@
 
                 <!-- Colonne : Nom complet -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfficialURL}" name="fullName" truncate="true"
+					href="${editOfficialURL}" name="full-name" truncate="true"
 					orderable="true" value="${official.fullName}" />
+
+				<!-- Colonne : Email -->
+                <liferay-ui:search-container-column-text cssClass="content-column"
+                    href="${editOfficialURL}" name="email" truncate="true"
+                    orderable="false" value="${official.email}" />
 
                 <!-- Colonne : Type municipale -->
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="isMunicipal" truncate="true"
-                    orderable="false" value="${official.isMunicipal}" />
+                    name="is-municipal" truncate="true"
+                    orderable="false" value="${official.isMunicipal ? 'Oui' : 'Non'}" />
 
                 <!-- Colonne : Type eurométropolitain -->
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="isEurometropolitan" truncate="true"
-                    orderable="false" value="${official.isEurometropolitan}" />
+                    name="is-eurometropolitan" truncate="true"
+                    orderable="false" value="${official.isEurometropolitan ? 'Oui' : 'Non'}" />
 
                 <!-- Colonne : Est actif ? -->
                 <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="isActive" truncate="true"
-                    orderable="false" value="${official.isActive}" />
+                    name="is-active" truncate="true"
+                    orderable="false" value="${official.isActive ? 'Oui' : 'Non'}" />
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>

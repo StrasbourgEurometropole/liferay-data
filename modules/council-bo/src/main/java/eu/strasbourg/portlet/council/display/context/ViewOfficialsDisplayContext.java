@@ -77,6 +77,19 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
     }
 
     /**
+     * Surcharge le mappage des champs sur lesquelles trier
+     */
+    @Override
+    public String getOrderByColSearchField() {
+        switch (this.getOrderByCol()) {
+            case "full-name":
+                return "localized_title_fr_FR_sortable";
+            default:
+                return "modified_sortable";
+        }
+    }
+
+    /**
      * Wrapper autour du permission checker pour les permissions de module
      */
     @SuppressWarnings("unused")
