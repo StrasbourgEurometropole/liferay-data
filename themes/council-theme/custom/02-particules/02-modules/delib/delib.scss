@@ -301,6 +301,12 @@ h2 {
                         justify-content: space-around;
                     }
 
+                    span:first-child {
+                        @include RWD(mobile) {
+                            width: 120px;
+                        }
+                    }
+
                     span:nth-child(2n) {
                         font-size: 5rem;
                         @include RWD(mobile) {
