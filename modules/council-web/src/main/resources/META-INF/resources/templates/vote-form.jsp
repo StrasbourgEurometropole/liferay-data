@@ -101,7 +101,7 @@
     <div class="btn-validate-vote seu-btn-line">
         <button class="seu-btn-square seu-filled seu-second" title="Valider" id="vote-button-submit">
             <span class="seu-flexbox">
-                <span class="seu-btn-text"><liferay-ui:message key='validate'/></span>
+                <span class="seu-btn-text"><liferay-ui:message key='eu.council.web.validate'/></span>
             </span>
         </button>
     </div>
