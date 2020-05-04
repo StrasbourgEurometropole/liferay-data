@@ -1,4 +1,4 @@
-package eu.strasbourg.portlet.council.action;
+package eu.strasbourg.portlet.council.utils;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -30,9 +30,6 @@ import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.ResourceRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
