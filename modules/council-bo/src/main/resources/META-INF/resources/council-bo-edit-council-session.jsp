@@ -3,7 +3,7 @@
 <%@page import="eu.strasbourg.service.council.model.CouncilSession"%>
 
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
-<liferay-portlet:renderURL varImpl="councilSessionssURL">
+<liferay-portlet:renderURL varImpl="councilSessionsURL">
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:renderURL>
 
