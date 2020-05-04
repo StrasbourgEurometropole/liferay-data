@@ -11,10 +11,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
-import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewCouncilSessionsDisplayContext;
-import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.*;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -62,7 +59,6 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		renderResponse.setTitle("CouncilSessions");
 
-
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
 		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
@@ -74,14 +70,20 @@ public class CouncilBOPortlet extends MVCPortlet {
 		// If we are on the Session, we add the corresponding
 		// display context
 		if (cmd.equals("editCouncilSession") || mvcPath.equals("/council-bo-edit-council-session.jsp")) {
-			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest, renderResponse);
+			EditCouncilSessionDisplayContext dc = new EditCouncilSessionDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
 		} else if (cmd.equals("editDeliberation") || mvcPath.equals("/council-bo-edit-deliberation.jsp")) {
 			EditDeliberationDisplayContext dc = new EditDeliberationDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("editOfficial") || mvcPath.equals("/council-bo-edit-official.jsp")) {
+			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
 			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
+			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("officials")) {
+			ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
@@ -102,7 +104,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 		HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(renderRequest);
 
 		String categoryCouncilId = null;
-		String categoryDelibStage= null;;
+		String categoryDelibStage= null;
 
 		String categoryToAdd = ParamUtil.getString(renderRequest, "categoryToAdd");
 		if(Validator.isNotNull(categoryToAdd)) {

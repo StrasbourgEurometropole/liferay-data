@@ -12,7 +12,6 @@ import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class EditCouncilSessionDisplayContext {
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
 
-    public EditCouncilSessionDisplayContext(RenderRequest request, RenderResponse response) {
+    public EditCouncilSessionDisplayContext(RenderRequest request) {
         this.request = request;
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
     }
