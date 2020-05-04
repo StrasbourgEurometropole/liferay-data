@@ -100,7 +100,7 @@
                         <div class="wrapper-column">
                             <div class="wrapper-row">
                                 <label>${dc.getABSTENTION()}</label>
-                                <span>${dc.deliberation.countOfficialsActive}</span>
+                                <span>${dc.getVoteCountForAResult(dc.getABSTENTION())}</span>
                             </div>
                             <div class="wrapper-row">
                                 <label><liferay-ui:message key="quorum"/></label>
