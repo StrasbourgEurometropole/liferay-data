@@ -38,6 +38,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -137,15 +139,35 @@ public class PrintPDF {
 			// votes pour
 			List<Vote> votesPour = votes.stream().filter(v -> v.getResult().equals("Pour")).collect(Collectors.toList());
 			int nbVotesPour = votesPour.size();
+			List<String> offialsFullNamePour = new ArrayList<>();
+			for (Vote vote : votesPour) {
+				Official elu = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+				if (elu != null)
+					offialsFullNamePour.add(elu.getFullName());
+			}
+			offialsFullNamePour.sort( Comparator.comparing( String::toString ) );
 			// votes contre
 			List<Vote> votesContre = votes.stream().filter(v -> v.getResult().equals("Contre")).collect(Collectors.toList());
 			int nbVotesContre = votesContre.size();
+			List<String> offialsFullNameContre = new ArrayList<>();
+			for (Vote vote : votesContre) {
+				Official elu = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+				if (elu != null)
+					offialsFullNameContre.add(elu.getFullName());
+			}
+			offialsFullNameContre.sort( Comparator.comparing( String::toString ) );
 			// abstention
 			List<Vote> abstentions = votes.stream().filter(v -> v.getResult().equals("Abstention")).collect(Collectors.toList());
 			int nbAbstentions = abstentions.size();
+			List<String> offialsFullNameAbstentions = new ArrayList<>();
+			for (Vote vote : abstentions) {
+				Official elu = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+				if (elu != null)
+					offialsFullNameAbstentions.add(elu.getFullName());
+			}
+			offialsFullNameAbstentions.sort( Comparator.comparing( String::toString ) );
 
 			int nbVotesTotal = votes.size();
-
 
 			if(nbVotesContre >= 25 || nbAbstentions >= 25){
 				float hauteur_min = 70f;
@@ -164,11 +186,10 @@ public class PrintPDF {
 			table.addCell(cell);
 			// liste élus
 			String listePour = "";
-			for (Vote vote : votesPour) {
-				Official elu = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+			for (String officialFullName : offialsFullNamePour) {
 				if(!listePour.isEmpty())
 					listePour += ", ";
-				listePour += elu.getLastname().toUpperCase() + "-" + elu.getFirstname();
+				listePour += officialFullName;
 			}
 			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.MIDDLE)
 					.add(new Paragraph(listePour)
@@ -185,11 +206,10 @@ public class PrintPDF {
 			table.addCell(cell);
 			// liste élus
 			String listeContre = "";
-			for (Vote vote : votesContre) {
-				Official elu = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+			for (String officialFullName : offialsFullNameContre) {
 				if(!listeContre.isEmpty())
 					listeContre += ", ";
-				listeContre += elu.getLastname().toUpperCase() + "-" + elu.getFirstname();
+				listeContre += officialFullName;
 			}
 			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.MIDDLE)
 					.add(new Paragraph(listeContre)
@@ -206,11 +226,10 @@ public class PrintPDF {
 			table.addCell(cell);
 			// liste élus
 			String listeAbstention = "";
-			for (Vote vote : abstentions) {
-				Official elu = OfficialLocalServiceUtil.fetchOfficial(vote.getOfficialId());
+			for (String officialFullName : offialsFullNameAbstentions) {
 				if(!listeAbstention.isEmpty())
 					listeAbstention += ", ";
-				listeAbstention += elu.getLastname().toUpperCase() + "-" + elu.getFirstname();
+				listeAbstention += officialFullName;
 			}
 			cell = new Cell().setKeepTogether(true).setVerticalAlignment(VerticalAlignment.MIDDLE)
 					.add(new Paragraph(listeAbstention)

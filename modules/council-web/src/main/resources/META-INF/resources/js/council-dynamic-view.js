@@ -216,47 +216,49 @@ window.setInterval(function(){
 
                     frontResultatStatut.textContent = deliberationJSON.stage
 
+                    //CALCUL LALISTE DES VOTES
+                    var listePour ='';
+                    var listeContre ='';
+                    var listeAbstention ='';
+
+                    votesJSON.approve.sort();
+                    for (var i = 0; i < votesJSON.approve.length; i++) {
+                        if(i == countPour - 1) {
+                            listePour += votesJSON.approve[i];
+                        } else {
+                            listePour += votesJSON.approve[i] +', ';
+                        }
+                    };
+                    votesJSON.against.sort();
+                   for (var j = 0; j < votesJSON.against.length; j++) {
+                        if(j == countContre - 1) {
+                            listeContre += votesJSON.against[j];
+                        } else {
+                            listeContre += votesJSON.against[j] +', ';
+                        }
+                    };
+                    votesJSON.abstention.sort();
+                    for (var k = 0; k < votesJSON.abstention.length; k++) {
+                        if(k == countAbstention - 1) {
+                            listeAbstention += votesJSON.abstention[k];
+                        } else {
+                            listeAbstention += votesJSON.abstention[k] +', ';
+                        }
+                    };
+
+                    frontSpecifiqueEncartPour.getElementsByTagName('span')[1].textContent = countPour;
+                    frontSpecifiqueEncartContre.getElementsByTagName('span')[1].textContent = countContre;
+                    frontSpecifiqueEncartAbstention.getElementsByTagName('span')[1].textContent = countAbstention;
+
+                    frontSpecifiqueListePour.textContent = listePour;
+                    frontSpecifiqueListeContre.textContent = listeContre;
+                    frontSpecifiqueListeAbstention.textContent = listeAbstention;
+
+
+
                     // VUE AGENT DES RESULTATS
                     if(useSkypeView) {
 
-                        var listePour ='';
-                        var listeContre ='';
-                        var listeAbstention ='';
-
-                        for (var i = 0; i < votesJSON.approve.length; i++) {
-                            if(i == countPour - 1) {
-                                listePour += votesJSON.approve[i];
-                            } else {
-                                listePour += votesJSON.approve[i] +', ';
-                            }
-                        };
-                       for (var j = 0; j < votesJSON.against.length; j++) {
-                            if(j == countContre - 1) {
-                                listeContre += votesJSON.against[j];
-                            } else {
-                                listeContre += votesJSON.against[j] +', ';
-                            }
-                        };
-                        for (var k = 0; k < votesJSON.abstention.length; k++) {
-                            if(k == countAbstention - 1) {
-                                listeAbstention += votesJSON.abstention[k];
-                            } else {
-                                listeAbstention += votesJSON.abstention[k] +', ';
-                            }
-                        };
-
-                        frontSpecifiqueEncartPour.getElementsByTagName('span')[1].textContent = countPour;
-                        frontSpecifiqueEncartContre.getElementsByTagName('span')[1].textContent = countContre;
-                        frontSpecifiqueEncartAbstention.getElementsByTagName('span')[1].textContent = countAbstention;
-
-                        frontSpecifiqueListePour.textContent = listePour;
-                        frontSpecifiqueListeContre.textContent = listeContre;
-                        frontSpecifiqueListeAbstention.textContent = listeAbstention;
-
-                        // On affiche les résultats uniquement si ADOPTE ou REJETE et s'il y a des votes
-                        if(deliberationJSON.stage != "Communiqué" && (countPour > 0 || countContre > 0 || countAbstention > 0)) {
-                            frontResultatSpecifique.style.display = "flex";
-                        }
                         frontResultatGeneral.style.display = "none";
                     }
                     // VUE ELU DES RESULTATS
@@ -271,12 +273,16 @@ window.setInterval(function(){
                         if(deliberationJSON.stage != "Communiqué" && (countPour > 0 || countContre > 0 || countAbstention > 0)) {
                             frontResultatGeneral.style.display = "flex";
                         }
-                        frontResultatSpecifique.style.display = "none";
                     }
 
                     var description = frontDelibDescription.getElementsByTagName("div")[0];
                     if(description.classList.contains("skype-description")) {
                         description.classList.remove("skype-description");
+                    }
+
+                    // On affiche les résultats uniquement si ADOPTE ou REJETE et s'il y a des votes
+                    if(deliberationJSON.stage != "Communiqué" && (countPour > 0 || countContre > 0 || countAbstention > 0)) {
+                        frontResultatSpecifique.style.display = "flex";
                     }
 
                     // On affiche le statut du résultat qu'importe le reste
