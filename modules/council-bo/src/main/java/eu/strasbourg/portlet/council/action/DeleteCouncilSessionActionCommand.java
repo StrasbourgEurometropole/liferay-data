@@ -3,8 +3,6 @@ package eu.strasbourg.portlet.council.action;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -26,11 +24,11 @@ import javax.portlet.PortletURL;
         },
         service = MVCActionCommand.class
 )
-public class DeleteCouncilSessionActionCommand  extends BaseMVCActionCommand {
+public class DeleteCouncilSessionActionCommand extends BaseMVCActionCommand {
 
     @Override
     protected void doProcessAction(ActionRequest request, ActionResponse response) throws Exception {
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        // Récupération du contexte de la requête
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
