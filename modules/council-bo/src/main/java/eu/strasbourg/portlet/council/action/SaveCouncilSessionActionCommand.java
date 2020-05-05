@@ -133,7 +133,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
     }
 
     /**
-     * Validation des champs obligatoires
+     * Validation de la requête
      */
     private boolean validate(ActionRequest request) throws PortalException {
         boolean isValid = true;
