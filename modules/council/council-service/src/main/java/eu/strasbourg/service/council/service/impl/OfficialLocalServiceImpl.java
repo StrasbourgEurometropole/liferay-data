@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -32,6 +33,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,8 +64,15 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 	public final static Log log = LogFactoryUtil.getLog(OfficialLocalServiceImpl.class);
 
+	/** Type **/
 	public static final String MUNICIPAL = "municipal";
 	public static final String EUROMETROPOLITAN = "eurometropolitan";
+
+	/** Catégories **/
+	public static final String CATEGORY_MUNICIPAL = "Municipal";
+	public static final String CATEGORY_EUROMETROPOLITAN = "Eurometropolitain";
+	public static final String CATEGORY_ACTIVE = "Actif";
+	public static final String CATEGORY_INACTIVE = "Inactif";
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
@@ -99,6 +108,51 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		} else {
 			official.setStatus(WorkflowConstants.STATUS_DRAFT);
 		}
+
+		// Gestion des catégories associées
+		List<Long> assetCategoryIdsList = new ArrayList<>();
+
+		// Vocabulaire : Type
+		if (official.getIsMunicipal()) {
+			AssetCategory catMunicipal = AssetVocabularyHelper.getCategory(
+					CATEGORY_MUNICIPAL, sc.getScopeGroupId());
+			if (catMunicipal != null)
+				assetCategoryIdsList.add(catMunicipal.getCategoryId());
+			else
+				log.info("La categorie \"" + CATEGORY_MUNICIPAL + "\" n'a pas pu etre ajoutee a l'elu, " +
+						"veuillez la creer et reenregistrer la derniere entree : " + official.getFullName());
+		}
+		if (official.getIsEurometropolitan()) {
+			AssetCategory catEurometropolitan = AssetVocabularyHelper.getCategory(
+					CATEGORY_EUROMETROPOLITAN, sc.getScopeGroupId());
+			if (catEurometropolitan != null)
+				assetCategoryIdsList.add(catEurometropolitan.getCategoryId());
+			else
+				log.info("La categorie \"" + CATEGORY_EUROMETROPOLITAN + "\" n'a pas pu etre ajoutee a l'elu, " +
+						"veuillez la creer et reenregistrer la derniere entree : " + official.getFullName());
+		}
+
+		// Vocabuaire : Elu activité
+		AssetCategory catActivity;
+		if(official.getIsActive()) {
+			catActivity = AssetVocabularyHelper.getCategory(CATEGORY_ACTIVE, sc.getScopeGroupId());
+		} else {
+			catActivity = AssetVocabularyHelper.getCategory(CATEGORY_INACTIVE, sc.getScopeGroupId());
+		}
+		if (catActivity != null)
+			assetCategoryIdsList.add(catActivity.getCategoryId());
+		else
+			log.info("La categorie \"" + CATEGORY_ACTIVE + "\" ou \"" + CATEGORY_INACTIVE + "\" " +
+					"n'a pas pu etre ajoutee a l'elu, " +
+					"veuillez la creer et reenregistrer la derniere entree : " + official.getFullName());
+
+		long[] assetCategoryIds = new long[assetCategoryIdsList.size()];
+		for (int i = 0; i < assetCategoryIdsList.size(); i++)
+			assetCategoryIds[i] = assetCategoryIdsList.get(i);
+
+		sc.setAssetCategoryIds(assetCategoryIds);
+		// END : Gestion des catégories associées
+
 		official = this.officialLocalService.updateOfficial(official);
 
 		this.updateAssetEntry(official, sc);
