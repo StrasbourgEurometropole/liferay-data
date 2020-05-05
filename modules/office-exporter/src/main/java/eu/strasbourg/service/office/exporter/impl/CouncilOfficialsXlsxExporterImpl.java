@@ -29,7 +29,7 @@ public class CouncilOfficialsXlsxExporterImpl implements CouncilOfficialsXlsxExp
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         // Creation du document
-        XSSFSheet sheet = workbook.createSheet("Export budget participatif");
+        XSSFSheet sheet = workbook.createSheet("Liste des elus");
 
         // Initialisation des colonnes
         List<List<Object>> officialsData = new ArrayList<>();
