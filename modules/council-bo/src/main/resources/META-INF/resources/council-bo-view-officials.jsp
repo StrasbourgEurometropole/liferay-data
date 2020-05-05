@@ -84,16 +84,6 @@
 							<liferay-ui:icon message="edit" url="${editOfficialURL}" />
 						</c:if>
 
-                        <!-- ACTION : Supprimer -->
-						<liferay-portlet:actionURL name="deleteOfficial" var="deleteOfficialURL">
-							<portlet:param name="cmd" value="deleteOfficial" />
-							<portlet:param name="tab" value="officials" />
-							<portlet:param name="officialId" value="${official.officialId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('DELETE_OFFICIAL') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteOfficialURL}" />
-						</c:if>
-
 					</liferay-ui:icon-menu>
 				</liferay-ui:search-container-column-text>
 

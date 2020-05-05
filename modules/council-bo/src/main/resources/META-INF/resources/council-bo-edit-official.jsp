@@ -113,11 +113,6 @@
                 </c:if>
 			</c:if>
 
-			<%-- Test : Verification des droits de supression --%>
-			<c:if test="${not empty dc.official && dc.hasPermission('DELETE_OFFICIAL') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel" value="delete" />
-			</c:if>
-
 			<%-- Composant : bouton de retour a la liste des entites --%>
 			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
 
