@@ -153,6 +153,22 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		return _vote.toCacheModel();
 	}
 
+	/**
+	* Renvoie l'élu à qui appartient le vote
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official getOfficial() {
+		return _vote.getOfficial();
+	}
+
+	/**
+	* Renvoie l'élu qui a voté par procuration
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Official getOfficialProcuration() {
+		return _vote.getOfficialProcuration();
+	}
+
 	@Override
 	public eu.strasbourg.service.council.model.Vote toEscapedModel() {
 		return new VoteWrapper(_vote.toEscapedModel());
@@ -184,6 +200,14 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	}
 
 	/**
+	* Renvoie le nom complet de l'élu à qui appartient le vote
+	*/
+	@Override
+	public java.lang.String getOfficialFullName() {
+		return _vote.getOfficialFullName();
+	}
+
+	/**
 	* Returns the result of this vote.
 	*
 	* @return the result of this vote
@@ -201,6 +225,14 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public java.lang.String getUuid() {
 		return _vote.getUuid();
+	}
+
+	/**
+	* Renvoie le nom complet de l'élu l'élu qui a voté par procuration
+	*/
+	@Override
+	public java.lang.String getgetOfficialProcurationFullName() {
+		return _vote.getgetOfficialProcurationFullName();
 	}
 
 	@Override

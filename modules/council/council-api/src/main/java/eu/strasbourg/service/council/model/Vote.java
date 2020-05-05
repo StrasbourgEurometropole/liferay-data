@@ -53,4 +53,24 @@ public interface Vote extends VoteModel, PersistedModel {
 				return Vote.class;
 			}
 		};
+
+	/**
+	* Renvoie l'élu à qui appartient le vote
+	*/
+	public eu.strasbourg.service.council.model.Official getOfficial();
+
+	/**
+	* Renvoie le nom complet de l'élu à qui appartient le vote
+	*/
+	public java.lang.String getOfficialFullName();
+
+	/**
+	* Renvoie l'élu qui a voté par procuration
+	*/
+	public eu.strasbourg.service.council.model.Official getOfficialProcuration();
+
+	/**
+	* Renvoie le nom complet de l'élu l'élu qui a voté par procuration
+	*/
+	public java.lang.String getgetOfficialProcurationFullName();
 }

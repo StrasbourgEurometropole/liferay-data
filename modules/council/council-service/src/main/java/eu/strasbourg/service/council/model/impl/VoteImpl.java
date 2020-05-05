@@ -15,6 +15,8 @@
 package eu.strasbourg.service.council.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 
 /**
  * The extended model implementation for the Vote service. Represents a row in the &quot;council_Vote&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +36,39 @@ public class VoteImpl extends VoteBaseImpl {
 	 */
 	public VoteImpl() {
 	}
+
+	/**
+	 * Renvoie l'élu à qui appartient le vote
+	 */
+	@Override
+	public Official getOfficial() {
+		return OfficialLocalServiceUtil.fetchOfficial(this.getOfficialId());
+	}
+
+	/**
+	 * Renvoie le nom complet de l'élu à qui appartient le vote
+	 */
+	@Override
+	public String getOfficialFullName() {
+		Official official = this.getOfficial();
+		return official != null ? official.getFullName() : "";
+	}
+
+	/**
+	 * Renvoie l'élu qui a voté par procuration
+	 */
+	@Override
+	public Official getOfficialProcuration() {
+		return OfficialLocalServiceUtil.fetchOfficial(this.getOfficialProcurationId());
+	}
+
+	/**
+	 * Renvoie le nom complet de l'élu l'élu qui a voté par procuration
+	 */
+	@Override
+	public String getgetOfficialProcurationFullName() {
+		Official official = this.getOfficialProcuration();
+		return official != null ? official.getFullName() : "";
+	}
+
 }
