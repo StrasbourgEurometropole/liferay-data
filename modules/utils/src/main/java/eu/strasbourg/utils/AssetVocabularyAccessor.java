@@ -198,4 +198,20 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
+	public AssetVocabulary getCouncilType(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_TYPE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getCouncilOfficialActivity(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_OFFICIAL_ACTIVITY, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 }
