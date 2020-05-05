@@ -108,7 +108,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] { String.class.getName() },
 			OfficialModelImpl.UUID_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK);
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
@@ -907,7 +908,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			new String[] { String.class.getName(), Long.class.getName() },
 			OfficialModelImpl.UUID_COLUMN_BITMASK |
 			OfficialModelImpl.COMPANYID_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK);
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
@@ -1737,7 +1739,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			new String[] { Long.class.getName(), Boolean.class.getName() },
 			OfficialModelImpl.GROUPID_COLUMN_BITMASK |
 			OfficialModelImpl.ISACTIVE_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK);
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVE = new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
@@ -2292,7 +2295,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			OfficialModelImpl.GROUPID_COLUMN_BITMASK |
 			OfficialModelImpl.ISACTIVE_COLUMN_BITMASK |
 			OfficialModelImpl.ISMUNICIPAL_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK);
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVEANDISMUNICIPAL =
 		new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,
@@ -2897,7 +2901,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 			OfficialModelImpl.GROUPID_COLUMN_BITMASK |
 			OfficialModelImpl.ISACTIVE_COLUMN_BITMASK |
 			OfficialModelImpl.ISEUROMETROPOLITAN_COLUMN_BITMASK |
-			OfficialModelImpl.LASTNAME_COLUMN_BITMASK);
+			OfficialModelImpl.LASTNAME_COLUMN_BITMASK |
+			OfficialModelImpl.FIRSTNAME_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPIDANDISACTIVEANDISEUROMETROPOLITAN =
 		new FinderPath(OfficialModelImpl.ENTITY_CACHE_ENABLED,
 			OfficialModelImpl.FINDER_CACHE_ENABLED, Long.class,

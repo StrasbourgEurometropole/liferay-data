@@ -118,8 +118,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
-	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC, official.firstname ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC, council_Official.firstname ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -140,6 +140,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final long ISMUNICIPAL_COLUMN_BITMASK = 32L;
 	public static final long UUID_COLUMN_BITMASK = 64L;
 	public static final long LASTNAME_COLUMN_BITMASK = 128L;
+	public static final long FIRSTNAME_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -629,6 +630,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public void setFirstname(String firstname) {
+		_columnBitmask = -1L;
+
 		_firstname = firstname;
 	}
 
@@ -882,7 +885,13 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public int compareTo(Official official) {
 		int value = 0;
 
-		value = getLastname().compareTo(official.getLastname());
+		value = getLastname().compareToIgnoreCase(official.getLastname());
+
+		if (value != 0) {
+			return value;
+		}
+
+		value = getFirstname().compareToIgnoreCase(official.getFirstname());
 
 		if (value != 0) {
 			return value;

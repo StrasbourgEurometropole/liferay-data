@@ -36,7 +36,8 @@
 
 		<!-- Order -->
 		<order by="asc">
-			<order-column name="lastname" />
+			<order-column case-sensitive="false" name="lastname" />
+			<order-column case-sensitive="false" name="firstname" />
 		</order>
 
 		<!-- Finder methods -->
