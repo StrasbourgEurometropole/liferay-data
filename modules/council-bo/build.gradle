@@ -19,5 +19,6 @@ dependencies {
 	compile group: 'com.itextpdf', name: 'svg', version: '7.1.3'
 
 	compile project (':modules:council:council-api')
+	compile project (':modules:office-exporter')
 	compile project (':modules:utils')
 }

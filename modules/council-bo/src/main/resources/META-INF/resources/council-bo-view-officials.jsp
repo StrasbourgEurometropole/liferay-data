@@ -95,10 +95,19 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<!-- ACTION RESOURCE : Export des élus-->
+    <liferay-portlet:resourceURL var="exportOfficialsURL" id="exportOfficials" />
+	<form method="POST" action="${exportOfficialsURL}">
+        <aui:button-row>
+            <aui:button cssClass="btn-lg" type="submit" value="eu.council.bo.export.officials" />
+        </aui:button-row>
+    </form>
+
 </div>
 
 <c:if test="${dc.hasPermission('ADD_OFFICIAL') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="eu.council.web.add.official" url="${addOfficialURL}" />
+		<liferay-frontend:add-menu-item title="eu.council.bo.add.official" url="${addOfficialURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

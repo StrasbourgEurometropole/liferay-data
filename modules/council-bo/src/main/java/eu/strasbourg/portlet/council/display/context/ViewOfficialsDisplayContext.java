@@ -61,22 +61,6 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
     }
 
     /**
-     * Retourne la liste des PK de tous les élus
-     * @return liste de PK (ex: "1,5,7,8")
-     */
-    @SuppressWarnings("unused")
-    public String getAllOfficialIds() throws PortalException {
-        StringBuilder officialIds = new StringBuilder();
-        for (Official official : this.getAllOfficials()) {
-            if (officialIds.length() > 0) {
-                officialIds.append(",");
-            }
-            officialIds.append(official.getOfficialId());
-        }
-        return officialIds.toString();
-    }
-
-    /**
      * Surcharge le mappage des champs sur lesquelles trier
      */
     @Override
