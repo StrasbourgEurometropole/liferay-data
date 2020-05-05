@@ -1,0 +1,28 @@
+%container{
+    width: #{$container-width}px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    .seu-btn-square.seu-bordered.seu-core a:last-child {
+        margin-bottom: 60px;
+    }
+
+    @include RWD(tablet){
+        width: 100%;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    @include RWD(mobile){
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+%container-form{
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}

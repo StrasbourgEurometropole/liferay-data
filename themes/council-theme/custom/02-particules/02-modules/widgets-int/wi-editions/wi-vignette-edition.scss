@@ -1,0 +1,11 @@
+.wi-search-result.wi-edition-thumbnail {
+    .seu-result-right .seu-result-infos-top {
+        color: $core-color;
+        &:before {
+            background-image: url(svg-bg-uri($svg-calendar, $core-color));
+            margin-right: 12px;
+            margin-top: -3px;
+            background-size: 19px !important;
+        }
+    }
+}
