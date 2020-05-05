@@ -20,6 +20,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EditDeliberationDisplayContext {
 
@@ -130,6 +131,10 @@ public class EditDeliberationDisplayContext {
                 voteBeans.add(voteBean);
             }
         }
+        // Tri par nom complet des résultats
+        this.voteBeans = this.voteBeans.stream()
+                .sorted(Comparator.comparing(VoteBean::getVoter))
+                .collect(Collectors.toList());
     }
 
     /**
