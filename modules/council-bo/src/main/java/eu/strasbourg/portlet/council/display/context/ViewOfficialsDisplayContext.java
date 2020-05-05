@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -23,7 +24,7 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
         super(Official.class, request, response);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused")r l'expo'
     public List<Official> getOfficials() throws PortalException {
         if (this.officials == null) {
             Hits hits = getHits(this._themeDisplay.getScopeGroupId());
@@ -58,6 +59,16 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
             }
         }
         return results;
+    }
+
+    @Override
+    public String getOrderByCol() {
+        return ParamUtil.getString(this._request, "orderByCol", "full-name");
+    }
+
+    @Override
+    public String getOrderByType() {
+        return ParamUtil.getString(this._request, "orderByType", "asc");
     }
 
     /**

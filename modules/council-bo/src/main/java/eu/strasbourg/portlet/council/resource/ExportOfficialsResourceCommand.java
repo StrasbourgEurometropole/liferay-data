@@ -43,7 +43,7 @@ public class ExportOfficialsResourceCommand implements MVCResourceCommand {
         List<Official> officials = this.officialLocalService.getOfficials(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
         try {
-            //Génération de l'excel/CSV des résultats
+            // Génération de l'excel/CSV des résultats
             this.councilOfficialsXlsxExporter.exportOfficials(response.getPortletOutputStream(), officials);
             // Envoie du document dans le flux de réponse
             response.getPortletOutputStream().flush();
