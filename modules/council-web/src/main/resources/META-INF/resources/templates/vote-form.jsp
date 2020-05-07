@@ -113,6 +113,7 @@
     /* Lors de l'envoie du formulaire */
     $("#vote-button-submit").click(function(event){
         event.preventDefault();
+        $("#vote-button-submit").hide();
         hideErrorMessage(); // Cache un potentiel précédent message d'erreur
         if (validateFormValues()){
             // Récupération des informations
@@ -155,6 +156,7 @@
                     });
                 }
                 catch(error) {
+                    $("#vote-button-submit").show();
                     if (!(error instanceof TypeError)) {
                         console.log(error);
                     } else {
@@ -162,6 +164,8 @@
                     }
                 }
             });
+        } else {
+            $("#vote-button-submit").show();
         }
     });
 

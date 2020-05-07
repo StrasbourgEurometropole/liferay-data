@@ -174,7 +174,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             return false;
         }
 
-        // Vérification les procurations si elles existent
+        // Vérification de l'exitence des procurations
         Procuration procuration;
         if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
             procuration = this.procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
