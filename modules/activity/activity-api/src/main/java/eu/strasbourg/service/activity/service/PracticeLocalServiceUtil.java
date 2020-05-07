@@ -18,9 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
 
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchException;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
@@ -44,15 +41,6 @@ public class PracticeLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.activity.service.impl.PracticeLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-
-	/**
-	* Lance une recherche selon le searchContext
-	*/
-	public static Hits search(SearchContext searchContext)
-		throws SearchException {
-		return getService().search(searchContext);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -83,6 +71,15 @@ public class PracticeLocalServiceUtil {
 		java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	/**
+	* Lance une recherche selon le searchContext
+	*/
+	public static com.liferay.portal.kernel.search.Hits search(
+		com.liferay.portal.kernel.search.SearchContext searchContext)
+		throws com.liferay.portal.kernel.search.SearchException {
+		return getService().search(searchContext);
 	}
 
 	/**
