@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -2196,8 +2195,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getSuggestions(
 		javax.servlet.http.HttpServletRequest request, int nbSuggestions,
 		java.lang.String tag, java.lang.String category)
-		throws SearchException,
-			com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.search.SearchException {
 		return _event.getSuggestions(request, nbSuggestions, tag, category);
 	}
 
