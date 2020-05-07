@@ -130,11 +130,13 @@ public class EditDeliberationDisplayContext {
 
                 voteBeans.add(voteBean);
             }
+            if (voteBeans.size() > 1) {
+                // Tri par nom complet des résultats
+                this.voteBeans = this.voteBeans.stream()
+                        .sorted(Comparator.comparing(VoteBean::getVoter))
+                        .collect(Collectors.toList());
+            }
         }
-        // Tri par nom complet des résultats
-        this.voteBeans = this.voteBeans.stream()
-                .sorted(Comparator.comparing(VoteBean::getVoter))
-                .collect(Collectors.toList());
     }
 
     /**
