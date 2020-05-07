@@ -16,49 +16,45 @@ package eu.strasbourg.service.oidc.service.impl;
 
 import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
-import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
-import eu.strasbourg.service.favorite.model.Favorite;
-import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalServiceUtil;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.UserInterestLocalServiceUtil;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
-import eu.strasbourg.service.notification.model.UserNotificationChannel;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
-import eu.strasbourg.service.notification.model.UserNotificationType;
-import eu.strasbourg.service.notification.service.UserNotificationChannelLocalServiceUtil;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
-import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
-import eu.strasbourg.service.project.model.*;
-import eu.strasbourg.service.project.service.*;
-import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.PublikApiClient;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
+import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
+import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,7 +94,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Met à jour un utilisateur Publik et l'enregistre en base
 	 * @return L'utilisateur Publik modifié
-	 * @throws IOException
 	 */
 	@Override
 	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
@@ -296,7 +291,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * suppression de la signature du pacte,
 	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
 	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	 * @return
 	 */
 	@Override
 	public void anonymisedUserPlacit(PublikUser anonymUser, PublikUser publikUser) {
