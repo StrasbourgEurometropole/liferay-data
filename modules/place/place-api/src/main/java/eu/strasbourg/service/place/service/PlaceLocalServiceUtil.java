@@ -16,10 +16,6 @@ package eu.strasbourg.service.place.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchException;
-import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -73,7 +69,7 @@ public class PlaceLocalServiceUtil {
 	 * Crée un lieu vide avec une PK, non ajouté à la base de donnée
 	 */
 	public static eu.strasbourg.service.place.model.Place createPlace(
-			ServiceContext sc)
+			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().createPlace(sc);
@@ -418,8 +414,9 @@ public class PlaceLocalServiceUtil {
 	/**
 	 * Lance une recherche selon le searchContext
 	 */
-	public static Hits search(SearchContext searchContext)
-		throws SearchException {
+	public static com.liferay.portal.kernel.search.Hits search(
+			com.liferay.portal.kernel.search.SearchContext searchContext)
+		throws com.liferay.portal.kernel.search.SearchException {
 
 		return getService().search(searchContext);
 	}
@@ -440,7 +437,8 @@ public class PlaceLocalServiceUtil {
 	 * Met à jour un lieu et l'enregistre en base de données
 	 */
 	public static eu.strasbourg.service.place.model.Place updatePlace(
-			eu.strasbourg.service.place.model.Place place, ServiceContext sc)
+			eu.strasbourg.service.place.model.Place place,
+			com.liferay.portal.kernel.service.ServiceContext sc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updatePlace(place, sc);
@@ -465,7 +463,8 @@ public class PlaceLocalServiceUtil {
 	 * Met à jour le statut du lieu par le framework workflow
 	 */
 	public static eu.strasbourg.service.place.model.Place updateStatus(
-			long userId, long entryId, int status, ServiceContext sc,
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
 			java.util.Map<String, java.io.Serializable> workflowContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
