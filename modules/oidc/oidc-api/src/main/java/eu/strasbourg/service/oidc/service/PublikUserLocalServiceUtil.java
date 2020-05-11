@@ -164,7 +164,6 @@ public class PublikUserLocalServiceUtil {
 	* Met à jour un utilisateur Publik et l'enregistre en base
 	*
 	* @return L'utilisateur Publik modifié
-	* @throws IOException
 	*/
 	public static eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(
 		eu.strasbourg.service.oidc.model.PublikUser publikUser,
@@ -366,8 +365,6 @@ public class PublikUserLocalServiceUtil {
 	* suppression de la signature du pacte,
 	* anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
 	*     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	*
-	* @return
 	*/
 	public static void anonymisedUserPlacit(
 		eu.strasbourg.service.oidc.model.PublikUser anonymUser,

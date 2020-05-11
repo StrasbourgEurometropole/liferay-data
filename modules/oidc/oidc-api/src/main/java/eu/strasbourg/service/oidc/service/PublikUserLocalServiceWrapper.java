@@ -171,7 +171,6 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	* Met à jour un utilisateur Publik et l'enregistre en base
 	*
 	* @return L'utilisateur Publik modifié
-	* @throws IOException
 	*/
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(
@@ -391,8 +390,6 @@ public class PublikUserLocalServiceWrapper implements PublikUserLocalService,
 	* suppression de la signature du pacte,
 	* anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
 	*     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	*
-	* @return
 	*/
 	@Override
 	public void anonymisedUserPlacit(
