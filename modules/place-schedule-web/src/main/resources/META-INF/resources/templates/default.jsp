@@ -26,8 +26,8 @@
 			<liferay-ui:message key="no-places-x" arguments="${category.getTitle(locale)}" />
 		</c:when>
 		<c:otherwise>				
-			<div class="row row-spacing">
-				<form action="${changeDataURL}" method="post" name="fm">
+			<div class=" row-spacing">
+				<form class="row" action="${changeDataURL}" method="post" name="fm">
 				
 					<div class="col-md-3" >
 						<fmt:formatDate value="${jourChoisi}" pattern="yyyy-MM-dd" type="date" var="formattedDate"/>
@@ -36,7 +36,7 @@
 								yearParam="year" yearValue="${selectedYear}" />
 					</div>
 					
-					<div class="col-md-6" >
+					<div class="col-md-7" >
 						<aui:select class="form-control" name="placeId" label="select-place"  inlineField="true" inlineLabel="left" style="margin-left: 10px;" >
 					        <aui:option value="" >
 			        			${category.getTitle(locale).toUpperCase()}
