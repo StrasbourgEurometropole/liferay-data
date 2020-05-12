@@ -131,6 +131,7 @@
     background-color: #98d90d;
     border-color: #98d90d !important;
     color: white;
+    font-weight: 500;
 }
 
 img {
@@ -208,7 +209,13 @@ img {
     background-size: 12px !important;
 }
 
-a.show-manual-place, a.show-autocomplete-place{
+a.show-manual-place, a.show-autocomplete-place,
+a.show-manual-place:not([href]):not([tabindex]),
+a.show-autocomplete-place:not([href]):not([tabindex]),
+a.show-manual-place:not([href]):not([tabindex]):hover,
+a.show-autocomplete-place:not([href]):not([tabindex]):hover,
+a.show-manual-place:not([href]):not([tabindex]):focus,
+a.show-autocomplete-place:not([href]):not([tabindex]):focus{
     cursor: pointer;
     text-decoration: underline;
     color: #65B6F0;
@@ -217,4 +224,12 @@ a.show-manual-place, a.show-autocomplete-place{
 .importante{
     color: red;
     padding: 0 15px 15px 15px;
+}
+
+.form-group{
+    min-width: 55px;
+}
+
+.form-group label .reference-mark {
+    font-size: 12px;
 }
