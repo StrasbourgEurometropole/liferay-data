@@ -92,13 +92,11 @@
 		<#assign colorSchemeId = theme_display.getColorSchemeId() >
 		<#if layout.friendlyURL != "/accueil">
 			<div class="breadcrumb-wrapper">
-				<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 				<@liferay_portlet["runtime"]
 				defaultPreferences="${freeMarkerPortletPreferences}"
 				portletProviderAction=portletProviderAction.VIEW
 				portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 				settingsScope="group" />
-				${freeMarkerPortletPreferences.reset()}
 			</div>
 		</#if>
 		<#if colorSchemeId != "01">
@@ -162,12 +160,10 @@
 			</section>
 		</div>
 		<footer id="footer" role="contentinfo">
-			<#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
 			<@liferay_portlet["runtime"]
 				defaultPreferences="${freeMarkerPortletPreferences}"
 				portletProviderAction=portletProviderAction.VIEW
 				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet" />
-			${freeMarkerPortletPreferences.reset()}
 		</footer>
 	</div>
 <!--

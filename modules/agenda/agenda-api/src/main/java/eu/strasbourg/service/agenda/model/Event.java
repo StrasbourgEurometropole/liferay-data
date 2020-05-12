@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
@@ -331,7 +330,7 @@ public interface Event extends EventModel, PersistedModel {
 				javax.servlet.http.HttpServletRequest request,
 				int nbSuggestions, String tag, String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
-			SearchException;
+			   com.liferay.portal.kernel.search.SearchException;
 
 	/**
 	 * Renvoi les sessions de l'evenement obtenues par le webService Rodrigue

@@ -9,7 +9,7 @@
 		            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
 		            instanceId="social-wall-christmas-top" />
             </div>
-            <div class="mns-list-social-wall mns-p50" data-egalize=".mns-bloc-social-wall > a">
+            <div class="mns-list-social-wall mns-p50 row" data-egalize=".mns-bloc-social-wall > a">
             
             	<c:forEach var="post" items="${posts}" varStatus="loopStatus">
 	                <div class="col-md-3 col-sm-6 col-xs-12">
@@ -19,7 +19,7 @@
 	                                <img src="${post.imageURL}" alt="Image réseaux sociaux" width="270" height="270" class="mns-feed" />
 	                            </figure>
 	                            <div>
-	                                <span><img src="/o/noel-theme/images/strasbourg-feed.svg" alt="strasbourg logo social wall" width="58" height="58" /></span>
+	                                <span><img src="/o/christmas-2018-theme/images/strasbourg-feed.svg" alt="strasbourg logo social wall" width="58" height="58" /></span>
 	                                <span class="account">@${post.username}</span>
 	                                <p>${post.content}</p>
 	                            </div>

@@ -94,6 +94,9 @@
 	.video-thumbnail:nth-child(12) { z-index: 1; }
 
 	.video-thumbnail img {
+		@media (max-width: 480px) {
+			width: 100%;
+		}
 		z-index: 13;
 	}
 
