@@ -1,5 +1,6 @@
 package eu.strasbourg.service.agenda.scheduler;
 
+import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
@@ -29,7 +30,7 @@ public class ImportEventsMessageListener
 		// Tous les jours à 4h
 		schedulerEntryImpl.setTrigger(
 			TriggerFactoryUtil.createTrigger(getEventListenerClass(),
-				getEventListenerClass(), "0 0 4 * * ?"));
+					getEventListenerClass(), "0 0 4 * * ?"));
 		schedulerEngineHelper.register(this, schedulerEntryImpl,
 			DestinationNames.SCHEDULER_DISPATCH);
 	}
@@ -37,6 +38,9 @@ public class ImportEventsMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		log.info("Start importing events");
+		// Appel forçant le scheduler à attendre le service place avant de lancer l'import
+		placeLocalService.findByName("ping");
+		// Import des événements =
 		eventLocalService.doImport();
 		log.info("Finish importing events");
 	}
@@ -46,6 +50,9 @@ public class ImportEventsMessageListener
 
 	@Reference(unbind = "-")
 	private EventLocalService eventLocalService;
+
+	@Reference(unbind = "-")
+	private PlaceLocalService placeLocalService;
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 }
