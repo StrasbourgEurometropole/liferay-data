@@ -2,6 +2,8 @@
 
 Le processus de migration de base de données permet de transformer un dump de base de données CE 7.0 en dump DXP 7.2.
 
+**Notes** : la partie concernant l'image MySQL n'est à prendre en compte que s'il n'existe pas d'installation locale de MySQL. Dans le cas d'une installation locale, modifier les configurations de connexion en conséquence et remplacant l'adresse du conteneur `mysql` par l'IP de la machine où se trouve MySQL.
+
 ## Fichiers en entrée :
 
 Les fichiers suivants sont les entrées du process et doivent être déplacés :
