@@ -6,7 +6,7 @@
 </#if>
 
 <div class="portlet-agenda">
-    <div class="agenda-body agenda-carousel">  
+    <div class="agenda-body agenda-carousel owl-agenda owl-carousel owl-theme">  
         <#list entries as curEntry>
             <#assign entry = curEntry.getAssetRenderer().getEvent() />
 
