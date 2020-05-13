@@ -9,15 +9,13 @@ Les fichiers suivants sont les entrées du process et doivent être déplacés :
 * Dans le répertoire `images/mysql-upgrade/sources` :
     * Le dump DB Liferay 7.0 au format `.sql` ou `.dump` 
     * Le script pre-upgrade à jouer avant la migration : `pre-upgrade.sql`
-* Dans le répertoire `images/liferay-vanilla/sources` : 
-    * Liferay DXP 7.2 SP4 : `liferay-dxp-tomcat-7.2.10-dxp-4-20200121112425051.tar.gz`
 
 ## Images
 
 Images à créer :
 
 * mysql-upgrade dans le dossier `images/mysql-upgrade`
-* liferay-portal dans le dossier `images/liferay-vanilla`
+* liferay-portal dans le dossier `images/liferay-upgrade`
 
 * Créer l'image MySQL
     * Placer dans le répertoire `images/mysql-upgrade/sources` le fichier dump de la base à migrer.
@@ -29,11 +27,10 @@ Images à créer :
         $ docker image build --build-arg DUMP_FILE_NAME=FILE_NAME -t mysql-upgrade:ems .
         ```
 * Créer l'image Liferay
-    * Se placer dans le répertoire `images/liferay-vanilla`
-    * Exécuter la commande suivante où :
-        * `LFR_TAG` est le tag de l'image créé (ex : 7.2.10-dxp-fp4-vanilla)
+    * Se placer dans le répertoire `images/liferay-upgrade`
+    * Exécuter la commande suivante :
         ```shell
-        $ docker image build -t liferay-portal:LFR_TAG .
+        $ docker image build -t liferay-upgrade .
         ```
 
 ## Exécution
@@ -71,13 +68,13 @@ $ touch output/upgrade.log
 ```
 
 Lancer l'image Liferay avec la commande suivante où :
-* `TAG` est le tag de l'image liNferay créé (ex : 7.2.10-dxp-fp4-vanilla).
 * `DATA_PATH` est le chemin vers le répertoire de persistance.
 
 ```shell
-$ DATA=7.2.10-dxp-fp4-vanilla LFR_TAG=TAG docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+$ DATA=DATA_PATH  docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 
---> $ DATA=/data/ems-data LFR_TAG=7.2.10-dxp-sp4-vanilla docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+--> $ DATA=/data/ems-data docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+--> $ DATA=/var/local docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 ```
 
 Suivre l'évolution de l'upgrade via la commande :
