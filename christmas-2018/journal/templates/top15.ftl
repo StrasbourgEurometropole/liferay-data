@@ -21,14 +21,14 @@
         <#if sibling?counter % 2 != 0>
             <div class="row">
                 <#if sibling?counter = 7 >
-                    <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-6 col-xs-12 noel-order-2">
+                    <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                         <span>${sibling.data}</span>
                         <h2>${sibling.children[0].data}</h2>
                         <strong>${sibling.children[1].data}</strong>
                         <p>${sibling.children[2].data}</p>
                         <a href="${sibling.children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                         <a href="${sibling.children[3].data}">
                             <span class="mns-badge badge-left-top">${sibling?counter}</span>
                             <figure class="mns-wrapper-img mns-wrapper-img-top2">
@@ -37,14 +37,14 @@
                         </a>
                     </div>
                 <#elseif sibling?counter gte 9 >
-                    <div class="col-lg-6 col-sm-offset-1 col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-12 text-right noel-order-2">
+                    <div class="col-lg-6 col-sm-offset-1 col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-12 text-right order-2">
                         <span>${sibling.data}</span>
                         <h2>${sibling.children[0].data}</h2>
                         <strong>${sibling.children[1].data}</strong>
                         <p>${sibling.children[2].data}</p>
                         <a href="${sibling.children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
                     </div>
-                    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+                    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                         <a href="${sibling.children[3].data}">
                             <span class="mns-badge badge-left-top-small">${sibling?counter}</span>
                             <figure class="mns-wrapper-img mns-wrapper-img-top8">
@@ -53,14 +53,14 @@
                         </a>
                     </div>
                 <#else >
-                    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 noel-order-2">
+                    <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                         <span>${sibling.data}</span>
                         <h2>${sibling.children[0].data}</h2>
                         <strong>${sibling.children[1].data}</strong>
                         <p>${sibling.children[2].data}</p>
                         <a href="${sibling.children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
                     </div>
-                    <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+                    <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                         <#if sibling?counter = 1 >
                             <img src="/o/christmas-2018-theme/images/deco-elipse-or.png" alt="deco elipse" width="232" height="232" class="deco-elipse-top-1" />
                         </#if>

@@ -10,14 +10,14 @@
 <div class="container mns-top-10">
     <#if (subtitle.siblings?size > 0)>
         <div class="row">
-            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 noel-order-2">
+            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                 <span>${subtitle.siblings[0].data}</span>
                 <h2>${subtitle.siblings[0].children[0].data}</h2>
                 <strong>${subtitle.siblings[0].children[1].data}</strong>
                 <p>${subtitle.siblings[0].children[2].data}</p>
                 <a href="${subtitle.siblings[0].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
-            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <img src="/o/christmas-2018-theme/images/deco-elipse-or.png" alt="deco elipse" width="232" height="232" class="deco-elipse-top-1" />
                 <a href="#">
                     <span class="mns-badge badge-left">1</span>
@@ -50,14 +50,14 @@
     <#if (subtitle.siblings?size > 2)>
         <img src="/o/christmas-2018-theme/images/parallax-deco-triangle.svg" alt="deco parallax" class="hidden-xs mns-para para-triangle" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" />
         <div class="row">
-            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 noel-order-2">
+            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                 <span>${subtitle.siblings[2].data}</span>
                 <h2>${subtitle.siblings[2].children[0].data}</h2>
                 <strong>${subtitle.siblings[2].children[1].data}</strong>
                 <p>${subtitle.siblings[2].children[2].data}</p>
                 <a href="${subtitle.siblings[2].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
-            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="${subtitle.siblings[2].children[3].data}">
                     <span class="mns-badge badge-left">3</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top1">
@@ -88,14 +88,14 @@
     </#if>
     <#if (subtitle.siblings?size > 4)>
         <div class="row">
-            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 noel-order-2">
+            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                 <span>${subtitle.siblings[4].data}</span>
                 <h2>${subtitle.siblings[4].children[0].data}</h2>
                 <strong>${subtitle.siblings[4].children[1].data}</strong>
                 <p>${subtitle.siblings[4].children[2].data}</p>
                 <a href="${subtitle.siblings[4].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
-            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="${subtitle.siblings[4].children[3].data}">
                     <span class="mns-badge badge-left">5</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top1">
@@ -127,14 +127,14 @@
     <#if (subtitle.siblings?size > 6)>
         <img src="/o/christmas-2018-theme/images/parallax-deco-beige.png" alt="deco parallax" class="hidden-xs mns-para para-elipse" data-stellar-offset-parent="true" data-stellar-vertical-offset="-150" data-stellar-ratio="1.25" width="396" height="399" />
         <div class="row">
-            <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-6 col-xs-12 noel-order-2">
+            <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-6 col-xs-12 order-2">
                 <span>${subtitle.siblings[6].data}</span>
                 <h2>${subtitle.siblings[6].children[0].data}</h2>
                 <strong>${subtitle.siblings[6].children[1].data}</strong>
                 <p>${subtitle.siblings[6].children[2].data}</p>
                 <a href="${subtitle.siblings[6].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="${subtitle.siblings[6].children[3].data}">
                     <span class="mns-badge badge-left-top">7</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top2">
@@ -166,14 +166,14 @@
     </#if>
     <#if (subtitle.siblings?size > 8)>
         <div class="row">
-            <div class="col-lg-6 col-sm-offset-1 col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-12 text-right noel-order-2">
+            <div class="col-lg-6 col-sm-offset-1 col-md-6 col-md-offset-0 col-sm-6 col-sm-offset-0 col-xs-12 text-right order-2">
                 <span>${subtitle.siblings[8].data}</span>
                 <h2>${subtitle.siblings[8].children[0].data}</h2>
                 <strong>${subtitle.siblings[8].children[1].data}</strong>
                 <p>${subtitle.siblings[8].children[2].data}</p>
                 <a href="${subtitle.siblings[8].children[3].data}" class="link"><@liferay_ui.message key="eu.discover" /></a>
             </div>
-            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 pull-right noel-order-1">
+            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 pull-right order-1">
                 <a href="${subtitle.siblings[8].children[3].data}">
                     <span class="mns-badge badge-left-top-small">9</span>
                     <figure class="mns-wrapper-img mns-wrapper-img-top8">
