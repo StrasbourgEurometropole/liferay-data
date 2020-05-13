@@ -16,10 +16,6 @@ package eu.strasbourg.service.activity.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -401,8 +397,9 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * Lance une recherche selon le searchContext
 	 */
-	public static Hits search(SearchContext searchContext)
-		throws SearchException {
+	public static com.liferay.portal.kernel.search.Hits search(
+			com.liferay.portal.kernel.search.SearchContext searchContext)
+		throws com.liferay.portal.kernel.search.SearchException {
 
 		return getService().search(searchContext);
 	}

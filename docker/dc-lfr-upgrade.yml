@@ -2,35 +2,33 @@ version: '3.5'
 
 services:
 
-  mysql:
-    image: mysql-upgrade:${MYSQL_TAG}
-    environment:
-      - MYSQL_DATABASE=liferay-db
-      - MYSQL_USER=liferay
-      - MYSQL_PASSWORD=sully
-      - MYSQL_ROOT_PASSWORD=root
-    command:
-      - --character-set-server=utf8
-      - --collation-server=utf8_unicode_ci
-      - --max-allowed-packet=1024M
-    volumes:
-      - ./configs/mysql-upgrade/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
-    ports:
-      - "3306:3306"
-    networks:
-      - upgrade-ems-net
+  # --- Si pas de mysql local ou remote ----
+  #mysql:
+  #  image: mysql-upgrade:${MYSQL_TAG}
+  #  environment:
+  #    - MYSQL_DATABASE=liferay-db
+  #    - MYSQL_USER=liferay
+  #    - MYSQL_PASSWORD=sully
+  #    - MYSQL_ROOT_PASSWORD=root
+  #  command:
+  #    - --character-set-server=utf8
+  #    - --collation-server=utf8_unicode_ci
+  #    - --max-allowed-packet=1024M
+  #  volumes:
+  #    - ./configs/mysql-upgrade/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+  #  ports:
+  #    - "3306:3306"
+  #  networks:
+  #    - upgrade-ems-net
 
   liferay-portal:
-    image: liferay-portal:${LFR_TAG}
+    image: liferay/dxp:7.2.10-dxp-4
     volumes:
-      - ./output/upgrade.log:/liferay/tools/portal-tools-db-upgrade-client/logs/upgrade.log
-      - ./configs/liferay-upgrade/osgi:/liferay/osgi/configs
-      - ./configs/liferay-upgrade/app-server.properties:/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
-      - ./configs/liferay-upgrade/portal-upgrade-database.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
-      - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+      - ./configs/liferay-upgrade:/mnt/liferay
+      - ./output/upgrade.log:/opt/liferay/tools/portal-tools-db-upgrade-client/logs/upgrade.log
       - ${DATA}/liferay/doclib:/data/liferay/document_library
     entrypoint:
-      - /liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
+      - /opt/liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
       - -j
       - '-Xmx10G'
     networks:

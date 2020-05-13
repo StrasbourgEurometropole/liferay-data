@@ -16,10 +16,6 @@ package eu.strasbourg.service.activity.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -421,7 +417,10 @@ public class AssociationLocalServiceWrapper
 	 * Lance une recherche selon le searchContext
 	 */
 	@Override
-	public Hits search(SearchContext searchContext) throws SearchException {
+	public com.liferay.portal.kernel.search.Hits search(
+			com.liferay.portal.kernel.search.SearchContext searchContext)
+		throws com.liferay.portal.kernel.search.SearchException {
+
 		return _associationLocalService.search(searchContext);
 	}
 

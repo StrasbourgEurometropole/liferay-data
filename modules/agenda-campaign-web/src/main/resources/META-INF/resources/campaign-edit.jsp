@@ -39,7 +39,7 @@
 			<aui:fieldset collapsed="false" collapsible="false" label="private-contact-information">
 				<div clas="row">
 					<!-- Nom, prÃ©nom, mail, tÃ©lÃ©phone -->
-					<div class="col-md-6">
+					<div class="col-md-6" style="float: left">
 						<aui:input name="lastName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.lastName : themeDisplay.user.lastName}"/>
 						<aui:input name="firstName" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.firstName: themeDisplay.user.firstName}" />
 						<aui:input name="phone" required="true" value="${not empty dc.campaignEvent ? dc.campaignEvent.phone : themeDisplay.user.phones[0].number}" />
@@ -72,7 +72,7 @@
 						</aui:fieldset>
 					</div>
 					
-					<div class="col-md-5 col-md-offset-1">
+					<div class="col-md-5 col-md-offset-1" style="float: right">
 						<aui:fieldset collapsed="false" collapsible="false" label="on-site-person">
 							<!-- Personne sur place -->
 							<aui:input name="onSiteFirstName" />
@@ -94,7 +94,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-8 form-group">
-						<aui:input name="description" label="eu.campaign.description" localized="true" type="textarea" helpMessage="description-help" />
+						<aui:input name="description" label="eu.campaign.description" localized="true" type="textarea" />
 						<!-- Hack pour ajouter une validation sur la description -->
 						<div class="has-error">
 							<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -1934,7 +1933,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 				javax.servlet.http.HttpServletRequest request,
 				int nbSuggestions, String tag, String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
-			SearchException {
+			   com.liferay.portal.kernel.search.SearchException {
 
 		return _event.getSuggestions(request, nbSuggestions, tag, category);
 	}
