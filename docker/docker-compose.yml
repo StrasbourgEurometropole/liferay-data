@@ -20,6 +20,11 @@ services:
     ports:
       - 9200:9200
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
     networks:
       - backend-network
     deploy:
@@ -37,6 +42,11 @@ services:
     depends_on:
       - elasticsearch
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
     networks:
       - backend-network
 
@@ -60,6 +70,11 @@ services:
     depends_on:
       - elasticsearch
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
     networks:
       - backend-network
 
