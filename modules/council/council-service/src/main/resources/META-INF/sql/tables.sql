@@ -80,12 +80,12 @@ create table council_Procuration (
 
 create table council_Vote (
 	uuid_ VARCHAR(75) null,
-	voteId LONG not null primary key,
+	officialId LONG not null,
+	deliberationId LONG not null,
 	groupId LONG,
 	companyId LONG,
 	createDate DATE null,
 	result VARCHAR(75) null,
-	officialId LONG,
-	deliberationId LONG,
-	officialProcurationId LONG
+	officialProcurationId LONG,
+	primary key (officialId, deliberationId)
 );

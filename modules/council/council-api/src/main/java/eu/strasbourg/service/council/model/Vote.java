@@ -37,10 +37,27 @@ public interface Vote extends VoteModel, PersistedModel {
 	 *
 	 * Never modify this interface directly. Add methods to {@link eu.strasbourg.service.council.model.impl.VoteImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<Vote, Long> VOTE_ID_ACCESSOR = new Accessor<Vote, Long>() {
+	public static final Accessor<Vote, Long> OFFICIAL_ID_ACCESSOR = new Accessor<Vote, Long>() {
 			@Override
 			public Long get(Vote vote) {
-				return vote.getVoteId();
+				return vote.getOfficialId();
+			}
+
+			@Override
+			public Class<Long> getAttributeClass() {
+				return Long.class;
+			}
+
+			@Override
+			public Class<Vote> getTypeClass() {
+				return Vote.class;
+			}
+		};
+
+	public static final Accessor<Vote, Long> DELIBERATION_ID_ACCESSOR = new Accessor<Vote, Long>() {
+			@Override
+			public Long get(Vote vote) {
+				return vote.getDeliberationId();
 			}
 
 			@Override

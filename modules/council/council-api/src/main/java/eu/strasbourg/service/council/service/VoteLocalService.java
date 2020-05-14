@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.council.model.Vote;
+import eu.strasbourg.service.council.service.persistence.VotePK;
 
 import java.io.Serializable;
 
@@ -91,17 +92,18 @@ public interface VoteLocalService extends BaseLocalService,
 	public Vote addVote(Vote vote);
 
 	/**
-	* Crée une entité vide avec une PK, non ajouté à la base de donnée
-	*/
-	public Vote createVote(ServiceContext sc) throws PortalException;
-
-	/**
 	* Creates a new vote with the primary key. Does not add the vote to the database.
 	*
-	* @param voteId the primary key for the new vote
+	* @param votePK the primary key for the new vote
 	* @return the new vote
 	*/
-	public Vote createVote(long voteId);
+	public Vote createVote(VotePK votePK);
+
+	/**
+	* Crée une entité vide avec une PK, non ajouté à la base de donnée
+	*/
+	public Vote createVote(long officialId, long deliberationId,
+		ServiceContext sc);
 
 	/**
 	* Deletes the vote from the database. Also notifies the appropriate model listeners.
@@ -115,15 +117,15 @@ public interface VoteLocalService extends BaseLocalService,
 	/**
 	* Deletes the vote with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote that was removed
 	* @throws PortalException if a vote with the primary key could not be found
 	*/
 	@Indexable(type = IndexableType.DELETE)
-	public Vote deleteVote(long voteId) throws PortalException;
+	public Vote deleteVote(VotePK votePK) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Vote fetchVote(long voteId);
+	public Vote fetchVote(VotePK votePK);
 
 	/**
 	* Returns the vote matching the UUID and group.
@@ -144,12 +146,12 @@ public interface VoteLocalService extends BaseLocalService,
 	/**
 	* Returns the vote with the primary key.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote
 	* @throws PortalException if a vote with the primary key could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Vote getVote(long voteId) throws PortalException;
+	public Vote getVote(VotePK votePK) throws PortalException;
 
 	/**
 	* Returns the vote matching the UUID and group.
@@ -166,7 +168,8 @@ public interface VoteLocalService extends BaseLocalService,
 	/**
 	* Supprime une entité
 	*/
-	public Vote removeVote(long voteId) throws PortalException;
+	public Vote removeVote(long officialId, long deliberationId)
+		throws PortalException;
 
 	/**
 	* Updates the vote in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -180,8 +183,7 @@ public interface VoteLocalService extends BaseLocalService,
 	/**
 	* Met à jour une entité et l'enregistre en base de données
 	*/
-	public Vote updateVote(Vote vote, ServiceContext sc)
-		throws PortalException;
+	public Vote updateVote(Vote vote, ServiceContext sc);
 
 	/**
 	* Returns the number of votes.

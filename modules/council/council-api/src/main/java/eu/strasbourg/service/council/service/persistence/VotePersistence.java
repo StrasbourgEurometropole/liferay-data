@@ -147,13 +147,15 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	/**
 	* Returns the votes before and after the current vote in the ordered set where uuid = &#63;.
 	*
-	* @param voteId the primary key of the current vote
+	* @param votePK the primary key of the current vote
 	* @param uuid the uuid
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next vote
 	* @throws NoSuchVoteException if a vote with the primary key could not be found
 	*/
-	public Vote[] findByUuid_PrevAndNext(long voteId, java.lang.String uuid,
+	public Vote[] findByUuid_PrevAndNext(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK,
+		java.lang.String uuid,
 		com.liferay.portal.kernel.util.OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException;
 
@@ -337,15 +339,16 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	/**
 	* Returns the votes before and after the current vote in the ordered set where uuid = &#63; and companyId = &#63;.
 	*
-	* @param voteId the primary key of the current vote
+	* @param votePK the primary key of the current vote
 	* @param uuid the uuid
 	* @param companyId the company ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next vote
 	* @throws NoSuchVoteException if a vote with the primary key could not be found
 	*/
-	public Vote[] findByUuid_C_PrevAndNext(long voteId, java.lang.String uuid,
-		long companyId,
+	public Vote[] findByUuid_C_PrevAndNext(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK,
+		java.lang.String uuid, long companyId,
 		com.liferay.portal.kernel.util.OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException;
 
@@ -472,13 +475,14 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	/**
 	* Returns the votes before and after the current vote in the ordered set where deliberationId = &#63;.
 	*
-	* @param voteId the primary key of the current vote
+	* @param votePK the primary key of the current vote
 	* @param deliberationId the deliberation ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next vote
 	* @throws NoSuchVoteException if a vote with the primary key could not be found
 	*/
-	public Vote[] findByDeliberationId_PrevAndNext(long voteId,
+	public Vote[] findByDeliberationId_PrevAndNext(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK,
 		long deliberationId,
 		com.liferay.portal.kernel.util.OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException;
@@ -567,38 +571,44 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	/**
 	* Creates a new vote with the primary key. Does not add the vote to the database.
 	*
-	* @param voteId the primary key for the new vote
+	* @param votePK the primary key for the new vote
 	* @return the new vote
 	*/
-	public Vote create(long voteId);
+	public Vote create(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK);
 
 	/**
 	* Removes the vote with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote that was removed
 	* @throws NoSuchVoteException if a vote with the primary key could not be found
 	*/
-	public Vote remove(long voteId) throws NoSuchVoteException;
+	public Vote remove(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK)
+		throws NoSuchVoteException;
 
 	public Vote updateImpl(Vote vote);
 
 	/**
 	* Returns the vote with the primary key or throws a {@link NoSuchVoteException} if it could not be found.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote
 	* @throws NoSuchVoteException if a vote with the primary key could not be found
 	*/
-	public Vote findByPrimaryKey(long voteId) throws NoSuchVoteException;
+	public Vote findByPrimaryKey(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK)
+		throws NoSuchVoteException;
 
 	/**
 	* Returns the vote with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote, or <code>null</code> if a vote with the primary key could not be found
 	*/
-	public Vote fetchByPrimaryKey(long voteId);
+	public Vote fetchByPrimaryKey(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK);
 
 	@Override
 	public java.util.Map<java.io.Serializable, Vote> fetchByPrimaryKeys(

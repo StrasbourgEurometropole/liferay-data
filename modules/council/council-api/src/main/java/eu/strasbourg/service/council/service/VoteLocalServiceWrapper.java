@@ -77,24 +77,25 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	}
 
 	/**
+	* Creates a new vote with the primary key. Does not add the vote to the database.
+	*
+	* @param votePK the primary key for the new vote
+	* @return the new vote
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Vote createVote(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK) {
+		return _voteLocalService.createVote(votePK);
+	}
+
+	/**
 	* Crée une entité vide avec une PK, non ajouté à la base de donnée
 	*/
 	@Override
 	public eu.strasbourg.service.council.model.Vote createVote(
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _voteLocalService.createVote(sc);
-	}
-
-	/**
-	* Creates a new vote with the primary key. Does not add the vote to the database.
-	*
-	* @param voteId the primary key for the new vote
-	* @return the new vote
-	*/
-	@Override
-	public eu.strasbourg.service.council.model.Vote createVote(long voteId) {
-		return _voteLocalService.createVote(voteId);
+		long officialId, long deliberationId,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
+		return _voteLocalService.createVote(officialId, deliberationId, sc);
 	}
 
 	/**
@@ -112,19 +113,21 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	/**
 	* Deletes the vote with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote that was removed
 	* @throws PortalException if a vote with the primary key could not be found
 	*/
 	@Override
-	public eu.strasbourg.service.council.model.Vote deleteVote(long voteId)
+	public eu.strasbourg.service.council.model.Vote deleteVote(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _voteLocalService.deleteVote(voteId);
+		return _voteLocalService.deleteVote(votePK);
 	}
 
 	@Override
-	public eu.strasbourg.service.council.model.Vote fetchVote(long voteId) {
-		return _voteLocalService.fetchVote(voteId);
+	public eu.strasbourg.service.council.model.Vote fetchVote(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK) {
+		return _voteLocalService.fetchVote(votePK);
 	}
 
 	/**
@@ -153,14 +156,15 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	/**
 	* Returns the vote with the primary key.
 	*
-	* @param voteId the primary key of the vote
+	* @param votePK the primary key of the vote
 	* @return the vote
 	* @throws PortalException if a vote with the primary key could not be found
 	*/
 	@Override
-	public eu.strasbourg.service.council.model.Vote getVote(long voteId)
+	public eu.strasbourg.service.council.model.Vote getVote(
+		eu.strasbourg.service.council.service.persistence.VotePK votePK)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _voteLocalService.getVote(voteId);
+		return _voteLocalService.getVote(votePK);
 	}
 
 	/**
@@ -182,9 +186,10 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	* Supprime une entité
 	*/
 	@Override
-	public eu.strasbourg.service.council.model.Vote removeVote(long voteId)
+	public eu.strasbourg.service.council.model.Vote removeVote(
+		long officialId, long deliberationId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _voteLocalService.removeVote(voteId);
+		return _voteLocalService.removeVote(officialId, deliberationId);
 	}
 
 	/**
@@ -205,8 +210,7 @@ public class VoteLocalServiceWrapper implements VoteLocalService,
 	@Override
 	public eu.strasbourg.service.council.model.Vote updateVote(
 		eu.strasbourg.service.council.model.Vote vote,
-		com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 		return _voteLocalService.updateVote(vote, sc);
 	}
 

@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import eu.strasbourg.service.council.service.persistence.VotePK;
+
 import java.io.Serializable;
 
 import java.util.Date;
@@ -54,14 +56,14 @@ public interface VoteModel extends BaseModel<Vote>, ShardedModel {
 	 *
 	 * @return the primary key of this vote
 	 */
-	public long getPrimaryKey();
+	public VotePK getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this vote.
 	 *
 	 * @param primaryKey the primary key of this vote
 	 */
-	public void setPrimaryKey(long primaryKey);
+	public void setPrimaryKey(VotePK primaryKey);
 
 	/**
 	 * Returns the uuid of this vote.
@@ -79,18 +81,32 @@ public interface VoteModel extends BaseModel<Vote>, ShardedModel {
 	public void setUuid(String uuid);
 
 	/**
-	 * Returns the vote ID of this vote.
+	 * Returns the official ID of this vote.
 	 *
-	 * @return the vote ID of this vote
+	 * @return the official ID of this vote
 	 */
-	public long getVoteId();
+	public long getOfficialId();
 
 	/**
-	 * Sets the vote ID of this vote.
+	 * Sets the official ID of this vote.
 	 *
-	 * @param voteId the vote ID of this vote
+	 * @param officialId the official ID of this vote
 	 */
-	public void setVoteId(long voteId);
+	public void setOfficialId(long officialId);
+
+	/**
+	 * Returns the deliberation ID of this vote.
+	 *
+	 * @return the deliberation ID of this vote
+	 */
+	public long getDeliberationId();
+
+	/**
+	 * Sets the deliberation ID of this vote.
+	 *
+	 * @param deliberationId the deliberation ID of this vote
+	 */
+	public void setDeliberationId(long deliberationId);
 
 	/**
 	 * Returns the group ID of this vote.
@@ -150,34 +166,6 @@ public interface VoteModel extends BaseModel<Vote>, ShardedModel {
 	 * @param result the result of this vote
 	 */
 	public void setResult(String result);
-
-	/**
-	 * Returns the official ID of this vote.
-	 *
-	 * @return the official ID of this vote
-	 */
-	public long getOfficialId();
-
-	/**
-	 * Sets the official ID of this vote.
-	 *
-	 * @param officialId the official ID of this vote
-	 */
-	public void setOfficialId(long officialId);
-
-	/**
-	 * Returns the deliberation ID of this vote.
-	 *
-	 * @return the deliberation ID of this vote
-	 */
-	public long getDeliberationId();
-
-	/**
-	 * Sets the deliberation ID of this vote.
-	 *
-	 * @param deliberationId the deliberation ID of this vote
-	 */
-	public void setDeliberationId(long deliberationId);
 
 	/**
 	 * Returns the official procuration ID of this vote.

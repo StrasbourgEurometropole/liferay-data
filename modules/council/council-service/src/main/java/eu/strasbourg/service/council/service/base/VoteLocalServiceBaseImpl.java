@@ -47,6 +47,7 @@ import eu.strasbourg.service.council.service.persistence.CouncilSessionPersisten
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
+import eu.strasbourg.service.council.service.persistence.VotePK;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
 import java.io.Serializable;
@@ -93,25 +94,25 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Creates a new vote with the primary key. Does not add the vote to the database.
 	 *
-	 * @param voteId the primary key for the new vote
+	 * @param votePK the primary key for the new vote
 	 * @return the new vote
 	 */
 	@Override
-	public Vote createVote(long voteId) {
-		return votePersistence.create(voteId);
+	public Vote createVote(VotePK votePK) {
+		return votePersistence.create(votePK);
 	}
 
 	/**
 	 * Deletes the vote with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param voteId the primary key of the vote
+	 * @param votePK the primary key of the vote
 	 * @return the vote that was removed
 	 * @throws PortalException if a vote with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public Vote deleteVote(long voteId) throws PortalException {
-		return votePersistence.remove(voteId);
+	public Vote deleteVote(VotePK votePK) throws PortalException {
+		return votePersistence.remove(votePK);
 	}
 
 	/**
@@ -208,8 +209,8 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	@Override
-	public Vote fetchVote(long voteId) {
-		return votePersistence.fetchByPrimaryKey(voteId);
+	public Vote fetchVote(VotePK votePK) {
+		return votePersistence.fetchByPrimaryKey(votePK);
 	}
 
 	/**
@@ -227,13 +228,13 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	/**
 	 * Returns the vote with the primary key.
 	 *
-	 * @param voteId the primary key of the vote
+	 * @param votePK the primary key of the vote
 	 * @return the vote
 	 * @throws PortalException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote getVote(long voteId) throws PortalException {
-		return votePersistence.findByPrimaryKey(voteId);
+	public Vote getVote(VotePK votePK) throws PortalException {
+		return votePersistence.findByPrimaryKey(votePK);
 	}
 
 	@Override
@@ -244,7 +245,8 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Vote.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("voteId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName(
+			"primaryKey.officialId");
 
 		return actionableDynamicQuery;
 	}
@@ -257,7 +259,8 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Vote.class);
 
-		indexableActionableDynamicQuery.setPrimaryKeyPropertyName("voteId");
+		indexableActionableDynamicQuery.setPrimaryKeyPropertyName(
+			"primaryKey.officialId");
 
 		return indexableActionableDynamicQuery;
 	}
@@ -268,7 +271,8 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Vote.class);
 
-		actionableDynamicQuery.setPrimaryKeyPropertyName("voteId");
+		actionableDynamicQuery.setPrimaryKeyPropertyName(
+			"primaryKey.officialId");
 	}
 
 	/**

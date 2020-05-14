@@ -16,13 +16,9 @@ package eu.strasbourg.service.council.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
-
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -30,6 +26,7 @@ import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.model.VoteModel;
+import eu.strasbourg.service.council.service.persistence.VotePK;
 
 import java.io.Serializable;
 
@@ -62,33 +59,31 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	public static final String TABLE_NAME = "council_Vote";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
-			{ "voteId", Types.BIGINT },
+			{ "officialId", Types.BIGINT },
+			{ "deliberationId", Types.BIGINT },
 			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
 			{ "result", Types.VARCHAR },
-			{ "officialId", Types.BIGINT },
-			{ "deliberationId", Types.BIGINT },
 			{ "officialProcurationId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("voteId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("officialId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("deliberationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("result", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("officialId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("deliberationId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("officialProcurationId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Vote (uuid_ VARCHAR(75) null,voteId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,result VARCHAR(75) null,officialId LONG,deliberationId LONG,officialProcurationId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Vote (uuid_ VARCHAR(75) null,officialId LONG not null,deliberationId LONG not null,groupId LONG,companyId LONG,createDate DATE null,result VARCHAR(75) null,officialProcurationId LONG,primary key (officialId, deliberationId))";
 	public static final String TABLE_SQL_DROP = "drop table council_Vote";
-	public static final String ORDER_BY_JPQL = " ORDER BY vote.voteId DESC";
-	public static final String ORDER_BY_SQL = " ORDER BY council_Vote.voteId DESC";
+	public static final String ORDER_BY_JPQL = " ORDER BY vote.id.deliberationId DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY council_Vote.deliberationId DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -106,7 +101,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long OFFICIALID_COLUMN_BITMASK = 8L;
 	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long VOTEID_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.Vote"));
 
@@ -114,23 +108,24 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	}
 
 	@Override
-	public long getPrimaryKey() {
-		return _voteId;
+	public VotePK getPrimaryKey() {
+		return new VotePK(_officialId, _deliberationId);
 	}
 
 	@Override
-	public void setPrimaryKey(long primaryKey) {
-		setVoteId(primaryKey);
+	public void setPrimaryKey(VotePK primaryKey) {
+		setOfficialId(primaryKey.officialId);
+		setDeliberationId(primaryKey.deliberationId);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _voteId;
+		return new VotePK(_officialId, _deliberationId);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey(((Long)primaryKeyObj).longValue());
+		setPrimaryKey((VotePK)primaryKeyObj);
 	}
 
 	@Override
@@ -148,13 +143,12 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("voteId", getVoteId());
+		attributes.put("officialId", getOfficialId());
+		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("result", getResult());
-		attributes.put("officialId", getOfficialId());
-		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -171,10 +165,16 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			setUuid(uuid);
 		}
 
-		Long voteId = (Long)attributes.get("voteId");
+		Long officialId = (Long)attributes.get("officialId");
 
-		if (voteId != null) {
-			setVoteId(voteId);
+		if (officialId != null) {
+			setOfficialId(officialId);
+		}
+
+		Long deliberationId = (Long)attributes.get("deliberationId");
+
+		if (deliberationId != null) {
+			setDeliberationId(deliberationId);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -199,18 +199,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 		if (result != null) {
 			setResult(result);
-		}
-
-		Long officialId = (Long)attributes.get("officialId");
-
-		if (officialId != null) {
-			setOfficialId(officialId);
-		}
-
-		Long deliberationId = (Long)attributes.get("deliberationId");
-
-		if (deliberationId != null) {
-			setDeliberationId(deliberationId);
 		}
 
 		Long officialProcurationId = (Long)attributes.get(
@@ -245,15 +233,47 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	}
 
 	@Override
-	public long getVoteId() {
-		return _voteId;
+	public long getOfficialId() {
+		return _officialId;
 	}
 
 	@Override
-	public void setVoteId(long voteId) {
+	public void setOfficialId(long officialId) {
+		_columnBitmask |= OFFICIALID_COLUMN_BITMASK;
+
+		if (!_setOriginalOfficialId) {
+			_setOriginalOfficialId = true;
+
+			_originalOfficialId = _officialId;
+		}
+
+		_officialId = officialId;
+	}
+
+	public long getOriginalOfficialId() {
+		return _originalOfficialId;
+	}
+
+	@Override
+	public long getDeliberationId() {
+		return _deliberationId;
+	}
+
+	@Override
+	public void setDeliberationId(long deliberationId) {
 		_columnBitmask = -1L;
 
-		_voteId = voteId;
+		if (!_setOriginalDeliberationId) {
+			_setOriginalDeliberationId = true;
+
+			_originalDeliberationId = _deliberationId;
+		}
+
+		_deliberationId = deliberationId;
+	}
+
+	public long getOriginalDeliberationId() {
+		return _originalDeliberationId;
 	}
 
 	@Override
@@ -326,50 +346,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	}
 
 	@Override
-	public long getOfficialId() {
-		return _officialId;
-	}
-
-	@Override
-	public void setOfficialId(long officialId) {
-		_columnBitmask |= OFFICIALID_COLUMN_BITMASK;
-
-		if (!_setOriginalOfficialId) {
-			_setOriginalOfficialId = true;
-
-			_originalOfficialId = _officialId;
-		}
-
-		_officialId = officialId;
-	}
-
-	public long getOriginalOfficialId() {
-		return _originalOfficialId;
-	}
-
-	@Override
-	public long getDeliberationId() {
-		return _deliberationId;
-	}
-
-	@Override
-	public void setDeliberationId(long deliberationId) {
-		_columnBitmask |= DELIBERATIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalDeliberationId) {
-			_setOriginalDeliberationId = true;
-
-			_originalDeliberationId = _deliberationId;
-		}
-
-		_deliberationId = deliberationId;
-	}
-
-	public long getOriginalDeliberationId() {
-		return _originalDeliberationId;
-	}
-
-	@Override
 	public long getOfficialProcurationId() {
 		return _officialProcurationId;
 	}
@@ -381,19 +357,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	public long getColumnBitmask() {
 		return _columnBitmask;
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
-			Vote.class.getName(), getPrimaryKey());
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		ExpandoBridge expandoBridge = getExpandoBridge();
-
-		expandoBridge.setAttributes(serviceContext);
 	}
 
 	@Override
@@ -411,13 +374,12 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		VoteImpl voteImpl = new VoteImpl();
 
 		voteImpl.setUuid(getUuid());
-		voteImpl.setVoteId(getVoteId());
+		voteImpl.setOfficialId(getOfficialId());
+		voteImpl.setDeliberationId(getDeliberationId());
 		voteImpl.setGroupId(getGroupId());
 		voteImpl.setCompanyId(getCompanyId());
 		voteImpl.setCreateDate(getCreateDate());
 		voteImpl.setResult(getResult());
-		voteImpl.setOfficialId(getOfficialId());
-		voteImpl.setDeliberationId(getDeliberationId());
 		voteImpl.setOfficialProcurationId(getOfficialProcurationId());
 
 		voteImpl.resetOriginalValues();
@@ -429,10 +391,10 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	public int compareTo(Vote vote) {
 		int value = 0;
 
-		if (getVoteId() < vote.getVoteId()) {
+		if (getDeliberationId() < vote.getDeliberationId()) {
 			value = -1;
 		}
-		else if (getVoteId() > vote.getVoteId()) {
+		else if (getDeliberationId() > vote.getDeliberationId()) {
 			value = 1;
 		}
 		else {
@@ -460,9 +422,9 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 		Vote vote = (Vote)obj;
 
-		long primaryKey = vote.getPrimaryKey();
+		VotePK primaryKey = vote.getPrimaryKey();
 
-		if (getPrimaryKey() == primaryKey) {
+		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
 		}
 		else {
@@ -472,7 +434,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public int hashCode() {
-		return (int)getPrimaryKey();
+		return getPrimaryKey().hashCode();
 	}
 
 	@Override
@@ -491,14 +453,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 		voteModelImpl._originalUuid = voteModelImpl._uuid;
 
-		voteModelImpl._originalGroupId = voteModelImpl._groupId;
-
-		voteModelImpl._setOriginalGroupId = false;
-
-		voteModelImpl._originalCompanyId = voteModelImpl._companyId;
-
-		voteModelImpl._setOriginalCompanyId = false;
-
 		voteModelImpl._originalOfficialId = voteModelImpl._officialId;
 
 		voteModelImpl._setOriginalOfficialId = false;
@@ -507,12 +461,22 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 		voteModelImpl._setOriginalDeliberationId = false;
 
+		voteModelImpl._originalGroupId = voteModelImpl._groupId;
+
+		voteModelImpl._setOriginalGroupId = false;
+
+		voteModelImpl._originalCompanyId = voteModelImpl._companyId;
+
+		voteModelImpl._setOriginalCompanyId = false;
+
 		voteModelImpl._columnBitmask = 0;
 	}
 
 	@Override
 	public CacheModel<Vote> toCacheModel() {
 		VoteCacheModel voteCacheModel = new VoteCacheModel();
+
+		voteCacheModel.votePK = getPrimaryKey();
 
 		voteCacheModel.uuid = getUuid();
 
@@ -522,7 +486,9 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			voteCacheModel.uuid = null;
 		}
 
-		voteCacheModel.voteId = getVoteId();
+		voteCacheModel.officialId = getOfficialId();
+
+		voteCacheModel.deliberationId = getDeliberationId();
 
 		voteCacheModel.groupId = getGroupId();
 
@@ -545,10 +511,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			voteCacheModel.result = null;
 		}
 
-		voteCacheModel.officialId = getOfficialId();
-
-		voteCacheModel.deliberationId = getDeliberationId();
-
 		voteCacheModel.officialProcurationId = getOfficialProcurationId();
 
 		return voteCacheModel;
@@ -556,12 +518,14 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
-		sb.append(", voteId=");
-		sb.append(getVoteId());
+		sb.append(", officialId=");
+		sb.append(getOfficialId());
+		sb.append(", deliberationId=");
+		sb.append(getDeliberationId());
 		sb.append(", groupId=");
 		sb.append(getGroupId());
 		sb.append(", companyId=");
@@ -570,10 +534,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		sb.append(getCreateDate());
 		sb.append(", result=");
 		sb.append(getResult());
-		sb.append(", officialId=");
-		sb.append(getOfficialId());
-		sb.append(", deliberationId=");
-		sb.append(getDeliberationId());
 		sb.append(", officialProcurationId=");
 		sb.append(getOfficialProcurationId());
 		sb.append("}");
@@ -583,7 +543,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Vote");
@@ -594,8 +554,12 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		sb.append(getUuid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>voteId</column-name><column-value><![CDATA[");
-		sb.append(getVoteId());
+			"<column><column-name>officialId</column-name><column-value><![CDATA[");
+		sb.append(getOfficialId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>deliberationId</column-name><column-value><![CDATA[");
+		sb.append(getDeliberationId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>groupId</column-name><column-value><![CDATA[");
@@ -614,14 +578,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		sb.append(getResult());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>officialId</column-name><column-value><![CDATA[");
-		sb.append(getOfficialId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>deliberationId</column-name><column-value><![CDATA[");
-		sb.append(getDeliberationId());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>officialProcurationId</column-name><column-value><![CDATA[");
 		sb.append(getOfficialProcurationId());
 		sb.append("]]></column-value></column>");
@@ -637,7 +593,12 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		};
 	private String _uuid;
 	private String _originalUuid;
-	private long _voteId;
+	private long _officialId;
+	private long _originalOfficialId;
+	private boolean _setOriginalOfficialId;
+	private long _deliberationId;
+	private long _originalDeliberationId;
+	private boolean _setOriginalDeliberationId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;
@@ -646,12 +607,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private String _result;
-	private long _officialId;
-	private long _originalOfficialId;
-	private boolean _setOriginalOfficialId;
-	private long _deliberationId;
-	private long _originalDeliberationId;
-	private boolean _setOriginalDeliberationId;
 	private long _officialProcurationId;
 	private long _columnBitmask;
 	private Vote _escapedModel;
