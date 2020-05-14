@@ -16,8 +16,34 @@ body.signed-in {
 
 //enlever le fond gris du titre des articles
 .page-header-title-and-share{
-    background-color: white;
+    background-color: transparent;
 }
+
+//enlever le fond gris du titre
+.page-header{
+    background-color: transparent;
+}
+
+//permet de corriger l'affichage collection oeuvre details
+/*.entity-detail-children.artwork-collection-artworks {
+    display: flex;
+}*/
+
+.entity-detail-children .entity-detail-child {
+    background: transparent;
+    margin-left: 20px;
+}
+
+.entity-detail-children .entity-detail-child .entity-detail-child-info {
+    background: #e6e6e6;
+}
+
+//enleve l'espace au dessus de container-video pour les pages d'accueils des musees
+.museum-home .video-container{    
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
 
 //affichage des articles en ipad doit etre comme en mobile et pas comme desktop
 .portlet-layout.row{
