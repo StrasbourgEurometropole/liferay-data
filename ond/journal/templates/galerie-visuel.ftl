@@ -1,5 +1,12 @@
 <#setting date_format = "dd/MM/yyyy">
 <#setting locale = locale />
+<#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
+
 <div class="portlet-cus-galleries portlet-cus-image-fo">
     <div class="header">
         <h2 class="gallery-title">${title.getData()}</h2>
@@ -28,9 +35,7 @@
 
     <div class="button-gray button-gray-right">
         <div class="middle">
-          <@liferay_portlet.renderURL var="viewURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-          </@liferay_portlet.renderURL>
-            <a target="_self" href="${viewURL}/medias/visuels" title="<@liferay_ui.message key="eu.galery.all-galeries" />">
+            <a target="_self" href="${homeURL}/medias/visuels" title="<@liferay_ui.message key="eu.galery.all-galeries" />">
                 <@liferay_ui.message key="eu.galery.all-galeries" />
             </a>
         </div>
