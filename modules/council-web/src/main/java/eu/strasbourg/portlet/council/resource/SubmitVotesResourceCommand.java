@@ -115,7 +115,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                     result = true;
 
                 } catch (ConstraintViolationException e) {
-                    this.message = LanguageUtil.get(this.bundle, "dublicate.request.error");
+                    this.message = "";
                     this.log.error(e);
                 }
             }
