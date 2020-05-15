@@ -22,6 +22,7 @@ import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.base.VoteLocalServiceBaseImpl;
 import eu.strasbourg.service.council.service.persistence.VotePK;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +58,7 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 		Vote vote = this.createVote(votePK);
 
 		vote.setGroupId(sc.getScopeGroupId());
+		vote.setCreateDate(new Date());
 
 		return vote;
 	}
