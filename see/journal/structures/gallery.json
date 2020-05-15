@@ -1,0 +1,177 @@
+{
+    "availableLanguageIds": [
+        "fr_FR",
+        "en_US"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Titre",
+                "en_US": "Title"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "title",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Sous-titre",
+                "en_US": "Subtitle"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "subtitle",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Image principale",
+                "en_US": "Image principale"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "mainImage",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        },
+        {
+            "label": {
+                "fr_FR": "Description",
+                "en_US": "Description"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "description",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Image",
+                "en_US": "Image"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "image",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Légende",
+                        "en_US": "Legend"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "style": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "tip": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "legend",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        }
+    ]
+}

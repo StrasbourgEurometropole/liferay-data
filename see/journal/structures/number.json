@@ -1,0 +1,93 @@
+{
+    "availableLanguageIds": [
+        "fr_FR",
+        "en_US"
+    ],
+    "defaultLanguageId": "fr_FR",
+    "fields": [
+        {
+            "label": {
+                "fr_FR": "Chiffre",
+                "en_US": "Number"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "number",
+            "readOnly": false,
+            "repeatable": true,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Texte",
+                        "en_US": "Text"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "style": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "tip": {
+                        "fr_FR": "",
+                        "en_US": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "text",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "label": {
+                "fr_FR": "Image de fond",
+                "en_US": "Background image"
+            },
+            "predefinedValue": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "style": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "tip": {
+                "fr_FR": "",
+                "en_US": ""
+            },
+            "dataType": "image",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "backgroundImage",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-image"
+        }
+    ]
+}
