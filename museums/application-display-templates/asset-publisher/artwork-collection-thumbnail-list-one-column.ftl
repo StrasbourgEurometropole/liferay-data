@@ -1,13 +1,15 @@
 <!-- Liste de vignettes collection d'oeuvres -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 <div class="search-asset-portlet">
   <div class="search-asset-results-1-col">
     <#list entries as curEntry>
       <#assign entry = curEntry.getAssetRenderer().getCollection() />
-      <@liferay_portlet.renderURL var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-        <@liferay_portlet.param name="classPK" value="${entry.getCollectionId()}" />
-        <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-      </@liferay_portlet.renderURL>
+      <#assign detailURL = homeURL + "collection-musees-strasbourg/-/entity/id/" + entry.collectionId />
 
       <!-- Collection d'oeuvre : ${entry.getTitle(locale)} -->
       <div class="entity-thumbnail artwork-collection-thumbnail ${entry.getSourceCSSClass()}">
