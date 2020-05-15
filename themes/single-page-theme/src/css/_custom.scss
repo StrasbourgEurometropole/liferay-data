@@ -2468,6 +2468,19 @@ body >  .container {
   -moz-background-size: cover;
   background-size: cover;
 }
+.see .portlet-layout .portlet-header{
+  margin-bottom: 0;
+}
+.see .header-wrapper .container .col-sm-2, .see .header-wrapper .container .col-sm-10, .see #presentation .container .col-sm-6, .see #medias .container .col-sm-4 {
+  float: left;
+}
+.container:before, .container:after {
+  content: " ";
+  display: table; 
+}
+.container:after {
+  clear: both; 
+}
 .see .container,
 .see .overlay {
   position: relative;

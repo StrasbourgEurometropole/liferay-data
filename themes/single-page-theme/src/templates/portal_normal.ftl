@@ -38,6 +38,7 @@
   <@liferay_util["include"] page=body_bottom_include />
   <@liferay_util["include"] page=bottom_include />
   <!-- inject:js -->
+  <script type="text/javascript" src="/o/single-page-theme/js/ventcamp.js"></script>
   <script type="text/javascript">
     if(typeof jQuery == 'undefined'){
       document.write('<script type="text/javascript" src="/o/single-page-theme/js/jquery-2.1.4.min.js?ver=1"></'+'script>');
@@ -50,8 +51,6 @@
       <#assign homeURL = "/" />
     </#if>
     window.homeURL = '${homeURL}';
-    define._amd = define.amd;
-    define.amd = false;
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyAZ_4b-Rip0JyK5Ti8yKOxXKjKpjfcBvdM"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/jquery.validate.min.js"></script>
@@ -62,10 +61,6 @@
   <script type="text/javascript" src="/o/single-page-theme/js/jquery.appear.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/masonry.pkgd.min.js"></script>
   <script type="text/javascript" src="/o/single-page-theme/js/modal-box.js"></script>
-  <script type="text/javascript" src="/o/single-page-theme/js/ventcamp.js"></script>
-  <script>
-    define.amd = define._amd;
-  </script>
   <!-- endinject -->
 </body>
 </html>
