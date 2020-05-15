@@ -21,7 +21,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
     private String message;
 
     @Override
-    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) {
         boolean result = false;
         try {
             // Récupération des paramètres
@@ -161,7 +160,6 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             return false;
         }
 
-        /**
         // Vérification que le vote n'existe pas déjà
         Vote vote = this.voteLocalService.findByDeliberationIdandOfficialId(
                 this.deliberationId, this.officialId);
@@ -169,7 +167,6 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             this.message = LanguageUtil.get(this.bundle, "vote-already-register");
             return false;
         }
-         */
 
         // Vérification qu'il n'existe pas une procuration définissant l'absence de l'élu
         Procuration absenceProcuration = this.procurationLocalService.findAbsenceForCouncilSession(
