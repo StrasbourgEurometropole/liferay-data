@@ -393,7 +393,7 @@
                 <#if entry.getPrice()?has_content >
                     <div class="place-info-section">
                         <h4>
-                            <@liferay_ui.message key="eu.prices" />
+                            <@liferay_ui.message key="eu.priceDescription" />
                         </h4>
                         <p>
                             ${entry.getPrice().getPriceDescription(locale)}
