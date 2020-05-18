@@ -4,7 +4,7 @@ services:
 
   elasticsearch:
     image: elasticsearch-ems
-    build : ./images/elasticsearch-ems
+    build: ./images/elasticsearch-ems
     environment:
 # --- For docker-compose (without Swarm mode) ----
       - bootstrap.memory_lock=true
@@ -67,6 +67,7 @@ services:
     ports:
       - 8080:8080
       - 8009:8009
+    hostname: preprod-liferay.strasbourg.eu
     depends_on:
       - elasticsearch
     restart: always
