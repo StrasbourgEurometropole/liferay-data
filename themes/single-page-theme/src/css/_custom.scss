@@ -2616,6 +2616,14 @@ body >  .container {
   margin: 0;
   padding: 15px;
 }
+.see .mb-2{
+  display: none;
+}
+@media (min-width: 1200px){
+  .see .container {
+      max-width: 1170px;
+  }
+}
 @media (max-width: 991px) {
   .see .wrapper {
     width: 90%;
@@ -2631,6 +2639,11 @@ body >  .container {
   }
   .see .fullwidth-column {
     padding: 50px 30px 35px;
+  }
+}
+@media (min-width: 768px){
+  .see .navbar-collapse.collapse {
+      display: block !important;
   }
 }
 @media (max-width: 767px) {
