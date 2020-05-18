@@ -44,6 +44,19 @@ body.signed-in {
     padding-top: 0px;
 }
 
+//enleve le border de featured-footer
+.portlet-journal-content .preview-asset-entry {
+    border-color: transparent;
+}
+
+//Correctif affichage featured-header
+.featured-header {
+    padding: 40px 20px;
+}
+
+.autofit-row, .sidebar-section-flex {
+    display: none;
+}
 
 //affichage des articles en ipad doit etre comme en mobile et pas comme desktop
 .portlet-layout.row{
