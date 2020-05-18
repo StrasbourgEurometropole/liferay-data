@@ -1,5 +1,10 @@
 <!-- Carousel éditions -->
 <#setting locale = locale />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+   <#assign homeURL = "/" />
+</#if>
 <#if entries?has_content>
     <div class="items-carousel editions-carousel">
         <h3 class="items-carousel-title">
@@ -11,9 +16,7 @@
         <div class="owl-carousel">
           <#list entries as curEntry>
             <#assign edition = curEntry.getAssetRenderer().getEdition() />
-            <@liferay_portlet.renderURL var="viewURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-                <@liferay_portlet.param name="classPK" value="${edition.getEditionId()}" />
-            </@liferay_portlet.renderURL>
+            <#assign viewURL = homeURL + "detail-edition/-/entity/id/" + edition.editionId />
             <div class="item"> 
                 <div class="item-image">
                     <a href="${viewURL}">
