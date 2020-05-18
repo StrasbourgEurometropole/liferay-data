@@ -2468,6 +2468,19 @@ body >  .container {
   -moz-background-size: cover;
   background-size: cover;
 }
+.see .portlet-layout .portlet-header{
+  margin-bottom: 0;
+}
+.see .header-wrapper .container .col-sm-2, .see .header-wrapper .container .col-sm-10, .see #presentation .container .col-sm-6, .see #medias .container .col-sm-4 {
+  float: left;
+}
+.container:before, .container:after {
+  content: " ";
+  display: table; 
+}
+.container:after {
+  clear: both; 
+}
 .see .container,
 .see .overlay {
   position: relative;
@@ -2603,6 +2616,14 @@ body >  .container {
   margin: 0;
   padding: 15px;
 }
+.see .mb-2{
+  display: none;
+}
+@media (min-width: 1200px){
+  .see .container {
+      max-width: 1170px;
+  }
+}
 @media (max-width: 991px) {
   .see .wrapper {
     width: 90%;
@@ -2618,6 +2639,11 @@ body >  .container {
   }
   .see .fullwidth-column {
     padding: 50px 30px 35px;
+  }
+}
+@media (min-width: 768px){
+  .see .navbar-collapse.collapse {
+      display: block !important;
   }
 }
 @media (max-width: 767px) {

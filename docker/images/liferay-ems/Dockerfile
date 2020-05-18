@@ -14,10 +14,10 @@ RUN mkdir -p /data/certificates
 COPY $SOURCES_PATH/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
 
-# TODO : Vérifier le bon fonctionnement de ClamAV
+# Installation de ClamAV
 RUN apk add clamav
 
-# TODO : Installation des certificats
+# Installation des certificats
 COPY $SOURCES_PATH/*.cer /data/certificates/
 RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias certigna-authority-2015-2025 \
         -file /data/certificates/certigna-authority-2015-2025.cer -storepass changeit -noprompt \
