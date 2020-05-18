@@ -1,0 +1,105 @@
+.seu-page-arret{
+    // Structure
+    main > .seu-flexbox{
+        display: flex; 
+
+        @include RWD(tablet){
+            flex-direction: column;
+        } 
+
+        .seu-container-left{
+            flex: 1;
+
+            @include RWD(tablet){
+                order: 2;
+                flex: auto;
+            }
+
+            .seu-wi--collapsing{
+                margin-bottom: 45px;
+                
+                @include RWD(mobile){
+                    margin-left: -20px;
+                    margin-right: -20px;
+                    
+                    .seu-toggle-collapse{
+                        padding-left: 20px;
+                        padding-right: 20px;
+                    }
+                }
+            }
+        }
+        .seu-container-right{
+            flex-shrink: 0;
+
+            @include RWD(desktop){
+                margin-left: 20px;
+                width: 340px;            
+            }
+            @include RWD(tablet){
+                order: 1;
+            }
+            @include RWD(tablet_only){
+                padding: 20px;
+                display: flex;
+                background-color: $second-color;
+            }
+        } 
+    }
+
+    //Alert   
+    .ancrage-alerte{
+        @extend %atom-link-rte;display: flex;
+        align-items: center;
+
+        &:before{
+            content: '';
+            display: inline-block;
+            height: 40px;
+            width: 40px;  
+            margin-right: 10px;       
+            background-size: 30px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-alert, $error) );
+        }
+    }
+      
+    // Prochains passages
+    @extend %tram-destination; 
+    .row{
+        margin: 5px 0;
+
+        div:last-child{
+            margin-left: auto;
+        }
+    }
+
+    // Encart information
+    .seu-location-infos{
+        background-color: $second-color;
+        padding: 45px 30px;
+        font-family: $main-font;
+        font-size: 1.8rem;
+        color: $core-color;
+        
+        @include RWD(tablet_only){
+            flex: 1;
+            padding-top: 0; padding-bottom: 0; padding-right: 0;
+        }
+
+        h3{
+            font-family: $site-font;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .rte{
+            color: $core-color;
+
+            a:hover, &:focus{
+                color: #545454;
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+// IE 11 only
+_:-ms-fullscreen, :root{ 
+	.page-navigation404 #main-content .link-group .link-group-item svg, .seu-not-front .rte .link-group .link-group-item svg, .seu-not-front #comments .link-group .link-group-item svg, .page-sitemap #site-map .link-group .link-group-item svg{
+        height: 30px;
+    }
+    .seu-not-front #ui-datepicker-div select,
+    .class_group_intern #ui-datepicker-div select{
+        background: none;
+        padding: 0;
+    }
+    .class_group_intern .view-actualites .view-filters .webform-layout-box, .class_group_intern .view-agenda .view-filters .webform-layout-box, .class_group_intern .view-maps .view-filters .webform-layout-box, .class_group_intern.page-search-site #search-form .webform-layout-box, .class_group_intern .webform-client-form .webform-layout-box, .class_group_intern #comments form .webform-layout-box,
+    .seu-not-front .view-actualites .view-filters .webform-layout-box, .seu-not-front .view-agenda .view-filters .webform-layout-box, .seu-not-front .view-maps .view-filters .webform-layout-box, .seu-not-front.page-search-site #search-form .webform-layout-box, .seu-not-front .webform-client-form .webform-layout-box, .seu-not-front #comments form .webform-layout-box{
+        & > .form-group{
+            flex: 1;
+        }
+    }
+    .seu-not-front .region-post-header.has-banner .block-container-breadcrumb{
+        width: 100%;
+    }
+    .seu-wi-duo .seu-wi{
+        flex: 1 0 auto;
+        width: 600px;
+    }
+    .seu-view-filters .select2 .select2-selection, .page-demarches #rub_service .select2 .select2-selection, .seu-main-form .select2 .select2-selection{
+        padding: 0;
+        padding-right: 40px;
+    }
+    .seu-view-filters .select2 .select2-selection__rendered li, .page-demarches #rub_service .select2 .select2-selection__rendered li, .seu-main-form .select2 .select2-selection__rendered li{
+        height: 40px;
+        input{
+            line-height: 32px !important;
+        }
+    }
+    #seu-grid--list01 .grid-item .item-content, .event-highlight .item-content{
+        width: 100%;
+    }
+}

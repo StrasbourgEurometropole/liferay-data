@@ -33,6 +33,29 @@ public class StrasbourgServiceWrapper
 		_strasbourgService = strasbourgService;
 	}
 
+	/**
+	 * Envoie <code>error</code> si le document n'a pas été envoyé.
+	 *
+	 * Returns <code>succes</code> un document de commission.
+	 *
+	 * @param fileContent le fichier en base 64
+	 * @param fileName le nom du fichier
+	 * @param commissionName le nom de la commission
+	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	 * @param documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject addDocument(
+		String fileContent, String fileName, String commissionName,
+		String publicationDate, String documentType, String documentName) {
+
+		return _strasbourgService.addDocument(
+			fileContent, fileName, commissionName, publicationDate,
+			documentType, documentName);
+	}
+
 	@Override
 	public void foldPortlet(String portletId) {
 		_strasbourgService.foldPortlet(portletId);

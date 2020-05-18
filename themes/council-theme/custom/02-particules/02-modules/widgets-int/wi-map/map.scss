@@ -1,0 +1,44 @@
+#aroundme.widget {
+    .aroundme__ui__group .aroundme__ui{
+        &:first-child {
+            border-radius: 0;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+        &:last-child {
+            border-radius: 0;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            position: static;
+        }
+    }
+
+    .leaflet-popup-tip {
+        background: none;
+        box-shadow: none;
+    }
+
+    .leaflet-popup-close-button{
+        display: none;
+    }
+
+    .infowindow__url{
+        padding: 15px 20px;
+        
+        .seu-flexbox{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .seu-btn-text{
+                color: $core-color;
+                font-family: $montserrat;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                font-weight: 400;
+                transition: all, 0.3s;
+                margin-right: 20px;
+            }
+        }
+    }
+}

@@ -576,9 +576,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	 * Retourne la liste des participations du projet
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Participation>
-		getParticipations() {
-
+	public java.util.List<Participation> getParticipations() {
 		return _project.getParticipations();
 	}
 
@@ -593,9 +591,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPetitions() {
-
+	public java.util.List<Petition> getPetitions() {
 		return _project.getPetitions();
 	}
 
@@ -619,9 +615,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	 * Retourne la liste des lieux placit liés au projet
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return _project.getPlacitPlaces();
 	}
 
@@ -652,9 +646,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	 * Retourne la liste des follower au projet
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed>
-		getProjectFollower() {
-
+	public java.util.List<ProjectFollowed> getProjectFollower() {
 		return _project.getProjectFollower();
 	}
 
@@ -677,9 +669,7 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	 * Retourne la liste des entrées timelines du projet
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
-		getProjectTimelines() {
-
+	public java.util.List<ProjectTimeline> getProjectTimelines() {
 		return _project.getProjectTimelines();
 	}
 
