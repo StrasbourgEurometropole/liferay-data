@@ -295,7 +295,7 @@
 	                        			<#assign categoriesIds = categoriesIds + "," + type.getCategoryId() />
 	                                </#if> 
 	                            </#list>
-	                            <a href="tous-les-horaires/-/schedules/category/${categoriesIds}"><@liferay_ui.message key="eu.all-times" /></a>
+	                            <a href="https://www.musees.strasbourg.eu/tous-les-horaires"><@liferay_ui.message key="eu.all-times" /></a>
 	                        </#if>
 	                    </h4>
 	                    <#assign hasURL = 0 />
@@ -396,7 +396,7 @@
                             <@liferay_ui.message key="eu.prices" />
                         </h4>
                         <p>
-                            ${entry.getPrice().getPrice(locale)}
+                            ${entry.getPrice().getPriceDescription(locale)}
                         </p>
                     </div>
                 </#if>
