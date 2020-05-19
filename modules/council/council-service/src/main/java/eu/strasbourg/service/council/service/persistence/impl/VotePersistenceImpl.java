@@ -42,6 +42,7 @@ import eu.strasbourg.service.council.exception.NoSuchVoteException;
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.model.impl.VoteImpl;
 import eu.strasbourg.service.council.model.impl.VoteModelImpl;
+import eu.strasbourg.service.council.service.persistence.VotePK;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
 import java.io.Serializable;
@@ -50,8 +51,6 @@ import java.lang.reflect.Field;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -392,16 +391,16 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Returns the votes before and after the current vote in the ordered set where uuid = &#63;.
 	 *
-	 * @param voteId the primary key of the current vote
+	 * @param votePK the primary key of the current vote
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next vote
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote[] findByUuid_PrevAndNext(long voteId, String uuid,
+	public Vote[] findByUuid_PrevAndNext(VotePK votePK, String uuid,
 		OrderByComparator<Vote> orderByComparator) throws NoSuchVoteException {
-		Vote vote = findByPrimaryKey(voteId);
+		Vote vote = findByPrimaryKey(votePK);
 
 		Session session = null;
 
@@ -1212,7 +1211,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Returns the votes before and after the current vote in the ordered set where uuid = &#63; and companyId = &#63;.
 	 *
-	 * @param voteId the primary key of the current vote
+	 * @param votePK the primary key of the current vote
 	 * @param uuid the uuid
 	 * @param companyId the company ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -1220,10 +1219,10 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote[] findByUuid_C_PrevAndNext(long voteId, String uuid,
+	public Vote[] findByUuid_C_PrevAndNext(VotePK votePK, String uuid,
 		long companyId, OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException {
-		Vote vote = findByPrimaryKey(voteId);
+		Vote vote = findByPrimaryKey(votePK);
 
 		Session session = null;
 
@@ -1762,17 +1761,17 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Returns the votes before and after the current vote in the ordered set where deliberationId = &#63;.
 	 *
-	 * @param voteId the primary key of the current vote
+	 * @param votePK the primary key of the current vote
 	 * @param deliberationId the deliberation ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next vote
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote[] findByDeliberationId_PrevAndNext(long voteId,
+	public Vote[] findByDeliberationId_PrevAndNext(VotePK votePK,
 		long deliberationId, OrderByComparator<Vote> orderByComparator)
 		throws NoSuchVoteException {
-		Vote vote = findByPrimaryKey(voteId);
+		Vote vote = findByPrimaryKey(votePK);
 
 		Session session = null;
 
@@ -1969,7 +1968,7 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2 = "vote.deliberationId = ?";
+	private static final String _FINDER_COLUMN_DELIBERATIONID_DELIBERATIONID_2 = "vote.id.deliberationId = ?";
 	public static final FinderPath FINDER_PATH_FETCH_BY_DELIBERATIONIDANDOFFICIALID =
 		new FinderPath(VoteModelImpl.ENTITY_CACHE_ENABLED,
 			VoteModelImpl.FINDER_CACHE_ENABLED, VoteImpl.class,
@@ -2211,9 +2210,9 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	}
 
 	private static final String _FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_DELIBERATIONID_2 =
-		"vote.deliberationId = ? AND ";
+		"vote.id.deliberationId = ? AND ";
 	private static final String _FINDER_COLUMN_DELIBERATIONIDANDOFFICIALID_OFFICIALID_2 =
-		"vote.officialId = ?";
+		"vote.id.officialId = ?";
 
 	public VotePersistenceImpl() {
 		setModelClass(Vote.class);
@@ -2391,15 +2390,15 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Creates a new vote with the primary key. Does not add the vote to the database.
 	 *
-	 * @param voteId the primary key for the new vote
+	 * @param votePK the primary key for the new vote
 	 * @return the new vote
 	 */
 	@Override
-	public Vote create(long voteId) {
+	public Vote create(VotePK votePK) {
 		Vote vote = new VoteImpl();
 
 		vote.setNew(true);
-		vote.setPrimaryKey(voteId);
+		vote.setPrimaryKey(votePK);
 
 		String uuid = PortalUUIDUtil.generate();
 
@@ -2413,13 +2412,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Removes the vote with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param voteId the primary key of the vote
+	 * @param votePK the primary key of the vote
 	 * @return the vote that was removed
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote remove(long voteId) throws NoSuchVoteException {
-		return remove((Serializable)voteId);
+	public Vote remove(VotePK votePK) throws NoSuchVoteException {
+		return remove((Serializable)votePK);
 	}
 
 	/**
@@ -2636,13 +2635,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 		voteImpl.setPrimaryKey(vote.getPrimaryKey());
 
 		voteImpl.setUuid(vote.getUuid());
-		voteImpl.setVoteId(vote.getVoteId());
+		voteImpl.setOfficialId(vote.getOfficialId());
+		voteImpl.setDeliberationId(vote.getDeliberationId());
 		voteImpl.setGroupId(vote.getGroupId());
 		voteImpl.setCompanyId(vote.getCompanyId());
 		voteImpl.setCreateDate(vote.getCreateDate());
 		voteImpl.setResult(vote.getResult());
-		voteImpl.setOfficialId(vote.getOfficialId());
-		voteImpl.setDeliberationId(vote.getDeliberationId());
 		voteImpl.setOfficialProcurationId(vote.getOfficialProcurationId());
 
 		return voteImpl;
@@ -2675,13 +2673,13 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Returns the vote with the primary key or throws a {@link NoSuchVoteException} if it could not be found.
 	 *
-	 * @param voteId the primary key of the vote
+	 * @param votePK the primary key of the vote
 	 * @return the vote
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote findByPrimaryKey(long voteId) throws NoSuchVoteException {
-		return findByPrimaryKey((Serializable)voteId);
+	public Vote findByPrimaryKey(VotePK votePK) throws NoSuchVoteException {
+		return findByPrimaryKey((Serializable)votePK);
 	}
 
 	/**
@@ -2734,12 +2732,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	/**
 	 * Returns the vote with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param voteId the primary key of the vote
+	 * @param votePK the primary key of the vote
 	 * @return the vote, or <code>null</code> if a vote with the primary key could not be found
 	 */
 	@Override
-	public Vote fetchByPrimaryKey(long voteId) {
-		return fetchByPrimaryKey((Serializable)voteId);
+	public Vote fetchByPrimaryKey(VotePK votePK) {
+		return fetchByPrimaryKey((Serializable)votePK);
 	}
 
 	@Override
@@ -2751,86 +2749,12 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 
 		Map<Serializable, Vote> map = new HashMap<Serializable, Vote>();
 
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
+		for (Serializable primaryKey : primaryKeys) {
 			Vote vote = fetchByPrimaryKey(primaryKey);
 
 			if (vote != null) {
 				map.put(primaryKey, vote);
 			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-					VoteImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Vote)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler query = new StringBundler((uncachedPrimaryKeys.size() * 2) +
-				1);
-
-		query.append(_SQL_SELECT_VOTE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
-
-			query.append(StringPool.COMMA);
-		}
-
-		query.setIndex(query.index() - 1);
-
-		query.append(StringPool.CLOSE_PARENTHESIS);
-
-		String sql = query.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query q = session.createQuery(sql);
-
-			for (Vote vote : (List<Vote>)q.list()) {
-				map.put(vote.getPrimaryKeyObj(), vote);
-
-				cacheResult(vote);
-
-				uncachedPrimaryKeys.remove(vote.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(VoteModelImpl.ENTITY_CACHE_ENABLED,
-					VoteImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
 		}
 
 		return map;
@@ -3056,7 +2980,6 @@ public class VotePersistenceImpl extends BasePersistenceImpl<Vote>
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 	private static final String _SQL_SELECT_VOTE = "SELECT vote FROM Vote vote";
-	private static final String _SQL_SELECT_VOTE_WHERE_PKS_IN = "SELECT vote FROM Vote vote WHERE voteId IN (";
 	private static final String _SQL_SELECT_VOTE_WHERE = "SELECT vote FROM Vote vote WHERE ";
 	private static final String _SQL_COUNT_VOTE = "SELECT COUNT(vote) FROM Vote vote";
 	private static final String _SQL_COUNT_VOTE_WHERE = "SELECT COUNT(vote) FROM Vote vote WHERE ";

@@ -17,10 +17,10 @@ import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.*;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.hibernate.exception.ConstraintViolationException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
     private String message;
 
     @Override
-    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) {
         boolean result = false;
         try {
             // Récupération des paramètres
@@ -85,37 +85,39 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             if (this.validate()) {
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
 
+                try {
+                    // Si exite, enregistrement du vote de l'élu
+                    if (Validator.isNotNull(this.officialVote)) {
+                        Vote officialVote = this.voteLocalService.createVote(
+                                this.officialId, this.deliberationId, sc);
+                        officialVote.setResult(this.officialVote);
+                        this.voteLocalService.updateVote(officialVote, sc);
+                    }
 
-                // Si exite, enregistrement du vote de l'élu
-                if (Validator.isNotNull(this.officialVote)) {
-                    Vote officialVote = this.voteLocalService.createVote(sc);
-                    officialVote.setOfficialId(this.officialId);
-                    officialVote.setDeliberationId(this.deliberationId);
-                    officialVote.setResult(this.officialVote);
-                    this.voteLocalService.updateVote(officialVote, sc);
+                    // Si exite, enregistrement de la 1ere procuration
+                    if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
+                        Vote officialProcurationVote1 = this.voteLocalService.createVote(
+                                this.officialProcurationId_1, this.deliberationId, sc);
+                        officialProcurationVote1.setResult(this.officialProcurationVote_1);
+                        officialProcurationVote1.setOfficialProcurationId(this.officialId);
+                        this.voteLocalService.updateVote(officialProcurationVote1, sc);
+                    }
+
+                    // Si exite, enregistrement de la 2ème procuration
+                    if (this.officialProcurationId_2 > 0 && Validator.isNotNull(this.officialProcurationVote_2)) {
+                        Vote officialProcurationVote2 = this.voteLocalService.createVote(
+                                this.officialProcurationId_2, this.deliberationId, sc);
+                        officialProcurationVote2.setResult(this.officialProcurationVote_2);
+                        officialProcurationVote2.setOfficialProcurationId(this.officialId);
+                        this.voteLocalService.updateVote(officialProcurationVote2, sc);
+                    }
+
+                    result = true;
+
+                } catch (ConstraintViolationException e) {
+                    this.message = "";
+                    this.log.error(e);
                 }
-
-                // Si exite, enregistrement de la 1ere procuration
-                if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
-                    Vote officialProcurationVote1 = this.voteLocalService.createVote(sc);
-                    officialProcurationVote1.setOfficialId(this.officialProcurationId_1);
-                    officialProcurationVote1.setResult(this.officialProcurationVote_1);
-                    officialProcurationVote1.setOfficialProcurationId(this.officialId);
-                    officialProcurationVote1.setDeliberationId(this.deliberationId);
-                    this.voteLocalService.updateVote(officialProcurationVote1, sc);
-                }
-
-                // Si exite, enregistrement de la 2ème procuration
-                if (this.officialProcurationId_2 > 0 && Validator.isNotNull(this.officialProcurationVote_2)) {
-                    Vote officialProcurationVote2 = this.voteLocalService.createVote(sc);
-                    officialProcurationVote2.setOfficialId(this.officialProcurationId_2);
-                    officialProcurationVote2.setResult(this.officialProcurationVote_2);
-                    officialProcurationVote2.setOfficialProcurationId(this.officialId);
-                    officialProcurationVote2.setDeliberationId(this.deliberationId);
-                    this.voteLocalService.updateVote(officialProcurationVote2, sc);
-                }
-
-                result = true;
             }
 
             // Complétion du JSON de retour
@@ -174,7 +176,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
             return false;
         }
 
-        // Vérification les procurations si elles existent
+        // Vérification de l'exitence des procurations
         Procuration procuration;
         if (this.officialProcurationId_1 > 0 && Validator.isNotNull(this.officialProcurationVote_1)) {
             procuration = this.procurationLocalService.findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(

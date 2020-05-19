@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Vote;
+import eu.strasbourg.service.council.service.persistence.VotePK;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 
 		VoteCacheModel voteCacheModel = (VoteCacheModel)obj;
 
-		if (voteId == voteCacheModel.voteId) {
+		if (votePK.equals(voteCacheModel.votePK)) {
 			return true;
 		}
 
@@ -60,17 +61,19 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, voteId);
+		return HashUtil.hash(0, votePK);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
-		sb.append(", voteId=");
-		sb.append(voteId);
+		sb.append(", officialId=");
+		sb.append(officialId);
+		sb.append(", deliberationId=");
+		sb.append(deliberationId);
 		sb.append(", groupId=");
 		sb.append(groupId);
 		sb.append(", companyId=");
@@ -79,10 +82,6 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		sb.append(createDate);
 		sb.append(", result=");
 		sb.append(result);
-		sb.append(", officialId=");
-		sb.append(officialId);
-		sb.append(", deliberationId=");
-		sb.append(deliberationId);
 		sb.append(", officialProcurationId=");
 		sb.append(officialProcurationId);
 		sb.append("}");
@@ -101,7 +100,8 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 			voteImpl.setUuid(uuid);
 		}
 
-		voteImpl.setVoteId(voteId);
+		voteImpl.setOfficialId(officialId);
+		voteImpl.setDeliberationId(deliberationId);
 		voteImpl.setGroupId(groupId);
 		voteImpl.setCompanyId(companyId);
 
@@ -119,8 +119,6 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 			voteImpl.setResult(result);
 		}
 
-		voteImpl.setOfficialId(officialId);
-		voteImpl.setDeliberationId(deliberationId);
 		voteImpl.setOfficialProcurationId(officialProcurationId);
 
 		voteImpl.resetOriginalValues();
@@ -132,7 +130,9 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 
-		voteId = objectInput.readLong();
+		officialId = objectInput.readLong();
+
+		deliberationId = objectInput.readLong();
 
 		groupId = objectInput.readLong();
 
@@ -140,11 +140,9 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 		createDate = objectInput.readLong();
 		result = objectInput.readUTF();
 
-		officialId = objectInput.readLong();
-
-		deliberationId = objectInput.readLong();
-
 		officialProcurationId = objectInput.readLong();
+
+		votePK = new VotePK(officialId, deliberationId);
 	}
 
 	@Override
@@ -157,7 +155,9 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 			objectOutput.writeUTF(uuid);
 		}
 
-		objectOutput.writeLong(voteId);
+		objectOutput.writeLong(officialId);
+
+		objectOutput.writeLong(deliberationId);
 
 		objectOutput.writeLong(groupId);
 
@@ -171,20 +171,16 @@ public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 			objectOutput.writeUTF(result);
 		}
 
-		objectOutput.writeLong(officialId);
-
-		objectOutput.writeLong(deliberationId);
-
 		objectOutput.writeLong(officialProcurationId);
 	}
 
 	public String uuid;
-	public long voteId;
+	public long officialId;
+	public long deliberationId;
 	public long groupId;
 	public long companyId;
 	public long createDate;
 	public String result;
-	public long officialId;
-	public long deliberationId;
 	public long officialProcurationId;
+	public transient VotePK votePK;
 }

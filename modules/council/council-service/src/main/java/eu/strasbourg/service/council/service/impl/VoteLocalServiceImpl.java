@@ -17,23 +17,13 @@ package eu.strasbourg.service.council.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.council.exception.NoSuchVoteException;
-import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.base.VoteLocalServiceBaseImpl;
+import eu.strasbourg.service.council.service.persistence.VotePK;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The implementation of the vote local service.
@@ -59,14 +49,16 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	public final static Log log = LogFactoryUtil.getLog(VoteLocalServiceImpl.class);
 
 	/**
-	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 *  Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
-	public Vote createVote(ServiceContext sc) throws PortalException {
-		long pk = this.counterLocalService.increment();
-		Vote vote = this.voteLocalService.createVote(pk);
+	public Vote createVote(long officialId, long deliberationId, ServiceContext sc) {
+
+		VotePK votePK = new VotePK(officialId, deliberationId);
+		Vote vote = this.createVote(votePK);
 
 		vote.setGroupId(sc.getScopeGroupId());
+		vote.setCreateDate(new Date());
 
 		return vote;
 	}
@@ -75,7 +67,7 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
 	@Override
-	public Vote updateVote(Vote vote, ServiceContext sc) throws PortalException {
+	public Vote updateVote(Vote vote, ServiceContext sc) {
 		vote = this.voteLocalService.updateVote(vote);
 
 		return vote;
@@ -85,10 +77,9 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 	 * Supprime une entité
 	 */
 	@Override
-	public Vote removeVote(long voteId) throws PortalException {
-		Vote vote = this.votePersistence.remove(voteId);
-
-		return vote;
+	public Vote removeVote(long  officialId, long  deliberationId) throws PortalException {
+		VotePK votePK = new VotePK(officialId, deliberationId);
+		return this.votePersistence.remove(votePK);
 	}
 
 	/**
@@ -98,7 +89,7 @@ public class VoteLocalServiceImpl extends VoteLocalServiceBaseImpl {
 		List<Vote> votesToRemove = this.findByDeliberationId(deliberationId);
 
 		for (Vote vote: votesToRemove) {
-			this.removeVote(vote.getVoteId());
+			this.removeVote(vote.getOfficialId(), vote.getDeliberationId());
 		}
 	}
 

@@ -16,6 +16,8 @@ package eu.strasbourg.service.council.model;
 
 import aQute.bnd.annotation.ProviderType;
 
+import eu.strasbourg.service.council.service.persistence.VotePK;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -34,13 +36,12 @@ public class VoteSoap implements Serializable {
 		VoteSoap soapModel = new VoteSoap();
 
 		soapModel.setUuid(model.getUuid());
-		soapModel.setVoteId(model.getVoteId());
+		soapModel.setOfficialId(model.getOfficialId());
+		soapModel.setDeliberationId(model.getDeliberationId());
 		soapModel.setGroupId(model.getGroupId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setResult(model.getResult());
-		soapModel.setOfficialId(model.getOfficialId());
-		soapModel.setDeliberationId(model.getDeliberationId());
 		soapModel.setOfficialProcurationId(model.getOfficialProcurationId());
 
 		return soapModel;
@@ -86,12 +87,13 @@ public class VoteSoap implements Serializable {
 	public VoteSoap() {
 	}
 
-	public long getPrimaryKey() {
-		return _voteId;
+	public VotePK getPrimaryKey() {
+		return new VotePK(_officialId, _deliberationId);
 	}
 
-	public void setPrimaryKey(long pk) {
-		setVoteId(pk);
+	public void setPrimaryKey(VotePK pk) {
+		setOfficialId(pk.officialId);
+		setDeliberationId(pk.deliberationId);
 	}
 
 	public String getUuid() {
@@ -102,12 +104,20 @@ public class VoteSoap implements Serializable {
 		_uuid = uuid;
 	}
 
-	public long getVoteId() {
-		return _voteId;
+	public long getOfficialId() {
+		return _officialId;
 	}
 
-	public void setVoteId(long voteId) {
-		_voteId = voteId;
+	public void setOfficialId(long officialId) {
+		_officialId = officialId;
+	}
+
+	public long getDeliberationId() {
+		return _deliberationId;
+	}
+
+	public void setDeliberationId(long deliberationId) {
+		_deliberationId = deliberationId;
 	}
 
 	public long getGroupId() {
@@ -142,22 +152,6 @@ public class VoteSoap implements Serializable {
 		_result = result;
 	}
 
-	public long getOfficialId() {
-		return _officialId;
-	}
-
-	public void setOfficialId(long officialId) {
-		_officialId = officialId;
-	}
-
-	public long getDeliberationId() {
-		return _deliberationId;
-	}
-
-	public void setDeliberationId(long deliberationId) {
-		_deliberationId = deliberationId;
-	}
-
 	public long getOfficialProcurationId() {
 		return _officialProcurationId;
 	}
@@ -167,12 +161,11 @@ public class VoteSoap implements Serializable {
 	}
 
 	private String _uuid;
-	private long _voteId;
+	private long _officialId;
+	private long _deliberationId;
 	private long _groupId;
 	private long _companyId;
 	private Date _createDate;
 	private String _result;
-	private long _officialId;
-	private long _deliberationId;
 	private long _officialProcurationId;
 }

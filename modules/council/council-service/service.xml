@@ -219,7 +219,8 @@
 	<entity local-service="true" remote-service="false" cache-enabled="true" name="Vote" uuid="true">
 
 		<!-- PK fields -->
-		<column name="voteId" primary="true" type="long" />
+		<column name="officialId" primary="true" type="long" />
+		<column name="deliberationId" primary="true" type="long" />
 
 		<!-- Group instance -->
 		<column name="groupId" type="long" />
@@ -230,13 +231,11 @@
 		<column name="result" type="String" />
 
 		<!-- Links with other entities -->
-		<column name="officialId" type="long" />
-		<column name="deliberationId" type="long" />
 		<column name="officialProcurationId" type="long" />
 
 		<!-- Order -->
 		<order by="desc">
-			<order-column name="voteId" />
+			<order-column name="deliberationId" />
 		</order>
 
 		<!-- Finder methods -->

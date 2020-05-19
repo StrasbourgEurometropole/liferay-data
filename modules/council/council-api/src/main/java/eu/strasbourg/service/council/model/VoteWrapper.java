@@ -58,13 +58,12 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("uuid", getUuid());
-		attributes.put("voteId", getVoteId());
+		attributes.put("officialId", getOfficialId());
+		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("result", getResult());
-		attributes.put("officialId", getOfficialId());
-		attributes.put("deliberationId", getDeliberationId());
 		attributes.put("officialProcurationId", getOfficialProcurationId());
 
 		return attributes;
@@ -78,10 +77,16 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 			setUuid(uuid);
 		}
 
-		Long voteId = (Long)attributes.get("voteId");
+		Long officialId = (Long)attributes.get("officialId");
 
-		if (voteId != null) {
-			setVoteId(voteId);
+		if (officialId != null) {
+			setOfficialId(officialId);
+		}
+
+		Long deliberationId = (Long)attributes.get("deliberationId");
+
+		if (deliberationId != null) {
+			setDeliberationId(deliberationId);
 		}
 
 		Long groupId = (Long)attributes.get("groupId");
@@ -106,18 +111,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 
 		if (result != null) {
 			setResult(result);
-		}
-
-		Long officialId = (Long)attributes.get("officialId");
-
-		if (officialId != null) {
-			setOfficialId(officialId);
-		}
-
-		Long deliberationId = (Long)attributes.get("deliberationId");
-
-		if (deliberationId != null) {
-			setDeliberationId(deliberationId);
 		}
 
 		Long officialProcurationId = (Long)attributes.get(
@@ -177,6 +170,16 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public eu.strasbourg.service.council.model.Vote toUnescapedModel() {
 		return new VoteWrapper(_vote.toUnescapedModel());
+	}
+
+	/**
+	* Returns the primary key of this vote.
+	*
+	* @return the primary key of this vote
+	*/
+	@Override
+	public eu.strasbourg.service.council.service.persistence.VotePK getPrimaryKey() {
+		return _vote.getPrimaryKey();
 	}
 
 	@Override
@@ -305,26 +308,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 		return _vote.getOfficialProcurationId();
 	}
 
-	/**
-	* Returns the primary key of this vote.
-	*
-	* @return the primary key of this vote
-	*/
-	@Override
-	public long getPrimaryKey() {
-		return _vote.getPrimaryKey();
-	}
-
-	/**
-	* Returns the vote ID of this vote.
-	*
-	* @return the vote ID of this vote
-	*/
-	@Override
-	public long getVoteId() {
-		return _vote.getVoteId();
-	}
-
 	@Override
 	public void persist() {
 		_vote.persist();
@@ -422,7 +405,8 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	* @param primaryKey the primary key of this vote
 	*/
 	@Override
-	public void setPrimaryKey(long primaryKey) {
+	public void setPrimaryKey(
+		eu.strasbourg.service.council.service.persistence.VotePK primaryKey) {
 		_vote.setPrimaryKey(primaryKey);
 	}
 
@@ -449,16 +433,6 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	@Override
 	public void setUuid(java.lang.String uuid) {
 		_vote.setUuid(uuid);
-	}
-
-	/**
-	* Sets the vote ID of this vote.
-	*
-	* @param voteId the vote ID of this vote
-	*/
-	@Override
-	public void setVoteId(long voteId) {
-		_vote.setVoteId(voteId);
 	}
 
 	@Override
