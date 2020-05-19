@@ -16,6 +16,7 @@ package eu.strasbourg.service.oidc.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -77,8 +78,6 @@ public interface PublikUserLocalService
 	 * suppression de la signature du pacte,
 	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
 	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	 *
-	 * @return
 	 */
 	public void anonymisedUserPlacit(
 		PublikUser anonymUser, PublikUser publikUser);
@@ -334,7 +333,6 @@ public interface PublikUserLocalService
 	 * Met à jour un utilisateur Publik et l'enregistre en base
 	 *
 	 * @return L'utilisateur Publik modifié
-	 * @throws IOException
 	 */
 	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
 		throws PortalException;

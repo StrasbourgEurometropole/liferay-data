@@ -1,0 +1,26 @@
+.seu-view-filters{
+    @extend %molecule-filters;
+}
+
+.seu-view-activity{
+    .seu-view-filters{
+        .seu-filter-line + .seu-filter-line{
+            @include RWD(mobile){
+                margin-top: 0px;
+            }
+        }
+        .seu-filter-line{
+            @include RWD(tablet){
+                flex-wrap: wrap;
+                .widget{
+                    width: calc(50% - 10px);
+                    margin-right: 20px;
+                    margin-bottom: 20px;
+                    &:nth-child(2n){
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

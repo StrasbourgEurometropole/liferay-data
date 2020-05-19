@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.base.PracticeLocalServiceBaseImpl;
 

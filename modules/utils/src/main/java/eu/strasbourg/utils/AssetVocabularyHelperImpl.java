@@ -3,6 +3,8 @@ package eu.strasbourg.utils;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 import org.osgi.service.component.annotations.Component;
 
@@ -97,4 +99,5 @@ public class AssetVocabularyHelperImpl implements AssetVocabularyHelperService {
 	public List<AssetCategory> getSortedCategories(String vocabulary, long groupId) {
 		return AssetVocabularyHelper.getSortedCategories(vocabulary, groupId);
 	}
+
 }

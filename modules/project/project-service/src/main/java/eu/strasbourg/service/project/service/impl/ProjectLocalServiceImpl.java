@@ -353,8 +353,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	 * Recherche par mot clés
 	 */
 	@Override
-	public List<Project> findByKeyword(String keyword, long groupId, int start,
-									   int end) {
+	public List<Project> findByKeyword(String keyword, long groupId, int start, int end) {
 		DynamicQuery dynamicQuery = dynamicQuery();
 
 		if (keyword.length() > 0) {

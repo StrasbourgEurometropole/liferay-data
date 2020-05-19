@@ -12,4 +12,5 @@ public interface CommentConfiguration {
 	
 	@Meta.AD(name="orderBy", deflt = "", required = false)
 	public String orderBy();
+
 }

@@ -1,0 +1,180 @@
+%atom-vignette{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none; 
+    color: inherit;
+    transition: all, 0.5s;
+    padding: 30px 20px;
+    background-color: #f7f7f7;
+    border: solid 2px #F7F7F7; 
+    position: relative;
+    @include RWD(mobile){
+        padding: 0;
+    }
+
+    .grid-item-visu{
+        height: 250px;
+        overflow: hidden;
+        position: relative; 
+
+        &:before{
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+            opacity: 0;
+            transition: all, 0.5s;
+        }
+        @include RWD(mobile){
+            height: auto;
+        }
+        
+        & > img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        & > .grid-item-background{
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            transition: all, 0.5s;
+
+            @include RWD(mobile){
+                height: auto;
+                padding-bottom: 80%;
+            }
+        }
+    }
+
+    .grid-item-text{
+        padding: 20px;
+        padding-bottom: 0;
+
+        @include RWD(mobile){
+            margin-bottom: 20px;
+        }
+
+        .grid-item-title{
+            @extend %text-h3;
+            padding-left: 0;
+            margin-bottom: 15px;
+            color: $core-color;
+        }
+        .grid-item-description{
+            @extend %text-basis-rte;
+            & > *:last-child{
+                margin-bottom: 0;
+            }
+        }
+        .grid-item-infos{
+            display: flex;
+            justify-content: space-between;
+            font-family: $main-font;
+            font-style: italic;
+            font-size: 1.0rem;
+            color: #3b3b3b;
+            margin-top: 15px;
+
+            & > * {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    // Date, peut être dans le visu ou le text
+    .grid-item-date{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        height: 75px;
+        z-index: 10;
+
+        .date-display-range{
+            display: flex;
+        }
+        .date{
+            width: 70px;
+            background-color: $core-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            font-size: 16px;
+            font-size: 1.6rem;
+            color: #FFFFFF;
+            font-weight: 500;
+            
+            .day{
+                font-weight: 600;
+                font-size: 24px;
+                font-size: 2.4rem;
+            }
+        }
+    }
+    
+    // Catégorie
+    .grid-item-categories{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        height: 35px;
+        background-color: #FFFFFF;
+        color: $second-color;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-size: 1.6rem;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    
+    &--map-full{
+        @extend %atom-vignette;
+        flex-direction: row;
+        padding: 15px 25px;
+        background-color: #f7f7f7;
+        margin-bottom: 30px;
+
+        .panel-close{
+            @extend %icon-close;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            &:hover, &:focus{
+                opacity: 0.3;
+            }
+        }
+
+        .grid-item-visu{
+            flex: 0 0 490px; 
+            height: 290px;
+        }
+        .grid-item-text{
+            padding: 0;
+            margin-left: 50px;
+        }
+        .grid-item-categories{
+            position: static;
+            display: inline-flex;
+            margin-bottom: 25px;
+        }
+        .grid-item-description{
+            margin-bottom: 20px;
+        }
+        .grid-item-address{
+            strong{
+                font-weight: 600;
+                display: block;
+            }
+        }
+    }     
+}

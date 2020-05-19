@@ -40,6 +40,29 @@ public class StrasbourgServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	 * Envoie <code>error</code> si le document n'a pas été envoyé.
+	 *
+	 * Returns <code>succes</code> un document de commission.
+	 *
+	 * @param fileContent le fichier en base 64
+	 * @param fileName le nom du fichier
+	 * @param commissionName le nom de la commission
+	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	 * @param documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	public static com.liferay.portal.kernel.json.JSONObject addDocument(
+		String fileContent, String fileName, String commissionName,
+		String publicationDate, String documentType, String documentName) {
+
+		return getService().addDocument(
+			fileContent, fileName, commissionName, publicationDate,
+			documentType, documentName);
+	}
+
 	public static void foldPortlet(String portletId) {
 		getService().foldPortlet(portletId);
 	}

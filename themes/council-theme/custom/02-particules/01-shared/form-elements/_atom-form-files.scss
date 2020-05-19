@@ -1,0 +1,10 @@
+%atom-form-file{
+
+    @include RWD(mobile){
+        flex-wrap: wrap;
+        
+        .form-file{
+            margin-bottom: 10px;
+        }
+    }
+}

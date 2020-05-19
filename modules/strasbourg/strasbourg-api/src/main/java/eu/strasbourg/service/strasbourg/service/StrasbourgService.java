@@ -16,6 +16,7 @@ package eu.strasbourg.service.strasbourg.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.document.library.kernel.service.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -27,6 +28,7 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.util.*;
 
 /**
  * Provides the remote service interface for Strasbourg. Methods of this
@@ -58,6 +60,24 @@ public interface StrasbourgService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link StrasbourgServiceUtil} to access the strasbourg remote service. Add custom service methods to <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	 * Envoie <code>error</code> si le document n'a pas été envoyé.
+	 *
+	 * Returns <code>succes</code> un document de commission.
+	 *
+	 * @param fileContent le fichier en base 64
+	 * @param fileName le nom du fichier
+	 * @param commissionName le nom de la commission
+	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	 * @param documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	public JSONObject addDocument(
+		String fileContent, String fileName, String commissionName,
+		String publicationDate, String documentType, String documentName);
+
 	public void foldPortlet(String portletId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

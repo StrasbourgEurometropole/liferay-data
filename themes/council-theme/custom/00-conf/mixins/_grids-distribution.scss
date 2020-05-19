@@ -1,0 +1,207 @@
+/*
+  GRID DISTRIBUTION
+  - $number: nombre de vignettes par ligne
+  - $margin: largeur de la gouttiere entre chaque vignette
+  - $item-class: classe des "li"
+
+  -a utiliser avec des medias queries specifiques, pour eviter les surcharges en RWD: 
+  desktop/tablet_only/mobile
+  - max: 8 vignettes par ligne
+*/
+@mixin grid-distribution($number, $margin, $item-class) {
+    display: flex;
+    flex-wrap: wrap;
+
+    .#{$item-class} {
+        $purcentage : 1 / $number * 100; 
+        $round: decimal-round($purcentage, 1); 
+        width: calc(#{$round}% - ( ((#{$number}px - 1px) * #{$margin}) / #{$number}));
+
+        @if $number == 1 {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+        @else if $number == 2 {
+            &:nth-child(2n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(2n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 3 {
+            &:nth-child(3n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(3n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(3n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 4 {
+            &:nth-child(4n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(4n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(4n+3) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(4n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 5 {
+            &:nth-child(5n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(5n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(5n+3) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(5n+4) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(5n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 6 {
+            &:nth-child(6n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(6n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(6n+3) {
+                margin-left: #{($number - 4) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(6n+4) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 4) * $margin / $number}px;
+            }
+
+            &:nth-child(6n+5) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(6n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+        @else if $number == 7 {
+            &:nth-child(7n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(7n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+3) {
+                margin-left: #{($number - 5) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+4) {
+                margin-left: #{($number - 4) * $margin / $number}px;
+                margin-right: #{($number - 4) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+5) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 5) * $margin / $number}px;
+            }
+
+            &:nth-child(7n+6) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(7n) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+        }
+        @else if $number == 8 {
+            &:nth-child(8n+1) {
+                margin-right: #{($number - 1) * $margin / $number}px;
+                margin-left: 0;
+            }
+
+            &:nth-child(8n+2) {
+                margin-left: #{$margin / $number}px;
+                margin-right: #{($number - 2) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+3) {
+                margin-left: #{($number - 6) * $margin / $number}px;
+                margin-right: #{($number - 3) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+4) {
+                margin-left: #{($number - 5) * $margin / $number}px;
+                margin-right: #{($number - 4) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+5) {
+                margin-left: #{($number - 4) * $margin / $number}px;
+                margin-right: #{($number - 5) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+6) {
+                margin-left: #{($number - 3) * $margin / $number}px;
+                margin-right: #{($number - 6) * $margin / $number}px;
+            }
+
+            &:nth-child(8n+7) {
+                margin-left: #{($number - 2) * $margin / $number}px;
+                margin-right: #{$margin / $number}px;
+            }
+
+            &:nth-child(8n) {
+                margin-left: #{($number - 1) * $margin / $number}px;
+                margin-right: 0;
+            }
+        }
+    }
+}
