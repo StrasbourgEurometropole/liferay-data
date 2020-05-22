@@ -8,6 +8,7 @@
 *.aatf
 *.tar.gz
 *.cer
+.env
 *portal-ext.properties
 *portal-setup-wizard.properties
 !images/mysql-upgrade/sources/pre-upgrade.sql

@@ -3,6 +3,7 @@ FROM liferay/dxp:7.2.10-dxp-4
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
+ENV DIST_PATH=./dist
 
 # Changement d'utilisateur pour root (évite le problème de permission sur les fichiers déposés dans le conteneur)
 USER root
@@ -25,3 +26,9 @@ RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alia
         -file /data/certificates/apiDailymotion.cer -storepass changeit -noprompt \
     && keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias apiYoutube \
         -file /data/certificates/apiYoutube.cer -storepass changeit -noprompt
+
+# Dossier dans ./dist contenant les livrables
+ARG DiST_PATH_VERSION
+
+# Copie des livrables dans deploy
+COPY $DIST_PATH/$DiST_PATH_VERSION/ /opt/liferay/deploy/
