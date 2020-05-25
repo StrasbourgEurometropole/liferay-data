@@ -13,11 +13,21 @@
 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
 <#if !title?has_content><#assign title = entry.getTitle(locale) /></#if>
 <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+<#assign thumbnailURL ="" />
+<#if thumbnail?has_content>
+    <#assign thumbnailURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+</#if>
+
 
 <#-- Champs concernant un membre -->
 <#assign name = docXml.valueOf("//dynamic-element[@name='Name']/dynamic-content/text()")/>
 <#assign post = docXml.valueOf("//dynamic-element[@name='post']/dynamic-content/text()")/>
 <#assign bigImage = docXml.valueOf("//dynamic-element[@name='bigImage']/dynamic-content/text()")/>
+<#assign bigImageURL ="" />
+<#if bigImage?has_content>
+    <#assign bigImageURL = assetPublisherTemplateHelperService.getDocumentUrl(bigImage) />
+</#if>
 
 <#-- Champs concernant une offre -->
 <#assign postName = docXml.valueOf("//dynamic-element[@name='postName']/dynamic-content/text()")/>
@@ -27,9 +37,8 @@
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
 
-<!-- VIGNETTE ACTUALITE -->
-<#if title?has_content && thumbnail?has_content && !contestDate?has_content>
-
+<#if title?has_content && thumbnailURL?has_content && !contestDate?has_content>
+    <!-- VIGNETTE ACTUALITE -->
     <#-- Récupération de la Typologie -->
     <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
     <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
@@ -39,11 +48,9 @@
     <div class="ops-col-33">
         <a href="${detailURL}" class="ops-card ops-card-article">
             <div>
-                <#if thumbnail?has_content>
-                    <figure class="fit-cover">
-                        <img src="${thumbnail}" width="390" height="360" alt="Image article"/>
-                    </figure>
-                </#if>
+                <figure class="fit-cover">
+                    <img src="${thumbnailURL}" width="390" height="360" alt="Image article"/>
+                </figure>
                 <div class="ops-content-card-actu">
                     <div class="ops-meta-card-article">
                         <div class="ops-cats">
@@ -61,15 +68,14 @@
             </div>
         </a>
     </div>
-
-<!-- VIGNETTE MEMBRE -->
 <#elseif name?has_content && post?has_content && detailURL?has_content>
+    <!-- VIGNETTE MEMBRE -->
     <div class="ops-col-33">
         <a href="${detailURL}" class="ops-card ops-card-member">
             <div>
-                <#if bigImage?has_content>
+                <#if bigImageURL?has_content>
                     <figure class="fit-cover">
-                        <img src="${bigImage}" width="390" height="560" alt="Image membre"/>
+                        <img src="${bigImageURL}" width="390" height="560" alt="Image membre"/>
                     </figure>
                 <#else>
                     <div class="ops-no-photo"></div>
@@ -81,9 +87,8 @@
             </div>
         </a>
     </div>
-
-<#-- VIGNETTE OFFRE -->
 <#elseif title?has_content && contestDate?has_content>
+    <!-- VIGNETTE OFFRE -->
     <div class="ops-col-33">
         <a href="${detailURL}" class="ops-card ops-card-emploi">
             <div>
