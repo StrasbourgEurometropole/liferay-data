@@ -60,6 +60,10 @@
 		<field name="isMunicipal" type="boolean" />
 		<field name="isEurometropolitan" type="boolean" />
 		<field name="isActive" type="boolean" />
+		<field name="lastSignIn" type="Date" />
+		<field name="lastSignInDeviceInfo" type="String">
+			<hint name="max-length">300</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.council.model.Procuration">
 		<field name="uuid" type="String" />

@@ -77,6 +77,8 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("isMunicipal", getIsMunicipal());
 		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
+		attributes.put("lastSignIn", getLastSignIn());
+		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
 		return attributes;
 	}
@@ -190,6 +192,19 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 
 		if (isActive != null) {
 			setIsActive(isActive);
+		}
+
+		Date lastSignIn = (Date)attributes.get("lastSignIn");
+
+		if (lastSignIn != null) {
+			setLastSignIn(lastSignIn);
+		}
+
+		String lastSignInDeviceInfo = (String)attributes.get(
+				"lastSignInDeviceInfo");
+
+		if (lastSignInDeviceInfo != null) {
+			setLastSignInDeviceInfo(lastSignInDeviceInfo);
 		}
 	}
 
@@ -443,6 +458,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Returns the last sign in device info of this official.
+	*
+	* @return the last sign in device info of this official
+	*/
+	@Override
+	public java.lang.String getLastSignInDeviceInfo() {
+		return _official.getLastSignInDeviceInfo();
+	}
+
+	/**
 	* Returns the lastname of this official.
 	*
 	* @return the lastname of this official
@@ -520,6 +545,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public Date getCreateDate() {
 		return _official.getCreateDate();
+	}
+
+	/**
+	* Returns the last sign in of this official.
+	*
+	* @return the last sign in of this official
+	*/
+	@Override
+	public Date getLastSignIn() {
+		return _official.getLastSignIn();
 	}
 
 	/**
@@ -714,6 +749,26 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setIsMunicipal(boolean isMunicipal) {
 		_official.setIsMunicipal(isMunicipal);
+	}
+
+	/**
+	* Sets the last sign in of this official.
+	*
+	* @param lastSignIn the last sign in of this official
+	*/
+	@Override
+	public void setLastSignIn(Date lastSignIn) {
+		_official.setLastSignIn(lastSignIn);
+	}
+
+	/**
+	* Sets the last sign in device info of this official.
+	*
+	* @param lastSignInDeviceInfo the last sign in device info of this official
+	*/
+	@Override
+	public void setLastSignInDeviceInfo(java.lang.String lastSignInDeviceInfo) {
+		_official.setLastSignInDeviceInfo(lastSignInDeviceInfo);
 	}
 
 	/**

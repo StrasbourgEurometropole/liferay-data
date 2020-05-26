@@ -91,7 +91,9 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			{ "lastname", Types.VARCHAR },
 			{ "isMunicipal", Types.BOOLEAN },
 			{ "isEurometropolitan", Types.BOOLEAN },
-			{ "isActive", Types.BOOLEAN }
+			{ "isActive", Types.BOOLEAN },
+			{ "lastSignIn", Types.TIMESTAMP },
+			{ "lastSignInDeviceInfo", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -114,9 +116,11 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		TABLE_COLUMNS_MAP.put("isMunicipal", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isEurometropolitan", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("lastSignIn", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastSignInDeviceInfo", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN,lastSignIn DATE null,lastSignInDeviceInfo VARCHAR(300) null)";
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
 	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC, official.firstname ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC, council_Official.firstname ASC";
@@ -173,6 +177,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		model.setIsMunicipal(soapModel.getIsMunicipal());
 		model.setIsEurometropolitan(soapModel.getIsEurometropolitan());
 		model.setIsActive(soapModel.getIsActive());
+		model.setLastSignIn(soapModel.getLastSignIn());
+		model.setLastSignInDeviceInfo(soapModel.getLastSignInDeviceInfo());
 
 		return model;
 	}
@@ -255,6 +261,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		attributes.put("isMunicipal", getIsMunicipal());
 		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
+		attributes.put("lastSignIn", getLastSignIn());
+		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -371,6 +379,19 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		if (isActive != null) {
 			setIsActive(isActive);
+		}
+
+		Date lastSignIn = (Date)attributes.get("lastSignIn");
+
+		if (lastSignIn != null) {
+			setLastSignIn(lastSignIn);
+		}
+
+		String lastSignInDeviceInfo = (String)attributes.get(
+				"lastSignInDeviceInfo");
+
+		if (lastSignInDeviceInfo != null) {
+			setLastSignInDeviceInfo(lastSignInDeviceInfo);
 		}
 	}
 
@@ -740,6 +761,33 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		return _originalIsActive;
 	}
 
+	@JSON
+	@Override
+	public Date getLastSignIn() {
+		return _lastSignIn;
+	}
+
+	@Override
+	public void setLastSignIn(Date lastSignIn) {
+		_lastSignIn = lastSignIn;
+	}
+
+	@JSON
+	@Override
+	public String getLastSignInDeviceInfo() {
+		if (_lastSignInDeviceInfo == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _lastSignInDeviceInfo;
+		}
+	}
+
+	@Override
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
+		_lastSignInDeviceInfo = lastSignInDeviceInfo;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -875,6 +923,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialImpl.setIsMunicipal(getIsMunicipal());
 		officialImpl.setIsEurometropolitan(getIsEurometropolitan());
 		officialImpl.setIsActive(getIsActive());
+		officialImpl.setLastSignIn(getLastSignIn());
+		officialImpl.setLastSignInDeviceInfo(getLastSignInDeviceInfo());
 
 		officialImpl.resetOriginalValues();
 
@@ -1067,12 +1117,30 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		officialCacheModel.isActive = getIsActive();
 
+		Date lastSignIn = getLastSignIn();
+
+		if (lastSignIn != null) {
+			officialCacheModel.lastSignIn = lastSignIn.getTime();
+		}
+		else {
+			officialCacheModel.lastSignIn = Long.MIN_VALUE;
+		}
+
+		officialCacheModel.lastSignInDeviceInfo = getLastSignInDeviceInfo();
+
+		String lastSignInDeviceInfo = officialCacheModel.lastSignInDeviceInfo;
+
+		if ((lastSignInDeviceInfo != null) &&
+				(lastSignInDeviceInfo.length() == 0)) {
+			officialCacheModel.lastSignInDeviceInfo = null;
+		}
+
 		return officialCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1110,6 +1178,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getIsEurometropolitan());
 		sb.append(", isActive=");
 		sb.append(getIsActive());
+		sb.append(", lastSignIn=");
+		sb.append(getLastSignIn());
+		sb.append(", lastSignInDeviceInfo=");
+		sb.append(getLastSignInDeviceInfo());
 		sb.append("}");
 
 		return sb.toString();
@@ -1117,7 +1189,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(58);
+		StringBundler sb = new StringBundler(64);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Official");
@@ -1195,6 +1267,14 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			"<column><column-name>isActive</column-name><column-value><![CDATA[");
 		sb.append(getIsActive());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>lastSignIn</column-name><column-value><![CDATA[");
+		sb.append(getLastSignIn());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>lastSignInDeviceInfo</column-name><column-value><![CDATA[");
+		sb.append(getLastSignInDeviceInfo());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1236,6 +1316,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private boolean _isActive;
 	private boolean _originalIsActive;
 	private boolean _setOriginalIsActive;
+	private Date _lastSignIn;
+	private String _lastSignInDeviceInfo;
 	private long _columnBitmask;
 	private Official _escapedModel;
 }

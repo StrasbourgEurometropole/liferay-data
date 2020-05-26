@@ -401,6 +401,35 @@ public interface OfficialModel extends BaseModel<Official>, GroupedModel,
 	public void setIsActive(boolean isActive);
 
 	/**
+	 * Returns the last sign in of this official.
+	 *
+	 * @return the last sign in of this official
+	 */
+	public Date getLastSignIn();
+
+	/**
+	 * Sets the last sign in of this official.
+	 *
+	 * @param lastSignIn the last sign in of this official
+	 */
+	public void setLastSignIn(Date lastSignIn);
+
+	/**
+	 * Returns the last sign in device info of this official.
+	 *
+	 * @return the last sign in device info of this official
+	 */
+	@AutoEscape
+	public String getLastSignInDeviceInfo();
+
+	/**
+	 * Sets the last sign in device info of this official.
+	 *
+	 * @param lastSignInDeviceInfo the last sign in device info of this official
+	 */
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo);
+
+	/**
 	 * Returns <code>true</code> if this official is approved.
 	 *
 	 * @return <code>true</code> if this official is approved; <code>false</code> otherwise

@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import netscape.javascript.JSObject;
 
 import java.util.List;
 

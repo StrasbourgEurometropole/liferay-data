@@ -56,7 +56,9 @@ create table council_Official (
 	lastname VARCHAR(75) null,
 	isMunicipal BOOLEAN,
 	isEurometropolitan BOOLEAN,
-	isActive BOOLEAN
+	isActive BOOLEAN,
+	lastSignIn DATE null,
+	lastSignInDeviceInfo VARCHAR(300) null
 );
 
 create table council_Procuration (
