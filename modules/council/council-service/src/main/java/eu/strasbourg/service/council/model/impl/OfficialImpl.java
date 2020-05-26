@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,6 +77,29 @@ public class OfficialImpl extends OfficialBaseImpl {
 	public String getFullName() {
 		return StringUtil.upperCase(this.getLastname()) + " " +  this.getFirstname() ;
 	}
+	
+	/**
+	 * Renvoie le statut de connection de l'utilisateur
+	 * @return True si la dernière connection date de moins de 15sec
+	 */
+	@Override
+	public boolean isConnected() {
+		boolean result = false;
+		
+		Calendar calendarLastActivity = Calendar.getInstance();
+		calendarLastActivity.setTime(this.getLastActivity());
+		
+		Calendar calendarRefrence = Calendar.getInstance();
+		calendarRefrence.add(Calendar.SECOND, -15);
+		
+		if (calendarLastActivity.compareTo(calendarRefrence) > 0) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	
 
 	/**
 	 * Renvoie l'élu au format JSON

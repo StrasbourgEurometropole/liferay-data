@@ -103,8 +103,8 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		sb.append(isEurometropolitan);
 		sb.append(", isActive=");
 		sb.append(isActive);
-		sb.append(", lastSignIn=");
-		sb.append(lastSignIn);
+		sb.append(", lastActivity=");
+		sb.append(lastActivity);
 		sb.append(", lastSignInDeviceInfo=");
 		sb.append(lastSignInDeviceInfo);
 		sb.append("}");
@@ -191,11 +191,11 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setIsEurometropolitan(isEurometropolitan);
 		officialImpl.setIsActive(isActive);
 
-		if (lastSignIn == Long.MIN_VALUE) {
-			officialImpl.setLastSignIn(null);
+		if (lastActivity == Long.MIN_VALUE) {
+			officialImpl.setLastActivity(null);
 		}
 		else {
-			officialImpl.setLastSignIn(new Date(lastSignIn));
+			officialImpl.setLastActivity(new Date(lastActivity));
 		}
 
 		if (lastSignInDeviceInfo == null) {
@@ -239,7 +239,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		isEurometropolitan = objectInput.readBoolean();
 
 		isActive = objectInput.readBoolean();
-		lastSignIn = objectInput.readLong();
+		lastActivity = objectInput.readLong();
 		lastSignInDeviceInfo = objectInput.readUTF();
 	}
 
@@ -310,7 +310,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeBoolean(isEurometropolitan);
 
 		objectOutput.writeBoolean(isActive);
-		objectOutput.writeLong(lastSignIn);
+		objectOutput.writeLong(lastActivity);
 
 		if (lastSignInDeviceInfo == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -338,6 +338,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public boolean isMunicipal;
 	public boolean isEurometropolitan;
 	public boolean isActive;
-	public long lastSignIn;
+	public long lastActivity;
 	public String lastSignInDeviceInfo;
 }

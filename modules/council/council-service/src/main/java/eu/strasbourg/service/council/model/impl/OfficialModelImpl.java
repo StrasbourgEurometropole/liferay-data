@@ -92,7 +92,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			{ "isMunicipal", Types.BOOLEAN },
 			{ "isEurometropolitan", Types.BOOLEAN },
 			{ "isActive", Types.BOOLEAN },
-			{ "lastSignIn", Types.TIMESTAMP },
+			{ "lastActivity", Types.TIMESTAMP },
 			{ "lastSignInDeviceInfo", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -116,11 +116,11 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		TABLE_COLUMNS_MAP.put("isMunicipal", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isEurometropolitan", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("lastSignIn", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastActivity", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastSignInDeviceInfo", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN,lastSignIn DATE null,lastSignInDeviceInfo VARCHAR(300) null)";
+	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN,lastActivity DATE null,lastSignInDeviceInfo VARCHAR(300) null)";
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
 	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC, official.firstname ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC, council_Official.firstname ASC";
@@ -177,7 +177,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		model.setIsMunicipal(soapModel.getIsMunicipal());
 		model.setIsEurometropolitan(soapModel.getIsEurometropolitan());
 		model.setIsActive(soapModel.getIsActive());
-		model.setLastSignIn(soapModel.getLastSignIn());
+		model.setLastActivity(soapModel.getLastActivity());
 		model.setLastSignInDeviceInfo(soapModel.getLastSignInDeviceInfo());
 
 		return model;
@@ -261,7 +261,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		attributes.put("isMunicipal", getIsMunicipal());
 		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
-		attributes.put("lastSignIn", getLastSignIn());
+		attributes.put("lastActivity", getLastActivity());
 		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -381,10 +381,10 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			setIsActive(isActive);
 		}
 
-		Date lastSignIn = (Date)attributes.get("lastSignIn");
+		Date lastActivity = (Date)attributes.get("lastActivity");
 
-		if (lastSignIn != null) {
-			setLastSignIn(lastSignIn);
+		if (lastActivity != null) {
+			setLastActivity(lastActivity);
 		}
 
 		String lastSignInDeviceInfo = (String)attributes.get(
@@ -763,13 +763,13 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@JSON
 	@Override
-	public Date getLastSignIn() {
-		return _lastSignIn;
+	public Date getLastActivity() {
+		return _lastActivity;
 	}
 
 	@Override
-	public void setLastSignIn(Date lastSignIn) {
-		_lastSignIn = lastSignIn;
+	public void setLastActivity(Date lastActivity) {
+		_lastActivity = lastActivity;
 	}
 
 	@JSON
@@ -923,7 +923,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialImpl.setIsMunicipal(getIsMunicipal());
 		officialImpl.setIsEurometropolitan(getIsEurometropolitan());
 		officialImpl.setIsActive(getIsActive());
-		officialImpl.setLastSignIn(getLastSignIn());
+		officialImpl.setLastActivity(getLastActivity());
 		officialImpl.setLastSignInDeviceInfo(getLastSignInDeviceInfo());
 
 		officialImpl.resetOriginalValues();
@@ -1117,13 +1117,13 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		officialCacheModel.isActive = getIsActive();
 
-		Date lastSignIn = getLastSignIn();
+		Date lastActivity = getLastActivity();
 
-		if (lastSignIn != null) {
-			officialCacheModel.lastSignIn = lastSignIn.getTime();
+		if (lastActivity != null) {
+			officialCacheModel.lastActivity = lastActivity.getTime();
 		}
 		else {
-			officialCacheModel.lastSignIn = Long.MIN_VALUE;
+			officialCacheModel.lastActivity = Long.MIN_VALUE;
 		}
 
 		officialCacheModel.lastSignInDeviceInfo = getLastSignInDeviceInfo();
@@ -1178,8 +1178,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getIsEurometropolitan());
 		sb.append(", isActive=");
 		sb.append(getIsActive());
-		sb.append(", lastSignIn=");
-		sb.append(getLastSignIn());
+		sb.append(", lastActivity=");
+		sb.append(getLastActivity());
 		sb.append(", lastSignInDeviceInfo=");
 		sb.append(getLastSignInDeviceInfo());
 		sb.append("}");
@@ -1268,8 +1268,8 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getIsActive());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>lastSignIn</column-name><column-value><![CDATA[");
-		sb.append(getLastSignIn());
+			"<column><column-name>lastActivity</column-name><column-value><![CDATA[");
+		sb.append(getLastActivity());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>lastSignInDeviceInfo</column-name><column-value><![CDATA[");
@@ -1316,7 +1316,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private boolean _isActive;
 	private boolean _originalIsActive;
 	private boolean _setOriginalIsActive;
-	private Date _lastSignIn;
+	private Date _lastActivity;
 	private String _lastSignInDeviceInfo;
 	private long _columnBitmask;
 	private Official _escapedModel;

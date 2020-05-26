@@ -57,7 +57,7 @@ create table council_Official (
 	isMunicipal BOOLEAN,
 	isEurometropolitan BOOLEAN,
 	isActive BOOLEAN,
-	lastSignIn DATE null,
+	lastActivity DATE null,
 	lastSignInDeviceInfo VARCHAR(300) null
 );
 

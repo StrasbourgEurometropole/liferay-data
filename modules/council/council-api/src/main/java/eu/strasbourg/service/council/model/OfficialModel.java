@@ -401,18 +401,18 @@ public interface OfficialModel extends BaseModel<Official>, GroupedModel,
 	public void setIsActive(boolean isActive);
 
 	/**
-	 * Returns the last sign in of this official.
+	 * Returns the last activity of this official.
 	 *
-	 * @return the last sign in of this official
+	 * @return the last activity of this official
 	 */
-	public Date getLastSignIn();
+	public Date getLastActivity();
 
 	/**
-	 * Sets the last sign in of this official.
+	 * Sets the last activity of this official.
 	 *
-	 * @param lastSignIn the last sign in of this official
+	 * @param lastActivity the last activity of this official
 	 */
-	public void setLastSignIn(Date lastSignIn);
+	public void setLastActivity(Date lastActivity);
 
 	/**
 	 * Returns the last sign in device info of this official.

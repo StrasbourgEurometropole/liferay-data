@@ -77,7 +77,7 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("isMunicipal", getIsMunicipal());
 		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
-		attributes.put("lastSignIn", getLastSignIn());
+		attributes.put("lastActivity", getLastActivity());
 		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
 		return attributes;
@@ -194,10 +194,10 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 			setIsActive(isActive);
 		}
 
-		Date lastSignIn = (Date)attributes.get("lastSignIn");
+		Date lastActivity = (Date)attributes.get("lastActivity");
 
-		if (lastSignIn != null) {
-			setLastSignIn(lastSignIn);
+		if (lastActivity != null) {
+			setLastActivity(lastActivity);
 		}
 
 		String lastSignInDeviceInfo = (String)attributes.get(
@@ -251,6 +251,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean isCachedModel() {
 		return _official.isCachedModel();
+	}
+
+	/**
+	* Renvoie le statut de connection de l'utilisateur
+	*
+	* @return True si la dernière connection date de moins de 15sec
+	*/
+	@Override
+	public boolean isConnected() {
+		return _official.isConnected();
 	}
 
 	/**
@@ -548,13 +558,13 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Returns the last sign in of this official.
+	* Returns the last activity of this official.
 	*
-	* @return the last sign in of this official
+	* @return the last activity of this official
 	*/
 	@Override
-	public Date getLastSignIn() {
-		return _official.getLastSignIn();
+	public Date getLastActivity() {
+		return _official.getLastActivity();
 	}
 
 	/**
@@ -752,13 +762,13 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	* Sets the last sign in of this official.
+	* Sets the last activity of this official.
 	*
-	* @param lastSignIn the last sign in of this official
+	* @param lastActivity the last activity of this official
 	*/
 	@Override
-	public void setLastSignIn(Date lastSignIn) {
-		_official.setLastSignIn(lastSignIn);
+	public void setLastActivity(Date lastActivity) {
+		_official.setLastActivity(lastActivity);
 	}
 
 	/**

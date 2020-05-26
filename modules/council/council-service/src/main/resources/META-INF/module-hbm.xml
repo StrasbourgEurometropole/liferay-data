@@ -70,7 +70,7 @@
 		<property name="isMunicipal" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="isEurometropolitan" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="lastSignIn" type="org.hibernate.type.TimestampType" />
+		<property name="lastActivity" type="org.hibernate.type.TimestampType" />
 		<property name="lastSignInDeviceInfo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.council.model.impl.ProcurationImpl" table="council_Procuration">
