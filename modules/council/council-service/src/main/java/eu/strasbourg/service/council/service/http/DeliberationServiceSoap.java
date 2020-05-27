@@ -65,10 +65,11 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class DeliberationServiceSoap {
-	public static java.lang.String getUserFront(long officialId)
-		throws RemoteException {
+	public static java.lang.String getUserFront(long officialId,
+		java.lang.String officialDeviceInfo) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = DeliberationServiceUtil.getUserFront(officialId);
+			com.liferay.portal.kernel.json.JSONObject returnValue = DeliberationServiceUtil.getUserFront(officialId,
+					officialDeviceInfo);
 
 			return returnValue.toString();
 		}

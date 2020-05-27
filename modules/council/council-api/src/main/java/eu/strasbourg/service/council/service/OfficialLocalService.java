@@ -323,6 +323,15 @@ public interface OfficialLocalService extends BaseLocalService,
 		Projection projection);
 
 	/**
+	* Mise à jour des informations de connexion d'un élu
+	*
+	* @param officialId ID de l'élu
+	* @parma officialDeviceInfo Informations décrivant l'appareil utilisé par l'élu
+	*/
+	public void updateOfficialInfo(long officialId,
+		java.lang.String officialDeviceInfo);
+
+	/**
 	* Met à jour le statut de l'entité "manuellement" (pas via le workflow)
 	*/
 	public void updateStatus(Official official, int status)

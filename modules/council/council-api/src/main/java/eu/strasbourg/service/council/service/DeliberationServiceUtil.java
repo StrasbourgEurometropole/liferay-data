@@ -42,8 +42,8 @@ public class DeliberationServiceUtil {
 	 * Never modify this class directly. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.DeliberationServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId) {
-		return getService().getUserFront(officialId);
+		long officialId, java.lang.String officialDeviceInfo) {
+		return getService().getUserFront(officialId, officialDeviceInfo);
 	}
 
 	/**

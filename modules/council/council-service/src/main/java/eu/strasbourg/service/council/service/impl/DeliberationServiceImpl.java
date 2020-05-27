@@ -55,7 +55,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 	final static private String  ABSTENTION="Abstention";
 
 	@Override
-	public JSONObject getUserFront(long officialId) {
+	public JSONObject getUserFront(long officialId, String officialDeviceInfo) {
 
 		JSONObject userFront = JSONFactoryUtil.createJSONObject();
 
@@ -216,6 +216,9 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 			// Et on log
 			_log.error(e);
 		}
+		
+		// Mise à jour des inforamtions de connection de l'utilisateur 
+		OfficialLocalServiceUtil.updateOfficialInfo(officialId, officialDeviceInfo);
 
 		//On assemble les pièces du puzzle, les ingrédients du Tacos
 		userFront.put("session", session);
@@ -229,4 +232,5 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 		return userFront;
 	}
+	
 }
