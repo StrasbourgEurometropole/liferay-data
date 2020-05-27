@@ -51,5 +51,5 @@
 </div>
 
 <liferay-util:html-bottom>
-	<script src="/o/councilbo/js/council-bo-view-officials-activity.js" type="text/javascript"></script>
+	<script src="/o/councilbo/js/council-bo-view-officials-connection.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
