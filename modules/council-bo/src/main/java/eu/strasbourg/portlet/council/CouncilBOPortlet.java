@@ -85,6 +85,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} else if (tab.equals("officials")) {
 			ViewOfficialsDisplayContext dc = new ViewOfficialsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("officialsConnection")) {
+			ViewOfficialsConnectionDisplayContext dc = new ViewOfficialsConnectionDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
