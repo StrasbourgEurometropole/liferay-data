@@ -24,16 +24,6 @@ body.signed-in {
     background-color: transparent;
 }
 
-//permet de corriger l'affichage collection oeuvre details
-/*.entity-detail-children.artwork-collection-artworks {
-    display: flex;
-}*/
-
-.entity-detail-children .entity-detail-child {
-    background: transparent;
-    margin-left: 20px;
-}
-
 .entity-detail-children .entity-detail-child .entity-detail-child-info {
     background: #e6e6e6;
 }
