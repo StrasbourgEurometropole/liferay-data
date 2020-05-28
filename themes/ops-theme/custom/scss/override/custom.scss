@@ -5,11 +5,53 @@
 
 //Necessaire pour cacher des marges de la dropzone de porlet de liferay...
 body {
-	overflow-x: hidden;
+  overflow-x: hidden;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333333;
 }
 
 //Pour supprimers les marges des portlet liferay
 .portlet {
+  margin-bottom: 0;
+}
+
+.btn{
+  font-size: 14px;
+}
+
+.btn-default {
+  color: #333;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.caret {
+  border-width: 4px;
+}
+
+.mb-2{
+  display: none;
+}
+
+.mb-4{
+  margin-bottom: 0 !important;
+}
+
+.autofit-float.autofit-row.portlet-header{
+  display: none;
+}
+
+figure{
+  margin: 0;
+}
+
+.portlet-layout .portlet-header {
   margin-bottom: 0;
 }
 
