@@ -19,7 +19,7 @@
 </div>
 <script src="https://api.dmcdn.net/all.js"></script>
 <script>
-    var source = ${videoSource.getData()}[0];
+    var source = "${videoSource.getData()}";
     if (source === 'youtube') {
         var tag = document.createElement('script');
 
