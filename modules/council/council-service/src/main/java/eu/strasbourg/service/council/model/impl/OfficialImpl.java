@@ -22,10 +22,10 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,11 +45,14 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 * Never reference this class directly. All methods that expect a official model instance should use the {@link eu.strasbourg.service.council.model.Official} interface instead.
 	 */
 
+	/** Var name du JSON des électeurs */
 	public static final String JSON_OFFICIAL_ID = "officialId";
 	public static final String JSON_FULL_NAME = "fullName";
 	public static final String JSON_IS_MUNICIPAL = "isMunicipal";
 	public static final String JSON_IS_EUROMETROPOL = "isEurometropol";
 	public static final String JSON_IS_ACTIVE = "isActive";
+	public static final String JSON_LAST_ACTIVITY = "lastActivity";
+	public static final String JSON_LAST_SIGN_IN_DEVICE_INFO = "lastSingInDeviceInfo";
 
 	public OfficialImpl() {
 	}
@@ -79,6 +82,15 @@ public class OfficialImpl extends OfficialBaseImpl {
 	}
 	
 	/**
+	 * Renvoie si l'electeur est noté absent pour la session données
+	 */
+	@Override
+	public boolean isNotedAbsent(long councilSessionId) {
+		return ProcurationLocalServiceUtil
+				.findAbsenceForCouncilSession(councilSessionId, this.getOfficialId()) != null;
+	}
+	
+	/**
 	 * Renvoie le statut de connection de l'utilisateur
 	 * @return True si la dernière connection date de moins de 15sec
 	 */
@@ -86,14 +98,16 @@ public class OfficialImpl extends OfficialBaseImpl {
 	public boolean isConnected() {
 		boolean result = false;
 		
-		Calendar calendarLastActivity = Calendar.getInstance();
-		calendarLastActivity.setTime(this.getLastActivity());
-		
-		Calendar calendarRefrence = Calendar.getInstance();
-		calendarRefrence.add(Calendar.SECOND, -15);
-		
-		if (calendarLastActivity.compareTo(calendarRefrence) > 0) {
-			result = true;
+		if (this.getLastActivity() != null) {
+			Calendar calendarLastActivity = Calendar.getInstance();
+			calendarLastActivity.setTime(this.getLastActivity());
+			
+			Calendar calendarRefrence = Calendar.getInstance();
+			calendarRefrence.add(Calendar.SECOND, -15);
+			
+			if (calendarLastActivity.compareTo(calendarRefrence) > 0) {
+				result = true;
+			}
 		}
 		
 		return result;
@@ -107,12 +121,14 @@ public class OfficialImpl extends OfficialBaseImpl {
 	@Override
 	public JSONObject toJSON() {
 		JSONObject jsonOfficial = JSONFactoryUtil.createJSONObject();
-
+		
 		jsonOfficial.put(JSON_OFFICIAL_ID, this.getOfficialId());
 		jsonOfficial.put(JSON_FULL_NAME, this.getFullName());
 		jsonOfficial.put(JSON_IS_MUNICIPAL, this.getIsMunicipal());
 		jsonOfficial.put(JSON_IS_EUROMETROPOL, this.getIsEurometropolitan());
 		jsonOfficial.put(JSON_IS_ACTIVE, this.getIsActive());
+		jsonOfficial.put(JSON_LAST_ACTIVITY, this.getLastActivity());
+		jsonOfficial.put(JSON_LAST_SIGN_IN_DEVICE_INFO, this.getLastSignInDeviceInfo());
 
 		return jsonOfficial;
 	}

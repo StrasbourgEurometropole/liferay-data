@@ -84,10 +84,40 @@ public class OfficialServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getOfficialByConnexionStatus(
+		HttpPrincipal httpPrincipal, long councilSessionId, long groupId) {
+		try {
+			MethodKey methodKey = new MethodKey(OfficialServiceUtil.class,
+					"getOfficialByConnexionStatus",
+					_getOfficialByConnexionStatusParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					councilSessionId, groupId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(OfficialServiceHttp.class);
 	private static final Class<?>[] _getOfficialByFullNameAndTypeParameterTypes0 =
 		new Class[] {
 			java.lang.String.class, java.lang.String.class, long.class,
 			long.class
 		};
+	private static final Class<?>[] _getOfficialByConnexionStatusParameterTypes1 =
+		new Class[] { long.class, long.class };
 }

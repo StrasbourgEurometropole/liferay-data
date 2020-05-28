@@ -60,6 +60,19 @@ public class OfficialServiceUtil {
 	}
 
 	/**
+	* Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	*
+	* @param councilSessionId
+	* @param groupId ID du site
+	* @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	*/
+	public static com.liferay.portal.kernel.json.JSONObject getOfficialByConnexionStatus(
+		long councilSessionId, long groupId) {
+		return getService()
+				   .getOfficialByConnexionStatus(councilSessionId, groupId);
+	}
+
+	/**
 	* Returns the OSGi service identifier.
 	*
 	* @return the OSGi service identifier

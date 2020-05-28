@@ -354,6 +354,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Renvoie si l'electeur est noté absent pour la session données
+	*/
+	@Override
+	public boolean isNotedAbsent(long councilSessionId) {
+		return _official.isNotedAbsent(councilSessionId);
+	}
+
+	/**
 	* Returns <code>true</code> if this official is pending.
 	*
 	* @return <code>true</code> if this official is pending; <code>false</code> otherwise

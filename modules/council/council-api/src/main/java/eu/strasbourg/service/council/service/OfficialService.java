@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
@@ -64,6 +65,17 @@ public interface OfficialService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getOfficialByFullNameAndType(java.lang.String fullName,
 		java.lang.String type, long removedOfficialId, long groupId);
+
+	/**
+	* Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	*
+	* @param councilSessionId
+	* @param groupId ID du site
+	* @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getOfficialByConnexionStatus(long councilSessionId,
+		long groupId);
 
 	/**
 	* Returns the OSGi service identifier.
