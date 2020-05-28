@@ -5,29 +5,45 @@
 
 	<aui:fieldset-group markupView="lexicon">
 
-		<%-- Titre de la session --%>
-		<h1 class="council-title">Conseil municipal 27/05/2020</h1>
+		<c:choose>
 		
-		<%-- Liste des non connectés --%>
-		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-unconnected" label="eu.council.bo.unconnected">
+			<c:when test = "${dc.currentCouncilSession != null}">
 			
-			<div class="connexion-list" id="unconnected-list"></div>
+				<%-- Titre de la session --%>
+				<h1 class="council-title">
+					${dc.currentCouncilSessionTitle}
+				</h1>
+				
+				<%-- Liste des non connectés --%>
+				<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-unconnected" label="eu.council.bo.unconnected">
+					
+					<div class="connexion-list" id="unconnected-list"></div>
+					
+				</aui:fieldset>
+				
+				<%-- Liste des absents --%>
+				<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-absents" label="eu.council.bo.absents">
+					
+					<div class="connexion-list" id="absents-list"></div>
+					
+				</aui:fieldset>
+				
+				<%-- Liste des connectés --%>
+				<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-connected" label="eu.council.bo.connected">
+					
+					<div class="connexion-list" id="connected-list"></div>
+					
+				</aui:fieldset>
+				
+			</c:when>
 			
-		</aui:fieldset>
-		
-		<%-- Liste des absents --%>
-		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-absents" label="eu.council.bo.absents">
+			<c:otherwise>
+				<h1 class="council-title">
+					<liferay-ui:message key="eu.council.bo.no.session.today" />
+				</h1>
+         	</c:otherwise>
 			
-			<div class="connexion-list" id="absents-list"></div>
-			
-		</aui:fieldset>
-		
-		<%-- Liste des connectés --%>
-		<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" cssClass="officials-connected" label="eu.council.bo.connected">
-			
-			<div class="connexion-list" id="connected-list"></div>
-			
-		</aui:fieldset>
+		</c:choose>
 		
 	</aui:fieldset-group>
 

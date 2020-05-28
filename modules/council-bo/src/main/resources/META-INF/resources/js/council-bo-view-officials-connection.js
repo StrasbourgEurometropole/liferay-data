@@ -1,6 +1,9 @@
 /** Récupération des éléments à gérer */
+var frontUnconnectedNumber = document.getElementById("unconnected-number");
 var frontListUnconnected = document.getElementById("unconnected-list");
+var frontAbsentsNumber = document.getElementById("absents-number");
 var frontListAbsents = document.getElementById("absents-list");
+var frontConnectedNumber = document.getElementById("connected-number");
 var frontListConnected = document.getElementById("connected-list");
 
 /**
@@ -15,12 +18,18 @@ function refreshConnectionInformations() {
 		},
 		function(obj) {
 			clearLists();
-			if (obj.unconnected)
+			if (obj.unconnected){
+				changeHeaderNumber(obj.unconnected.length, frontUnconnectedNumber);
 				feedOfficialList(obj.unconnected, frontListUnconnected);
-			if (obj.unconnected)
+				changeHeaderNumber(obj.absents.length, frontAbsentsNumber);
 				feedOfficialList(obj.absents, frontListAbsents);
-			if (obj.unconnected)
+				changeHeaderNumber(obj.connected.length, frontConnectedNumber);
 				feedOfficialList(obj.connected, frontListConnected);
+			} else {
+				changeHeaderNumber(0, frontUnconnectedNumber);
+				changeHeaderNumber(0, frontAbsentsNumber);
+				changeHeaderNumber(0, frontConnectedNumber);
+			}
 		}
     );
 }
@@ -37,16 +46,23 @@ function clearLists() {
 /** 
  * Ajoute une liste d'official à la liste donnée 
  */
-function feedOfficialList(officials, list) {
+function feedOfficialList(officials, element) {
 	var sortedOfficials = officials.sort(sortByProperty('fullName'));
 	for(var i = 0; i < sortedOfficials.length; i++) {
 	    var official = sortedOfficials[i];
-	    list.innerHTML += 
+	    element.innerHTML += 
 			'<div class="row" id="official-' + official.officialId + '">'
 				+ '<div class="col-md-3">' + official.fullName + '</div>'
 				+ '<div class="col-md-9">' + official.lastSingInDeviceInfo + '</div>'
 			+ '</div>';
 	}
+}
+
+/** 
+ * Change le nomber du header d'une section donnée
+ */
+function changeHeaderNumber(newNumber, element) {
+	element.innerHTML = newNumber;
 }
 
 /**
@@ -65,11 +81,8 @@ var sortByProperty = function (property) {
  * Appel au refresh de l'affichage des connections toutes les 10 sec
  * @note Appel direct avec le setInterval pour éviter d'attendre 10 sec avant le premier affichage
  */
-
-/**
 refreshConnectionInformations();
 
 window.setInterval(function(){
 	refreshConnectionInformations();
 }, 10000);
-*/
