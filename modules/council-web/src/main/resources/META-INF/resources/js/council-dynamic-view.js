@@ -4,7 +4,7 @@ window.setInterval(function(){
       '/council.deliberation/get-user-front',
       {
         officialId: officialConnectedId,
-        officialDeviceInfo: platform.description + ' (size : ' + screen.width + ' x ' + screen.height + ')'
+        officialDeviceInfo: userDeviceInfo
       },
       function(obj) {
 
