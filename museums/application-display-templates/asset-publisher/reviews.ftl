@@ -1,6 +1,6 @@
 <!-- Revues numériques -->
 <#setting locale = locale />
-<#if entries?has_content>
+<#if entries?size!=0>
   <div class="numeric-reviews">
     <#assign categoryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetCategoryLocalService") />
     <#assign categoryId = request.getParameter("categoryId")!0 />
@@ -30,6 +30,11 @@
           <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
           <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
           <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+          <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+          <#assign imageURL ="" />
+          <#if image?has_content>
+              <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+          </#if>
           <#assign publishDate = curEntry.getPublishDate() />
           <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
           <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
