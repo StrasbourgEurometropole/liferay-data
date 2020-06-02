@@ -1,0 +1,174 @@
+/* La structure des champs formulaire est calquée sur l'html des "démarches" :
+    div.widget
+        div.title > Label
+        div.content > inputs
+
+    Les noms des widgets sont également utilisés pour spécifier notamment les boutons radio / checkboxes (.CheckboxesWidget, .RadiobuttonsWidget).
+*/
+
+#side{
+    @extend %molecule-form-progressbar;
+}
+.page-demarches #rub_service,
+.seu-main-form{
+    @extend %container-form;
+    @extend %molecule-inlines-rte;
+    @extend %molecule-headings-rte;
+    // Structure/Distribution
+    @extend %bone-form-structure;
+    // Design des champs
+    @extend %molecule-form-components;
+    h4{
+        padding-left: 0;
+    }
+    h3{
+        padding-left: 0;
+    }
+    clear: both;
+    margin-bottom: $margin-item-rte;
+
+    fieldset{
+        background-color: #F6F6F6;
+        padding: 40px;
+        margin-bottom: 35px;
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+        input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.webform-calendar), select, textarea{ 
+            background-color: #FFFFFF;
+        }
+        @include RWD(mobile){
+            padding: 20px;
+            margin-left: -20px;
+            margin-right: -20px;
+        }
+    }
+    .previous-button{
+
+        .seu-btn-arrow{
+            order: 1;
+            margin-right: 20px;
+            transform: rotate(180deg);
+            margin-left: 0;
+        }
+        .seu-btn-text{
+            order: 2;
+        }
+    }
+    .cancel-button{
+        .seu-btn-arrow{
+            display: none !important;
+        }
+    }
+}
+
+// Surcharge Bouton démarche
+.page-demarches #rub_service,
+.seu-main-form{
+    .previous-button{
+        button{
+            padding: 15px 20px;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            border-color: rgba(0, 0, 0, 0);
+            transition: all, 0.5s;
+            overflow: hidden;
+            background-color: $second-color;
+            color: $core-color;
+            font-family: $site-font;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            &:before{
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background-size: 14px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                vertical-align: middle;
+                margin-right: 20px;
+                transform: rotate(180deg);
+            }
+            &:hover, &:focus{
+                background-color: $core-color;
+                color: #FFFFFF;
+                &:before{
+                    background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                }
+            }
+        }
+    }
+    .cancel-button{
+        button{
+            padding: 15px 20px;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            border-color: rgba(0, 0, 0, 0);
+            transition: all, 0.5s;
+            overflow: hidden;
+            color: $core-color;
+            font-family: $site-font;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            border-bottom: solid 1px $core-color;
+            &:after{
+                // content: '';
+                // display: inline-block;
+                // width: 20px;
+                // height: 20px;
+                // background-size: 14px;
+                // background-position: center;
+                // background-repeat: no-repeat;
+                // background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                // vertical-align: middle;
+                // margin-left: 20px;
+            }
+            &:hover, &:focus{
+                background-color: $core-color;
+                color: $second-color;
+                &:after{
+                    background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                }
+            }
+        }
+    }
+    .submit-button{
+        button{
+            padding: 15px 20px;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            border-color: rgba(0, 0, 0, 0);
+            transition: all, 0.5s;
+            overflow: hidden;
+            background-color: $second-color;
+            color: $core-color;
+            font-family: $site-font;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+            &:after{
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background-size: 14px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                vertical-align: middle;
+                margin-left: 20px;
+            }
+            &:hover, &:focus{
+                background-color: $core-color;
+                color: $second-color;
+                &:after{
+                    background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.*;
 import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
@@ -36,6 +37,9 @@ public class ImportEventsMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		log.info("Start importing events");
+		// Appel forçant le scheduler à attendre le service place avant de lancer l'import
+		_placeLocalService.findByName("ping");
+		// Import des événements =
 		_eventLocalService.doImport();
 		log.info("Finish importing events");
 	}
@@ -43,6 +47,11 @@ public class ImportEventsMessageListener
 	@Reference(unbind = "-")
 	protected void setEventLocalService(EventLocalService eventLocalService) {
 		_eventLocalService = eventLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		_placeLocalService = placeLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -59,6 +68,8 @@ public class ImportEventsMessageListener
 
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private EventLocalService _eventLocalService;
+	private PlaceLocalService _placeLocalService;
 	private TriggerFactory _triggerFactory;
+
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 }

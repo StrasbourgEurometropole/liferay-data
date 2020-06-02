@@ -1,0 +1,35 @@
+// Permet de centrer verticalement les fleches dans le slider
+%bones-slider-Ycentered-control--wambrechies-duo{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+}
+
+%bones-slider-cover-ratio--wambrechies-duo{
+    .owl-item{
+        overflow: hidden;
+        li{
+            height: 100%;
+        }
+        img{
+            position: absolute;
+            width: auto;
+            height: auto;
+            max-width: unset;
+            max-height: unset;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        figcaption{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .owl-video-wrapper{
+            height: 100%;
+        }
+    }
+}

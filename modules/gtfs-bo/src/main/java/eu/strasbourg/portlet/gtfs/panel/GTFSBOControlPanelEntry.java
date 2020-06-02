@@ -7,9 +7,6 @@ import org.osgi.service.component.annotations.Component;
 
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
-/**
- * @author Cédric Henry
- */
 @Component(
 	immediate = true,
 	property = {

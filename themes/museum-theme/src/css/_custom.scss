@@ -27,15 +27,13 @@ body.signed-in {
 .entity-detail-children .entity-detail-child .entity-detail-child-info {
     background: #e6e6e6;
 }
-
 //permet de corriger l'affichage du autofit-row
 .portlet-layout .portlet-header {
     margin-bottom: 0rem;
-}
 
 .autofit-row {
     margin-bottom: 0rem;
-} 
+}
 
 //affichage des articles en ipad doit etre comme en mobile et pas comme desktop
 .portlet-layout.row{
@@ -53,4 +51,40 @@ body.signed-in {
             border-left: none;
         }
     }
+}
+
+// Affichage du sélecteur de recherche d'asset
+.btn:active, .btn.active{
+    box-shadow : inset 0 3px 5px rgba(0, 0, 0, 0.125)
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus, .open > .btn-default.dropdown-toggle:hover, .open > .btn-default.dropdown-toggle:focus, .open > .btn-default.dropdown-toggle.focus {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+
+.btn-default:hover, .btn-default:focus {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn{
+    padding: 6px 12px;
+    border: 1px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #ffffff;
+}
+
+.breadcrumb .active {
+    color: #aaaaaa;
 }

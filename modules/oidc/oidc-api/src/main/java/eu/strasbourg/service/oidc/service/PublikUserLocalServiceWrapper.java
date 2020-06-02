@@ -53,8 +53,6 @@ public class PublikUserLocalServiceWrapper
 	 * suppression de la signature du pacte,
 	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
 	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	 *
-	 * @return
 	 */
 	@Override
 	public void anonymisedUserPlacit(
@@ -422,7 +420,6 @@ public class PublikUserLocalServiceWrapper
 	 * Met à jour un utilisateur Publik et l'enregistre en base
 	 *
 	 * @return L'utilisateur Publik modifié
-	 * @throws IOException
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(

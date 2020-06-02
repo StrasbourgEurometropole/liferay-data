@@ -1,0 +1,5 @@
+.seu-wi-embed{
+    @extend %molecule-wi-mediabox; 
+    @extend %organism-wi-embed;
+    margin-bottom: $margin-item-rte;
+}

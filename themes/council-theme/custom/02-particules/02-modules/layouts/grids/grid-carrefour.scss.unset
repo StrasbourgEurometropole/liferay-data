@@ -1,0 +1,18 @@
+.seu-not-front .view-nodehierarchy-children-teasers .view-grid{
+    @extend %molecule-grid-basic;  
+    
+    /* Vignettes */
+    .grid-item{
+        margin-bottom: 30px;
+        display: flex;
+
+        a{
+            flex: 1;
+            @extend %atom-vignette;
+
+            &:hover, &:focus{
+                @extend %animation-vignette;
+            }
+        }
+    }
+}

@@ -1,0 +1,139 @@
+%atom-objtp-vignette{
+    display: block;
+
+    .objtp-grid-item-visu{
+        position: relative;
+        text-decoration: none;
+        padding-bottom: calc(73% + 1px); // +1px to avoid semi pixel on chrome
+        display: block;
+        overflow: hidden;
+        @include RWD(mobile){
+            padding-bottom: 65%;
+        }
+        &:after{
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 31%,rgba(0,0,0,0.04) 37%,rgba(0,0,0,0.24) 57%,rgba(0,0,0,0.59) 85%,rgba(0,0,0,0.7) 100%);
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        &:hover, &:focus{
+            .objtp-grid-item-background{
+                transform: scale(1.2);
+            }
+            .objtp-grid-item-title{
+                transform: translateY(-30px);
+            }
+        }
+    }
+    .objtp-grid-item-background{
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: $core-color;
+        transition: all, 0.5s;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0; left: 0;
+    }
+    .objtp-grid-item-title{
+        transition: all, 0.5s;
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+        width: calc(100% - 60px);
+        font-family: $site-font;
+        font-weight: bold;
+        font-size: 1.7rem;
+        line-height: 2;
+        text-align: center;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        z-index: 2;
+        @include RWD(mobile){
+            line-height: 1.4;
+        }
+    }
+
+    .objtp-grid-item-sublist{
+        background-color: $second-color;
+        padding: 30px 0;
+    }
+        
+    .objtp-sublist-item{
+        position: relative;
+        padding: 0 25px;
+
+        a{
+            font-family: $main-font;
+            font-weight: 600;
+            font-size: 1.8rem;
+            color: $core-color;
+            display: inline-flex;
+            align-items: center;
+            line-height: 1.2;
+            vertical-align: top;
+            width: 100%;
+
+            .objtp-btn-arrow{
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    &.objtp-page{
+        .objtp-grid-item-title{
+            padding-bottom: 40px;
+            border-bottom: solid 1px #FFFFFF;
+            &:after{
+                content: '';
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                background-size: 20px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );
+                position: absolute;
+                right: 0px;
+                bottom: 15px;
+            }
+        }
+        .objtp-grid-item-background{
+            background-color: $core-color;
+        }
+    }
+    
+    &.objtp-list{
+        .objtp-grid-item-background{
+            background-color: $second-color;
+        }
+    }
+    &.objtp-no-picture{
+        .objtp-grid-item-sublist{
+            padding-top: 0;
+        }
+        .objtp-grid-item-visu{
+            padding-bottom: 0;
+            &:after{
+                display: none;
+            }
+        }
+        .objtp-grid-item-title{
+            padding-top: 95px;
+            padding-bottom: 50px;
+            position: relative;
+            top: auto;
+            bottom: auto;
+            left: 30px;
+            right: auto;
+            margin-bottom: 30px;
+        }
+        &.objtp-list{
+            .objtp-grid-item-title{
+                color: $core-color;
+            }
+        }
+    }
+}

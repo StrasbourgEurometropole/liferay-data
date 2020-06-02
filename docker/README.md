@@ -110,7 +110,7 @@ Images à créer :
         $ docker image build -t elasticsearch-ems .
         ```
 * Créer l'image Liferay
-    * Placer dans le répertoire `images/mysql-ems/sources` :
+    * Placer dans le répertoire `images/liferay-ems/sources` :
         * le script `wait-for-it.sh` permettant de tester la disponibilité d'autres noeuds.
         * le certificat `certigna-authority-2015-2025.cer`
         * le certificat `apiDailymotion.cer`
@@ -139,10 +139,11 @@ Images à créer :
 Pour lancer la totalité des services, lancer la commande suivante où :
     * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
 
-```shell
+```shelldocker
 $ DATA=VAR_DATA docker-compose up -d
 
 --> $ DATA=/data docker-compose up -d
+--> $ DATA=/var/local docker-compose up -d
 ```
 
 Suivre les logs via la commande :

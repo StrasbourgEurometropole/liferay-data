@@ -14,12 +14,7 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import com.liferay.portal.kernel.dao.orm.Disjunction;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -45,22 +40,21 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.ProjectFollowed;
-import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,7 +94,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	/**
 	 * Met à jour un utilisateur Publik et l'enregistre en base
 	 * @return L'utilisateur Publik modifié
-	 * @throws IOException
 	 */
 	@Override
 	public PublikUser updatePublikUser(PublikUser publikUser, ServiceContext sc)
@@ -298,7 +291,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * suppression de la signature du pacte,
 	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
 	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
-	 * @return
 	 */
 	@Override
 	public void anonymisedUserPlacit(PublikUser anonymUser, PublikUser publikUser) {
