@@ -27,9 +27,11 @@ body.signed-in {
 .entity-detail-children .entity-detail-child .entity-detail-child-info {
     background: #e6e6e6;
 }
+
 //permet de corriger l'affichage du autofit-row
 .portlet-layout .portlet-header {
     margin-bottom: 0rem;
+}
 
 .autofit-row {
     margin-bottom: 0rem;
@@ -52,6 +54,7 @@ body.signed-in {
         }
     }
 }
+
 
 // Affichage du sélecteur de recherche d'asset
 .btn:active, .btn.active{
