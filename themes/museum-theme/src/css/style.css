@@ -1559,7 +1559,7 @@ strong {
   color: white;
 }
 /* line 10, ../sass/partials/_breadcrumb.scss */
-.breadcrumb-wrapper ul {
+.breadcrumb-wrapper ol {
   line-height: 18px;
 }
 /* line 13, ../sass/partials/_breadcrumb.scss */
@@ -1582,6 +1582,8 @@ strong {
 /* line 25, ../sass/partials/_breadcrumb.scss */
 .breadcrumb-wrapper .breadcrumb > li + li:before {
   content: "-";
+
+  background-image: none;
 }
 /* line 29, ../sass/partials/_breadcrumb.scss */
 .breadcrumb-wrapper .breadcrumb li:last-child:before {
@@ -1593,7 +1595,7 @@ strong {
     padding: 11px 20px 8px 20px;
   }
   /* line 39, ../sass/partials/_breadcrumb.scss */
-  .breadcrumb-wrapper ul {
+  .breadcrumb-wrapper ol {
     line-height: 13px;
   }
 }
