@@ -76,6 +76,7 @@ public class CouncilSessionWrapper implements CouncilSession,
 		attributes.put("date", getDate());
 		attributes.put("type", getType());
 		attributes.put("officialLeaderId", getOfficialLeaderId());
+		attributes.put("typeId", getTypeId());
 
 		return attributes;
 	}
@@ -176,6 +177,12 @@ public class CouncilSessionWrapper implements CouncilSession,
 
 		if (officialLeaderId != null) {
 			setOfficialLeaderId(officialLeaderId);
+		}
+
+		Long typeId = (Long)attributes.get("typeId");
+
+		if (typeId != null) {
+			setTypeId(typeId);
 		}
 	}
 
@@ -562,6 +569,16 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
+	* Returns the type ID of this council session.
+	*
+	* @return the type ID of this council session
+	*/
+	@Override
+	public long getTypeId() {
+		return _councilSession.getTypeId();
+	}
+
+	/**
 	* Returns the user ID of this council session.
 	*
 	* @return the user ID of this council session
@@ -755,6 +772,16 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public void setType(java.lang.String type) {
 		_councilSession.setType(type);
+	}
+
+	/**
+	* Sets the type ID of this council session.
+	*
+	* @param typeId the type ID of this council session
+	*/
+	@Override
+	public void setTypeId(long typeId) {
+		_councilSession.setTypeId(typeId);
 	}
 
 	/**

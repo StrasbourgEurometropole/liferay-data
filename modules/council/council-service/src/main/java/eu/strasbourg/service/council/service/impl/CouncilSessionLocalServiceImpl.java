@@ -291,6 +291,14 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	}
 
 	/**
+	 * Recherche par type de CouncilSession
+	 */
+	@Override
+	public List<CouncilSession> findByTypeId(long typeId){
+		return this.councilSessionPersistence.findByType(typeId);
+	}
+
+	/**
 	 * Si la date avec l'ID donné est déjà utilisé par une autre session
 	 */
 	@Override

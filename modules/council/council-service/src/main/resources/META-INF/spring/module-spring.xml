@@ -11,6 +11,9 @@
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.ProcurationLocalServiceImpl" id="eu.strasbourg.service.council.service.ProcurationLocalService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.ProcurationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.ProcurationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.impl.TypeLocalServiceImpl" id="eu.strasbourg.service.council.service.TypeLocalService" />
+	<bean class="eu.strasbourg.service.council.service.impl.TypeServiceImpl" id="eu.strasbourg.service.council.service.TypeService" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.TypePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.TypePersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.VoteLocalServiceImpl" id="eu.strasbourg.service.council.service.VoteLocalService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.VotePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.VotePersistence" parent="basePersistence" />
 </beans>

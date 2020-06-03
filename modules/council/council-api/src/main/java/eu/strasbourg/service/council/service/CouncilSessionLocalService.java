@@ -277,6 +277,11 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	public List<CouncilSession> findByTitre(java.lang.String title);
 
 	/**
+	* Recherche par type de CouncilSession
+	*/
+	public List<CouncilSession> findByTypeId(long typeId);
+
+	/**
 	* Returns a range of all the council sessions.
 	*
 	* <p>

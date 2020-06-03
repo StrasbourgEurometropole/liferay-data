@@ -316,6 +316,14 @@ public class CouncilSessionLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par type de CouncilSession
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByTypeId(
+		long typeId) {
+		return getService().findByTypeId(typeId);
+	}
+
+	/**
 	* Returns a range of all the council sessions.
 	*
 	* <p>

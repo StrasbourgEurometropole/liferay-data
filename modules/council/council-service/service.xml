@@ -5,6 +5,47 @@
 	<namespace>council</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 
+	<entity local-service="true" remote-service="true" cache-enabled="true" name="Type" uuid="true">
+
+		<!-- PK fields -->
+		<column name="typeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Business fields -->
+		<column name="title" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column case-sensitive="false" name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
 	<entity local-service="true" remote-service="true" cache-enabled="true" name="Official" uuid="true">
 
 		<!-- PK fields -->
@@ -96,6 +137,7 @@
 
 		<!-- Links with other entities -->
 		<column name="officialLeaderId" type="long" />
+		<column name="typeId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -108,6 +150,9 @@
 		</finder>
 		<finder name="Date" return-type="Collection">
 			<finder-column name="date" />
+		</finder>
+		<finder name="Type" return-type="Collection">
+			<finder-column name="typeId" />
 		</finder>
 
 		<!-- References -->

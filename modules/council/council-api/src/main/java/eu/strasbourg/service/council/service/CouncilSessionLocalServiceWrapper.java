@@ -340,6 +340,15 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
+	* Recherche par type de CouncilSession
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByTypeId(
+		long typeId) {
+		return _councilSessionLocalService.findByTypeId(typeId);
+	}
+
+	/**
 	* Returns a range of all the council sessions.
 	*
 	* <p>

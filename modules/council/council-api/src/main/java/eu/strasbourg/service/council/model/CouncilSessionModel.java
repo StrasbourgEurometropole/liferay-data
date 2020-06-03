@@ -351,6 +351,20 @@ public interface CouncilSessionModel extends BaseModel<CouncilSession>,
 	public void setOfficialLeaderId(long officialLeaderId);
 
 	/**
+	 * Returns the type ID of this council session.
+	 *
+	 * @return the type ID of this council session
+	 */
+	public long getTypeId();
+
+	/**
+	 * Sets the type ID of this council session.
+	 *
+	 * @param typeId the type ID of this council session
+	 */
+	public void setTypeId(long typeId);
+
+	/**
 	 * Returns <code>true</code> if this council session is approved.
 	 *
 	 * @return <code>true</code> if this council session is approved; <code>false</code> otherwise

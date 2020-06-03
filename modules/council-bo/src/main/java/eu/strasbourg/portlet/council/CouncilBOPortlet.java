@@ -78,6 +78,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} else if (cmd.equals("editOfficial") || mvcPath.equals("/council-bo-edit-official.jsp")) {
 			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("editType") || mvcPath.equals("/council-bo-edit-type.jsp")) {
+			EditTypeDisplayContext dc = new EditTypeDisplayContext(renderRequest);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
 			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
@@ -87,6 +90,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("officialsConnection")) {
 			ViewOfficialsConnectionDisplayContext dc = new ViewOfficialsConnectionDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("types")) {
+			ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);

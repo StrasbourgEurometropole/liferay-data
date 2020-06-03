@@ -47,6 +47,7 @@ import eu.strasbourg.service.council.service.persistence.CouncilSessionPersisten
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
+import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePK;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
@@ -523,6 +524,43 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the type local service.
+	 *
+	 * @return the type local service
+	 */
+	public eu.strasbourg.service.council.service.TypeLocalService getTypeLocalService() {
+		return typeLocalService;
+	}
+
+	/**
+	 * Sets the type local service.
+	 *
+	 * @param typeLocalService the type local service
+	 */
+	public void setTypeLocalService(
+		eu.strasbourg.service.council.service.TypeLocalService typeLocalService) {
+		this.typeLocalService = typeLocalService;
+	}
+
+	/**
+	 * Returns the type persistence.
+	 *
+	 * @return the type persistence
+	 */
+	public TypePersistence getTypePersistence() {
+		return typePersistence;
+	}
+
+	/**
+	 * Sets the type persistence.
+	 *
+	 * @param typePersistence the type persistence
+	 */
+	public void setTypePersistence(TypePersistence typePersistence) {
+		this.typePersistence = typePersistence;
+	}
+
+	/**
 	 * Returns the vote local service.
 	 *
 	 * @return the vote local service
@@ -739,6 +777,10 @@ public abstract class VoteLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected eu.strasbourg.service.council.service.ProcurationLocalService procurationLocalService;
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
+	@BeanReference(type = eu.strasbourg.service.council.service.TypeLocalService.class)
+	protected eu.strasbourg.service.council.service.TypeLocalService typeLocalService;
+	@BeanReference(type = TypePersistence.class)
+	protected TypePersistence typePersistence;
 	@BeanReference(type = VoteLocalService.class)
 	protected VoteLocalService voteLocalService;
 	@BeanReference(type = VotePersistence.class)
