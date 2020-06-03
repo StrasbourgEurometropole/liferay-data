@@ -56,14 +56,20 @@
 			<%-- Groupe de champs : Generalites --%>
             <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.council.bo.council.informations">
 
-                <%-- Champ : Type municipal --%>
-                <aui:input name="isMunicipal" />
+                <%-- Champ : Type de conseil --%>
+                <c:forEach items="${dc.types}" var="type">
+                    <c:set var="hasType" value="${dc.hasTypeCouncil(type.typeId)}" />
+                    <aui:input name="${type.title}" label="${type.title}" type="checkbox"
+                        title="${type.title}" checked="${hasType}" value="${type.typeId}" />
+                </c:forEach>
 
-                <%-- Champ : Type eurometropolitan --%>
-                <aui:input name="isEurometropolitan" />
+            </aui:fieldset>
 
-                <%-- Champ : Date --%>
-                <aui:input name="isActive" />
+            <%-- Groupe de champs : Statut --%>
+            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.council.bo.statut">
+
+                <%-- Champ : Est Actif --%>
+                <aui:input name="isActive" disabled="true"/>
 
             </aui:fieldset>
 

@@ -21,12 +21,20 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.OfficialTypeCouncil;
+import eu.strasbourg.service.council.model.Type;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Official service. Represents a row in the &quot;council_Official&quot; database table, with each column mapped to a property of this class.
@@ -112,8 +120,23 @@ public class OfficialImpl extends OfficialBaseImpl {
 		
 		return result;
 	}
-	
-	
+
+	/**
+	 * Renvoie les types de conseil rattachés à cet élu
+	 */
+	@Override
+	public List<Type> getCouncilTypes() {
+		List<Type> types = new ArrayList<Type>();
+		List<Long> typeCouncilList = OfficialTypeCouncilLocalServiceUtil.findByOfficialId(this.getOfficialId()).stream()
+				.map(o -> o.getTypeId()).collect(Collectors.toList());
+		for (Long typeCouncil : typeCouncilList) {
+			Type type = TypeLocalServiceUtil.fetchType(typeCouncil);
+			if(Validator.isNotNull(type)){
+				types.add(type);
+			}
+		}
+		return types;
+	}
 
 	/**
 	 * Renvoie l'élu au format JSON

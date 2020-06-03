@@ -604,6 +604,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Renvoie les types de conseil rattachés à cet élu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Type> getCouncilTypes() {
+		return _official.getCouncilTypes();
+	}
+
+	/**
 	* Returns the company ID of this official.
 	*
 	* @return the company ID of this official

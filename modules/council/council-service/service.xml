@@ -109,6 +109,39 @@
 
 	</entity>
 
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="OfficialTypeCouncil" uuid="true">
+
+		<!-- PK fields -->
+		<column name="officialId" primary="true" type="long" />
+		<column name="typeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createDate" type="Date" />
+		<column name="result" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="OfficialId" return-type="Collection">
+			<finder-column name="officialId" />
+		</finder>
+		<finder name="TypeId" return-type="Collection">
+			<finder-column name="typeId" />
+		</finder>
+		<finder name="TypeIdAndOfficialId" return-type="Vote">
+			<finder-column name="typeId" />
+			<finder-column name="officialId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
 	<entity local-service="true" remote-service="false" cache-enabled="true" name="CouncilSession" uuid="true">
 
 		<!-- PK fields -->

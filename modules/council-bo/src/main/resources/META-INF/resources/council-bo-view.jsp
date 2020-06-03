@@ -34,7 +34,7 @@
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${typesURL}" label="types"
+		<aui:nav-item href="${typesURL}" label="councilTypes"
 			selected="${tab eq 'types'}" />
 		<aui:nav-item href="${councilSessionsURL}" label="councilSessions"
 			selected="${tab eq 'councilSessions'}" />

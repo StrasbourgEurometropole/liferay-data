@@ -36,6 +36,7 @@ import eu.strasbourg.service.council.service.OfficialService;
 import eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
+import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
 import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
@@ -210,6 +211,44 @@ public abstract class OfficialServiceBaseImpl extends BaseServiceImpl
 	 */
 	public void setOfficialPersistence(OfficialPersistence officialPersistence) {
 		this.officialPersistence = officialPersistence;
+	}
+
+	/**
+	 * Returns the official type council local service.
+	 *
+	 * @return the official type council local service
+	 */
+	public eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService getOfficialTypeCouncilLocalService() {
+		return officialTypeCouncilLocalService;
+	}
+
+	/**
+	 * Sets the official type council local service.
+	 *
+	 * @param officialTypeCouncilLocalService the official type council local service
+	 */
+	public void setOfficialTypeCouncilLocalService(
+		eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService officialTypeCouncilLocalService) {
+		this.officialTypeCouncilLocalService = officialTypeCouncilLocalService;
+	}
+
+	/**
+	 * Returns the official type council persistence.
+	 *
+	 * @return the official type council persistence
+	 */
+	public OfficialTypeCouncilPersistence getOfficialTypeCouncilPersistence() {
+		return officialTypeCouncilPersistence;
+	}
+
+	/**
+	 * Sets the official type council persistence.
+	 *
+	 * @param officialTypeCouncilPersistence the official type council persistence
+	 */
+	public void setOfficialTypeCouncilPersistence(
+		OfficialTypeCouncilPersistence officialTypeCouncilPersistence) {
+		this.officialTypeCouncilPersistence = officialTypeCouncilPersistence;
 	}
 
 	/**
@@ -709,6 +748,10 @@ public abstract class OfficialServiceBaseImpl extends BaseServiceImpl
 	protected OfficialService officialService;
 	@BeanReference(type = OfficialPersistence.class)
 	protected OfficialPersistence officialPersistence;
+	@BeanReference(type = eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService.class)
+	protected eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService officialTypeCouncilLocalService;
+	@BeanReference(type = OfficialTypeCouncilPersistence.class)
+	protected OfficialTypeCouncilPersistence officialTypeCouncilPersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.ProcurationLocalService.class)
 	protected eu.strasbourg.service.council.service.ProcurationLocalService procurationLocalService;
 	@BeanReference(type = ProcurationPersistence.class)

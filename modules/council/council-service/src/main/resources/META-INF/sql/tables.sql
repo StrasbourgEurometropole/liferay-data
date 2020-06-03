@@ -62,6 +62,17 @@ create table council_Official (
 	lastSignInDeviceInfo VARCHAR(300) null
 );
 
+create table council_OfficialTypeCouncil (
+	uuid_ VARCHAR(75) null,
+	officialId LONG not null,
+	typeId LONG not null,
+	groupId LONG,
+	companyId LONG,
+	createDate DATE null,
+	result VARCHAR(75) null,
+	primary key (officialId, typeId)
+);
+
 create table council_Procuration (
 	uuid_ VARCHAR(75) null,
 	procurationId LONG not null primary key,

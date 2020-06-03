@@ -9,6 +9,8 @@
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialLocalServiceImpl" id="eu.strasbourg.service.council.service.OfficialLocalService" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialServiceImpl" id="eu.strasbourg.service.council.service.OfficialService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.impl.OfficialTypeCouncilLocalServiceImpl" id="eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialTypeCouncilPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.ProcurationLocalServiceImpl" id="eu.strasbourg.service.council.service.ProcurationLocalService" />
 	<bean class="eu.strasbourg.service.council.service.persistence.impl.ProcurationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.ProcurationPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.TypeLocalServiceImpl" id="eu.strasbourg.service.council.service.TypeLocalService" />

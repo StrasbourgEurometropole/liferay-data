@@ -3,12 +3,18 @@ package eu.strasbourg.portlet.council.display.context;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.OfficialTypeCouncil;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
+import java.util.List;
 
 public class EditOfficialDisplayContext {
 
@@ -27,6 +33,18 @@ public class EditOfficialDisplayContext {
             this.official = OfficialLocalServiceUtil.fetchOfficial(officialId);
         }
         return official;
+    }
+
+    public List<Type> getTypes() {
+        return TypeLocalServiceUtil.getTypes(-1,-1);
+    }
+
+    public Boolean hasTypeCouncil(long typeId) {
+        Boolean hasType = false;
+        OfficialTypeCouncil type = OfficialTypeCouncilLocalServiceUtil.findByTypeIdandOfficialId(typeId, official.getOfficialId());
+        hasType = Validator.isNotNull(type);
+        return hasType;
+
     }
 
     /**
