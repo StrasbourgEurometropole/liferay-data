@@ -15,9 +15,11 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService;
 import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -29,6 +31,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -42,7 +45,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    private List<Official> availableOfficials;
+    private List<OfficialTypeCouncil> availableOfficials;
     private long councilSessionId;
     private String title;
     private Date date;
@@ -82,8 +85,8 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             councilSession.setTitle(this.title);
 
             // Champ : type
-            String type = ParamUtil.getString(request, "type");
-            councilSession.setType(type);
+            long typeId = ParamUtil.getLong(request, "council-type");
+            councilSession.setTypeId(typeId);
 
             // Champ : date
             councilSession.setDate(this.date);
@@ -105,7 +108,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             Procuration newProcuration;
 
             // parcours des élus potentiels et recherche de procurations rempliess
-            for (Official availableOfficial : availableOfficials) {
+            for (OfficialTypeCouncil availableOfficial : availableOfficials) {
                 isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
                         .equals("isAbsent");
                 if (isAbsent) {
@@ -169,7 +172,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         }
 
         // Récupération du type
-        String type = ParamUtil.getString(request, "type");
+        long typeId = ParamUtil.getLong(request, "council-type");
 
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
@@ -181,23 +184,22 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         if (Validator.isNull(officialLeaderId)) {
             SessionErrors.add(request, "official-leader-not-found-error");
             isValid = false;
-        } else if (type.equals("municipal") && !official.isIsMunicipal()
-            || type.equals("eurometropolitan") && !official.isIsEurometropolitan()) {
+        } else if (!official.getCouncilTypesIds().contains(""+typeId)) {
             SessionErrors.add(request, "official-leader-type-error");
             isValid = false;
         }
 
         // Procurations : test du nombre de procuration recevable max
         // recherche des élus ayant potentiellement une procuration
-        this.availableOfficials = this.officialLocalService.findByGroupIdAndIsActiveAndType(
-                sc.getScopeGroupId(), true, type);
+        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(typeId)
+            .stream().filter(o -> o.getGroupId() == sc.getScopeGroupId()).collect(Collectors.toList());
 
         boolean isAbsent;
         long officialVotersId;
         Map<Long, Integer> officialProcurationCounts = new HashMap<>();
 
         // parcours des élus potentiels et recherche de procurations rempliess
-        for (Official availableOfficial : availableOfficials) {
+        for (OfficialTypeCouncil availableOfficial : availableOfficials) {
             isAbsent = ParamUtil.getString(request, availableOfficial.getOfficialId() + "-isAbsent")
                     .equals("isAbsent");
             if (isAbsent) {
@@ -226,13 +228,18 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
     }
 
     @Reference(unbind = "-")
+    protected void setCouncilSessionLocalService(CouncilSessionLocalService councilSessionLocalService) {
+        this.councilSessionLocalService = councilSessionLocalService;
+    }
+
+    @Reference(unbind = "-")
     protected void setOfficialLocalService(OfficialLocalService officialLocalService) {
         this.officialLocalService = officialLocalService;
     }
 
     @Reference(unbind = "-")
-    protected void setCouncilSessionLocalService(CouncilSessionLocalService councilSessionLocalService) {
-        this.councilSessionLocalService = councilSessionLocalService;
+    protected void setOfficialTypeCouncilLocalService(OfficialTypeCouncilLocalService officialTypeCouncilLocalService) {
+        this.officialTypeCouncilLocalService = officialTypeCouncilLocalService;
     }
 
     @Reference(unbind = "-")
@@ -242,6 +249,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
     private CouncilSessionLocalService councilSessionLocalService;
     private OfficialLocalService officialLocalService;
+    private OfficialTypeCouncilLocalService officialTypeCouncilLocalService;
     private ProcurationLocalService procurationLocalService;
 
 }

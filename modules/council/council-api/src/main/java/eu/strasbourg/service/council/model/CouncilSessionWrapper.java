@@ -333,6 +333,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 		return _councilSession.getOfficialLeader();
 	}
 
+	/**
+	* Renvoie le type de conseil rattachées à cette sessions
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Type getTypeCouncil() {
+		return _councilSession.getTypeCouncil();
+	}
+
 	@Override
 	public int compareTo(
 		eu.strasbourg.service.council.model.CouncilSession councilSession) {

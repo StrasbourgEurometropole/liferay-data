@@ -7,8 +7,10 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -35,6 +37,22 @@ public class EditCouncilSessionDisplayContext {
     }
 
     /**
+     * Renvoie tous les type de conseil
+     */
+    @SuppressWarnings("unused")
+    public List<Type> getTypes() {
+        return TypeLocalServiceUtil.getTypes(-1, -1);
+    }
+
+    /**
+     * Renvoie tous les élus actifs
+     */
+    @SuppressWarnings("unused")
+    public List<Official> getAllActiveOfficials() {
+        return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
+    }
+
+    /**
      * Recherche s'il existe une procuration dans la session courrante pour l'élu donné
      * @return la procuration ou null
      */
@@ -49,14 +67,6 @@ public class EditCouncilSessionDisplayContext {
                 .filter(procuration -> procuration.getOfficialUnavailableId() == officialId)
                 .findFirst()
                 .orElse(null);
-    }
-
-    /**
-     * Renvoie tous les élus actifs
-     */
-    @SuppressWarnings("unused")
-    public List<Official> getAllActiveOfficials() {
-        return OfficialLocalServiceUtil.findByGroupIdAndIsActive(this.themeDisplay.getSiteGroupId(), true);
     }
 
     @SuppressWarnings("unused")

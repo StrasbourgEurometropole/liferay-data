@@ -87,6 +87,11 @@ public interface Official extends OfficialModel, PersistedModel {
 	public java.util.List<eu.strasbourg.service.council.model.Type> getCouncilTypes();
 
 	/**
+	* Renvoie un strind 'id types de conseil rattachés à cet élu
+	*/
+	public java.lang.String getCouncilTypesIds();
+
+	/**
 	* Renvoie l'élu au format JSON
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();

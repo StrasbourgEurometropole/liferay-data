@@ -14,8 +14,11 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -31,16 +34,22 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -106,13 +115,44 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 				councilSession.getCouncilSessionId());
 		// Si elle existe déjà, c'est une mise à jour sinon on la créée
 		if (oldCouncilSession != null) {
+			// On déplace la catégorie si le type de conseil à changé
+			if (oldCouncilSession.getTypeId() != councilSession.getTypeId()) {
+				// récupère la catégorie du type du nouveau conseil
+				AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, sc.getScopeGroupId());
+				Type type = this.typeLocalService.fetchType(councilSession.getTypeId());
+				AssetCategory typeCategory = conseil.getCategories().stream()
+						.filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+				// Récpère la catégorie de l'ancien conseil
+				Type oldType = this.typeLocalService.fetchType(oldCouncilSession.getTypeId());
+				AssetCategory oldTypeCategory = conseil.getCategories().stream()
+						.filter(c -> c.getName().equals(oldType.getTitle())).findFirst().get();
+				AssetCategory oldCouncilCategory = AssetVocabularyHelper.getChild(oldTypeCategory.getCategoryId())
+						.stream().filter(c -> c.getName().equals(oldCouncilSession.getTitle())).findFirst().get();
+				if (Validator.isNotNull(typeCategory)) {
+					AssetCategoryLocalServiceUtil.moveCategory(oldCouncilCategory.getCategoryId(), typeCategory.getCategoryId(),
+							conseil.getVocabularyId(), sc);
+				}
+			}
 			// On renomme la catégorie si le titre a été modifié
 			if (!oldCouncilSession.getTitle().equals(councilSession.getTitle()))
 				AssetVocabularyHelper.renameCategory(oldCouncilSession.getTitle(), councilSession.getTitle(),
 						sc.getScopeGroupId());
+
 		} else {
-			AssetVocabularyHelper.addCategoryToVocabulary(councilSession.getTitle(),
-					VocabularyNames.COUNCIL_SESSION, sc);
+			// récupère la catégorie du type de conseil
+			AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, sc.getScopeGroupId());
+			Type type = this.typeLocalService.fetchType(councilSession.getTypeId());
+			AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+			if(Validator.isNotNull(typeCategory)){
+				// on créer la sous catégorie
+				Map<Locale, String> titleMap = new HashMap<>();
+				Locale locale = LocaleUtil.getSiteDefault();
+				titleMap.put(locale, councilSession.getTitle());
+				Map<Locale, String> descriptionMap = new HashMap<>();
+				descriptionMap.put(locale, StringPool.BLANK);
+				AssetCategoryLocalServiceUtil.addCategory(sc.getUserId(), sc.getScopeGroupId(), typeCategory.getCategoryId(), titleMap,
+						descriptionMap, conseil.getVocabularyId(), null, sc);
+			}
 		}
 
 		councilSession = this.councilSessionLocalService.updateCouncilSession(councilSession);

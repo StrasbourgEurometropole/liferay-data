@@ -51,17 +51,11 @@
                 <aui:input name="title" required="true" size="75" />
 
                 <%-- Champ : Type --%>
-                <div><label><liferay-ui:message key="type" /></label></div>
-                <label class="text-normal">
-                    <input type="radio" value="municipal" name="<portlet:namespace />type"
-                        <c:if test="${!dc.councilSession.isEurometropolitan()}">checked</c:if>>
-                    <liferay-ui:message key="type-municipal" />
-                </label><br>
-                <label class="text-normal">
-                    <input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
-                        <c:if test="${dc.councilSession.isEurometropolitan()}">checked</c:if>>
-                    <liferay-ui:message key="type-eurometropolitan" />
-                </label><br><br>
+                <aui:select cssClass="toCustomSelect" id="council-type" name="council-type" label="council-type">
+                    <c:forEach items="${dc.types}" var="type">
+                        <aui:option value="${type.typeId}" selected="${dc.councilSession.typeId == type.typeId}">${type.title}</aui:option>
+                    </c:forEach>
+                </aui:select>
 
 			    <%-- Champ : Date --%>
                 <aui:input name="date" required="true" />
@@ -94,8 +88,8 @@
                             </th>
                         </tr>
 
-                        <c:forEach var="official" items="${dc.getAllActiveOfficials()}">
-
+                        <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
+                        <c:forEach var="official" items="${allActiveOfficials}">
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
                             <c:choose>
                                 <c:when test="${procuration != null}">
@@ -112,7 +106,7 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <tr data-is-municipal="${official.isMunicipal}" data-is-eurometropolitan="${official.isEurometropolitan}">
+                            <tr data-council-types="${official.councilTypesIds}">
                                 <td class="text-left" >
                                     ${official.fullName}
                                 </td>

@@ -21,8 +21,10 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
@@ -80,6 +82,14 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	@Override
 	public Official getOfficialLeader() {
 		return OfficialLocalServiceUtil.fetchOfficial(this.getOfficialLeaderId());
+	}
+
+	/**
+	 * Renvoie le type de conseil rattachées à cette sessions
+	 */
+	@Override
+	public Type getTypeCouncil() {
+		return TypeLocalServiceUtil.fetchType(this.getTypeId());
 	}
 
 	/**

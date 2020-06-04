@@ -448,6 +448,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Renvoie un strind 'id types de conseil rattachés à cet élu
+	*/
+	@Override
+	public java.lang.String getCouncilTypesIds() {
+		return _official.getCouncilTypesIds();
+	}
+
+	/**
 	* Returns the email of this official.
 	*
 	* @return the email of this official

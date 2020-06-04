@@ -48,6 +48,11 @@
 					href="${editCouncilSessionURL}" name="title" truncate="true"
 					orderable="true" value="${councilSession.title}" />
 
+                <!-- Colonne : Type de conseil -->
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					name="council-type" truncate="true"
+					orderable="true" value="${councilSession.typeCouncil.title}" />
+
 				<fmt:formatDate value="${councilSession.date}"
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 

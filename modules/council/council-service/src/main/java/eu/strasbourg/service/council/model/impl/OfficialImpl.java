@@ -139,6 +139,16 @@ public class OfficialImpl extends OfficialBaseImpl {
 	}
 
 	/**
+	 * Renvoie un strind 'id types de conseil rattachés à cet élu
+	 */
+	@Override
+	public String getCouncilTypesIds() {
+		String types = OfficialTypeCouncilLocalServiceUtil.findByOfficialId(this.getOfficialId()).stream()
+				.map(o -> ""+o.getTypeId()).collect(Collectors.joining(", "));
+		return types;
+	}
+
+	/**
 	 * Renvoie l'élu au format JSON
 	 */
 	@Override
