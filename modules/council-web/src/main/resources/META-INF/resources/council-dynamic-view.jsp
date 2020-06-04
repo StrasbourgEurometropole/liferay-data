@@ -33,8 +33,8 @@
 
         <%-- INCLUSIONS DES JS --%>
         <liferay-util:html-bottom>
+        	<script src="/o/councilweb/js/libs/platform.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-init-javascript.js" type="text/javascript"></script>
-            <script src="/o/councilweb/js/libs/platform.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-dynamic-view.js" type="text/javascript"></script>
         </liferay-util:html-bottom>
 
