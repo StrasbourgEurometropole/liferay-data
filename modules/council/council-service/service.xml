@@ -28,6 +28,7 @@
 
 		<!-- Business fields -->
 		<column name="title" type="String" />
+		<column name="roleId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -37,6 +38,9 @@
 		<!-- Finder methods -->
 		<finder name="Title" return-type="Collection">
 			<finder-column name="title" />
+		</finder>
+		<finder name="RoleId" return-type="Collection">
+			<finder-column name="roleId" />
 		</finder>
 
 		<!-- References -->

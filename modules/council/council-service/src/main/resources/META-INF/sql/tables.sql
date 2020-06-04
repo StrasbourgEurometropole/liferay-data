@@ -105,7 +105,8 @@ create table council_Type (
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
-	title VARCHAR(75) null
+	title VARCHAR(75) null,
+	roleId LONG
 );
 
 create table council_Vote (

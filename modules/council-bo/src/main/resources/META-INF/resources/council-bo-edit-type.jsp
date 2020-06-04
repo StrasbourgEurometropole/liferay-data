@@ -27,6 +27,7 @@
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="title-type-already-used-error" message="title-type-already-used-error" />
+	<liferay-ui:error key="role-error" message="role-error" />
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
 	<liferay-ui:error key="type-has-council-error" message="type-has-council-error" />
@@ -47,6 +48,14 @@
 			    <%-- Champ : Titre --%>
                 <aui:input name="title" required="true" size="75" />
 
+                 <%-- Champ : Rôle --%>
+                <aui:select name="roleId" label="role" required="true">
+                    <c:forEach var="role" items="${dc.evoteRoles}">
+                        <aui:option value="${role.roleId}"
+                            label="${role.getName()}"
+                            selected="${role.roleId eq dc.type.roleId}" />
+                    </c:forEach>
+                </aui:select>
 			</aui:fieldset>
 
 		</aui:fieldset-group>

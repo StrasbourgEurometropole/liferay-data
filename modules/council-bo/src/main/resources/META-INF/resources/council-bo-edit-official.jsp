@@ -2,6 +2,8 @@
 
 <%@page import="eu.strasbourg.service.council.model.Official"%>
 
+<c:set var="typeIdsUser" value="${dc.getTypeIdsForUser()}"/>
+
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="officialsURL">
 	<portlet:param name="tab" value="officials" />
@@ -58,9 +60,18 @@
 
                 <%-- Champ : Type de conseil --%>
                 <c:forEach items="${dc.types}" var="type">
-                    <c:set var="hasType" value="${dc.hasTypeCouncil(type.typeId)}" />
-                    <aui:input name="${type.title}" label="${type.title}" type="checkbox"
-                        title="${type.title}" checked="${hasType}" value="${type.typeId}" />
+                        <c:set var="isAuthorized" value="${typeIdsUser.contains(type.typeId)}" />
+                        <c:set var="hasType" value="${dc.hasTypeCouncil(type.typeId)}" />
+
+                        <c:choose>
+                            <c:when test="${hasType && !isAuthorized}">
+                                <aui:input type="hidden" name="${type.title}" value="${type.typeId}" />
+                            </c:when>
+                            <c:when test="${isAuthorized}">
+                                <aui:input name="${type.title}" label="${type.title}" type="checkbox"
+                                    title="${type.title}" checked="${hasType}" value="${type.typeId}" />
+                            </c:when>
+                        </c:choose>
                 </c:forEach>
 
             </aui:fieldset>

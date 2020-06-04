@@ -498,6 +498,134 @@ public interface TypePersistence extends BasePersistence<Type> {
 	public int countByTitle(java.lang.String title);
 
 	/**
+	* Returns all the types where roleId = &#63;.
+	*
+	* @param roleId the role ID
+	* @return the matching types
+	*/
+	public java.util.List<Type> findByRoleId(long roleId);
+
+	/**
+	* Returns a range of all the types where roleId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TypeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param roleId the role ID
+	* @param start the lower bound of the range of types
+	* @param end the upper bound of the range of types (not inclusive)
+	* @return the range of matching types
+	*/
+	public java.util.List<Type> findByRoleId(long roleId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the types where roleId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TypeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param roleId the role ID
+	* @param start the lower bound of the range of types
+	* @param end the upper bound of the range of types (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching types
+	*/
+	public java.util.List<Type> findByRoleId(long roleId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the types where roleId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TypeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param roleId the role ID
+	* @param start the lower bound of the range of types
+	* @param end the upper bound of the range of types (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching types
+	*/
+	public java.util.List<Type> findByRoleId(long roleId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first type in the ordered set where roleId = &#63;.
+	*
+	* @param roleId the role ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching type
+	* @throws NoSuchTypeException if a matching type could not be found
+	*/
+	public Type findByRoleId_First(long roleId,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator)
+		throws NoSuchTypeException;
+
+	/**
+	* Returns the first type in the ordered set where roleId = &#63;.
+	*
+	* @param roleId the role ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching type, or <code>null</code> if a matching type could not be found
+	*/
+	public Type fetchByRoleId_First(long roleId,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator);
+
+	/**
+	* Returns the last type in the ordered set where roleId = &#63;.
+	*
+	* @param roleId the role ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching type
+	* @throws NoSuchTypeException if a matching type could not be found
+	*/
+	public Type findByRoleId_Last(long roleId,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator)
+		throws NoSuchTypeException;
+
+	/**
+	* Returns the last type in the ordered set where roleId = &#63;.
+	*
+	* @param roleId the role ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching type, or <code>null</code> if a matching type could not be found
+	*/
+	public Type fetchByRoleId_Last(long roleId,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator);
+
+	/**
+	* Returns the types before and after the current type in the ordered set where roleId = &#63;.
+	*
+	* @param typeId the primary key of the current type
+	* @param roleId the role ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next type
+	* @throws NoSuchTypeException if a type with the primary key could not be found
+	*/
+	public Type[] findByRoleId_PrevAndNext(long typeId, long roleId,
+		com.liferay.portal.kernel.util.OrderByComparator<Type> orderByComparator)
+		throws NoSuchTypeException;
+
+	/**
+	* Removes all the types where roleId = &#63; from the database.
+	*
+	* @param roleId the role ID
+	*/
+	public void removeByRoleId(long roleId);
+
+	/**
+	* Returns the number of types where roleId = &#63;.
+	*
+	* @param roleId the role ID
+	* @return the number of matching types
+	*/
+	public int countByRoleId(long roleId);
+
+	/**
 	* Caches the type in the entity cache if it is enabled.
 	*
 	* @param type the type

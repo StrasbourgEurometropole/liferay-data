@@ -36,4 +36,6 @@ public class TypeServiceImpl extends TypeServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.TypeServiceUtil} to access the type remote service.
 	 */
+
+
 }

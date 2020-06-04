@@ -47,6 +47,7 @@ public class TypeSoap implements Serializable {
 		soapModel.setStatusByUserName(model.getStatusByUserName());
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
+		soapModel.setRoleId(model.getRoleId());
 
 		return soapModel;
 	}
@@ -203,6 +204,14 @@ public class TypeSoap implements Serializable {
 		_title = title;
 	}
 
+	public long getRoleId() {
+		return _roleId;
+	}
+
+	public void setRoleId(long roleId) {
+		_roleId = roleId;
+	}
+
 	private String _uuid;
 	private long _typeId;
 	private long _groupId;
@@ -216,4 +225,5 @@ public class TypeSoap implements Serializable {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
+	private long _roleId;
 }

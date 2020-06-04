@@ -295,6 +295,14 @@ public class TypeLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par roleId de Type
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.Type> findByRoleId(
+		long roleId) {
+		return getService().findByRoleId(roleId);
+	}
+
+	/**
 	* Recherche par titre de Type
 	*/
 	public static java.util.List<eu.strasbourg.service.council.model.Type> findByTitre(
