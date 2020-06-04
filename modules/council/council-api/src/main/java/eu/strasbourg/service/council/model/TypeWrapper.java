@@ -72,6 +72,7 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("roleId", getRoleId());
 
 		return attributes;
 	}
@@ -154,6 +155,12 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		Long roleId = (Long)attributes.get("roleId");
+
+		if (roleId != null) {
+			setRoleId(roleId);
 		}
 	}
 
@@ -449,6 +456,16 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 	}
 
 	/**
+	* Returns the role ID of this type.
+	*
+	* @return the role ID of this type
+	*/
+	@Override
+	public long getRoleId() {
+		return _type.getRoleId();
+	}
+
+	/**
 	* Returns the status by user ID of this type.
 	*
 	* @return the status by user ID of this type
@@ -562,6 +579,16 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_type.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the role ID of this type.
+	*
+	* @param roleId the role ID of this type
+	*/
+	@Override
+	public void setRoleId(long roleId) {
+		_type.setRoleId(roleId);
 	}
 
 	/**

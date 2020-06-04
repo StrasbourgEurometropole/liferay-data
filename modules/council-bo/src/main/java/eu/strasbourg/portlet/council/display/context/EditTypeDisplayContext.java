@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.council.display.context;
 
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -10,6 +12,8 @@ import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditTypeDisplayContext {
 
@@ -28,6 +32,23 @@ public class EditTypeDisplayContext {
             this.type = TypeLocalServiceUtil.fetchType(typeId);
         }
         return type;
+    }
+
+    /**
+     * Récupère les rôles commençant par "gestionnaire evote - type"
+     */
+    public List<Role> getEvoteRoles() {
+        List<Role> evoteRoles = new ArrayList<>();
+
+        List<Role> allRoles = RoleLocalServiceUtil.getRoles(-1,-1);
+
+        for (Role role:allRoles) {
+            if(role.getName().toLowerCase().startsWith("gestionnaire evote - type"))   {
+                evoteRoles.add(role);
+            }
+        }
+
+        return evoteRoles;
     }
 
     @SuppressWarnings("unused")

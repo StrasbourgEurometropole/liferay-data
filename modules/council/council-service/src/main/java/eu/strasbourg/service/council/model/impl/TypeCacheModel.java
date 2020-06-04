@@ -65,7 +65,7 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -93,6 +93,8 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		sb.append(statusDate);
 		sb.append(", title=");
 		sb.append(title);
+		sb.append(", roleId=");
+		sb.append(roleId);
 		sb.append("}");
 
 		return sb.toString();
@@ -159,6 +161,8 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 			typeImpl.setTitle(title);
 		}
 
+		typeImpl.setRoleId(roleId);
+
 		typeImpl.resetOriginalValues();
 
 		return typeImpl;
@@ -185,6 +189,8 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
+
+		roleId = objectInput.readLong();
 	}
 
 	@Override
@@ -234,6 +240,8 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		else {
 			objectOutput.writeUTF(title);
 		}
+
+		objectOutput.writeLong(roleId);
 	}
 
 	public String uuid;
@@ -249,4 +257,5 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 	public String statusByUserName;
 	public long statusDate;
 	public String title;
+	public long roleId;
 }

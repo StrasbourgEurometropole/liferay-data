@@ -2418,6 +2418,7 @@ public class TypePersistenceImpl extends BasePersistenceImpl<Type>
 		typeImpl.setStatusByUserName(type.getStatusByUserName());
 		typeImpl.setStatusDate(type.getStatusDate());
 		typeImpl.setTitle(type.getTitle());
+		typeImpl.setRoleId(type.getRoleId());
 
 		return typeImpl;
 	}

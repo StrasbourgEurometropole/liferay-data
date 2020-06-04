@@ -308,6 +308,20 @@ public interface TypeModel extends BaseModel<Type>, GroupedModel, ShardedModel,
 	public void setTitle(String title);
 
 	/**
+	 * Returns the role ID of this type.
+	 *
+	 * @return the role ID of this type
+	 */
+	public long getRoleId();
+
+	/**
+	 * Sets the role ID of this type.
+	 *
+	 * @param roleId the role ID of this type
+	 */
+	public void setRoleId(long roleId);
+
+	/**
 	 * Returns <code>true</code> if this type is approved.
 	 *
 	 * @return <code>true</code> if this type is approved; <code>false</code> otherwise
