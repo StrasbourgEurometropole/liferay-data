@@ -125,8 +125,9 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long TITLE_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long ROLEID_COLUMN_BITMASK = 4L;
+	public static final long TITLE_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -578,7 +579,19 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 
 	@Override
 	public void setRoleId(long roleId) {
+		_columnBitmask |= ROLEID_COLUMN_BITMASK;
+
+		if (!_setOriginalRoleId) {
+			_setOriginalRoleId = true;
+
+			_originalRoleId = _roleId;
+		}
+
 		_roleId = roleId;
+	}
+
+	public long getOriginalRoleId() {
+		return _originalRoleId;
 	}
 
 	@Override
@@ -785,6 +798,10 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		typeModelImpl._setModifiedDate = false;
 
 		typeModelImpl._originalTitle = typeModelImpl._title;
+
+		typeModelImpl._originalRoleId = typeModelImpl._roleId;
+
+		typeModelImpl._setOriginalRoleId = false;
 
 		typeModelImpl._columnBitmask = 0;
 	}
@@ -1001,6 +1018,8 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 	private String _title;
 	private String _originalTitle;
 	private long _roleId;
+	private long _originalRoleId;
+	private boolean _setOriginalRoleId;
 	private long _columnBitmask;
 	private Type _escapedModel;
 }

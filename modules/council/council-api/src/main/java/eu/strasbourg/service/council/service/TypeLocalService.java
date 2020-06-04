@@ -260,6 +260,11 @@ public interface TypeLocalService extends BaseLocalService,
 		int end, OrderByComparator<T> orderByComparator);
 
 	/**
+	* Recherche par roleId de Type
+	*/
+	public List<Type> findByRoleId(long roleId);
+
+	/**
 	* Recherche par titre de Type
 	*/
 	public List<Type> findByTitre(java.lang.String title);

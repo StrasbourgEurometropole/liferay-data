@@ -309,6 +309,15 @@ public class TypeLocalServiceWrapper implements TypeLocalService,
 	}
 
 	/**
+	* Recherche par roleId de Type
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Type> findByRoleId(
+		long roleId) {
+		return _typeLocalService.findByRoleId(roleId);
+	}
+
+	/**
 	* Recherche par titre de Type
 	*/
 	@Override

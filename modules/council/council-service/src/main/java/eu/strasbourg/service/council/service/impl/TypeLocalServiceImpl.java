@@ -269,6 +269,13 @@ public class TypeLocalServiceImpl extends TypeLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Recherche par roleId de Type
+	 */
+	@Override
+	public List<Type> findByRoleId(long roleId){
+		return this.typePersistence.findByRoleId(roleId);
+	}
+	/**
 	 * Si le titre avec l'ID donné est déjà utilisé par un autre type
 	 */
 	@Override

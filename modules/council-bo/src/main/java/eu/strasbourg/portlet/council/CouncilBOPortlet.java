@@ -24,6 +24,7 @@ import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayCon
 import eu.strasbourg.portlet.council.display.context.ViewOfficialsConnectionDisplayContext;
 import eu.strasbourg.portlet.council.display.context.ViewOfficialsDisplayContext;
 import eu.strasbourg.portlet.council.display.context.ViewTypesDisplayContext;
+import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -61,8 +62,6 @@ import java.util.stream.Collectors;
 	service = Portlet.class
 )
 public class CouncilBOPortlet extends MVCPortlet {
-
-	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
@@ -121,13 +120,7 @@ public class CouncilBOPortlet extends MVCPortlet {
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
 
 		// Admin EVOTE ou pas
-		boolean isAdminEvote = false;
-		try {
-			isAdminEvote = RoleLocalServiceUtil.hasUserRole(themeDisplay.getUserId(), themeDisplay.getCompanyId(), "Gestionnaire EVOTE - Administrateur", false);
-		} catch (PortalException e) {
-			log.error(e);
-		}
-		renderRequest.setAttribute("isAdminEvote", isAdminEvote);
+		renderRequest.setAttribute("isAdminEvote", UserRoleType.IsAdminEvote(themeDisplay));
 
 		super.render(renderRequest, renderResponse);
 	}

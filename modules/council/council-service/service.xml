@@ -39,6 +39,9 @@
 		<finder name="Title" return-type="Collection">
 			<finder-column name="title" />
 		</finder>
+		<finder name="RoleId" return-type="Collection">
+			<finder-column name="roleId" />
+		</finder>
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

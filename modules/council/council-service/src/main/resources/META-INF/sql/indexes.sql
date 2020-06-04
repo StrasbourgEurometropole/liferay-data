@@ -24,6 +24,7 @@ create index IX_818F2BBD on council_Procuration (councilSessionId, officialVoter
 create index IX_BF3B2FDE on council_Procuration (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_AEA15E0 on council_Procuration (uuid_[$COLUMN_LENGTH:75$], groupId);
 
+create index IX_ECE0B963 on council_Type (roleId);
 create index IX_1513314A on council_Type (title[$COLUMN_LENGTH:75$]);
 create index IX_E9BDB672 on council_Type (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_FFC53174 on council_Type (uuid_[$COLUMN_LENGTH:75$], groupId);

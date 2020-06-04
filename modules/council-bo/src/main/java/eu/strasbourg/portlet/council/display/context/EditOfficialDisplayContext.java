@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.model.Type;
@@ -45,6 +46,10 @@ public class EditOfficialDisplayContext {
         hasType = Validator.isNotNull(type);
         return hasType;
 
+    }
+
+    public List<Long> getTypeIdsForUser() {
+        return UserRoleType.typeIdsForUser(themeDisplay);
     }
 
     /**
