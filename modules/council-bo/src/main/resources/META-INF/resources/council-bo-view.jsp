@@ -34,8 +34,10 @@
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${typesURL}" label="councilTypes"
-			selected="${tab eq 'types'}" />
+	    <c:if test="${isAdmin || isAdminEvote}">
+            <aui:nav-item href="${typesURL}" label="councilTypes"
+                selected="${tab eq 'types'}" />
+	    </c:if>
 		<aui:nav-item href="${councilSessionsURL}" label="councilSessions"
 			selected="${tab eq 'councilSessions'}" />
 
@@ -60,7 +62,7 @@
 </aui:nav-bar>
 
 <c:choose>
-    <c:when test="${tab eq 'types'}">
+    <c:when test="${tab eq 'types' && (isAdmin || isAdminEvote)}">
 		<liferay-util:include page="/council-bo-view-types.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>

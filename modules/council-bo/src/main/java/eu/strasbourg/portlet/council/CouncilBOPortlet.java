@@ -4,14 +4,26 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.council.display.context.*;
+import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditOfficialDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditTypeDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewCouncilSessionsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewOfficialsConnectionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewOfficialsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewTypesDisplayContext;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -23,7 +35,11 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +61,8 @@ import java.util.stream.Collectors;
 	service = Portlet.class
 )
 public class CouncilBOPortlet extends MVCPortlet {
+
+	private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
@@ -101,6 +119,15 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
+
+		// Admin EVOTE ou pas
+		boolean isAdminEvote = false;
+		try {
+			isAdminEvote = RoleLocalServiceUtil.hasUserRole(themeDisplay.getUserId(), themeDisplay.getCompanyId(), "Gestionnaire EVOTE - Administrateur", false);
+		} catch (PortalException e) {
+			log.error(e);
+		}
+		renderRequest.setAttribute("isAdminEvote", isAdminEvote);
 
 		super.render(renderRequest, renderResponse);
 	}
