@@ -70,6 +70,18 @@ public interface Official extends OfficialModel, PersistedModel {
 	public java.lang.String getFullName();
 
 	/**
+	* Renvoie si l'electeur est noté absent pour la session données
+	*/
+	public boolean isNotedAbsent(long councilSessionId);
+
+	/**
+	* Renvoie le statut de connection de l'utilisateur
+	*
+	* @return True si la dernière connection date de moins de 15sec
+	*/
+	public boolean isConnected();
+
+	/**
 	* Renvoie l'élu au format JSON
 	*/
 	public com.liferay.portal.kernel.json.JSONObject toJSON();

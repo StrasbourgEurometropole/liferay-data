@@ -33,6 +33,8 @@
 		<column name="isMunicipal" type="boolean" />
 		<column name="isEurometropolitan" type="boolean" />
 		<column name="isActive" type="boolean" />
+		<column name="lastActivity" type="Date" />
+		<column name="lastSignInDeviceInfo" type="String" />
 
 		<!-- Order -->
 		<order by="asc">

@@ -57,7 +57,8 @@ public interface DeliberationService extends BaseService {
 	 * Never modify or reference this interface directly. Always use {@link DeliberationServiceUtil} to access the deliberation remote service. Add custom service methods to {@link eu.strasbourg.service.council.service.impl.DeliberationServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserFront(long officialId);
+	public JSONObject getUserFront(long officialId,
+		java.lang.String officialDeviceInfo);
 
 	/**
 	* Returns the OSGi service identifier.

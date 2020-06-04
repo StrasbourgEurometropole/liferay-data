@@ -4020,6 +4020,8 @@ public class OfficialPersistenceImpl extends BasePersistenceImpl<Official>
 		officialImpl.setIsMunicipal(official.isIsMunicipal());
 		officialImpl.setIsEurometropolitan(official.isIsEurometropolitan());
 		officialImpl.setIsActive(official.isIsActive());
+		officialImpl.setLastActivity(official.getLastActivity());
+		officialImpl.setLastSignInDeviceInfo(official.getLastSignInDeviceInfo());
 
 		return officialImpl;
 	}

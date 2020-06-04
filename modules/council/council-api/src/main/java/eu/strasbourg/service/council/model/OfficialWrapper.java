@@ -77,6 +77,8 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("isMunicipal", getIsMunicipal());
 		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
+		attributes.put("lastActivity", getLastActivity());
+		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
 		return attributes;
 	}
@@ -191,6 +193,19 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		if (isActive != null) {
 			setIsActive(isActive);
 		}
+
+		Date lastActivity = (Date)attributes.get("lastActivity");
+
+		if (lastActivity != null) {
+			setLastActivity(lastActivity);
+		}
+
+		String lastSignInDeviceInfo = (String)attributes.get(
+				"lastSignInDeviceInfo");
+
+		if (lastSignInDeviceInfo != null) {
+			setLastSignInDeviceInfo(lastSignInDeviceInfo);
+		}
 	}
 
 	/**
@@ -236,6 +251,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean isCachedModel() {
 		return _official.isCachedModel();
+	}
+
+	/**
+	* Renvoie le statut de connection de l'utilisateur
+	*
+	* @return True si la dernière connection date de moins de 15sec
+	*/
+	@Override
+	public boolean isConnected() {
+		return _official.isConnected();
 	}
 
 	/**
@@ -326,6 +351,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean isNew() {
 		return _official.isNew();
+	}
+
+	/**
+	* Renvoie si l'electeur est noté absent pour la session données
+	*/
+	@Override
+	public boolean isNotedAbsent(long councilSessionId) {
+		return _official.isNotedAbsent(councilSessionId);
 	}
 
 	/**
@@ -443,6 +476,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Returns the last sign in device info of this official.
+	*
+	* @return the last sign in device info of this official
+	*/
+	@Override
+	public java.lang.String getLastSignInDeviceInfo() {
+		return _official.getLastSignInDeviceInfo();
+	}
+
+	/**
 	* Returns the lastname of this official.
 	*
 	* @return the lastname of this official
@@ -520,6 +563,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public Date getCreateDate() {
 		return _official.getCreateDate();
+	}
+
+	/**
+	* Returns the last activity of this official.
+	*
+	* @return the last activity of this official
+	*/
+	@Override
+	public Date getLastActivity() {
+		return _official.getLastActivity();
 	}
 
 	/**
@@ -714,6 +767,26 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setIsMunicipal(boolean isMunicipal) {
 		_official.setIsMunicipal(isMunicipal);
+	}
+
+	/**
+	* Sets the last activity of this official.
+	*
+	* @param lastActivity the last activity of this official
+	*/
+	@Override
+	public void setLastActivity(Date lastActivity) {
+		_official.setLastActivity(lastActivity);
+	}
+
+	/**
+	* Sets the last sign in device info of this official.
+	*
+	* @param lastSignInDeviceInfo the last sign in device info of this official
+	*/
+	@Override
+	public void setLastSignInDeviceInfo(java.lang.String lastSignInDeviceInfo) {
+		_official.setLastSignInDeviceInfo(lastSignInDeviceInfo);
 	}
 
 	/**

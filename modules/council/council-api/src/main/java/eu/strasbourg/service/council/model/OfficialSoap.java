@@ -52,6 +52,8 @@ public class OfficialSoap implements Serializable {
 		soapModel.setIsMunicipal(model.getIsMunicipal());
 		soapModel.setIsEurometropolitan(model.getIsEurometropolitan());
 		soapModel.setIsActive(model.getIsActive());
+		soapModel.setLastActivity(model.getLastActivity());
+		soapModel.setLastSignInDeviceInfo(model.getLastSignInDeviceInfo());
 
 		return soapModel;
 	}
@@ -260,6 +262,22 @@ public class OfficialSoap implements Serializable {
 		_isActive = isActive;
 	}
 
+	public Date getLastActivity() {
+		return _lastActivity;
+	}
+
+	public void setLastActivity(Date lastActivity) {
+		_lastActivity = lastActivity;
+	}
+
+	public String getLastSignInDeviceInfo() {
+		return _lastSignInDeviceInfo;
+	}
+
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
+		_lastSignInDeviceInfo = lastSignInDeviceInfo;
+	}
+
 	private String _uuid;
 	private long _officialId;
 	private long _groupId;
@@ -278,4 +296,6 @@ public class OfficialSoap implements Serializable {
 	private boolean _isMunicipal;
 	private boolean _isEurometropolitan;
 	private boolean _isActive;
+	private Date _lastActivity;
+	private String _lastSignInDeviceInfo;
 }

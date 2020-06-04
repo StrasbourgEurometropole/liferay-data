@@ -14,13 +14,19 @@
 	<portlet:param name="tab" value="officials" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="searchURL">
-	<portlet:param name="cmd" value="search" />
-	<portlet:param name="tab" value="${param.tab}" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+<liferay-portlet:renderURL var="officialsConnectionURL">
+	<portlet:param name="tab" value="officialsConnection" />
 </liferay-portlet:renderURL>
+
+<c:if test = "${tab ne 'officialsConnection'}">
+	<liferay-portlet:renderURL varImpl="searchURL">
+		<portlet:param name="cmd" value="search" />
+		<portlet:param name="tab" value="${param.tab}" />
+		<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+		<portlet:param name="orderByType" value="${dc.orderByType}" />
+		<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	</liferay-portlet:renderURL>
+</c:if>
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
@@ -32,14 +38,19 @@
 
         <aui:nav-item href="${officialsURL}" label="officials"
         	selected="${tab eq 'officials'}" />
+        	
+       	<aui:nav-item href="${officialsConnectionURL}" label="officialsConnection"
+        	selected="${tab eq 'officialsConnexion'}" />
 
 	</aui:nav>
 
-	<aui:nav-bar-search>
-        <aui:form action="${searchURL}" name="searchFm">
-            <liferay-ui:input-search markupView="lexicon" />
-        </aui:form>
-    </aui:nav-bar-search>
+	<c:if test = "${tab ne 'officialsConnection'}">
+		<aui:nav-bar-search>
+	        <aui:form action="${searchURL}" name="searchFm">
+	            <liferay-ui:input-search markupView="lexicon" />
+	        </aui:form>
+	    </aui:nav-bar-search>
+    </c:if>
 </aui:nav-bar>
 
 <c:choose>
@@ -53,6 +64,10 @@
     </c:when>
     <c:when test="${tab eq 'officials'}">
         <liferay-util:include page="/council-bo-view-officials.jsp" servletContext="<%=application %>">
+        </liferay-util:include>
+    </c:when>
+    <c:when test="${tab eq 'officialsConnection'}">
+        <liferay-util:include page="/council-bo-view-officials-connection.jsp" servletContext="<%=application %>">
         </liferay-util:include>
     </c:when>
 </c:choose>

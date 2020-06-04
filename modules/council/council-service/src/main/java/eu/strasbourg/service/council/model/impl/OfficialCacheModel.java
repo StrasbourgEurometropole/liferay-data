@@ -65,7 +65,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +103,10 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		sb.append(isEurometropolitan);
 		sb.append(", isActive=");
 		sb.append(isActive);
+		sb.append(", lastActivity=");
+		sb.append(lastActivity);
+		sb.append(", lastSignInDeviceInfo=");
+		sb.append(lastSignInDeviceInfo);
 		sb.append("}");
 
 		return sb.toString();
@@ -187,6 +191,20 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		officialImpl.setIsEurometropolitan(isEurometropolitan);
 		officialImpl.setIsActive(isActive);
 
+		if (lastActivity == Long.MIN_VALUE) {
+			officialImpl.setLastActivity(null);
+		}
+		else {
+			officialImpl.setLastActivity(new Date(lastActivity));
+		}
+
+		if (lastSignInDeviceInfo == null) {
+			officialImpl.setLastSignInDeviceInfo(StringPool.BLANK);
+		}
+		else {
+			officialImpl.setLastSignInDeviceInfo(lastSignInDeviceInfo);
+		}
+
 		officialImpl.resetOriginalValues();
 
 		return officialImpl;
@@ -221,6 +239,8 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		isEurometropolitan = objectInput.readBoolean();
 
 		isActive = objectInput.readBoolean();
+		lastActivity = objectInput.readLong();
+		lastSignInDeviceInfo = objectInput.readUTF();
 	}
 
 	@Override
@@ -290,6 +310,14 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		objectOutput.writeBoolean(isEurometropolitan);
 
 		objectOutput.writeBoolean(isActive);
+		objectOutput.writeLong(lastActivity);
+
+		if (lastSignInDeviceInfo == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(lastSignInDeviceInfo);
+		}
 	}
 
 	public String uuid;
@@ -310,4 +338,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public boolean isMunicipal;
 	public boolean isEurometropolitan;
 	public boolean isActive;
+	public long lastActivity;
+	public String lastSignInDeviceInfo;
 }

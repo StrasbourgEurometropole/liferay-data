@@ -236,6 +236,26 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		this.updateStatus(official.getUserId(), official.getOfficialId(), status, null,
 				null);
 	}
+	
+	/**
+	 * Mise à jour des informations de connexion d'un élu
+	 * @param officialId ID de l'élu
+	 * @parma officialDeviceInfo Informations décrivant l'appareil utilisé par l'élu
+	 */
+	@Override
+	public void updateOfficialInfo(long officialId, String officialDeviceInfo) {
+		try {
+			Official official = this.getOfficial(officialId);
+			
+			official.setLastActivity(new Date());
+			official.setLastSignInDeviceInfo(officialDeviceInfo);
+			
+			this.officialLocalService.updateOfficial(official);
+		} catch(PortalException e) {
+			log.info("La mise à jour des infos de l'elu " + officialId 
+					+ " n'a pu etre faite car l'ID n'a pas ete retrouve");
+		}
+	}
 
 	/**
 	 * Supprime une entité

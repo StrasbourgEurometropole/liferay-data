@@ -34,8 +34,8 @@ public class DeliberationServiceWrapper implements DeliberationService,
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId) {
-		return _deliberationService.getUserFront(officialId);
+		long officialId, java.lang.String officialDeviceInfo) {
+		return _deliberationService.getUserFront(officialId, officialDeviceInfo);
 	}
 
 	/**

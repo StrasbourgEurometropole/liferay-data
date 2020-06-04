@@ -106,6 +106,6 @@
 
 <c:if test="${dc.hasPermission('ADD_OFFICIAL') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="eu.council.bo.add.official" url="${addOfficialURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter un elu" url="${addOfficialURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

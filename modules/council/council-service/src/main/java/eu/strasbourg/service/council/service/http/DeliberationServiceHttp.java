@@ -56,13 +56,14 @@ import eu.strasbourg.service.council.service.DeliberationServiceUtil;
 @ProviderType
 public class DeliberationServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
-		HttpPrincipal httpPrincipal, long officialId) {
+		HttpPrincipal httpPrincipal, long officialId,
+		java.lang.String officialDeviceInfo) {
 		try {
 			MethodKey methodKey = new MethodKey(DeliberationServiceUtil.class,
 					"getUserFront", _getUserFrontParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					officialId);
+					officialId, officialDeviceInfo);
 
 			Object returnObj = null;
 
@@ -84,6 +85,6 @@ public class DeliberationServiceHttp {
 
 	private static Log _log = LogFactoryUtil.getLog(DeliberationServiceHttp.class);
 	private static final Class<?>[] _getUserFrontParameterTypes0 = new Class[] {
-			long.class
+			long.class, java.lang.String.class
 		};
 }
