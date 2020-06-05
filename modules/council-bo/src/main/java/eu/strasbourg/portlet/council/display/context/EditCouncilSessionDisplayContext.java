@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
@@ -37,11 +38,21 @@ public class EditCouncilSessionDisplayContext {
     }
 
     /**
-     * Renvoie tous les type de conseil
+     * Renvoie les types de conseil enfonction des droit de l'utilisateur
      */
     @SuppressWarnings("unused")
-    public List<Type> getTypes() {
-        return TypeLocalServiceUtil.getTypes(-1, -1);
+    public List<Type> getAuthorizedTypes() {
+        List<Type> authorizedTypes = new ArrayList<>();
+        List<Type> alltypes = TypeLocalServiceUtil.getTypes(-1, -1);
+        List<Long> authorizedId = UserRoleType.typeIdsForUser(themeDisplay);
+
+        for (Type type: alltypes) {
+            if(authorizedId.contains(type.getTypeId())) {
+                authorizedTypes.add(type);
+            }
+        }
+
+        return authorizedTypes;
     }
 
     /**
