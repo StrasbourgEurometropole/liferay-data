@@ -13,11 +13,11 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
-import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -30,6 +30,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -42,9 +43,6 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
     private ProcurationLocalService procurationLocalService;
     private OfficialLocalService officialLocalService;
     private CouncilSessionLocalService councilSessionLocalService;
-
-    public static final String MUNICIPAL = "municipal";
-    public static final String EUROMETROPOLITAN = "eurometropolitan";
 
     @Reference(unbind = "-")
     protected void setDeliberationLocalService(
@@ -85,10 +83,11 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
 
         List<Procuration> procurations = procurationLocalService.findByCouncilSessionId(deliberation.getCouncilSessionId());
 
-        String type = councilSession.isEurometropolitan() ? EUROMETROPOLITAN:MUNICIPAL;
+        long typeId = councilSession.getTypeId();
 
-        List<Official> officials = officialLocalService.findByGroupIdAndIsActiveAndType(themeDisplay.getScopeGroupId(), true, type);
-
+        List<Long> officials = OfficialTypeCouncilLocalServiceUtil.findByTypeId(typeId).stream()
+                .filter(o -> o.getGroupId() == sc.getScopeGroupId())
+                .map(o -> o.getOfficialId()).collect(Collectors.toList());
 
         int countOfficialActive = officials.size();
         int countAbsentWithoutProc = Math.toIntExact(procurations.stream().filter(x -> x.isIsAbsent() && x.getOfficialVotersId() == 0).count());
