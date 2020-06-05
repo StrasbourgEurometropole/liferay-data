@@ -308,6 +308,14 @@ public class OfficialLocalServiceUtil {
 	}
 
 	/**
+	* Recherche par site, et type de conseil
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.Official> findByGroupIdAndTypeId(
+		long groupId, long typeId) {
+		return getService().findByGroupIdAndTypeId(groupId, typeId);
+	}
+
+	/**
 	* Returns a range of all the officials.
 	*
 	* <p>

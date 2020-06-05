@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialModel;
@@ -145,7 +144,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 		
 		if (councilSession != null) {
 			List<Official> concernedOfficial = OfficialLocalServiceUtil
-					.findByGroupIdAndIsActiveAndType(groupId, true, councilSession.getType());
+					.findByGroupIdAndTypeId(groupId, councilSession.getTypeId());
 					
 			for(Official official : concernedOfficial) {
 				if (official.isNotedAbsent(councilSessionId)) {

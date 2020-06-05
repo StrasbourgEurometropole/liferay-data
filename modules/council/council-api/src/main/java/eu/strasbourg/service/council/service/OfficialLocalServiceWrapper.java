@@ -327,6 +327,15 @@ public class OfficialLocalServiceWrapper implements OfficialLocalService,
 	}
 
 	/**
+	* Recherche par site, et type de conseil
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Official> findByGroupIdAndTypeId(
+		long groupId, long typeId) {
+		return _officialLocalService.findByGroupIdAndTypeId(groupId, typeId);
+	}
+
+	/**
 	* Returns a range of all the officials.
 	*
 	* <p>

@@ -265,6 +265,11 @@ public interface OfficialLocalService extends BaseLocalService,
 		boolean isActive, java.lang.String type);
 
 	/**
+	* Recherche par site, et type de conseil
+	*/
+	public List<Official> findByGroupIdAndTypeId(long groupId, long typeId);
+
+	/**
 	* Returns a range of all the officials.
 	*
 	* <p>

@@ -34,6 +34,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Type;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -73,8 +75,6 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	public static final String EUROMETROPOLITAN = "eurometropolitan";
 
 	/** Catégories **/
-	public static final String CATEGORY_MUNICIPAL = "Municipal";
-	public static final String CATEGORY_EUROMETROPOLITAN = "Eurometropolitain";
 	public static final String CATEGORY_ACTIVE = "Actif";
 	public static final String CATEGORY_INACTIVE = "Inactif";
 
@@ -332,6 +332,24 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	@Override
 	public List<Official> findByGroupIdAndIsActive(long groupId, boolean isActive) {
 		return this.officialPersistence.findByGroupIdAndIsActive(groupId, isActive);
+	}
+
+	/**
+	 * Recherche par site, et type de conseil
+	 */
+	@Override
+	public List<Official> findByGroupIdAndTypeId(long groupId, long typeId) {
+		List<Official> officials = new ArrayList<>();
+		List<Long> officialIds = OfficialTypeCouncilLocalServiceUtil.findByTypeId(typeId)
+				.stream().filter(o -> o.getGroupId() == groupId)
+				.map(o -> o.getOfficialId()).collect(Collectors.toList());
+		for (long officialId : officialIds) {
+			Official official = OfficialLocalServiceUtil.fetchOfficial(officialId);
+			if(Validator.isNotNull(official)){
+				officials.add(official);
+			}
+		}
+		return officials;
 	}
 
 	/**
