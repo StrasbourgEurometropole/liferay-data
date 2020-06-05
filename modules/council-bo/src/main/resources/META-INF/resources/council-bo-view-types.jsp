@@ -68,7 +68,7 @@
 							<portlet:param name="typeId" value="${type.typeId}" />
 						</liferay-portlet:actionURL>
 						<c:if test="${dc.hasPermission('DELETE_TYPE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deleteTypeURL}" />
+							<liferay-ui:icon message="delete" url='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>' />
 						</c:if>
 
 					</liferay-ui:icon-menu>
@@ -87,3 +87,16 @@
 		<liferay-frontend:add-menu-item title="Ajouter un type" url="${addTypeURL}" />
 	</liferay-frontend:add-menu>
 </c:if>
+<aui:script>
+	function <portlet:namespace />deleteSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
+			var form = AUI.$(document.<portlet:namespace />fm);
+			var selectionIdsInput = document
+					.getElementsByName('<portlet:namespace />selectionIds')[0];
+			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
+					'<portlet:namespace />allRowIds');
+
+			submitForm(form, '${deleteTypeURL}');
+		}
+	}
+</aui:script>
