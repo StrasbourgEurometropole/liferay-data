@@ -16,7 +16,7 @@
 </liferay-portlet:renderURL>
 
 
-<liferay-frontend:management-bar includeCheckBox="true"searchContainerId="typesSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="typesSearchContainer">
     <liferay-frontend:management-bar-filters>
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
             orderByType="${dc.orderByType}"
