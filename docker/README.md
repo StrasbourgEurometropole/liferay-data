@@ -103,54 +103,97 @@ Le fichier `migrated-dump.sql`se trouve désormais dans le répertoire `output` 
 
 Images à créer :
 
-* Créer l'image ElasticSearch
-    * Se placer dans le répertoire `images/elasticsearch-ems`
-    * Exécuter la commande suivante :
-        ```shell
-        $ docker image build -t elasticsearch-ems .
-        ```
-* Créer l'image Liferay
-    * Placer dans le répertoire `images/liferay-ems/sources` :
+## Fichiers d'entrées
+
+* Pour elasticsearch-ems :
+    *  dans le répertoire de configuration `configs/elasticsearch-ems` :
+        *  `synonyms.txt` pour la description des synonymes.
+* Pour liferay-ems :
+    * dans le répertoire de source pour la création de l'image `images/liferay-ems/sources` :
         * le script `wait-for-it.sh` permettant de tester la disponibilité d'autres noeuds.
         * le certificat `certigna-authority-2015-2025.cer`
         * le certificat `apiDailymotion.cer`
         * le certificat `apiYoutube.cer`
-    * Se placer dans le répertoire `images/liferay-ems`
-    * Exécuter la commande suivante où :
-        ```shell
-        $ docker image build -t liferay-ems .
-        ```
+    * dans le répertoire de livraison pour la création de l'image `images/liferay-ems/dist`
+        * le repertoire `[LFR_TAG_VERSION]` contenant tous les binaires à livrer ainsi que la clef d'activation Liferay DXP (`LFR_TAG_VERION` correspond aussi au tag qui sera utilisé pour décrire l'image )
+    * dans le répertoire de configuration `configs/liferay-ems` :
+        * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
+        * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
+        * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
+        * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
+        * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
+        * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
+        * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
 
-## Fichiers d'entrées
+Créer et remplir le fichier `./.env` suivant :
 
-* elasticsearch-ems dans le répertoire `configs/elasticsearch-ems` :
-    * `synonyms.txt` pour la description des synonymes.
-* liferay-ems dans le répertoire `configs/liferay-ems` (le dossier se divise ensuite en environnement pour définir des configurations différentes):
-    * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
-    * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
-    * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
-    * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
-    * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
-    * `files/osgi/war/liferay-javamelody-hook-1.82.0.0.war` librairie javamelody (@see https://github.com/javamelody/javamelody/wiki/LiferayPlugin).
-    * `scripts/wait-for-dependencies.sh` script lancé avant le serveur permettant d'attendre les dépendances MySQL et ElasticSearch
+```properties
+# Chemin vers le repertoire de persistance
+DATA_PATH=/var/local
+
+# Version de l'imgage Liferay
+LFR_TAG_VERSION=
+
+# Connection MySQL
+MYSQL_ADDRESS=
+MYSQL_DB=
+MYSQL_USER=
+MYSQL_PASSWORD=
+
+# Email de copie de tous les mails provenant du serveur SMTP (à ne pas utiliser en prod)
+TRAIL_MAIL_ADDRESS=
+```
+
 
 ## Exécution
 
-Pour lancer la totalité des services, lancer la commande suivante où :
-    * `VAR_DATA` est le chemin vers le répertoire de données persistantes.
+Pour lancer la totalité des services, lancer la commande :
 
-```shelldocker
-$ DATA=VAR_DATA docker-compose up -d
-
---> $ DATA=/data docker-compose up -d
---> $ DATA=/var/local docker-compose up -d
+```shell
+$ docker-compose up -d
 ```
+
+**notes** : 
+* Lors du premier lancement, toutes les images seront créés.
+* Lors de la livraison d'une nouvelle version, seule l'image Liferay sera recrée.
 
 Suivre les logs via la commande :
 
 ```shell
 $ docker-compose logs -f
 ```
+
+## Livraison d'une nouvelle version
+
+1. Changer la variable d'environnement `LFR_TAG_VERSION` dans le fichier `./.env`. 
+
+    **Notes** : cette dernière sera utilisée comme tag de l'image `liferay-ems` et comme référence pour trouver les nouveaux binaires à déployer.
+
+2. Créer un dossier correspondant exactement à la variable `LFR_TAG_VERSION` dans le dossier `./images/liferay-ems/sources/dist/`.
+
+3. Placer tous les binaires devant être déployés ainsi que la clef Liferay DXP de l'environnement dans le dossier précédemment créé.
+
+4. Effectuer un dump de la base.
+
+5. Lancer la commande suivante à la racine pour arrêter les services conteneurisés :
+
+    ```shell
+    docker-compose down
+    ```
+
+6. Lancer la commande suivante à la racine pour créer la nouvelle image Liferay et relancer les services conteneurisés :
+
+    ```shell
+    docker-compose up -d
+    ```
+
+7. Vérifier le bon déroulement de la livraison via la commande suivante :
+
+    ```shell
+    docker-compose logs -f
+    ```
+
+    **Notes** : `ctrl + c` pour quitter les logs.
 
 # Commandes Docker utiles
 
