@@ -12,10 +12,10 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.configuration.CouncilConfiguration;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
-import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
-import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.LayoutHelper;
 
 import javax.portlet.PortletPreferences;
@@ -103,7 +103,17 @@ public class CouncilDisplayContext {
      */
     @SuppressWarnings("unused")
     public String getCouncilSessionType() {
-        return this.getCouncilSession() != null ? this.councilSession.getType() : "";
+        String title = "";
+
+        if(Validator.isNotNull(this.getCouncilSession())) {
+            long typeId = this.councilSession.getTypeId();
+            Type type = TypeLocalServiceUtil.fetchType(typeId);
+                    if(Validator.isNotNull(type)){
+                        title = type.getTitle();
+                    }
+        }
+
+        return title;
     }
 
     /**
@@ -135,7 +145,7 @@ public class CouncilDisplayContext {
     }
 
     /**
-     * Si l'utilisateur connecté est un utilisateur MonStrasbourg & co. sans lien avec les conseils
+     * Si il n'y a pas de conseils
      */
     @SuppressWarnings("unused")
     public boolean isSessionNotAvailable() {
@@ -150,8 +160,7 @@ public class CouncilDisplayContext {
         boolean result = false;
         Official currentOfficial = OfficialLocalServiceUtil.fetchOfficial(this.getOfficialId());
         if (currentOfficial != null && this.getCouncilSession() != null) {
-            if ((this.getCouncilSession().isMinicipal() && currentOfficial.getIsMunicipal()
-                    || this.getCouncilSession().isEurometropolitan() && currentOfficial.getIsEurometropolitan())
+            if (currentOfficial.getCouncilTypesIds().contains(""+this.getCouncilSession().getTypeId())
                     && currentOfficial.getIsActive())
                 result = false;
             else
