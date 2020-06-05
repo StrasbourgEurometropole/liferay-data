@@ -41,9 +41,11 @@ public class EditOfficialDisplayContext {
     }
 
     public Boolean hasTypeCouncil(long typeId) {
-        Boolean hasType = false;
-        OfficialTypeCouncil type = OfficialTypeCouncilLocalServiceUtil.findByTypeIdandOfficialId(typeId, official.getOfficialId());
-        hasType = Validator.isNotNull(type);
+        OfficialTypeCouncil type = null;
+        if(official != null) {
+            type = OfficialTypeCouncilLocalServiceUtil.findByTypeIdandOfficialId(typeId, official.getOfficialId());
+        }
+        Boolean hasType = Validator.isNotNull(type);
         return hasType;
 
     }
