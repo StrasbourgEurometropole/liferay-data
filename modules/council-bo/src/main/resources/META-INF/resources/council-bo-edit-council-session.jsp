@@ -52,7 +52,7 @@
 
                 <%-- Champ : Type --%>
                 <aui:select cssClass="toCustomSelect" id="council-type" name="council-type" label="council-type">
-                    <c:forEach items="${dc.types}" var="type">
+                    <c:forEach items="${dc.authorizedTypes}" var="type">
                         <aui:option value="${type.typeId}" selected="${dc.councilSession.typeId == type.typeId}">${type.title}</aui:option>
                     </c:forEach>
                 </aui:select>

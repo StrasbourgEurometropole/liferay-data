@@ -16,7 +16,7 @@
 </liferay-portlet:renderURL>
 
 
-<liferay-frontend:management-bar includeCheckBox="true"searchContainerId="councilSessionsSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="councilSessionsSearchContainer">
     <liferay-frontend:management-bar-filters>
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
             orderByType="${dc.orderByType}"
@@ -48,10 +48,12 @@
 					href="${editCouncilSessionURL}" name="title" truncate="true"
 					orderable="true" value="${councilSession.title}" />
 
-                <!-- Colonne : Type de conseil -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="council-type" truncate="true"
-					orderable="true" value="${councilSession.typeCouncil.title}" />
+                <c:if test="${isAdmin || isAdminEvote}">
+                    <!-- Colonne : Type de conseil -->
+                    <liferay-ui:search-container-column-text cssClass="content-column"
+                        name="council-type" truncate="true"
+                        orderable="true" value="${councilSession.typeCouncil.title}" />
+                </c:if>
 
 				<fmt:formatDate value="${councilSession.date}"
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
