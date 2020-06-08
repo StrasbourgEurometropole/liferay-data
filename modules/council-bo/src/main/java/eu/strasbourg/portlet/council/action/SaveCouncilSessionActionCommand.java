@@ -205,13 +205,19 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             if (isAbsent) {
                 officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
                 if (officialVotersId > 0) {
-                    if (officialProcurationCounts.containsKey(officialVotersId)) {
-                        officialProcurationCounts.put(
-                                officialVotersId,
-                                officialProcurationCounts.get(officialVotersId) + 1
-                        );
-                    } else {
-                        officialProcurationCounts.put(officialVotersId, 1);
+                    Official officialVoter = this.officialLocalService.fetchOfficial(officialVotersId);
+                    if (!officialVoter.getCouncilTypesIds().contains(""+typeId)) {
+                        SessionErrors.add(request, "official-voter-type-error");
+                        isValid = false;
+                    }else {
+                        if (officialProcurationCounts.containsKey(officialVotersId)) {
+                            officialProcurationCounts.put(
+                                    officialVotersId,
+                                    officialProcurationCounts.get(officialVotersId) + 1
+                            );
+                        } else {
+                            officialProcurationCounts.put(officialVotersId, 1);
+                        }
                     }
                 }
             }

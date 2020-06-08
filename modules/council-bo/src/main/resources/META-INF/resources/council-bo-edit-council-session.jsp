@@ -32,7 +32,8 @@
 	<liferay-ui:error key="title-already-exist-error" message="title-already-exist-error" />
 	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
-	<liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
+    <liferay-ui:error key="official-voter-type-error" message="official-voter-type-error" />
+    <liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveCouncilSessionURL}" method="post" name="fm" onSubmit="submitForm(event);">
