@@ -36,6 +36,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
@@ -196,6 +197,23 @@ public class CouncilBOPortlet extends MVCPortlet {
 		else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
 			categoryCouncilId = categoryCouncilId;
 			originalRequest.getSession().setAttribute("categoryCouncilId", categoryCouncilId);
+		}
+
+		final String finalCategoryCouncilId = categoryCouncilId;
+		// On récupère les catégories de type conseil autorisé par le rôle du USER
+		List<AssetCategory> typeCoucilCats = UserRoleType.typeCategoriesForUser(themeDisplay);
+		// On récupère totes les sous catégories de conseil liées
+		List<AssetCategory> councilCats = new ArrayList<>();
+		councilCats.addAll(typeCoucilCats);
+		for (AssetCategory cat : typeCoucilCats) {
+			councilCats.addAll(AssetVocabularyHelper.getChild(cat.getCategoryId()));
+		}
+		// Si la catégorie qui était sélectionnée/choisie n'est pas dans les catégories autorisée, on donne celle du premier type de conseil autorisé
+		if(!councilCats.stream().anyMatch(x -> String.valueOf(x.getCategoryId()).equals(finalCategoryCouncilId))) {
+			categoryCouncilId = "";
+			if(typeCoucilCats.size() > 0) {
+				categoryCouncilId=String.valueOf(typeCoucilCats.get(0));
+			}
 		}
 
 		categoryId = categoryCouncilId +','+categoryDelibStage;
