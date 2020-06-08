@@ -97,11 +97,7 @@ public class PrintPDF {
 			// titre du PDF
 			String titleCouncil = "CONSEIL" ;
 			if (Validator.isNotNull(council)) {
-				if (council.getType().equals("municipal")) {
-					titleCouncil +=  " MUNICIPAL";
-				}else{
-					titleCouncil +=  " DE L'EUROMETROPOLE";
-				}
+				titleCouncil +=  council.getTypeCouncil().getTitle().toUpperCase();
 				SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyy", Locale.FRANCE);
 				titleCouncil += " DU " + sdf.format(council.getDate());
 			}
@@ -246,14 +242,10 @@ public class PrintPDF {
 
 			String fileName = "Conseil ";
 			if (Validator.isNotNull(council)) {
-				if (council.getType().equals("municipal")) {
-					fileName +=  " municipal";
-				}else{
-					fileName +=  " Eurometropole";
-				}
+				fileName +=  council.getTypeCouncil().getTitle();
 			}
-			DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-			fileName += " " + now.format(formatterDate) + " - Point " + deliberation.getOrder() + ".pdf";
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
+			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + ".pdf";
 
 			// enregistrement du fichier
 			File deliberationpdf = new File(folder.getAbsolutePath() + "/" + fileName);
