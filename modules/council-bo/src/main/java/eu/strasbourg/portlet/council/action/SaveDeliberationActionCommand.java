@@ -28,6 +28,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.Date;
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -99,7 +100,13 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
 
         CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
         AssetCategory councilCategory = AssetVocabularyHelper.getCategory(council.getTitle(), themeDisplay.getScopeGroupId());
-
+        if(deliberation != null && deliberation.getAssetEntry() != null) {
+            //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
+            List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
+            for (AssetCategory existingCat : existingStageCategories) {
+                AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+            }
+        }
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
 
         if(councilCategory != null && stageCategory != null) {
