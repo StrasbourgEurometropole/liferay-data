@@ -69,7 +69,7 @@
                             </c:when>
                             <c:when test="${isAuthorized}">
                                 <aui:input name="${type.title}" label="${type.title}" type="checkbox"
-                                    title="${type.title}" checked="${hasType}" value="${type.typeId}" />
+                                    title="${type.title}" checked="${hasType}" value="${type.typeId}" data-type="${type.typeId}" onChange="changeIsActive()" />
                             </c:when>
                         </c:choose>
                 </c:forEach>
@@ -153,3 +153,7 @@
 		}
 	}
 </aui:script>
+
+<liferay-util:html-bottom>
+    <script src="/o/councilbo/js/council-bo-edit-official.js" type="text/javascript"></script>
+</liferay-util:html-bottom>
