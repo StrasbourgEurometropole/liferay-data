@@ -55,7 +55,7 @@
                 <#list nav_items as nav_item>
                     <#if nav_item.hasChildren()>
                         <li class="dropdown">
-                            <a href="${nav_item.getURL()}" class="dropdown-toggle" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false">${nav_item.getName()}</a>
+                            <a href="${nav_item.getURL()}" class="dropdown-toggle" data-flip="false" role="button" aria-haspopup="true" aria-expanded="false" onclick="return false">${nav_item.getName()}</a>
                             <ul class="dropdown-menu">
                                 <#list nav_item.getChildren() as nav_child>
                                     <li>
