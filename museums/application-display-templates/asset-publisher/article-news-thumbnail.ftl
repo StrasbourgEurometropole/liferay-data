@@ -3,6 +3,11 @@
 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(entry.groupId, entry.articleId, themeDisplay) />
 <#assign docXml = saxReaderUtil.read(entry.getContentByLocale(locale)) />
 <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+<#assign imageURL ="" />
+<#if image?has_content>
+    <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+</#if>
 
 <@liferay_portlet.actionURL var="detailURLFilter">
   <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
@@ -15,7 +20,7 @@
 <div class="entity-thumbnail news-tumbnail">
   <div class="entity-thumbnail-image">
     <a href="${detailURLFilter}">
-      <img src="${image}">
+      <img src="${imageURL}">
     </a>
   </div>
   <div class="entity-thumbnail-info">
