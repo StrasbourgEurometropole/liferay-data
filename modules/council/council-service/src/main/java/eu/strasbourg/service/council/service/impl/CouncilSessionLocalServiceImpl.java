@@ -335,7 +335,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	 */
 	@Override
 	public List<CouncilSession> findByTypeId(long typeId){
-		return this.councilSessionPersistence.findByType(typeId);
+		return this.councilSessionPersistence.findByTypeId(typeId);
 	}
 
 	/**

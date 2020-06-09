@@ -100,24 +100,9 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 
 		// TODO : voir pour indexer les champs sur lesquels on filtre : type et statut d'activité
 		List<Official> filteredOfficial;
-		switch (type) {
-			case MUNICIPAL:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.filter(OfficialModel::isIsMunicipal)
-						.collect(Collectors.toList());
-				break;
-			case EUROMETROPOLITAN:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.filter(OfficialModel::isIsEurometropolitan)
-						.collect(Collectors.toList());
-				break;
-			default:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.collect(Collectors.toList());
-		}
+		filteredOfficial = results.stream()
+				.filter(OfficialModel::isIsActive)
+				.collect(Collectors.toList());
 
 		for (Official official : filteredOfficial) {
 			jsonOfficials.put(official.toJSON());

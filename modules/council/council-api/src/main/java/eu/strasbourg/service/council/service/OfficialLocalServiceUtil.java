@@ -299,15 +299,6 @@ public class OfficialLocalServiceUtil {
 	}
 
 	/**
-	* Recherche par site, activité ou non de l'élu et type
-	*/
-	public static java.util.List<eu.strasbourg.service.council.model.Official> findByGroupIdAndIsActiveAndType(
-		long groupId, boolean isActive, java.lang.String type) {
-		return getService()
-				   .findByGroupIdAndIsActiveAndType(groupId, isActive, type);
-	}
-
-	/**
 	* Recherche par site, et type de conseil
 	*/
 	public static java.util.List<eu.strasbourg.service.council.model.Official> findByGroupIdAndTypeId(

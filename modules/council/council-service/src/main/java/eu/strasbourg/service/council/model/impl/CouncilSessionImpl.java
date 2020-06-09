@@ -101,20 +101,4 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 		return official != null ? official.getFullName() : "";
 	}
 
-	/**
-	 * Si le type de la session est Municipal
-	 */
-	@Override
-	public boolean isMinicipal() {
-		return this.getType().equals(MUNICIPAL);
-	}
-
-	/**
-	 * Si le type de la session est Eurmetropolitan
-	 */
-	@Override
-	public boolean isEurometropolitan() {
-		return this.getType().equals(EUROMETROPOLITAN);
-	}
-
 }

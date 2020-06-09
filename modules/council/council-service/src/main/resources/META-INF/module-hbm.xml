@@ -26,7 +26,6 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
-		<property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="officialLeaderId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="typeId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
@@ -70,8 +69,6 @@
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="firstname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="lastname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="isMunicipal" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="isEurometropolitan" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="isActive" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="lastActivity" type="org.hibernate.type.TimestampType" />
 		<property name="lastSignInDeviceInfo" type="com.liferay.portal.dao.orm.hibernate.StringType" />

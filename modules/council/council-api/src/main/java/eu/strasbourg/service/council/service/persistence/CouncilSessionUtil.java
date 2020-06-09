@@ -825,8 +825,8 @@ public class CouncilSessionUtil {
 	* @param typeId the type ID
 	* @return the matching council sessions
 	*/
-	public static List<CouncilSession> findByType(long typeId) {
-		return getPersistence().findByType(typeId);
+	public static List<CouncilSession> findByTypeId(long typeId) {
+		return getPersistence().findByTypeId(typeId);
 	}
 
 	/**
@@ -841,9 +841,9 @@ public class CouncilSessionUtil {
 	* @param end the upper bound of the range of council sessions (not inclusive)
 	* @return the range of matching council sessions
 	*/
-	public static List<CouncilSession> findByType(long typeId, int start,
+	public static List<CouncilSession> findByTypeId(long typeId, int start,
 		int end) {
-		return getPersistence().findByType(typeId, start, end);
+		return getPersistence().findByTypeId(typeId, start, end);
 	}
 
 	/**
@@ -859,9 +859,10 @@ public class CouncilSessionUtil {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching council sessions
 	*/
-	public static List<CouncilSession> findByType(long typeId, int start,
+	public static List<CouncilSession> findByTypeId(long typeId, int start,
 		int end, OrderByComparator<CouncilSession> orderByComparator) {
-		return getPersistence().findByType(typeId, start, end, orderByComparator);
+		return getPersistence()
+				   .findByTypeId(typeId, start, end, orderByComparator);
 	}
 
 	/**
@@ -878,11 +879,11 @@ public class CouncilSessionUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching council sessions
 	*/
-	public static List<CouncilSession> findByType(long typeId, int start,
+	public static List<CouncilSession> findByTypeId(long typeId, int start,
 		int end, OrderByComparator<CouncilSession> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
-				   .findByType(typeId, start, end, orderByComparator,
+				   .findByTypeId(typeId, start, end, orderByComparator,
 			retrieveFromCache);
 	}
 
@@ -894,10 +895,10 @@ public class CouncilSessionUtil {
 	* @return the first matching council session
 	* @throws NoSuchCouncilSessionException if a matching council session could not be found
 	*/
-	public static CouncilSession findByType_First(long typeId,
+	public static CouncilSession findByTypeId_First(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
-		return getPersistence().findByType_First(typeId, orderByComparator);
+		return getPersistence().findByTypeId_First(typeId, orderByComparator);
 	}
 
 	/**
@@ -907,9 +908,9 @@ public class CouncilSessionUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching council session, or <code>null</code> if a matching council session could not be found
 	*/
-	public static CouncilSession fetchByType_First(long typeId,
+	public static CouncilSession fetchByTypeId_First(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator) {
-		return getPersistence().fetchByType_First(typeId, orderByComparator);
+		return getPersistence().fetchByTypeId_First(typeId, orderByComparator);
 	}
 
 	/**
@@ -920,10 +921,10 @@ public class CouncilSessionUtil {
 	* @return the last matching council session
 	* @throws NoSuchCouncilSessionException if a matching council session could not be found
 	*/
-	public static CouncilSession findByType_Last(long typeId,
+	public static CouncilSession findByTypeId_Last(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
-		return getPersistence().findByType_Last(typeId, orderByComparator);
+		return getPersistence().findByTypeId_Last(typeId, orderByComparator);
 	}
 
 	/**
@@ -933,9 +934,9 @@ public class CouncilSessionUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching council session, or <code>null</code> if a matching council session could not be found
 	*/
-	public static CouncilSession fetchByType_Last(long typeId,
+	public static CouncilSession fetchByTypeId_Last(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator) {
-		return getPersistence().fetchByType_Last(typeId, orderByComparator);
+		return getPersistence().fetchByTypeId_Last(typeId, orderByComparator);
 	}
 
 	/**
@@ -947,12 +948,12 @@ public class CouncilSessionUtil {
 	* @return the previous, current, and next council session
 	* @throws NoSuchCouncilSessionException if a council session with the primary key could not be found
 	*/
-	public static CouncilSession[] findByType_PrevAndNext(
+	public static CouncilSession[] findByTypeId_PrevAndNext(
 		long councilSessionId, long typeId,
 		OrderByComparator<CouncilSession> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchCouncilSessionException {
 		return getPersistence()
-				   .findByType_PrevAndNext(councilSessionId, typeId,
+				   .findByTypeId_PrevAndNext(councilSessionId, typeId,
 			orderByComparator);
 	}
 
@@ -961,8 +962,8 @@ public class CouncilSessionUtil {
 	*
 	* @param typeId the type ID
 	*/
-	public static void removeByType(long typeId) {
-		getPersistence().removeByType(typeId);
+	public static void removeByTypeId(long typeId) {
+		getPersistence().removeByTypeId(typeId);
 	}
 
 	/**
@@ -971,8 +972,8 @@ public class CouncilSessionUtil {
 	* @param typeId the type ID
 	* @return the number of matching council sessions
 	*/
-	public static int countByType(long typeId) {
-		return getPersistence().countByType(typeId);
+	public static int countByTypeId(long typeId) {
+		return getPersistence().countByTypeId(typeId);
 	}
 
 	/**

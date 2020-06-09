@@ -49,8 +49,6 @@ public class OfficialSoap implements Serializable {
 		soapModel.setEmail(model.getEmail());
 		soapModel.setFirstname(model.getFirstname());
 		soapModel.setLastname(model.getLastname());
-		soapModel.setIsMunicipal(model.getIsMunicipal());
-		soapModel.setIsEurometropolitan(model.getIsEurometropolitan());
 		soapModel.setIsActive(model.getIsActive());
 		soapModel.setLastActivity(model.getLastActivity());
 		soapModel.setLastSignInDeviceInfo(model.getLastSignInDeviceInfo());
@@ -226,30 +224,6 @@ public class OfficialSoap implements Serializable {
 		_lastname = lastname;
 	}
 
-	public boolean getIsMunicipal() {
-		return _isMunicipal;
-	}
-
-	public boolean isIsMunicipal() {
-		return _isMunicipal;
-	}
-
-	public void setIsMunicipal(boolean isMunicipal) {
-		_isMunicipal = isMunicipal;
-	}
-
-	public boolean getIsEurometropolitan() {
-		return _isEurometropolitan;
-	}
-
-	public boolean isIsEurometropolitan() {
-		return _isEurometropolitan;
-	}
-
-	public void setIsEurometropolitan(boolean isEurometropolitan) {
-		_isEurometropolitan = isEurometropolitan;
-	}
-
 	public boolean getIsActive() {
 		return _isActive;
 	}
@@ -293,8 +267,6 @@ public class OfficialSoap implements Serializable {
 	private String _email;
 	private String _firstname;
 	private String _lastname;
-	private boolean _isMunicipal;
-	private boolean _isEurometropolitan;
 	private boolean _isActive;
 	private Date _lastActivity;
 	private String _lastSignInDeviceInfo;

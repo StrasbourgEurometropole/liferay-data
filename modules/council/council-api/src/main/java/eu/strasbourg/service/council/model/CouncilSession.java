@@ -84,14 +84,4 @@ public interface CouncilSession extends CouncilSessionModel, PersistedModel {
 	* Renvoie le nom complet de l'élu président du conseil
 	*/
 	public java.lang.String getOfficialLeaderFullName();
-
-	/**
-	* Si le type de la session est Municipal
-	*/
-	public boolean isMinicipal();
-
-	/**
-	* Si le type de la session est Eurmetropolitan
-	*/
-	public boolean isEurometropolitan();
 }
