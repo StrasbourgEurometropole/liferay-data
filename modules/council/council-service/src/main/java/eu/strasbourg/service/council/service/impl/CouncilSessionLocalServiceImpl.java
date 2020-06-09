@@ -122,7 +122,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 				Type type = this.typeLocalService.fetchType(councilSession.getTypeId());
 				AssetCategory typeCategory = conseil.getCategories().stream()
 						.filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
-				// Récpère la catégorie de l'ancien conseil
+				// Récpère la catégorie du type de l'ancien conseil
 				Type oldType = this.typeLocalService.fetchType(oldCouncilSession.getTypeId());
 				AssetCategory oldTypeCategory = conseil.getCategories().stream()
 						.filter(c -> c.getName().equals(oldType.getTitle())).findFirst().get();
