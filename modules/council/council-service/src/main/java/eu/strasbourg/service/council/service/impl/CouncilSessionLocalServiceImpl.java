@@ -116,18 +116,18 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 		// Si elle existe déjà, c'est une mise à jour sinon on la créée
 		if (oldCouncilSession != null) {
 			// On déplace la catégorie si le type de conseil à changé
+			// Récpère la catégorie de l'ancien conseil
+			AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, sc.getScopeGroupId());
+			Type oldType = this.typeLocalService.fetchType(oldCouncilSession.getTypeId());
+			AssetCategory oldTypeCategory = conseil.getCategories().stream()
+					.filter(c -> c.getName().equals(oldType.getTitle())).findFirst().get();
+			AssetCategory oldCouncilCategory = AssetVocabularyHelper.getChild(oldTypeCategory.getCategoryId())
+					.stream().filter(c -> c.getName().equals(oldCouncilSession.getTitle())).findFirst().get();
 			if (oldCouncilSession.getTypeId() != councilSession.getTypeId()) {
 				// récupère la catégorie du type du nouveau conseil
-				AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, sc.getScopeGroupId());
 				Type type = this.typeLocalService.fetchType(councilSession.getTypeId());
 				AssetCategory typeCategory = conseil.getCategories().stream()
 						.filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
-				// Récpère la catégorie du type de l'ancien conseil
-				Type oldType = this.typeLocalService.fetchType(oldCouncilSession.getTypeId());
-				AssetCategory oldTypeCategory = conseil.getCategories().stream()
-						.filter(c -> c.getName().equals(oldType.getTitle())).findFirst().get();
-				AssetCategory oldCouncilCategory = AssetVocabularyHelper.getChild(oldTypeCategory.getCategoryId())
-						.stream().filter(c -> c.getName().equals(oldCouncilSession.getTitle())).findFirst().get();
 				if (Validator.isNotNull(typeCategory)) {
 					AssetCategoryLocalServiceUtil.moveCategory(oldCouncilCategory.getCategoryId(), typeCategory.getCategoryId(),
 							conseil.getVocabularyId(), sc);
@@ -135,8 +135,7 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			}
 			// On renomme la catégorie si le titre a été modifié
 			if (!oldCouncilSession.getTitle().equals(councilSession.getTitle()))
-				AssetVocabularyHelper.renameCategory(oldCouncilSession.getTitle(), councilSession.getTitle(),
-						sc.getScopeGroupId());
+				AssetVocabularyHelper.renameCategory(oldCouncilCategory, councilSession.getTitle());
 
 		} else {
 			// récupère la catégorie du type de conseil

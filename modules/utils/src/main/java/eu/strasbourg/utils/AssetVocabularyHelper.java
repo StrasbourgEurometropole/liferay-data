@@ -101,7 +101,7 @@ public class AssetVocabularyHelper {
 	
 	/**
 	 * Retourne les quartiers d'une ville
-	 * @param city Le nom de la ville
+	 * @param cityName Le nom de la ville
 	 * @return La liste des catégories quartier disponibles pour la ville demandée
 	 */
 	public static List<AssetCategory> getAllDistrictsFromCity(String cityName) {
@@ -654,13 +654,11 @@ public class AssetVocabularyHelper {
 
 	/**
 	 * Renommer une categorie du vocabulaire du site donné
-	 * @param categoryName Nom de la categorie à ajouter
+	 * @param assetCategory Categorie à renommer
 	 * @param newName Nouveau nom de la catégorie
-	 * @param groupId Id du site
 	 * @return La catégorie renommée si trouvée, sinon null
 	 */
-	public static AssetCategory renameCategory(String categoryName, String newName, long groupId) {
-		AssetCategory assetCategory = AssetVocabularyHelper.getCategory(categoryName, groupId);
+	public static AssetCategory renameCategory(AssetCategory assetCategory, String newName) {
 		if (assetCategory != null) {
 			assetCategory.setTitle(newName);
 			assetCategory.setName(newName);
