@@ -14,8 +14,10 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -30,6 +32,7 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.TypeLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -104,9 +107,13 @@ public class TypeLocalServiceImpl extends TypeLocalServiceBaseImpl {
 		// Si il existe déjà, c'est une mise à jour sinon on le créée
 		if (oldType != null) {
 			// On renomme la catégorie si le titre a été modifié
-			if (!oldType.getTitle().equals(type.getTitle()))
-				AssetVocabularyHelper.renameCategory(oldType.getTitle(), type.getTitle(),
-						sc.getScopeGroupId());
+			if (!oldType.getTitle().equals(type.getTitle())) {
+				AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION
+						, sc.getScopeGroupId());
+				AssetCategory typeCategory = conseil.getCategories().stream()
+						.filter(c -> c.getName().equals(oldType.getTitle())).findFirst().get();
+				AssetVocabularyHelper.renameCategory(typeCategory, type.getTitle());
+			}
 		} else {
 			AssetVocabularyHelper.addCategoryToVocabulary(type.getTitle(),
 					VocabularyNames.COUNCIL_SESSION, sc);
