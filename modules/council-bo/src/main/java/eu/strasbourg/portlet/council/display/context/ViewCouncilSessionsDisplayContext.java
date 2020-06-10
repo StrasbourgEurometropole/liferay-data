@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
@@ -104,6 +105,29 @@ public class ViewCouncilSessionsDisplayContext extends ViewListBaseDisplayContex
                 this._themeDisplay.getScopeGroupId(),
                 StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO,
                 actionId);
+    }
+
+    @Override
+    public String getOrderByColSearchField() {
+        switch (this.getOrderByCol()) {
+            case "title":
+                return "localized_title_fr_FR_sortable";
+            case "date":
+                return "date_sortable";
+            default:
+                return "modified_sortable";
+        }
+    }
+
+    @Override
+    public String getOrderByCol() {
+        return ParamUtil.getString(this._request, "orderByCol",
+                "date");
+    }
+
+    @Override
+    public String getOrderByType() {
+        return ParamUtil.getString(this._request, "orderByType", "desc");
     }
 
 }
