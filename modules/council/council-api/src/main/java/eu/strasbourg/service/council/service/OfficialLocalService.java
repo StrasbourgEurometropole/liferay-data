@@ -259,10 +259,9 @@ public interface OfficialLocalService extends BaseLocalService,
 		boolean isActive);
 
 	/**
-	* Recherche par site, activité ou non de l'élu et type
+	* Recherche par site, et type de conseil
 	*/
-	public List<Official> findByGroupIdAndIsActiveAndType(long groupId,
-		boolean isActive, java.lang.String type);
+	public List<Official> findByGroupIdAndTypeId(long groupId, long typeId);
 
 	/**
 	* Returns a range of all the officials.

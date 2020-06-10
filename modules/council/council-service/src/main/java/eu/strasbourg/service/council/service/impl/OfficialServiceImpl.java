@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialModel;
@@ -101,24 +100,9 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 
 		// TODO : voir pour indexer les champs sur lesquels on filtre : type et statut d'activité
 		List<Official> filteredOfficial;
-		switch (type) {
-			case MUNICIPAL:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.filter(OfficialModel::isIsMunicipal)
-						.collect(Collectors.toList());
-				break;
-			case EUROMETROPOLITAN:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.filter(OfficialModel::isIsEurometropolitan)
-						.collect(Collectors.toList());
-				break;
-			default:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.collect(Collectors.toList());
-		}
+		filteredOfficial = results.stream()
+				.filter(OfficialModel::isIsActive)
+				.collect(Collectors.toList());
 
 		for (Official official : filteredOfficial) {
 			jsonOfficials.put(official.toJSON());
@@ -145,7 +129,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 		
 		if (councilSession != null) {
 			List<Official> concernedOfficial = OfficialLocalServiceUtil
-					.findByGroupIdAndIsActiveAndType(groupId, true, councilSession.getType());
+					.findByGroupIdAndTypeId(groupId, councilSession.getTypeId());
 					
 			for(Official official : concernedOfficial) {
 				if (official.isNotedAbsent(councilSessionId)) {

@@ -12,7 +12,11 @@ import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Component(
         immediate = true,
@@ -38,8 +42,7 @@ public class CouncilOfficialsXlsxExporterImpl implements CouncilOfficialsXlsxExp
                         LanguageUtil.get(bundle, "eu.office.exporter.lastname"),
                         LanguageUtil.get(bundle, "eu.office.exporter.firstname"),
                         LanguageUtil.get(bundle, "eu.office.exporter.email"),
-                        LanguageUtil.get(bundle, "eu.office.exporter.is.municipal"),
-                        LanguageUtil.get(bundle, "eu.office.exporter.is.eurometropolitan"),
+                        LanguageUtil.get(bundle, "eu.office.exporter.types"),
                         LanguageUtil.get(bundle, "eu.office.exporter.is.active")
                 )
         );
@@ -51,8 +54,7 @@ public class CouncilOfficialsXlsxExporterImpl implements CouncilOfficialsXlsxExp
                         this.getfield(official.getLastname()),
                         this.getfield(official.getFirstname()),
                         this.getfield(official.getEmail()),
-                        this.getfield(official.getIsMunicipal()),
-                        this.getfield(official.getIsEurometropolitan()),
+                        this.getfield(official.getCouncilTypes().stream().map(t -> t.getTitle()).collect(Collectors.joining(", "))),
                         this.getfield(official.getIsActive())
                 )
             );

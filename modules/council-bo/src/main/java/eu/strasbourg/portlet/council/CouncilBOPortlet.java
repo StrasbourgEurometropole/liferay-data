@@ -4,17 +4,33 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.council.display.context.*;
+import eu.strasbourg.portlet.council.display.context.EditCouncilSessionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditDeliberationDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditOfficialDisplayContext;
+import eu.strasbourg.portlet.council.display.context.EditTypeDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewCouncilSessionsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewDeliberationsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewOfficialsConnectionDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewOfficialsDisplayContext;
+import eu.strasbourg.portlet.council.display.context.ViewTypesDisplayContext;
+import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -23,7 +39,12 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -78,6 +99,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} else if (cmd.equals("editOfficial") || mvcPath.equals("/council-bo-edit-official.jsp")) {
 			EditOfficialDisplayContext dc = new EditOfficialDisplayContext(renderRequest);
 			renderRequest.setAttribute("dc", dc);
+		} else if (cmd.equals("editType") || mvcPath.equals("/council-bo-edit-type.jsp")) {
+			EditTypeDisplayContext dc = new EditTypeDisplayContext(renderRequest);
+			renderRequest.setAttribute("dc", dc);
 		} else if (tab.equals("deliberations")) {
 			String sessionCategoryId = getCategoryIdSession(renderRequest, themeDisplay);
 			ViewDeliberationsDisplayContext dc = new ViewDeliberationsDisplayContext(renderRequest, renderResponse,sessionCategoryId );
@@ -88,6 +112,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 		} else if (tab.equals("officialsConnection")) {
 			ViewOfficialsConnectionDisplayContext dc = new ViewOfficialsConnectionDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
+		} else if (tab.equals("types")) {
+			ViewTypesDisplayContext dc = new ViewTypesDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 		} else { // Else, we are on the event list page
 			ViewCouncilSessionsDisplayContext dc = new ViewCouncilSessionsDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
@@ -95,6 +122,9 @@ public class CouncilBOPortlet extends MVCPortlet {
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
+
+		// Admin EVOTE ou pas
+		renderRequest.setAttribute("isAdminEvote", UserRoleType.IsAdminEvote(themeDisplay));
 
 		super.render(renderRequest, renderResponse);
 	}
@@ -146,7 +176,11 @@ public class CouncilBOPortlet extends MVCPortlet {
 				// SI on a rien en session, on cherche le conseil du jour ou le dernier conseil
 				if(todayCouncils.size() >0) {
 					CouncilSession todayCouncil = todayCouncils.get(0);
-					AssetCategory councilCategory = AssetVocabularyHelper.getCategory(todayCouncil.getTitle(), themeDisplay.getScopeGroupId());
+					// récupère la catégorie du conseil
+					AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
+					Type type = TypeLocalServiceUtil.fetchType(todayCouncil.getTypeId());
+					AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+					AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(todayCouncil.getTitle())).findFirst().get();
 					categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
 					originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
 				} else {
@@ -156,7 +190,11 @@ public class CouncilBOPortlet extends MVCPortlet {
 							.collect(Collectors.toList());
 					if(futureCouncilSessions.size() > 0) {
 						CouncilSession lastCouncil = futureCouncilSessions.get(0);
-						AssetCategory councilCategory = AssetVocabularyHelper.getCategory(lastCouncil.getTitle(), themeDisplay.getScopeGroupId());
+						// récupère la catégorie du conseil
+						AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
+						Type type = TypeLocalServiceUtil.fetchType(lastCouncil.getTypeId());
+						AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+						AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(lastCouncil.getTitle())).findFirst().get();
 						categoryCouncilId=String.valueOf(councilCategory != null ? councilCategory.getCategoryId():"");
 						originalRequest.getSession().setAttribute("categoryCouncilId", categoryId);
 					}
@@ -170,6 +208,23 @@ public class CouncilBOPortlet extends MVCPortlet {
 		else if (!categoryCouncilId.equals(sessionCategoryCouncilId)) {
 			categoryCouncilId = categoryCouncilId;
 			originalRequest.getSession().setAttribute("categoryCouncilId", categoryCouncilId);
+		}
+
+		final String finalCategoryCouncilId = categoryCouncilId;
+		// On récupère les catégories de type conseil autorisé par le rôle du USER
+		List<AssetCategory> typeCoucilCats = UserRoleType.typeCategoriesForUser(themeDisplay);
+		// On récupère totes les sous catégories de conseil liées
+		List<AssetCategory> councilCats = new ArrayList<>();
+		councilCats.addAll(typeCoucilCats);
+		for (AssetCategory cat : typeCoucilCats) {
+			councilCats.addAll(AssetVocabularyHelper.getChild(cat.getCategoryId()));
+		}
+		// Si la catégorie qui était sélectionnée/choisie n'est pas dans les catégories autorisée, on donne celle du premier type de conseil autorisé
+		if(!councilCats.stream().anyMatch(x -> String.valueOf(x.getCategoryId()).equals(finalCategoryCouncilId))) {
+			categoryCouncilId = "";
+			if(typeCoucilCats.size() > 0) {
+				categoryCouncilId=String.valueOf(typeCoucilCats.get(0));
+			}
 		}
 
 		categoryId = categoryCouncilId +','+categoryDelibStage;

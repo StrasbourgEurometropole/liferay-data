@@ -218,7 +218,8 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 		}
 		
 		// Mise à jour des inforamtions de connection de l'utilisateur 
-		OfficialLocalServiceUtil.updateOfficialInfo(officialId, officialDeviceInfo);
+		if (officialId > 0)
+			OfficialLocalServiceUtil.updateOfficialInfo(officialId, officialDeviceInfo);
 
 		//On assemble les pièces du puzzle, les ingrédients du Tacos
 		userFront.put("session", session);

@@ -5,6 +5,52 @@
 	<namespace>council</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
 
+	<entity local-service="true" remote-service="true" cache-enabled="true" name="Type" uuid="true">
+
+		<!-- PK fields -->
+		<column name="typeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Business fields -->
+		<column name="title" type="String" />
+		<column name="titleLong" type="String" />
+		<column name="roleId" type="long" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column case-sensitive="false" name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="RoleId" return-type="Collection">
+			<finder-column name="roleId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
 	<entity local-service="true" remote-service="true" cache-enabled="true" name="Official" uuid="true">
 
 		<!-- PK fields -->
@@ -30,8 +76,6 @@
 		<column name="email" type="String" />
 		<column name="firstname" type="String" />
 		<column name="lastname" type="String" />
-		<column name="isMunicipal" type="boolean" />
-		<column name="isEurometropolitan" type="boolean" />
 		<column name="isActive" type="boolean" />
 		<column name="lastActivity" type="Date" />
 		<column name="lastSignInDeviceInfo" type="String" />
@@ -50,15 +94,38 @@
 			<finder-column name="groupId" />
 			<finder-column name="isActive" />
 		</finder>
-		<finder name="GroupIdAndIsActiveAndIsMunicipal" return-type="Collection">
-			<finder-column name="groupId" />
-			<finder-column name="isActive" />
-			<finder-column name="isMunicipal" />
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="true" name="OfficialTypeCouncil" uuid="true">
+
+		<!-- PK fields -->
+		<column name="officialId" primary="true" type="long" />
+		<column name="typeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createDate" type="Date" />
+		<column name="result" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="OfficialId" return-type="Collection">
+			<finder-column name="officialId" />
 		</finder>
-		<finder name="GroupIdAndIsActiveAndIsEurometropolitan" return-type="Collection">
-			<finder-column name="groupId" />
-			<finder-column name="isActive" />
-			<finder-column name="isEurometropolitan" />
+		<finder name="TypeId" return-type="Collection">
+			<finder-column name="typeId" />
+		</finder>
+		<finder name="TypeIdAndOfficialId" return-type="Vote">
+			<finder-column name="typeId" />
+			<finder-column name="officialId" />
 		</finder>
 
 		<!-- References -->
@@ -92,10 +159,10 @@
 		<!-- Business fields -->
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
-		<column name="type" type="String" />
 
 		<!-- Links with other entities -->
 		<column name="officialLeaderId" type="long" />
+		<column name="typeId" type="long" />
 
 		<!-- Order -->
 		<order by="asc">
@@ -108,6 +175,9 @@
 		</finder>
 		<finder name="Date" return-type="Collection">
 			<finder-column name="date" />
+		</finder>
+		<finder name="TypeId" return-type="Collection">
+			<finder-column name="typeId" />
 		</finder>
 
 		<!-- References -->

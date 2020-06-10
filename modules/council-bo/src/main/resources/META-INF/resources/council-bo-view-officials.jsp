@@ -60,16 +60,6 @@
                     href="${editOfficialURL}" name="email" truncate="true"
                     orderable="false" value="${official.email}" />
 
-                <!-- Colonne : Type municipale -->
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="is-municipal" truncate="true"
-                    orderable="false" value="${official.isMunicipal ? 'Oui' : 'Non'}" />
-
-                <!-- Colonne : Type eurométropolitain -->
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="is-eurometropolitan" truncate="true"
-                    orderable="false" value="${official.isEurometropolitan ? 'Oui' : 'Non'}" />
-
                 <!-- Colonne : Est actif ? -->
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     name="is-active" truncate="true"

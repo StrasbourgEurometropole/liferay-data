@@ -96,10 +96,10 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		sb.append(title);
 		sb.append(", date=");
 		sb.append(date);
-		sb.append(", type=");
-		sb.append(type);
 		sb.append(", officialLeaderId=");
 		sb.append(officialLeaderId);
+		sb.append(", typeId=");
+		sb.append(typeId);
 		sb.append("}");
 
 		return sb.toString();
@@ -173,14 +173,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 			councilSessionImpl.setDate(new Date(date));
 		}
 
-		if (type == null) {
-			councilSessionImpl.setType(StringPool.BLANK);
-		}
-		else {
-			councilSessionImpl.setType(type);
-		}
-
 		councilSessionImpl.setOfficialLeaderId(officialLeaderId);
+		councilSessionImpl.setTypeId(typeId);
 
 		councilSessionImpl.resetOriginalValues();
 
@@ -209,9 +203,10 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		date = objectInput.readLong();
-		type = objectInput.readUTF();
 
 		officialLeaderId = objectInput.readLong();
+
+		typeId = objectInput.readLong();
 	}
 
 	@Override
@@ -264,14 +259,9 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 
 		objectOutput.writeLong(date);
 
-		if (type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(type);
-		}
-
 		objectOutput.writeLong(officialLeaderId);
+
+		objectOutput.writeLong(typeId);
 	}
 
 	public String uuid;
@@ -288,6 +278,6 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 	public long statusDate;
 	public String title;
 	public long date;
-	public String type;
 	public long officialLeaderId;
+	public long typeId;
 }

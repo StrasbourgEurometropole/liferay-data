@@ -43,6 +43,13 @@ public class CouncilSessionLocalServiceUtil {
 	 */
 
 	/**
+	* Si le conseil a des délib
+	*/
+	public static boolean hasDelib(long councilSessionId) {
+		return getService().hasDelib(councilSessionId);
+	}
+
+	/**
 	* Si la date avec l'ID donné est déjà utilisé par une autre session
 	*/
 	public static boolean isDateAlreadyUsed(java.util.Date date,
@@ -51,11 +58,13 @@ public class CouncilSessionLocalServiceUtil {
 	}
 
 	/**
-	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	*/
-	public static boolean isTitleAlreadyUsed(java.lang.String title,
-		long councilSessionId) {
-		return getService().isTitleAlreadyUsed(title, councilSessionId);
+	public static boolean isTitleAlreadyUsedInCouncilTypeId(
+		java.lang.String title, long councilSessionId, long typeId) {
+		return getService()
+				   .isTitleAlreadyUsedInCouncilTypeId(title, councilSessionId,
+			typeId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
@@ -313,6 +322,14 @@ public class CouncilSessionLocalServiceUtil {
 	public static java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByTitre(
 		java.lang.String title) {
 		return getService().findByTitre(title);
+	}
+
+	/**
+	* Recherche par type de CouncilSession
+	*/
+	public static java.util.List<eu.strasbourg.service.council.model.CouncilSession> findByTypeId(
+		long typeId) {
+		return getService().findByTypeId(typeId);
 	}
 
 	/**

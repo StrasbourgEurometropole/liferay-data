@@ -16,7 +16,7 @@
 </liferay-portlet:renderURL>
 
 
-<liferay-frontend:management-bar includeCheckBox="true"searchContainerId="councilSessionsSearchContainer">
+<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="councilSessionsSearchContainer">
     <liferay-frontend:management-bar-filters>
         <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
             orderByType="${dc.orderByType}"
@@ -27,6 +27,10 @@
 
 
 <div class="container-fluid-1280 main-content-body">
+
+	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
+	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />
+
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="councilSessionsSearchContainer" searchContainer="${dc.searchContainer}">
@@ -47,6 +51,13 @@
 				<liferay-ui:search-container-column-text cssClass="content-column"
 					href="${editCouncilSessionURL}" name="title" truncate="true"
 					orderable="true" value="${councilSession.title}" />
+
+                <c:if test="${isAdmin || isAdminEvote}">
+                    <!-- Colonne : Type de conseil -->
+                    <liferay-ui:search-container-column-text cssClass="content-column"
+                        name="council-type" truncate="true"
+                        orderable="true" value="${councilSession.typeCouncil.title}" />
+                </c:if>
 
 				<fmt:formatDate value="${councilSession.date}"
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />

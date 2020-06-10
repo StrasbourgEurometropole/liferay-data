@@ -61,7 +61,9 @@ import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
 import eu.strasbourg.service.council.service.persistence.OfficialPersistence;
+import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPersistence;
 import eu.strasbourg.service.council.service.persistence.ProcurationPersistence;
+import eu.strasbourg.service.council.service.persistence.TypePersistence;
 import eu.strasbourg.service.council.service.persistence.VotePersistence;
 
 import java.io.Serializable;
@@ -583,6 +585,44 @@ public abstract class ProcurationLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the official type council local service.
+	 *
+	 * @return the official type council local service
+	 */
+	public eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService getOfficialTypeCouncilLocalService() {
+		return officialTypeCouncilLocalService;
+	}
+
+	/**
+	 * Sets the official type council local service.
+	 *
+	 * @param officialTypeCouncilLocalService the official type council local service
+	 */
+	public void setOfficialTypeCouncilLocalService(
+		eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService officialTypeCouncilLocalService) {
+		this.officialTypeCouncilLocalService = officialTypeCouncilLocalService;
+	}
+
+	/**
+	 * Returns the official type council persistence.
+	 *
+	 * @return the official type council persistence
+	 */
+	public OfficialTypeCouncilPersistence getOfficialTypeCouncilPersistence() {
+		return officialTypeCouncilPersistence;
+	}
+
+	/**
+	 * Sets the official type council persistence.
+	 *
+	 * @param officialTypeCouncilPersistence the official type council persistence
+	 */
+	public void setOfficialTypeCouncilPersistence(
+		OfficialTypeCouncilPersistence officialTypeCouncilPersistence) {
+		this.officialTypeCouncilPersistence = officialTypeCouncilPersistence;
+	}
+
+	/**
 	 * Returns the procuration local service.
 	 *
 	 * @return the procuration local service
@@ -618,6 +658,43 @@ public abstract class ProcurationLocalServiceBaseImpl
 	public void setProcurationPersistence(
 		ProcurationPersistence procurationPersistence) {
 		this.procurationPersistence = procurationPersistence;
+	}
+
+	/**
+	 * Returns the type local service.
+	 *
+	 * @return the type local service
+	 */
+	public eu.strasbourg.service.council.service.TypeLocalService getTypeLocalService() {
+		return typeLocalService;
+	}
+
+	/**
+	 * Sets the type local service.
+	 *
+	 * @param typeLocalService the type local service
+	 */
+	public void setTypeLocalService(
+		eu.strasbourg.service.council.service.TypeLocalService typeLocalService) {
+		this.typeLocalService = typeLocalService;
+	}
+
+	/**
+	 * Returns the type persistence.
+	 *
+	 * @return the type persistence
+	 */
+	public TypePersistence getTypePersistence() {
+		return typePersistence;
+	}
+
+	/**
+	 * Sets the type persistence.
+	 *
+	 * @param typePersistence the type persistence
+	 */
+	public void setTypePersistence(TypePersistence typePersistence) {
+		this.typePersistence = typePersistence;
 	}
 
 	/**
@@ -834,10 +911,18 @@ public abstract class ProcurationLocalServiceBaseImpl
 	protected eu.strasbourg.service.council.service.OfficialLocalService officialLocalService;
 	@BeanReference(type = OfficialPersistence.class)
 	protected OfficialPersistence officialPersistence;
+	@BeanReference(type = eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService.class)
+	protected eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService officialTypeCouncilLocalService;
+	@BeanReference(type = OfficialTypeCouncilPersistence.class)
+	protected OfficialTypeCouncilPersistence officialTypeCouncilPersistence;
 	@BeanReference(type = ProcurationLocalService.class)
 	protected ProcurationLocalService procurationLocalService;
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
+	@BeanReference(type = eu.strasbourg.service.council.service.TypeLocalService.class)
+	protected eu.strasbourg.service.council.service.TypeLocalService typeLocalService;
+	@BeanReference(type = TypePersistence.class)
+	protected TypePersistence typePersistence;
 	@BeanReference(type = eu.strasbourg.service.council.service.VoteLocalService.class)
 	protected eu.strasbourg.service.council.service.VoteLocalService voteLocalService;
 	@BeanReference(type = VotePersistence.class)

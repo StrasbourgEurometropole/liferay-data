@@ -83,8 +83,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "date_", Types.TIMESTAMP },
-			{ "type_", Types.VARCHAR },
-			{ "officialLeaderId", Types.BIGINT }
+			{ "officialLeaderId", Types.BIGINT },
+			{ "typeId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -103,11 +103,11 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("officialLeaderId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,type_ VARCHAR(75) null,officialLeaderId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,officialLeaderId LONG,typeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_CouncilSession";
 	public static final String ORDER_BY_JPQL = " ORDER BY councilSession.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_CouncilSession.title ASC";
@@ -127,7 +127,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	public static final long DATE_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long TITLE_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long TYPEID_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(eu.strasbourg.service.council.service.util.ServiceProps.get(
 				"lock.expiration.time.eu.strasbourg.service.council.model.CouncilSession"));
 
@@ -182,8 +183,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
-		attributes.put("type", getType());
 		attributes.put("officialLeaderId", getOfficialLeaderId());
+		attributes.put("typeId", getTypeId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -277,16 +278,16 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			setDate(date);
 		}
 
-		String type = (String)attributes.get("type");
-
-		if (type != null) {
-			setType(type);
-		}
-
 		Long officialLeaderId = (Long)attributes.get("officialLeaderId");
 
 		if (officialLeaderId != null) {
 			setOfficialLeaderId(officialLeaderId);
+		}
+
+		Long typeId = (Long)attributes.get("typeId");
+
+		if (typeId != null) {
+			setTypeId(typeId);
 		}
 	}
 
@@ -541,21 +542,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	}
 
 	@Override
-	public String getType() {
-		if (_type == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _type;
-		}
-	}
-
-	@Override
-	public void setType(String type) {
-		_type = type;
-	}
-
-	@Override
 	public long getOfficialLeaderId() {
 		return _officialLeaderId;
 	}
@@ -563,6 +549,28 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	@Override
 	public void setOfficialLeaderId(long officialLeaderId) {
 		_officialLeaderId = officialLeaderId;
+	}
+
+	@Override
+	public long getTypeId() {
+		return _typeId;
+	}
+
+	@Override
+	public void setTypeId(long typeId) {
+		_columnBitmask |= TYPEID_COLUMN_BITMASK;
+
+		if (!_setOriginalTypeId) {
+			_setOriginalTypeId = true;
+
+			_originalTypeId = _typeId;
+		}
+
+		_typeId = typeId;
+	}
+
+	public long getOriginalTypeId() {
+		return _originalTypeId;
 	}
 
 	@Override
@@ -696,8 +704,8 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		councilSessionImpl.setStatusDate(getStatusDate());
 		councilSessionImpl.setTitle(getTitle());
 		councilSessionImpl.setDate(getDate());
-		councilSessionImpl.setType(getType());
 		councilSessionImpl.setOfficialLeaderId(getOfficialLeaderId());
+		councilSessionImpl.setTypeId(getTypeId());
 
 		councilSessionImpl.resetOriginalValues();
 
@@ -773,6 +781,10 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		councilSessionModelImpl._originalTitle = councilSessionModelImpl._title;
 
 		councilSessionModelImpl._originalDate = councilSessionModelImpl._date;
+
+		councilSessionModelImpl._originalTypeId = councilSessionModelImpl._typeId;
+
+		councilSessionModelImpl._setOriginalTypeId = false;
 
 		councilSessionModelImpl._columnBitmask = 0;
 	}
@@ -861,15 +873,9 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			councilSessionCacheModel.date = Long.MIN_VALUE;
 		}
 
-		councilSessionCacheModel.type = getType();
-
-		String type = councilSessionCacheModel.type;
-
-		if ((type != null) && (type.length() == 0)) {
-			councilSessionCacheModel.type = null;
-		}
-
 		councilSessionCacheModel.officialLeaderId = getOfficialLeaderId();
+
+		councilSessionCacheModel.typeId = getTypeId();
 
 		return councilSessionCacheModel;
 	}
@@ -906,10 +912,10 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		sb.append(getTitle());
 		sb.append(", date=");
 		sb.append(getDate());
-		sb.append(", type=");
-		sb.append(getType());
 		sb.append(", officialLeaderId=");
 		sb.append(getOfficialLeaderId());
+		sb.append(", typeId=");
+		sb.append(getTypeId());
 		sb.append("}");
 
 		return sb.toString();
@@ -980,12 +986,12 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		sb.append(getDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>type</column-name><column-value><![CDATA[");
-		sb.append(getType());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>officialLeaderId</column-name><column-value><![CDATA[");
 		sb.append(getOfficialLeaderId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>typeId</column-name><column-value><![CDATA[");
+		sb.append(getTypeId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -1019,8 +1025,10 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	private String _originalTitle;
 	private Date _date;
 	private Date _originalDate;
-	private String _type;
 	private long _officialLeaderId;
+	private long _typeId;
+	private long _originalTypeId;
+	private boolean _setOriginalTypeId;
 	private long _columnBitmask;
 	private CouncilSession _escapedModel;
 }
