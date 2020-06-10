@@ -3,23 +3,34 @@ package eu.strasbourg.portlet.council.display.context;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Official> {
 
@@ -143,6 +154,79 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
             _filterCategoriesIds += categoryToAdd + ",";
         }
         return _filterCategoriesIds;
+    }
+
+    @Override
+    public List<ManagementBarFilterItem> getManagementBarFilterItems(
+            AssetVocabulary vocabulary) throws PortalException {
+        List<ManagementBarFilterItem> managementBarFilterItems = new ArrayList<>();
+
+        String tab = ParamUtil.getString(this._request, "tab");
+        String orderByCol = this.getOrderByCol();
+        String orderByType = this.getOrderByType();
+        String filterCategoriesIds = this.getFilterCategoriesIds();
+        String keywords = this.getKeywords();
+        ThemeDisplay themeDisplay = (ThemeDisplay) this._request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        String portletName = (String) this._request
+                .getAttribute(WebKeys.PORTLET_ID);
+        PortletURL filterURL = PortletURLFactoryUtil.create(this._request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        int delta = this.getSearchContainer().getDelta();
+        long vocabularyToRemove = vocabulary.getVocabularyId();
+        filterURL.setParameter("tab", tab);
+        filterURL.setParameter("orderByCol", orderByCol);
+        filterURL.setParameter("orderByType", orderByType);
+        filterURL.setParameter("filterCategoriesIds", filterCategoriesIds);
+        filterURL.setParameter("keywords", keywords);
+        filterURL.setParameter("delta", String.valueOf(delta));
+        filterURL.setParameter("vocabularyToRemove",
+                String.valueOf(vocabularyToRemove));
+
+        ManagementBarFilterItem allItemsFilter = new ManagementBarFilterItem(
+                false, vocabulary.getName() + " : "
+                + LanguageUtil.get(Locale.FRENCH, "any"),
+                filterURL.toString());
+        managementBarFilterItems.add(allItemsFilter);
+
+        List<AssetCategory> rootCategories = vocabulary.getCategories().stream()
+                .filter(c -> c.isRootCategory()).collect(Collectors.toList());
+
+        AssetVocabulary conseilVocab = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
+        if(conseilVocab != null && conseilVocab.getVocabularyId() == vocabulary.getVocabularyId()) {
+            List<AssetCategory> authorizedRootCategories = new ArrayList<>();
+            for (AssetCategory typeCouncilCat : UserRoleType.typeCategoriesForUser(themeDisplay)) {
+                if(rootCategories.contains(typeCouncilCat)) {
+                    authorizedRootCategories.add(typeCouncilCat);
+                }
+            }
+            for (AssetCategory category : authorizedRootCategories) {
+                populateManagementBar(managementBarFilterItems, category,
+                        filterURL);
+            }
+        } else {
+            for (AssetCategory category : rootCategories) {
+                populateManagementBar(managementBarFilterItems, category,
+                        filterURL);
+            }
+        }
+
+        return managementBarFilterItems;
+    }
+
+    @Override
+    protected List<ManagementBarFilterItem> populateManagementBar(
+            List<ManagementBarFilterItem> managementBarFilterItems,
+            AssetCategory category, PortletURL filterURL) throws PortalException {
+
+        ManagementBarFilterItem managementBarFilterItem = getCategoryBarFilterItem(
+                category, filterURL);
+        managementBarFilterItems.add(managementBarFilterItem);
+
+        // On a supprimé la recherche des enfants de catégories pour ne garder que les premières catégories parentes
+        // Ainsi on a que les catégories de Type de conseil pour le filtre par Conseil
+
+        return managementBarFilterItems;
     }
 
 }
