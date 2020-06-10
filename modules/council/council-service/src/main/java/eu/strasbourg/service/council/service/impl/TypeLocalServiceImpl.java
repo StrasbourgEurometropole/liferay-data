@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.TypeLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -235,6 +236,12 @@ public class TypeLocalServiceImpl extends TypeLocalServiceBaseImpl {
 
 			// Supprime l'AssetEntry
 			AssetEntryLocalServiceUtil.deleteEntry(Type.class.getName(), typeId);
+		}
+
+		// Supprime le type de conseil des votants
+		List<OfficialTypeCouncil> typeVotants = this.officialTypeCouncilLocalService.findByTypeId(typeId);
+		for (OfficialTypeCouncil typeVotant : typeVotants) {
+			this.officialTypeCouncilLocalService.removeOfficialTypeCouncil(typeVotant.getOfficialId(), typeVotant.getTypeId());
 		}
 
 		// Suppression de la catégorie associée
