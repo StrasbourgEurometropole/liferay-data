@@ -21,6 +21,7 @@ import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
 
 import javax.portlet.PortletRequest;
@@ -238,7 +239,7 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         List<AssetCategory> rootCategories = vocabulary.getCategories().stream()
                 .filter(c -> c.isRootCategory()).collect(Collectors.toList());
 
-        AssetVocabulary conseilVocab = AssetVocabularyHelper.getVocabulary("Conseil", themeDisplay.getScopeGroupId());
+        AssetVocabulary conseilVocab = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
         if(conseilVocab != null && conseilVocab.getVocabularyId() == vocabulary.getVocabularyId()) {
             List<AssetCategory> authorizedRootCategories = new ArrayList<>();
             for (AssetCategory typeCouncilCat : UserRoleType.typeCategoriesForUser(themeDisplay)) {
@@ -259,40 +260,5 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
 
 
         return managementBarFilterItems;
-    }
-
-    private List<ManagementBarFilterItem> populateManagementBar(
-            List<ManagementBarFilterItem> managementBarFilterItems,
-            AssetCategory category, PortletURL filterURL) throws PortalException {
-
-        ManagementBarFilterItem managementBarFilterItem = getCategoryBarFilterItem(
-                category, filterURL);
-        managementBarFilterItems.add(managementBarFilterItem);
-
-        for (AssetCategory childCategory : AssetVocabularyHelper
-                .getChild(category.getCategoryId())) {
-            populateManagementBar(managementBarFilterItems, childCategory, filterURL);
-        }
-
-        return managementBarFilterItems;
-    }
-
-    private ManagementBarFilterItem getCategoryBarFilterItem(
-            AssetCategory category, PortletURL filterURL) throws PortalException {
-        boolean isActive = this.getFilterCategoriesIds()
-                .contains(String.valueOf(category.getCategoryId()));
-
-        String prefix = "";
-        for (int i = 0; i < category.getAncestors().size(); i++) {
-            prefix += " - ";
-        }
-        String label = prefix + category.getName();
-
-        long categoryToAdd = category.getCategoryId();
-
-        filterURL.setParameter("categoryToAdd", String.valueOf(categoryToAdd));
-        String url = filterURL.toString();
-
-        return new ManagementBarFilterItem(isActive, label, url);
     }
 }
