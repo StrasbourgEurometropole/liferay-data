@@ -74,11 +74,11 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
 
 	/**
-	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isTitleAlreadyUsed(java.lang.String title,
-		long councilSessionId);
+	public boolean isTitleAlreadyUsedInCouncilTypeId(java.lang.String title,
+		long councilSessionId, long typeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

@@ -359,13 +359,13 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 	}
 
 	/**
-	 * Si le titre avec l'ID donné est déjà utilisé par une autre session
+	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	 */
 	@Override
-	public boolean isTitleAlreadyUsed(String title, long councilSessionId) {
+	public boolean isTitleAlreadyUsedInCouncilTypeId(String title, long councilSessionId, long typeId) {
 		boolean result = false;
 		for (CouncilSession councilSession : this.findByTitre(title)) {
-			if (councilSession.getCouncilSessionId() != councilSessionId)
+			if (councilSession.getCouncilSessionId() != councilSessionId && councilSession.getTypeId() == typeId)
 				result = true;
 		}
 		return result;

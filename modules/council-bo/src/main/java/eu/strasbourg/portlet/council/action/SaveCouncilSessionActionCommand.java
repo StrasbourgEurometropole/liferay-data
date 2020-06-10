@@ -47,6 +47,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
     private List<OfficialTypeCouncil> availableOfficials;
     private long councilSessionId;
+    private long typeId;
     private String title;
     private Date date;
 
@@ -85,8 +86,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             councilSession.setTitle(this.title);
 
             // Champ : type
-            long typeId = ParamUtil.getLong(request, "council-type");
-            councilSession.setTypeId(typeId);
+            councilSession.setTypeId(this.typeId);
 
             // Champ : date
             councilSession.setDate(this.date);
@@ -145,6 +145,9 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
         this.councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
+        // Récupération du type
+        this.typeId = ParamUtil.getLong(request, "council-type");
+
         // Titre
         this.title = ParamUtil.getString(request, "title");
         if (Validator.isNull(title)) {
@@ -153,7 +156,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         }
 
         // Titre déjà utilisé ?
-        if (this.councilSessionLocalService.isTitleAlreadyUsed(this.title, this.councilSessionId)) {
+        if (this.councilSessionLocalService.isTitleAlreadyUsedInCouncilTypeId(this.title, this.councilSessionId, this.typeId)) {
             SessionErrors.add(request, "title-already-used-error");
             isValid = false;
         }
@@ -171,9 +174,6 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // Récupération du type
-        long typeId = ParamUtil.getLong(request, "council-type");
-
         // Official leader
         long officialLeaderId = ParamUtil.getLong(request, "officialLeaderId");
         if (Validator.isNull(officialLeaderId)) {
@@ -184,14 +184,14 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         if (Validator.isNull(officialLeaderId)) {
             SessionErrors.add(request, "official-leader-not-found-error");
             isValid = false;
-        } else if (!official.getCouncilTypesIds().contains(""+typeId)) {
+        } else if (!official.getCouncilTypesIds().contains(""+this.typeId)) {
             SessionErrors.add(request, "official-leader-type-error");
             isValid = false;
         }
 
         // Procurations : test du nombre de procuration recevable max
         // recherche des élus ayant potentiellement une procuration
-        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(typeId)
+        this.availableOfficials = this.officialTypeCouncilLocalService.findByTypeId(this.typeId)
             .stream().filter(o -> o.getGroupId() == sc.getScopeGroupId()).collect(Collectors.toList());
 
         boolean isAbsent;
@@ -206,7 +206,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
                 officialVotersId = ParamUtil.getLong(request, availableOfficial.getOfficialId() + "-officialVotersId");
                 if (officialVotersId > 0) {
                     Official officialVoter = this.officialLocalService.fetchOfficial(officialVotersId);
-                    if (!officialVoter.getCouncilTypesIds().contains(""+typeId)) {
+                    if (!officialVoter.getCouncilTypesIds().contains(""+this.typeId)) {
                         SessionErrors.add(request, "official-voter-type-error");
                         isValid = false;
                     }else {

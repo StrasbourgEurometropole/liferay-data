@@ -51,11 +51,13 @@ public class CouncilSessionLocalServiceUtil {
 	}
 
 	/**
-	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	*/
-	public static boolean isTitleAlreadyUsed(java.lang.String title,
-		long councilSessionId) {
-		return getService().isTitleAlreadyUsed(title, councilSessionId);
+	public static boolean isTitleAlreadyUsedInCouncilTypeId(
+		java.lang.String title, long councilSessionId, long typeId) {
+		return getService()
+				   .isTitleAlreadyUsedInCouncilTypeId(title, councilSessionId,
+			typeId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

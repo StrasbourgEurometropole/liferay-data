@@ -44,13 +44,13 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
-	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	*/
 	@Override
-	public boolean isTitleAlreadyUsed(java.lang.String title,
-		long councilSessionId) {
-		return _councilSessionLocalService.isTitleAlreadyUsed(title,
-			councilSessionId);
+	public boolean isTitleAlreadyUsedInCouncilTypeId(java.lang.String title,
+		long councilSessionId, long typeId) {
+		return _councilSessionLocalService.isTitleAlreadyUsedInCouncilTypeId(title,
+			councilSessionId, typeId);
 	}
 
 	@Override
