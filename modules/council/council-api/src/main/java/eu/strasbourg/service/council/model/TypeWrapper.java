@@ -72,6 +72,7 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("titleLong", getTitleLong());
 		attributes.put("roleId", getRoleId());
 
 		return attributes;
@@ -155,6 +156,12 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String titleLong = (String)attributes.get("titleLong");
+
+		if (titleLong != null) {
+			setTitleLong(titleLong);
 		}
 
 		Long roleId = (Long)attributes.get("roleId");
@@ -345,6 +352,16 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 	@Override
 	public java.lang.String getTitle() {
 		return _type.getTitle();
+	}
+
+	/**
+	* Returns the title long of this type.
+	*
+	* @return the title long of this type
+	*/
+	@Override
+	public java.lang.String getTitleLong() {
+		return _type.getTitleLong();
 	}
 
 	/**
@@ -649,6 +666,16 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 	@Override
 	public void setTitle(java.lang.String title) {
 		_type.setTitle(title);
+	}
+
+	/**
+	* Sets the title long of this type.
+	*
+	* @param titleLong the title long of this type
+	*/
+	@Override
+	public void setTitleLong(java.lang.String titleLong) {
+		_type.setTitleLong(titleLong);
 	}
 
 	/**

@@ -103,6 +103,7 @@ create table council_Type (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(75) null,
+	titleLong VARCHAR(75) null,
 	roleId LONG
 );
 

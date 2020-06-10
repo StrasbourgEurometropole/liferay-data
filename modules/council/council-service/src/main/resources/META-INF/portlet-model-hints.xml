@@ -104,6 +104,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
+		<field name="titleLong" type="String" />
 		<field name="roleId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Vote">

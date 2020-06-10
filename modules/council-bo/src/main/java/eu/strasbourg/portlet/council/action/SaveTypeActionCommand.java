@@ -38,6 +38,7 @@ public class SaveTypeActionCommand implements MVCActionCommand {
 
     private long typeId;
     private String title;
+    private String titleLong;
     private long roleId;
 
     @Override
@@ -73,6 +74,8 @@ public class SaveTypeActionCommand implements MVCActionCommand {
 
             // Champ : titre
             type.setTitle(this.title);
+            // Champ : titre Long
+            type.setTitleLong(this.titleLong);
             // Champ : roleId
             type.setRoleId(this.roleId);
 
@@ -102,7 +105,14 @@ public class SaveTypeActionCommand implements MVCActionCommand {
             isValid = false;
         }
 
-        // Titre
+        // Titre Long
+        this.titleLong = ParamUtil.getString(request, "titleLong");
+        if (Validator.isNull(titleLong)) {
+            SessionErrors.add(request, "title-long-error");
+            isValid = false;
+        }
+
+        // Role
         this.roleId = ParamUtil.getLong(request, "roleId");
         if (Validator.isNull(title)) {
             SessionErrors.add(request, "role-error");

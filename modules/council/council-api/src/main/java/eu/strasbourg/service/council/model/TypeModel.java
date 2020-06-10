@@ -308,6 +308,21 @@ public interface TypeModel extends BaseModel<Type>, GroupedModel, ShardedModel,
 	public void setTitle(String title);
 
 	/**
+	 * Returns the title long of this type.
+	 *
+	 * @return the title long of this type
+	 */
+	@AutoEscape
+	public String getTitleLong();
+
+	/**
+	 * Sets the title long of this type.
+	 *
+	 * @param titleLong the title long of this type
+	 */
+	public void setTitleLong(String titleLong);
+
+	/**
 	 * Returns the role ID of this type.
 	 *
 	 * @return the role ID of this type
