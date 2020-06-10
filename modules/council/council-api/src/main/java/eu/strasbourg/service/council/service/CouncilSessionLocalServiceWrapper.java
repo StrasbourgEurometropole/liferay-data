@@ -35,6 +35,14 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
+	* Si le conseil a des délib
+	*/
+	@Override
+	public boolean hasDelib(long councilSessionId) {
+		return _councilSessionLocalService.hasDelib(councilSessionId);
+	}
+
+	/**
 	* Si la date avec l'ID donné est déjà utilisé par une autre session
 	*/
 	@Override

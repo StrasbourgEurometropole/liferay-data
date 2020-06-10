@@ -27,6 +27,10 @@
 
 
 <div class="container-fluid-1280 main-content-body">
+
+	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
+	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />
+
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="councilSessionsSearchContainer" searchContainer="${dc.searchContainer}">

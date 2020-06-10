@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.council.action;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -34,8 +35,13 @@ public class DeleteCouncilSessionActionCommand extends BaseMVCActionCommand {
 
         long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
-        // Update de l'entité
-        this.councilSessionLocalService.removeCouncilSession(councilSessionId);
+        // On vérifi qu'il n'y a pas de délib lié à ce conseil
+        if(!this.councilSessionLocalService.hasDelib(councilSessionId)){
+            // Suppression de l'entité
+            this.councilSessionLocalService.removeCouncilSession(councilSessionId);
+        }else{
+            SessionErrors.add(request, "council-has-delib-error");
+        }
 
         // Post / Redirect / Get si tout est bon
         PortletURL renderURL = PortletURLFactoryUtil.create(request,

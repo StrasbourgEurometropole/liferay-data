@@ -273,12 +273,6 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			AssetEntryLocalServiceUtil.deleteEntry(CouncilSession.class.getName(), councilSessionId);
 		}
 
-		// Supprime les délibérations
-		List<Deliberation> deliberations = this.deliberationLocalService.findByCouncilSessionId(councilSessionId);
-		for (Deliberation deliberation : deliberations) {
-			this.deliberationLocalService.removeDeliberation(deliberation.getDeliberationId());
-		}
-
 		// Suppression de la catégorie associée
 		CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(councilSessionId);
 		if (councilSession != null)
@@ -368,6 +362,18 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 			if (councilSession.getCouncilSessionId() != councilSessionId && councilSession.getTypeId() == typeId)
 				result = true;
 		}
+		return result;
+	}
+
+	/**
+	 * Si le conseil a des délib
+	 */
+	@Override
+	public boolean hasDelib(long councilSessionId) {
+		boolean result = false;
+		List<Deliberation> deliberations = this.deliberationLocalService.findByCouncilSessionId(councilSessionId);
+		if(deliberations.size() > 0)
+			result = true;
 		return result;
 	}
 
