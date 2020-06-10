@@ -351,18 +351,4 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		}
 		return officials;
 	}
-
-	/**
-	 * Recherche par site, activité ou non de l'élu et type
-	 */
-	@Override
-	public List<Official> findByGroupIdAndIsActiveAndType(long groupId, boolean isActive, String type) {
-		List<Official> officials = new ArrayList<>();
-		if (type.equals(MUNICIPAL))
-			officials = this.officialPersistence.findByGroupIdAndIsActiveAndIsMunicipal(groupId, isActive, true);
-		else if (type.equals(EUROMETROPOLITAN))
-			officials = this.officialPersistence.findByGroupIdAndIsActiveAndIsEurometropolitan(groupId, isActive, true);
-		return officials;
-	}
-
 }

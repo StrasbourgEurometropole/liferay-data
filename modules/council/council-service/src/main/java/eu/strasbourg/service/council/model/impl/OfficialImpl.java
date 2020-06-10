@@ -56,8 +56,7 @@ public class OfficialImpl extends OfficialBaseImpl {
 	/** Var name du JSON des électeurs */
 	public static final String JSON_OFFICIAL_ID = "officialId";
 	public static final String JSON_FULL_NAME = "fullName";
-	public static final String JSON_IS_MUNICIPAL = "isMunicipal";
-	public static final String JSON_IS_EUROMETROPOL = "isEurometropol";
+	public static final String JSON_TYPES_IDS = "typesIds";
 	public static final String JSON_IS_ACTIVE = "isActive";
 	public static final String JSON_LAST_ACTIVITY = "lastActivity";
 	public static final String JSON_LAST_SIGN_IN_DEVICE_INFO = "lastSingInDeviceInfo";
@@ -157,8 +156,7 @@ public class OfficialImpl extends OfficialBaseImpl {
 		
 		jsonOfficial.put(JSON_OFFICIAL_ID, this.getOfficialId());
 		jsonOfficial.put(JSON_FULL_NAME, this.getFullName());
-		jsonOfficial.put(JSON_IS_MUNICIPAL, this.getIsMunicipal());
-		jsonOfficial.put(JSON_IS_EUROMETROPOL, this.getIsEurometropolitan());
+		jsonOfficial.put(JSON_TYPES_IDS, this.getCouncilTypesIds());
 		jsonOfficial.put(JSON_IS_ACTIVE, this.getIsActive());
 		jsonOfficial.put(JSON_LAST_ACTIVITY, this.getLastActivity());
 		jsonOfficial.put(JSON_LAST_SIGN_IN_DEVICE_INFO, this.getLastSignInDeviceInfo());

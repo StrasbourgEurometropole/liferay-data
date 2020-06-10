@@ -13,7 +13,6 @@ create table council_CouncilSession (
 	statusDate DATE null,
 	title VARCHAR(75) null,
 	date_ DATE null,
-	type_ VARCHAR(75) null,
 	officialLeaderId LONG,
 	typeId LONG
 );
@@ -55,8 +54,6 @@ create table council_Official (
 	email VARCHAR(75) null,
 	firstname VARCHAR(75) null,
 	lastname VARCHAR(75) null,
-	isMunicipal BOOLEAN,
-	isEurometropolitan BOOLEAN,
 	isActive BOOLEAN,
 	lastActivity DATE null,
 	lastSignInDeviceInfo VARCHAR(300) null

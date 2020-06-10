@@ -2573,26 +2573,27 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 	private static final String _FINDER_COLUMN_DATE_DATE_1 = "councilSession.date IS NULL";
 	private static final String _FINDER_COLUMN_DATE_DATE_2 = "councilSession.date = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TYPE = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TYPEID = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
 			CouncilSessionModelImpl.FINDER_CACHE_ENABLED,
 			CouncilSessionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByType",
+			"findByTypeId",
 			new String[] {
 				Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPEID =
+		new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
 			CouncilSessionModelImpl.FINDER_CACHE_ENABLED,
 			CouncilSessionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTypeId",
 			new String[] { Long.class.getName() },
 			CouncilSessionModelImpl.TYPEID_COLUMN_BITMASK |
 			CouncilSessionModelImpl.TITLE_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_TYPE = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_COUNT_BY_TYPEID = new FinderPath(CouncilSessionModelImpl.ENTITY_CACHE_ENABLED,
 			CouncilSessionModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTypeId",
 			new String[] { Long.class.getName() });
 
 	/**
@@ -2602,8 +2603,8 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the matching council sessions
 	 */
 	@Override
-	public List<CouncilSession> findByType(long typeId) {
-		return findByType(typeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<CouncilSession> findByTypeId(long typeId) {
+		return findByTypeId(typeId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
@@ -2619,8 +2620,8 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the range of matching council sessions
 	 */
 	@Override
-	public List<CouncilSession> findByType(long typeId, int start, int end) {
-		return findByType(typeId, start, end, null);
+	public List<CouncilSession> findByTypeId(long typeId, int start, int end) {
+		return findByTypeId(typeId, start, end, null);
 	}
 
 	/**
@@ -2637,9 +2638,9 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the ordered range of matching council sessions
 	 */
 	@Override
-	public List<CouncilSession> findByType(long typeId, int start, int end,
+	public List<CouncilSession> findByTypeId(long typeId, int start, int end,
 		OrderByComparator<CouncilSession> orderByComparator) {
-		return findByType(typeId, start, end, orderByComparator, true);
+		return findByTypeId(typeId, start, end, orderByComparator, true);
 	}
 
 	/**
@@ -2657,7 +2658,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the ordered range of matching council sessions
 	 */
 	@Override
-	public List<CouncilSession> findByType(long typeId, int start, int end,
+	public List<CouncilSession> findByTypeId(long typeId, int start, int end,
 		OrderByComparator<CouncilSession> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
@@ -2667,11 +2668,11 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPEID;
 			finderArgs = new Object[] { typeId };
 		}
 		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TYPE;
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TYPEID;
 			finderArgs = new Object[] { typeId, start, end, orderByComparator };
 		}
 
@@ -2705,7 +2706,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 			query.append(_SQL_SELECT_COUNCILSESSION_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPE_TYPEID_2);
+			query.append(_FINDER_COLUMN_TYPEID_TYPEID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2768,10 +2769,10 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @throws NoSuchCouncilSessionException if a matching council session could not be found
 	 */
 	@Override
-	public CouncilSession findByType_First(long typeId,
+	public CouncilSession findByTypeId_First(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator)
 		throws NoSuchCouncilSessionException {
-		CouncilSession councilSession = fetchByType_First(typeId,
+		CouncilSession councilSession = fetchByTypeId_First(typeId,
 				orderByComparator);
 
 		if (councilSession != null) {
@@ -2798,9 +2799,9 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the first matching council session, or <code>null</code> if a matching council session could not be found
 	 */
 	@Override
-	public CouncilSession fetchByType_First(long typeId,
+	public CouncilSession fetchByTypeId_First(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator) {
-		List<CouncilSession> list = findByType(typeId, 0, 1, orderByComparator);
+		List<CouncilSession> list = findByTypeId(typeId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -2818,10 +2819,10 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @throws NoSuchCouncilSessionException if a matching council session could not be found
 	 */
 	@Override
-	public CouncilSession findByType_Last(long typeId,
+	public CouncilSession findByTypeId_Last(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator)
 		throws NoSuchCouncilSessionException {
-		CouncilSession councilSession = fetchByType_Last(typeId,
+		CouncilSession councilSession = fetchByTypeId_Last(typeId,
 				orderByComparator);
 
 		if (councilSession != null) {
@@ -2848,15 +2849,15 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the last matching council session, or <code>null</code> if a matching council session could not be found
 	 */
 	@Override
-	public CouncilSession fetchByType_Last(long typeId,
+	public CouncilSession fetchByTypeId_Last(long typeId,
 		OrderByComparator<CouncilSession> orderByComparator) {
-		int count = countByType(typeId);
+		int count = countByTypeId(typeId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<CouncilSession> list = findByType(typeId, count - 1, count,
+		List<CouncilSession> list = findByTypeId(typeId, count - 1, count,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2876,7 +2877,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @throws NoSuchCouncilSessionException if a council session with the primary key could not be found
 	 */
 	@Override
-	public CouncilSession[] findByType_PrevAndNext(long councilSessionId,
+	public CouncilSession[] findByTypeId_PrevAndNext(long councilSessionId,
 		long typeId, OrderByComparator<CouncilSession> orderByComparator)
 		throws NoSuchCouncilSessionException {
 		CouncilSession councilSession = findByPrimaryKey(councilSessionId);
@@ -2888,12 +2889,12 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 			CouncilSession[] array = new CouncilSessionImpl[3];
 
-			array[0] = getByType_PrevAndNext(session, councilSession, typeId,
+			array[0] = getByTypeId_PrevAndNext(session, councilSession, typeId,
 					orderByComparator, true);
 
 			array[1] = councilSession;
 
-			array[2] = getByType_PrevAndNext(session, councilSession, typeId,
+			array[2] = getByTypeId_PrevAndNext(session, councilSession, typeId,
 					orderByComparator, false);
 
 			return array;
@@ -2906,7 +2907,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 		}
 	}
 
-	protected CouncilSession getByType_PrevAndNext(Session session,
+	protected CouncilSession getByTypeId_PrevAndNext(Session session,
 		CouncilSession councilSession, long typeId,
 		OrderByComparator<CouncilSession> orderByComparator, boolean previous) {
 		StringBundler query = null;
@@ -2922,7 +2923,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 		query.append(_SQL_SELECT_COUNCILSESSION_WHERE);
 
-		query.append(_FINDER_COLUMN_TYPE_TYPEID_2);
+		query.append(_FINDER_COLUMN_TYPEID_TYPEID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -3018,8 +3019,8 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @param typeId the type ID
 	 */
 	@Override
-	public void removeByType(long typeId) {
-		for (CouncilSession councilSession : findByType(typeId,
+	public void removeByTypeId(long typeId) {
+		for (CouncilSession councilSession : findByTypeId(typeId,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(councilSession);
 		}
@@ -3032,8 +3033,8 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	 * @return the number of matching council sessions
 	 */
 	@Override
-	public int countByType(long typeId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_TYPE;
+	public int countByTypeId(long typeId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_TYPEID;
 
 		Object[] finderArgs = new Object[] { typeId };
 
@@ -3044,7 +3045,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 			query.append(_SQL_COUNT_COUNCILSESSION_WHERE);
 
-			query.append(_FINDER_COLUMN_TYPE_TYPEID_2);
+			query.append(_FINDER_COLUMN_TYPEID_TYPEID_2);
 
 			String sql = query.toString();
 
@@ -3076,7 +3077,7 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_TYPE_TYPEID_2 = "councilSession.typeId = ?";
+	private static final String _FINDER_COLUMN_TYPEID_TYPEID_2 = "councilSession.typeId = ?";
 
 	public CouncilSessionPersistenceImpl() {
 		setModelClass(CouncilSession.class);
@@ -3089,7 +3090,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 			dbColumnNames.put("uuid", "uuid_");
 			dbColumnNames.put("date", "date_");
-			dbColumnNames.put("type", "type_");
 
 			field.set(this, dbColumnNames);
 		}
@@ -3423,8 +3423,8 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 
 			args = new Object[] { councilSessionModelImpl.getTypeId() };
 
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPE, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE,
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPEID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPEID,
 				args);
 
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
@@ -3506,19 +3506,19 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 			}
 
 			if ((councilSessionModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE.getColumnBitmask()) != 0) {
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPEID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						councilSessionModelImpl.getOriginalTypeId()
 					};
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPEID,
 					args);
 
 				args = new Object[] { councilSessionModelImpl.getTypeId() };
 
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPE, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPE,
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_TYPEID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TYPEID,
 					args);
 			}
 		}
@@ -3559,7 +3559,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 		councilSessionImpl.setStatusDate(councilSession.getStatusDate());
 		councilSessionImpl.setTitle(councilSession.getTitle());
 		councilSessionImpl.setDate(councilSession.getDate());
-		councilSessionImpl.setType(councilSession.getType());
 		councilSessionImpl.setOfficialLeaderId(councilSession.getOfficialLeaderId());
 		councilSessionImpl.setTypeId(councilSession.getTypeId());
 
@@ -3986,6 +3985,6 @@ public class CouncilSessionPersistenceImpl extends BasePersistenceImpl<CouncilSe
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No CouncilSession exists with the key {";
 	private static final Log _log = LogFactoryUtil.getLog(CouncilSessionPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"uuid", "date", "type"
+				"uuid", "date"
 			});
 }

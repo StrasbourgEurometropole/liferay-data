@@ -643,7 +643,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param typeId the type ID
 	* @return the matching council sessions
 	*/
-	public java.util.List<CouncilSession> findByType(long typeId);
+	public java.util.List<CouncilSession> findByTypeId(long typeId);
 
 	/**
 	* Returns a range of all the council sessions where typeId = &#63;.
@@ -657,7 +657,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param end the upper bound of the range of council sessions (not inclusive)
 	* @return the range of matching council sessions
 	*/
-	public java.util.List<CouncilSession> findByType(long typeId, int start,
+	public java.util.List<CouncilSession> findByTypeId(long typeId, int start,
 		int end);
 
 	/**
@@ -673,7 +673,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching council sessions
 	*/
-	public java.util.List<CouncilSession> findByType(long typeId, int start,
+	public java.util.List<CouncilSession> findByTypeId(long typeId, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator);
 
@@ -691,7 +691,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching council sessions
 	*/
-	public java.util.List<CouncilSession> findByType(long typeId, int start,
+	public java.util.List<CouncilSession> findByTypeId(long typeId, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator,
 		boolean retrieveFromCache);
@@ -704,7 +704,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @return the first matching council session
 	* @throws NoSuchCouncilSessionException if a matching council session could not be found
 	*/
-	public CouncilSession findByType_First(long typeId,
+	public CouncilSession findByTypeId_First(long typeId,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator)
 		throws NoSuchCouncilSessionException;
 
@@ -715,7 +715,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching council session, or <code>null</code> if a matching council session could not be found
 	*/
-	public CouncilSession fetchByType_First(long typeId,
+	public CouncilSession fetchByTypeId_First(long typeId,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator);
 
 	/**
@@ -726,7 +726,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @return the last matching council session
 	* @throws NoSuchCouncilSessionException if a matching council session could not be found
 	*/
-	public CouncilSession findByType_Last(long typeId,
+	public CouncilSession findByTypeId_Last(long typeId,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator)
 		throws NoSuchCouncilSessionException;
 
@@ -737,7 +737,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching council session, or <code>null</code> if a matching council session could not be found
 	*/
-	public CouncilSession fetchByType_Last(long typeId,
+	public CouncilSession fetchByTypeId_Last(long typeId,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator);
 
 	/**
@@ -749,7 +749,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @return the previous, current, and next council session
 	* @throws NoSuchCouncilSessionException if a council session with the primary key could not be found
 	*/
-	public CouncilSession[] findByType_PrevAndNext(long councilSessionId,
+	public CouncilSession[] findByTypeId_PrevAndNext(long councilSessionId,
 		long typeId,
 		com.liferay.portal.kernel.util.OrderByComparator<CouncilSession> orderByComparator)
 		throws NoSuchCouncilSessionException;
@@ -759,7 +759,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	*
 	* @param typeId the type ID
 	*/
-	public void removeByType(long typeId);
+	public void removeByTypeId(long typeId);
 
 	/**
 	* Returns the number of council sessions where typeId = &#63;.
@@ -767,7 +767,7 @@ public interface CouncilSessionPersistence extends BasePersistence<CouncilSessio
 	* @param typeId the type ID
 	* @return the number of matching council sessions
 	*/
-	public int countByType(long typeId);
+	public int countByTypeId(long typeId);
 
 	/**
 	* Caches the council session in the entity cache if it is enabled.

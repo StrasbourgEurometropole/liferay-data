@@ -75,8 +75,6 @@
 		<column name="email" type="String" />
 		<column name="firstname" type="String" />
 		<column name="lastname" type="String" />
-		<column name="isMunicipal" type="boolean" />
-		<column name="isEurometropolitan" type="boolean" />
 		<column name="isActive" type="boolean" />
 		<column name="lastActivity" type="Date" />
 		<column name="lastSignInDeviceInfo" type="String" />
@@ -94,16 +92,6 @@
 		<finder name="GroupIdAndIsActive" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="isActive" />
-		</finder>
-		<finder name="GroupIdAndIsActiveAndIsMunicipal" return-type="Collection">
-			<finder-column name="groupId" />
-			<finder-column name="isActive" />
-			<finder-column name="isMunicipal" />
-		</finder>
-		<finder name="GroupIdAndIsActiveAndIsEurometropolitan" return-type="Collection">
-			<finder-column name="groupId" />
-			<finder-column name="isActive" />
-			<finder-column name="isEurometropolitan" />
 		</finder>
 
 		<!-- References -->
@@ -170,7 +158,6 @@
 		<!-- Business fields -->
 		<column name="title" type="String" />
 		<column name="date" type="Date" />
-		<column name="type" type="String" />
 
 		<!-- Links with other entities -->
 		<column name="officialLeaderId" type="long" />
@@ -188,7 +175,7 @@
 		<finder name="Date" return-type="Collection">
 			<finder-column name="date" />
 		</finder>
-		<finder name="Type" return-type="Collection">
+		<finder name="TypeId" return-type="Collection">
 			<finder-column name="typeId" />
 		</finder>
 

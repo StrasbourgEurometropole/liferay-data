@@ -83,7 +83,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
 			{ "date_", Types.TIMESTAMP },
-			{ "type_", Types.VARCHAR },
 			{ "officialLeaderId", Types.BIGINT },
 			{ "typeId", Types.BIGINT }
 		};
@@ -104,12 +103,11 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("date_", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("type_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("officialLeaderId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("typeId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,type_ VARCHAR(75) null,officialLeaderId LONG,typeId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_CouncilSession (uuid_ VARCHAR(75) null,councilSessionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,date_ DATE null,officialLeaderId LONG,typeId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_CouncilSession";
 	public static final String ORDER_BY_JPQL = " ORDER BY councilSession.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_CouncilSession.title ASC";
@@ -185,7 +183,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
-		attributes.put("type", getType());
 		attributes.put("officialLeaderId", getOfficialLeaderId());
 		attributes.put("typeId", getTypeId());
 
@@ -279,12 +276,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 		if (date != null) {
 			setDate(date);
-		}
-
-		String type = (String)attributes.get("type");
-
-		if (type != null) {
-			setType(type);
 		}
 
 		Long officialLeaderId = (Long)attributes.get("officialLeaderId");
@@ -551,21 +542,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	}
 
 	@Override
-	public String getType() {
-		if (_type == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _type;
-		}
-	}
-
-	@Override
-	public void setType(String type) {
-		_type = type;
-	}
-
-	@Override
 	public long getOfficialLeaderId() {
 		return _officialLeaderId;
 	}
@@ -728,7 +704,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		councilSessionImpl.setStatusDate(getStatusDate());
 		councilSessionImpl.setTitle(getTitle());
 		councilSessionImpl.setDate(getDate());
-		councilSessionImpl.setType(getType());
 		councilSessionImpl.setOfficialLeaderId(getOfficialLeaderId());
 		councilSessionImpl.setTypeId(getTypeId());
 
@@ -898,14 +873,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 			councilSessionCacheModel.date = Long.MIN_VALUE;
 		}
 
-		councilSessionCacheModel.type = getType();
-
-		String type = councilSessionCacheModel.type;
-
-		if ((type != null) && (type.length() == 0)) {
-			councilSessionCacheModel.type = null;
-		}
-
 		councilSessionCacheModel.officialLeaderId = getOfficialLeaderId();
 
 		councilSessionCacheModel.typeId = getTypeId();
@@ -915,7 +882,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(33);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -945,8 +912,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		sb.append(getTitle());
 		sb.append(", date=");
 		sb.append(getDate());
-		sb.append(", type=");
-		sb.append(getType());
 		sb.append(", officialLeaderId=");
 		sb.append(getOfficialLeaderId());
 		sb.append(", typeId=");
@@ -958,7 +923,7 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(52);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.CouncilSession");
@@ -1021,10 +986,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 		sb.append(getDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>type</column-name><column-value><![CDATA[");
-		sb.append(getType());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>officialLeaderId</column-name><column-value><![CDATA[");
 		sb.append(getOfficialLeaderId());
 		sb.append("]]></column-value></column>");
@@ -1064,7 +1025,6 @@ public class CouncilSessionModelImpl extends BaseModelImpl<CouncilSession>
 	private String _originalTitle;
 	private Date _date;
 	private Date _originalDate;
-	private String _type;
 	private long _officialLeaderId;
 	private long _typeId;
 	private long _originalTypeId;

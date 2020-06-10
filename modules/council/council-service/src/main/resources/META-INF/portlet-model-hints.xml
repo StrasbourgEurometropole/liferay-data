@@ -16,7 +16,6 @@
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
 		<field name="date" type="Date" />
-		<field name="type" type="String" />
 		<field name="officialLeaderId" type="long" />
 		<field name="typeId" type="long" />
 	</model>
@@ -58,8 +57,6 @@
 		<field name="email" type="String" />
 		<field name="firstname" type="String" />
 		<field name="lastname" type="String" />
-		<field name="isMunicipal" type="boolean" />
-		<field name="isEurometropolitan" type="boolean" />
 		<field name="isActive" type="boolean" />
 		<field name="lastActivity" type="Date" />
 		<field name="lastSignInDeviceInfo" type="String">
