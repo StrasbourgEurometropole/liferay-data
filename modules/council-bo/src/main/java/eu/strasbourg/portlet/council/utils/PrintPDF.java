@@ -95,9 +95,9 @@ public class PrintPDF {
 			document.setFont(fontBold).setFontSize(12f);
 
 			// titre du PDF
-			String titleCouncil = "CONSEIL" ;
+			String titleCouncil = "";
 			if (Validator.isNotNull(council)) {
-				titleCouncil +=  council.getTypeCouncil().getTitle().toUpperCase();
+				titleCouncil +=  council.getTypeCouncil().getTitleLong().toUpperCase();
 				SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyy", Locale.FRANCE);
 				titleCouncil += " DU " + sdf.format(council.getDate());
 			}
@@ -240,7 +240,7 @@ public class PrintPDF {
 			if (pdfWriter != null)
 				pdfWriter.close();
 
-			String fileName = "Conseil ";
+			String fileName = "";
 			if (Validator.isNotNull(council)) {
 				fileName +=  council.getTypeCouncil().getTitle();
 			}

@@ -68,6 +68,12 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	 */
 
 	/**
+	* Si le conseil a des délib
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasDelib(long councilSessionId);
+
+	/**
 	* Si la date avec l'ID donné est déjà utilisé par une autre session
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

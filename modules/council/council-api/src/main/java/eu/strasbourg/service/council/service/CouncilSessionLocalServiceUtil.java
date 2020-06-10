@@ -43,6 +43,13 @@ public class CouncilSessionLocalServiceUtil {
 	 */
 
 	/**
+	* Si le conseil a des délib
+	*/
+	public static boolean hasDelib(long councilSessionId) {
+		return getService().hasDelib(councilSessionId);
+	}
+
+	/**
 	* Si la date avec l'ID donné est déjà utilisé par une autre session
 	*/
 	public static boolean isDateAlreadyUsed(java.util.Date date,
