@@ -86,6 +86,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 			{ "statusByUserName", Types.VARCHAR },
 			{ "statusDate", Types.TIMESTAMP },
 			{ "title", Types.VARCHAR },
+			{ "titleLong", Types.VARCHAR },
 			{ "roleId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -104,10 +105,11 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("titleLong", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("roleId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Type (uuid_ VARCHAR(75) null,typeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,roleId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table council_Type (uuid_ VARCHAR(75) null,typeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,titleLong VARCHAR(75) null,roleId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table council_Type";
 	public static final String ORDER_BY_JPQL = " ORDER BY type.title ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Type.title ASC";
@@ -155,6 +157,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		model.setStatusByUserName(soapModel.getStatusByUserName());
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setTitle(soapModel.getTitle());
+		model.setTitleLong(soapModel.getTitleLong());
 		model.setRoleId(soapModel.getRoleId());
 
 		return model;
@@ -233,6 +236,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
+		attributes.put("titleLong", getTitleLong());
 		attributes.put("roleId", getRoleId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -319,6 +323,12 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 
 		if (title != null) {
 			setTitle(title);
+		}
+
+		String titleLong = (String)attributes.get("titleLong");
+
+		if (titleLong != null) {
+			setTitleLong(titleLong);
 		}
 
 		Long roleId = (Long)attributes.get("roleId");
@@ -573,6 +583,22 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 
 	@JSON
 	@Override
+	public String getTitleLong() {
+		if (_titleLong == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _titleLong;
+		}
+	}
+
+	@Override
+	public void setTitleLong(String titleLong) {
+		_titleLong = titleLong;
+	}
+
+	@JSON
+	@Override
 	public long getRoleId() {
 		return _roleId;
 	}
@@ -724,6 +750,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		typeImpl.setStatusByUserName(getStatusByUserName());
 		typeImpl.setStatusDate(getStatusDate());
 		typeImpl.setTitle(getTitle());
+		typeImpl.setTitleLong(getTitleLong());
 		typeImpl.setRoleId(getRoleId());
 
 		typeImpl.resetOriginalValues();
@@ -881,6 +908,14 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 			typeCacheModel.title = null;
 		}
 
+		typeCacheModel.titleLong = getTitleLong();
+
+		String titleLong = typeCacheModel.titleLong;
+
+		if ((titleLong != null) && (titleLong.length() == 0)) {
+			typeCacheModel.titleLong = null;
+		}
+
 		typeCacheModel.roleId = getRoleId();
 
 		return typeCacheModel;
@@ -888,7 +923,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -916,6 +951,8 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		sb.append(getStatusDate());
 		sb.append(", title=");
 		sb.append(getTitle());
+		sb.append(", titleLong=");
+		sb.append(getTitleLong());
 		sb.append(", roleId=");
 		sb.append(getRoleId());
 		sb.append("}");
@@ -925,7 +962,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Type");
@@ -984,6 +1021,10 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 		sb.append(getTitle());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>titleLong</column-name><column-value><![CDATA[");
+		sb.append(getTitleLong());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>roleId</column-name><column-value><![CDATA[");
 		sb.append(getRoleId());
 		sb.append("]]></column-value></column>");
@@ -1017,6 +1058,7 @@ public class TypeModelImpl extends BaseModelImpl<Type> implements TypeModel {
 	private Date _statusDate;
 	private String _title;
 	private String _originalTitle;
+	private String _titleLong;
 	private long _roleId;
 	private long _originalRoleId;
 	private boolean _setOriginalRoleId;

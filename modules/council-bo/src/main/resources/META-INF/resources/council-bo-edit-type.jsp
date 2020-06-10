@@ -26,6 +26,7 @@
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="title-long-error" message="title-long-error" />
 	<liferay-ui:error key="title-type-already-used-error" message="title-type-already-used-error" />
 	<liferay-ui:error key="role-error" message="role-error" />
 
@@ -47,6 +48,9 @@
 
 			    <%-- Champ : Titre --%>
                 <aui:input name="title" required="true" size="75" />
+
+			    <%-- Champ : Titre Long --%>
+                <aui:input name="titleLong" required="true" size="75" />
 
                  <%-- Champ : Rôle --%>
                 <aui:select name="roleId" label="role" required="true">

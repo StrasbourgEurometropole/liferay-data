@@ -28,6 +28,7 @@
 
 		<!-- Business fields -->
 		<column name="title" type="String" />
+		<column name="titleLong" type="String" />
 		<column name="roleId" type="long" />
 
 		<!-- Order -->
