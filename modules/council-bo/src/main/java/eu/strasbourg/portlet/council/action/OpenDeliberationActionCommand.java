@@ -13,10 +13,12 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.service.council.service.OfficialLocalService;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -28,6 +30,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,9 +88,18 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
 
         long typeId = councilSession.getTypeId();
 
-        List<Long> officials = OfficialTypeCouncilLocalServiceUtil.findByTypeId(typeId).stream()
+        List<Long> officialsType = OfficialTypeCouncilLocalServiceUtil.findByTypeId(typeId).stream()
                 .filter(o -> o.getGroupId() == sc.getScopeGroupId())
                 .map(o -> o.getOfficialId()).collect(Collectors.toList());
+
+        List<Official> officials = new ArrayList<>();
+
+        for (Long officialId : officialsType) {
+            Official official = OfficialLocalServiceUtil.fetchOfficial(officialId);
+            if (official != null && official.isIsActive()) {
+                officials.add(official);
+            }
+        }
 
         int countOfficialActive = officials.size();
         int countAbsentWithoutProc = Math.toIntExact(procurations.stream().filter(x -> x.isIsAbsent() && x.getOfficialVotersId() == 0).count());
