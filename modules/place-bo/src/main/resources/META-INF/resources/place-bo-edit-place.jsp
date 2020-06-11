@@ -36,63 +36,66 @@
 			<!-- Informations géographique -->
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="geographic-information">
-				
-					<div class="col-md-6">
-						
-						<aui:input name="SIGid2" type="hidden" value="${dc.place.SIGid}" />
-						
-						<aui:input name="SIGid" disabled="true" />
-						
-						<aui:input name="name2" type="hidden" value="${dc.place.name}" />
-					
-						<aui:input name="name" disabled="true" />
-						
-						<aui:input name="addressStreet2" type="hidden" value="${dc.place.addressStreet}" />
-						
-						<aui:input name="addressStreet" disabled="true" />
-						
-						<aui:input name="addressComplement2" type="hidden" value="${dc.place.addressComplement}" />
-						
-						<aui:input name="addressComplement" disabled="true" />
-						
-						<aui:input name="addressDistribution2" type="hidden" value="${dc.place.addressDistribution}" />
-						
-						<aui:input name="addressDistribution" disabled="true" />
-						
-						<aui:input name="addressZipCode2" type="hidden" value="${dc.place.addressZipCode}" />
-						
-						<aui:input name="addressZipCode" disabled="true" />
-						
-						<aui:input name="addressCountry2" type="hidden" value="${dc.place.addressCountry}" />
-						
-						<aui:input name="addressCountry" disabled="true" />
 
-					</div>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <aui:input name="SIGid2" type="hidden" value="${dc.place.SIGid}" />
+
+                            <aui:input name="SIGid" disabled="true" />
+
+                            <aui:input name="name2" type="hidden" value="${dc.place.name}" />
+
+                            <aui:input name="name" disabled="true" />
+
+                            <aui:input name="addressStreet2" type="hidden" value="${dc.place.addressStreet}" />
+
+                            <aui:input name="addressStreet" disabled="true" />
+
+                            <aui:input name="addressComplement2" type="hidden" value="${dc.place.addressComplement}" />
+
+                            <aui:input name="addressComplement" disabled="true" />
+
+                            <aui:input name="addressDistribution2" type="hidden" value="${dc.place.addressDistribution}" />
+
+                            <aui:input name="addressDistribution" disabled="true" />
+
+                            <aui:input name="addressZipCode2" type="hidden" value="${dc.place.addressZipCode}" />
+
+                            <aui:input name="addressZipCode" disabled="true" />
+
+                            <aui:input name="addressCountry2" type="hidden" value="${dc.place.addressCountry}" />
+
+                            <aui:input name="addressCountry" disabled="true" />
+
+                        </div>
 					
-					<div class="col-md-6">
-					
-						<label><liferay-ui:message key="mercator-coordinates" /></label><br>
-						
-						<aui:input name="mercatorX2" type="hidden" value="${dc.place.mercatorX}" />
-						
-						<aui:input name="mercatorX" disabled="true" />
-						
-						<aui:input name="mercatorY2" type="hidden" value="${dc.place.mercatorY}" />
-						
-						<aui:input name="mercatorY" disabled="true" />
-						
-						<label><liferay-ui:message key="rgf93" /></label><br>
-						
-						<aui:input name="RGF93X2" type="hidden" value="${dc.place.RGF93X}" />
-						
-						<aui:input name="RGF93X" disabled="true" />
-						
-						<aui:input name="RGF93Y2" type="hidden" value="${dc.place.RGF93Y}" />
-						
-						<aui:input name="RGF93Y" disabled="true" />
-						
-					</div>
-				
+                        <div class="col-md-6">
+
+                            <label><liferay-ui:message key="mercator-coordinates" /></label><br>
+
+                            <aui:input name="mercatorX2" type="hidden" value="${dc.place.mercatorX}" />
+
+                            <aui:input name="mercatorX" disabled="true" />
+
+                            <aui:input name="mercatorY2" type="hidden" value="${dc.place.mercatorY}" />
+
+                            <aui:input name="mercatorY" disabled="true" />
+
+                            <label><liferay-ui:message key="rgf93" /></label><br>
+
+                            <aui:input name="RGF93X2" type="hidden" value="${dc.place.RGF93X}" />
+
+                            <aui:input name="RGF93X" disabled="true" />
+
+                            <aui:input name="RGF93Y2" type="hidden" value="${dc.place.RGF93Y}" />
+
+                            <aui:input name="RGF93Y" disabled="true" />
+
+                        </div>
+
+                    </div>
+
 			</aui:fieldset>
 			
 			<!-- Categorisation -->
