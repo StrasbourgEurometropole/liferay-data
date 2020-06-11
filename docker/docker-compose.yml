@@ -10,7 +10,7 @@ services:
 # --- For docker-compose (without Swarm mode) ----
       - bootstrap.memory_lock=true
       - cluster.name=LiferayElasticsearchCluster
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" 
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g" 
     ulimits:
       memlock:
         soft: -1
