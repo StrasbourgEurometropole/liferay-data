@@ -119,6 +119,8 @@ Images à créer :
     * dans le répertoire de configuration `configs/liferay-ems` :
         * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
         * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
+        * `files/tomcat/conf/context.xml` pour définir les propriétés de lancement du serveur.
+        * `files/tomcat/conf/server.xml` pour exporter le port AJP.
         * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
         * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
         * `files/osgi/configs` dossier dans lequel placer tous les fichiers de config osgi.
