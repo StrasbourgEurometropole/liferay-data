@@ -38,15 +38,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <link rel="stylesheet" href="/o/strasbourg-theme/css/leaflet.css" />
 
 <@liferay_util["html-bottom"]>
-    <script>
-        define._amd = define.amd;
-        define.amd = false;
-    </script>
     <script src="/o/strasbourg-theme/js/leaflet.js"></script>
     <script src="/o/strasbourg-theme/js/map.js"></script>
-    <script>
-        define.amd = define._amd;
-    </script>
 </@>
 
 <div class="seu-page-lieu">
