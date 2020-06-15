@@ -37,6 +37,7 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
     private List<Official> officials;
 
     public static final String CATEGORY_ACTIVE = "Actif";
+    public static final String CATEGORY_INACTIVE = "Inactif";
 
     public ViewOfficialsDisplayContext(RenderRequest request, RenderResponse response) {
         super(Official.class, request, response);
@@ -147,9 +148,21 @@ public class ViewOfficialsDisplayContext extends ViewListBaseDisplayContext<Offi
             _filterCategoriesIds = _filterCategoriesIds
                     .replace(vocabularyToRemove + ",", "");
         }
+
+        AssetCategory catInactive = AssetVocabularyHelper.getCategory(CATEGORY_INACTIVE, this._themeDisplay.getScopeGroupId());
         AssetCategory catActive = AssetVocabularyHelper.getCategory(CATEGORY_ACTIVE, this._themeDisplay.getScopeGroupId());
-        String categoryToAdd = ParamUtil.getString(
-                this._request, "categoryToAdd", catActive != null ? Long.toString(catActive.getCategoryId()) : "");
+        String categoryToAdd ="";
+        // Si FilterCategorie contient déjà l'une des catégories d'activité, on cherche categoryToAdd normalement
+        // (Ca empêche de flood filterCategorie avec l'id de "Actif)
+        if((catActive != null && _filterCategoriesIds.contains(String.valueOf(catActive.getCategoryId())))
+            ||
+            (catInactive != null &&    _filterCategoriesIds.contains(String.valueOf(catInactive.getCategoryId()))) ) {
+            categoryToAdd = ParamUtil.getString(this._request, "categoryToAdd");
+        } else {
+            categoryToAdd = ParamUtil.getString(
+                    this._request, "categoryToAdd", catActive != null ? Long.toString(catActive.getCategoryId()) : "");
+        }
+
         if (Validator.isNotNull(categoryToAdd)) {
             _filterCategoriesIds += categoryToAdd + ",";
         }
