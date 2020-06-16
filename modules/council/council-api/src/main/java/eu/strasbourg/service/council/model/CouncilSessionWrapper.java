@@ -74,8 +74,8 @@ public class CouncilSessionWrapper implements CouncilSession,
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
-		attributes.put("type", getType());
 		attributes.put("officialLeaderId", getOfficialLeaderId());
+		attributes.put("typeId", getTypeId());
 
 		return attributes;
 	}
@@ -166,16 +166,16 @@ public class CouncilSessionWrapper implements CouncilSession,
 			setDate(date);
 		}
 
-		String type = (String)attributes.get("type");
-
-		if (type != null) {
-			setType(type);
-		}
-
 		Long officialLeaderId = (Long)attributes.get("officialLeaderId");
 
 		if (officialLeaderId != null) {
 			setOfficialLeaderId(officialLeaderId);
+		}
+
+		Long typeId = (Long)attributes.get("typeId");
+
+		if (typeId != null) {
+			setTypeId(typeId);
 		}
 	}
 
@@ -220,14 +220,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
-	* Si le type de la session est Eurmetropolitan
-	*/
-	@Override
-	public boolean isEurometropolitan() {
-		return _councilSession.isEurometropolitan();
-	}
-
-	/**
 	* Returns <code>true</code> if this council session is expired.
 	*
 	* @return <code>true</code> if this council session is expired; <code>false</code> otherwise
@@ -255,14 +247,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public boolean isIncomplete() {
 		return _councilSession.isIncomplete();
-	}
-
-	/**
-	* Si le type de la session est Municipal
-	*/
-	@Override
-	public boolean isMinicipal() {
-		return _councilSession.isMinicipal();
 	}
 
 	@Override
@@ -324,6 +308,14 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public eu.strasbourg.service.council.model.Official getOfficialLeader() {
 		return _councilSession.getOfficialLeader();
+	}
+
+	/**
+	* Renvoie le type de conseil rattachées à cette sessions
+	*/
+	@Override
+	public eu.strasbourg.service.council.model.Type getTypeCouncil() {
+		return _councilSession.getTypeCouncil();
 	}
 
 	@Override
@@ -393,16 +385,6 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public java.lang.String getTitle() {
 		return _councilSession.getTitle();
-	}
-
-	/**
-	* Returns the type of this council session.
-	*
-	* @return the type of this council session
-	*/
-	@Override
-	public java.lang.String getType() {
-		return _councilSession.getType();
 	}
 
 	/**
@@ -559,6 +541,16 @@ public class CouncilSessionWrapper implements CouncilSession,
 	@Override
 	public long getStatusByUserId() {
 		return _councilSession.getStatusByUserId();
+	}
+
+	/**
+	* Returns the type ID of this council session.
+	*
+	* @return the type ID of this council session
+	*/
+	@Override
+	public long getTypeId() {
+		return _councilSession.getTypeId();
 	}
 
 	/**
@@ -748,13 +740,13 @@ public class CouncilSessionWrapper implements CouncilSession,
 	}
 
 	/**
-	* Sets the type of this council session.
+	* Sets the type ID of this council session.
 	*
-	* @param type the type of this council session
+	* @param typeId the type ID of this council session
 	*/
 	@Override
-	public void setType(java.lang.String type) {
-		_councilSession.setType(type);
+	public void setTypeId(long typeId) {
+		_councilSession.setTypeId(typeId);
 	}
 
 	/**

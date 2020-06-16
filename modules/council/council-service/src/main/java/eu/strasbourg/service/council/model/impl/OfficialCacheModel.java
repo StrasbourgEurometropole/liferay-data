@@ -65,7 +65,7 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -97,10 +97,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		sb.append(firstname);
 		sb.append(", lastname=");
 		sb.append(lastname);
-		sb.append(", isMunicipal=");
-		sb.append(isMunicipal);
-		sb.append(", isEurometropolitan=");
-		sb.append(isEurometropolitan);
 		sb.append(", isActive=");
 		sb.append(isActive);
 		sb.append(", lastActivity=");
@@ -187,8 +183,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			officialImpl.setLastname(lastname);
 		}
 
-		officialImpl.setIsMunicipal(isMunicipal);
-		officialImpl.setIsEurometropolitan(isEurometropolitan);
 		officialImpl.setIsActive(isActive);
 
 		if (lastActivity == Long.MIN_VALUE) {
@@ -233,10 +227,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 		email = objectInput.readUTF();
 		firstname = objectInput.readUTF();
 		lastname = objectInput.readUTF();
-
-		isMunicipal = objectInput.readBoolean();
-
-		isEurometropolitan = objectInput.readBoolean();
 
 		isActive = objectInput.readBoolean();
 		lastActivity = objectInput.readLong();
@@ -305,10 +295,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 			objectOutput.writeUTF(lastname);
 		}
 
-		objectOutput.writeBoolean(isMunicipal);
-
-		objectOutput.writeBoolean(isEurometropolitan);
-
 		objectOutput.writeBoolean(isActive);
 		objectOutput.writeLong(lastActivity);
 
@@ -335,8 +321,6 @@ public class OfficialCacheModel implements CacheModel<Official>, Externalizable 
 	public String email;
 	public String firstname;
 	public String lastname;
-	public boolean isMunicipal;
-	public boolean isEurometropolitan;
 	public boolean isActive;
 	public long lastActivity;
 	public String lastSignInDeviceInfo;

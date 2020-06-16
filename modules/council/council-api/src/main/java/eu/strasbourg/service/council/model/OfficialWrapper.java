@@ -74,8 +74,6 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("email", getEmail());
 		attributes.put("firstname", getFirstname());
 		attributes.put("lastname", getLastname());
-		attributes.put("isMunicipal", getIsMunicipal());
-		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
 		attributes.put("lastActivity", getLastActivity());
 		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
@@ -175,19 +173,6 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 			setLastname(lastname);
 		}
 
-		Boolean isMunicipal = (Boolean)attributes.get("isMunicipal");
-
-		if (isMunicipal != null) {
-			setIsMunicipal(isMunicipal);
-		}
-
-		Boolean isEurometropolitan = (Boolean)attributes.get(
-				"isEurometropolitan");
-
-		if (isEurometropolitan != null) {
-			setIsEurometropolitan(isEurometropolitan);
-		}
-
 		Boolean isActive = (Boolean)attributes.get("isActive");
 
 		if (isActive != null) {
@@ -216,26 +201,6 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean getIsActive() {
 		return _official.getIsActive();
-	}
-
-	/**
-	* Returns the is eurometropolitan of this official.
-	*
-	* @return the is eurometropolitan of this official
-	*/
-	@Override
-	public boolean getIsEurometropolitan() {
-		return _official.getIsEurometropolitan();
-	}
-
-	/**
-	* Returns the is municipal of this official.
-	*
-	* @return the is municipal of this official
-	*/
-	@Override
-	public boolean getIsMunicipal() {
-		return _official.getIsMunicipal();
 	}
 
 	/**
@@ -326,26 +291,6 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public boolean isIsActive() {
 		return _official.isIsActive();
-	}
-
-	/**
-	* Returns <code>true</code> if this official is is eurometropolitan.
-	*
-	* @return <code>true</code> if this official is is eurometropolitan; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isIsEurometropolitan() {
-		return _official.isIsEurometropolitan();
-	}
-
-	/**
-	* Returns <code>true</code> if this official is is municipal.
-	*
-	* @return <code>true</code> if this official is is municipal; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isIsMunicipal() {
-		return _official.isIsMunicipal();
 	}
 
 	@Override
@@ -445,6 +390,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public java.lang.Object clone() {
 		return new OfficialWrapper((Official)_official.clone());
+	}
+
+	/**
+	* Renvoie un strind 'id types de conseil rattachés à cet élu
+	*/
+	@Override
+	public java.lang.String getCouncilTypesIds() {
+		return _official.getCouncilTypesIds();
 	}
 
 	/**
@@ -604,6 +557,14 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	* Renvoie les types de conseil rattachés à cet élu
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Type> getCouncilTypes() {
+		return _official.getCouncilTypes();
+	}
+
+	/**
 	* Returns the company ID of this official.
 	*
 	* @return the company ID of this official
@@ -747,26 +708,6 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setIsActive(boolean isActive) {
 		_official.setIsActive(isActive);
-	}
-
-	/**
-	* Sets whether this official is is eurometropolitan.
-	*
-	* @param isEurometropolitan the is eurometropolitan of this official
-	*/
-	@Override
-	public void setIsEurometropolitan(boolean isEurometropolitan) {
-		_official.setIsEurometropolitan(isEurometropolitan);
-	}
-
-	/**
-	* Sets whether this official is is municipal.
-	*
-	* @param isMunicipal the is municipal of this official
-	*/
-	@Override
-	public void setIsMunicipal(boolean isMunicipal) {
-		_official.setIsMunicipal(isMunicipal);
 	}
 
 	/**

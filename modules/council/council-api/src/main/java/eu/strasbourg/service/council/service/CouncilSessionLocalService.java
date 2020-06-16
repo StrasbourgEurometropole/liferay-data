@@ -68,17 +68,23 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	 */
 
 	/**
+	* Si le conseil a des délib
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasDelib(long councilSessionId);
+
+	/**
 	* Si la date avec l'ID donné est déjà utilisé par une autre session
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
 
 	/**
-	* Si le titre avec l'ID donné est déjà utilisé par une autre session
+	* Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isTitleAlreadyUsed(java.lang.String title,
-		long councilSessionId);
+	public boolean isTitleAlreadyUsedInCouncilTypeId(java.lang.String title,
+		long councilSessionId, long typeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -275,6 +281,11 @@ public interface CouncilSessionLocalService extends BaseLocalService,
 	* Recherche par titre de CouncilSession
 	*/
 	public List<CouncilSession> findByTitre(java.lang.String title);
+
+	/**
+	* Recherche par type de CouncilSession
+	*/
+	public List<CouncilSession> findByTypeId(long typeId);
 
 	/**
 	* Returns a range of all the council sessions.

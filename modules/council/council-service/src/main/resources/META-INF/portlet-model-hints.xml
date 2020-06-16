@@ -16,8 +16,8 @@
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
 		<field name="date" type="Date" />
-		<field name="type" type="String" />
 		<field name="officialLeaderId" type="long" />
+		<field name="typeId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Deliberation">
 		<field name="uuid" type="String" />
@@ -57,13 +57,20 @@
 		<field name="email" type="String" />
 		<field name="firstname" type="String" />
 		<field name="lastname" type="String" />
-		<field name="isMunicipal" type="boolean" />
-		<field name="isEurometropolitan" type="boolean" />
 		<field name="isActive" type="boolean" />
 		<field name="lastActivity" type="Date" />
 		<field name="lastSignInDeviceInfo" type="String">
 			<hint name="max-length">300</hint>
 		</field>
+	</model>
+	<model name="eu.strasbourg.service.council.model.OfficialTypeCouncil">
+		<field name="uuid" type="String" />
+		<field name="officialId" type="long" />
+		<field name="typeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="result" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Procuration">
 		<field name="uuid" type="String" />
@@ -82,6 +89,23 @@
 		<field name="officialUnavailableId" type="long" />
 		<field name="councilSessionId" type="long" />
 		<field name="isAbsent" type="boolean" />
+	</model>
+	<model name="eu.strasbourg.service.council.model.Type">
+		<field name="uuid" type="String" />
+		<field name="typeId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="titleLong" type="String" />
+		<field name="roleId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.council.model.Vote">
 		<field name="uuid" type="String" />

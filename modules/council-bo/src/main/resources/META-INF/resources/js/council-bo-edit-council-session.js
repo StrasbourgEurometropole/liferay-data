@@ -1,13 +1,7 @@
 var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
 
-/** Définition des types de session **/
-let sessionTypes = [
-    'municipal',
-    'eurometropolitan'
-]
-
 /** Lors de la sélection d'un type de session **/
-$('input[type=radio][name=' + namespace + 'type]').change(function() {
+$('#' + namespace + 'council-type').change(function() {
     hideAllOfficials();
     showSelectedTypeOfficials(this.value);
 });
@@ -15,19 +9,17 @@ $('input[type=radio][name=' + namespace + 'type]').change(function() {
 /** Lors du chargement de la page **/
 $(document).ready(function() {
     hideAllOfficials();
-    showSelectedTypeOfficials($('input[type=radio][name=' + namespace + 'type]:checked').val());
+    showSelectedTypeOfficials($('#' + namespace + 'council-type').val());
 });
 
 /** Cache tous les élus **/
 function hideAllOfficials() {
-    for (const sessionType of sessionTypes){
-        $('tr[data-is-' + sessionType + '="true"]').hide();
-    }
+    $('tr[data-council-types]').hide();
 }
 
 /** Affiche les élus du type sélectionné **/
 function showSelectedTypeOfficials(type) {
-    $('tr[data-is-' + type + '="true"]').show();
+    $('tr[data-council-types*=' + type + ']').show();
 }
 
 /** Lors d'un check/unchecked d'une absence **/

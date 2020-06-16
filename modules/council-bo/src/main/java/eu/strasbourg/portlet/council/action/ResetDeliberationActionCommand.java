@@ -24,6 +24,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.Date;
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -68,6 +69,11 @@ public class ResetDeliberationActionCommand extends BaseMVCActionCommand {
 
 
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
+        //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
+        List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
+        for (AssetCategory existingCat : existingStageCategories) {
+            AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+        }
         if(stageCategory != null)
             AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
         // Update de l'entité

@@ -21,8 +21,10 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.List;
@@ -83,28 +85,20 @@ public class CouncilSessionImpl extends CouncilSessionBaseImpl {
 	}
 
 	/**
+	 * Renvoie le type de conseil rattachées à cette sessions
+	 */
+	@Override
+	public Type getTypeCouncil() {
+		return TypeLocalServiceUtil.fetchType(this.getTypeId());
+	}
+
+	/**
 	 * Renvoie le nom complet de l'élu président du conseil
 	 */
 	@Override
 	public String getOfficialLeaderFullName() {
 		Official official = this.getOfficialLeader();
 		return official != null ? official.getFullName() : "";
-	}
-
-	/**
-	 * Si le type de la session est Municipal
-	 */
-	@Override
-	public boolean isMinicipal() {
-		return this.getType().equals(MUNICIPAL);
-	}
-
-	/**
-	 * Si le type de la session est Eurmetropolitan
-	 */
-	@Override
-	public boolean isEurometropolitan() {
-		return this.getType().equals(EUROMETROPOLITAN);
 	}
 
 }

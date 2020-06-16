@@ -89,8 +89,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			{ "email", Types.VARCHAR },
 			{ "firstname", Types.VARCHAR },
 			{ "lastname", Types.VARCHAR },
-			{ "isMunicipal", Types.BOOLEAN },
-			{ "isEurometropolitan", Types.BOOLEAN },
 			{ "isActive", Types.BOOLEAN },
 			{ "lastActivity", Types.TIMESTAMP },
 			{ "lastSignInDeviceInfo", Types.VARCHAR }
@@ -113,14 +111,12 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastname", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("isMunicipal", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("isEurometropolitan", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("lastActivity", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastSignInDeviceInfo", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN,lastActivity DATE null,lastSignInDeviceInfo VARCHAR(300) null)";
+	public static final String TABLE_SQL_CREATE = "create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isActive BOOLEAN,lastActivity DATE null,lastSignInDeviceInfo VARCHAR(300) null)";
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
 	public static final String ORDER_BY_JPQL = " ORDER BY official.lastname ASC, official.firstname ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY council_Official.lastname ASC, council_Official.firstname ASC";
@@ -140,11 +136,9 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	public static final long EMAIL_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
-	public static final long ISEUROMETROPOLITAN_COLUMN_BITMASK = 16L;
-	public static final long ISMUNICIPAL_COLUMN_BITMASK = 32L;
-	public static final long UUID_COLUMN_BITMASK = 64L;
-	public static final long LASTNAME_COLUMN_BITMASK = 128L;
-	public static final long FIRSTNAME_COLUMN_BITMASK = 256L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long LASTNAME_COLUMN_BITMASK = 32L;
+	public static final long FIRSTNAME_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -174,8 +168,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		model.setEmail(soapModel.getEmail());
 		model.setFirstname(soapModel.getFirstname());
 		model.setLastname(soapModel.getLastname());
-		model.setIsMunicipal(soapModel.getIsMunicipal());
-		model.setIsEurometropolitan(soapModel.getIsEurometropolitan());
 		model.setIsActive(soapModel.getIsActive());
 		model.setLastActivity(soapModel.getLastActivity());
 		model.setLastSignInDeviceInfo(soapModel.getLastSignInDeviceInfo());
@@ -258,8 +250,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		attributes.put("email", getEmail());
 		attributes.put("firstname", getFirstname());
 		attributes.put("lastname", getLastname());
-		attributes.put("isMunicipal", getIsMunicipal());
-		attributes.put("isEurometropolitan", getIsEurometropolitan());
 		attributes.put("isActive", getIsActive());
 		attributes.put("lastActivity", getLastActivity());
 		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
@@ -360,19 +350,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 		if (lastname != null) {
 			setLastname(lastname);
-		}
-
-		Boolean isMunicipal = (Boolean)attributes.get("isMunicipal");
-
-		if (isMunicipal != null) {
-			setIsMunicipal(isMunicipal);
-		}
-
-		Boolean isEurometropolitan = (Boolean)attributes.get(
-				"isEurometropolitan");
-
-		if (isEurometropolitan != null) {
-			setIsEurometropolitan(isEurometropolitan);
 		}
 
 		Boolean isActive = (Boolean)attributes.get("isActive");
@@ -676,64 +653,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@JSON
 	@Override
-	public boolean getIsMunicipal() {
-		return _isMunicipal;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsMunicipal() {
-		return _isMunicipal;
-	}
-
-	@Override
-	public void setIsMunicipal(boolean isMunicipal) {
-		_columnBitmask |= ISMUNICIPAL_COLUMN_BITMASK;
-
-		if (!_setOriginalIsMunicipal) {
-			_setOriginalIsMunicipal = true;
-
-			_originalIsMunicipal = _isMunicipal;
-		}
-
-		_isMunicipal = isMunicipal;
-	}
-
-	public boolean getOriginalIsMunicipal() {
-		return _originalIsMunicipal;
-	}
-
-	@JSON
-	@Override
-	public boolean getIsEurometropolitan() {
-		return _isEurometropolitan;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsEurometropolitan() {
-		return _isEurometropolitan;
-	}
-
-	@Override
-	public void setIsEurometropolitan(boolean isEurometropolitan) {
-		_columnBitmask |= ISEUROMETROPOLITAN_COLUMN_BITMASK;
-
-		if (!_setOriginalIsEurometropolitan) {
-			_setOriginalIsEurometropolitan = true;
-
-			_originalIsEurometropolitan = _isEurometropolitan;
-		}
-
-		_isEurometropolitan = isEurometropolitan;
-	}
-
-	public boolean getOriginalIsEurometropolitan() {
-		return _originalIsEurometropolitan;
-	}
-
-	@JSON
-	@Override
 	public boolean getIsActive() {
 		return _isActive;
 	}
@@ -920,8 +839,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialImpl.setEmail(getEmail());
 		officialImpl.setFirstname(getFirstname());
 		officialImpl.setLastname(getLastname());
-		officialImpl.setIsMunicipal(getIsMunicipal());
-		officialImpl.setIsEurometropolitan(getIsEurometropolitan());
 		officialImpl.setIsActive(getIsActive());
 		officialImpl.setLastActivity(getLastActivity());
 		officialImpl.setLastSignInDeviceInfo(getLastSignInDeviceInfo());
@@ -1004,14 +921,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		officialModelImpl._setModifiedDate = false;
 
 		officialModelImpl._originalEmail = officialModelImpl._email;
-
-		officialModelImpl._originalIsMunicipal = officialModelImpl._isMunicipal;
-
-		officialModelImpl._setOriginalIsMunicipal = false;
-
-		officialModelImpl._originalIsEurometropolitan = officialModelImpl._isEurometropolitan;
-
-		officialModelImpl._setOriginalIsEurometropolitan = false;
 
 		officialModelImpl._originalIsActive = officialModelImpl._isActive;
 
@@ -1111,10 +1020,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 			officialCacheModel.lastname = null;
 		}
 
-		officialCacheModel.isMunicipal = getIsMunicipal();
-
-		officialCacheModel.isEurometropolitan = getIsEurometropolitan();
-
 		officialCacheModel.isActive = getIsActive();
 
 		Date lastActivity = getLastActivity();
@@ -1140,7 +1045,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -1172,10 +1077,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getFirstname());
 		sb.append(", lastname=");
 		sb.append(getLastname());
-		sb.append(", isMunicipal=");
-		sb.append(getIsMunicipal());
-		sb.append(", isEurometropolitan=");
-		sb.append(getIsEurometropolitan());
 		sb.append(", isActive=");
 		sb.append(getIsActive());
 		sb.append(", lastActivity=");
@@ -1189,7 +1090,7 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(64);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("eu.strasbourg.service.council.model.Official");
@@ -1256,14 +1157,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 		sb.append(getLastname());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>isMunicipal</column-name><column-value><![CDATA[");
-		sb.append(getIsMunicipal());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>isEurometropolitan</column-name><column-value><![CDATA[");
-		sb.append(getIsEurometropolitan());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>isActive</column-name><column-value><![CDATA[");
 		sb.append(getIsActive());
 		sb.append("]]></column-value></column>");
@@ -1307,12 +1200,6 @@ public class OfficialModelImpl extends BaseModelImpl<Official>
 	private String _originalEmail;
 	private String _firstname;
 	private String _lastname;
-	private boolean _isMunicipal;
-	private boolean _originalIsMunicipal;
-	private boolean _setOriginalIsMunicipal;
-	private boolean _isEurometropolitan;
-	private boolean _originalIsEurometropolitan;
-	private boolean _setOriginalIsEurometropolitan;
 	private boolean _isActive;
 	private boolean _originalIsActive;
 	private boolean _setOriginalIsActive;

@@ -22,7 +22,11 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
-import com.liferay.document.library.kernel.service.*;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -40,12 +44,17 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.TextFormatter;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.adict.Street;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.poi.PoiService;
 import eu.strasbourg.service.poi.PoiServiceTracker;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgServiceBaseImpl;
@@ -182,7 +191,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	public JSONObject getPois(String interests, long groupId) {
 		return getPoiService().getPois(interests, groupId);
 	}
-
+	
 	@Override
 	public JSONObject getPois(String interests, long groupId, String localeId) {
 		return getPoiService().getPois(interests, groupId, localeId);
@@ -204,7 +213,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	public JSONObject getPois(String interests, String categories, String prefilters, long groupId, String typeContenu) {
 		return getPoiService().getPois(interests, categories, prefilters, groupId, typeContenu);
 	}
-
+	
 	@Override
 	public JSONObject getPois(String interests, String categories, String prefilters, long groupId, String typeContenu, String localeId) {
 		return getPoiService().getPois(interests, categories, prefilters, groupId, typeContenu, localeId);
@@ -231,7 +240,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 		return getPoiService().getFavoritesPois(userId, groupId, typeContenu);
 	}
-
+	
 	@Override
 	public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId) {
 		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
@@ -462,7 +471,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 				AssetCategory commissionCateg = null;
 				if(Validator.isNotNull(commissionVocabulary)) {
 					Optional<AssetCategory> commissionCategOptional = commissionVocabulary.getCategories().stream()
-							.filter(c -> StringHelper.compareIgnoringAccentuation(c.getName(),commissionName)).findFirst();
+							.filter(c -> StringHelper.compareIgnoringAccentuation(c.getTitle(Locale.FRANCE),commissionName)).findFirst();
 					if(commissionCategOptional.isPresent()) {
 						commissionCateg = commissionCategOptional.get();
 					}else{

@@ -2,6 +2,10 @@
 
 <c:set var="tab" value="${not empty param.tab ? param.tab : 'councilSessions' }" />
 
+<liferay-portlet:renderURL var="typesURL">
+	<portlet:param name="tab" value="types" />
+</liferay-portlet:renderURL>
+
 <liferay-portlet:renderURL var="councilSessionsURL">
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:renderURL>
@@ -30,6 +34,10 @@
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
+	    <c:if test="${isAdmin || isAdminEvote}">
+            <aui:nav-item href="${typesURL}" label="councilTypes"
+                selected="${tab eq 'types'}" />
+	    </c:if>
 		<aui:nav-item href="${councilSessionsURL}" label="councilSessions"
 			selected="${tab eq 'councilSessions'}" />
 
@@ -54,6 +62,10 @@
 </aui:nav-bar>
 
 <c:choose>
+    <c:when test="${tab eq 'types' && (isAdmin || isAdminEvote)}">
+		<liferay-util:include page="/council-bo-view-types.jsp" servletContext="<%=application %>">
+		</liferay-util:include>
+    </c:when>
     <c:when test="${tab eq 'councilSessions'}">
 		<liferay-util:include page="/council-bo-view-council-sessions.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
