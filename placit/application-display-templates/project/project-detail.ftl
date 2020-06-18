@@ -26,14 +26,21 @@
 
 <#-- Recuperation des données JSON de chaque entité liées -->
 <#list projectEvents as event >
-    <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
+    <#if event?has_content>
+        <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
+    </#if>
 </#list>
 
+<!-- vignette -->
 <#list projectParticipations as participation >
-    <#assign participationsJSON = participationsJSON + [participation.toJSON(themeDisplay)] />
-    <#list participation.getEvents() as event >
-         <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
-    </#list>
+    <#if participation?has_content>
+        <#assign participationsJSON = participationsJSON + [participation.toJSON(themeDisplay)] />
+        <#list participation.getEvents() as event >
+            <#if event?has_content>
+                <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
+            </#if>
+        </#list>
+    </#if>
 </#list>
 
 <#assign imageUrlOG = ""/>
