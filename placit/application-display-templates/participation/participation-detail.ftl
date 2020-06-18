@@ -145,8 +145,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active">
-                                	<a href="#description" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a>
+                                <li role="presentation">
+                                	<a href="#description" class="active" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a>
                                 </li>
                                 <li role="presentation">
                                 	<a href="#lieux" aria-controls="lieux" role="tab" data-toggle="tab" title="Onglet de Lieux de consultation">Lieux de consultation</a>
