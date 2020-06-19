@@ -263,7 +263,7 @@ public class ContactFormContactAction implements MVCActionCommand {
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
         PortletURL renderUrl = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                 PortletRequest.RENDER_PHASE);
-        renderUrl.getRenderParameters().setValue("mailSent", "true");
+        renderUrl.setParameter("mailSent", "true");
         try {
             response.sendRedirect(renderUrl.toString());
         } catch (IOException e) {
