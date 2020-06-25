@@ -94,7 +94,7 @@
                             </div>
                             <div class="wrapper-row">
                                 <label><liferay-ui:message key="officials-active"/></label>
-                                <span>${dc.deliberation.countOfficialsVoting}</span>
+                                <span>${dc.deliberation.countOfficialsActive}</span>
                             </div>
                         </div>
                         <div class="wrapper-column">

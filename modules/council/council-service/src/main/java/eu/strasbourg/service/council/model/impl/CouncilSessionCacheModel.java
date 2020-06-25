@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.CouncilSession;
 
@@ -33,12 +34,12 @@ import java.util.Date;
  * The cache model class for representing CouncilSession in entity cache.
  *
  * @author Brian Wing Shun Chan
+ * @see CouncilSession
  * @generated
  */
 @ProviderType
-public class CouncilSessionCacheModel
-	implements CacheModel<CouncilSession>, Externalizable {
-
+public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
+	Externalizable {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -49,8 +50,7 @@ public class CouncilSessionCacheModel
 			return false;
 		}
 
-		CouncilSessionCacheModel councilSessionCacheModel =
-			(CouncilSessionCacheModel)obj;
+		CouncilSessionCacheModel councilSessionCacheModel = (CouncilSessionCacheModel)obj;
 
 		if (councilSessionId == councilSessionCacheModel.councilSessionId) {
 			return true;
@@ -110,7 +110,7 @@ public class CouncilSessionCacheModel
 		CouncilSessionImpl councilSessionImpl = new CouncilSessionImpl();
 
 		if (uuid == null) {
-			councilSessionImpl.setUuid("");
+			councilSessionImpl.setUuid(StringPool.BLANK);
 		}
 		else {
 			councilSessionImpl.setUuid(uuid);
@@ -122,7 +122,7 @@ public class CouncilSessionCacheModel
 		councilSessionImpl.setUserId(userId);
 
 		if (userName == null) {
-			councilSessionImpl.setUserName("");
+			councilSessionImpl.setUserName(StringPool.BLANK);
 		}
 		else {
 			councilSessionImpl.setUserName(userName);
@@ -146,7 +146,7 @@ public class CouncilSessionCacheModel
 		councilSessionImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			councilSessionImpl.setStatusByUserName("");
+			councilSessionImpl.setStatusByUserName(StringPool.BLANK);
 		}
 		else {
 			councilSessionImpl.setStatusByUserName(statusByUserName);
@@ -160,7 +160,7 @@ public class CouncilSessionCacheModel
 		}
 
 		if (title == null) {
-			councilSessionImpl.setTitle("");
+			councilSessionImpl.setTitle(StringPool.BLANK);
 		}
 		else {
 			councilSessionImpl.setTitle(title);
@@ -174,7 +174,7 @@ public class CouncilSessionCacheModel
 		}
 
 		if (type == null) {
-			councilSessionImpl.setType("");
+			councilSessionImpl.setType(StringPool.BLANK);
 		}
 		else {
 			councilSessionImpl.setType(type);
@@ -215,9 +215,10 @@ public class CouncilSessionCacheModel
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+	public void writeExternal(ObjectOutput objectOutput)
+		throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -232,7 +233,7 @@ public class CouncilSessionCacheModel
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -246,7 +247,7 @@ public class CouncilSessionCacheModel
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -255,7 +256,7 @@ public class CouncilSessionCacheModel
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(title);
@@ -264,7 +265,7 @@ public class CouncilSessionCacheModel
 		objectOutput.writeLong(date);
 
 		if (type == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(type);
@@ -289,5 +290,4 @@ public class CouncilSessionCacheModel
 	public long date;
 	public String type;
 	public long officialLeaderId;
-
 }

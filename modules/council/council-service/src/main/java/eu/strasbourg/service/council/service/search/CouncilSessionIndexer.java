@@ -70,6 +70,7 @@ public class CouncilSessionIndexer extends BaseIndexer<CouncilSession> {
         document.addLocalizedText(Field.TITLE, titleFieldMap);
         document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
         document.addNumber(Field.STATUS, councilSession.getStatus());
+        document.addDate("date", councilSession.getDate());
         return document;
     }
 

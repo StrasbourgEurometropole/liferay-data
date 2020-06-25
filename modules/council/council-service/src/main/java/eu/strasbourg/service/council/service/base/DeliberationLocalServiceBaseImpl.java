@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
+
 import com.liferay.exportimport.kernel.lar.ExportImportHelperUtil;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -26,6 +27,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -53,7 +55,6 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
-import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -82,17 +83,17 @@ import javax.sql.DataSource;
  *
  * @author Brian Wing Shun Chan
  * @see eu.strasbourg.service.council.service.impl.DeliberationLocalServiceImpl
+ * @see eu.strasbourg.service.council.service.DeliberationLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class DeliberationLocalServiceBaseImpl
-	extends BaseLocalServiceImpl
-	implements DeliberationLocalService, IdentifiableOSGiService {
-
+	extends BaseLocalServiceImpl implements DeliberationLocalService,
+		IdentifiableOSGiService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>DeliberationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.council.service.DeliberationLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.council.service.DeliberationLocalServiceUtil} to access the deliberation local service.
 	 */
 
 	/**
@@ -116,7 +117,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the new deliberation
 	 */
 	@Override
-	@Transactional(enabled = false)
 	public Deliberation createDeliberation(long deliberationId) {
 		return deliberationPersistence.create(deliberationId);
 	}
@@ -132,7 +132,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	@Override
 	public Deliberation deleteDeliberation(long deliberationId)
 		throws PortalException {
-
 		return deliberationPersistence.remove(deliberationId);
 	}
 
@@ -152,8 +151,8 @@ public abstract class DeliberationLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(
-			Deliberation.class, clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(Deliberation.class,
+			clazz.getClassLoader());
 	}
 
 	/**
@@ -171,7 +170,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.DeliberationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.council.model.impl.DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -180,18 +179,17 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
-
-		return deliberationPersistence.findWithDynamicQuery(
-			dynamicQuery, start, end);
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end) {
+		return deliberationPersistence.findWithDynamicQuery(dynamicQuery,
+			start, end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.DeliberationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.council.model.impl.DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -201,12 +199,10 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
-
-		return deliberationPersistence.findWithDynamicQuery(
-			dynamicQuery, start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end, OrderByComparator<T> orderByComparator) {
+		return deliberationPersistence.findWithDynamicQuery(dynamicQuery,
+			start, end, orderByComparator);
 	}
 
 	/**
@@ -228,11 +224,10 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(
-		DynamicQuery dynamicQuery, Projection projection) {
-
-		return deliberationPersistence.countWithDynamicQuery(
-			dynamicQuery, projection);
+	public long dynamicQueryCount(DynamicQuery dynamicQuery,
+		Projection projection) {
+		return deliberationPersistence.countWithDynamicQuery(dynamicQuery,
+			projection);
 	}
 
 	@Override
@@ -248,9 +243,8 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the matching deliberation, or <code>null</code> if a matching deliberation could not be found
 	 */
 	@Override
-	public Deliberation fetchDeliberationByUuidAndGroupId(
-		String uuid, long groupId) {
-
+	public Deliberation fetchDeliberationByUuidAndGroupId(String uuid,
+		long groupId) {
 		return deliberationPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
@@ -264,14 +258,12 @@ public abstract class DeliberationLocalServiceBaseImpl
 	@Override
 	public Deliberation getDeliberation(long deliberationId)
 		throws PortalException {
-
 		return deliberationPersistence.findByPrimaryKey(deliberationId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(deliberationLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -283,14 +275,10 @@ public abstract class DeliberationLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
+	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
 
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(
-			deliberationLocalService);
+		indexableActionableDynamicQuery.setBaseLocalService(deliberationLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Deliberation.class);
 
@@ -302,7 +290,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
-
 		actionableDynamicQuery.setBaseLocalService(deliberationLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Deliberation.class);
@@ -313,52 +300,42 @@ public abstract class DeliberationLocalServiceBaseImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-
-		final ExportActionableDynamicQuery exportActionableDynamicQuery =
-			new ExportActionableDynamicQuery() {
-
+		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary =
-						portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(
-						stagedModelType, modelAdditionCount);
+					manifestSummary.addModelAdditionCount(stagedModelType,
+						modelAdditionCount);
 
-					long modelDeletionCount =
-						ExportImportHelperUtil.getModelDeletionCount(
-							portletDataContext, stagedModelType);
+					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
+							stagedModelType);
 
-					manifestSummary.addModelDeletionCount(
-						stagedModelType, modelDeletionCount);
+					manifestSummary.addModelDeletionCount(stagedModelType,
+						modelDeletionCount);
 
 					return modelAdditionCount;
 				}
-
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(
-			new ActionableDynamicQuery.AddCriteriaMethod() {
-
+		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion =
-						portletDataContext.getDateRangeCriteria("modifiedDate");
+					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
+							"modifiedDate");
 
-					Criterion statusDateCriterion =
-						portletDataContext.getDateRangeCriteria("statusDate");
+					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
+							"statusDate");
 
 					if ((modifiedDateCriterion != null) &&
-						(statusDateCriterion != null)) {
-
-						Disjunction disjunction =
-							RestrictionsFactoryUtil.disjunction();
+							(statusDateCriterion != null)) {
+						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
 
 						disjunction.add(modifiedDateCriterion);
 						disjunction.add(statusDateCriterion);
@@ -366,46 +343,33 @@ public abstract class DeliberationLocalServiceBaseImpl
 						dynamicQuery.add(disjunction);
 					}
 
-					Property workflowStatusProperty =
-						PropertyFactoryUtil.forName("status");
+					Property workflowStatusProperty = PropertyFactoryUtil.forName(
+							"status");
 
 					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(
-							workflowStatusProperty.ne(
+						dynamicQuery.add(workflowStatusProperty.ne(
 								WorkflowConstants.STATUS_IN_TRASH));
 					}
 					else {
-						StagedModelDataHandler<?> stagedModelDataHandler =
-							StagedModelDataHandlerRegistryUtil.
-								getStagedModelDataHandler(
-									Deliberation.class.getName());
+						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(Deliberation.class.getName());
 
-						dynamicQuery.add(
-							workflowStatusProperty.in(
-								stagedModelDataHandler.
-									getExportableStatuses()));
+						dynamicQuery.add(workflowStatusProperty.in(
+								stagedModelDataHandler.getExportableStatuses()));
 					}
 				}
-
 			});
 
-		exportActionableDynamicQuery.setCompanyId(
-			portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(
-			new ActionableDynamicQuery.PerformActionMethod<Deliberation>() {
-
+		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<Deliberation>() {
 				@Override
 				public void performAction(Deliberation deliberation)
 					throws PortalException {
-
-					StagedModelDataHandlerUtil.exportStagedModel(
-						portletDataContext, deliberation);
+					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
+						deliberation);
 				}
-
 			});
-		exportActionableDynamicQuery.setStagedModelType(
-			new StagedModelType(
+		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
 				PortalUtil.getClassNameId(Deliberation.class.getName())));
 
 		return exportActionableDynamicQuery;
@@ -417,15 +381,12 @@ public abstract class DeliberationLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-
-		return deliberationLocalService.deleteDeliberation(
-			(Deliberation)persistedModel);
+		return deliberationLocalService.deleteDeliberation((Deliberation)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
-
 		return deliberationPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -437,9 +398,8 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the matching deliberations, or an empty list if no matches were found
 	 */
 	@Override
-	public List<Deliberation> getDeliberationsByUuidAndCompanyId(
-		String uuid, long companyId) {
-
+	public List<Deliberation> getDeliberationsByUuidAndCompanyId(String uuid,
+		long companyId) {
 		return deliberationPersistence.findByUuid_C(uuid, companyId);
 	}
 
@@ -454,12 +414,11 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @return the range of matching deliberations, or an empty list if no matches were found
 	 */
 	@Override
-	public List<Deliberation> getDeliberationsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
+	public List<Deliberation> getDeliberationsByUuidAndCompanyId(String uuid,
+		long companyId, int start, int end,
 		OrderByComparator<Deliberation> orderByComparator) {
-
-		return deliberationPersistence.findByUuid_C(
-			uuid, companyId, start, end, orderByComparator);
+		return deliberationPersistence.findByUuid_C(uuid, companyId, start,
+			end, orderByComparator);
 	}
 
 	/**
@@ -471,10 +430,8 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @throws PortalException if a matching deliberation could not be found
 	 */
 	@Override
-	public Deliberation getDeliberationByUuidAndGroupId(
-			String uuid, long groupId)
-		throws PortalException {
-
+	public Deliberation getDeliberationByUuidAndGroupId(String uuid,
+		long groupId) throws PortalException {
 		return deliberationPersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -482,7 +439,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * Returns a range of all the deliberations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.DeliberationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.council.model.impl.DeliberationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of deliberations
@@ -521,9 +478,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the council session local service
 	 */
-	public eu.strasbourg.service.council.service.CouncilSessionLocalService
-		getCouncilSessionLocalService() {
-
+	public eu.strasbourg.service.council.service.CouncilSessionLocalService getCouncilSessionLocalService() {
 		return councilSessionLocalService;
 	}
 
@@ -533,9 +488,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param councilSessionLocalService the council session local service
 	 */
 	public void setCouncilSessionLocalService(
-		eu.strasbourg.service.council.service.CouncilSessionLocalService
-			councilSessionLocalService) {
-
+		eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService) {
 		this.councilSessionLocalService = councilSessionLocalService;
 	}
 
@@ -555,7 +508,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setCouncilSessionPersistence(
 		CouncilSessionPersistence councilSessionPersistence) {
-
 		this.councilSessionPersistence = councilSessionPersistence;
 	}
 
@@ -575,7 +527,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setDeliberationLocalService(
 		DeliberationLocalService deliberationLocalService) {
-
 		this.deliberationLocalService = deliberationLocalService;
 	}
 
@@ -595,7 +546,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setDeliberationPersistence(
 		DeliberationPersistence deliberationPersistence) {
-
 		this.deliberationPersistence = deliberationPersistence;
 	}
 
@@ -604,9 +554,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the official local service
 	 */
-	public eu.strasbourg.service.council.service.OfficialLocalService
-		getOfficialLocalService() {
-
+	public eu.strasbourg.service.council.service.OfficialLocalService getOfficialLocalService() {
 		return officialLocalService;
 	}
 
@@ -616,9 +564,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param officialLocalService the official local service
 	 */
 	public void setOfficialLocalService(
-		eu.strasbourg.service.council.service.OfficialLocalService
-			officialLocalService) {
-
+		eu.strasbourg.service.council.service.OfficialLocalService officialLocalService) {
 		this.officialLocalService = officialLocalService;
 	}
 
@@ -636,9 +582,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @param officialPersistence the official persistence
 	 */
-	public void setOfficialPersistence(
-		OfficialPersistence officialPersistence) {
-
+	public void setOfficialPersistence(OfficialPersistence officialPersistence) {
 		this.officialPersistence = officialPersistence;
 	}
 
@@ -647,9 +591,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the procuration local service
 	 */
-	public eu.strasbourg.service.council.service.ProcurationLocalService
-		getProcurationLocalService() {
-
+	public eu.strasbourg.service.council.service.ProcurationLocalService getProcurationLocalService() {
 		return procurationLocalService;
 	}
 
@@ -659,9 +601,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param procurationLocalService the procuration local service
 	 */
 	public void setProcurationLocalService(
-		eu.strasbourg.service.council.service.ProcurationLocalService
-			procurationLocalService) {
-
+		eu.strasbourg.service.council.service.ProcurationLocalService procurationLocalService) {
 		this.procurationLocalService = procurationLocalService;
 	}
 
@@ -681,7 +621,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setProcurationPersistence(
 		ProcurationPersistence procurationPersistence) {
-
 		this.procurationPersistence = procurationPersistence;
 	}
 
@@ -690,9 +629,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the vote local service
 	 */
-	public eu.strasbourg.service.council.service.VoteLocalService
-		getVoteLocalService() {
-
+	public eu.strasbourg.service.council.service.VoteLocalService getVoteLocalService() {
 		return voteLocalService;
 	}
 
@@ -702,9 +639,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param voteLocalService the vote local service
 	 */
 	public void setVoteLocalService(
-		eu.strasbourg.service.council.service.VoteLocalService
-			voteLocalService) {
-
+		eu.strasbourg.service.council.service.VoteLocalService voteLocalService) {
 		this.voteLocalService = voteLocalService;
 	}
 
@@ -731,9 +666,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService
-		getCounterLocalService() {
-
+	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
 		return counterLocalService;
 	}
 
@@ -743,9 +676,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService
-			counterLocalService) {
-
+		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -754,9 +685,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService
-		getClassNameLocalService() {
-
+	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
 		return classNameLocalService;
 	}
 
@@ -766,9 +695,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService
-			classNameLocalService) {
-
+		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -788,7 +715,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
-
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -797,9 +723,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService
-		getResourceLocalService() {
-
+	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
 		return resourceLocalService;
 	}
 
@@ -809,9 +733,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService
-			resourceLocalService) {
-
+		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -820,9 +742,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService
-		getUserLocalService() {
-
+	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
 		return userLocalService;
 	}
 
@@ -833,7 +753,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
-
 		this.userLocalService = userLocalService;
 	}
 
@@ -860,9 +779,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the asset entry local service
 	 */
-	public com.liferay.asset.kernel.service.AssetEntryLocalService
-		getAssetEntryLocalService() {
-
+	public com.liferay.asset.kernel.service.AssetEntryLocalService getAssetEntryLocalService() {
 		return assetEntryLocalService;
 	}
 
@@ -872,9 +789,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param assetEntryLocalService the asset entry local service
 	 */
 	public void setAssetEntryLocalService(
-		com.liferay.asset.kernel.service.AssetEntryLocalService
-			assetEntryLocalService) {
-
+		com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService) {
 		this.assetEntryLocalService = assetEntryLocalService;
 	}
 
@@ -894,7 +809,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setAssetEntryPersistence(
 		AssetEntryPersistence assetEntryPersistence) {
-
 		this.assetEntryPersistence = assetEntryPersistence;
 	}
 
@@ -903,9 +817,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the asset link local service
 	 */
-	public com.liferay.asset.kernel.service.AssetLinkLocalService
-		getAssetLinkLocalService() {
-
+	public com.liferay.asset.kernel.service.AssetLinkLocalService getAssetLinkLocalService() {
 		return assetLinkLocalService;
 	}
 
@@ -915,9 +827,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param assetLinkLocalService the asset link local service
 	 */
 	public void setAssetLinkLocalService(
-		com.liferay.asset.kernel.service.AssetLinkLocalService
-			assetLinkLocalService) {
-
+		com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService) {
 		this.assetLinkLocalService = assetLinkLocalService;
 	}
 
@@ -937,7 +847,6 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 */
 	public void setAssetLinkPersistence(
 		AssetLinkPersistence assetLinkPersistence) {
-
 		this.assetLinkPersistence = assetLinkPersistence;
 	}
 
@@ -946,9 +855,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @return the asset tag local service
 	 */
-	public com.liferay.asset.kernel.service.AssetTagLocalService
-		getAssetTagLocalService() {
-
+	public com.liferay.asset.kernel.service.AssetTagLocalService getAssetTagLocalService() {
 		return assetTagLocalService;
 	}
 
@@ -958,9 +865,7 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 * @param assetTagLocalService the asset tag local service
 	 */
 	public void setAssetTagLocalService(
-		com.liferay.asset.kernel.service.AssetTagLocalService
-			assetTagLocalService) {
-
+		com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService) {
 		this.assetTagLocalService = assetTagLocalService;
 	}
 
@@ -978,15 +883,12 @@ public abstract class DeliberationLocalServiceBaseImpl
 	 *
 	 * @param assetTagPersistence the asset tag persistence
 	 */
-	public void setAssetTagPersistence(
-		AssetTagPersistence assetTagPersistence) {
-
+	public void setAssetTagPersistence(AssetTagPersistence assetTagPersistence) {
 		this.assetTagPersistence = assetTagPersistence;
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.council.model.Deliberation",
+		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.council.model.Deliberation",
 			deliberationLocalService);
 	}
 
@@ -1027,8 +929,8 @@ public abstract class DeliberationLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
-				dataSource, sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
+					sql);
 
 			sqlUpdate.update();
 		}
@@ -1037,107 +939,50 @@ public abstract class DeliberationLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.CouncilSessionLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.CouncilSessionLocalService
-		councilSessionLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.CouncilSessionLocalService.class)
+	protected eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService;
 	@BeanReference(type = CouncilSessionPersistence.class)
 	protected CouncilSessionPersistence councilSessionPersistence;
-
 	@BeanReference(type = DeliberationLocalService.class)
 	protected DeliberationLocalService deliberationLocalService;
-
 	@BeanReference(type = DeliberationPersistence.class)
 	protected DeliberationPersistence deliberationPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.OfficialLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.OfficialLocalService
-		officialLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.OfficialLocalService.class)
+	protected eu.strasbourg.service.council.service.OfficialLocalService officialLocalService;
 	@BeanReference(type = OfficialPersistence.class)
 	protected OfficialPersistence officialPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.ProcurationLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.ProcurationLocalService
-		procurationLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.ProcurationLocalService.class)
+	protected eu.strasbourg.service.council.service.ProcurationLocalService procurationLocalService;
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.VoteLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.VoteLocalService
-		voteLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.VoteLocalService.class)
+	protected eu.strasbourg.service.council.service.VoteLocalService voteLocalService;
 	@BeanReference(type = VotePersistence.class)
 	protected VotePersistence votePersistence;
-
-	@ServiceReference(
-		type = com.liferay.counter.kernel.service.CounterLocalService.class
-	)
-	protected com.liferay.counter.kernel.service.CounterLocalService
-		counterLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService
-		classNameLocalService;
-
+	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
+	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ResourceLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.ResourceLocalService
-		resourceLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.UserLocalService
-		userLocalService;
-
+	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
+	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
+	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetEntryLocalService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService
-		assetEntryLocalService;
-
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetEntryLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetEntryLocalService assetEntryLocalService;
 	@ServiceReference(type = AssetEntryPersistence.class)
 	protected AssetEntryPersistence assetEntryPersistence;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetLinkLocalService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
-		assetLinkLocalService;
-
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetLinkLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetLinkLocalService assetLinkLocalService;
 	@ServiceReference(type = AssetLinkPersistence.class)
 	protected AssetLinkPersistence assetLinkPersistence;
-
-	@ServiceReference(
-		type = com.liferay.asset.kernel.service.AssetTagLocalService.class
-	)
-	protected com.liferay.asset.kernel.service.AssetTagLocalService
-		assetTagLocalService;
-
+	@ServiceReference(type = com.liferay.asset.kernel.service.AssetTagLocalService.class)
+	protected com.liferay.asset.kernel.service.AssetTagLocalService assetTagLocalService;
 	@ServiceReference(type = AssetTagPersistence.class)
 	protected AssetTagPersistence assetTagPersistence;
-
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
-
+	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
 }

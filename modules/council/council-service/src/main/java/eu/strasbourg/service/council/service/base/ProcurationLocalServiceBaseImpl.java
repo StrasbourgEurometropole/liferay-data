@@ -23,6 +23,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -50,7 +51,6 @@ import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
-import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -79,17 +79,17 @@ import javax.sql.DataSource;
  *
  * @author Brian Wing Shun Chan
  * @see eu.strasbourg.service.council.service.impl.ProcurationLocalServiceImpl
+ * @see eu.strasbourg.service.council.service.ProcurationLocalServiceUtil
  * @generated
  */
 @ProviderType
 public abstract class ProcurationLocalServiceBaseImpl
-	extends BaseLocalServiceImpl
-	implements ProcurationLocalService, IdentifiableOSGiService {
-
+	extends BaseLocalServiceImpl implements ProcurationLocalService,
+		IdentifiableOSGiService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProcurationLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.council.service.ProcurationLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Always use {@link eu.strasbourg.service.council.service.ProcurationLocalServiceUtil} to access the procuration local service.
 	 */
 
 	/**
@@ -113,7 +113,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the new procuration
 	 */
 	@Override
-	@Transactional(enabled = false)
 	public Procuration createProcuration(long procurationId) {
 		return procurationPersistence.create(procurationId);
 	}
@@ -129,7 +128,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	@Override
 	public Procuration deleteProcuration(long procurationId)
 		throws PortalException {
-
 		return procurationPersistence.remove(procurationId);
 	}
 
@@ -149,8 +147,8 @@ public abstract class ProcurationLocalServiceBaseImpl
 	public DynamicQuery dynamicQuery() {
 		Class<?> clazz = getClass();
 
-		return DynamicQueryFactoryUtil.forClass(
-			Procuration.class, clazz.getClassLoader());
+		return DynamicQueryFactoryUtil.forClass(Procuration.class,
+			clazz.getClassLoader());
 	}
 
 	/**
@@ -168,7 +166,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.council.model.impl.ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -177,18 +175,17 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end) {
-
-		return procurationPersistence.findWithDynamicQuery(
-			dynamicQuery, start, end);
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end) {
+		return procurationPersistence.findWithDynamicQuery(dynamicQuery, start,
+			end);
 	}
 
 	/**
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.council.model.impl.ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -198,12 +195,10 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the ordered range of matching rows
 	 */
 	@Override
-	public <T> List<T> dynamicQuery(
-		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<T> orderByComparator) {
-
-		return procurationPersistence.findWithDynamicQuery(
-			dynamicQuery, start, end, orderByComparator);
+	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
+		int end, OrderByComparator<T> orderByComparator) {
+		return procurationPersistence.findWithDynamicQuery(dynamicQuery, start,
+			end, orderByComparator);
 	}
 
 	/**
@@ -225,11 +220,10 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the number of rows matching the dynamic query
 	 */
 	@Override
-	public long dynamicQueryCount(
-		DynamicQuery dynamicQuery, Projection projection) {
-
-		return procurationPersistence.countWithDynamicQuery(
-			dynamicQuery, projection);
+	public long dynamicQueryCount(DynamicQuery dynamicQuery,
+		Projection projection) {
+		return procurationPersistence.countWithDynamicQuery(dynamicQuery,
+			projection);
 	}
 
 	@Override
@@ -245,9 +239,8 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
 	@Override
-	public Procuration fetchProcurationByUuidAndGroupId(
-		String uuid, long groupId) {
-
+	public Procuration fetchProcurationByUuidAndGroupId(String uuid,
+		long groupId) {
 		return procurationPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
@@ -261,14 +254,12 @@ public abstract class ProcurationLocalServiceBaseImpl
 	@Override
 	public Procuration getProcuration(long procurationId)
 		throws PortalException {
-
 		return procurationPersistence.findByPrimaryKey(procurationId);
 	}
 
 	@Override
 	public ActionableDynamicQuery getActionableDynamicQuery() {
-		ActionableDynamicQuery actionableDynamicQuery =
-			new DefaultActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery = new DefaultActionableDynamicQuery();
 
 		actionableDynamicQuery.setBaseLocalService(procurationLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
@@ -280,14 +271,10 @@ public abstract class ProcurationLocalServiceBaseImpl
 	}
 
 	@Override
-	public IndexableActionableDynamicQuery
-		getIndexableActionableDynamicQuery() {
+	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery() {
+		IndexableActionableDynamicQuery indexableActionableDynamicQuery = new IndexableActionableDynamicQuery();
 
-		IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-			new IndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setBaseLocalService(
-			procurationLocalService);
+		indexableActionableDynamicQuery.setBaseLocalService(procurationLocalService);
 		indexableActionableDynamicQuery.setClassLoader(getClassLoader());
 		indexableActionableDynamicQuery.setModelClass(Procuration.class);
 
@@ -299,7 +286,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 
 	protected void initActionableDynamicQuery(
 		ActionableDynamicQuery actionableDynamicQuery) {
-
 		actionableDynamicQuery.setBaseLocalService(procurationLocalService);
 		actionableDynamicQuery.setClassLoader(getClassLoader());
 		actionableDynamicQuery.setModelClass(Procuration.class);
@@ -310,52 +296,42 @@ public abstract class ProcurationLocalServiceBaseImpl
 	@Override
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		final PortletDataContext portletDataContext) {
-
-		final ExportActionableDynamicQuery exportActionableDynamicQuery =
-			new ExportActionableDynamicQuery() {
-
+		final ExportActionableDynamicQuery exportActionableDynamicQuery = new ExportActionableDynamicQuery() {
 				@Override
 				public long performCount() throws PortalException {
-					ManifestSummary manifestSummary =
-						portletDataContext.getManifestSummary();
+					ManifestSummary manifestSummary = portletDataContext.getManifestSummary();
 
 					StagedModelType stagedModelType = getStagedModelType();
 
 					long modelAdditionCount = super.performCount();
 
-					manifestSummary.addModelAdditionCount(
-						stagedModelType, modelAdditionCount);
+					manifestSummary.addModelAdditionCount(stagedModelType,
+						modelAdditionCount);
 
-					long modelDeletionCount =
-						ExportImportHelperUtil.getModelDeletionCount(
-							portletDataContext, stagedModelType);
+					long modelDeletionCount = ExportImportHelperUtil.getModelDeletionCount(portletDataContext,
+							stagedModelType);
 
-					manifestSummary.addModelDeletionCount(
-						stagedModelType, modelDeletionCount);
+					manifestSummary.addModelDeletionCount(stagedModelType,
+						modelDeletionCount);
 
 					return modelAdditionCount;
 				}
-
 			};
 
 		initActionableDynamicQuery(exportActionableDynamicQuery);
 
-		exportActionableDynamicQuery.setAddCriteriaMethod(
-			new ActionableDynamicQuery.AddCriteriaMethod() {
-
+		exportActionableDynamicQuery.setAddCriteriaMethod(new ActionableDynamicQuery.AddCriteriaMethod() {
 				@Override
 				public void addCriteria(DynamicQuery dynamicQuery) {
-					Criterion modifiedDateCriterion =
-						portletDataContext.getDateRangeCriteria("modifiedDate");
+					Criterion modifiedDateCriterion = portletDataContext.getDateRangeCriteria(
+							"modifiedDate");
 
-					Criterion statusDateCriterion =
-						portletDataContext.getDateRangeCriteria("statusDate");
+					Criterion statusDateCriterion = portletDataContext.getDateRangeCriteria(
+							"statusDate");
 
 					if ((modifiedDateCriterion != null) &&
-						(statusDateCriterion != null)) {
-
-						Disjunction disjunction =
-							RestrictionsFactoryUtil.disjunction();
+							(statusDateCriterion != null)) {
+						Disjunction disjunction = RestrictionsFactoryUtil.disjunction();
 
 						disjunction.add(modifiedDateCriterion);
 						disjunction.add(statusDateCriterion);
@@ -363,46 +339,33 @@ public abstract class ProcurationLocalServiceBaseImpl
 						dynamicQuery.add(disjunction);
 					}
 
-					Property workflowStatusProperty =
-						PropertyFactoryUtil.forName("status");
+					Property workflowStatusProperty = PropertyFactoryUtil.forName(
+							"status");
 
 					if (portletDataContext.isInitialPublication()) {
-						dynamicQuery.add(
-							workflowStatusProperty.ne(
+						dynamicQuery.add(workflowStatusProperty.ne(
 								WorkflowConstants.STATUS_IN_TRASH));
 					}
 					else {
-						StagedModelDataHandler<?> stagedModelDataHandler =
-							StagedModelDataHandlerRegistryUtil.
-								getStagedModelDataHandler(
-									Procuration.class.getName());
+						StagedModelDataHandler<?> stagedModelDataHandler = StagedModelDataHandlerRegistryUtil.getStagedModelDataHandler(Procuration.class.getName());
 
-						dynamicQuery.add(
-							workflowStatusProperty.in(
-								stagedModelDataHandler.
-									getExportableStatuses()));
+						dynamicQuery.add(workflowStatusProperty.in(
+								stagedModelDataHandler.getExportableStatuses()));
 					}
 				}
-
 			});
 
-		exportActionableDynamicQuery.setCompanyId(
-			portletDataContext.getCompanyId());
+		exportActionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
 
-		exportActionableDynamicQuery.setPerformActionMethod(
-			new ActionableDynamicQuery.PerformActionMethod<Procuration>() {
-
+		exportActionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<Procuration>() {
 				@Override
 				public void performAction(Procuration procuration)
 					throws PortalException {
-
-					StagedModelDataHandlerUtil.exportStagedModel(
-						portletDataContext, procuration);
+					StagedModelDataHandlerUtil.exportStagedModel(portletDataContext,
+						procuration);
 				}
-
 			});
-		exportActionableDynamicQuery.setStagedModelType(
-			new StagedModelType(
+		exportActionableDynamicQuery.setStagedModelType(new StagedModelType(
 				PortalUtil.getClassNameId(Procuration.class.getName())));
 
 		return exportActionableDynamicQuery;
@@ -414,15 +377,12 @@ public abstract class ProcurationLocalServiceBaseImpl
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
-
-		return procurationLocalService.deleteProcuration(
-			(Procuration)persistedModel);
+		return procurationLocalService.deleteProcuration((Procuration)persistedModel);
 	}
 
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
-
 		return procurationPersistence.findByPrimaryKey(primaryKeyObj);
 	}
 
@@ -434,9 +394,8 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the matching procurations, or an empty list if no matches were found
 	 */
 	@Override
-	public List<Procuration> getProcurationsByUuidAndCompanyId(
-		String uuid, long companyId) {
-
+	public List<Procuration> getProcurationsByUuidAndCompanyId(String uuid,
+		long companyId) {
 		return procurationPersistence.findByUuid_C(uuid, companyId);
 	}
 
@@ -451,12 +410,11 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @return the range of matching procurations, or an empty list if no matches were found
 	 */
 	@Override
-	public List<Procuration> getProcurationsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
+	public List<Procuration> getProcurationsByUuidAndCompanyId(String uuid,
+		long companyId, int start, int end,
 		OrderByComparator<Procuration> orderByComparator) {
-
-		return procurationPersistence.findByUuid_C(
-			uuid, companyId, start, end, orderByComparator);
+		return procurationPersistence.findByUuid_C(uuid, companyId, start, end,
+			orderByComparator);
 	}
 
 	/**
@@ -470,7 +428,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	@Override
 	public Procuration getProcurationByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException {
-
 		return procurationPersistence.findByUUID_G(uuid, groupId);
 	}
 
@@ -478,7 +435,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * Returns a range of all the procurations.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.ProcurationModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link eu.strasbourg.service.council.model.impl.ProcurationModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of procurations
@@ -517,9 +474,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the council session local service
 	 */
-	public eu.strasbourg.service.council.service.CouncilSessionLocalService
-		getCouncilSessionLocalService() {
-
+	public eu.strasbourg.service.council.service.CouncilSessionLocalService getCouncilSessionLocalService() {
 		return councilSessionLocalService;
 	}
 
@@ -529,9 +484,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param councilSessionLocalService the council session local service
 	 */
 	public void setCouncilSessionLocalService(
-		eu.strasbourg.service.council.service.CouncilSessionLocalService
-			councilSessionLocalService) {
-
+		eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService) {
 		this.councilSessionLocalService = councilSessionLocalService;
 	}
 
@@ -551,7 +504,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 */
 	public void setCouncilSessionPersistence(
 		CouncilSessionPersistence councilSessionPersistence) {
-
 		this.councilSessionPersistence = councilSessionPersistence;
 	}
 
@@ -560,9 +512,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the deliberation local service
 	 */
-	public eu.strasbourg.service.council.service.DeliberationLocalService
-		getDeliberationLocalService() {
-
+	public eu.strasbourg.service.council.service.DeliberationLocalService getDeliberationLocalService() {
 		return deliberationLocalService;
 	}
 
@@ -572,9 +522,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param deliberationLocalService the deliberation local service
 	 */
 	public void setDeliberationLocalService(
-		eu.strasbourg.service.council.service.DeliberationLocalService
-			deliberationLocalService) {
-
+		eu.strasbourg.service.council.service.DeliberationLocalService deliberationLocalService) {
 		this.deliberationLocalService = deliberationLocalService;
 	}
 
@@ -594,7 +542,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 */
 	public void setDeliberationPersistence(
 		DeliberationPersistence deliberationPersistence) {
-
 		this.deliberationPersistence = deliberationPersistence;
 	}
 
@@ -603,9 +550,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the official local service
 	 */
-	public eu.strasbourg.service.council.service.OfficialLocalService
-		getOfficialLocalService() {
-
+	public eu.strasbourg.service.council.service.OfficialLocalService getOfficialLocalService() {
 		return officialLocalService;
 	}
 
@@ -615,9 +560,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param officialLocalService the official local service
 	 */
 	public void setOfficialLocalService(
-		eu.strasbourg.service.council.service.OfficialLocalService
-			officialLocalService) {
-
+		eu.strasbourg.service.council.service.OfficialLocalService officialLocalService) {
 		this.officialLocalService = officialLocalService;
 	}
 
@@ -635,9 +578,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @param officialPersistence the official persistence
 	 */
-	public void setOfficialPersistence(
-		OfficialPersistence officialPersistence) {
-
+	public void setOfficialPersistence(OfficialPersistence officialPersistence) {
 		this.officialPersistence = officialPersistence;
 	}
 
@@ -657,7 +598,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 */
 	public void setProcurationLocalService(
 		ProcurationLocalService procurationLocalService) {
-
 		this.procurationLocalService = procurationLocalService;
 	}
 
@@ -677,7 +617,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 */
 	public void setProcurationPersistence(
 		ProcurationPersistence procurationPersistence) {
-
 		this.procurationPersistence = procurationPersistence;
 	}
 
@@ -686,9 +625,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the vote local service
 	 */
-	public eu.strasbourg.service.council.service.VoteLocalService
-		getVoteLocalService() {
-
+	public eu.strasbourg.service.council.service.VoteLocalService getVoteLocalService() {
 		return voteLocalService;
 	}
 
@@ -698,9 +635,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param voteLocalService the vote local service
 	 */
 	public void setVoteLocalService(
-		eu.strasbourg.service.council.service.VoteLocalService
-			voteLocalService) {
-
+		eu.strasbourg.service.council.service.VoteLocalService voteLocalService) {
 		this.voteLocalService = voteLocalService;
 	}
 
@@ -727,9 +662,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the counter local service
 	 */
-	public com.liferay.counter.kernel.service.CounterLocalService
-		getCounterLocalService() {
-
+	public com.liferay.counter.kernel.service.CounterLocalService getCounterLocalService() {
 		return counterLocalService;
 	}
 
@@ -739,9 +672,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param counterLocalService the counter local service
 	 */
 	public void setCounterLocalService(
-		com.liferay.counter.kernel.service.CounterLocalService
-			counterLocalService) {
-
+		com.liferay.counter.kernel.service.CounterLocalService counterLocalService) {
 		this.counterLocalService = counterLocalService;
 	}
 
@@ -750,9 +681,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the class name local service
 	 */
-	public com.liferay.portal.kernel.service.ClassNameLocalService
-		getClassNameLocalService() {
-
+	public com.liferay.portal.kernel.service.ClassNameLocalService getClassNameLocalService() {
 		return classNameLocalService;
 	}
 
@@ -762,9 +691,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param classNameLocalService the class name local service
 	 */
 	public void setClassNameLocalService(
-		com.liferay.portal.kernel.service.ClassNameLocalService
-			classNameLocalService) {
-
+		com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService) {
 		this.classNameLocalService = classNameLocalService;
 	}
 
@@ -784,7 +711,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 */
 	public void setClassNamePersistence(
 		ClassNamePersistence classNamePersistence) {
-
 		this.classNamePersistence = classNamePersistence;
 	}
 
@@ -793,9 +719,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the resource local service
 	 */
-	public com.liferay.portal.kernel.service.ResourceLocalService
-		getResourceLocalService() {
-
+	public com.liferay.portal.kernel.service.ResourceLocalService getResourceLocalService() {
 		return resourceLocalService;
 	}
 
@@ -805,9 +729,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 * @param resourceLocalService the resource local service
 	 */
 	public void setResourceLocalService(
-		com.liferay.portal.kernel.service.ResourceLocalService
-			resourceLocalService) {
-
+		com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService) {
 		this.resourceLocalService = resourceLocalService;
 	}
 
@@ -816,9 +738,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 *
 	 * @return the user local service
 	 */
-	public com.liferay.portal.kernel.service.UserLocalService
-		getUserLocalService() {
-
+	public com.liferay.portal.kernel.service.UserLocalService getUserLocalService() {
 		return userLocalService;
 	}
 
@@ -829,7 +749,6 @@ public abstract class ProcurationLocalServiceBaseImpl
 	 */
 	public void setUserLocalService(
 		com.liferay.portal.kernel.service.UserLocalService userLocalService) {
-
 		this.userLocalService = userLocalService;
 	}
 
@@ -852,8 +771,7 @@ public abstract class ProcurationLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.council.model.Procuration",
+		persistedModelLocalServiceRegistry.register("eu.strasbourg.service.council.model.Procuration",
 			procurationLocalService);
 	}
 
@@ -894,8 +812,8 @@ public abstract class ProcurationLocalServiceBaseImpl
 			sql = db.buildSQL(sql);
 			sql = PortalUtil.transformSQL(sql);
 
-			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(
-				dataSource, sql);
+			SqlUpdate sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(dataSource,
+					sql);
 
 			sqlUpdate.update();
 		}
@@ -904,80 +822,38 @@ public abstract class ProcurationLocalServiceBaseImpl
 		}
 	}
 
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.CouncilSessionLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.CouncilSessionLocalService
-		councilSessionLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.CouncilSessionLocalService.class)
+	protected eu.strasbourg.service.council.service.CouncilSessionLocalService councilSessionLocalService;
 	@BeanReference(type = CouncilSessionPersistence.class)
 	protected CouncilSessionPersistence councilSessionPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.DeliberationLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.DeliberationLocalService
-		deliberationLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.DeliberationLocalService.class)
+	protected eu.strasbourg.service.council.service.DeliberationLocalService deliberationLocalService;
 	@BeanReference(type = DeliberationPersistence.class)
 	protected DeliberationPersistence deliberationPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.OfficialLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.OfficialLocalService
-		officialLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.OfficialLocalService.class)
+	protected eu.strasbourg.service.council.service.OfficialLocalService officialLocalService;
 	@BeanReference(type = OfficialPersistence.class)
 	protected OfficialPersistence officialPersistence;
-
 	@BeanReference(type = ProcurationLocalService.class)
 	protected ProcurationLocalService procurationLocalService;
-
 	@BeanReference(type = ProcurationPersistence.class)
 	protected ProcurationPersistence procurationPersistence;
-
-	@BeanReference(
-		type = eu.strasbourg.service.council.service.VoteLocalService.class
-	)
-	protected eu.strasbourg.service.council.service.VoteLocalService
-		voteLocalService;
-
+	@BeanReference(type = eu.strasbourg.service.council.service.VoteLocalService.class)
+	protected eu.strasbourg.service.council.service.VoteLocalService voteLocalService;
 	@BeanReference(type = VotePersistence.class)
 	protected VotePersistence votePersistence;
-
-	@ServiceReference(
-		type = com.liferay.counter.kernel.service.CounterLocalService.class
-	)
-	protected com.liferay.counter.kernel.service.CounterLocalService
-		counterLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ClassNameLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.ClassNameLocalService
-		classNameLocalService;
-
+	@ServiceReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
+	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
+	protected com.liferay.portal.kernel.service.ClassNameLocalService classNameLocalService;
 	@ServiceReference(type = ClassNamePersistence.class)
 	protected ClassNamePersistence classNamePersistence;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.ResourceLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.ResourceLocalService
-		resourceLocalService;
-
-	@ServiceReference(
-		type = com.liferay.portal.kernel.service.UserLocalService.class
-	)
-	protected com.liferay.portal.kernel.service.UserLocalService
-		userLocalService;
-
+	@ServiceReference(type = com.liferay.portal.kernel.service.ResourceLocalService.class)
+	protected com.liferay.portal.kernel.service.ResourceLocalService resourceLocalService;
+	@ServiceReference(type = com.liferay.portal.kernel.service.UserLocalService.class)
+	protected com.liferay.portal.kernel.service.UserLocalService userLocalService;
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
-
 	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
-
+	protected PersistedModelLocalServiceRegistry persistedModelLocalServiceRegistry;
 }

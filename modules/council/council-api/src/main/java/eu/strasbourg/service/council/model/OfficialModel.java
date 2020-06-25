@@ -337,48 +337,6 @@ public interface OfficialModel
 	public void setLastname(String lastname);
 
 	/**
-	 * Returns the is municipal of this official.
-	 *
-	 * @return the is municipal of this official
-	 */
-	public boolean getIsMunicipal();
-
-	/**
-	 * Returns <code>true</code> if this official is is municipal.
-	 *
-	 * @return <code>true</code> if this official is is municipal; <code>false</code> otherwise
-	 */
-	public boolean isIsMunicipal();
-
-	/**
-	 * Sets whether this official is is municipal.
-	 *
-	 * @param isMunicipal the is municipal of this official
-	 */
-	public void setIsMunicipal(boolean isMunicipal);
-
-	/**
-	 * Returns the is eurometropolitan of this official.
-	 *
-	 * @return the is eurometropolitan of this official
-	 */
-	public boolean getIsEurometropolitan();
-
-	/**
-	 * Returns <code>true</code> if this official is is eurometropolitan.
-	 *
-	 * @return <code>true</code> if this official is is eurometropolitan; <code>false</code> otherwise
-	 */
-	public boolean isIsEurometropolitan();
-
-	/**
-	 * Sets whether this official is is eurometropolitan.
-	 *
-	 * @param isEurometropolitan the is eurometropolitan of this official
-	 */
-	public void setIsEurometropolitan(boolean isEurometropolitan);
-
-	/**
 	 * Returns the is active of this official.
 	 *
 	 * @return the is active of this official
@@ -398,6 +356,35 @@ public interface OfficialModel
 	 * @param isActive the is active of this official
 	 */
 	public void setIsActive(boolean isActive);
+
+	/**
+	 * Returns the last activity of this official.
+	 *
+	 * @return the last activity of this official
+	 */
+	public Date getLastActivity();
+
+	/**
+	 * Sets the last activity of this official.
+	 *
+	 * @param lastActivity the last activity of this official
+	 */
+	public void setLastActivity(Date lastActivity);
+
+	/**
+	 * Returns the last sign in device info of this official.
+	 *
+	 * @return the last sign in device info of this official
+	 */
+	@AutoEscape
+	public String getLastSignInDeviceInfo();
+
+	/**
+	 * Sets the last sign in device info of this official.
+	 *
+	 * @param lastSignInDeviceInfo the last sign in device info of this official
+	 */
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo);
 
 	/**
 	 * Returns <code>true</code> if this official is approved.

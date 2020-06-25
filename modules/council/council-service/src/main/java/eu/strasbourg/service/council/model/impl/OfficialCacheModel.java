@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Official;
 
@@ -33,12 +34,11 @@ import java.util.Date;
  * The cache model class for representing Official in entity cache.
  *
  * @author Brian Wing Shun Chan
+ * @see Official
  * @generated
  */
 @ProviderType
-public class OfficialCacheModel
-	implements CacheModel<Official>, Externalizable {
-
+public class OfficialCacheModel implements CacheModel<Official>, Externalizable {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -113,7 +113,7 @@ public class OfficialCacheModel
 		OfficialImpl officialImpl = new OfficialImpl();
 
 		if (uuid == null) {
-			officialImpl.setUuid("");
+			officialImpl.setUuid(StringPool.BLANK);
 		}
 		else {
 			officialImpl.setUuid(uuid);
@@ -125,7 +125,7 @@ public class OfficialCacheModel
 		officialImpl.setUserId(userId);
 
 		if (userName == null) {
-			officialImpl.setUserName("");
+			officialImpl.setUserName(StringPool.BLANK);
 		}
 		else {
 			officialImpl.setUserName(userName);
@@ -149,7 +149,7 @@ public class OfficialCacheModel
 		officialImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			officialImpl.setStatusByUserName("");
+			officialImpl.setStatusByUserName(StringPool.BLANK);
 		}
 		else {
 			officialImpl.setStatusByUserName(statusByUserName);
@@ -163,21 +163,21 @@ public class OfficialCacheModel
 		}
 
 		if (email == null) {
-			officialImpl.setEmail("");
+			officialImpl.setEmail(StringPool.BLANK);
 		}
 		else {
 			officialImpl.setEmail(email);
 		}
 
 		if (firstname == null) {
-			officialImpl.setFirstname("");
+			officialImpl.setFirstname(StringPool.BLANK);
 		}
 		else {
 			officialImpl.setFirstname(firstname);
 		}
 
 		if (lastname == null) {
-			officialImpl.setLastname("");
+			officialImpl.setLastname(StringPool.BLANK);
 		}
 		else {
 			officialImpl.setLastname(lastname);
@@ -224,9 +224,10 @@ public class OfficialCacheModel
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+	public void writeExternal(ObjectOutput objectOutput)
+		throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -241,7 +242,7 @@ public class OfficialCacheModel
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -255,7 +256,7 @@ public class OfficialCacheModel
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -264,21 +265,21 @@ public class OfficialCacheModel
 		objectOutput.writeLong(statusDate);
 
 		if (email == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(email);
 		}
 
 		if (firstname == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(firstname);
 		}
 
 		if (lastname == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(lastname);
@@ -309,5 +310,4 @@ public class OfficialCacheModel
 	public boolean isMunicipal;
 	public boolean isEurometropolitan;
 	public boolean isActive;
-
 }

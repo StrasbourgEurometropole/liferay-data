@@ -25,20 +25,19 @@ import java.rmi.RemoteException;
 
 /**
  * Provides the SOAP utility for the
- * <code>DeliberationServiceUtil</code> service
- * utility. The static methods of this class call the same methods of the
- * service utility. However, the signatures are different because it is
- * difficult for SOAP to support certain types.
+ * {@link DeliberationServiceUtil} service utility. The
+ * static methods of this class calls the same methods of the service utility.
+ * However, the signatures are different because it is difficult for SOAP to
+ * support certain types.
  *
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
- * if the method in the service utility returns a <code>java.util.List</code>,
- * that is translated to an array of
- * <code>eu.strasbourg.service.council.model.DeliberationSoap</code>. If the method in the
- * service utility returns a
- * <code>eu.strasbourg.service.council.model.Deliberation</code>, that is translated to a
- * <code>eu.strasbourg.service.council.model.DeliberationSoap</code>. Methods that SOAP
- * cannot safely wire are skipped.
+ * if the method in the service utility returns a {@link java.util.List}, that
+ * is translated to an array of {@link eu.strasbourg.service.council.model.DeliberationSoap}.
+ * If the method in the service utility returns a
+ * {@link eu.strasbourg.service.council.model.Deliberation}, that is translated to a
+ * {@link eu.strasbourg.service.council.model.DeliberationSoap}. Methods that SOAP cannot
+ * safely wire are skipped.
  * </p>
  *
  * <p>
@@ -60,15 +59,16 @@ import java.rmi.RemoteException;
  *
  * @author Brian Wing Shun Chan
  * @see DeliberationServiceHttp
+ * @see eu.strasbourg.service.council.model.DeliberationSoap
+ * @see DeliberationServiceUtil
  * @generated
  */
 @ProviderType
 public class DeliberationServiceSoap {
-
-	public static String getUserFront(long officialId) throws RemoteException {
+	public static java.lang.String getUserFront(long officialId)
+		throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				DeliberationServiceUtil.getUserFront(officialId);
+			com.liferay.portal.kernel.json.JSONObject returnValue = DeliberationServiceUtil.getUserFront(officialId);
 
 			return returnValue.toString();
 		}
@@ -79,7 +79,5 @@ public class DeliberationServiceSoap {
 		}
 	}
 
-	private static Log _log = LogFactoryUtil.getLog(
-		DeliberationServiceSoap.class);
-
+	private static Log _log = LogFactoryUtil.getLog(DeliberationServiceSoap.class);
 }

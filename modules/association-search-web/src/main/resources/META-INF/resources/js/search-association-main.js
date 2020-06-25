@@ -48,15 +48,19 @@ jQuery(function() {
                     parentCategoryId: $(this).val(),
                     localeId: Liferay.ThemeDisplay.getLanguageId()
             }).then(function(data) {
+                // on réinistialise les sous-spécialités
+                subSpecialitiesSelect.empty();
+                subSpecialityWidget.find('.customSelectInner').text("");
+                subSpecialitiesSelect.append('<option class="" value=""> </option>');
                 if(data.length > 0){
-                    subSpecialitiesSelect.empty();
-                    subSpecialityWidget.find('.customSelectInner').text("");
-                    subSpecialitiesSelect.append('<option class="" value=""> </option>');
                     jQuery.each(data, function(index, categ){
                         subSpecialitiesSelect.append('<option class="" value="' + categ.id + '">' + categ.title + ' </option>');
                     });
                     // on affiche les sous-spécialités
                     subSpecialityWidget.show();
+                }else{
+                    // on cache les sous-spécialités
+                    subSpecialityWidget.hide();
                 }
             });
 
@@ -77,15 +81,19 @@ jQuery(function() {
                     parentCategoryId: $(this).val(),
                     localeId: Liferay.ThemeDisplay.getLanguageId()
             }).then(function(data) {
+                // on réinistialise les sous-sous-spécialités
+                subSubSpecialitiesSelect.empty();
+                subSubSpecialityWidget.find('.customSelectInner').text("");
+                subSubSpecialitiesSelect.append('<option class="" value=""> </option>');
                 if(data.length > 0){
-                    subSubSpecialitiesSelect.empty();
-                    subSubSpecialityWidget.find('.customSelectInner').text("");
-                    subSubSpecialitiesSelect.append('<option class="" value=""> </option>');
                     jQuery.each(data, function(index, categ){
                         subSubSpecialitiesSelect.append('<option class="" value="' + categ.id + '">' + categ.title + ' </option>');
                     });
                     // on affiche les sous-sous-spécialités
                     subSubSpecialityWidget.show();
+                }else{
+                    // on cache les sous-sous-spécialités
+                    subSubSpecialityWidget.hide();
                 }
             });
         }else{

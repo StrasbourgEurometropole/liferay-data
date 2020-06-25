@@ -60,16 +60,6 @@
                     href="${editOfficialURL}" name="email" truncate="true"
                     orderable="false" value="${official.email}" />
 
-                <!-- Colonne : Type municipale -->
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="is-municipal" truncate="true"
-                    orderable="false" value="${official.isMunicipal ? 'Oui' : 'Non'}" />
-
-                <!-- Colonne : Type eurométropolitain -->
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="is-eurometropolitan" truncate="true"
-                    orderable="false" value="${official.isEurometropolitan ? 'Oui' : 'Non'}" />
-
                 <!-- Colonne : Est actif ? -->
                 <liferay-ui:search-container-column-text cssClass="content-column"
                     name="is-active" truncate="true"
@@ -106,6 +96,6 @@
 
 <c:if test="${dc.hasPermission('ADD_OFFICIAL') and empty themeDisplay.scopeGroup.getStagingGroup()}">
 	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="eu.council.bo.add.official" url="${addOfficialURL}" />
+		<liferay-frontend:add-menu-item title="Ajouter un elu" url="${addOfficialURL}" />
 	</liferay-frontend:add-menu>
 </c:if>

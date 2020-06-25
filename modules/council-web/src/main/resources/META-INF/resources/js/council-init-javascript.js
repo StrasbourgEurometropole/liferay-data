@@ -43,3 +43,13 @@ if(useSkypeView) {
     /* On peut direct cacher le refresh si présentation Skype*/
    frontDelibRefresh.style.display = "none";
 }
+
+// Récupération des données du device de l'utilisateur
+var physicalInfo = "";
+if (typeof window.devicePixelRatio !== 'undefined') {
+	physicalInfo = ' / ' + (window.devicePixelRatio * screen.width) + ' x '
+		+ (window.devicePixelRatio * screen.height) + ' physique'
+}
+var userDeviceInfo = platform.description 
+	+ ' (size : ' + screen.width + ' x ' + screen.height + ' soft'
+	+ physicalInfo + ')'

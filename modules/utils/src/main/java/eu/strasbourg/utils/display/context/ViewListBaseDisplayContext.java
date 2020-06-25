@@ -331,9 +331,9 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		return managementBarFilterItems;
 	}
 
-	private List<ManagementBarFilterItem> populateManagementBar(
-		List<ManagementBarFilterItem> managementBarFilterItems,
-		AssetCategory category, PortletURL filterURL) throws PortalException {
+	protected List<ManagementBarFilterItem> populateManagementBar(
+            List<ManagementBarFilterItem> managementBarFilterItems,
+            AssetCategory category, PortletURL filterURL) throws PortalException {
 
 		ManagementBarFilterItem managementBarFilterItem = getCategoryBarFilterItem(
 			category, filterURL);
@@ -347,8 +347,8 @@ public abstract class ViewListBaseDisplayContext<T> extends BaseDisplayContext {
 		return managementBarFilterItems;
 	}
 
-	private ManagementBarFilterItem getCategoryBarFilterItem(
-		AssetCategory category, PortletURL filterURL) throws PortalException {
+	protected ManagementBarFilterItem getCategoryBarFilterItem(
+			AssetCategory category, PortletURL filterURL) throws PortalException {
 		boolean isActive = this.getFilterCategoriesIds()
 			.contains(String.valueOf(category.getCategoryId()));
 

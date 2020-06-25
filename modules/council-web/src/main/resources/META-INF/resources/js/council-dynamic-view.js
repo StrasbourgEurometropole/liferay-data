@@ -3,7 +3,8 @@ window.setInterval(function(){
     Liferay.Service(
       '/council.deliberation/get-user-front',
       {
-        officialId: officialConnectedId
+        officialId: officialConnectedId,
+        officialDeviceInfo: userDeviceInfo
       },
       function(obj) {
 

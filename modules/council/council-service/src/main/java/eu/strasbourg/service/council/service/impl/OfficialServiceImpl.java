@@ -16,14 +16,18 @@ package eu.strasbourg.service.council.service.impl;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.OfficialModel;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.OfficialServiceBaseImpl;
 import eu.strasbourg.utils.SearchHelper;
 
@@ -52,8 +56,14 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link eu.strasbourg.service.council.service.OfficialServiceUtil} to access the official remote service.
 	 */
 
+	/**  Types de conseil */
 	public static final String MUNICIPAL = "municipal";
 	public static final String EUROMETROPOLITAN = "eurometropolitan";
+	
+	/** JSON var names des types de statut de connexion */
+	public static final String JSON_UNCONNECTED = "unconnected";
+	public static final String JSON_ABSENTS = "absents";
+	public static final String JSON_CONNECTED = "connected";
 
 	/**
 	 * Recherche d'élu pour l'autocompletion
@@ -72,7 +82,7 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 		searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 		searchContext.setGroupIds(new long[]{groupId});
 
-		// TODO : utilisation d'une méthode de reccherche plus "light" que BOSearchHit
+		// TODO : utilisation d'une méthode de recherche plus "light" que BOSearchHit
 		Hits hits = SearchHelper.getBOSearchHits(searchContext, 0, 50, Official.class.getName(), groupId,
 				"", fullName.toLowerCase(), "title", true);
 
@@ -90,30 +100,53 @@ public class OfficialServiceImpl extends OfficialServiceBaseImpl {
 
 		// TODO : voir pour indexer les champs sur lesquels on filtre : type et statut d'activité
 		List<Official> filteredOfficial;
-		switch (type) {
-			case MUNICIPAL:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.filter(OfficialModel::isIsMunicipal)
-						.collect(Collectors.toList());
-				break;
-			case EUROMETROPOLITAN:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.filter(OfficialModel::isIsEurometropolitan)
-						.collect(Collectors.toList());
-				break;
-			default:
-				filteredOfficial = results.stream()
-						.filter(OfficialModel::isIsActive)
-						.collect(Collectors.toList());
-		}
+		filteredOfficial = results.stream()
+				.filter(OfficialModel::isIsActive)
+				.collect(Collectors.toList());
 
 		for (Official official : filteredOfficial) {
 			jsonOfficials.put(official.toJSON());
 		}
 
 		return jsonOfficials;
+	}
+	
+	/**
+	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	 * @param councilSessionId
+	 * @param groupId ID du site
+	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	 */
+	@Override
+	public JSONObject getOfficialByConnexionStatus(long councilSessionId, long groupId) {
+		JSONObject jsonData = JSONFactoryUtil.createJSONObject();
+		
+		JSONArray jsonUnconnected = JSONFactoryUtil.createJSONArray();
+		JSONArray jsonAbsents = JSONFactoryUtil.createJSONArray();
+		JSONArray jsonConnected = JSONFactoryUtil.createJSONArray();
+		
+		CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
+		
+		if (councilSession != null) {
+			List<Official> concernedOfficial = OfficialLocalServiceUtil
+					.findByGroupIdAndTypeId(groupId, councilSession.getTypeId());
+					
+			for(Official official : concernedOfficial) {
+				if (official.isNotedAbsent(councilSessionId)) {
+					jsonAbsents.put(official.toJSON());
+				} else if (official.isConnected()) {
+					jsonConnected.put(official.toJSON());
+				} else {
+					jsonUnconnected.put(official.toJSON());
+				}
+			}
+		}
+		
+		jsonData.put(JSON_UNCONNECTED, jsonUnconnected);
+		jsonData.put(JSON_ABSENTS, jsonAbsents);
+		jsonData.put(JSON_CONNECTED, jsonConnected);
+		
+		return jsonData;
 	}
 
 }

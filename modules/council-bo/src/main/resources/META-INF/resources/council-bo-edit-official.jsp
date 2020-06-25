@@ -2,6 +2,8 @@
 
 <%@page import="eu.strasbourg.service.council.model.Official"%>
 
+<c:set var="typeIdsUser" value="${dc.getTypeIdsForUser()}"/>
+
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="officialsURL">
 	<portlet:param name="tab" value="officials" />
@@ -56,14 +58,29 @@
 			<%-- Groupe de champs : Generalites --%>
             <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.council.bo.council.informations">
 
-                <%-- Champ : Type municipal --%>
-                <aui:input name="isMunicipal" />
+                <%-- Champ : Type de conseil --%>
+                <c:forEach items="${dc.types}" var="type">
+                        <c:set var="isAuthorized" value="${typeIdsUser.contains(type.typeId)}" />
+                        <c:set var="hasType" value="${dc.hasTypeCouncil(type.typeId)}" />
 
-                <%-- Champ : Type eurometropolitan --%>
-                <aui:input name="isEurometropolitan" />
+                        <c:choose>
+                            <c:when test="${hasType && !isAuthorized}">
+                                <aui:input type="hidden" name="${type.title}" value="${type.typeId}" />
+                            </c:when>
+                            <c:when test="${isAuthorized}">
+                                <aui:input name="${type.title}" label="${type.title}" type="checkbox"
+                                    title="${type.title}" checked="${hasType}" value="${type.typeId}" data-type="${type.typeId}" onChange="changeIsActive()" />
+                            </c:when>
+                        </c:choose>
+                </c:forEach>
 
-                <%-- Champ : Date --%>
-                <aui:input name="isActive" />
+            </aui:fieldset>
+
+            <%-- Groupe de champs : Statut --%>
+            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="eu.council.bo.statut">
+
+                <%-- Champ : Est Actif --%>
+                <aui:input name="isActive" disabled="true"/>
 
             </aui:fieldset>
 
@@ -136,3 +153,7 @@
 		}
 	}
 </aui:script>
+
+<liferay-util:html-bottom>
+    <script src="/o/councilbo/js/council-bo-edit-official.js" type="text/javascript"></script>
+</liferay-util:html-bottom>
