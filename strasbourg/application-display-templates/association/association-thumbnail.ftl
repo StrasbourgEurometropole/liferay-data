@@ -59,19 +59,6 @@
                 </#if>
             </div>
         </div>
-        <div class="item-infos">
-            <div class="item-geoloc">
-                <strong>
-                    <#list entry.practices?chunk(6)[0] as practice>
-                        ${practice.practice.getTitle(locale)}
-                        <#sep>, </#sep>
-                    </#list>
-                    <#if entry.practices?size gt 6>
-                        ...
-                    </#if>
-                </strong>
-            </div>
-        </div>
     </div>
 </li>
 
