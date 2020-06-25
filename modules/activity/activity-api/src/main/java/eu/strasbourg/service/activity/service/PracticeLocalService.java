@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.activity.model.Practice;
+import eu.strasbourg.service.activity.model.PracticeCategories;
 
 import java.io.Serializable;
 
@@ -319,6 +320,13 @@ public interface PracticeLocalService extends BaseLocalService,
 	public List<Practice> getPracticesByUuidAndCompanyId(
 		java.lang.String uuid, long companyId, int start, int end,
 		OrderByComparator<Practice> orderByComparator);
+
+	/**
+	* Retourne les activités triées par domaine de l'association
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<PracticeCategories> getPracticesSortedByAssociation(
+		long associationId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

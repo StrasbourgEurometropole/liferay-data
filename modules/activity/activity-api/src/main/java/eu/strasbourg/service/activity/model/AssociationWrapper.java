@@ -839,6 +839,14 @@ public class AssociationWrapper implements Association,
 	}
 
 	/**
+	* Retourne les catégories des activités triées par domaine de l'association
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.PracticeCategories> getPracticesCategories() {
+		return _association.getPracticesCategories();
+	}
+
+	/**
 	* Returns a map of the locales and localized facebook urls of this association.
 	*
 	* @return the locales and localized facebook urls of this association
