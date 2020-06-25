@@ -118,6 +118,11 @@
                     background-image: url( svg-bg-uri($svg-more, $core-color) );
                 }
             }
+            &.file{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-file, $core-color) );
+                }
+            }
 
         }
         &.seu-opened{
