@@ -177,14 +177,7 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<aui:script>
-		define._amd = define.amd;
-		define.amd = false;
-	</aui:script>
 	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
-	<script>
-		define.amd = define._amd;
-	</script>
 	<script src="/o/councilbo/js/council-bo-edit-council-session.js" type="text/javascript"></script>
 </liferay-util:html-bottom>
 

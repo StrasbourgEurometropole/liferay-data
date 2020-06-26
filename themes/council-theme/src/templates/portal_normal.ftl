@@ -95,14 +95,7 @@
       document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></'+'script>');
     }
   </script>
-  <script>
-    define._amd = define.amd;
-    define.amd = false;
-  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
-  <script>
-    define.amd = define._amd;
-  </script>
   <script type="text/javascript" src="/o/council-theme/js/council.js"></script>
 
   <@liferay_util["include"] page=body_bottom_include />

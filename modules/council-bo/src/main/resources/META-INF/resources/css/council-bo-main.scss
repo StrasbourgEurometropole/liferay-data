@@ -120,3 +120,27 @@
     cursor: pointer;
     padding: 2px 11px;
 }
+
+//Ne pas afficher les classes hidden
+.hidden{
+  display: none;
+}
+
+//Surcharge classe disabled
+#procurations-table{
+    .form-control[disabled]{
+        border-color: #F1F2F5;
+        cursor: not-allowed;
+    }
+
+    .disabled{
+        background-color: transparent;
+        border-color: #A7A9BC;
+        cursor: auto;
+    }
+
+    .field{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

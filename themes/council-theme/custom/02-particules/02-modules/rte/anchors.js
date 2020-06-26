@@ -6,7 +6,7 @@
     }
 
     // Au chargement, si hash, on récup son offset - un eventuel header fixed
-    $(window).load(function () {
+    $(window).on("load",function () {
         if (window.location.hash) {
             var element = $('#' + id);
             if (element.length == 0) {
