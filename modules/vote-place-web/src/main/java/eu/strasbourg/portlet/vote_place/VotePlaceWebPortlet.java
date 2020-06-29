@@ -56,7 +56,7 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
 		// récupération des infos de l'utilisateur
-		String name = null;
+		String birthName = null;
 		String firstName = null;
 		String birthDate = null;
 		String birthPlace = null;
@@ -67,7 +67,7 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 			if (userDetail.toString().equals("{}")) {
 				request.setAttribute("error", "publik");
 			} else {
-				name = userDetail.getString("last_name");
+				birthName = userDetail.getString("nom_de_naissance");
 				firstName = userDetail.getString("first_name");
 				// date au format AAAA-MM-JJ
 				birthDate = userDetail.getString("birthdate");
@@ -79,18 +79,18 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 				if (birthPlace != null && birthPlace.length() > 1) {
 					birthPlace = birthPlace.substring(0, 1).toUpperCase() + birthPlace.substring(1);
 				}
-				request.setAttribute("lastName", name);
+				request.setAttribute("lastName", birthName);
 				request.setAttribute("firstName", firstName);
 				request.setAttribute("birthDate", birthDate);
 				request.setAttribute("birthPlace", birthPlace);
 
 				FelecResponse felecResponse = null;
-				if (Validator.isNotNull(birthPlace) && Validator.isNotNull(birthDate) && Validator.isNotNull(name)
+				if (Validator.isNotNull(birthPlace) && Validator.isNotNull(birthDate) && Validator.isNotNull(birthName)
 						&& Validator.isNotNull(firstName)) {
 					try {
 						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 						Date date = sdf.parse(birthDate);
-						felecResponse = FelecWebServiceClient.getResponse(name, firstName, date, birthPlace);
+						felecResponse = FelecWebServiceClient.getResponse(birthName, firstName, date, birthPlace);
 						if(Validator.isNull(felecResponse.getResponseCode())) {
 							request.setAttribute("error", "publik");
 						}
@@ -114,6 +114,9 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 					}
 				} else {
 					List<String> champsNull = new ArrayList<String>();
+					if (Validator.isNull(birthName)) {
+						champsNull.add("Nom de naissance");
+					}
 					if (Validator.isNull(birthPlace)) {
 						champsNull.add("Ville de naissance");
 					}
