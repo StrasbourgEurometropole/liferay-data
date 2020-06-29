@@ -250,6 +250,16 @@ public class CouncilSessionLocalServiceWrapper
 		return _councilSessionLocalService.findByTitre(title);
 	}
 
+	/**
+	 * Recherche par type de CouncilSession
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.CouncilSession>
+		findByTypeId(long typeId) {
+
+		return _councilSessionLocalService.findByTypeId(typeId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
@@ -400,6 +410,14 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
+	 * Si le conseil a des délib
+	 */
+	@Override
+	public boolean hasDelib(long councilSessionId) {
+		return _councilSessionLocalService.hasDelib(councilSessionId);
+	}
+
+	/**
 	 * Si la date avec l'ID donné est déjà utilisé par une autre session
 	 */
 	@Override
@@ -411,12 +429,14 @@ public class CouncilSessionLocalServiceWrapper
 	}
 
 	/**
-	 * Si le titre avec l'ID donné est déjà utilisé par une autre session
+	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	 */
 	@Override
-	public boolean isTitleAlreadyUsed(String title, long councilSessionId) {
-		return _councilSessionLocalService.isTitleAlreadyUsed(
-			title, councilSessionId);
+	public boolean isTitleAlreadyUsedInCouncilTypeId(
+		String title, long councilSessionId, long typeId) {
+
+		return _councilSessionLocalService.isTitleAlreadyUsedInCouncilTypeId(
+			title, councilSessionId, typeId);
 	}
 
 	/**

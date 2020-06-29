@@ -34,10 +34,11 @@ import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil
 @ProviderType
 public abstract class OfficialTypeCouncilBaseImpl
 	extends OfficialTypeCouncilModelImpl implements OfficialTypeCouncil {
+
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. All methods that expect a official type council model instance should use the {@link OfficialTypeCouncil} interface instead.
+	 * Never modify or reference this class directly. All methods that expect a official type council model instance should use the <code>OfficialTypeCouncil</code> interface instead.
 	 */
 	@Override
 	public void persist() {
@@ -48,4 +49,5 @@ public abstract class OfficialTypeCouncilBaseImpl
 			OfficialTypeCouncilLocalServiceUtil.updateOfficialTypeCouncil(this);
 		}
 	}
+
 }

@@ -73,9 +73,9 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		attributes.put("email", getEmail());
 		attributes.put("firstname", getFirstname());
 		attributes.put("lastname", getLastname());
-		attributes.put("isMunicipal", isIsMunicipal());
-		attributes.put("isEurometropolitan", isIsEurometropolitan());
 		attributes.put("isActive", isIsActive());
+		attributes.put("lastActivity", getLastActivity());
+		attributes.put("lastSignInDeviceInfo", getLastSignInDeviceInfo());
 
 		return attributes;
 	}
@@ -172,23 +172,23 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 			setLastname(lastname);
 		}
 
-		Boolean isMunicipal = (Boolean)attributes.get("isMunicipal");
-
-		if (isMunicipal != null) {
-			setIsMunicipal(isMunicipal);
-		}
-
-		Boolean isEurometropolitan = (Boolean)attributes.get(
-			"isEurometropolitan");
-
-		if (isEurometropolitan != null) {
-			setIsEurometropolitan(isEurometropolitan);
-		}
-
 		Boolean isActive = (Boolean)attributes.get("isActive");
 
 		if (isActive != null) {
 			setIsActive(isActive);
+		}
+
+		Date lastActivity = (Date)attributes.get("lastActivity");
+
+		if (lastActivity != null) {
+			setLastActivity(lastActivity);
+		}
+
+		String lastSignInDeviceInfo = (String)attributes.get(
+			"lastSignInDeviceInfo");
+
+		if (lastSignInDeviceInfo != null) {
+			setLastSignInDeviceInfo(lastSignInDeviceInfo);
 		}
 	}
 
@@ -230,6 +230,24 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public long getCompanyId() {
 		return _official.getCompanyId();
+	}
+
+	/**
+	 * Renvoie les types de conseil rattachés à cet élu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.council.model.Type>
+		getCouncilTypes() {
+
+		return _official.getCouncilTypes();
+	}
+
+	/**
+	 * Renvoie un strind 'id types de conseil rattachés à cet élu
+	 */
+	@Override
+	public String getCouncilTypesIds() {
+		return _official.getCouncilTypesIds();
 	}
 
 	/**
@@ -296,23 +314,13 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	 * Returns the is eurometropolitan of this official.
+	 * Returns the last activity of this official.
 	 *
-	 * @return the is eurometropolitan of this official
+	 * @return the last activity of this official
 	 */
 	@Override
-	public boolean getIsEurometropolitan() {
-		return _official.getIsEurometropolitan();
-	}
-
-	/**
-	 * Returns the is municipal of this official.
-	 *
-	 * @return the is municipal of this official
-	 */
-	@Override
-	public boolean getIsMunicipal() {
-		return _official.getIsMunicipal();
+	public Date getLastActivity() {
+		return _official.getLastActivity();
 	}
 
 	/**
@@ -323,6 +331,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public String getLastname() {
 		return _official.getLastname();
+	}
+
+	/**
+	 * Returns the last sign in device info of this official.
+	 *
+	 * @return the last sign in device info of this official
+	 */
+	@Override
+	public String getLastSignInDeviceInfo() {
+		return _official.getLastSignInDeviceInfo();
 	}
 
 	/**
@@ -471,6 +489,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
+	 * Renvoie le statut de connection de l'utilisateur
+	 *
+	 * @return True si la dernière connection date de moins de 15sec
+	 */
+	@Override
+	public boolean isConnected() {
+		return _official.isConnected();
+	}
+
+	/**
 	 * Returns <code>true</code> if this official is denied.
 	 *
 	 * @return <code>true</code> if this official is denied; <code>false</code> otherwise
@@ -535,29 +563,17 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 		return _official.isIsActive();
 	}
 
-	/**
-	 * Returns <code>true</code> if this official is is eurometropolitan.
-	 *
-	 * @return <code>true</code> if this official is is eurometropolitan; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIsEurometropolitan() {
-		return _official.isIsEurometropolitan();
-	}
-
-	/**
-	 * Returns <code>true</code> if this official is is municipal.
-	 *
-	 * @return <code>true</code> if this official is is municipal; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIsMunicipal() {
-		return _official.isIsMunicipal();
-	}
-
 	@Override
 	public boolean isNew() {
 		return _official.isNew();
+	}
+
+	/**
+	 * Renvoie si l'electeur est noté absent pour la session données
+	 */
+	@Override
+	public boolean isNotedAbsent(long councilSessionId) {
+		return _official.isNotedAbsent(councilSessionId);
 	}
 
 	/**
@@ -668,23 +684,13 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	/**
-	 * Sets whether this official is is eurometropolitan.
+	 * Sets the last activity of this official.
 	 *
-	 * @param isEurometropolitan the is eurometropolitan of this official
+	 * @param lastActivity the last activity of this official
 	 */
 	@Override
-	public void setIsEurometropolitan(boolean isEurometropolitan) {
-		_official.setIsEurometropolitan(isEurometropolitan);
-	}
-
-	/**
-	 * Sets whether this official is is municipal.
-	 *
-	 * @param isMunicipal the is municipal of this official
-	 */
-	@Override
-	public void setIsMunicipal(boolean isMunicipal) {
-		_official.setIsMunicipal(isMunicipal);
+	public void setLastActivity(Date lastActivity) {
+		_official.setLastActivity(lastActivity);
 	}
 
 	/**
@@ -695,6 +701,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	@Override
 	public void setLastname(String lastname) {
 		_official.setLastname(lastname);
+	}
+
+	/**
+	 * Sets the last sign in device info of this official.
+	 *
+	 * @param lastSignInDeviceInfo the last sign in device info of this official
+	 */
+	@Override
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
+		_official.setLastSignInDeviceInfo(lastSignInDeviceInfo);
 	}
 
 	/**

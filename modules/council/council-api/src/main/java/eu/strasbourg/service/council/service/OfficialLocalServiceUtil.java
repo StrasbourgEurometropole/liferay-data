@@ -235,14 +235,12 @@ public class OfficialLocalServiceUtil {
 	}
 
 	/**
-	 * Recherche par site, activité ou non de l'élu et type
+	 * Recherche par site, et type de conseil
 	 */
 	public static java.util.List<eu.strasbourg.service.council.model.Official>
-		findByGroupIdAndIsActiveAndType(
-			long groupId, boolean isActive, String type) {
+		findByGroupIdAndTypeId(long groupId, long typeId) {
 
-		return getService().findByGroupIdAndIsActiveAndType(
-			groupId, isActive, type);
+		return getService().findByGroupIdAndTypeId(groupId, typeId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
@@ -402,6 +400,18 @@ public class OfficialLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().updateOfficial(official, sc);
+	}
+
+	/**
+	 * Mise à jour des informations de connexion d'un élu
+	 *
+	 * @param officialId ID de l'élu
+	 * @parma officialDeviceInfo Informations décrivant l'appareil utilisé par l'élu
+	 */
+	public static void updateOfficialInfo(
+		long officialId, String officialDeviceInfo) {
+
+		getService().updateOfficialInfo(officialId, officialDeviceInfo);
 	}
 
 	/**

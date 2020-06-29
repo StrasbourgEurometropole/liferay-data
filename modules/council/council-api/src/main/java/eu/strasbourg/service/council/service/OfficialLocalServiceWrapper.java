@@ -245,15 +245,13 @@ public class OfficialLocalServiceWrapper
 	}
 
 	/**
-	 * Recherche par site, activité ou non de l'élu et type
+	 * Recherche par site, et type de conseil
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.council.model.Official>
-		findByGroupIdAndIsActiveAndType(
-			long groupId, boolean isActive, String type) {
+		findByGroupIdAndTypeId(long groupId, long typeId) {
 
-		return _officialLocalService.findByGroupIdAndIsActiveAndType(
-			groupId, isActive, type);
+		return _officialLocalService.findByGroupIdAndTypeId(groupId, typeId);
 	}
 
 	@Override
@@ -428,6 +426,18 @@ public class OfficialLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _officialLocalService.updateOfficial(official, sc);
+	}
+
+	/**
+	 * Mise à jour des informations de connexion d'un élu
+	 *
+	 * @param officialId ID de l'élu
+	 * @parma officialDeviceInfo Informations décrivant l'appareil utilisé par l'élu
+	 */
+	@Override
+	public void updateOfficialInfo(long officialId, String officialDeviceInfo) {
+		_officialLocalService.updateOfficialInfo(
+			officialId, officialDeviceInfo);
 	}
 
 	/**

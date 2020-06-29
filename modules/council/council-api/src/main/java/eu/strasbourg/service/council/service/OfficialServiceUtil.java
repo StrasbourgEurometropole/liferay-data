@@ -42,6 +42,20 @@ public class OfficialServiceUtil {
 	 */
 
 	/**
+	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	 *
+	 * @param councilSessionId
+	 * @param groupId ID du site
+	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	 */
+	public static com.liferay.portal.kernel.json.JSONObject
+		getOfficialByConnexionStatus(long councilSessionId, long groupId) {
+
+		return getService().getOfficialByConnexionStatus(
+			councilSessionId, groupId);
+	}
+
+	/**
 	 * Recherche d'élu pour l'autocompletion
 	 *
 	 * @param fullName Nom, prénom ou les deux de l'élu à trouver

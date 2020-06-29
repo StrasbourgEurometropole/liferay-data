@@ -565,6 +565,17 @@ public class AssociationWrapper
 	}
 
 	/**
+	 * Retourne les catégories des activités triées par domaine de l'association
+	 */
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.activity.model.PracticeCategories>
+			getPracticesCategories() {
+
+		return _association.getPracticesCategories();
+	}
+
+	/**
 	 * Returns the presentation of this association.
 	 *
 	 * @return the presentation of this association

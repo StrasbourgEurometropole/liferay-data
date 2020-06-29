@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.CouncilSession;
 
@@ -34,12 +33,12 @@ import java.util.Date;
  * The cache model class for representing CouncilSession in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see CouncilSession
  * @generated
  */
 @ProviderType
-public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
-	Externalizable {
+public class CouncilSessionCacheModel
+	implements CacheModel<CouncilSession>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -50,7 +49,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 			return false;
 		}
 
-		CouncilSessionCacheModel councilSessionCacheModel = (CouncilSessionCacheModel)obj;
+		CouncilSessionCacheModel councilSessionCacheModel =
+			(CouncilSessionCacheModel)obj;
 
 		if (councilSessionId == councilSessionCacheModel.councilSessionId) {
 			return true;
@@ -96,10 +96,10 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		sb.append(title);
 		sb.append(", date=");
 		sb.append(date);
-		sb.append(", type=");
-		sb.append(type);
 		sb.append(", officialLeaderId=");
 		sb.append(officialLeaderId);
+		sb.append(", typeId=");
+		sb.append(typeId);
 		sb.append("}");
 
 		return sb.toString();
@@ -110,7 +110,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		CouncilSessionImpl councilSessionImpl = new CouncilSessionImpl();
 
 		if (uuid == null) {
-			councilSessionImpl.setUuid(StringPool.BLANK);
+			councilSessionImpl.setUuid("");
 		}
 		else {
 			councilSessionImpl.setUuid(uuid);
@@ -122,7 +122,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		councilSessionImpl.setUserId(userId);
 
 		if (userName == null) {
-			councilSessionImpl.setUserName(StringPool.BLANK);
+			councilSessionImpl.setUserName("");
 		}
 		else {
 			councilSessionImpl.setUserName(userName);
@@ -146,7 +146,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		councilSessionImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			councilSessionImpl.setStatusByUserName(StringPool.BLANK);
+			councilSessionImpl.setStatusByUserName("");
 		}
 		else {
 			councilSessionImpl.setStatusByUserName(statusByUserName);
@@ -160,7 +160,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		}
 
 		if (title == null) {
-			councilSessionImpl.setTitle(StringPool.BLANK);
+			councilSessionImpl.setTitle("");
 		}
 		else {
 			councilSessionImpl.setTitle(title);
@@ -173,14 +173,8 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 			councilSessionImpl.setDate(new Date(date));
 		}
 
-		if (type == null) {
-			councilSessionImpl.setType(StringPool.BLANK);
-		}
-		else {
-			councilSessionImpl.setType(type);
-		}
-
 		councilSessionImpl.setOfficialLeaderId(officialLeaderId);
+		councilSessionImpl.setTypeId(typeId);
 
 		councilSessionImpl.resetOriginalValues();
 
@@ -209,16 +203,16 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		date = objectInput.readLong();
-		type = objectInput.readUTF();
 
 		officialLeaderId = objectInput.readLong();
+
+		typeId = objectInput.readLong();
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -233,7 +227,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -247,7 +241,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -256,7 +250,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
@@ -264,14 +258,9 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 
 		objectOutput.writeLong(date);
 
-		if (type == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(type);
-		}
-
 		objectOutput.writeLong(officialLeaderId);
+
+		objectOutput.writeLong(typeId);
 	}
 
 	public String uuid;
@@ -288,6 +277,7 @@ public class CouncilSessionCacheModel implements CacheModel<CouncilSession>,
 	public long statusDate;
 	public String title;
 	public long date;
-	public String type;
 	public long officialLeaderId;
+	public long typeId;
+
 }

@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.Type;
 
@@ -34,11 +33,11 @@ import java.util.Date;
  * The cache model class for representing Type in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see Type
  * @generated
  */
 @ProviderType
 public class TypeCacheModel implements CacheModel<Type>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -107,7 +106,7 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		TypeImpl typeImpl = new TypeImpl();
 
 		if (uuid == null) {
-			typeImpl.setUuid(StringPool.BLANK);
+			typeImpl.setUuid("");
 		}
 		else {
 			typeImpl.setUuid(uuid);
@@ -119,7 +118,7 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		typeImpl.setUserId(userId);
 
 		if (userName == null) {
-			typeImpl.setUserName(StringPool.BLANK);
+			typeImpl.setUserName("");
 		}
 		else {
 			typeImpl.setUserName(userName);
@@ -143,7 +142,7 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		typeImpl.setStatusByUserId(statusByUserId);
 
 		if (statusByUserName == null) {
-			typeImpl.setStatusByUserName(StringPool.BLANK);
+			typeImpl.setStatusByUserName("");
 		}
 		else {
 			typeImpl.setStatusByUserName(statusByUserName);
@@ -157,14 +156,14 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		}
 
 		if (title == null) {
-			typeImpl.setTitle(StringPool.BLANK);
+			typeImpl.setTitle("");
 		}
 		else {
 			typeImpl.setTitle(title);
 		}
 
 		if (titleLong == null) {
-			typeImpl.setTitleLong(StringPool.BLANK);
+			typeImpl.setTitleLong("");
 		}
 		else {
 			typeImpl.setTitleLong(titleLong);
@@ -204,10 +203,9 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -222,7 +220,7 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		objectOutput.writeLong(userId);
 
 		if (userName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(userName);
@@ -236,7 +234,7 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		objectOutput.writeLong(statusByUserId);
 
 		if (statusByUserName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(statusByUserName);
@@ -245,14 +243,14 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (title == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(title);
 		}
 
 		if (titleLong == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(titleLong);
@@ -276,4 +274,5 @@ public class TypeCacheModel implements CacheModel<Type>, Externalizable {
 	public String title;
 	public String titleLong;
 	public long roleId;
+
 }

@@ -411,6 +411,18 @@ public class PracticeLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne les activités triées par domaine de l'association
+	 */
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.activity.model.PracticeCategories>
+			getPracticesSortedByAssociation(long associationId) {
+
+		return _practiceLocalService.getPracticesSortedByAssociation(
+			associationId);
+	}
+
+	/**
 	 * Supprime une entité
 	 */
 	@Override

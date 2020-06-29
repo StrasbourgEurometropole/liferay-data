@@ -27,10 +27,11 @@ import eu.strasbourg.service.council.service.OfficialServiceUtil;
 
 /**
  * Provides the HTTP utility for the
- * {@link OfficialServiceUtil} service utility. The
+ * <code>OfficialServiceUtil</code> service
+ * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link HttpPrincipal} parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -49,22 +50,23 @@ import eu.strasbourg.service.council.service.OfficialServiceUtil;
  *
  * @author Brian Wing Shun Chan
  * @see OfficialServiceSoap
- * @see HttpPrincipal
- * @see OfficialServiceUtil
  * @generated
  */
 @ProviderType
 public class OfficialServiceHttp {
-	public static com.liferay.portal.kernel.json.JSONArray getOfficialByFullNameAndType(
-		HttpPrincipal httpPrincipal, java.lang.String fullName,
-		java.lang.String type, long removedOfficialId, long groupId) {
-		try {
-			MethodKey methodKey = new MethodKey(OfficialServiceUtil.class,
-					"getOfficialByFullNameAndType",
-					_getOfficialByFullNameAndTypeParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					fullName, type, removedOfficialId, groupId);
+	public static com.liferay.portal.kernel.json.JSONArray
+		getOfficialByFullNameAndType(
+			HttpPrincipal httpPrincipal, String fullName, String type,
+			long removedOfficialId, long groupId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				OfficialServiceUtil.class, "getOfficialByFullNameAndType",
+				_getOfficialByFullNameAndTypeParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, fullName, type, removedOfficialId, groupId);
 
 			Object returnObj = null;
 
@@ -72,7 +74,8 @@ public class OfficialServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
@@ -84,10 +87,46 @@ public class OfficialServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+		getOfficialByConnexionStatus(
+			HttpPrincipal httpPrincipal, long councilSessionId, long groupId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				OfficialServiceUtil.class, "getOfficialByConnexionStatus",
+				_getOfficialByConnexionStatusParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, councilSessionId, groupId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(OfficialServiceHttp.class);
-	private static final Class<?>[] _getOfficialByFullNameAndTypeParameterTypes0 =
-		new Class[] {
-			java.lang.String.class, java.lang.String.class, long.class,
-			long.class
+
+	private static final Class<?>[]
+		_getOfficialByFullNameAndTypeParameterTypes0 = new Class[] {
+			String.class, String.class, long.class, long.class
 		};
+	private static final Class<?>[]
+		_getOfficialByConnexionStatusParameterTypes1 = new Class[] {
+			long.class, long.class
+		};
+
 }

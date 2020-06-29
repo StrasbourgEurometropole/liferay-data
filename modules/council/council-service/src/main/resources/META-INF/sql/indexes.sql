@@ -13,7 +13,6 @@ create index IX_E139471F on council_Official (groupId, isActive);
 create index IX_C307D0A3 on council_Official (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_148223E5 on council_Official (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_D1FFABFE on council_OfficialTypeCouncil (officialId);
 create index IX_E00B7EA7 on council_OfficialTypeCouncil (typeId, officialId);
 create index IX_EE28DC98 on council_OfficialTypeCouncil (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_A4EFA91A on council_OfficialTypeCouncil (uuid_[$COLUMN_LENGTH:75$], groupId);
