@@ -347,6 +347,7 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 		// Permet la récupération de toutes les catégories entières
 		Session session = practicePersistence.openSession();
 		SQLQuery query = session.createSQLQuery("SET SESSION group_concat_max_len = 1000000");
+		query.executeUpdate();
 
 		List<PracticeCategories> practicesCategories = new ArrayList<>();
 		query = session.createSQLQuery(this.query);
