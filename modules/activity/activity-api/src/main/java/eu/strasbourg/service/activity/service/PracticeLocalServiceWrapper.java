@@ -391,6 +391,15 @@ public class PracticeLocalServiceWrapper implements PracticeLocalService,
 	}
 
 	/**
+	* Retourne les activités triées par domaine de l'association
+	*/
+	@Override
+	public java.util.List<eu.strasbourg.service.activity.model.PracticeCategories> getPracticesSortedByAssociation(
+		long associationId) {
+		return _practiceLocalService.getPracticesSortedByAssociation(associationId);
+	}
+
+	/**
 	* Returns the number of rows matching the dynamic query.
 	*
 	* @param dynamicQuery the dynamic query

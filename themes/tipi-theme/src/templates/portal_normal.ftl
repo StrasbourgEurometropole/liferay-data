@@ -120,6 +120,7 @@
 						<li> <a href="accueil" title="Accueil">Accueil</a></li> 
 						<li> <a href="pied-de-page/contact" title="Contact">Contact</a></li> 
 						<li> <a href="mentions-legales" title="Mentions légales">Mentions légales</a></li> 
+						<li> <a href="https://www.strasbourg.eu/donnees-personnelles" title="Données personnelles">Données personnelles</a></li> 
 					</ul> 
 					
 					<p class="footer-contact"> Ville et Eurométropole de Strasbourg © ${.now?string.yyyy}</p> 
@@ -133,7 +134,6 @@
 							<li> <a class="btn-daily" href="http://www.dailymotion.com/villedestrasbourg" target="_blank" title="Les vidéos de Strasbourg.eu (nouvelle fenêtre)">Dailymotion</a></li> 
 							<li> <a class="btn-insta" href="https://instagram.com/strasbourg_eurometropole" target="_blank" title="Instagram de Strasbourg.eu (nouvelle fenêtre)">Instagram</a></li> 
 							<li> <a class="btn-tumblr" href="http://www.strasblr.eu/" target="_blank" title="Strasblr : un autre regard sur Strasbourg (nouvelle fenêtre)">Tumblr</a></li> 
-							<li> <a class="btn-netvibes" href="http://www.netvibes.com/villedestrasbourg" target="_blank" title="Page Netvibes de Strasbourg.eu (nouvelle fenêtre)">Netvibes</a></li> 
 						</ul> 
 					</div> 
 				</div> 

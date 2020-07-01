@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.model.Practice;
+import eu.strasbourg.service.activity.model.PracticeCategories;
 import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
 import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -89,5 +90,13 @@ public class AssociationImpl extends AssociationBaseImpl {
 	@Override
 	public List<Practice> getPractices() {
 		return PracticeLocalServiceUtil.getByAssociation(this.getAssociationId());
+	}
+
+	/**
+	 * Retourne les catégories des activités triées par domaine de l'association
+	 */
+	@Override
+	public List<PracticeCategories> getPracticesCategories() {
+		return PracticeLocalServiceUtil.getPracticesSortedByAssociation(this.getAssociationId());
 	}
 }

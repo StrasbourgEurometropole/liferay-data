@@ -20,7 +20,10 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
@@ -34,6 +37,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.activity.model.Practice;
+import eu.strasbourg.service.activity.model.PracticeCategories;
 import eu.strasbourg.service.activity.service.base.PracticeLocalServiceBaseImpl;
 
 import java.util.ArrayList;
@@ -334,4 +338,60 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 	public List<Practice> getByAssociation(long associationId) {
 		return this.practicePersistence.findByAssociation(associationId);
 	}
+
+	/**
+	 * Retourne les activités triées par domaine de l'association
+	 */
+	@Override
+	public List<PracticeCategories> getPracticesSortedByAssociation(long associationId) {
+		// Permet la récupération de toutes les catégories entières
+		Session session = practicePersistence.openSession();
+		SQLQuery query = session.createSQLQuery("SET SESSION group_concat_max_len = 1000000");
+		query.executeUpdate();
+
+		List<PracticeCategories> practicesCategories = new ArrayList<>();
+		query = session.createSQLQuery(this.query);
+		QueryPos pos = QueryPos.getInstance(query);
+		pos.add(associationId);
+		for (Object values : query.list()) {
+			Object[] categoies = (Object[]) values;
+			PracticeCategories practiceCategories = new PracticeCategories(categoies);
+			practicesCategories.add(practiceCategories);
+		}
+		session.close();
+		return practicesCategories;
+	}
+
+	private String query = "SELECT *," +
+			"                (SELECT GROUP_CONCAT(DISTINCT category.title SEPARATOR '||')" +
+			"                FROM AssetEntries_AssetCategories AS entrycateg" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                INNER JOIN AssetVocabulary AS publicVocabulary ON category.vocabularyId = publicVocabulary.vocabularyId AND publicVocabulary.name = 'public de pratique'" +
+			"                WHERE entrycateg.entryId = pratique.entryId) as publics," +
+			"                (SELECT GROUP_CONCAT(DISTINCT category.title SEPARATOR '||')" +
+			"                FROM AssetEntries_AssetCategories AS entrycateg" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                INNER JOIN AssetVocabulary AS districtVocabulary ON category.vocabularyId = districtVocabulary.vocabularyId AND districtVocabulary.name = 'territoire'" +
+			"                WHERE entrycateg.entryId = pratique.entryId) as districts," +
+			"                (SELECT GROUP_CONCAT(DISTINCT category.title SEPARATOR '||')" +
+			"                FROM AssetEntries_AssetCategories AS entrycateg" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                INNER JOIN AssetVocabulary AS accessibilityVocabulary ON category.vocabularyId = accessibilityVocabulary.vocabularyId AND accessibilityVocabulary.name = 'accessibilite de pratique'" +
+			"                WHERE entrycateg.entryId = pratique.entryId) as accessibilities" +
+			"            FROM (SELECT entry.entryId, " +
+			"                       CASE WHEN parent.parentCategoryId = 0 THEN parent.title ELSE CASE WHEN gdparent.parentCategoryId = 0 THEN gdparent.title ELSE agdparent.title END END as domaine," +
+			"                       CASE WHEN parent.parentCategoryId = 0 THEN category.title ELSE CASE WHEN gdparent.parentCategoryId = 0 THEN parent.title ELSE gdparent.title END END as specialite," +
+			"                       CASE WHEN parent.parentCategoryId = 0 THEN '' ELSE CASE WHEN gdparent.parentCategoryId = 0 THEN category.title ELSE parent.title END END as sous_specialite," +
+			"                       CASE WHEN parent.parentCategoryId = 0 THEN '' ELSE CASE WHEN gdparent.parentCategoryId = 0 THEN '' ELSE category.title END END as sous_sous_specialite," +
+			"                       category.name as pratique" +
+			"                FROM activity_Practice AS practice" +
+			"                INNER JOIN AssetEntry AS entry ON entry.classPK = practice.practiceId" +
+			"                INNER JOIN AssetEntries_AssetCategories AS entrycateg ON entrycateg.entryId = entry.entryId" +
+			"                INNER JOIN AssetCategory AS category ON category.categoryId = entrycateg.categoryId" +
+			"                INNER JOIN AssetVocabulary AS practiceVocabulary ON category.vocabularyId = practiceVocabulary.vocabularyId AND practiceVocabulary.name = 'domaine de pratique'" +
+			"                INNER JOIN AssetCategory AS parent ON parent.categoryId = category.parentCategoryId" +
+			"                LEFT JOIN AssetCategory AS gdparent ON gdparent.categoryId = parent.parentCategoryId" +
+			"                LEFT JOIN AssetCategory AS agdparent ON agdparent.categoryId = gdparent.parentCategoryId" +
+			"                WHERE associationId = ?) as pratique" +
+			"            ORDER BY domaine, pratique";
 }

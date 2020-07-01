@@ -74,7 +74,7 @@
             <div class="seu-filter-line">
                 <c:forEach items="${dc.vocabularies}" var="vocabulary"
                     varStatus="vocStatus">
-	                <div class="widget">
+	                <div class="widget otherVocabularies">
 	                    <div class="title content">
 	                        <aui:select cssClass="toCustomSelect" id="vocabulary_${vocStatus.index}" name="vocabulary_${vocStatus.index}" label="${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}">
 	                            <aui:option value="" disabled="disabled" />
@@ -227,6 +227,11 @@
 	</div>
 </main>
 
+<style>
+	.seu-view-filters .seu-filter-line .widget.otherVocabularies:last-child{
+        width: calc(50% - 10px);
+    }
+</style>
 
 <script>
 	$(document).ready(function() {
