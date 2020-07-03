@@ -109,7 +109,8 @@ public interface BudgetParticipatif
 	/**
 	 * Retourne la liste des lieux placit liés
 	 */
-	public java.util.List<PlacitPlace> getPlacitPlaces();
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
+		getPlacitPlaces();
 
 	/**
 	 * retourne les catégories
@@ -197,7 +198,7 @@ public interface BudgetParticipatif
 
 	public int getPriorityOrder();
 
-	public BudgetPhase getPhase();
+	public eu.strasbourg.service.project.model.BudgetPhase getPhase();
 
 	public String getPhaseTitleLabel();
 
@@ -217,7 +218,8 @@ public interface BudgetParticipatif
 	 *
 	 * @return Liste des soutiens
 	 */
-	public java.util.List<BudgetSupport> getSupports();
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
+		getSupports();
 
 	/**
 	 * Retourne le nombre de soutien
@@ -250,7 +252,8 @@ public interface BudgetParticipatif
 	 * @param status
 	 */
 	public void setBPStatus(
-		BudgetParticipatif budgetParticipatif,
+		eu.strasbourg.service.project.model.BudgetParticipatif
+			budgetParticipatif,
 		eu.strasbourg.service.project.constants.ParticiperCategories status,
 		long groupID);
 
@@ -261,24 +264,27 @@ public interface BudgetParticipatif
 	 * @param nbSuggestions le nombre de suggestions.
 	 * @return la liste de bp.
 	 */
-	public java.util.List<BudgetParticipatif> getSuggestions(
-			javax.servlet.http.HttpServletRequest request, int nbSuggestions)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			   com.liferay.portal.kernel.search.SearchException;
+	public java.util.List
+		<eu.strasbourg.service.project.model.BudgetParticipatif> getSuggestions(
+				javax.servlet.http.HttpServletRequest request,
+				int nbSuggestions)
+			throws com.liferay.portal.kernel.exception.PortalException,
+				   com.liferay.portal.kernel.search.SearchException;
 
 	/**
 	 * Retourne X suggestions max pour un BP
 	 *
 	 * @return la liste de bp.
 	 */
-	public java.util.List<BudgetParticipatif> getChilds();
+	public java.util.List
+		<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds();
 
 	/**
 	 * Retourne Le budget participatif parent dans le cas d'un bp fusionne
 	 *
 	 * @return Le BP parent
 	 */
-	public BudgetParticipatif getParent();
+	public eu.strasbourg.service.project.model.BudgetParticipatif getParent();
 
 	/**
 	 * Retourne la liste des URLs des documents
@@ -293,7 +299,8 @@ public interface BudgetParticipatif
 	/**
 	 * Retourne la liste des entrées timelines du projet
 	 */
-	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
+		getBudgetParticipatifTimelines();
 
 	/**
 	 * Retourne la version JSON de l'entité

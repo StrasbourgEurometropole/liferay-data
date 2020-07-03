@@ -468,6 +468,65 @@
 					}
 				}
 			}
+			
+			@include tablet_portrait{
+				&.show{
+					a{
+						position: relative;
+						&:before{
+							content: '';
+							background: url(/o/summer-2018-theme/images/ico/ico-submenu-c.png) no-repeat center center /contain;
+							position: absolute;
+							bottom: -11px;
+							left: 50%;
+							display: block;
+							width: 23px;
+							height: 23px;
+							z-index: 9999;
+							transform: translateX(-50%);
+							@include tablet_portrait{
+								content: none;
+							}
+						}
+						&:hover{
+							color: $c_txt;
+							@include desktop{
+								color: $c_txt;
+							}
+						}
+					}
+					a.dropdown-toggle {
+						&:hover{
+							color: $c_main;
+							@include desktop{
+								color: $c_main;
+							}
+						}
+					}
+					.dropdown-menu{
+						display: block;
+						@include mobile{
+							display: block;
+							position: relative;
+							padding: 20px 10px;
+							left: 0;
+							width: 100%;
+							column-count: 1;
+						}
+						li{
+							a{
+								position: relative;
+								display: block;
+								line-height: 30px;
+								white-space: initial;
+								&:before{
+									content: none;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		ul li a:hover::after, #mns-global .mns-nav ul li a.active {
@@ -525,6 +584,29 @@
 						}
 					}
 				}
+				@include tablet_portrait{
+					&.show{
+						a{
+							position: relative;
+							&:before{
+								content: '';
+								background: url(/o/summer-2018-theme/images/ico/ico-submenu-c.png) no-repeat center center /contain;
+								position: absolute;
+								bottom: -11px;
+								left: 50%;
+								display: block;
+								width: 23px;
+								height: 23px;
+								z-index: 9999;
+								transform: translateX(-50%);
+								@include tablet_portrait{
+									content: none;
+								}
+							}
+						}
+					}
+				}
+				
 			}
 
 			ul{
@@ -708,8 +790,9 @@
 			padding-bottom: 10px;
 		}
 
-		.collapse.in{
+		.collapse.show{
 			display:block !important;
+			overflow-y: auto;
 		}
 
 	}

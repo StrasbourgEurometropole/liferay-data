@@ -1,4 +1,4 @@
-$(window).load(function() {
+$(window).on("load",function() {
     if((themeDisplay.getLayoutRelativeURL().indexOf("objets-trouves") > 0) && getCookie('has-consent-objtp-rule') == null) {
      createPopinObjtpRule();
     }

@@ -206,10 +206,9 @@ public interface OfficialLocalService
 		long groupId, boolean isActive);
 
 	/**
-	 * Recherche par site, activité ou non de l'élu et type
+	 * Recherche par site, et type de conseil
 	 */
-	public List<Official> findByGroupIdAndIsActiveAndType(
-		long groupId, boolean isActive, String type);
+	public List<Official> findByGroupIdAndTypeId(long groupId, long typeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -322,6 +321,14 @@ public interface OfficialLocalService
 	 */
 	public Official updateOfficial(Official official, ServiceContext sc)
 		throws PortalException;
+
+	/**
+	 * Mise à jour des informations de connexion d'un élu
+	 *
+	 * @param officialId ID de l'élu
+	 * @parma officialDeviceInfo Informations décrivant l'appareil utilisé par l'élu
+	 */
+	public void updateOfficialInfo(long officialId, String officialDeviceInfo);
 
 	/**
 	 * Met à jour le statut de l'entité par le framework workflow

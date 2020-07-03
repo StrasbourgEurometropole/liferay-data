@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
- *
+ *getParticipations
  * <p>
  * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.project.model.Project} interface.
  * </p>
@@ -308,7 +308,7 @@ public class ProjectImpl extends ProjectBaseImpl {
 				}
 			}
 
-			assetResults.stream()
+			assetResults = assetResults.stream()
 					.filter(cat -> cat.getClassName().equals(Participation.class.getName()) && cat.isVisible())
 					.collect(Collectors.toList());
 		}

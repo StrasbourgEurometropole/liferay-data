@@ -93,17 +93,20 @@ public class OfficialServiceSoap {
 	}
 
 	/**
-	* Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
-	*
-	* @param councilSessionId
-	* @param groupId ID du site
-	* @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
-	*/
-	public static java.lang.String getOfficialByConnexionStatus(
-		long councilSessionId, long groupId) throws RemoteException {
+	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
+	 *
+	 * @param councilSessionId
+	 * @param groupId ID du site
+	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
+	 */
+	public static String getOfficialByConnexionStatus(
+			long councilSessionId, long groupId)
+		throws RemoteException {
+
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = OfficialServiceUtil.getOfficialByConnexionStatus(councilSessionId,
-					groupId);
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				OfficialServiceUtil.getOfficialByConnexionStatus(
+					councilSessionId, groupId);
 
 			return returnValue.toString();
 		}

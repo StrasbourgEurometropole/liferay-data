@@ -45,9 +45,10 @@ public class DeliberationServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId) {
+		long officialId, String officialDeviceInfo) {
 
-		return _deliberationService.getUserFront(officialId);
+		return _deliberationService.getUserFront(
+			officialId, officialDeviceInfo);
 	}
 
 	@Override

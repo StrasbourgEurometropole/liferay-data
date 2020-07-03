@@ -380,7 +380,6 @@
 		.navbar-brand {
 			height: 93px;
 			padding: 23px 15px;
-			padding-right: 100px;
 			@include ft($f_txt, 26px, 400, $c_white, 18px);
 			@include tablet_portrait {
 				padding: 15px 0;

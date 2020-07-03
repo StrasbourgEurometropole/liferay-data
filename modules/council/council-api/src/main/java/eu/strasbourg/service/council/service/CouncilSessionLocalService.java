@@ -208,6 +208,11 @@ public interface CouncilSessionLocalService
 	 */
 	public List<CouncilSession> findByTitre(String title);
 
+	/**
+	 * Recherche par type de CouncilSession
+	 */
+	public List<CouncilSession> findByTypeId(long typeId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -309,16 +314,23 @@ public interface CouncilSessionLocalService
 		throws PortalException;
 
 	/**
+	 * Si le conseil a des délib
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasDelib(long councilSessionId);
+
+	/**
 	 * Si la date avec l'ID donné est déjà utilisé par une autre session
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
 
 	/**
-	 * Si le titre avec l'ID donné est déjà utilisé par une autre session
+	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isTitleAlreadyUsed(String title, long councilSessionId);
+	public boolean isTitleAlreadyUsedInCouncilTypeId(
+		String title, long councilSessionId, long typeId);
 
 	/**
 	 * Supprime une entité

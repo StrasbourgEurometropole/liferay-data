@@ -75,6 +75,29 @@ public interface Official extends OfficialModel, PersistedModel {
 	public String getFullName();
 
 	/**
+	 * Renvoie si l'electeur est noté absent pour la session données
+	 */
+	public boolean isNotedAbsent(long councilSessionId);
+
+	/**
+	 * Renvoie le statut de connection de l'utilisateur
+	 *
+	 * @return True si la dernière connection date de moins de 15sec
+	 */
+	public boolean isConnected();
+
+	/**
+	 * Renvoie les types de conseil rattachés à cet élu
+	 */
+	public java.util.List<eu.strasbourg.service.council.model.Type>
+		getCouncilTypes();
+
+	/**
+	 * Renvoie un strind 'id types de conseil rattachés à cet élu
+	 */
+	public String getCouncilTypesIds();
+
+	/**
 	 * Renvoie l'élu au format JSON
 	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();

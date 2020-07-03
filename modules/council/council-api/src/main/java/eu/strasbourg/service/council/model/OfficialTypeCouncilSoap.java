@@ -32,7 +32,10 @@ import java.util.List;
  */
 @ProviderType
 public class OfficialTypeCouncilSoap implements Serializable {
-	public static OfficialTypeCouncilSoap toSoapModel(OfficialTypeCouncil model) {
+
+	public static OfficialTypeCouncilSoap toSoapModel(
+		OfficialTypeCouncil model) {
+
 		OfficialTypeCouncilSoap soapModel = new OfficialTypeCouncilSoap();
 
 		soapModel.setUuid(model.getUuid());
@@ -48,7 +51,9 @@ public class OfficialTypeCouncilSoap implements Serializable {
 
 	public static OfficialTypeCouncilSoap[] toSoapModels(
 		OfficialTypeCouncil[] models) {
-		OfficialTypeCouncilSoap[] soapModels = new OfficialTypeCouncilSoap[models.length];
+
+		OfficialTypeCouncilSoap[] soapModels =
+			new OfficialTypeCouncilSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -59,10 +64,12 @@ public class OfficialTypeCouncilSoap implements Serializable {
 
 	public static OfficialTypeCouncilSoap[][] toSoapModels(
 		OfficialTypeCouncil[][] models) {
+
 		OfficialTypeCouncilSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new OfficialTypeCouncilSoap[models.length][models[0].length];
+			soapModels =
+				new OfficialTypeCouncilSoap[models.length][models[0].length];
 		}
 		else {
 			soapModels = new OfficialTypeCouncilSoap[0][0];
@@ -77,13 +84,16 @@ public class OfficialTypeCouncilSoap implements Serializable {
 
 	public static OfficialTypeCouncilSoap[] toSoapModels(
 		List<OfficialTypeCouncil> models) {
-		List<OfficialTypeCouncilSoap> soapModels = new ArrayList<OfficialTypeCouncilSoap>(models.size());
+
+		List<OfficialTypeCouncilSoap> soapModels =
+			new ArrayList<OfficialTypeCouncilSoap>(models.size());
 
 		for (OfficialTypeCouncil model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new OfficialTypeCouncilSoap[soapModels.size()]);
+		return soapModels.toArray(
+			new OfficialTypeCouncilSoap[soapModels.size()]);
 	}
 
 	public OfficialTypeCouncilSoap() {
@@ -161,4 +171,5 @@ public class OfficialTypeCouncilSoap implements Serializable {
 	private long _companyId;
 	private Date _createDate;
 	private String _result;
+
 }

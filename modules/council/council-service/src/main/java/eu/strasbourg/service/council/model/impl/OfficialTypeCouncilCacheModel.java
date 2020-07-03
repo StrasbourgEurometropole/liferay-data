@@ -19,7 +19,6 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringPool;
 
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK;
@@ -35,12 +34,12 @@ import java.util.Date;
  * The cache model class for representing OfficialTypeCouncil in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see OfficialTypeCouncil
  * @generated
  */
 @ProviderType
-public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCouncil>,
-	Externalizable {
+public class OfficialTypeCouncilCacheModel
+	implements CacheModel<OfficialTypeCouncil>, Externalizable {
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -51,10 +50,12 @@ public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCou
 			return false;
 		}
 
-		OfficialTypeCouncilCacheModel officialTypeCouncilCacheModel = (OfficialTypeCouncilCacheModel)obj;
+		OfficialTypeCouncilCacheModel officialTypeCouncilCacheModel =
+			(OfficialTypeCouncilCacheModel)obj;
 
 		if (officialTypeCouncilPK.equals(
-					officialTypeCouncilCacheModel.officialTypeCouncilPK)) {
+				officialTypeCouncilCacheModel.officialTypeCouncilPK)) {
+
 			return true;
 		}
 
@@ -91,10 +92,11 @@ public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCou
 
 	@Override
 	public OfficialTypeCouncil toEntityModel() {
-		OfficialTypeCouncilImpl officialTypeCouncilImpl = new OfficialTypeCouncilImpl();
+		OfficialTypeCouncilImpl officialTypeCouncilImpl =
+			new OfficialTypeCouncilImpl();
 
 		if (uuid == null) {
-			officialTypeCouncilImpl.setUuid(StringPool.BLANK);
+			officialTypeCouncilImpl.setUuid("");
 		}
 		else {
 			officialTypeCouncilImpl.setUuid(uuid);
@@ -113,7 +115,7 @@ public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCou
 		}
 
 		if (result == null) {
-			officialTypeCouncilImpl.setResult(StringPool.BLANK);
+			officialTypeCouncilImpl.setResult("");
 		}
 		else {
 			officialTypeCouncilImpl.setResult(result);
@@ -142,10 +144,9 @@ public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCou
 	}
 
 	@Override
-	public void writeExternal(ObjectOutput objectOutput)
-		throws IOException {
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
 		if (uuid == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(uuid);
@@ -161,7 +162,7 @@ public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCou
 		objectOutput.writeLong(createDate);
 
 		if (result == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
+			objectOutput.writeUTF("");
 		}
 		else {
 			objectOutput.writeUTF(result);
@@ -176,4 +177,5 @@ public class OfficialTypeCouncilCacheModel implements CacheModel<OfficialTypeCou
 	public long createDate;
 	public String result;
 	public transient OfficialTypeCouncilPK officialTypeCouncilPK;
+
 }
