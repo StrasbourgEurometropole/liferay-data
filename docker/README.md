@@ -73,7 +73,7 @@ Lancer l'image Liferay avec la commande suivante où :
 * `DATA_PATH` est le chemin vers le répertoire de persistance.
 
 ```shell
-$ DATA=DATA_PATH  docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
+$ DATA=DATA_PATH docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 
 --> $ DATA=/data/ems-data docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
 --> $ DATA=/var/local docker-compose -f dc-lfr-upgrade.yml up -d liferay-portal
@@ -119,7 +119,7 @@ Images à créer :
     * dans le répertoire de configuration `configs/liferay-ems` :
         * `deploy` dossier dans lequel placer tous les éléments que l'on souhaite déployer au démarrage de Liferay.
         * `files/tomcat/bin/setenv.sh` pour définir les propriétés de lancement du serveur.
-        * `files/tomcat/conf/context.xml` pour définir les propriétés de lancement du serveur.
+        * `files/tomcat/conf/context.xml` pour définir le .
         * `files/tomcat/conf/server.xml` pour exporter le port AJP.
         * `files/portal-ext.properties` pour définir les proprités Liferay et EMS.
         * `files/portal-setup-wizzard.properties` pour définir les proprités de connection à la BDD et d'administration par defaut de Liferay.
@@ -145,7 +145,6 @@ MYSQL_PASSWORD=
 # Email de copie de tous les mails provenant du serveur SMTP (à ne pas utiliser en prod)
 TRAIL_MAIL_ADDRESS=
 ```
-
 
 ## Exécution
 
