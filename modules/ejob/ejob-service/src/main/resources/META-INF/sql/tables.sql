@@ -48,5 +48,6 @@ create table ejob_Offer (
 	emails VARCHAR(75) null,
 	shareLinkedin BOOLEAN,
 	exportTotem VARCHAR(75) null,
-	publicationDate DATE null
+	publicationStartDate DATE null,
+	publicationEndDate DATE null
 );

@@ -77,12 +77,6 @@ public interface OfferLocalService
 	public Offer addOffer(Offer offer);
 
 	/**
-	 * Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
-	 * une date de publication dans le futur
-	 */
-	public void checkOffers() throws PortalException;
-
-	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
 	 *
 	 * @param offerId the primary key for the new offer
@@ -92,7 +86,7 @@ public interface OfferLocalService
 	public Offer createOffer(long offerId);
 
 	/**
-	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
 	 */
 	public Offer createOffer(ServiceContext sc) throws PortalException;
 
@@ -318,7 +312,7 @@ public interface OfferLocalService
 	public Offer updateOffer(Offer offer);
 
 	/**
-	 * Met à jour une edition et l'enregistre en base de données
+	 * Met à jour une offre et l'enregistre en base de données
 	 */
 	public Offer updateOffer(Offer offer, ServiceContext sc)
 		throws PortalException;

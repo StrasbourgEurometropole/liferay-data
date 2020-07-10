@@ -47,17 +47,6 @@ public class OfferLocalServiceWrapper
 	}
 
 	/**
-	 * Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
-	 * une date de publication dans le futur
-	 */
-	@Override
-	public void checkOffers()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		_offerLocalService.checkOffers();
-	}
-
-	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
 	 *
 	 * @param offerId the primary key for the new offer
@@ -69,7 +58,7 @@ public class OfferLocalServiceWrapper
 	}
 
 	/**
-	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
 	public eu.strasbourg.service.ejob.model.Offer createOffer(
@@ -406,7 +395,7 @@ public class OfferLocalServiceWrapper
 	}
 
 	/**
-	 * Met à jour une edition et l'enregistre en base de données
+	 * Met à jour une offre et l'enregistre en base de données
 	 */
 	@Override
 	public eu.strasbourg.service.ejob.model.Offer updateOffer(

@@ -57,6 +57,7 @@
 		<property name="emails" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="shareLinkedin" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="exportTotem" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="publicationDate" type="org.hibernate.type.TimestampType" />
+		<property name="publicationStartDate" type="org.hibernate.type.TimestampType" />
+		<property name="publicationEndDate" type="org.hibernate.type.TimestampType" />
 	</class>
 </hibernate-mapping>

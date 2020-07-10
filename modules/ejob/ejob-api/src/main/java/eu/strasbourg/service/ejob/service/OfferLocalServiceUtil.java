@@ -54,16 +54,6 @@ public class OfferLocalServiceUtil {
 	}
 
 	/**
-	 * Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
-	 * une date de publication dans le futur
-	 */
-	public static void checkOffers()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		getService().checkOffers();
-	}
-
-	/**
 	 * Creates a new offer with the primary key. Does not add the offer to the database.
 	 *
 	 * @param offerId the primary key for the new offer
@@ -76,7 +66,7 @@ public class OfferLocalServiceUtil {
 	}
 
 	/**
-	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
 	 */
 	public static eu.strasbourg.service.ejob.model.Offer createOffer(
 			com.liferay.portal.kernel.service.ServiceContext sc)
@@ -392,7 +382,7 @@ public class OfferLocalServiceUtil {
 	}
 
 	/**
-	 * Met à jour une edition et l'enregistre en base de données
+	 * Met à jour une offre et l'enregistre en base de données
 	 */
 	public static eu.strasbourg.service.ejob.model.Offer updateOffer(
 			eu.strasbourg.service.ejob.model.Offer offer,

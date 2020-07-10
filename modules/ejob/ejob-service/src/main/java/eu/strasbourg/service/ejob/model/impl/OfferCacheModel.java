@@ -64,7 +64,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(69);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -130,8 +130,10 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		sb.append(shareLinkedin);
 		sb.append(", exportTotem=");
 		sb.append(exportTotem);
-		sb.append(", publicationDate=");
-		sb.append(publicationDate);
+		sb.append(", publicationStartDate=");
+		sb.append(publicationStartDate);
+		sb.append(", publicationEndDate=");
+		sb.append(publicationEndDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -321,11 +323,18 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 			offerImpl.setExportTotem(exportTotem);
 		}
 
-		if (publicationDate == Long.MIN_VALUE) {
-			offerImpl.setPublicationDate(null);
+		if (publicationStartDate == Long.MIN_VALUE) {
+			offerImpl.setPublicationStartDate(null);
 		}
 		else {
-			offerImpl.setPublicationDate(new Date(publicationDate));
+			offerImpl.setPublicationStartDate(new Date(publicationStartDate));
+		}
+
+		if (publicationEndDate == Long.MIN_VALUE) {
+			offerImpl.setPublicationEndDate(null);
+		}
+		else {
+			offerImpl.setPublicationEndDate(new Date(publicationEndDate));
 		}
 
 		offerImpl.resetOriginalValues();
@@ -375,7 +384,8 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 		shareLinkedin = objectInput.readBoolean();
 		exportTotem = objectInput.readUTF();
-		publicationDate = objectInput.readLong();
+		publicationStartDate = objectInput.readLong();
+		publicationEndDate = objectInput.readLong();
 	}
 
 	@Override
@@ -538,7 +548,8 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 			objectOutput.writeUTF(exportTotem);
 		}
 
-		objectOutput.writeLong(publicationDate);
+		objectOutput.writeLong(publicationStartDate);
+		objectOutput.writeLong(publicationEndDate);
 	}
 
 	public String uuid;
@@ -573,6 +584,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 	public String emails;
 	public boolean shareLinkedin;
 	public String exportTotem;
-	public long publicationDate;
+	public long publicationStartDate;
+	public long publicationEndDate;
 
 }

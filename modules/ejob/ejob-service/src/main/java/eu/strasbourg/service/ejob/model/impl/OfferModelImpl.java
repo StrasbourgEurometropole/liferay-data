@@ -101,7 +101,9 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		{"conditions", Types.CLOB}, {"avantages", Types.CLOB},
 		{"limitDate", Types.TIMESTAMP}, {"contact", Types.VARCHAR},
 		{"emails", Types.VARCHAR}, {"shareLinkedin", Types.BOOLEAN},
-		{"exportTotem", Types.VARCHAR}, {"publicationDate", Types.TIMESTAMP}
+		{"exportTotem", Types.VARCHAR},
+		{"publicationStartDate", Types.TIMESTAMP},
+		{"publicationEndDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -140,11 +142,12 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		TABLE_COLUMNS_MAP.put("emails", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("shareLinkedin", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("exportTotem", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("publicationStartDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("publicationEndDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,exportTotem VARCHAR(75) null,publicationDate DATE null)";
+		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,exportTotem VARCHAR(75) null,publicationStartDate DATE null,publicationEndDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table ejob_Offer";
 
@@ -178,13 +181,9 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
-	public static final long STATUS_COLUMN_BITMASK = 8L;
-
-	public static final long UUID_COLUMN_BITMASK = 16L;
-
-	public static final long OFFERID_COLUMN_BITMASK = 32L;
+	public static final long OFFERID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -231,7 +230,8 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		model.setEmails(soapModel.getEmails());
 		model.setShareLinkedin(soapModel.isShareLinkedin());
 		model.setExportTotem(soapModel.getExportTotem());
-		model.setPublicationDate(soapModel.getPublicationDate());
+		model.setPublicationStartDate(soapModel.getPublicationStartDate());
+		model.setPublicationEndDate(soapModel.getPublicationEndDate());
 
 		return model;
 	}
@@ -1021,22 +1021,42 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 			});
 		attributeGetterFunctions.put(
-			"publicationDate",
+			"publicationStartDate",
 			new Function<Offer, Object>() {
 
 				@Override
 				public Object apply(Offer offer) {
-					return offer.getPublicationDate();
+					return offer.getPublicationStartDate();
 				}
 
 			});
 		attributeSetterBiConsumers.put(
-			"publicationDate",
+			"publicationStartDate",
 			new BiConsumer<Offer, Object>() {
 
 				@Override
-				public void accept(Offer offer, Object publicationDate) {
-					offer.setPublicationDate((Date)publicationDate);
+				public void accept(Offer offer, Object publicationStartDate) {
+					offer.setPublicationStartDate((Date)publicationStartDate);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"publicationEndDate",
+			new Function<Offer, Object>() {
+
+				@Override
+				public Object apply(Offer offer) {
+					return offer.getPublicationEndDate();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"publicationEndDate",
+			new BiConsumer<Offer, Object>() {
+
+				@Override
+				public void accept(Offer offer, Object publicationEndDate) {
+					offer.setPublicationEndDate((Date)publicationEndDate);
 				}
 
 			});
@@ -1209,19 +1229,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
-		}
-
 		_status = status;
-	}
-
-	public int getOriginalStatus() {
-		return _originalStatus;
 	}
 
 	@JSON
@@ -2626,23 +2634,24 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@JSON
 	@Override
-	public Date getPublicationDate() {
-		return _publicationDate;
+	public Date getPublicationStartDate() {
+		return _publicationStartDate;
 	}
 
 	@Override
-	public void setPublicationDate(Date publicationDate) {
-		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationDate == null) {
-			_originalPublicationDate = _publicationDate;
-		}
-
-		_publicationDate = publicationDate;
+	public void setPublicationStartDate(Date publicationStartDate) {
+		_publicationStartDate = publicationStartDate;
 	}
 
-	public Date getOriginalPublicationDate() {
-		return _originalPublicationDate;
+	@JSON
+	@Override
+	public Date getPublicationEndDate() {
+		return _publicationEndDate;
+	}
+
+	@Override
+	public void setPublicationEndDate(Date publicationEndDate) {
+		_publicationEndDate = publicationEndDate;
 	}
 
 	@Override
@@ -3086,7 +3095,8 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		offerImpl.setEmails(getEmails());
 		offerImpl.setShareLinkedin(isShareLinkedin());
 		offerImpl.setExportTotem(getExportTotem());
-		offerImpl.setPublicationDate(getPublicationDate());
+		offerImpl.setPublicationStartDate(getPublicationStartDate());
+		offerImpl.setPublicationEndDate(getPublicationEndDate());
 
 		offerImpl.resetOriginalValues();
 
@@ -3160,13 +3170,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		offerModelImpl._setOriginalCompanyId = false;
 
 		offerModelImpl._setModifiedDate = false;
-
-		offerModelImpl._originalStatus = offerModelImpl._status;
-
-		offerModelImpl._setOriginalStatus = false;
-
-		offerModelImpl._originalPublicationDate =
-			offerModelImpl._publicationDate;
 
 		offerModelImpl._columnBitmask = 0;
 	}
@@ -3394,13 +3397,23 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 			offerCacheModel.exportTotem = null;
 		}
 
-		Date publicationDate = getPublicationDate();
+		Date publicationStartDate = getPublicationStartDate();
 
-		if (publicationDate != null) {
-			offerCacheModel.publicationDate = publicationDate.getTime();
+		if (publicationStartDate != null) {
+			offerCacheModel.publicationStartDate =
+				publicationStartDate.getTime();
 		}
 		else {
-			offerCacheModel.publicationDate = Long.MIN_VALUE;
+			offerCacheModel.publicationStartDate = Long.MIN_VALUE;
+		}
+
+		Date publicationEndDate = getPublicationEndDate();
+
+		if (publicationEndDate != null) {
+			offerCacheModel.publicationEndDate = publicationEndDate.getTime();
+		}
+		else {
+			offerCacheModel.publicationEndDate = Long.MIN_VALUE;
 		}
 
 		return offerCacheModel;
@@ -3485,8 +3498,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -3521,8 +3532,8 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _emails;
 	private boolean _shareLinkedin;
 	private String _exportTotem;
-	private Date _publicationDate;
-	private Date _originalPublicationDate;
+	private Date _publicationStartDate;
+	private Date _publicationEndDate;
 	private long _columnBitmask;
 	private Offer _escapedModel;
 

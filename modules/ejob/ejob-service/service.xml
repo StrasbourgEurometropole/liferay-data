@@ -46,14 +46,8 @@
 		<column name="emails" type="String" />
 		<column name="shareLinkedin" type="boolean" />
 		<column name="exportTotem" type="String" />
-		<column name="publicationDate" type="Date" />
-
-
-		<!-- Finder methods -->
-		<finder name="PublicationDateAndStatus" return-type="Collection">
-			<finder-column comparator="&lt;" name="publicationDate" />
-			<finder-column name="status" />
-		</finder>
+		<column name="publicationStartDate" type="Date" />
+		<column name="publicationEndDate" type="Date" />
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

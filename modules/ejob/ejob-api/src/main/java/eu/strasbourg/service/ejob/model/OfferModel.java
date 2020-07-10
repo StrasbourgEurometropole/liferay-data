@@ -1555,18 +1555,32 @@ public interface OfferModel
 	public void setExportTotem(String exportTotem);
 
 	/**
-	 * Returns the publication date of this offer.
+	 * Returns the publication start date of this offer.
 	 *
-	 * @return the publication date of this offer
+	 * @return the publication start date of this offer
 	 */
-	public Date getPublicationDate();
+	public Date getPublicationStartDate();
 
 	/**
-	 * Sets the publication date of this offer.
+	 * Sets the publication start date of this offer.
 	 *
-	 * @param publicationDate the publication date of this offer
+	 * @param publicationStartDate the publication start date of this offer
 	 */
-	public void setPublicationDate(Date publicationDate);
+	public void setPublicationStartDate(Date publicationStartDate);
+
+	/**
+	 * Returns the publication end date of this offer.
+	 *
+	 * @return the publication end date of this offer
+	 */
+	public Date getPublicationEndDate();
+
+	/**
+	 * Sets the publication end date of this offer.
+	 *
+	 * @param publicationEndDate the publication end date of this offer
+	 */
+	public void setPublicationEndDate(Date publicationEndDate);
 
 	/**
 	 * Returns <code>true</code> if this offer is approved.

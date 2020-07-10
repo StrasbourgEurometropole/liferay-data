@@ -90,7 +90,8 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		attributes.put("emails", getEmails());
 		attributes.put("shareLinkedin", isShareLinkedin());
 		attributes.put("exportTotem", getExportTotem());
-		attributes.put("publicationDate", getPublicationDate());
+		attributes.put("publicationStartDate", getPublicationStartDate());
+		attributes.put("publicationEndDate", getPublicationEndDate());
 
 		return attributes;
 	}
@@ -292,10 +293,17 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 			setExportTotem(exportTotem);
 		}
 
-		Date publicationDate = (Date)attributes.get("publicationDate");
+		Date publicationStartDate = (Date)attributes.get(
+			"publicationStartDate");
 
-		if (publicationDate != null) {
-			setPublicationDate(publicationDate);
+		if (publicationStartDate != null) {
+			setPublicationStartDate(publicationStartDate);
+		}
+
+		Date publicationEndDate = (Date)attributes.get("publicationEndDate");
+
+		if (publicationEndDate != null) {
+			setPublicationEndDate(publicationEndDate);
 		}
 	}
 
@@ -1317,13 +1325,13 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Returns the publication date of this offer.
+	 * Returns the publication end date of this offer.
 	 *
-	 * @return the publication date of this offer
+	 * @return the publication end date of this offer
 	 */
 	@Override
-	public Date getPublicationDate() {
-		return _offer.getPublicationDate();
+	public Date getPublicationEndDate() {
+		return _offer.getPublicationEndDate();
 	}
 
 	/**
@@ -1334,6 +1342,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public String getPublicationId() {
 		return _offer.getPublicationId();
+	}
+
+	/**
+	 * Returns the publication start date of this offer.
+	 *
+	 * @return the publication start date of this offer
+	 */
+	@Override
+	public Date getPublicationStartDate() {
+		return _offer.getPublicationStartDate();
 	}
 
 	/**
@@ -2470,13 +2488,13 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
-	 * Sets the publication date of this offer.
+	 * Sets the publication end date of this offer.
 	 *
-	 * @param publicationDate the publication date of this offer
+	 * @param publicationEndDate the publication end date of this offer
 	 */
 	@Override
-	public void setPublicationDate(Date publicationDate) {
-		_offer.setPublicationDate(publicationDate);
+	public void setPublicationEndDate(Date publicationEndDate) {
+		_offer.setPublicationEndDate(publicationEndDate);
 	}
 
 	/**
@@ -2487,6 +2505,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public void setPublicationId(String publicationId) {
 		_offer.setPublicationId(publicationId);
+	}
+
+	/**
+	 * Sets the publication start date of this offer.
+	 *
+	 * @param publicationStartDate the publication start date of this offer
+	 */
+	@Override
+	public void setPublicationStartDate(Date publicationStartDate) {
+		_offer.setPublicationStartDate(publicationStartDate);
 	}
 
 	/**

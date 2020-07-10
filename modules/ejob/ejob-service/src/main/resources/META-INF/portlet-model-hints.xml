@@ -72,6 +72,7 @@
 		<field name="emails" type="String" />
 		<field name="shareLinkedin" type="boolean" />
 		<field name="exportTotem" type="String" />
-		<field name="publicationDate" type="Date" />
+		<field name="publicationStartDate" type="Date" />
+		<field name="publicationEndDate" type="Date" />
 	</model>
 </model-hints>

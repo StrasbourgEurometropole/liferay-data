@@ -68,7 +68,7 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	public final static Log log = LogFactoryUtil.getLog(OfferLocalServiceImpl.class);
 
 	/**
-	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
+	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
 	public Offer createOffer(ServiceContext sc) throws PortalException {
@@ -88,7 +88,7 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour une edition et l'enregistre en base de données
+	 * Met à jour une offre et l'enregistre en base de données
 	 */
 	@Override
 	public Offer updateOffer(Offer offer, ServiceContext sc)
@@ -104,14 +104,7 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 		if (!WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
 				sc.getCompanyId(), sc.getScopeGroupId(), Offer.class.getName())) {
 			if (sc.getWorkflowAction() == WorkflowConstants.ACTION_PUBLISH) {
-				// Lors de la publication, si une date de publication ultérieure
-				// à la date actuelle est choisie, le statut à affecter est
-				// "STATUS_SCHEDULED"
-				if (offer.getPublicationDate().after(new Date())) {
-					offer.setStatus(WorkflowConstants.STATUS_SCHEDULED);
-				} else {
-					offer.setStatus(WorkflowConstants.STATUS_APPROVED);
-				}
+				offer.setStatus(WorkflowConstants.STATUS_APPROVED);
 			} else {
 				offer.setStatus(WorkflowConstants.STATUS_DRAFT);
 			}
@@ -131,7 +124,7 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Met à jour l'AssetEntry rattachée à l'edition
+	 * Met à jour l'AssetEntry rattachée à l'offre
 	 */
 	private void updateAssetEntry(Offer offer, ServiceContext sc)
 			throws PortalException {
@@ -147,10 +140,10 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 				sc.getAssetTagNames(), // Tags IDs
 				true, // Listable
 				offer.isApproved(), // Visible
-				offer.getPublicationDate(), // Start date
-				null, // End date
-				offer.getPublicationDate(), // Publication date
-				null, // Date of expiration
+				offer.getPublicationStartDate(), // Start date
+				offer.getPublicationEndDate(), // End date
+				offer.getPublicationStartDate(), // Publication date
+				offer.getPublicationEndDate(), // Date of expiration
 				ContentTypes.TEXT_HTML, // Content type
 				offer.getPost(), // Title
 				offer.getIntroduction(), // Description
@@ -183,7 +176,7 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 		}
 		offer.setStatusDate(new Date());
 		if (offer.isApproved()) {
-			offer.setPublicationDate(now);
+			offer.setPublicationStartDate(now);
 		}
 		offer = this.offerLocalService.updateOffer(offer);
 
@@ -209,25 +202,6 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 			throws PortalException {
 		this.updateStatus(offer.getUserId(), offer.getOfferId(), status,
 				null, null);
-	}
-
-	/**
-	 * Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
-	 * une date de publication dans le futur
-	 */
-	@Override
-	public void checkOffers() throws PortalException {
-		List<Offer> offers = this.offerPersistence
-				.findByPublicationDateAndStatus(new Date(),
-						WorkflowConstants.STATUS_SCHEDULED);
-		int n = 0;
-		for (Offer offer : offers) {
-			this.updateStatus(offer, WorkflowConstants.STATUS_APPROVED);
-			n++;
-		}
-		if (n > 0) {
-			log.info("Published " + n + " editions");
-		}
 	}
 
 	/**
