@@ -94,6 +94,7 @@ h2.portlet-title-text {
     margin-bottom: 30px;
     .lfr-icon-menu-text{
       color: #333;
+      font-size: 14px;
     }
     .lfr-icon-menu-arrow{
       color: #333;
@@ -126,3 +127,42 @@ h2.portlet-title-text {
 ul, ol{
     list-style-position: inside;
 }
+
+/** Début des correctifs du menu liferay modifié par le theme du site **/
+// "Aller au site" avec la bonne size
+.goto-link.list-group-heading.panel-header-link{
+	font-size: 14px;
+}
+
+// Menu de droite
+.lfr-add-panel{
+	font-size: 15px;
+	font-family: OpenSans, arial;
+
+	.lfr-content-item{  
+		margin-bottom: 8px;
+
+		.taglib-icon-label {
+		font-size: 16px;
+		}
+
+		.lexicon-icon {
+		height: 14px;
+		margin-top: 3px;
+		width: 14px;
+		}
+
+		.list-group-item-content{      
+		h1{
+		font-size: 14px !important;
+		font-family: OpenSans, arial;
+		font-weight: 600;
+		}
+
+		h2,h3{
+		font-size: 14px !important;
+		font-family: OpenSans, arial;
+		}
+		}
+	}
+} 
