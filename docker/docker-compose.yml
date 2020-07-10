@@ -51,6 +51,14 @@ services:
     networks:
       - backend-network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.2
+    environment:
+        - PMA_HOST=${MYSQL_ADDRESS}
+    ports:
+        - 8081:80
+    restart: always
+
   liferay:
     image: liferay-ems:${LFR_TAG_VERSION}
     build : 
