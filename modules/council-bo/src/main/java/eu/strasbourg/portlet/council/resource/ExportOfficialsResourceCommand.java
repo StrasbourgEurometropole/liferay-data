@@ -37,7 +37,7 @@ public class ExportOfficialsResourceCommand implements MVCResourceCommand {
     public boolean serveResource(ResourceRequest request, ResourceResponse response) {
         // Parametrage des propriétés de réponse
         response.setContentType("application/force-download");
-        response.setProperty("content-disposition","attachment; filename=Elus_conseils.xlsx");
+        response.setProperty("content-disposition","attachment; filename=Votants_conseils.xlsx");
 
         // Recupération de tous les élus
         List<Official> officials = this.officialLocalService.getOfficials(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
@@ -48,7 +48,7 @@ public class ExportOfficialsResourceCommand implements MVCResourceCommand {
             // Envoie du document dans le flux de réponse
             response.getPortletOutputStream().flush();
         } catch (IOException e) {
-            this.log.error("Probleme lors de l'extraction des élus (Conseils) : ", e);
+            this.log.error("Probleme lors de l'extraction des votants (Conseils) : ", e);
         }
 
         return true;

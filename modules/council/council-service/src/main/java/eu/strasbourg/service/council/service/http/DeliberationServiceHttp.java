@@ -56,7 +56,8 @@ import eu.strasbourg.service.council.service.DeliberationServiceUtil;
 public class DeliberationServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
-		HttpPrincipal httpPrincipal, long officialId) {
+		HttpPrincipal httpPrincipal, long officialId,
+		String officialDeviceInfo) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -64,7 +65,7 @@ public class DeliberationServiceHttp {
 				_getUserFrontParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, officialId);
+				methodKey, officialId, officialDeviceInfo);
 
 			Object returnObj = null;
 
@@ -89,7 +90,7 @@ public class DeliberationServiceHttp {
 		DeliberationServiceHttp.class);
 
 	private static final Class<?>[] _getUserFrontParameterTypes0 = new Class[] {
-		long.class
+		long.class, String.class
 	};
 
 }

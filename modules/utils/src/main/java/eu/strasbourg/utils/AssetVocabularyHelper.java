@@ -6,7 +6,6 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
-import com.liferay.asset.kernel.service.persistence.AssetCategoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -14,7 +13,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -103,7 +101,7 @@ public class AssetVocabularyHelper {
 	
 	/**
 	 * Retourne les quartiers d'une ville
-	 * @param city Le nom de la ville
+	 * @param cityName Le nom de la ville
 	 * @return La liste des catégories quartier disponibles pour la ville demandée
 	 */
 	public static List<AssetCategory> getAllDistrictsFromCity(String cityName) {
@@ -346,7 +344,7 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
-	 * Retourne la catégorie avec le nom donné et faisant parti du groupe donné
+	 * Retourne la 1ère catégorie trouvée avec le nom donné et faisant parti du groupe donné
 	 */
 	public static AssetCategory getCategory(String categoryName, long groupId) {
 		List<AssetCategory> categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1);
@@ -656,13 +654,11 @@ public class AssetVocabularyHelper {
 
 	/**
 	 * Renommer une categorie du vocabulaire du site donné
-	 * @param categoryName Nom de la categorie à ajouter
+	 * @param assetCategory Categorie à renommer
 	 * @param newName Nouveau nom de la catégorie
-	 * @param groupId Id du site
 	 * @return La catégorie renommée si trouvée, sinon null
 	 */
-	public static AssetCategory renameCategory(String categoryName, String newName, long groupId) {
-		AssetCategory assetCategory = AssetVocabularyHelper.getCategory(categoryName, groupId);
+	public static AssetCategory renameCategory(AssetCategory assetCategory, String newName) {
 		if (assetCategory != null) {
 			assetCategory.setTitle(newName);
 			assetCategory.setName(newName);

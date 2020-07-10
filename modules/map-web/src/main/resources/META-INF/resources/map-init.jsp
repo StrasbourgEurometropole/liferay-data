@@ -53,6 +53,5 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
     <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
-    <script src="/o/mapweb/js/jquery.jscrollpane.js"></script>
     <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
 </liferay-util:html-bottom>

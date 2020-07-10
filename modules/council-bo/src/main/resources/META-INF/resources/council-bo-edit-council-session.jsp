@@ -32,7 +32,11 @@
 	<liferay-ui:error key="title-already-exist-error" message="title-already-exist-error" />
 	<liferay-ui:error key="official-leader-not-found-error" message="official-leader-not-found-error" />
 	<liferay-ui:error key="official-leader-type-error" message="official-leader-type-error" />
-	<liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
+    <liferay-ui:error key="official-voter-type-error" message="official-voter-type-error" />
+    <liferay-ui:error key="official-voters-limit-error" message="official-voters-limit-error" />
+
+	<%-- Composant : definit la liste des messages d'erreur  (voir methode "doProcessAction" dans le deleteAction de l'entite) --%>
+	<liferay-ui:error key="council-has-delib-error" message="council-has-delib-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveCouncilSessionURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -51,17 +55,11 @@
                 <aui:input name="title" required="true" size="75" />
 
                 <%-- Champ : Type --%>
-                <div><label><liferay-ui:message key="type" /></label></div>
-                <label class="text-normal">
-                    <input type="radio" value="municipal" name="<portlet:namespace />type"
-                        <c:if test="${!dc.councilSession.isEurometropolitan()}">checked</c:if>>
-                    <liferay-ui:message key="type-municipal" />
-                </label><br>
-                <label class="text-normal">
-                    <input type="radio" value="eurometropolitan" name="<portlet:namespace />type"
-                        <c:if test="${dc.councilSession.isEurometropolitan()}">checked</c:if>>
-                    <liferay-ui:message key="type-eurometropolitan" />
-                </label><br><br>
+                <aui:select cssClass="toCustomSelect" id="council-type" name="council-type" label="council-type">
+                    <c:forEach items="${dc.authorizedTypes}" var="type">
+                        <aui:option value="${type.typeId}" selected="${dc.councilSession.typeId == type.typeId}">${type.title}</aui:option>
+                    </c:forEach>
+                </aui:select>
 
 			    <%-- Champ : Date --%>
                 <aui:input name="date" required="true" />
@@ -94,8 +92,8 @@
                             </th>
                         </tr>
 
-                        <c:forEach var="official" items="${dc.getAllActiveOfficials()}">
-
+                        <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
+                        <c:forEach var="official" items="${allActiveOfficials}">
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
                             <c:choose>
                                 <c:when test="${procuration != null}">
@@ -112,7 +110,7 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <tr data-is-municipal="${official.isMunicipal}" data-is-eurometropolitan="${official.isEurometropolitan}">
+                            <tr data-council-types="${official.councilTypesIds}">
                                 <td class="text-left" >
                                     ${official.fullName}
                                 </td>

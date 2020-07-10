@@ -17,6 +17,7 @@ package eu.strasbourg.service.council.service.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -29,17 +30,22 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Type;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the official local service.
@@ -48,7 +54,7 @@ import java.util.Map;
  * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.council.service.OfficialLocalService} interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a loc                                                                                al service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
@@ -69,8 +75,6 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	public static final String EUROMETROPOLITAN = "eurometropolitan";
 
 	/** Catégories **/
-	public static final String CATEGORY_MUNICIPAL = "Municipal";
-	public static final String CATEGORY_EUROMETROPOLITAN = "Eurometropolitain";
 	public static final String CATEGORY_ACTIVE = "Actif";
 	public static final String CATEGORY_INACTIVE = "Inactif";
 
@@ -112,24 +116,21 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		// Gestion des catégories associées
 		List<Long> assetCategoryIdsList = new ArrayList<>();
 
-		// Vocabulaire : Type
-		if (official.getIsMunicipal()) {
-			AssetCategory catMunicipal = AssetVocabularyHelper.getCategory(
-					CATEGORY_MUNICIPAL, sc.getScopeGroupId());
-			if (catMunicipal != null)
-				assetCategoryIdsList.add(catMunicipal.getCategoryId());
-			else
-				log.info("La categorie \"" + CATEGORY_MUNICIPAL + "\" n'a pas pu etre ajoutee a l'elu, " +
-						"veuillez la creer et reenregistrer la derniere entree : " + official.getFullName());
-		}
-		if (official.getIsEurometropolitan()) {
-			AssetCategory catEurometropolitan = AssetVocabularyHelper.getCategory(
-					CATEGORY_EUROMETROPOLITAN, sc.getScopeGroupId());
-			if (catEurometropolitan != null)
-				assetCategoryIdsList.add(catEurometropolitan.getCategoryId());
-			else
-				log.info("La categorie \"" + CATEGORY_EUROMETROPOLITAN + "\" n'a pas pu etre ajoutee a l'elu, " +
-						"veuillez la creer et reenregistrer la derniere entree : " + official.getFullName());
+		// Vocabulaire : Types
+		// récupère la catégorie des types de conseil
+		AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, sc.getScopeGroupId());
+		List<Long> typeIds = this.officialTypeCouncilLocalService.findByOfficialId(official.getOfficialId())
+				.stream().map(o -> o.getTypeId()).collect(Collectors.toList());
+		for (long typeId : typeIds) {
+			Type type = this.typeLocalService.fetchType(typeId);
+			if(Validator.isNotNull(type)){
+				AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+				if(Validator.isNotNull(typeCategory))
+					assetCategoryIdsList.add(typeCategory.getCategoryId());
+				else
+					log.info("La categorie \"" + type.getTitle() + "\" n'a pas pu etre ajoutee a l'elu, " +
+							"veuillez la creer et reenregistrer la derniere entree : " + official.getFullName());
+				}
 		}
 
 		// Vocabuaire : Elu activité
@@ -238,6 +239,26 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Mise à jour des informations de connexion d'un élu
+	 * @param officialId ID de l'élu
+	 * @parma officialDeviceInfo Informations décrivant l'appareil utilisé par l'élu
+	 */
+	@Override
+	public void updateOfficialInfo(long officialId, String officialDeviceInfo) {
+		try {
+			Official official = this.getOfficial(officialId);
+
+			official.setLastActivity(new Date());
+			official.setLastSignInDeviceInfo(officialDeviceInfo);
+
+			this.officialLocalService.updateOfficial(official);
+		} catch(PortalException e) {
+			log.info("La mise à jour des infos de l'elu " + officialId
+					+ " n'a pu etre faite car l'ID n'a pas ete retrouve");
+		}
+	}
+
+	/**
 	 * Supprime une entité
 	 */
 	@Override
@@ -314,16 +335,20 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Recherche par site, activité ou non de l'élu et type
+	 * Recherche par site, et type de conseil
 	 */
 	@Override
-	public List<Official> findByGroupIdAndIsActiveAndType(long groupId, boolean isActive, String type) {
+	public List<Official> findByGroupIdAndTypeId(long groupId, long typeId) {
 		List<Official> officials = new ArrayList<>();
-		if (type.equals(MUNICIPAL))
-			officials = this.officialPersistence.findByGroupIdAndIsActiveAndIsMunicipal(groupId, isActive, true);
-		else if (type.equals(EUROMETROPOLITAN))
-			officials = this.officialPersistence.findByGroupIdAndIsActiveAndIsEurometropolitan(groupId, isActive, true);
+		List<Long> officialIds = OfficialTypeCouncilLocalServiceUtil.findByTypeId(typeId)
+				.stream().filter(o -> o.getGroupId() == groupId)
+				.map(o -> o.getOfficialId()).collect(Collectors.toList());
+		for (long officialId : officialIds) {
+			Official official = OfficialLocalServiceUtil.fetchOfficial(officialId);
+			if(Validator.isNotNull(official)){
+				officials.add(official);
+			}
+		}
 		return officials;
 	}
-
 }

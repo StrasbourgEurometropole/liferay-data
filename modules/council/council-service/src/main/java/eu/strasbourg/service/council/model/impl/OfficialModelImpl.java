@@ -86,8 +86,9 @@ public class OfficialModelImpl
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"email", Types.VARCHAR}, {"firstname", Types.VARCHAR},
-		{"lastname", Types.VARCHAR}, {"isMunicipal", Types.BOOLEAN},
-		{"isEurometropolitan", Types.BOOLEAN}, {"isActive", Types.BOOLEAN}
+		{"lastname", Types.VARCHAR}, {"isActive", Types.BOOLEAN},
+		{"lastActivity", Types.TIMESTAMP},
+		{"lastSignInDeviceInfo", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -109,13 +110,13 @@ public class OfficialModelImpl
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("firstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastname", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("isMunicipal", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("isEurometropolitan", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("lastActivity", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("lastSignInDeviceInfo", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isMunicipal BOOLEAN,isEurometropolitan BOOLEAN,isActive BOOLEAN)";
+		"create table council_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,email VARCHAR(75) null,firstname VARCHAR(75) null,lastname VARCHAR(75) null,isActive BOOLEAN,lastActivity DATE null,lastSignInDeviceInfo VARCHAR(300) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table council_Official";
 
@@ -154,15 +155,11 @@ public class OfficialModelImpl
 
 	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
 
-	public static final long ISEUROMETROPOLITAN_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
 
-	public static final long ISMUNICIPAL_COLUMN_BITMASK = 32L;
+	public static final long LASTNAME_COLUMN_BITMASK = 32L;
 
-	public static final long UUID_COLUMN_BITMASK = 64L;
-
-	public static final long LASTNAME_COLUMN_BITMASK = 128L;
-
-	public static final long FIRSTNAME_COLUMN_BITMASK = 256L;
+	public static final long FIRSTNAME_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -192,9 +189,9 @@ public class OfficialModelImpl
 		model.setEmail(soapModel.getEmail());
 		model.setFirstname(soapModel.getFirstname());
 		model.setLastname(soapModel.getLastname());
-		model.setIsMunicipal(soapModel.isIsMunicipal());
-		model.setIsEurometropolitan(soapModel.isIsEurometropolitan());
 		model.setIsActive(soapModel.isIsActive());
+		model.setLastActivity(soapModel.getLastActivity());
+		model.setLastSignInDeviceInfo(soapModel.getLastSignInDeviceInfo());
 
 		return model;
 	}
@@ -648,48 +645,6 @@ public class OfficialModelImpl
 
 			});
 		attributeGetterFunctions.put(
-			"isMunicipal",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getIsMunicipal();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isMunicipal",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object isMunicipal) {
-					official.setIsMunicipal((Boolean)isMunicipal);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isEurometropolitan",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getIsEurometropolitan();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isEurometropolitan",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object isEurometropolitan) {
-
-					official.setIsEurometropolitan((Boolean)isEurometropolitan);
-				}
-
-			});
-		attributeGetterFunctions.put(
 			"isActive",
 			new Function<Official, Object>() {
 
@@ -706,6 +661,49 @@ public class OfficialModelImpl
 				@Override
 				public void accept(Official official, Object isActive) {
 					official.setIsActive((Boolean)isActive);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastActivity",
+			new Function<Official, Object>() {
+
+				@Override
+				public Object apply(Official official) {
+					return official.getLastActivity();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"lastActivity",
+			new BiConsumer<Official, Object>() {
+
+				@Override
+				public void accept(Official official, Object lastActivity) {
+					official.setLastActivity((Date)lastActivity);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastSignInDeviceInfo",
+			new Function<Official, Object>() {
+
+				@Override
+				public Object apply(Official official) {
+					return official.getLastSignInDeviceInfo();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"lastSignInDeviceInfo",
+			new BiConsumer<Official, Object>() {
+
+				@Override
+				public void accept(
+					Official official, Object lastSignInDeviceInfo) {
+
+					official.setLastSignInDeviceInfo(
+						(String)lastSignInDeviceInfo);
 				}
 
 			});
@@ -999,64 +997,6 @@ public class OfficialModelImpl
 
 	@JSON
 	@Override
-	public boolean getIsMunicipal() {
-		return _isMunicipal;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsMunicipal() {
-		return _isMunicipal;
-	}
-
-	@Override
-	public void setIsMunicipal(boolean isMunicipal) {
-		_columnBitmask |= ISMUNICIPAL_COLUMN_BITMASK;
-
-		if (!_setOriginalIsMunicipal) {
-			_setOriginalIsMunicipal = true;
-
-			_originalIsMunicipal = _isMunicipal;
-		}
-
-		_isMunicipal = isMunicipal;
-	}
-
-	public boolean getOriginalIsMunicipal() {
-		return _originalIsMunicipal;
-	}
-
-	@JSON
-	@Override
-	public boolean getIsEurometropolitan() {
-		return _isEurometropolitan;
-	}
-
-	@JSON
-	@Override
-	public boolean isIsEurometropolitan() {
-		return _isEurometropolitan;
-	}
-
-	@Override
-	public void setIsEurometropolitan(boolean isEurometropolitan) {
-		_columnBitmask |= ISEUROMETROPOLITAN_COLUMN_BITMASK;
-
-		if (!_setOriginalIsEurometropolitan) {
-			_setOriginalIsEurometropolitan = true;
-
-			_originalIsEurometropolitan = _isEurometropolitan;
-		}
-
-		_isEurometropolitan = isEurometropolitan;
-	}
-
-	public boolean getOriginalIsEurometropolitan() {
-		return _originalIsEurometropolitan;
-	}
-
-	@JSON
-	@Override
 	public boolean getIsActive() {
 		return _isActive;
 	}
@@ -1082,6 +1022,33 @@ public class OfficialModelImpl
 
 	public boolean getOriginalIsActive() {
 		return _originalIsActive;
+	}
+
+	@JSON
+	@Override
+	public Date getLastActivity() {
+		return _lastActivity;
+	}
+
+	@Override
+	public void setLastActivity(Date lastActivity) {
+		_lastActivity = lastActivity;
+	}
+
+	@JSON
+	@Override
+	public String getLastSignInDeviceInfo() {
+		if (_lastSignInDeviceInfo == null) {
+			return "";
+		}
+		else {
+			return _lastSignInDeviceInfo;
+		}
+	}
+
+	@Override
+	public void setLastSignInDeviceInfo(String lastSignInDeviceInfo) {
+		_lastSignInDeviceInfo = lastSignInDeviceInfo;
 	}
 
 	@Override
@@ -1216,9 +1183,9 @@ public class OfficialModelImpl
 		officialImpl.setEmail(getEmail());
 		officialImpl.setFirstname(getFirstname());
 		officialImpl.setLastname(getLastname());
-		officialImpl.setIsMunicipal(isIsMunicipal());
-		officialImpl.setIsEurometropolitan(isIsEurometropolitan());
 		officialImpl.setIsActive(isIsActive());
+		officialImpl.setLastActivity(getLastActivity());
+		officialImpl.setLastSignInDeviceInfo(getLastSignInDeviceInfo());
 
 		officialImpl.resetOriginalValues();
 
@@ -1298,15 +1265,6 @@ public class OfficialModelImpl
 		officialModelImpl._setModifiedDate = false;
 
 		officialModelImpl._originalEmail = officialModelImpl._email;
-
-		officialModelImpl._originalIsMunicipal = officialModelImpl._isMunicipal;
-
-		officialModelImpl._setOriginalIsMunicipal = false;
-
-		officialModelImpl._originalIsEurometropolitan =
-			officialModelImpl._isEurometropolitan;
-
-		officialModelImpl._setOriginalIsEurometropolitan = false;
 
 		officialModelImpl._originalIsActive = officialModelImpl._isActive;
 
@@ -1406,11 +1364,26 @@ public class OfficialModelImpl
 			officialCacheModel.lastname = null;
 		}
 
-		officialCacheModel.isMunicipal = isIsMunicipal();
-
-		officialCacheModel.isEurometropolitan = isIsEurometropolitan();
-
 		officialCacheModel.isActive = isIsActive();
+
+		Date lastActivity = getLastActivity();
+
+		if (lastActivity != null) {
+			officialCacheModel.lastActivity = lastActivity.getTime();
+		}
+		else {
+			officialCacheModel.lastActivity = Long.MIN_VALUE;
+		}
+
+		officialCacheModel.lastSignInDeviceInfo = getLastSignInDeviceInfo();
+
+		String lastSignInDeviceInfo = officialCacheModel.lastSignInDeviceInfo;
+
+		if ((lastSignInDeviceInfo != null) &&
+			(lastSignInDeviceInfo.length() == 0)) {
+
+			officialCacheModel.lastSignInDeviceInfo = null;
+		}
 
 		return officialCacheModel;
 	}
@@ -1503,15 +1476,11 @@ public class OfficialModelImpl
 	private String _originalEmail;
 	private String _firstname;
 	private String _lastname;
-	private boolean _isMunicipal;
-	private boolean _originalIsMunicipal;
-	private boolean _setOriginalIsMunicipal;
-	private boolean _isEurometropolitan;
-	private boolean _originalIsEurometropolitan;
-	private boolean _setOriginalIsEurometropolitan;
 	private boolean _isActive;
 	private boolean _originalIsActive;
 	private boolean _setOriginalIsActive;
+	private Date _lastActivity;
+	private String _lastSignInDeviceInfo;
 	private long _columnBitmask;
 	private Official _escapedModel;
 

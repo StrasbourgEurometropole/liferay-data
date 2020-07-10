@@ -9,6 +9,30 @@
         font-weight: normal;
         margin-top: 7px;
     }
+    
+    /* Titre du conseil dans la connexion des élus */
+    .council-title {
+	    text-align: center;
+	    padding: 20px;
+	    padding-top: 30px;
+	    font-weight: bold;
+	    margin-top: 10px;
+    }
+    
+    /* Headers de la connexion des élus */
+    .officials-unconnected .panel-heading {
+	    background: #C73C42;
+    }
+    .officials-absents .panel-heading {
+	    background: #AAA;
+    }
+    .officials-connected .panel-heading {
+	    background: #76BD4A;
+    }
+    
+    .connexion-list {
+    	padding-left: 15px;
+    }
 
 }
 

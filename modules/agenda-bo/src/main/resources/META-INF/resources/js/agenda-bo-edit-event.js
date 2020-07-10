@@ -255,20 +255,20 @@ function validatePeriods(event) {
 			}
 			nbPeriod++;
 		}
-		if (nbPeriod == 0) {
-			$('.no-event-period').show();
-            $('html,body').animate({scrollTop: $(namespaceAUI + "eu-dates-and-times").offset().top - 100}, 'slow');
-			allValidated = false;
-		}else{
-            if (!validated) {
-                $('.event-period-conflict', $(dateRange).parent()).show();
-                $('html,body').animate({scrollTop: $(dateRange).offset().top - 100}, 'slow');
-                allValidated = false;
-            }
+    }
+    if (nbPeriod == 0) {
+        $('.no-event-period').show();
+        $('html,body').animate({scrollTop: $(namespaceAUI + "eu-dates-and-times").offset().top - 100}, 'slow');
+        allValidated = false;
+    }else{
+        $('.no-event-period').hide();
+        if (!validated) {
+            $('.event-period-conflict', $(dateRange).parent()).show();
+            $('html,body').animate({scrollTop: $(dateRange).offset().top - 100}, 'slow');
+            allValidated = false;
         }
-		
-	}
-	
+    }
+
 	if (!allValidated) {
 		event.preventDefault();
 	} else {

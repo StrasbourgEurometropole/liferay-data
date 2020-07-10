@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.bean.VoteBean;
+import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
@@ -32,12 +33,15 @@ public class EditDeliberationDisplayContext {
     private final RenderRequest request;
     private final ThemeDisplay themeDisplay;
     private List<VoteBean> voteBeans;
+    private List<Long> typeCouncilIds;
 
     public EditDeliberationDisplayContext(RenderRequest request, RenderResponse response) {
         this.request = request;
         this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         // Pour initialiser la liste des votes
         this.initVotes();
+        typeCouncilIds = new ArrayList<>();
+        initAuthorizedTypeCouncilsIds();
     }
 
     public Deliberation getDeliberation() {
@@ -65,7 +69,13 @@ public class EditDeliberationDisplayContext {
         gc.set(Calendar.SECOND, 0);
         gc.set(Calendar.MILLISECOND, 0);
 
-        otherList = CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime());
+        //On filtre la liste des futurs conseils en fonction des rôles du User
+        for (CouncilSession council : CouncilSessionLocalServiceUtil.getFutureCouncilSessions(gc.getTime())) {
+            if(typeCouncilIds.contains(council.getTypeId())) {
+                otherList.add(council);
+            }
+        }
+
         if (deliberation != null) {
             CouncilSession councilDelib = CouncilSessionLocalServiceUtil.fetchCouncilSession(deliberation.getCouncilSessionId());
 
@@ -77,6 +87,12 @@ public class EditDeliberationDisplayContext {
         availableCouncilSessions.addAll(otherList);
 
         return availableCouncilSessions;
+    }
+
+    private void initAuthorizedTypeCouncilsIds() {
+        if(typeCouncilIds.size() == 0) {
+            typeCouncilIds = UserRoleType.typeIdsForUser(themeDisplay);
+        }
     }
 
     /**

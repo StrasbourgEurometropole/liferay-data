@@ -97,12 +97,12 @@ public class OfficialCacheModel
 		sb.append(firstname);
 		sb.append(", lastname=");
 		sb.append(lastname);
-		sb.append(", isMunicipal=");
-		sb.append(isMunicipal);
-		sb.append(", isEurometropolitan=");
-		sb.append(isEurometropolitan);
 		sb.append(", isActive=");
 		sb.append(isActive);
+		sb.append(", lastActivity=");
+		sb.append(lastActivity);
+		sb.append(", lastSignInDeviceInfo=");
+		sb.append(lastSignInDeviceInfo);
 		sb.append("}");
 
 		return sb.toString();
@@ -183,9 +183,21 @@ public class OfficialCacheModel
 			officialImpl.setLastname(lastname);
 		}
 
-		officialImpl.setIsMunicipal(isMunicipal);
-		officialImpl.setIsEurometropolitan(isEurometropolitan);
 		officialImpl.setIsActive(isActive);
+
+		if (lastActivity == Long.MIN_VALUE) {
+			officialImpl.setLastActivity(null);
+		}
+		else {
+			officialImpl.setLastActivity(new Date(lastActivity));
+		}
+
+		if (lastSignInDeviceInfo == null) {
+			officialImpl.setLastSignInDeviceInfo("");
+		}
+		else {
+			officialImpl.setLastSignInDeviceInfo(lastSignInDeviceInfo);
+		}
 
 		officialImpl.resetOriginalValues();
 
@@ -216,11 +228,9 @@ public class OfficialCacheModel
 		firstname = objectInput.readUTF();
 		lastname = objectInput.readUTF();
 
-		isMunicipal = objectInput.readBoolean();
-
-		isEurometropolitan = objectInput.readBoolean();
-
 		isActive = objectInput.readBoolean();
+		lastActivity = objectInput.readLong();
+		lastSignInDeviceInfo = objectInput.readUTF();
 	}
 
 	@Override
@@ -284,11 +294,15 @@ public class OfficialCacheModel
 			objectOutput.writeUTF(lastname);
 		}
 
-		objectOutput.writeBoolean(isMunicipal);
-
-		objectOutput.writeBoolean(isEurometropolitan);
-
 		objectOutput.writeBoolean(isActive);
+		objectOutput.writeLong(lastActivity);
+
+		if (lastSignInDeviceInfo == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(lastSignInDeviceInfo);
+		}
 	}
 
 	public String uuid;
@@ -306,8 +320,8 @@ public class OfficialCacheModel
 	public String email;
 	public String firstname;
 	public String lastname;
-	public boolean isMunicipal;
-	public boolean isEurometropolitan;
 	public boolean isActive;
+	public long lastActivity;
+	public String lastSignInDeviceInfo;
 
 }

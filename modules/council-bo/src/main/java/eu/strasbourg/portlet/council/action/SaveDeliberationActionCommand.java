@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.council.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
@@ -16,10 +18,13 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
+import eu.strasbourg.service.council.service.TypeLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -28,6 +33,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.util.Date;
+import java.util.List;
 
 @Component(
         immediate = true,
@@ -42,6 +48,14 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
     protected void setDeliberationLocalService(
             DeliberationLocalService deliberationLocalService) {
         this.deliberationLocalService = deliberationLocalService;
+    }
+
+    private TypeLocalService typeLocalService;
+
+    @Reference(unbind = "-")
+    protected void setTypeLocalService(
+            TypeLocalService typeLocalService) {
+        this.typeLocalService = typeLocalService;
     }
 
     @Override
@@ -98,8 +112,19 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         deliberation.setCouncilSessionId(councilSessionId);
 
         CouncilSession council = CouncilSessionLocalServiceUtil.fetchCouncilSession(councilSessionId);
-        AssetCategory councilCategory = AssetVocabularyHelper.getCategory(council.getTitle(), themeDisplay.getScopeGroupId());
+        // récupère la catégorie du conseil
+        AssetVocabulary conseil = AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_SESSION, themeDisplay.getScopeGroupId());
+        Type type = this.typeLocalService.fetchType(council.getTypeId());
+        AssetCategory typeCategory = conseil.getCategories().stream().filter(c -> c.getName().equals(type.getTitle())).findFirst().get();
+        AssetCategory councilCategory = AssetCategoryLocalServiceUtil.getChildCategories(typeCategory.getCategoryId()).stream().filter(c -> c.getName().equals(council.getTitle())).findFirst().get();
 
+        if(deliberation != null && deliberation.getAssetEntry() != null) {
+            //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
+            List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
+            for (AssetCategory existingCat : existingStageCategories) {
+                AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+            }
+        }
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
 
         if(councilCategory != null && stageCategory != null) {
