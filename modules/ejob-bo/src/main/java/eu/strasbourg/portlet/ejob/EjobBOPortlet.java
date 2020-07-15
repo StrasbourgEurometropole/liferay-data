@@ -36,7 +36,7 @@ import java.io.IOException;
 	},
 	service = Portlet.class
 )
-public class EJobBOPortlet extends MVCPortlet {
+public class EjobBOPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse)

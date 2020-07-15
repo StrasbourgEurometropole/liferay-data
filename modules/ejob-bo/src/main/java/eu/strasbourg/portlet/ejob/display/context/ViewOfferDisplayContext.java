@@ -23,7 +23,7 @@ public class ViewOfferDisplayContext
 								   RenderResponse response) {
 		super(Offer.class, request, response);
 	}
-
+	@SuppressWarnings("unused")
 	public List<Offer> getOffers() throws PortalException {
 		if (this._offers == null) {
 			Hits hits = getHits(this._themeDisplay.getScopeGroupId());

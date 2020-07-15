@@ -14,7 +14,7 @@ import org.osgi.service.component.annotations.Component;
 		},
 		service = PanelApp.class
 )
-public class EJobBOPanelApp extends BasePanelApp {
+public class EjobBOPanelApp extends BasePanelApp {
 
 	@Override
 	public String getPortletId() {

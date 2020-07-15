@@ -1,3 +1,3 @@
-<%@ include file="/video-bo-init.jsp"%>
+<%@ include file="/ejob-bo-init.jsp"%>
 
 <p> Offers JSP </p>

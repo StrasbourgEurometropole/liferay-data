@@ -1,4 +1,4 @@
-<%@ include file="/init.jsp" %>
+<%@ include file="/ejob-bo-init.jsp" %>
 
 <c:set var="tab"
 	value="${not empty param.tab ? param.tab : 'offers' }" />
@@ -21,10 +21,10 @@
 
 <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 	<aui:nav cssClass="navbar-nav">
-		<aui:nav-item href="${offersURL}" label="videos"
+		<aui:nav-item href="${offersURL}" label="offers"
 			selected="${tab eq 'offers'}" />
 
-		<aui:nav-item href="${galleriesURL}" label="galleries"
+		<aui:nav-item href="${alertsURL}" label="alerts"
 			selected="${tab eq 'alerts'}" />
 	</aui:nav>
 
@@ -37,11 +37,11 @@
 
 <c:choose>
     <c:when test="${tab eq 'offers'}">
-		<liferay-util:include page="/video-bo-view-offers.jsp" servletContext="<%=application %>">
+		<liferay-util:include page="/ejob-bo-view-offers.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
-    <c:when test="${tab eq 'galleries'}">
-		<liferay-util:include page="/video-bo-view-alerts.jsp" servletContext="<%=application %>">
+    <c:when test="${tab eq 'alerts'}">
+		<liferay-util:include page="/ejob-bo-view-alerts.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

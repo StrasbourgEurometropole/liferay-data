@@ -12,6 +12,6 @@ import org.osgi.service.component.annotations.Component;
 	},
 	service = ControlPanelEntry.class
 )
-public class EJobBOControlPanelEntry extends BaseControlPanelEntry {
+public class EjobBOControlPanelEntry extends BaseControlPanelEntry {
 
 }
