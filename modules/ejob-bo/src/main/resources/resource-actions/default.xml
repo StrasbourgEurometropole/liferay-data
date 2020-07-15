@@ -1,0 +1,18 @@
+<!DOCTYPE resource-action-mapping PUBLIC "-//Liferay//DTD Resource Action Mapping 7.0.0//EN" "http://www.liferay.com/dtd/liferay-resource-action-mapping_7_0_0.dtd">
+
+<resource-action-mapping>
+	<portlet-resource>
+		<portlet-name>eu_strasbourg_portlet_ejob_EJobBOPortlet</portlet-name>
+		<permissions>
+			<supports>
+
+			</supports>
+			<site-member-defaults>
+			</site-member-defaults>
+			<guest-defaults />
+			<guest-unsupported>
+
+			</guest-unsupported>
+		</permissions>
+	</portlet-resource>
+</resource-action-mapping>
