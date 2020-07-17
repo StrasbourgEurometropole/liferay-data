@@ -13,6 +13,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.portlet.ejob.display.context.EditOfferDisplayContext;
 import eu.strasbourg.portlet.ejob.display.context.ViewOfferDisplayContext;
 import org.osgi.service.component.annotations.Component;
 
@@ -61,10 +62,14 @@ public class EjobBOPortlet extends MVCPortlet {
 		}
 		// If we are on the Session, we add the corresponding
 		// display context
-			//we are on the offers list page
-		ViewOfferDisplayContext dc = new ViewOfferDisplayContext(
-			renderRequest, renderResponse);
-		renderRequest.setAttribute("dc", dc);
+		if (cmd.equals("editOffer") || mvcPath.equals("/ejob-bo-edit-offer.jsp")) {
+			EditOfferDisplayContext dc = new EditOfferDisplayContext(renderRequest);
+			renderRequest.setAttribute("dc", dc);
+		} else{
+			ViewOfferDisplayContext dc = new ViewOfferDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		}
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());
