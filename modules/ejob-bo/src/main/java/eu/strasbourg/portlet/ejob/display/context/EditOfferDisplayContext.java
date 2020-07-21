@@ -1,11 +1,15 @@
 package eu.strasbourg.portlet.ejob.display.context;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
@@ -34,6 +38,74 @@ public class EditOfferDisplayContext {
     @SuppressWarnings("unused")
     public long getGroupId() {
         return this.themeDisplay.getScopeGroupId();
+    }
+
+    /**
+     * Renvoie les filieres
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getFilieres() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> filieres = new ArrayList<>();
+        AssetVocabulary filieres_voca = AssetVocabularyAccessor.getEJobFilieres(groupId);
+        for (AssetCategory filiere: filieres_voca.getCategories()) {
+            if(filiere.getParentCategory()==null) {
+                filieres.add(filiere);
+            }
+        }
+
+        return filieres;
+    }
+
+    /**
+     * Renvoie les categories
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getCategories() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> categories = new ArrayList<>();
+        AssetVocabulary categories_voca = AssetVocabularyAccessor.getEJobCategories(groupId);
+        for (AssetCategory categorie: categories_voca.getCategories()) {
+            if(categorie.getParentCategory()==null) {
+                categories.add(categorie);
+            }
+        }
+
+        return categories;
+    }
+
+    /**
+     * Renvoie les categories des filieres
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getFilieresCategories() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> filieresCategories = new ArrayList<>();
+        AssetVocabulary filieres_voca = AssetVocabularyAccessor.getEJobFilieres(groupId);
+        for (AssetCategory category: filieres_voca.getCategories()) {
+            if(this.getFilieres().contains(category.getParentCategory())) {
+                filieresCategories.add(category);
+            }
+        }
+
+        return filieresCategories;
+    }
+
+    /**
+     * Renvoie les grades
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getGrades() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> grades = new ArrayList<>();
+        AssetVocabulary filieres_voca = AssetVocabularyAccessor.getEJobFilieres(groupId);
+        for (AssetCategory grade: filieres_voca.getCategories()) {
+            if(this.getFilieresCategories().contains(grade.getParentCategory())) {
+                grades.add(grade);
+            }
+        }
+
+        return grades;
     }
 
     /**

@@ -214,4 +214,20 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
+	public static AssetVocabulary getEJobFilieres(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_FILIERES, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getEJobCategories(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_CATEGORIES, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 }

@@ -46,6 +46,30 @@
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
+                <%-- Champ : Type de recrutement  --%>
+                     <%-- Liste déroulante (Permanent – Non permanent- Stage – Vacataire – Saisonnier  + Apprentissage) attention si permanent voir champ en dessous affichage conditionnel --%>
+
+                <%-- Champ : Filières   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobFiliere" name="ejobFiliere" label="ejobFiliere">
+                        <c:forEach items="${dc.filieres}" var="filiere">
+                            <aui:option value="${filiere.categoryId}">${filiere.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
+
+                <%-- Champ : Catégories   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobCategorie" name="ejobCategorie" label="ejobCategorie">
+                        <c:forEach items="${dc.categories}" var="categorie">
+                            <aui:option value="${categorie.categoryId}">${categorie.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
+
+                <%-- Champ : Choix du grade   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobGrade" name="ejobGrade" label="ejobGrade">
+                        <c:forEach items="${dc.grades}" var="grade">
+                            <aui:option data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categorie-id ="${grade.parentCategoryId}" value="${grade.categoryId}">${grade.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
+
                 <%-- Champ : Numero de publication --%>
                     <aui:input name="publicationId" required="false" />
 
@@ -61,8 +85,8 @@
                 <%-- Champ : Motif  --%>
                      <aui:input name="motif" required="false" />
 
-                <%-- Champ : Si contrat permanent  --%>
-                     <aui:input name="permanentDescription" required="false" />
+                    <%-- Champ : Si contrat permanent  --%>
+                         <aui:input name="permanentDescription" required="false" />
 
                 <%-- Champ : Durée du contrat  --%>
                      <aui:input name="duration" required="false" />
@@ -71,10 +95,37 @@
                      <aui:input name="post" required="true" />
 
                 <%-- Champ : Temps complet ou non   --%>
-                     <aui:input name="isFullTime" required="false"/>
+                     <aui:input name="isFullTime" id="isFullTime" required="false"/>
 
                 <%-- Champ : Si temps complet   --%>
-                     <aui:input name="fullTimeDescription" required="false" disabled="${isFullTime}" />
+                     <aui:input name="fullTimeDescription" id="fullTimeDescription" required="false" />
+
+                <script type="text/javascript">
+                     var isFullTime = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_isFullTime");
+                     var fullTimeDescription = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_fullTimeDescriptionBoundingBox");
+                     fullTimeDescription.parentNode.style.display='none';
+                     isFullTime.click(function(){
+                         if($(this).is(':checked')){
+                             fullTimeDescription.parentNode.style.display='block';
+                         } else {
+                             fullTimeDescription.parentNode.style.display='none';
+                         }
+                     });
+
+                     var filiere = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobFiliere");
+                     var grades = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobGrade");
+
+                     grades.children[0].attributes["data-categorie-id"]
+                     Array.prototype.forEach.call(grades.children, function(child, i){
+                         if(child.attributes["data-filiere-id"].value == filiere.value){
+                             child.style.display="block";
+                         }
+                         else{
+                             child.style.display="none";
+                         }
+                     });
+
+                </script>
 
                 <%-- Champ : Introduction --%>
                      <aui:input name="introduction" required="true" />
@@ -94,9 +145,6 @@
                 <%-- Champ : Date limite de candidatures --%>
                      <aui:input name="limitDate" required="true" />
 
-                <%-- Champ : Nom du RE + contact téléphonique  --%>
-                     <aui:input name="contact" required="false" />
-
                 <%-- Champ : Nom du RRH + contact téléphonique --%>
                      <aui:input name="emails" required="true" />
 
@@ -109,36 +157,87 @@
                 <%-- Champ : Date de publication d’une offre ( programmation) --%>
                      <aui:input name="publicationDate" required="false" />
 
-			</aui:fieldset>
+            </aui:fieldset>
 
-			<%-- Groupe de champs : Procuration --%>
-            <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="categorisation">
-                <%-- Champ : Type de recrutement  --%>
-                    <%-- Liste déroulante (Permanent – Non permanent- Stage – Vacataire – Saisonnier  + Apprentissage) attention si permanent voir champ en dessous affichage conditionnel --%>
+        <%-- Groupe de champs : Categorisation --%>
+        <aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="categorisation">
+            <%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
+                <c:choose>
+                    <c:when test="${empty defaultAssetCategoryIds}">
+                        <aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+                        <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+                        <div class="has-error">
+                            <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+                                <aui:validator name="custom" errorMessage="requested-vocabularies-error">
+                                    function (val, fieldNode, ruleValue) {
+                                        var validated = true;
+                                        var fields = document.querySelectorAll('.categories-selectors > .field-content');
+                                        alert(fields.length);
+                                        for (var i = 0; i < fields.length; i++) {
+                                            fieldContent = fields[i];alert('toto');
+                                            if ($(fieldContent).find('.icon-asterisk').length > 0
+                                                && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                                validated = false;
+                                                event.preventDefault();
+                                                break;
+                                            }
+                                        }
+                                        return validated;
+                                    }
+                                </aui:validator>
+                            </aui:input>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="vocabularies">
+                            <liferay-ui:asset-categories-selector
+                                    className="<%= Offer.class.getName() %>"
+                                    curCategoryIds="${defaultAssetCategoryIds}"
+                            />
+                            <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+                            <div class="has-error">
+                                <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+                                    <aui:validator name="custom" errorMessage="requested-vocabularies-error">
+                                        function (val, fieldNode, ruleValue) {
+                                            var validated = true;
+                                            var fields = document.querySelectorAll('.vocabularies > .field-content');
+                                            for (var i = 0; i < fields.length; i++) {
+                                                fieldContent = fields[i];
+                                                if ($(fieldContent).find('.icon-asterisk').length > 0
+                                                    && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                                    validated = false;
+                                                    event.preventDefault();
+                                                    break;
+                                                }
+                                            }
+                                            return validated;
+                                        }
+                                    </aui:validator>
+                                </aui:input>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
 
-                <%-- Champ : Direction  --%>
-                     <%-- Liste déroulante  gérée par des catégories créees en BO --%>
+            <%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
+                <aui:input name="tags" type="assetTags" />
 
-                <%-- Champ : Service  --%>
-                     <%-- Liste déroulante  gérée par des catégories créees en BO --%>
+            <%-- Champ : Direction  --%>
+                 <%-- Liste déroulante  gérée par des catégories créees en BO --%>
 
-                <%-- Champ : Catégories   --%>
-                     <%-- (case a cocher ) multiple possible. Max 2 (Liste : Catégorie A, Catégorie B, Catégorie C) --%>
+            <%-- Champ : Service  --%>
+                 <%-- Liste déroulante  gérée par des catégories créees en BO --%>
 
-                <%-- Champ : Filières   --%>
-                     <%-- ( cache à cocher plusieurs possible) Voir liste fournie--%>
+            <%-- Champ : Niveau d'étude   --%>
+                 <%-- Liste à choix à définir --%>
 
-                <%-- Champ : Choix du grade   --%>
-                     <%-- Comment ca fonctionne pour lui ? Moyen de récupérer les possibilités depuis un site ?
-                          Comme une requete avec en parametres les choix de l'utilisateur ? --%>
+            <%-- Champ : Famille de métiers --%>
+                 <%-- Liste déroulante  gérée par des catégories créees en BO --%>
 
-                <%-- Champ : Niveau d'étude   --%>
-                     <%-- Liste à choix à définir --%>
+            <%-- Champ : Nom du RE + contact téléphonique  --%>
+                 <aui:input name="contact" required="false" />
 
-                <%-- Champ : Famille de métiers --%>
-                     <%-- Liste déroulante  gérée par des catégories créees en BO --%>
-
-			</aui:fieldset>
+        </aui:fieldset>
 
 
 

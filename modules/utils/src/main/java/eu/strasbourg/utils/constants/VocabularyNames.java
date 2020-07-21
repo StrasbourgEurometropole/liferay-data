@@ -50,4 +50,7 @@ public class VocabularyNames {
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";
 	public static final String DUREE_NOEL = "duree noel";
+
+	public static final String EJOB_FILIERES = "(e-job) filieres";
+	public static final String EJOB_CATEGORIES = "(e-job) categories";
 }
