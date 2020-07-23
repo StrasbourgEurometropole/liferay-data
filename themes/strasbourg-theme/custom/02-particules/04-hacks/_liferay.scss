@@ -251,3 +251,10 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 		line-height: initial;
 	} 
 }
+
+// Retire les borders des labels en trop dans demande-concerne-service-de-la-collectivite
+#tfa_0-WRPR{
+	label{
+		border-style: none;
+	}
+}
