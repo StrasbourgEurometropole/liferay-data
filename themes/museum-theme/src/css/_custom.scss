@@ -91,3 +91,7 @@ body.signed-in {
 .breadcrumb .active {
     color: #aaaaaa;
 }
+
+.editions-carousel a[download = '']{
+    display: none;
+}
