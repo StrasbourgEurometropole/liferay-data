@@ -2046,6 +2046,10 @@
 	clear: both;
 }
 
+abbr[rel = 'tooltip'] {
+	border-bottom: 1px dotted;
+}
+
 @media 
 (-webkit-min-device-pixel-ratio: 2), 
 (min-resolution: 192dpi) { 
