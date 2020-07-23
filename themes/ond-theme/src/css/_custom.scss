@@ -2050,6 +2050,20 @@ abbr[rel = 'tooltip'] {
 	border-bottom: 1px dotted;
 }
 
+.breadcrumb-item {
+	margin-right: 0em;
+	margin-left: 0.3em;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+	background-image: none;
+	content: ">\00a0";
+	top: 45%;
+	font-size: 12px;
+	font-family: "Lato", sans-serif;
+	color: black;
+}
+
 @media 
 (-webkit-min-device-pixel-ratio: 2), 
 (min-resolution: 192dpi) { 
