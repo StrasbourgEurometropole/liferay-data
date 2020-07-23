@@ -109,6 +109,21 @@ public class EditOfferDisplayContext {
     }
 
     /**
+     * Renvoie les grades
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getTypeRecrutements() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> typeRecrutements = new ArrayList<>();
+        AssetVocabulary typeRecrutement_voca = AssetVocabularyAccessor.getEJobTypeRecrutement(groupId);
+        for (AssetCategory typeRecrutement: typeRecrutement_voca.getCategories()) {
+                typeRecrutements.add(typeRecrutement);
+        }
+
+        return typeRecrutements;
+    }
+
+    /**
      * @return True si le framework workflow est actif pour ce type d'entité
      */
     @SuppressWarnings("unused")

@@ -46,32 +46,19 @@
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
 
-                <%-- Champ : Type de recrutement  --%>
-                     <%-- Liste déroulante (Permanent – Non permanent- Stage – Vacataire – Saisonnier  + Apprentissage) attention si permanent voir champ en dessous affichage conditionnel --%>
-
-                <%-- Champ : Filières   --%>
-                    <aui:select cssClass="toCustomSelect" id="ejobFiliere" name="ejobFiliere" label="ejobFiliere">
-                        <c:forEach items="${dc.filieres}" var="filiere">
-                            <aui:option value="${filiere.categoryId}">${filiere.name}</aui:option>
-                        </c:forEach>
-                    </aui:select>
-
-                <%-- Champ : Catégories   --%>
-                    <aui:select cssClass="toCustomSelect" id="ejobCategorie" name="ejobCategorie" label="ejobCategorie">
-                        <c:forEach items="${dc.categories}" var="categorie">
-                            <aui:option value="${categorie.categoryId}">${categorie.name}</aui:option>
-                        </c:forEach>
-                    </aui:select>
-
-                <%-- Champ : Choix du grade   --%>
-                    <aui:select cssClass="toCustomSelect" id="ejobGrade" name="ejobGrade" label="ejobGrade">
-                        <c:forEach items="${dc.grades}" var="grade">
-                            <aui:option data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categorie-id ="${grade.parentCategoryId}" value="${grade.categoryId}">${grade.name}</aui:option>
-                        </c:forEach>
-                    </aui:select>
-
                 <%-- Champ : Numero de publication --%>
-                    <aui:input name="publicationId" required="false" />
+                    <aui:input name="publicationId" id="publicationId" required="false"/>
+
+                <%-- Champ : Export vers TOTEM --%>
+                     <aui:input name="exportTotem" required="false" />
+
+                <%-- Champ : Type de recrutement   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobTypeRecrutement" name="ejobTypeRecrutement" label="ejobTypeRecrutement">
+                        <aui:option style="display: none" >choose-typeRecrutement</aui:option>
+                        <c:forEach items="${dc.typeRecrutements}" var="typeRecrutement">
+                            <aui:option value="${typeRecrutement.categoryId}" >${typeRecrutement.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
 
                 <%-- Champ : Numero de poste --%>
                     <aui:input name="postNumber" required="false" />
@@ -100,32 +87,29 @@
                 <%-- Champ : Si temps complet   --%>
                      <aui:input name="fullTimeDescription" id="fullTimeDescription" required="false" />
 
-                <script type="text/javascript">
-                     var isFullTime = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_isFullTime");
-                     var fullTimeDescription = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_fullTimeDescriptionBoundingBox");
-                     fullTimeDescription.parentNode.style.display='none';
-                     isFullTime.click(function(){
-                         if($(this).is(':checked')){
-                             fullTimeDescription.parentNode.style.display='block';
-                         } else {
-                             fullTimeDescription.parentNode.style.display='none';
-                         }
-                     });
+                <%-- Champ : Filières   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobFiliere" name="ejobFiliere" label="ejobFiliere">
+                        <aui:option value="0" style="display: none" >choose-filiere</aui:option>
+                        <c:forEach items="${dc.filieres}" var="filiere">
+                            <aui:option value="${filiere.categoryId}">${filiere.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
 
-                     var filiere = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobFiliere");
-                     var grades = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobGrade");
+                <%-- Champ : Catégories   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobCategorie" name="ejobCategorie" label="ejobCategorie">
+                        <aui:option data-filiere-id="0" value="0" style="display: none" >choose-categorie</aui:option>
+                        <c:forEach items="${dc.filieresCategories}" var="categorie">
+                            <aui:option data-filiere-id="${categorie.parentCategoryId}" value="${categorie.categoryId}">${categorie.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
 
-                     grades.children[0].attributes["data-categorie-id"]
-                     Array.prototype.forEach.call(grades.children, function(child, i){
-                         if(child.attributes["data-filiere-id"].value == filiere.value){
-                             child.style.display="block";
-                         }
-                         else{
-                             child.style.display="none";
-                         }
-                     });
-
-                </script>
+                <%-- Champ : Choix du grade   --%>
+                    <aui:select cssClass="toCustomSelect" id="ejobGrade" name="ejobGrade" label="ejobGrade">
+                        <aui:option data-filiere-id="0" data-categorie-id ="0" value="0" style="display: none" >choose-grade</aui:option>
+                        <c:forEach items="${dc.grades}" var="grade">
+                            <aui:option data-filiere-id="${grade.parentCategory.parentCategoryId}" data-categorie-id ="${grade.parentCategoryId}" value="${grade.categoryId}">${grade.name}</aui:option>
+                        </c:forEach>
+                    </aui:select>
 
                 <%-- Champ : Introduction --%>
                      <aui:input name="introduction" required="true" />
@@ -150,9 +134,6 @@
 
                 <%-- Champ : Champ partage Linkedin  --%>
                      <aui:input name="shareLinkedin" required="true" />
-
-                <%-- Champ : Export vers TOTEM --%>
-                     <aui:input name="exportTotem" required="false" />
 
                 <%-- Champ : Date de publication d’une offre ( programmation) --%>
                      <aui:input name="publicationDate" required="false" />
@@ -238,6 +219,83 @@
                  <aui:input name="contact" required="false" />
 
         </aui:fieldset>
+
+                <script type="text/javascript">
+                     var isFullTime = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_isFullTime");
+                     var fullTimeDescription = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_fullTimeDescriptionBoundingBox");
+                     fullTimeDescription.parentNode.style.display='none';
+                     isFullTime.click(function(){
+                         if($(this).is(':checked')){
+                             fullTimeDescription.parentNode.style.display='block';
+                         } else {
+                             fullTimeDescription.parentNode.style.display='none';
+                         }
+                     });
+
+                     var filieres = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobFiliere");
+                     var categories = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobCategorie");
+                     categories.parentNode.style.display='none';
+                     var grades = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobGrade");
+                     grades.parentNode.style.display='none';
+
+                     filieres.onchange = function(){
+                         categories.parentNode.style.display = "block";
+                         Array.prototype.forEach.call(categories.children, function(child, i){
+                             if(child.attributes["data-filiere-id"].value == filieres.value ){
+                                 child.style.display="block";
+                             }
+                             else{
+                                 child.style.display="none";
+                             }
+                         });
+                         Array.prototype.forEach.call(grades.children, function(child, i){
+                             child.style.display="none";
+                         });
+
+                         categories.options[0].selected = 'selected';
+                         grades.options[0].selected = 'selected';
+                         grades.disabled = true;
+                     }
+
+                     categories.onchange = function(){
+                         grades.parentNode.style.display = "block";
+                         grades.disabled = false;
+                         Array.prototype.forEach.call(grades.children, function(child, i){
+                             if(child.attributes["data-filiere-id"].value == filieres.value && child.attributes["data-categorie-id"].value == categories.value ){
+                                 child.style.display="block";
+                             }
+                             else{
+                                 child.style.display="none";
+                             }
+                         });
+
+                         grades.options[0].selected = 'selected';
+                     }
+
+                     var typeRecrutements = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_ejobTypeRecrutement");
+                     var publicationId = document.getElementById("_eu_strasbourg_portlet_ejob_EjobBOPortlet_publicationId");
+                     publicationId.disabled = true;
+                     typeRecrutements.onchange = function(){
+                         var typeRecrutementsValue= typeRecrutements.children[typeRecrutements.selectedIndex].text;
+                         if(typeRecrutementsValue == "Permanent" || typeRecrutementsValue == "Non permanent"){
+                            publicationId.value="E000001";
+                         }
+                         else if(typeRecrutementsValue == "Stage"){
+                            publicationId.value="ST000001";
+                         }
+                         else if(typeRecrutementsValue == "Saisonnier"){
+                            publicationId.value="SN000001";
+                         }
+                         else if(typeRecrutementsValue == "Apprentissage"){
+                            publicationId.value="A000001";
+                         }
+                         else if(typeRecrutementsValue == "Vacataire"){
+                            publicationId.value="V000001";
+                         }
+                         else{}
+                     }
+
+                </script>
 
 
 

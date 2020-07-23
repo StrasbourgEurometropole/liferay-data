@@ -53,4 +53,5 @@ public class VocabularyNames {
 
 	public static final String EJOB_FILIERES = "(e-job) filieres";
 	public static final String EJOB_CATEGORIES = "(e-job) categories";
+	public static final String EJOB_TYPE_RECRUTEMENT = "(e-job) type de recrutement";
 }
