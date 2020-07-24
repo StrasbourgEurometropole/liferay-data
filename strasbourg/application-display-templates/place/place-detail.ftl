@@ -860,6 +860,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
                             </#if>
                         </div>
+                        <!-- ajout post covid : affichage capacité totale -->
+                        <#if isSwimmingPool >
+                            <div class="crowded-caption">
+                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                            </div>
+                        </#if>
                         <div class="crowded-fyi">    
                             <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
