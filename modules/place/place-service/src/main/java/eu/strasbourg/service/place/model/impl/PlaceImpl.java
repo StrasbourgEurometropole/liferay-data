@@ -751,6 +751,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                     state = OccupationState.GREEN;
                 state.setOccupationLabel("" + occupation);
                 state.setOccupation("" + occupation);
+                state.setCapacity("" + periodEnCours.getRTMaxThreshold());
                 break;
             case "2":
                 state = OccupationState.NOT_AVAILABLE;
