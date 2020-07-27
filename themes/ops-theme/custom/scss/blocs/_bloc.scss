@@ -3,7 +3,7 @@
 .ops-bloc {
 	display: block;
 	position: relative;
-	margin: 0 auto;
+	margin: 60px auto 0px;
 	padding: $content-spacing/2 0;
 
 	@include mobile{
