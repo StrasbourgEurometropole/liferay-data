@@ -17,15 +17,16 @@
 <#assign BudgetPhaseLocalService = serviceLocator.findService("eu.strasbourg.service.project.service.BudgetPhaseLocalService")/>
 <#assign activePhase = BudgetPhaseLocalService.getActivePhase(themeDisplay.scopeGroupId) />  
 
-
 <#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign AssetEntryAssetCategoryRelLocalService = serviceLocator.findService("com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService")/>
 <#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
-<#assign assets = AssetEntryService.getAssetCategoryAssetEntries(activePhase.getPhaseCategory().getCategoryId())  />
+<#assign assetEntryAssetCategoryRels = AssetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(activePhase.getPhaseCategory().getCategoryId())  />
 
 <#-- Récupération de la page de listing de BP qui correspond à la phase active. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
-<#list assets as ass>
-    <#if ass.getClassName() == "com.liferay.portal.kernel.model.Layout">
-        <#assign abc = LayoutLocalService.getLayout(ass.getClassPK())/>
+<#list assetEntryAssetCategoryRels as assetEntryAssetCategoryRel>
+    <#assign asset = AssetEntryService.getAssetEntry(assetEntryAssetCategoryRel.getAssetEntryId()) />
+    <#if asset.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(asset.getClassPK())/>
         <#assign pageListing = abc.getFriendlyURL()/>
         <#break>
     </#if>
@@ -93,7 +94,7 @@
 								<a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
 							</#if>
                             <#if pageListing??>
-                                    <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                                <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
                             </#if>
 						</div>
 
