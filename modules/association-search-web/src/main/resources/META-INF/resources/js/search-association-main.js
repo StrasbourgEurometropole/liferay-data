@@ -110,8 +110,7 @@ jQuery(function() {
 		AUI().use('liferay-form',function() {
 			var domainHasValue = $(namespaceAUI + 'domain')
 					.val().length > 0;
-			var specialityHasValue = $(namespaceAUI + 'speciality').val().length > 0;
-			if (!domainHasValue || !specialityHasValue) {
+			if (!domainHasValue) {
 			    $('p.error').show();
 			    event.preventDefault();
 			}else{
