@@ -36,9 +36,11 @@
 
             <div class="col-lg-10 col-lg-offset-1">
                 <h2>Les projets citoyens</h2>
-                <div class="pro-wrapper">
-                    <a href="${homeURL2}${pageListing}" class="pro-btn">Voir tous les projets</a>
-                </div>
+                <#if pageListing?? >
+                    <div class="pro-wrapper">
+                        <a href="${homeURL2}${pageListing}" class="pro-btn">Voir tous les projets</a>
+                    </div>
+                </#if>
             </div>
 
             <div class="col-lg-10 col-lg-offset-1">
