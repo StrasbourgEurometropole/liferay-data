@@ -81,7 +81,6 @@ body.signed-in {
 
 .btn{
     padding: 6px 12px;
-    border: 1px;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -90,4 +89,8 @@ body.signed-in {
 
 .breadcrumb .active {
     color: #aaaaaa;
+}
+
+.editions-carousel a[download = '']{
+    display: none;
 }
