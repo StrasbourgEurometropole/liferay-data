@@ -10,10 +10,6 @@ var Ventcamp;
 (function($) {
     $(document).on("ready", function() {
         Ventcamp.init();
-        $('img').each(function() {
-            var src = $(this).attr('src');
-            $(this).attr('src', src.split('?')[0]);
-        })
     });
 })(jQuery);
 
