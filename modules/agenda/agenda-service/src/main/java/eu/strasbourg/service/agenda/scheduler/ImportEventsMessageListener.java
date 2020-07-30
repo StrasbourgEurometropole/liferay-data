@@ -24,6 +24,8 @@ public class ImportEventsMessageListener
 	@Activate
 	@Modified
 	protected void activate() {
+		log.info("Start import events scheduler activation");
+
 		String listenerClass = getClass().getName();
 
 		// Création du trigger "Tous les jours à 4h"
@@ -36,6 +38,8 @@ public class ImportEventsMessageListener
 
 		_schedulerEngineHelper.register(
 				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
+
+		log.info("Finish import events scheduler activation");
 	}
 
 	@Override
