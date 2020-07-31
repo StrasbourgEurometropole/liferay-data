@@ -112,6 +112,12 @@ public class SearchAssociationDisplayContext {
                     practiceCategoriesIdsForVoc = ArrayUtil.toLongArray(ParamUtil.getLongValues(this._request, "speciality"));
                     if(practiceCategoriesIdsForVoc.length > 0)
                         filterCategoriesIds.add(practiceCategoriesIdsForVoc);
+                    else {
+                        // sinon on ajoute les catégories du domaine
+                        practiceCategoriesIdsForVoc = ArrayUtil.toLongArray(ParamUtil.getLongValues(this._request, "domain"));
+                        if(practiceCategoriesIdsForVoc.length > 0)
+                            filterCategoriesIds.add(practiceCategoriesIdsForVoc);
+                    }
                 }
             }
 

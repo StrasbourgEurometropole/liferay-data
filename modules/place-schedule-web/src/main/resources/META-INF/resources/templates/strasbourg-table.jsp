@@ -180,6 +180,9 @@
 			                                <div class="crowded-label">
 			                                	<liferay-ui:message key="${occupationState.label}" />
 			                                </div>
+			                                <div class="crowded-label">
+			                                	<liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+			                                </div>
 								    	</td>
 							    </c:if>
 								<c:if test="${parking}">
