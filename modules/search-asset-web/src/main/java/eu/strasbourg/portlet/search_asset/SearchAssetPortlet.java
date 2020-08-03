@@ -504,7 +504,11 @@ public class SearchAssetPortlet extends MVCPortlet {
                             }
                             json.put("title", title);
                             String thumbnail = docXML.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()");
-                            json.put("thumbnail", thumbnail);
+                            String imageURL ="";
+                            if(!thumbnail.isEmpty()){
+                                imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
+                            }
+                            json.put("thumbnail", imageURL);
                             JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
                             AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
                             List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");
