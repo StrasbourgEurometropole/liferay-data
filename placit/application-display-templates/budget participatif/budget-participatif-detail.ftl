@@ -50,13 +50,15 @@
 <#assign isEditable = entry.isEditable() />
 
 <#assign AssetEntryService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService")/>
+<#assign AssetEntryAssetCategoryRelLocalService = serviceLocator.findService("com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalService")/>
 <#assign LayoutLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.LayoutLocalService")/>
-<#assign assets = AssetEntryService.getAssetCategoryAssetEntries(entry.getPhaseCategory().getCategoryId())  />
+<#assign assetEntryAssetCategoryRels = AssetEntryAssetCategoryRelLocalService.getAssetEntryAssetCategoryRelsByAssetCategoryId(entry.getPhaseCategory().getCategoryId())  />
 
-<#-- Récupération de la page de listing de BP qui correspond au BP affiché. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
-<#list assets as ass>
-    <#if ass.getClassName() == "com.liferay.portal.kernel.model.Layout">
-        <#assign abc = LayoutLocalService.getLayout(ass.getClassPK())/>
+<#-- Récupération de la page de listing de BP qui correspond à la phase active. Chaque page de listing est configurée avec la catégorie qui correspond à la phase -->
+<#list assetEntryAssetCategoryRels as assetEntryAssetCategoryRel>
+    <#assign asset = AssetEntryService.getAssetEntry(assetEntryAssetCategoryRel.getAssetEntryId()) />
+    <#if asset.getClassName() == "com.liferay.portal.kernel.model.Layout">
+        <#assign abc = LayoutLocalService.getLayout(asset.getClassPK())/>
         <#assign pageListing = abc.getFriendlyURL()/>
         <#break>
     </#if>
