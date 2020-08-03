@@ -8,9 +8,11 @@ import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import javax.imageio.ImageIO;
@@ -19,26 +21,30 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.Normalizer;
+import java.util.ResourceBundle;
 
 public class AssetPublisherTemplateHelper {
 
-    private static final String COLLECTION = "collection";
-    private static final String OEUVRE = "oeuvre";
+    private static ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+            AssetPublisherTemplateHelper.class.getClassLoader());
 
-    private static final String CABINET_DES_ESTAMPES = "Cabinet des Estampes et des Dessins";
-    private static final String URL_MUSEE_COLLECTION_CABINET_DES_ESTAMPES = "cabinet-estampes-dessins";
-    private static final String URL_MUSEE_OEUVRE_CABINET_DES_ESTAMPES = "du-cabinet-des-estampes";
+    private static final String COLLECTION = LanguageUtil.get(bundle, "eu.ejob.collection");
+    private static final String OEUVRE = LanguageUtil.get(bundle, "eu.ejob.oeuvre");
 
-    private static final String MUSEE_OEUVRE_NOTRE_DAME = "Musee de l'Œuvre Notre-Dame";
-    private static final String URL_MUSEE_COLLECTION_MUSEE_OEUVRE_NOTRE_DAME = "du-musee-oeuvre-notre-dame";
-    private static final String URL_MUSEE_OEUVRE_MUSEE_OEUVRE_NOTRE_DAME = "musee-oeuvre-notre-dame";
+    private static final String CABINET_DES_ESTAMPES = LanguageUtil.get(bundle, "eu.ejob.cabinet_des_estampes");
+    private static final String URL_MUSEE_COLLECTION_CABINET_DES_ESTAMPES = LanguageUtil.get(bundle, "eu.ejob.url_musee_collection_cabinet_des_estampes");
+    private static final String URL_MUSEE_OEUVRE_CABINET_DES_ESTAMPES = LanguageUtil.get(bundle, "eu.ejob.url_musee_oeuvre_cabinet_des_estampes");
 
-    private static final String MUSEE_BEAUX_ARTS = "Musee des Beaux-Arts";
-    private static final String URL_MUSEE_COLLECTION_MUSEE_BEAUX_ARTS = "du-musee-des-beaux-arts";
-    private static final String URL_MUSEE_OEUVRE_MUSEE_BEAUX_ARTS = "musee-des-beaux-arts";
+    private static final String MUSEE_OEUVRE_NOTRE_DAME = LanguageUtil.get(bundle, "eu.ejob.musee_oeuvre_notre_dame");
+    private static final String URL_MUSEE_COLLECTION_MUSEE_OEUVRE_NOTRE_DAME = LanguageUtil.get(bundle, "eu.ejob.url_musee_collection_musee_oeuvre_notre_dame");
+    private static final String URL_MUSEE_OEUVRE_MUSEE_OEUVRE_NOTRE_DAME = LanguageUtil.get(bundle, "eu.ejob.url_musee_oeuvre_musee_oeuvre_notre_dame");
 
-    private static final String MAMCS = "MAMCS";
-    private static final String URL_TYPE_OEUVRE_MAMCS = "-uvre-";
+    private static final String MUSEE_BEAUX_ARTS = LanguageUtil.get(bundle, "eu.ejob.musee_beaux_arts");
+    private static final String URL_MUSEE_COLLECTION_MUSEE_BEAUX_ARTS = LanguageUtil.get(bundle, "eu.ejob.url_musee_collection_musee_beaux_arts");
+    private static final String URL_MUSEE_OEUVRE_MUSEE_BEAUX_ARTS = LanguageUtil.get(bundle, "eu.ejob.url_musee_oeuvre_musee_beaux_arts");
+
+    private static final String MAMCS = LanguageUtil.get(bundle, "eu.ejob.mamcs");
+    private static final String URL_TYPE_OEUVRE_MAMCS = LanguageUtil.get(bundle, "eu.ejob.url_type_oeuvre_mamcs");
 
     /**
      * Retourne la largeur/hauteur d'une image
@@ -97,6 +103,7 @@ public class AssetPublisherTemplateHelper {
      */
     public static String simpleSlugify(String s){
         s = Normalizer.normalize(s, Normalizer.Form.NFD);
+        s = s.toLowerCase();
         s = s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
         return s;
     }
@@ -109,35 +116,30 @@ public class AssetPublisherTemplateHelper {
         String slugifiedMusee = simpleSlugify(musee);
         String museeUrl ="";
 
-        switch(slugifiedMusee) {
-            case CABINET_DES_ESTAMPES:
-                if(type.equals(COLLECTION)){
-                    museeUrl = URL_MUSEE_COLLECTION_CABINET_DES_ESTAMPES;
-                }else{
-                    museeUrl = URL_MUSEE_OEUVRE_CABINET_DES_ESTAMPES;
-                }
-                break;
-            case MUSEE_OEUVRE_NOTRE_DAME:
-                if(type.equals(COLLECTION)){
-                    museeUrl = URL_MUSEE_COLLECTION_MUSEE_OEUVRE_NOTRE_DAME;
-                }else{
-                    museeUrl = URL_MUSEE_OEUVRE_MUSEE_OEUVRE_NOTRE_DAME;
-                }
-                break;
-            case MUSEE_BEAUX_ARTS:
-                if(type.equals(COLLECTION)){
-                    museeUrl = URL_MUSEE_COLLECTION_MUSEE_BEAUX_ARTS;
-                }else{
-                    museeUrl = URL_MUSEE_OEUVRE_MUSEE_BEAUX_ARTS;
-                }
-                break;
-            case MAMCS:
-                if(type.equals(OEUVRE)){
-                    url = URL_TYPE_OEUVRE_MAMCS;
-                }
-                break;
-            default:
-                museeUrl = slugify(musee);
+        if(slugifiedMusee.equals(CABINET_DES_ESTAMPES) && type.equals(COLLECTION)){
+            museeUrl = URL_MUSEE_COLLECTION_CABINET_DES_ESTAMPES;
+        }
+        else if(slugifiedMusee.equals(CABINET_DES_ESTAMPES) && type.equals(OEUVRE)){
+            museeUrl = URL_MUSEE_OEUVRE_CABINET_DES_ESTAMPES;
+        }
+        else if(slugifiedMusee.equals(MUSEE_OEUVRE_NOTRE_DAME) && type.equals(COLLECTION)){
+            museeUrl = URL_MUSEE_COLLECTION_MUSEE_OEUVRE_NOTRE_DAME;
+        }
+        else if(slugifiedMusee.equals(MUSEE_OEUVRE_NOTRE_DAME) && type.equals(OEUVRE)){
+            museeUrl = URL_MUSEE_OEUVRE_MUSEE_OEUVRE_NOTRE_DAME;
+        }
+        else if(slugifiedMusee.equals(MUSEE_BEAUX_ARTS) && type.equals(COLLECTION)){
+            museeUrl = URL_MUSEE_COLLECTION_MUSEE_BEAUX_ARTS;
+        }
+        else if(slugifiedMusee.equals(MUSEE_BEAUX_ARTS) && type.equals(OEUVRE)){
+            museeUrl = URL_MUSEE_OEUVRE_MUSEE_BEAUX_ARTS;
+        }
+        else if(slugifiedMusee.equals(MAMCS) && type.equals(OEUVRE)){
+            url = URL_TYPE_OEUVRE_MAMCS;
+            museeUrl = slugify(musee);
+        }
+        else{
+            museeUrl = slugify(musee);
         }
 
         url += museeUrl;
