@@ -8,7 +8,9 @@
 <#if entries?has_content>
   <#list entries as curEntry>
     <#assign artwork = curEntry.getAssetRenderer().getArtwork() />
-		<#assign detailURL = homeURL + "oeuvre-musees-strasbourg/-/entity/id/" + artwork.artworkId />
+    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+    <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("oeuvre",artwork.getSources()[0].getTitle(locale)) />
+    <#assign detailURL = homeURL + entryURL + "/-/entity/id/" + artwork.artworkId />
     <div class="featured-artwork ${artwork.sourceCSSClass}">
       <div class="featured-artwork-image">
         <a href="${detailURL}">

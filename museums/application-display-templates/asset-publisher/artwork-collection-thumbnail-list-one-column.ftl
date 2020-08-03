@@ -9,7 +9,9 @@
   <div class="search-asset-results-1-col">
     <#list entries as curEntry>
       <#assign entry = curEntry.getAssetRenderer().getCollection() />
-      <#assign detailURL = homeURL + "collection-musees-strasbourg/-/entity/id/" + entry.collectionId />
+      <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+      <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("collection",entry.getSources()[0].getTitle(locale)) />
+      <#assign detailURL = homeURL + entryURL + "/-/entity/id/" + entry.collectionId />
 
       <!-- Collection d'oeuvre : ${entry.getTitle(locale)} -->
       <div class="entity-thumbnail artwork-collection-thumbnail ${entry.getSourceCSSClass()}">

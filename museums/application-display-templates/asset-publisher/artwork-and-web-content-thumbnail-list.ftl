@@ -10,7 +10,9 @@
     <#list entries as curEntry>
       <#if curEntry.getAssetRenderer().getClassName() == 'eu.strasbourg.service.artwork.model.Artwork'>
         <#assign entry = curEntry.getAssetRenderer().getArtwork() />
-					<#assign detailURL = homeURL + "oeuvre-musees-strasbourg/-/entity/id/" + entry.artworkId />
+        <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+        <#assign entryURL = assetPublisherTemplateHelperService.createRenderUrlMusee("oeuvre",entry.getSources()[0].getTitle(locale)) />
+        <#assign detailURL = homeURL + entryURL + "/-/entity/id/" + entry.artworkId />
 
         <!-- Oeuvre : ${entry.getTitle(locale)} -->
         <div class="entity-thumbnail artwork-thumbnail ${entry.getSourceCSSClass()}">
