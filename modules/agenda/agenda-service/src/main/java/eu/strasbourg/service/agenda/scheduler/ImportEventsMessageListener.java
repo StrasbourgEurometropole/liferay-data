@@ -29,9 +29,15 @@ public class ImportEventsMessageListener
 		String listenerClass = getClass().getName();
 
 		// Création du trigger "Tous les jours à 4h"
-		Trigger trigger = _triggerFactory.createTrigger(
+		/**
+		 Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, null, null,
 				"0 0 4 * * ?");
+		 */
+		// Création du trigger "Toutes les 2 minutes"
+		Trigger trigger = _triggerFactory.createTrigger(
+				listenerClass, listenerClass, null, null,
+				2, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
