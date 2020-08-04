@@ -1,6 +1,6 @@
 package eu.strasbourg.service.project.scheduler;
 
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
+import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.*;
@@ -21,12 +21,14 @@ import org.osgi.service.component.annotations.Reference;
 		immediate = true,
 		service = CheckProjectMessageListener.class
 )
-public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListener {
+public class CheckProjectMessageListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
 		String listenerClass = getClass().getName();
+
+		this._signataireLocalService.notify();
 
 		// Création du trigger "Toutes les heures"
 		Trigger trigger = _triggerFactory.createTrigger(
