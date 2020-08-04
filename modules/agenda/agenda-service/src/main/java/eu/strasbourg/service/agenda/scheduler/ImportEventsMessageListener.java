@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.*;
 import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.agenda.service.ImportReportLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -69,6 +70,11 @@ public class ImportEventsMessageListener
 	}
 
 	@Reference(unbind = "-")
+	protected void setImportReportLocalService(ImportReportLocalService importReportLocalService) {
+		_importReportLocalService = importReportLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setSchedulerEngineHelper(
 			SchedulerEngineHelper schedulerEngineHelper) {
 
@@ -83,6 +89,7 @@ public class ImportEventsMessageListener
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private EventLocalService _eventLocalService;
 	private PlaceLocalService _placeLocalService;
+	private ImportReportLocalService _importReportLocalService;
 	private TriggerFactory _triggerFactory;
 
 	private Log log = LogFactoryUtil.getLog(this.getClass());
