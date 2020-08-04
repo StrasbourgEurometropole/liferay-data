@@ -28,7 +28,10 @@ public class CheckProjectMessageListener extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		this._signataireLocalService.notify();
+		// Call service to be sure they are "awake"
+		this._participationLocalService.getClass();
+		this._petitionLocalService.getClass();
+		this._signataireLocalService.getClass();
 
 		// Création du trigger "Toutes les heures"
 		Trigger trigger = _triggerFactory.createTrigger(
