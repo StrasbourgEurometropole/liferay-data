@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.scheduler.*;
 import eu.strasbourg.service.project.service.ParticipationLocalService;
 import eu.strasbourg.service.project.service.PetitionLocalService;
+import eu.strasbourg.service.project.service.SignataireLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -61,6 +62,11 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
     }
 
 	@Reference(unbind = "-")
+	protected void setSignataireLocalService(SignataireLocalService signataireLocalService) {
+		_signataireLocalService = signataireLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setSchedulerEngineHelper(
 			SchedulerEngineHelper schedulerEngineHelper) {
 
@@ -75,6 +81,7 @@ public class CheckProjectMessageListener extends BaseSchedulerEntryMessageListen
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private ParticipationLocalService _participationLocalService;
 	private PetitionLocalService _petitionLocalService;
+	private SignataireLocalService _signataireLocalService;
 	private TriggerFactory _triggerFactory;
 	
 }
