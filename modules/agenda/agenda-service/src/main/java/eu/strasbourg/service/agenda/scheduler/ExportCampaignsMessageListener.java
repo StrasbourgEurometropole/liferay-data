@@ -10,7 +10,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 
@@ -27,6 +26,9 @@ public class ExportCampaignsMessageListener
 	@Modified
 	protected void activate() {
 		String listenerClass = getClass().getName();
+
+		// Call service to be sure they are "awake"
+		this._campaignLocalService.getClass();
 
 		// Création du trigger "Tous les jours à 1h45"
 		Trigger trigger = _triggerFactory.createTrigger(

@@ -2,6 +2,9 @@ package eu.strasbourg.service.agenda.scheduler;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.scheduler.*;
+import eu.strasbourg.service.agenda.service.EventLocalService;
+import eu.strasbourg.service.agenda.service.ManifestationLocalService;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -10,7 +13,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.search.Indexer;
@@ -78,6 +80,21 @@ public class ReindexEventsMessageListener
 	}
 
 	@Reference(unbind = "-")
+	protected void setEventLocalService(EventLocalService eventLocalService) {
+		_eventLocalService = eventLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setManifestationLocalService(ManifestationLocalService manifestationLocalService) {
+		_manifestationLocalService = manifestationLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		_placeLocalService = placeLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setSchedulerEngineHelper(
 			SchedulerEngineHelper schedulerEngineHelper) {
 
@@ -90,6 +107,9 @@ public class ReindexEventsMessageListener
 	}
 
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
+	private EventLocalService _eventLocalService;
+	private ManifestationLocalService _manifestationLocalService;
+	private PlaceLocalService _placeLocalService;
 	private TriggerFactory _triggerFactory;
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

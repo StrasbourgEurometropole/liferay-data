@@ -8,9 +8,6 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 
@@ -31,6 +28,11 @@ public class CheckEventMessageListener
 	@Modified
 	protected void activate() {
 		String listenerClass = getClass().getName();
+
+		// Call service to be sure they are "awake"
+		this._eventLocalService.getClass();
+		this._manifestationLocalService.getClass();
+		this._placeLocalService.getClass();
 
 		// Création du trigger "Toutes les 15 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
@@ -71,6 +73,11 @@ public class CheckEventMessageListener
 	}
 
 	@Reference(unbind = "-")
+	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
+		_placeLocalService = placeLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setSchedulerEngineHelper(
 			SchedulerEngineHelper schedulerEngineHelper) {
 
@@ -85,5 +92,6 @@ public class CheckEventMessageListener
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private EventLocalService _eventLocalService;
 	private ManifestationLocalService _manifestationLocalService;
+	private PlaceLocalService _placeLocalService;
 	private TriggerFactory _triggerFactory;
 }

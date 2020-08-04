@@ -285,6 +285,13 @@ public interface EventLocalService
 	public List<Event> getByTagsWithOrSelection(List<String> tagLabels);
 
 	/**
+	 * Retourne une list d'évènements lié à un lieu
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Event> getCurrentAndFuturePublishedEventsFromPlace(
+		String SIGId);
+
+	/**
 	 * Returns the event with the primary key.
 	 *
 	 * @param eventId the primary key of the event

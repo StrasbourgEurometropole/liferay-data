@@ -29,6 +29,11 @@ public class ImportEventsMessageListener
 
 		String listenerClass = getClass().getName();
 
+		// Call service to be sure they are "awake"
+		this._eventLocalService.getClass();
+		this._placeLocalService.getClass();
+		this._importReportLocalService.getClass();
+
 		// Création du trigger "Tous les jours à 4h"
 		/**
 		 Trigger trigger = _triggerFactory.createTrigger(
