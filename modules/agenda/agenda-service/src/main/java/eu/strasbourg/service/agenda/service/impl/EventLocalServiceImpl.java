@@ -54,6 +54,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventModel;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
@@ -524,7 +525,18 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		
 		return results;
 	}
-	
+
+	/**
+	 * Retourne une list d'évènements lié à un lieu
+	 */
+	@Override
+	public List<Event> getCurrentAndFuturePublishedEventsFromPlace(String SIGId) {
+		final Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		Date yesterday = cal.getTime();
+		List<Event> events = this.findByPlaceSIGId(SIGId);
+		return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
+	}
 
 	/**
 	 * Lance l'import des événements
