@@ -22,22 +22,29 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Réindexe les événements et les manifestations. Utile car on souhaite que
  * seules les dates futures de l'événement soient indexées.
  */
 @Component(immediate = true, service = ReindexEventsMessageListener.class)
-public class ReindexEventsMessageListener
-	extends BaseMessageListener {
+public class ReindexEventsMessageListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date twoMinutesFromNow = now.getTime();
+
 		// Création du trigger "Toutes les 2 heures"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, twoMinutesFromNow, null,
 				2, TimeUnit.HOUR);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(

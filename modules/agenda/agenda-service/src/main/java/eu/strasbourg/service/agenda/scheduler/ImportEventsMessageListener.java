@@ -14,6 +14,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Importe automatiquement les événements et les manifestations des fichiers
  * JSON présents dans le dossier d'import.
@@ -29,10 +32,10 @@ public class ImportEventsMessageListener
 
 		String listenerClass = getClass().getName();
 
-		// Call service to be sure they are "awake"
-		this._eventLocalService.getClass();
-		this._placeLocalService.getClass();
-		this._importReportLocalService.getClass();
+		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date twoMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à 4h"
 		/**
@@ -42,7 +45,7 @@ public class ImportEventsMessageListener
 		 */
 		// Création du trigger "Toutes les 2 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, twoMinutesFromNow, null,
 				2, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
@@ -57,8 +60,6 @@ public class ImportEventsMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		log.info("Start importing events");
-		// Appel forçant le scheduler à attendre le service place avant de lancer l'import
-		_placeLocalService.findByName("ping");
 		// Import des événements =
 		_eventLocalService.doImport();
 		log.info("Finish importing events");

@@ -15,6 +15,9 @@ import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.agenda.service.ManifestationLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Passe au statut "APPROVED" tous les événements et les manifestations dont la
  * publication a été programmée et dont la date de publication est désormais
@@ -29,14 +32,14 @@ public class CheckEventMessageListener
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		// Call service to be sure they are "awake"
-		this._eventLocalService.getClass();
-		this._manifestationLocalService.getClass();
-		this._placeLocalService.getClass();
+		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date twoMinutesFromNow = now.getTime();
 
 		// Création du trigger "Toutes les 15 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, twoMinutesFromNow, null,
 				15, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(

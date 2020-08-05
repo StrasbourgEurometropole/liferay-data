@@ -13,6 +13,9 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Modifie le statut des participations
  * @author cedric.henry
@@ -28,14 +31,14 @@ public class CheckProjectMessageListener extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		// Call service to be sure they are "awake"
-		this._participationLocalService.getClass();
-		this._petitionLocalService.getClass();
-		this._signataireLocalService.getClass();
+		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date twoMinutesFromNow = now.getTime();
 
 		// Création du trigger "Toutes les heures"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, twoMinutesFromNow, null,
 				60, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
