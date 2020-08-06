@@ -349,14 +349,6 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         // Récupération du type d'export
         this.exportTotem = ParamUtil.getString(request, "exportTotem");
 
-        // date de début
-        String startDateString = ParamUtil.getString(request, "startDate");
-        Date startDate = ParamUtil.getDate(request, "startDate", dateFormat);
-        if (Validator.isNotNull(startDateString) && new Date().compareTo(startDate) >= 0) {
-            SessionErrors.add(request, "start-date-error");
-            isValid = false;
-        }
-
         // initulé du post
         if (Validator.isNull(ParamUtil.getString(request, "post"))) {
             SessionErrors.add(request, "post-error");
@@ -439,8 +431,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         }
 
         // Date limite
-        Date limitDate = ParamUtil.getDate(request, "limitDate", dateFormat);
-        if (Validator.isNull(limitDate) || new Date().compareTo(limitDate) >= 0) {
+        if (Validator.isNull(ParamUtil.getDate(request, "limitDate", dateFormat))) {
             SessionErrors.add(request, "date-limit-error");
             isValid = false;
         }
@@ -458,7 +449,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         String publicationEndDateString = ParamUtil.getString(request, "publicationEndDate");
         Date publicationEndDate = ParamUtil.getDate(request, "publicationEndDate", dateFormat);
         if ((Validator.isNotNull(publicationStartDateString) && Validator.isNotNull(publicationEndDateString)
-                && publicationStartDate.compareTo(publicationEndDate) >= 0) || new Date().compareTo(publicationStartDate) >= 0) {
+                && publicationStartDate.compareTo(publicationEndDate) > 0)) {
             SessionErrors.add(request, "publication-dates-error");
             isValid = false;
         }

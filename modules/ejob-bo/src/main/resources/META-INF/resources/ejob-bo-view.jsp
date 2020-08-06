@@ -3,10 +3,6 @@
 <c:set var="tab"
 	value="${not empty param.tab ? param.tab : 'offers' }" />
 
-<liferay-portlet:renderURL var="alertsURL">
-	<portlet:param name="tab" value="alerts" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:renderURL var="offersURL">
 	<portlet:param name="tab" value="offers" />
 </liferay-portlet:renderURL>
@@ -23,9 +19,6 @@
 	<aui:nav cssClass="navbar-nav">
 		<aui:nav-item href="${offersURL}" label="offers"
 			selected="${tab eq 'offers'}" />
-
-		<aui:nav-item href="${alertsURL}" label="alerts"
-			selected="${tab eq 'alerts'}" />
 	</aui:nav>
 
 	<aui:nav-bar-search>
@@ -38,10 +31,6 @@
 <c:choose>
     <c:when test="${tab eq 'offers'}">
 		<liferay-util:include page="/ejob-bo-view-offers.jsp" servletContext="<%=application %>">
-		</liferay-util:include>
-    </c:when>
-    <c:when test="${tab eq 'alerts'}">
-		<liferay-util:include page="/ejob-bo-view-alerts.jsp" servletContext="<%=application %>">
 		</liferay-util:include>
     </c:when>
 </c:choose>

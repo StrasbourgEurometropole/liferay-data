@@ -26,7 +26,6 @@
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="type-recrutement-error" message="type-recrutement-error" />
-	<liferay-ui:error key="start-date-error" message="start-date-error" />
 	<liferay-ui:error key="post-error" message="post-error" />
 	<liferay-ui:error key="direction-error" message="direction-error" />
 	<liferay-ui:error key="full-time-error" message="full-time-error" />
