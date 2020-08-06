@@ -27,6 +27,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </#if>
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /> 
+<#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
 <@liferay_util["body-top"]>
     <script>
@@ -411,7 +412,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
 
                 <!-- Agenda -->
-                <#if entry.displayEvents && entry.currentAndFuturePublishedEvents?has_content>
+                <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
+                <#if entry.displayEvents && placeEvents?has_content>
                     <div class="seu-wi--collapsing">
                         <button class="seu-toggle-collapse">
                             <h2 class="description"><span style="text-transform: uppercase;"><@liferay_ui.message key="agenda" /></span></h2>
@@ -420,7 +422,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="seu-agenda-slider-container">
                                 <div class="seu-slider">
                                     <#assign i=0 />
-                                    <#list entry.currentAndFuturePublishedEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
+                                    <#list placeEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
                                         <#if i == 5>
                                             <#break>
                                         </#if>
