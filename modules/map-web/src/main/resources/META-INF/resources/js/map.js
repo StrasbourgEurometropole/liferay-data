@@ -690,12 +690,16 @@
             }
 
             function saveUserConfig() {
+
+                //Get form values
+                var form = $('#'+window.aroundMePortletNamespace+'addItemForm');
+                var data = $(form).serializeArray();
+
                 AUI().use('aui-io-request', function(A) {
                     A.io.request(window.interestPointUrl, {
-                        method: 'post',
-                        form: {
-                            id: window.aroundMePortletNamespace + 'addItemForm'
-                        },
+                        method : 'POST',
+                        dataType: 'json',
+                        data: data
                     });
                 });
                 showPois();
