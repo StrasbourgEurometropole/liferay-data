@@ -1,6 +1,7 @@
 <!-- Détail lieu -->
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
+<#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
 <#if entry?has_content>
     <div class="place-detail">
@@ -151,8 +152,9 @@
                 </#if>
 
                 <!-- Widget Bloc Agenda -->
+                <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
                 <#if entry.displayEvents>
-                    <#assign events = entry.getEvents() />
+                    <#assign events = placeEvents />
                     <#if events?has_content>
                         <div class="agenda-collections-carousel">
                             <h4 class="agenda-carousel-title">
