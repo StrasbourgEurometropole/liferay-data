@@ -378,6 +378,15 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne une list d'évènements lié à un lieu
+	 */
+	public static java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getCurrentAndFuturePublishedEventsFromPlace(String SIGId) {
+
+		return getService().getCurrentAndFuturePublishedEventsFromPlace(SIGId);
+	}
+
+	/**
 	 * Returns the event with the primary key.
 	 *
 	 * @param eventId the primary key of the event

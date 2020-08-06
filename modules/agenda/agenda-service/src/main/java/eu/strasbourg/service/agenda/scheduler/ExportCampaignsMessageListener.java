@@ -10,11 +10,13 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseSchedulerEntryMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
 
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Exporte automatiquement les campagnes au format JSON et les place dans le dossier d'import.
@@ -28,9 +30,17 @@ public class ExportCampaignsMessageListener
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Call service to be sure they are "awake"
+		this._campaignLocalService.getClass();
+
+		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Tous les jours à 1h45"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				"0 45 1 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(

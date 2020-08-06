@@ -392,6 +392,17 @@ public class EventLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne une list d'évènements lié à un lieu
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getCurrentAndFuturePublishedEventsFromPlace(String SIGId) {
+
+		return _eventLocalService.getCurrentAndFuturePublishedEventsFromPlace(
+			SIGId);
+	}
+
+	/**
 	 * Returns the event with the primary key.
 	 *
 	 * @param eventId the primary key of the event
