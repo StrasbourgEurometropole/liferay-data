@@ -47,23 +47,20 @@
 					<portlet:param name="mvcPath" value="/ejob-bo-edit-offer.jsp" />
 				</liferay-portlet:renderURL>
 
-                <!-- Colonne : Nom d'utilisateur -->
+                <!-- Colonne : Publication -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfferURL}" name="username" truncate="true"
-					orderable="true" value="${offer.userName}" />
+					href="${editOfferURL}" name="publication-id" truncate="true"
+					orderable="true" value="${offer.publicationId}" />
 
-                <!-- Colonne : Titre -->
+                <!-- Colonne : type d'export' -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfferURL}" name="title" truncate="true"
+					href="${editOfferURL}" name="ejob-export-totem" truncate="true"
+					orderable="true" value="${offer.exportTotem}" />
+
+                <!-- Colonne : intitulé du post -->
+				<liferay-ui:search-container-column-text cssClass="content-column"
+					href="${editOfferURL}" name="post" truncate="true"
 					orderable="true" value="${offer.post}" />
-
-				<fmt:formatDate value="${offer.date}"
-					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
-
-				<!-- Colonne : Date -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="date" truncate="true" orderable="true"
-					value="${formattedDate}" />
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>

@@ -238,4 +238,43 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
+	public static AssetVocabulary getEJobDirection(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_DIRECTION, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getEJobService(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_SERVICE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getEJobNiveauEtude(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_NIVEAU_ETUDE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getEJobFamille(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_FAMILLE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static AssetVocabulary getEJobContact(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_CONTACT, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

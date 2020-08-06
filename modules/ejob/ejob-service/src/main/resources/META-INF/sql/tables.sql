@@ -17,7 +17,7 @@ create table ejob_Alert (
 
 create table ejob_Offer (
 	uuid_ VARCHAR(75) null,
-	offerId LONG not null primary key,
+	offerId LONG not null primary key IDENTITY,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,
