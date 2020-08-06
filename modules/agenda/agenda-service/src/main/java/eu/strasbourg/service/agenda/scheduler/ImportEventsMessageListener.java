@@ -35,18 +35,12 @@ public class ImportEventsMessageListener
 		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.MINUTE, 5);
-		Date twoMinutesFromNow = now.getTime();
+		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Tous les jours à 4h"
-		/**
 		 Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				"0 0 4 * * ?");
-		 */
-		// Création du trigger "Toutes les 2 minutes"
-		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, twoMinutesFromNow, null,
-				2, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

@@ -31,14 +31,14 @@ public class CheckProjectMessageListener extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
-		// Maintenant + 2 min pour ne pas lancer le scheduler au Startup du module
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.MINUTE, 5);
-		Date twoMinutesFromNow = now.getTime();
+		Date fiveMinutesFromNow = now.getTime();
 
 		// Création du trigger "Toutes les heures"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, twoMinutesFromNow, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				60, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
