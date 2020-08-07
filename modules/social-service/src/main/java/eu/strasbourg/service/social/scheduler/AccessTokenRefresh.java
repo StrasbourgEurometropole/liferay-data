@@ -18,6 +18,8 @@ import org.osgi.service.component.annotations.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +34,14 @@ public class AccessTokenRefresh extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Tous les jours à 4h45"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				"0 45 4 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
