@@ -301,7 +301,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     publicationId += "E0";
                     break;
             }
-            publicationId += String.format("%04d", offer.getOfferId());
+            publicationId += String.format("%06d", offer.getOfferId());
             offer.setPublicationId(publicationId);
 
             // Mise à jour de l'entrée en base

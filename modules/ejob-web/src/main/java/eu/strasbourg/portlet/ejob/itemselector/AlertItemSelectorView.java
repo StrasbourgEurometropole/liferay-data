@@ -33,7 +33,8 @@ public class AlertItemSelectorView
 	private ServletContext _servletContext;
 
 	private static final List<ItemSelectorReturnType> _supportedItemSelectorReturnTypes = Collections
-		.unmodifiableList(ListUtil.fromArray(new URLItemSelectorReturnType()));
+		.unmodifiableList(ListUtil.fromArray(
+				new ItemSelectorReturnType[] { new URLItemSelectorReturnType()}));
 
 	public ServletContext getServletContext() {
 		return _servletContext;

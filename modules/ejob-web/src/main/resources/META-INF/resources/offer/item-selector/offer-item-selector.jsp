@@ -38,11 +38,13 @@
 				name="post" truncate="true"
 				value="${offer.postCurrentValue}" />
 
-			<fmt:formatDate value="${offer.publicationDate}"
-				var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
+			<fmt:formatDate value="${offer.publicationStartDate}"
+				var="formattedPublicationStartDate" type="date" pattern="dd/MM/yyyy" />
+			<fmt:formatDate value="${offer.publicationEndDate}"
+				var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
 			<liferay-ui:search-container-column-text cssClass="content-column"
 				name="publication-date" truncate="true"
-				value="${formattedPublicationDate}" />
+				value="${formattedPublicationStartDate} - ${formattedPublicationEndDate}" />
 
 			<fmt:formatDate value="${offer.modifiedDate}"
 				var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
@@ -55,6 +57,10 @@
 					showLabel="false" status="${offer.status}" />
 				<div class="data" data-id="${offer.offerId}" data-title="${offer.getPost(locale)}"></div>
 			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text name="">
+				<div class="data" data-id="${offer.offerId}" data-title="${offer.getPost(locale)}"></div>
+			</liferay-ui:search-container-column-text>
 			
 		</liferay-ui:search-container-row>
 
@@ -65,7 +71,7 @@
 </div>
 
 <aui:script>
-	$('.edition-row input[type=checkbox]').on('change', function() {
+	$('.offer-row input[type=checkbox]').on('change', function() {
 		var multiple = ${multiple};
 		if (!multiple) {
 			if (this.checked) {
