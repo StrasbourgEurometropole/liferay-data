@@ -17,10 +17,14 @@ package eu.strasbourg.service.ejob.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import eu.strasbourg.service.ejob.model.Offer;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,6 +64,117 @@ public class OfferImpl extends OfferBaseImpl {
 	public List<AssetCategory> getCategories() {
 		return AssetVocabularyHelper
 				.getAssetEntryCategories(this.getAssetEntry());
+	}
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getDirections() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_DIRECTION);
+	}
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getServices() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_SERVICE);
+	}
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getFilieres() {
+		List<AssetCategory> filieres = new ArrayList<>();
+		if (filieres == null || filieres.isEmpty()) {
+			List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+					VocabularyNames.EJOB_FILIERES);
+			for (AssetCategory filiere : filieres_voca) {
+				if (filiere.getParentCategory() == null) {
+					filieres.add(filiere);
+				}
+			}
+		}
+
+		return filieres;
+	}
+
+	/**
+	 * Renvoie les categories des filieres
+	 */
+	@SuppressWarnings("unused")
+	public List<AssetCategory> getFilieresCategories() {
+		List<AssetCategory> filieresCategories = new ArrayList<>();
+		if (filieresCategories == null || filieresCategories.isEmpty()) {
+			List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+					VocabularyNames.EJOB_FILIERES);
+			for (AssetCategory category : filieres_voca.) {
+				if (this.getFilieres().contains(category.getParentCategory())) {
+					filieresCategories.add(category);
+				}
+			}
+		}
+
+		return filieresCategories;
+	}
+
+	/**
+	 * Renvoie les grades
+	 */
+	@SuppressWarnings("unused")
+	public List<AssetCategory> getGrades() {
+		List<AssetCategory> grades = new ArrayList<>();
+		if (grades == null || grades.isEmpty()) {
+			List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+					VocabularyNames.EJOB_FILIERES);
+			for (AssetCategory grade: filieres_voca) {
+				if(this.getFilieresCategories().contains(grade.getParentCategory())) {
+					grades.add(grade);
+				}
+			}
+		}
+
+		return grades;
+	}
+
+	/**
+	 * Renvoie les Famille de métiers
+	 */
+	@SuppressWarnings("unused")
+	public List<AssetCategory> getFamilles() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_FAMILLE);
+	}
+
+	/**
+	 * Renvoie les Niveau d'étude
+	 */
+	@SuppressWarnings("unused")
+	public List<AssetCategory> getNiveauEtudes() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_NIVEAU_ETUDE);
+	}
+
+	/**
+	 * Renvoie les types de recrutements
+	 */
+	@SuppressWarnings("unused")
+	public List<AssetCategory> getTypeRecrutements() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_TYPE_RECRUTEMENT);
+	}
+
+	/**
+	 * Renvoie les contact RE
+	 */
+	@SuppressWarnings("unused")
+	public List<AssetCategory> getContacts() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.EJOB_CONTACT);
 	}
 
 }
