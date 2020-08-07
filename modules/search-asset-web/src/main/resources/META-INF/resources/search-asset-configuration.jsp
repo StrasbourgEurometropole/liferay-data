@@ -276,7 +276,10 @@
                         </aui:option>
                         <aui:option value="strasbourg-generic" selected="${searchForm eq 'strasbourg-generic'}">
                             <liferay-ui:message key="strasbourg-generic" />
-                        </aui:option>                        
+                        </aui:option>
+                        <aui:option value="strasbourg-offer" selected="${searchForm eq 'strasbourg-offer'}">
+                            <liferay-ui:message key="strasbourg-offer" />
+                        </aui:option>
                         <aui:option value="placit-projects" selected="${searchForm eq 'placit-projects'}">
                             <liferay-ui:message key="placit-projects" />
                         </aui:option>
