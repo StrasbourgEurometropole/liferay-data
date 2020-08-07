@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -282,30 +283,17 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             // Mise à jour de l'entrée en base
             offer = this.offerLocalService.updateOffer(offer, sc);
 
-            // calcul de l'id de publication
-            String publicationId ="";
-            switch (typeRecrutementString) {
-                case "Stage":
-                    publicationId += "ST";
-                    break;
-                case "Saisonnier":
-                    publicationId += "SN";
-                    break;
-                case "Apprentissage":
-                    publicationId += "A0";
-                    break;
-                case "Vacataire":
-                    publicationId += "V0";
-                    break;
-                default:
-                    publicationId += "E0";
-                    break;
-            }
-            publicationId += String.format("%06d", offer.getOfferId());
-            offer.setPublicationId(publicationId);
+            if(Validator.isNull(offer.getPublicationId())){
+                // calcul de l'id de publication
+                // récupération de l'acronyme
+                String publicationId = AssetVocabularyHelper.getCategoryProperty(ejobTypeRecrutement, "acro");
+                // récupération de l'incrément
+                publicationId += String.format("%06d", offer.getOfferId());
+                offer.setPublicationId(publicationId);
 
-            // Mise à jour de l'entrée en base
-            this.offerLocalService.updateOffer(offer, sc);
+                // Mise à jour de l'entrée en base
+                this.offerLocalService.updateOffer(offer, sc);
+            }
 
             long[] categoryIds = new long[categories.size()];
             for (int i = 0; i < categories.size(); i++) {

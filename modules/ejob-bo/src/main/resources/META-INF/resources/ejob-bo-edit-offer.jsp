@@ -51,7 +51,7 @@
 		<aui:fieldset-group markupView="lexicon">
 
 			<%-- Champ : (cache) PK de l'entite --%>
-			<aui:input name="offer-id" type="hidden" />
+			<aui:input name="offerId" type="hidden" />
 
 			<%-- Groupe de champs : Generalites --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="general">
