@@ -1058,6 +1058,56 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	/**
+	 * Renvoie les contact RE
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferContact() {
+		return _offer.getOfferContact();
+	}
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferDirection() {
+		return _offer.getOfferDirection();
+	}
+
+	/**
+	 * Renvoie les Famille de métiers
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferFamille() {
+		return _offer.getOfferFamille();
+	}
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferFiliere() {
+		return _offer.getOfferFiliere();
+	}
+
+	/**
+	 * Renvoie les categories des filieres
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getOfferFiliereCategorie() {
+
+		return _offer.getOfferFiliereCategorie();
+	}
+
+	/**
+	 * Renvoie les grades
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferGrade() {
+		return _offer.getOfferGrade();
+	}
+
+	/**
 	 * Returns the offer ID of this offer.
 	 *
 	 * @return the offer ID of this offer
@@ -1065,6 +1115,32 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public long getOfferId() {
 		return _offer.getOfferId();
+	}
+
+	/**
+	 * Renvoie les Niveau d'étude
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferNiveauEtude() {
+		return _offer.getOfferNiveauEtude();
+	}
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory getOfferService() {
+		return _offer.getOfferService();
+	}
+
+	/**
+	 * Renvoie les types de recrutements
+	 */
+	@Override
+	public com.liferay.asset.kernel.model.AssetCategory
+		getOfferTypeRecrutement() {
+
+		return _offer.getOfferTypeRecrutement();
 	}
 
 	/**

@@ -70,111 +70,141 @@ public class OfferImpl extends OfferBaseImpl {
 	 * Retourne les types de l'événement
 	 */
 	@Override
-	public List<AssetCategory> getDirections() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+	public AssetCategory getOfferDirection() {
+		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_DIRECTION);
+		if(!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 	/**
 	 * Retourne les types de l'événement
 	 */
 	@Override
-	public List<AssetCategory> getServices() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-				VocabularyNames.EJOB_SERVICE);
+	public AssetCategory getOfferService() {
+		List<AssetCategory> services = new ArrayList<>();
+		if (services == null || services.isEmpty()) {
+			List<AssetCategory> services_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+					VocabularyNames.EJOB_DIRECTION);
+			for (AssetCategory service : services_voca) {
+				if (this.getOfferDirection().equals(service.getParentCategory())) {
+					return service;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
 	 * Retourne les types de l'événement
 	 */
 	@Override
-	public List<AssetCategory> getFilieres() {
+	public AssetCategory getOfferFiliere() {
 		List<AssetCategory> filieres = new ArrayList<>();
 		if (filieres == null || filieres.isEmpty()) {
 			List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 					VocabularyNames.EJOB_FILIERES);
 			for (AssetCategory filiere : filieres_voca) {
 				if (filiere.getParentCategory() == null) {
-					filieres.add(filiere);
+					 return filiere;
 				}
 			}
 		}
 
-		return filieres;
+		return null;
 	}
 
 	/**
 	 * Renvoie les categories des filieres
 	 */
 	@SuppressWarnings("unused")
-	public List<AssetCategory> getFilieresCategories() {
+	public AssetCategory getOfferFiliereCategorie() {
 		List<AssetCategory> filieresCategories = new ArrayList<>();
 		if (filieresCategories == null || filieresCategories.isEmpty()) {
 			List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 					VocabularyNames.EJOB_FILIERES);
-			for (AssetCategory category : filieres_voca.) {
-				if (this.getFilieres().contains(category.getParentCategory())) {
-					filieresCategories.add(category);
+			for (AssetCategory category : filieres_voca) {
+				if (this.getOfferFiliere().equals(category.getParentCategory())) {
+					return category;
 				}
 			}
 		}
 
-		return filieresCategories;
+		return null;
 	}
 
 	/**
 	 * Renvoie les grades
 	 */
 	@SuppressWarnings("unused")
-	public List<AssetCategory> getGrades() {
+	public AssetCategory getOfferGrade() {
 		List<AssetCategory> grades = new ArrayList<>();
 		if (grades == null || grades.isEmpty()) {
 			List<AssetCategory> filieres_voca = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 					VocabularyNames.EJOB_FILIERES);
 			for (AssetCategory grade: filieres_voca) {
-				if(this.getFilieresCategories().contains(grade.getParentCategory())) {
-					grades.add(grade);
+				if(this.getOfferFiliereCategorie().equals(grade.getParentCategory())) {
+					return grade;
 				}
 			}
 		}
 
-		return grades;
+		return null;
 	}
 
 	/**
 	 * Renvoie les Famille de métiers
 	 */
 	@SuppressWarnings("unused")
-	public List<AssetCategory> getFamilles() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+	public AssetCategory getOfferFamille() {
+		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_FAMILLE);
+		if(!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 	/**
 	 * Renvoie les Niveau d'étude
 	 */
 	@SuppressWarnings("unused")
-	public List<AssetCategory> getNiveauEtudes() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+	public AssetCategory getOfferNiveauEtude() {
+		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_NIVEAU_ETUDE);
+		if(!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 	/**
 	 * Renvoie les types de recrutements
 	 */
 	@SuppressWarnings("unused")
-	public List<AssetCategory> getTypeRecrutements() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+	public AssetCategory getOfferTypeRecrutement() {
+		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_TYPE_RECRUTEMENT);
+		if(!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 	/**
 	 * Renvoie les contact RE
 	 */
 	@SuppressWarnings("unused")
-	public List<AssetCategory> getContacts() {
-		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+	public AssetCategory getOfferContact() {
+		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_CONTACT);
+		if(!list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 }

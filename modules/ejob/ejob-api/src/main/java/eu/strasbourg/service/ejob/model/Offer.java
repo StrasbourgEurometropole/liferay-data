@@ -68,4 +68,57 @@ public interface Offer extends OfferModel, PersistedModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories();
 
+	/**
+	 * Retourne les types de l'événement
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getOfferDirection();
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getOfferService();
+
+	/**
+	 * Retourne les types de l'événement
+	 */
+	public com.liferay.asset.kernel.model.AssetCategory getOfferFiliere();
+
+	/**
+	 * Renvoie les categories des filieres
+	 */
+	@SuppressWarnings(value = "unused")
+	public com.liferay.asset.kernel.model.AssetCategory
+		getOfferFiliereCategorie();
+
+	/**
+	 * Renvoie les grades
+	 */
+	@SuppressWarnings(value = "unused")
+	public com.liferay.asset.kernel.model.AssetCategory getOfferGrade();
+
+	/**
+	 * Renvoie les Famille de métiers
+	 */
+	@SuppressWarnings(value = "unused")
+	public com.liferay.asset.kernel.model.AssetCategory getOfferFamille();
+
+	/**
+	 * Renvoie les Niveau d'étude
+	 */
+	@SuppressWarnings(value = "unused")
+	public com.liferay.asset.kernel.model.AssetCategory getOfferNiveauEtude();
+
+	/**
+	 * Renvoie les types de recrutements
+	 */
+	@SuppressWarnings(value = "unused")
+	public com.liferay.asset.kernel.model.AssetCategory
+		getOfferTypeRecrutement();
+
+	/**
+	 * Renvoie les contact RE
+	 */
+	@SuppressWarnings(value = "unused")
+	public com.liferay.asset.kernel.model.AssetCategory getOfferContact();
+
 }

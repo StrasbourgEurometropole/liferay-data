@@ -246,14 +246,6 @@ public class AssetVocabularyAccessor {
 		}
 	}
 
-	public static AssetVocabulary getEJobService(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_SERVICE, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
 	public static AssetVocabulary getEJobNiveauEtude(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_NIVEAU_ETUDE, groupID);

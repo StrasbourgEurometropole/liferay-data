@@ -20,6 +20,7 @@ public class EditOfferDisplayContext {
 
     private Offer offer;
     private List<AssetCategory> directions;
+    private List<AssetCategory> services;
     private List<AssetCategory> filieres;
     private List<AssetCategory> filieresCategories;
     private final RenderRequest request;
@@ -43,6 +44,158 @@ public class EditOfferDisplayContext {
     @SuppressWarnings("unused")
     public long getGroupId() {
         return this.themeDisplay.getScopeGroupId();
+    }
+
+    /**
+     * Renvoie les types de recrutements
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getTypeRecrutements() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> typeRecrutements = new ArrayList<>();
+        AssetVocabulary typeRecrutement_voca = AssetVocabularyAccessor.getEJobTypeRecrutement(groupId);
+        for (AssetCategory typeRecrutement: typeRecrutement_voca.getCategories()) {
+            typeRecrutements.add(typeRecrutement);
+        }
+
+        return typeRecrutements;
+    }
+
+    /**
+     * Renvoie les Direction
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getDirections() {
+        if (this.directions == null) {
+            long groupId = themeDisplay.getLayout().getGroupId();
+            this.directions = new ArrayList<>();
+            AssetVocabulary direction_voca = AssetVocabularyAccessor.getEJobDirection(groupId);
+            for (AssetCategory direction : direction_voca.getCategories()) {
+                if (direction.getParentCategory() == null)
+                    this.directions.add(direction);
+            }
+        }
+
+        return this.directions;
+    }
+
+    /**
+     * Renvoie les Services
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getServices() {
+        if (this.filieresCategories == null) {
+            long groupId = themeDisplay.getLayout().getGroupId();
+            this.services = new ArrayList<>();
+            AssetVocabulary services_voca = AssetVocabularyAccessor.getEJobDirection(groupId);
+            for (AssetCategory service : services_voca.getCategories()) {
+                if (this.getDirections().contains(service.getParentCategory())) {
+                    this.services.add(service);
+                }
+            }
+        }
+
+        return this.services;
+    }
+
+    /**
+     * Renvoie les filieres
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getFilieres() {
+        if (this.filieres == null) {
+            long groupId = themeDisplay.getLayout().getGroupId();
+            this.filieres = new ArrayList<>();
+            AssetVocabulary filieres_voca = AssetVocabularyAccessor.getEJobFilieres(groupId);
+            for (AssetCategory filiere : filieres_voca.getCategories()) {
+                if (filiere.getParentCategory() == null) {
+                    this.filieres.add(filiere);
+                }
+            }
+        }
+
+        return this.filieres;
+    }
+
+    /**
+     * Renvoie les categories des filieres
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getFilieresCategories() {
+        if (this.filieresCategories == null) {
+            long groupId = themeDisplay.getLayout().getGroupId();
+            this.filieresCategories = new ArrayList<>();
+            AssetVocabulary filieres_voca = AssetVocabularyAccessor.getEJobFilieres(groupId);
+            for (AssetCategory category : filieres_voca.getCategories()) {
+                if (this.getFilieres().contains(category.getParentCategory())) {
+                    this.filieresCategories.add(category);
+                }
+            }
+        }
+
+        return this.filieresCategories;
+    }
+
+    /**
+     * Renvoie les grades
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getGrades() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> grades = new ArrayList<>();
+        AssetVocabulary filieres_voca = AssetVocabularyAccessor.getEJobFilieres(groupId);
+        for (AssetCategory grade: filieres_voca.getCategories()) {
+            if(this.getFilieresCategories().contains(grade.getParentCategory())) {
+                grades.add(grade);
+            }
+        }
+
+        return grades;
+    }
+
+    /**
+     * Renvoie les Niveau d'étude
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getNiveauEtudes() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> niveauEtudes = new ArrayList<>();
+        AssetVocabulary niveauEtude_voca = AssetVocabularyAccessor.getEJobNiveauEtude(groupId);
+        for (AssetCategory niveauEtude: niveauEtude_voca.getCategories()) {
+            niveauEtudes.add(niveauEtude);
+        }
+
+        return niveauEtudes;
+    }
+
+    /**
+     * Renvoie les Famille de métiers
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getFamilles() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> familles = new ArrayList<>();
+        AssetVocabulary famille_voca = AssetVocabularyAccessor.getEJobFamille(groupId);
+        for (AssetCategory famille: famille_voca.getCategories()) {
+            familles.add(famille);
+        }
+
+        return familles;
+    }
+
+    /**
+     * Renvoie les contact RE
+     */
+    @SuppressWarnings("unused")
+    public List<AssetCategory> getContacts() {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        List<AssetCategory> contacts = new ArrayList<>();
+        AssetVocabulary contact_voca = AssetVocabularyAccessor.getEJobContact(groupId);
+        for (AssetCategory contact: contact_voca.getCategories()) {
+            contacts.add(contact);
+        }
+
+        return contacts;
     }
 
 
