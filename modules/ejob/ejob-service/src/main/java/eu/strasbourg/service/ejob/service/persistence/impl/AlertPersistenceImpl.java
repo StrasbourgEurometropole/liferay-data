@@ -1462,6 +1462,555 @@ public class AlertPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
 		"alert.companyId = ?";
 
+	private FinderPath _finderPathWithPaginationFindByPublikUserId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikUserId;
+	private FinderPath _finderPathCountByPublikUserId;
+
+	/**
+	 * Returns all the alerts where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @return the matching alerts
+	 */
+	@Override
+	public List<Alert> findByPublikUserId(String publikUserId) {
+		return findByPublikUserId(
+			publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the alerts where publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AlertModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of alerts
+	 * @param end the upper bound of the range of alerts (not inclusive)
+	 * @return the range of matching alerts
+	 */
+	@Override
+	public List<Alert> findByPublikUserId(
+		String publikUserId, int start, int end) {
+
+		return findByPublikUserId(publikUserId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the alerts where publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AlertModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of alerts
+	 * @param end the upper bound of the range of alerts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching alerts
+	 */
+	@Override
+	public List<Alert> findByPublikUserId(
+		String publikUserId, int start, int end,
+		OrderByComparator<Alert> orderByComparator) {
+
+		return findByPublikUserId(
+			publikUserId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the alerts where publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>AlertModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of alerts
+	 * @param end the upper bound of the range of alerts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching alerts
+	 */
+	@Override
+	public List<Alert> findByPublikUserId(
+		String publikUserId, int start, int end,
+		OrderByComparator<Alert> orderByComparator, boolean retrieveFromCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByPublikUserId;
+			finderArgs = new Object[] {publikUserId};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByPublikUserId;
+			finderArgs = new Object[] {
+				publikUserId, start, end, orderByComparator
+			};
+		}
+
+		List<Alert> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Alert>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Alert alert : list) {
+					if (!publikUserId.equals(alert.getPublikUserId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_ALERT_WHERE);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId.isEmpty()) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(AlertModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
+
+				if (!pagination) {
+					list = (List<Alert>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Alert>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first alert in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching alert
+	 * @throws NoSuchAlertException if a matching alert could not be found
+	 */
+	@Override
+	public Alert findByPublikUserId_First(
+			String publikUserId, OrderByComparator<Alert> orderByComparator)
+		throws NoSuchAlertException {
+
+		Alert alert = fetchByPublikUserId_First(
+			publikUserId, orderByComparator);
+
+		if (alert != null) {
+			return alert;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publikUserId=");
+		msg.append(publikUserId);
+
+		msg.append("}");
+
+		throw new NoSuchAlertException(msg.toString());
+	}
+
+	/**
+	 * Returns the first alert in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching alert, or <code>null</code> if a matching alert could not be found
+	 */
+	@Override
+	public Alert fetchByPublikUserId_First(
+		String publikUserId, OrderByComparator<Alert> orderByComparator) {
+
+		List<Alert> list = findByPublikUserId(
+			publikUserId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last alert in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching alert
+	 * @throws NoSuchAlertException if a matching alert could not be found
+	 */
+	@Override
+	public Alert findByPublikUserId_Last(
+			String publikUserId, OrderByComparator<Alert> orderByComparator)
+		throws NoSuchAlertException {
+
+		Alert alert = fetchByPublikUserId_Last(publikUserId, orderByComparator);
+
+		if (alert != null) {
+			return alert;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publikUserId=");
+		msg.append(publikUserId);
+
+		msg.append("}");
+
+		throw new NoSuchAlertException(msg.toString());
+	}
+
+	/**
+	 * Returns the last alert in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching alert, or <code>null</code> if a matching alert could not be found
+	 */
+	@Override
+	public Alert fetchByPublikUserId_Last(
+		String publikUserId, OrderByComparator<Alert> orderByComparator) {
+
+		int count = countByPublikUserId(publikUserId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Alert> list = findByPublikUserId(
+			publikUserId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the alerts before and after the current alert in the ordered set where publikUserId = &#63;.
+	 *
+	 * @param alertId the primary key of the current alert
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next alert
+	 * @throws NoSuchAlertException if a alert with the primary key could not be found
+	 */
+	@Override
+	public Alert[] findByPublikUserId_PrevAndNext(
+			long alertId, String publikUserId,
+			OrderByComparator<Alert> orderByComparator)
+		throws NoSuchAlertException {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		Alert alert = findByPrimaryKey(alertId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Alert[] array = new AlertImpl[3];
+
+			array[0] = getByPublikUserId_PrevAndNext(
+				session, alert, publikUserId, orderByComparator, true);
+
+			array[1] = alert;
+
+			array[2] = getByPublikUserId_PrevAndNext(
+				session, alert, publikUserId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Alert getByPublikUserId_PrevAndNext(
+		Session session, Alert alert, String publikUserId,
+		OrderByComparator<Alert> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_ALERT_WHERE);
+
+		boolean bindPublikUserId = false;
+
+		if (publikUserId.isEmpty()) {
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+		}
+		else {
+			bindPublikUserId = true;
+
+			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(AlertModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPublikUserId) {
+			qPos.add(publikUserId);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(alert)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Alert> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the alerts where publikUserId = &#63; from the database.
+	 *
+	 * @param publikUserId the publik user ID
+	 */
+	@Override
+	public void removeByPublikUserId(String publikUserId) {
+		for (Alert alert :
+				findByPublikUserId(
+					publikUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(alert);
+		}
+	}
+
+	/**
+	 * Returns the number of alerts where publikUserId = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @return the number of matching alerts
+	 */
+	@Override
+	public int countByPublikUserId(String publikUserId) {
+		publikUserId = Objects.toString(publikUserId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikUserId;
+
+		Object[] finderArgs = new Object[] {publikUserId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ALERT_WHERE);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId.isEmpty()) {
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublikUserId) {
+					qPos.add(publikUserId);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2 =
+		"alert.publikUserId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 =
+		"(alert.publikUserId IS NULL OR alert.publikUserId = '')";
+
 	public AlertPersistenceImpl() {
 		setModelClass(Alert.class);
 
@@ -1801,6 +2350,12 @@ public class AlertPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid_C, args);
 
+			args = new Object[] {alertModelImpl.getPublikUserId()};
+
+			finderCache.removeResult(_finderPathCountByPublikUserId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublikUserId, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -1843,6 +2398,25 @@ public class AlertPersistenceImpl
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
+
+			if ((alertModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByPublikUserId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					alertModelImpl.getOriginalPublikUserId()
+				};
+
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
+
+				args = new Object[] {alertModelImpl.getPublikUserId()};
+
+				finderCache.removeResult(_finderPathCountByPublikUserId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublikUserId, args);
 			}
 		}
 
@@ -2336,6 +2910,28 @@ public class AlertPersistenceImpl
 			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
+			AlertModelImpl.ENTITY_CACHE_ENABLED,
+			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
+			AlertModelImpl.ENTITY_CACHE_ENABLED,
+			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
+			new String[] {String.class.getName()},
+			AlertModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+
+		_finderPathCountByPublikUserId = new FinderPath(
+			AlertModelImpl.ENTITY_CACHE_ENABLED,
+			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
+			new String[] {String.class.getName()});
 	}
 
 	public void destroy() {

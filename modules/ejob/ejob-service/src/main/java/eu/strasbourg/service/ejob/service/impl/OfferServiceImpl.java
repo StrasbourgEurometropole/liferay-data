@@ -14,7 +14,12 @@
 
 package eu.strasbourg.service.ejob.service.impl;
 
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.SessionParamUtil;
 import eu.strasbourg.service.ejob.service.base.OfferServiceBaseImpl;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * The implementation of the offer remote service.

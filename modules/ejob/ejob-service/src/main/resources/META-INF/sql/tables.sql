@@ -12,7 +12,8 @@ create table ejob_Alert (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	name VARCHAR(75) null,
-	keyWord VARCHAR(75) null
+	keyWord VARCHAR(75) null,
+	publikUserId VARCHAR(75) null
 );
 
 create table ejob_Offer (

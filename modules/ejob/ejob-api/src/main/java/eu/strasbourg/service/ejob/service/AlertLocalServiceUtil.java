@@ -226,6 +226,15 @@ public class AlertLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
+	/**
+	 * Retourne un arret via son stopId CTS
+	 */
+	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
+		findByPublikUserId(String publikUserId) {
+
+		return getService().findByPublikUserId(publikUserId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

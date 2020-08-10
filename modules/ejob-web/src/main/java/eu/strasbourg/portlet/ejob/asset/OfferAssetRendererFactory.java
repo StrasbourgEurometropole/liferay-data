@@ -16,7 +16,9 @@ import org.osgi.service.component.annotations.Reference;
 	service = AssetRendererFactory.class
 )
 public class OfferAssetRendererFactory extends BaseAssetRendererFactory<Offer> {
-	
+
+	private OfferLocalService _offerLocalService;
+
 	public static final String TYPE = "offer";
 
 	public OfferAssetRendererFactory() {
@@ -45,8 +47,7 @@ public class OfferAssetRendererFactory extends BaseAssetRendererFactory<Offer> {
 		return TYPE;
 	}
 	
-	
-	private OfferLocalService _offerLocalService;
+
 
 	@Reference(unbind = "-")
 	protected void setOfferLocalService(OfferLocalService offerLocalService) {
