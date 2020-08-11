@@ -183,6 +183,8 @@ public class ExportPDF {
 		Paragraph paragraph = new Paragraph().setFont(font).setFontSize(12f);
 
 		if (elu.isEluMunicipal()) {
+			paragraph.add(new Text(OfficialsConstants.TITRE_MUNICIPAL).setFont(fontBold).setFontSize(16f));
+			paragraph.add("\n");
 			paragraph.add(new Text(elu.getName(elu.getFonctionCity(), locale)).setFont(fontBold));
 
 			if (Validator.isNotNull(elu.getThematicDelegation())) {
@@ -238,6 +240,8 @@ public class ExportPDF {
 		Paragraph paragraph = new Paragraph().setFont(font).setFontSize(12f);
 
 		if (elu.isEluEurometropole()) {
+			paragraph.add(new Text(OfficialsConstants.TITRE_EUROMETROPOLE).setFont(fontBold).setFontSize(16f));
+			paragraph.add("\n");
 			paragraph.add(new Text(elu.getName(elu.getFonctionEurometropole(), locale)).setFont(fontBold));
 
 			if (Validator.isNotNull(elu.getFonctionTown())) {

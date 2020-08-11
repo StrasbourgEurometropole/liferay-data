@@ -72,11 +72,11 @@
 			
 			<aui:button-row>
 				<div class="left" >
-					<aui:button cssClass="btn-lg" type="button" href="${previousURL}" value="<liferay-ui:message key='previous' />" />
+					<aui:button cssClass="btn-lg" type="button" href="${previousURL}" value="previous" />
 				</div>
 				
 				<div class="right" >
-					<aui:button cssClass="btn-lg" type="button" href="${nextURL}" value="<liferay-ui:message key='next' />" />
+					<aui:button cssClass="btn-lg" type="button" href="${nextURL}" value="next" />
 				</div>
 			</aui:button-row>
 				

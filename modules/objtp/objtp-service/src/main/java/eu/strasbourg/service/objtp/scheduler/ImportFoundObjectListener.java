@@ -2,6 +2,7 @@ package eu.strasbourg.service.objtp.scheduler;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -36,9 +37,14 @@ public class ImportFoundObjectListener extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Tous les jours à 5h"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, new Date(),
+				listenerClass, listenerClass, fiveMinutesFromNow,
 				null, "0 0 5 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(this.getClass().getName(), trigger);

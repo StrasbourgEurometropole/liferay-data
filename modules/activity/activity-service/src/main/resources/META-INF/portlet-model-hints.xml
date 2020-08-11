@@ -143,9 +143,13 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="phone" type="String" />
-		<field localized="true" name="siteURL" type="String" />
+		<field localized="true" name="siteURL" type="String">
+			<hint name="max-length">150</hint>
+		</field>
 		<field name="mail" type="String" />
-		<field localized="true" name="facebookURL" type="String" />
+		<field localized="true" name="facebookURL" type="String">
+			<hint name="max-length">150</hint>
+		</field>
 		<field localized="true" name="othersInformations" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

@@ -11,6 +11,9 @@ import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import org.osgi.service.component.annotations.*;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Passe au statut "APPROVED" tous les événements et les manifestations dont la
  * publication a été programmée et dont la date de publication est désormais
@@ -24,9 +27,14 @@ public class RealTimeDataImporter extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Toutes les 2 minutes"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null,
+				listenerClass, listenerClass, fiveMinutesFromNow, null,
 				2, TimeUnit.MINUTE);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(

@@ -1,5 +1,5 @@
 # Image sur laquelle se base les opérations suivantes (@see https://hub.docker.com/r/liferay/dxp)
-FROM liferay/dxp:7.2.10-dxp-4
+FROM liferay/dxp:7.2.10-dxp-6
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
@@ -9,7 +9,8 @@ ENV DIST_PATH=./dist
 USER root
 
 # Création des dossiers utiles
-RUN mkdir -p /data/certificates
+RUN mkdir -p /data/certificates \
+	mkdir -p /data/import/agenda/archives
 
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
 COPY $SOURCES_PATH/wait-for-it.sh /

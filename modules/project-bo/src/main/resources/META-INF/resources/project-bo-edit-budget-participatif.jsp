@@ -197,9 +197,8 @@
                                     function (val, fieldNode, ruleValue) {
                                         var validated = true;
                                         var fields = document.querySelectorAll('.categories-selectors > .field-content');
-                                        alert(fields.length);
                                         for (var i = 0; i < fields.length; i++) {
-                                            fieldContent = fields[i];alert('toto');
+                                            fieldContent = fields[i];
                                             if ($(fieldContent).find('.icon-asterisk').length > 0
                                                 && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
                                                 validated = false;

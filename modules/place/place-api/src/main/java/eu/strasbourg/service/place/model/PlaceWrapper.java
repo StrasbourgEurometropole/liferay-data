@@ -1263,16 +1263,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.getCreateDate();
 	}
 
-	/**
-	 * Retourne une list d'évènements lié à ce lieu
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-		getCurrentAndFuturePublishedEvents() {
-
-		return _place.getCurrentAndFuturePublishedEvents();
-	}
-
 	@Override
 	public String getDefaultLanguageId() {
 		return _place.getDefaultLanguageId();
@@ -1336,16 +1326,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	@Override
 	public java.util.List<String> getDocumentURLs() {
 		return _place.getDocumentURLs();
-	}
-
-	/**
-	 * Retourne une list d'évènements lié à ce lieu
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-		getEvents() {
-
-		return _place.getEvents();
 	}
 
 	/**
@@ -2193,16 +2173,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	/**
-	 * Retourne une list d'évènements lié à ce lieu
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-		getPublishedEvents() {
-
-		return _place.getPublishedEvents();
-	}
-
-	/**
 	 * Retourne les sous lieux publiés du lieu
 	 */
 	@Override
@@ -2924,6 +2894,22 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	/**
 	 * Retourne true si l'événement est accessible pour au moins un type de
 	 * handicap
+	 *
+	 * @Override public List<Event> getEvents() {
+	 List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+	 return events;
+	 }
+	 * @Override public List<Event> getPublishedEvents() {
+	 List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+	 return events.stream().filter(e -> e.isApproved()).collect(Collectors.toList());
+	 }
+	 * @Override public List<Event> getCurrentAndFuturePublishedEvents() {
+	 final Calendar cal = Calendar.getInstance();
+	 cal.add(Calendar.DATE, -1);
+	 Date yesterday = cal.getTime();
+	 List<Event> events = EventLocalServiceUtil.findByPlaceSIGId(this.getSIGid());
+	 return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
+	 }
 	 */
 	@Override
 	public boolean hasAnyAccessForDisabled() {
