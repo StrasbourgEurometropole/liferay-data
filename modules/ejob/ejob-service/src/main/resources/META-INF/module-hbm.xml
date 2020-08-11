@@ -21,6 +21,7 @@
 		<property name="statusDate" type="org.hibernate.type.TimestampType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="keyWord" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.ejob.model.impl.OfferImpl" table="ejob_Offer">
 		<id name="offerId" type="long">

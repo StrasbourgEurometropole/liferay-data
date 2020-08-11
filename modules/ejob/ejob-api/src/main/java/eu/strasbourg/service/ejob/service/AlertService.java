@@ -18,6 +18,7 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
@@ -55,6 +56,12 @@ public interface AlertService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link AlertServiceUtil} to access the alert remote service. Add custom service methods to <code>eu.strasbourg.service.ejob.service.impl.AlertServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+
+	/**
+	 * Créer une alerte à un utilisateur
+	 */
+	public JSONObject addAlert(
+		String name, String categoriesId, String keyword);
 
 	/**
 	 * Returns the OSGi service identifier.

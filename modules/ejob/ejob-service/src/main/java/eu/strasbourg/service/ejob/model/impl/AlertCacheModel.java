@@ -64,7 +64,7 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,6 +94,8 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		sb.append(name);
 		sb.append(", keyWord=");
 		sb.append(keyWord);
+		sb.append(", publikUserId=");
+		sb.append(publikUserId);
 		sb.append("}");
 
 		return sb.toString();
@@ -167,6 +169,13 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 			alertImpl.setKeyWord(keyWord);
 		}
 
+		if (publikUserId == null) {
+			alertImpl.setPublikUserId("");
+		}
+		else {
+			alertImpl.setPublikUserId(publikUserId);
+		}
+
 		alertImpl.resetOriginalValues();
 
 		return alertImpl;
@@ -194,6 +203,7 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
 		keyWord = objectInput.readUTF();
+		publikUserId = objectInput.readUTF();
 	}
 
 	@Override
@@ -249,6 +259,13 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		else {
 			objectOutput.writeUTF(keyWord);
 		}
+
+		if (publikUserId == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(publikUserId);
+		}
 	}
 
 	public String uuid;
@@ -265,5 +282,6 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 	public long statusDate;
 	public String name;
 	public String keyWord;
+	public String publikUserId;
 
 }

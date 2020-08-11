@@ -305,4 +305,12 @@ public class AlertLocalServiceImpl extends AlertLocalServiceBaseImpl {
 
 		return alertPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	/**
+	 * Retourne un arret via son stopId CTS
+	 */
+	@Override
+	public List<Alert> findByPublikUserId(String publikUserId) {
+		return this.alertPersistence.findByPublikUserId(publikUserId);
+	}
 }

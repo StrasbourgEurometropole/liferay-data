@@ -34,6 +34,16 @@ public class AlertServiceWrapper
 	}
 
 	/**
+	 * Créer une alerte à un utilisateur
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject addAlert(
+		String name, String categoriesId, String keyword) {
+
+		return _alertService.addAlert(name, categoriesId, keyword);
+	}
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

@@ -16,7 +16,9 @@ import org.osgi.service.component.annotations.Reference;
 	service = AssetRendererFactory.class
 )
 public class AlertAssetRendererFactory extends BaseAssetRendererFactory<Alert> {
-	
+
+	private AlertLocalService _alertLocalService;
+
 	public static final String TYPE = "alert";
 
 	public AlertAssetRendererFactory() {
@@ -44,9 +46,7 @@ public class AlertAssetRendererFactory extends BaseAssetRendererFactory<Alert> {
 	public String getType() {
 		return TYPE;
 	}
-	
-	
-	private AlertLocalService _alertLocalService;
+
 
 	@Reference(unbind = "-")
 	protected void setAlertLocalService(AlertLocalService alertLocalService) {

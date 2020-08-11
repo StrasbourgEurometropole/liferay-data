@@ -16,9 +16,16 @@ package eu.strasbourg.service.ejob.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import eu.strasbourg.service.ejob.service.AlertServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>eu.strasbourg.service.ejob.service.AlertServiceUtil</code> service
+ * <code>AlertServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -57,4 +64,27 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class AlertServiceSoap {
+
+	/**
+	 * Créer une alerte à un utilisateur
+	 */
+	public static String addAlert(
+			String name, String categoriesId, String keyword)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				AlertServiceUtil.addAlert(name, categoriesId, keyword);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(AlertServiceSoap.class);
+
 }

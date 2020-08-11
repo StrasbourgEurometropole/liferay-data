@@ -200,6 +200,11 @@ public interface AlertLocalService
 
 	public long findByKeywordCount(String keyword, long groupId);
 
+	/**
+	 * Retourne un arret via son stopId CTS
+	 */
+	public List<Alert> findByPublikUserId(String publikUserId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

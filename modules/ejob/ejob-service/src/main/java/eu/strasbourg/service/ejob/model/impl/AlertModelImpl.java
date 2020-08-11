@@ -84,7 +84,8 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"name", Types.VARCHAR}, {"keyWord", Types.VARCHAR}
+		{"name", Types.VARCHAR}, {"keyWord", Types.VARCHAR},
+		{"publikUserId", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -105,10 +106,11 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("keyWord", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ejob_Alert (uuid_ VARCHAR(75) null,alertId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,keyWord VARCHAR(75) null)";
+		"create table ejob_Alert (uuid_ VARCHAR(75) null,alertId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,keyWord VARCHAR(75) null,publikUserId VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table ejob_Alert";
 
@@ -142,9 +144,11 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
 
-	public static final long ALERTID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+
+	public static final long ALERTID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -173,6 +177,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		model.setStatusDate(soapModel.getStatusDate());
 		model.setName(soapModel.getName());
 		model.setKeyWord(soapModel.getKeyWord());
+		model.setPublikUserId(soapModel.getPublikUserId());
 
 		return model;
 	}
@@ -600,6 +605,26 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"publikUserId",
+			new Function<Alert, Object>() {
+
+				@Override
+				public Object apply(Alert alert) {
+					return alert.getPublikUserId();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"publikUserId",
+			new BiConsumer<Alert, Object>() {
+
+				@Override
+				public void accept(Alert alert, Object publikUserId) {
+					alert.setPublikUserId((String)publikUserId);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -858,6 +883,32 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		_keyWord = keyWord;
 	}
 
+	@JSON
+	@Override
+	public String getPublikUserId() {
+		if (_publikUserId == null) {
+			return "";
+		}
+		else {
+			return _publikUserId;
+		}
+	}
+
+	@Override
+	public void setPublikUserId(String publikUserId) {
+		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
+
+		if (_originalPublikUserId == null) {
+			_originalPublikUserId = _publikUserId;
+		}
+
+		_publikUserId = publikUserId;
+	}
+
+	public String getOriginalPublikUserId() {
+		return GetterUtil.getString(_originalPublikUserId);
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -989,6 +1040,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		alertImpl.setStatusDate(getStatusDate());
 		alertImpl.setName(getName());
 		alertImpl.setKeyWord(getKeyWord());
+		alertImpl.setPublikUserId(getPublikUserId());
 
 		alertImpl.resetOriginalValues();
 
@@ -1062,6 +1114,8 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		alertModelImpl._setOriginalCompanyId = false;
 
 		alertModelImpl._setModifiedDate = false;
+
+		alertModelImpl._originalPublikUserId = alertModelImpl._publikUserId;
 
 		alertModelImpl._columnBitmask = 0;
 	}
@@ -1147,6 +1201,14 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 
 		if ((keyWord != null) && (keyWord.length() == 0)) {
 			alertCacheModel.keyWord = null;
+		}
+
+		alertCacheModel.publikUserId = getPublikUserId();
+
+		String publikUserId = alertCacheModel.publikUserId;
+
+		if ((publikUserId != null) && (publikUserId.length() == 0)) {
+			alertCacheModel.publikUserId = null;
 		}
 
 		return alertCacheModel;
@@ -1236,6 +1298,8 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	private Date _statusDate;
 	private String _name;
 	private String _keyWord;
+	private String _publikUserId;
+	private String _originalPublikUserId;
 	private long _columnBitmask;
 	private Alert _escapedModel;
 

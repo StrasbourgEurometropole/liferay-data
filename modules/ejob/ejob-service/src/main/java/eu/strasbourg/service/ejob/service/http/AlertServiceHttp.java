@@ -16,13 +16,22 @@ package eu.strasbourg.service.ejob.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+
+import eu.strasbourg.service.ejob.service.AlertServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * <code>eu.strasbourg.service.ejob.service.AlertServiceUtil</code> service
+ * <code>AlertServiceUtil</code> service
  * utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * <code>com.liferay.portal.kernel.security.auth.HttpPrincipal</code> parameter.
+ * <code>HttpPrincipal</code> parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -45,4 +54,41 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class AlertServiceHttp {
+
+	public static com.liferay.portal.kernel.json.JSONObject addAlert(
+		HttpPrincipal httpPrincipal, String name, String categoriesId,
+		String keyword) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				AlertServiceUtil.class, "addAlert", _addAlertParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, name, categoriesId, keyword);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(AlertServiceHttp.class);
+
+	private static final Class<?>[] _addAlertParameterTypes0 = new Class[] {
+		String.class, String.class, String.class
+	};
+
 }

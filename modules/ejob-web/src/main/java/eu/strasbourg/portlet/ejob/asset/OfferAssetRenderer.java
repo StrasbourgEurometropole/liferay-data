@@ -55,20 +55,9 @@ public class OfferAssetRenderer extends BaseJSPAssetRenderer<Offer> {
 	}
 
 	@Override
-	public String getSummary(PortletRequest portletRequest,
-		PortletResponse portletResponse) {
-		return _entry.getIntroduction(portletRequest.getLocale());
-	}
-
-	@Override
-	public String getTitle(Locale locale) {
-		return _entry.getPost(locale);
-	}
-	
-	@Override
 	public String getJspPath(HttpServletRequest request, String template) {
 		if (template.equals(TEMPLATE_ABSTRACT) ||
-			template.equals(TEMPLATE_FULL_CONTENT)) {
+				template.equals(TEMPLATE_FULL_CONTENT)) {
 
 			return "/offer/asset/" + template + ".jsp";
 		}
@@ -76,19 +65,30 @@ public class OfferAssetRenderer extends BaseJSPAssetRenderer<Offer> {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public boolean include(HttpServletRequest request,
-		HttpServletResponse response, String template) throws Exception {
+						   HttpServletResponse response, String template) throws Exception {
 
 		request.setAttribute("entry", this._entry);
 		request.setAttribute("detailPortletName", StrasbourgPortletKeys.ENTITY_DETAIL_WEB);
-		
+
 		return super.include(request, response, template);
 	}
 
 	public Offer getOffer() {
 		return this._entry;
+	}
+
+	@Override
+	public String getSummary(PortletRequest portletRequest,
+		PortletResponse portletResponse) {
+		return "Name: " + _entry.getPost(portletRequest.getLocale());
+	}
+
+	@Override
+	public String getTitle(Locale locale) {
+		return _entry.getPost(locale);
 	}
 	
 }

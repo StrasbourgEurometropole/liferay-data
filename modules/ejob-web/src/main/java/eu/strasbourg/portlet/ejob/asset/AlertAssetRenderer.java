@@ -55,20 +55,9 @@ public class AlertAssetRenderer extends BaseJSPAssetRenderer<Alert> {
 	}
 
 	@Override
-	public String getSummary(PortletRequest portletRequest,
-		PortletResponse portletResponse) {
-		return _entry.getName();
-	}
-
-	@Override
-	public String getTitle(Locale locale) {
-		return _entry.getName();
-	}
-	
-	@Override
 	public String getJspPath(HttpServletRequest request, String template) {
 		if (template.equals(TEMPLATE_ABSTRACT) ||
-			template.equals(TEMPLATE_FULL_CONTENT)) {
+				template.equals(TEMPLATE_FULL_CONTENT)) {
 
 			return "/alert/asset/" + template + ".jsp";
 		}
@@ -76,19 +65,30 @@ public class AlertAssetRenderer extends BaseJSPAssetRenderer<Alert> {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public boolean include(HttpServletRequest request,
-		HttpServletResponse response, String template) throws Exception {
+						   HttpServletResponse response, String template) throws Exception {
 
 		request.setAttribute("entry", this._entry);
 		request.setAttribute("detailPortletName", StrasbourgPortletKeys.ENTITY_DETAIL_WEB);
-		
+
 		return super.include(request, response, template);
 	}
 
 	public Alert getAlert() {
 		return this._entry;
+	}
+
+	@Override
+	public String getSummary(PortletRequest portletRequest,
+		PortletResponse portletResponse) {
+		return "Name: " + _entry.getName();
+	}
+
+	@Override
+	public String getTitle(Locale locale) {
+		return _entry.getName();
 	}
 
 }

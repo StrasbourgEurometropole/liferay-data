@@ -14,7 +14,21 @@
 
 package eu.strasbourg.service.ejob.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.ejob.model.Alert;
+import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.AlertServiceBaseImpl;
+import eu.strasbourg.utils.StringHelper;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * The implementation of the alert remote service.
@@ -36,4 +50,57 @@ public class AlertServiceImpl extends AlertServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use <code>eu.strasbourg.service.ejob.service.AlertServiceUtil</code> to access the alert remote service.
 	 */
+
+	/**
+	 * Créer une alerte à un utilisateur
+	 */
+	@Override
+	public JSONObject addAlert(String name, String categoriesId, String keyword) {
+		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
+		if (isLoggedIn) {
+			String id = SessionParamUtil.getString(request, "publik_internal_id");
+
+			try {
+				ServiceContext sc = ServiceContextFactory.getInstance(request);
+
+				// on vérifi si une alerte du même nom pour cet utilisateur n'existe pas déjà
+				List<Alert> alerts = this.alertLocalService.findByPublikUserId(id);
+				if(alerts.size() > 0 && alerts.stream().anyMatch(a -> StringHelper.compareIgnoringAccentuation(a.getName().toLowerCase(), name.toLowerCase())))
+					return error("alreadyExist");
+
+				// Création de l'objet
+				Alert alert = this.alertLocalService.createAlert(sc);
+				alert.setName(name);
+				alert.setKeyWord(keyword);
+				alert.setPublikUserId(id);
+
+				this.alertLocalService.updateAlert(alert);
+
+				String[] categoriesIdString = categoriesId.split(",");
+				long[] categoryIds = new long[categoriesIdString.length];
+				for (int i = 0; i < categoriesIdString.length; i++) {
+					categoryIds[i] = Long.parseLong(categoriesIdString[i]);
+				}
+
+				this.assetEntryLocalService.updateEntry(sc.getUserId(),
+						alert.getGroupId(), Alert.class.getName(),
+						alert.getAlertId(), categoryIds, null);
+			} catch (PortalException e) {
+				e.printStackTrace();
+			}
+
+			return success("favorite added");
+		} else {
+			return error("notConnected");
+		}
+	}
+
+	private JSONObject success(String message) {
+		return JSONFactoryUtil.createJSONObject().put("success", message);
+	}
+
+	private JSONObject error(String message) {
+		return JSONFactoryUtil.createJSONObject().put("error", message);
+	}
 }

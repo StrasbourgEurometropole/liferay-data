@@ -72,6 +72,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("name", getName());
 		attributes.put("keyWord", getKeyWord());
+		attributes.put("publikUserId", getPublikUserId());
 
 		return attributes;
 	}
@@ -160,6 +161,12 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 
 		if (keyWord != null) {
 			setKeyWord(keyWord);
+		}
+
+		String publikUserId = (String)attributes.get("publikUserId");
+
+		if (publikUserId != null) {
+			setPublikUserId(publikUserId);
 		}
 	}
 
@@ -280,6 +287,16 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _alert.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the publik user ID of this alert.
+	 *
+	 * @return the publik user ID of this alert
+	 */
+	@Override
+	public String getPublikUserId() {
+		return _alert.getPublikUserId();
 	}
 
 	/**
@@ -587,6 +604,16 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_alert.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	 * Sets the publik user ID of this alert.
+	 *
+	 * @param publikUserId the publik user ID of this alert
+	 */
+	@Override
+	public void setPublikUserId(String publikUserId) {
+		_alert.setPublikUserId(publikUserId);
 	}
 
 	/**

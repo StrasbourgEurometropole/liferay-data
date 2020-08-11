@@ -322,6 +322,21 @@ public interface AlertModel
 	public void setKeyWord(String keyWord);
 
 	/**
+	 * Returns the publik user ID of this alert.
+	 *
+	 * @return the publik user ID of this alert
+	 */
+	@AutoEscape
+	public String getPublikUserId();
+
+	/**
+	 * Sets the publik user ID of this alert.
+	 *
+	 * @param publikUserId the publik user ID of this alert
+	 */
+	public void setPublikUserId(String publikUserId);
+
+	/**
 	 * Returns <code>true</code> if this alert is approved.
 	 *
 	 * @return <code>true</code> if this alert is approved; <code>false</code> otherwise

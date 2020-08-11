@@ -48,6 +48,7 @@ public class AlertSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setName(model.getName());
 		soapModel.setKeyWord(model.getKeyWord());
+		soapModel.setPublikUserId(model.getPublikUserId());
 
 		return soapModel;
 	}
@@ -212,6 +213,14 @@ public class AlertSoap implements Serializable {
 		_keyWord = keyWord;
 	}
 
+	public String getPublikUserId() {
+		return _publikUserId;
+	}
+
+	public void setPublikUserId(String publikUserId) {
+		_publikUserId = publikUserId;
+	}
+
 	private String _uuid;
 	private long _alertId;
 	private long _groupId;
@@ -226,5 +235,6 @@ public class AlertSoap implements Serializable {
 	private Date _statusDate;
 	private String _name;
 	private String _keyWord;
+	private String _publikUserId;
 
 }

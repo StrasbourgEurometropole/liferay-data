@@ -42,6 +42,15 @@ public class AlertServiceUtil {
 	 */
 
 	/**
+	 * Créer une alerte à un utilisateur
+	 */
+	public static com.liferay.portal.kernel.json.JSONObject addAlert(
+		String name, String categoriesId, String keyword) {
+
+		return getService().addAlert(name, categoriesId, keyword);
+	}
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

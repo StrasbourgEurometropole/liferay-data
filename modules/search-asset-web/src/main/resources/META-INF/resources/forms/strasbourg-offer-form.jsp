@@ -50,7 +50,7 @@
 	            </label>
 	        </div>
 	        <div class="content">
-	            <select class="" id="vocabulary_${vocStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${vocStatus.index}">
+	            <select class="vocabularies-offer" id="vocabulary_${vocStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${vocStatus.index}">
 	                <option value="" disabled></option>
 	                <c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
                         <c:choose>
@@ -82,6 +82,13 @@
             </span>
         </span>
     </button>
+    <button type="button" class="seu-btn-square seu-bordered seu-core" id="createAlert">
+        <span class="seu-flexbox">
+            <span class="seu-btn-text" style="margin-right: 0">
+                <liferay-ui:message key="create-alert" />
+            </span>
+        </span>
+    </button>
     <button type="submit" class="seu-btn-square seu-filled seu-core">
         <span class="seu-flexbox">
             <span class="seu-btn-text">
@@ -92,51 +99,34 @@
     </button>
 </div>
 
-<script type="text/javascript">
-    var keyword = document.getElementById("keyword");
-    var voc0 = document.getElementById("vocabulary_0");
-    var voc1 = document.getElementById("vocabulary_1");
-    var voc2 = document.getElementById("vocabulary_2");
-    var voc3 = document.getElementById("vocabulary_3");
-    var voc4 = document.getElementById("vocabulary_4");
 
-    var el = keyword.parentNode;
-    while(!el.classList.contains('widget')){
-        el = el.parentNode;
-    }
-    el.classList.add("order-6");
+<div id="create-alert-form" class="formCreateAlerte">
+    <div class="seu-filter-line">
+        <div class="widget widget-big" id="formAlert">
+            <div class="title">
+                <label for="name">
+                    <liferay-ui:message key="alert-name" />
+                </label>
+            </div>
+            <div class="content">
+                <input type="text" id="alertName" name="<portlet:namespace />alertName">
+            </div>
+        </div>
+    </div>
 
-    el = voc0.parentNode;
-    while(!el.classList.contains('widget')){
-        el = el.parentNode;
-    }
-    el.classList.add("order-5");
+    <button type="button" class="seu-btn-square seu-filled seu-core" id="RecordAlert">
+        <span class="seu-flexbox">
+            <span class="seu-btn-text">
+                <liferay-ui:message key="save" />
+            </span>
+            <span class="seu-btn-arrow"></span>
+        </span>
+    </button>
+</div>
 
-    el = voc1.parentNode;
-    while(!el.classList.contains('widget')){
-        el = el.parentNode;
-    }
-    el.classList.add("order-4");
-
-    el = voc2.parentNode;
-    while(!el.classList.contains('widget')){
-        el = el.parentNode;
-    }
-    el.classList.add("order-2");
-
-    el = voc3.parentNode;
-    while(!el.classList.contains('widget')){
-        el = el.parentNode;
-    }
-    el.classList.add("order-3");
-
-    el = voc4.parentNode;
-    while(!el.classList.contains('widget')){
-        el = el.parentNode;
-    }
-    el.classList.add("order-1");
-
-</script>
+<liferay-util:html-bottom>
+	<script src="/o/searchassetweb/js/strasbourg-offer.js"></script>
+</liferay-util:html-bottom>
 
 <style>
     .seu-filter-line{
@@ -144,10 +134,32 @@
     }
 
     .widget{
-        width: 100% !important;
-        margin-top: 20px !important;
-        margin-right: 20px !important;
+        margin-top: 20px;
         flex: 0 0 31%;
         max-width: 31%;
+    }
+    .seu-view-filters .seu-filter-line .widget:last-child{
+        margin-right: 20px;
+    }
+
+    .formCreateAlerte{
+        display: none;
+        margin-top: 30px;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    .formCreateAlerte .seu-filter-line{
+        width: 50%;
+    }
+
+    .formCreateAlerte .seu-filter-line .widget{
+        max-width: none;
+        margin-top: 0;
+        margin-right: 15px;
+    }
+
+    .formCreateAlerte button{
+        height: 50px;
     }
 </style>
