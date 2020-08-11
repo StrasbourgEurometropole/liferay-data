@@ -74,14 +74,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                 <!-- Téléchargement PDF -->
                 <div class="seu-wi-link-group"> 
-                    <a class="seu-wi seu-media" href="/pdf" target="_blank" title="Télécharger l'offre d'emploi en PDF"> 
+                    <a class="seu-wi seu-media" href="/pdf" target="_blank" title="<@liferay_ui.message key="eu.offer-telecharger-pdf" />"> 
                         <div class="seu-media-container"> 
                             <div class="seu-media-left"> 
                                 <div class="seu-media-picto"></div> 
                             </div> 
                             <div class="seu-media-right"> 
                                 <div class="seu-media-text"> 
-                                    <div class="seu-media-title">Télécharger l'offre d'emploi en PDF</div> 
+                                    <div class="seu-media-title"><@liferay_ui.message key="eu.offer-telecharger-pdf" /></div> 
                                 </div> 
                                 <div class="seu-link-group-arrow"></div> 
                             </div> 
@@ -91,7 +91,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                 <!-- Candidater -->
                 <a href="/candidater" class="seu-quicklink seu-btn-square seu-filled seu-second">
-                    <span>Candidater</span>
+                    <span><@liferay_ui.message key="eu.offer-candidater" /></span>
                     <span class="seu-btn-arrow"></span>
                 </a>
                 
@@ -111,17 +111,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="seu-wi seu-wi-quote offer-contact"> 
                     <div class="seu-container"> 
                         <h2 class="seu-section-title">
-                            <span class="seu-title">Candidature spontané</span>
-                            <div class="rte">
-                                <div>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</div>
-                                <br>
-                                <!-- Candidater -->
-                                <a href="/candidater" class="seu-quicklink seu-btn-square seu-filled seu-second">
-                                    <span>Candidater</span>
-                                    <span class="seu-btn-arrow"></span>
-                                </a>
-                            </div>
+                            <span class="seu-title"><@liferay_ui.message key="eu.offer-candidature-spontane" /></span>
                         </h2>
+                        <div class="rte">
+                            <div>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</div>
+                            <br>
+                            <!-- Candidater -->
+                            <a href="/candidater" class="seu-quicklink seu-btn-square seu-filled seu-second">
+                                <span><@liferay_ui.message key="eu.offer-candidater" /></span>
+                                <span class="seu-btn-arrow"></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>  
