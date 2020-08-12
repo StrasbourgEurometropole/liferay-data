@@ -27,6 +27,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </#if>
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /> 
+<#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
 <@liferay_util["body-top"]>
     <script>
@@ -411,7 +412,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 </#if>
 
                 <!-- Agenda -->
-                <#if entry.displayEvents && entry.currentAndFuturePublishedEvents?has_content>
+                <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
+                <#if entry.displayEvents && placeEvents?has_content>
                     <div class="seu-wi--collapsing">
                         <button class="seu-toggle-collapse">
                             <h2 class="description"><span style="text-transform: uppercase;"><@liferay_ui.message key="agenda" /></span></h2>
@@ -420,7 +422,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="seu-agenda-slider-container">
                                 <div class="seu-slider">
                                     <#assign i=0 />
-                                    <#list entry.currentAndFuturePublishedEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
+                                    <#list placeEvents?sort_by("startDateFirstCurrentAndFuturePeriod") as event>
                                         <#if i == 5>
                                             <#break>
                                         </#if>
@@ -853,6 +855,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
                             </#if>
                         </div>
+                        <!-- ajout post covid : affichage capacité totale -->
+                        <#if isSwimmingPool >
+                            <div class="crowded-caption">
+                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                            </div>
+                        </#if>
                         <div class="crowded-fyi">    
                             <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
