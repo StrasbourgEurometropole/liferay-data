@@ -75,13 +75,6 @@
 <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />
 <div class="seu-btn-line">
     <liferay-portlet:renderURL var="formURL" />
-    <button type="button" onclick="window.location.href = '${formURL}'" class="seu-btn-square seu-bordered seu-core">
-        <span class="seu-flexbox">
-            <span class="seu-btn-text" style="margin-right: 0">
-                <liferay-ui:message key="cancel" />
-            </span>
-        </span>
-    </button>
     <button type="button" class="seu-btn-square seu-bordered seu-core" id="createAlert">
         <span class="seu-flexbox">
             <span class="seu-btn-text" style="margin-right: 0">
