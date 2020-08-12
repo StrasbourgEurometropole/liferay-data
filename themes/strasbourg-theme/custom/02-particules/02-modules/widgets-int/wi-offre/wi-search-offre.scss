@@ -1,0 +1,95 @@
+.seu-view-offer{
+    
+    .seu-filter-line{
+        justify-content: flex-end;
+    }
+
+    .widget{
+        margin-top: 20px;
+        flex: 0 0 31%;
+        max-width: 31%;
+    }
+    .seu-view-filters .seu-filter-line .widget:last-child{
+        margin-right: 20px;
+    }
+
+    .formCreateAlerte{
+        display: none;
+        margin-top: 30px;
+        justify-content: center;
+        align-items: flex-end;
+
+        .seu-filter-line{
+            width: 50%;
+
+            .widget{
+                max-width: none;
+                margin-top: 0;
+                margin-right: 15px;
+            }
+        }
+
+        button{
+            height: 50px;
+        }
+    }
+
+
+    #createAlert .seu-btn-alert{
+        content: '';
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background-image: url( svg-bg-uri($svg-alert, $core-color) );
+        background-size: 20px;
+        background-position: center;
+        background-repeat: no-repeat;
+        
+        &:hover{
+            background-image: url( svg-bg-uri($svg-alert, white) );
+        }
+    }
+}
+
+.wi-search-result.wi-search-offer {
+    .seu-result-right .seu-result-infos{
+        width: 310px;
+    }
+
+    .seu-result-right .seu-result-infos-top {
+        color: $core-color;        
+        display: flex;
+        justify-content: center;
+        min-height: 50%;
+        padding: 20px 0;
+        font-family: $montserrat;
+        font-size: 1.4rem;
+        color: $core-color;
+        text-transform: none;
+        font-weight: 500;
+        font-size: 12px;
+        &:before {
+            content:'';
+            background-image: url(svg-bg-uri($svg-calendar, $core-color));
+            margin-right: 12px;
+            margin-top: -3px;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: inline-block;
+            height: 20px;
+            width: 20px;
+        }
+    }
+
+    .seu-result-right .seu-result-infos-bottom {
+        display: flex;
+        justify-content: center;
+        font-family: $montserrat;
+        font-size: 1.4rem;
+        color: $core-color;
+        text-transform: uppercase;
+        font-weight: 500;
+        min-height: 50%;
+        padding: 20px 0;
+    }
+}

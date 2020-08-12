@@ -77,6 +77,7 @@
     <liferay-portlet:renderURL var="formURL" />
     <button type="button" class="seu-btn-square seu-bordered seu-core" id="createAlert">
         <span class="seu-flexbox">
+            <span class="seu-btn-alert"></span>
             <span class="seu-btn-text" style="margin-right: 0">
                 <liferay-ui:message key="create-alert" />
             </span>
@@ -120,39 +121,3 @@
 <liferay-util:html-bottom>
 	<script src="/o/searchassetweb/js/strasbourg-offer.js"></script>
 </liferay-util:html-bottom>
-
-<style>
-    .seu-filter-line{
-        justify-content: flex-end;
-    }
-
-    .widget{
-        margin-top: 20px;
-        flex: 0 0 31%;
-        max-width: 31%;
-    }
-    .seu-view-filters .seu-filter-line .widget:last-child{
-        margin-right: 20px;
-    }
-
-    .formCreateAlerte{
-        display: none;
-        margin-top: 30px;
-        justify-content: center;
-        align-items: flex-end;
-    }
-
-    .formCreateAlerte .seu-filter-line{
-        width: 50%;
-    }
-
-    .formCreateAlerte .seu-filter-line .widget{
-        max-width: none;
-        margin-top: 0;
-        margin-right: 15px;
-    }
-
-    .formCreateAlerte button{
-        height: 50px;
-    }
-</style>

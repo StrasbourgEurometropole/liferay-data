@@ -129,4 +129,5 @@ public class StrasbourgPortletKeys {
 
 	public static final String EJOB_BO = "eu_strasbourg_portlet_ejob_EjobBOPortlet";
 	public static final String EJOB_WEB = "eu_strasbourg_portlet_ejob_EjobPortlet";
+	public static final String OFFER_WEB = "eu_strasbourg_portlet_offer_OfferPortlet";
 }

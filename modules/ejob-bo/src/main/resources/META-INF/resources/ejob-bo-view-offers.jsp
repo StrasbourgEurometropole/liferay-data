@@ -54,13 +54,19 @@
 
                 <!-- Colonne : type d'export' -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfferURL}" name="ejob-export-totem" truncate="true"
+					name="ejob-export-totem" truncate="true"
 					orderable="true" value="${offer.exportTotem}" />
 
                 <!-- Colonne : intitulé du post -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfferURL}" name="post" truncate="true"
+					name="post" truncate="true"
 					orderable="true" value="${offer.post}" />
+
+                <!-- Colonne : statut -->
+				<liferay-ui:search-container-column-text name="status">
+					<aui:workflow-status markupView="lexicon" showIcon="false"
+						showLabel="false" status="${offer.status}" />
+				</liferay-ui:search-container-column-text>
 
                 <!-- ACTIONS -->
 				<liferay-ui:search-container-column-text>

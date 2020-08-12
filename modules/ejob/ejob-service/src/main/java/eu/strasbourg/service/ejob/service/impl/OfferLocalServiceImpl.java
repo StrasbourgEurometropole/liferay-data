@@ -114,6 +114,7 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 		} else { // Si le framework worflow est actif, c'est celui-ci qui gère
 			// l'enregistrement
 			offer = this.offerLocalService.updateOffer(offer);
+			this.updateAssetEntry(offer, sc);
 			WorkflowHandlerRegistryUtil.startWorkflowInstance(
 					offer.getCompanyId(), offer.getGroupId(),
 					offer.getUserId(), Offer.class.getName(),
