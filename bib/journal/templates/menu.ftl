@@ -8,10 +8,8 @@
           <img src="${image.getData()}" alt="Bibliothèques idéales 2017" class="retina-hide">
           <img src="${retinaImage.getData()}" alt="Bibliothèques idéales 2017" class="retina-show">
         </a>
-        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-controls="navigation">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+        <button class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-controls="navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
       </div>
       <div class="col-sm-10 col-xs-12 navigation-container">
