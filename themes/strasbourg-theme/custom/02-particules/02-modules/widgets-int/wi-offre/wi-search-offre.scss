@@ -35,18 +35,21 @@
     }
 
 
-    #createAlert .seu-btn-alert{
-        content: '';
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        background-image: url( svg-bg-uri($svg-alert, $core-color) );
-        background-size: 20px;
-        background-position: center;
-        background-repeat: no-repeat;
-        
-        &:hover{
-            background-image: url( svg-bg-uri($svg-alert, white) );
+    #createAlert {
+
+        .seu-btn-alert{
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-image: url( svg-bg-uri($svg-bell, $core-color) );
+            background-size: 20px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+            
+        &:hover .seu-btn-alert{
+            background-image: url( svg-bg-uri($svg-bell, white) );
         }
     }
 }
