@@ -89,8 +89,8 @@ public class OfferDisplayContext {
                 if(forms != null){
                     for (int  i=0; i<forms.length(); i++) {
                         JSONObject form = forms.getJSONObject(i);
-                        if(form.getString("form_status_is_endpoint").equals("false")){
-                            Application application = new Application(form.getString("form_name"), form.getString("url"), form.getString("form_number"), form.getString("form_receipt_date"), form.getString("form_status"));
+                        if(form.getString("category_id").equals("nadege")){
+                            Application application = new Application(form.getString("form_display_name"), form.getString("url"), form.getString("form_number"), form.getString("form_receipt_date"), form.getString("form_status"));
                             this.applications.add(application);
                         }
                     }

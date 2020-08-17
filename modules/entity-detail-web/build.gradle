@@ -10,5 +10,6 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project (':modules:place:place-api')
+	compile project (':modules:ejob:ejob-api')
 	compile project (':modules:utils')
 }
