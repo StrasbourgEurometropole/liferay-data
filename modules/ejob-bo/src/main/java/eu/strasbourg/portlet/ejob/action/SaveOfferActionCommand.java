@@ -245,11 +245,21 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                     categories.add(""+ejobFiliere);
                 }
 
-                // Champ : ejobCategorie
+                // Champ : ejobCategorie label
                 long ejobCategorie = ParamUtil.getLong(request, "ejobCategorie");
                 if (Validator.isNotNull(AssetCategoryLocalServiceUtil
                         .fetchAssetCategory(ejobCategorie))) {
                     categories.add(""+ejobCategorie);
+                }
+
+                // Champ : ejobCategorie A/B/C
+                String linkedCategory = AssetVocabularyHelper.getCategoryProperty(ejobCategorie, "linked-category");
+                AssetVocabulary listCategory = AssetVocabularyAccessor.getEJobCategories(groupId);
+                for (AssetCategory category : listCategory.getCategories()) {
+                    if (category.getTitle(Locale.FRANCE).equals(linkedCategory)) {
+                        categories.add("" + category.getCategoryId());
+                        break;
+                    }
                 }
 
                 // Champ : ejobGrade

@@ -18,10 +18,19 @@
 
 <liferay-frontend:management-bar includeCheckBox="true" searchContainerId="offersSearchContainer">
     <liferay-frontend:management-bar-filters>
-        <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-            orderByType="${dc.orderByType}"
-            orderColumns='<%= new String[] {"title", "date"} %>'
-            portletURL="${offersURL}" />
+			<c:if test="${fn:length(dc.vocabularies) > 0}">
+				<li><a>Filtrer par :</a></li>
+			</c:if>
+			<c:forEach var="vocabulary" items="${dc.vocabularies}">
+                    <liferay-frontend:management-bar-filter
+                        managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
+                        value="${dc.getVocabularyFilterLabel(vocabulary)}" />
+
+			</c:forEach>
+            <liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
+                orderByType="${dc.orderByType}"
+                orderColumns='<%= new String[] {"title", "date"} %>'
+                portletURL="${offersURL}" />
     </liferay-frontend:management-bar-filters>
 </liferay-frontend:management-bar>
 
