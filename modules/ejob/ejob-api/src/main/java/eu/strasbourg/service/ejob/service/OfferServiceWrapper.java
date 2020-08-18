@@ -33,6 +33,15 @@ public class OfferServiceWrapper
 		_offerService = offerService;
 	}
 
+	@Override
+	public String exportOffer(
+			Long offerId, java.util.Locale locale,
+			java.io.ByteArrayOutputStream baos)
+		throws java.io.IOException {
+
+		return _offerService.exportOffer(offerId, locale, baos);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

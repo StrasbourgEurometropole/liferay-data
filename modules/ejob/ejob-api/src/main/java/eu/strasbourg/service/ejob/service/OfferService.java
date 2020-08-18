@@ -25,6 +25,11 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import java.util.Locale;
+
 /**
  * Provides the remote service interface for Offer. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -55,6 +60,9 @@ public interface OfferService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link OfferServiceUtil} to access the offer remote service. Add custom service methods to <code>eu.strasbourg.service.ejob.service.impl.OfferServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public String exportOffer(
+			Long offerId, Locale locale, ByteArrayOutputStream baos)
+		throws IOException;
 
 	/**
 	 * Returns the OSGi service identifier.

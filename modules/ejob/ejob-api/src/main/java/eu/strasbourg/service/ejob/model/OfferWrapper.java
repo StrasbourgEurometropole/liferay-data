@@ -89,7 +89,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		attributes.put("contact", getContact());
 		attributes.put("emails", getEmails());
 		attributes.put("shareLinkedin", isShareLinkedin());
-		attributes.put("exportTotem", getExportTotem());
 		attributes.put("publicationStartDate", getPublicationStartDate());
 		attributes.put("publicationEndDate", getPublicationEndDate());
 
@@ -285,12 +284,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 
 		if (shareLinkedin != null) {
 			setShareLinkedin(shareLinkedin);
-		}
-
-		String exportTotem = (String)attributes.get("exportTotem");
-
-		if (exportTotem != null) {
-			setExportTotem(exportTotem);
 		}
 
 		Date publicationStartDate = (Date)attributes.get(
@@ -695,11 +688,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 		return _offer.getExpandoBridge();
 	}
 
-	/**
-	 * Returns the export totem of this offer.
-	 *
-	 * @return the export totem of this offer
-	 */
 	@Override
 	public String getExportTotem() {
 		return _offer.getExportTotem();
@@ -2000,16 +1988,6 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_offer.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	 * Sets the export totem of this offer.
-	 *
-	 * @param exportTotem the export totem of this offer
-	 */
-	@Override
-	public void setExportTotem(String exportTotem) {
-		_offer.setExportTotem(exportTotem);
 	}
 
 	/**

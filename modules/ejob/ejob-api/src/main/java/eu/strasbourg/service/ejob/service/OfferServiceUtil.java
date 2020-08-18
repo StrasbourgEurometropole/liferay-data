@@ -40,6 +40,13 @@ public class OfferServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.ejob.service.impl.OfferServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static String exportOffer(
+			Long offerId, java.util.Locale locale,
+			java.io.ByteArrayOutputStream baos)
+		throws java.io.IOException {
+
+		return getService().exportOffer(offerId, locale, baos);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.

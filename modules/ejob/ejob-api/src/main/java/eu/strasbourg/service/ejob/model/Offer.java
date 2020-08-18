@@ -121,4 +121,6 @@ public interface Offer extends OfferModel, PersistedModel {
 	@SuppressWarnings(value = "unused")
 	public com.liferay.asset.kernel.model.AssetCategory getOfferContact();
 
+	public String getExportTotem();
+
 }

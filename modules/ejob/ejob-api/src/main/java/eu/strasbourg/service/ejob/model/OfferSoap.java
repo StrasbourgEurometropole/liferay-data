@@ -65,7 +65,6 @@ public class OfferSoap implements Serializable {
 		soapModel.setContact(model.getContact());
 		soapModel.setEmails(model.getEmails());
 		soapModel.setShareLinkedin(model.isShareLinkedin());
-		soapModel.setExportTotem(model.getExportTotem());
 		soapModel.setPublicationStartDate(model.getPublicationStartDate());
 		soapModel.setPublicationEndDate(model.getPublicationEndDate());
 
@@ -376,14 +375,6 @@ public class OfferSoap implements Serializable {
 		_shareLinkedin = shareLinkedin;
 	}
 
-	public String getExportTotem() {
-		return _exportTotem;
-	}
-
-	public void setExportTotem(String exportTotem) {
-		_exportTotem = exportTotem;
-	}
-
 	public Date getPublicationStartDate() {
 		return _publicationStartDate;
 	}
@@ -431,7 +422,6 @@ public class OfferSoap implements Serializable {
 	private String _contact;
 	private String _emails;
 	private boolean _shareLinkedin;
-	private String _exportTotem;
 	private Date _publicationStartDate;
 	private Date _publicationEndDate;
 

@@ -101,7 +101,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		{"conditions", Types.CLOB}, {"avantages", Types.CLOB},
 		{"limitDate", Types.TIMESTAMP}, {"contact", Types.VARCHAR},
 		{"emails", Types.VARCHAR}, {"shareLinkedin", Types.BOOLEAN},
-		{"exportTotem", Types.VARCHAR},
 		{"publicationStartDate", Types.TIMESTAMP},
 		{"publicationEndDate", Types.TIMESTAMP}
 	};
@@ -141,13 +140,12 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		TABLE_COLUMNS_MAP.put("contact", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("emails", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("shareLinkedin", Types.BOOLEAN);
-		TABLE_COLUMNS_MAP.put("exportTotem", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicationStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("publicationEndDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key IDENTITY,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,exportTotem VARCHAR(75) null,publicationStartDate DATE null,publicationEndDate DATE null)";
+		"create table ejob_Offer (uuid_ VARCHAR(75) null,offerId LONG not null primary key IDENTITY,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,publicationId VARCHAR(75) null,postNumber VARCHAR(75) null,jobCreationDescription STRING null,startDate DATE null,motif STRING null,permanentDescription STRING null,duration STRING null,post STRING null,isFullTime BOOLEAN,fullTimeDescription STRING null,introduction TEXT null,activities TEXT null,profil TEXT null,conditions TEXT null,avantages TEXT null,limitDate DATE null,contact VARCHAR(75) null,emails VARCHAR(75) null,shareLinkedin BOOLEAN,publicationStartDate DATE null,publicationEndDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table ejob_Offer";
 
@@ -229,7 +227,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		model.setContact(soapModel.getContact());
 		model.setEmails(soapModel.getEmails());
 		model.setShareLinkedin(soapModel.isShareLinkedin());
-		model.setExportTotem(soapModel.getExportTotem());
 		model.setPublicationStartDate(soapModel.getPublicationStartDate());
 		model.setPublicationEndDate(soapModel.getPublicationEndDate());
 
@@ -997,26 +994,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 				@Override
 				public void accept(Offer offer, Object shareLinkedin) {
 					offer.setShareLinkedin((Boolean)shareLinkedin);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"exportTotem",
-			new Function<Offer, Object>() {
-
-				@Override
-				public Object apply(Offer offer) {
-					return offer.getExportTotem();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"exportTotem",
-			new BiConsumer<Offer, Object>() {
-
-				@Override
-				public void accept(Offer offer, Object exportTotem) {
-					offer.setExportTotem((String)exportTotem);
 				}
 
 			});
@@ -2618,22 +2595,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@JSON
 	@Override
-	public String getExportTotem() {
-		if (_exportTotem == null) {
-			return "";
-		}
-		else {
-			return _exportTotem;
-		}
-	}
-
-	@Override
-	public void setExportTotem(String exportTotem) {
-		_exportTotem = exportTotem;
-	}
-
-	@JSON
-	@Override
 	public Date getPublicationStartDate() {
 		return _publicationStartDate;
 	}
@@ -3094,7 +3055,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 		offerImpl.setContact(getContact());
 		offerImpl.setEmails(getEmails());
 		offerImpl.setShareLinkedin(isShareLinkedin());
-		offerImpl.setExportTotem(getExportTotem());
 		offerImpl.setPublicationStartDate(getPublicationStartDate());
 		offerImpl.setPublicationEndDate(getPublicationEndDate());
 
@@ -3389,14 +3349,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 		offerCacheModel.shareLinkedin = isShareLinkedin();
 
-		offerCacheModel.exportTotem = getExportTotem();
-
-		String exportTotem = offerCacheModel.exportTotem;
-
-		if ((exportTotem != null) && (exportTotem.length() == 0)) {
-			offerCacheModel.exportTotem = null;
-		}
-
 		Date publicationStartDate = getPublicationStartDate();
 
 		if (publicationStartDate != null) {
@@ -3531,7 +3483,6 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _contact;
 	private String _emails;
 	private boolean _shareLinkedin;
-	private String _exportTotem;
 	private Date _publicationStartDate;
 	private Date _publicationEndDate;
 	private long _columnBitmask;

@@ -64,7 +64,7 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(69);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -128,8 +128,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		sb.append(emails);
 		sb.append(", shareLinkedin=");
 		sb.append(shareLinkedin);
-		sb.append(", exportTotem=");
-		sb.append(exportTotem);
 		sb.append(", publicationStartDate=");
 		sb.append(publicationStartDate);
 		sb.append(", publicationEndDate=");
@@ -316,13 +314,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 		offerImpl.setShareLinkedin(shareLinkedin);
 
-		if (exportTotem == null) {
-			offerImpl.setExportTotem("");
-		}
-		else {
-			offerImpl.setExportTotem(exportTotem);
-		}
-
 		if (publicationStartDate == Long.MIN_VALUE) {
 			offerImpl.setPublicationStartDate(null);
 		}
@@ -383,7 +374,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		emails = objectInput.readUTF();
 
 		shareLinkedin = objectInput.readBoolean();
-		exportTotem = objectInput.readUTF();
 		publicationStartDate = objectInput.readLong();
 		publicationEndDate = objectInput.readLong();
 	}
@@ -540,14 +530,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		}
 
 		objectOutput.writeBoolean(shareLinkedin);
-
-		if (exportTotem == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(exportTotem);
-		}
-
 		objectOutput.writeLong(publicationStartDate);
 		objectOutput.writeLong(publicationEndDate);
 	}
@@ -583,7 +565,6 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 	public String contact;
 	public String emails;
 	public boolean shareLinkedin;
-	public String exportTotem;
 	public long publicationStartDate;
 	public long publicationEndDate;
 

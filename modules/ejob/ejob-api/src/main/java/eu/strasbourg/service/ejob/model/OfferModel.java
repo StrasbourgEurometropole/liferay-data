@@ -1540,21 +1540,6 @@ public interface OfferModel
 	public void setShareLinkedin(boolean shareLinkedin);
 
 	/**
-	 * Returns the export totem of this offer.
-	 *
-	 * @return the export totem of this offer
-	 */
-	@AutoEscape
-	public String getExportTotem();
-
-	/**
-	 * Sets the export totem of this offer.
-	 *
-	 * @param exportTotem the export totem of this offer
-	 */
-	public void setExportTotem(String exportTotem);
-
-	/**
 	 * Returns the publication start date of this offer.
 	 *
 	 * @return the publication start date of this offer
