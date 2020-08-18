@@ -269,4 +269,12 @@ public class AssetVocabularyAccessor {
 			return null;
 		}
 	}
+
+	public static AssetVocabulary getEJobExportTotem(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_EXPORT_TOTEM, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.ejob.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalService;
@@ -20,8 +21,10 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
+import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -193,7 +196,15 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             }else{
                 // pour les offres internes ou  externes
                 // Champ : exportTotem
-                offer.setExportTotem(this.exportTotem);
+                long groupId = themeDisplay.getLayout().getGroupId();
+
+                AssetVocabulary listExportTotem = AssetVocabularyAccessor.getEJobExportTotem(groupId);
+                for (AssetCategory export : listExportTotem.getCategories()) {
+                    if (export.getTitle(Locale.FRANCE).toLowerCase().equals(this.exportTotem)) {
+                        categories.add("" + export.getCategoryId());
+                        break;
+                    }
+                }
 
                 // Champ : jobCreationDescription
                 Map<Locale, String> jobCreationDescription = LocalizationUtil
