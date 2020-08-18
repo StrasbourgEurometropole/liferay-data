@@ -20,7 +20,6 @@ services:
       - ${DATA_PATH}/esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    restart: always
     logging:
       driver: "json-file"
       options:
@@ -30,9 +29,11 @@ services:
       - backend-network
     deploy:
       replicas: 1
-      resources:
-        limits:
-          memory: 1g
+    deploy:
+      restart_policy:
+        condition: always
+      placement:
+        constraints: [node.role == worker]
 
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.8.7
@@ -42,7 +43,6 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
-    restart: always
     logging:
       driver: "json-file"
       options:
@@ -50,6 +50,11 @@ services:
         max-file: "10"
     networks:
       - backend-network
+    deploy:
+      restart_policy:
+        condition: always
+      placement:
+        constraints: [node.role == worker]
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.2
@@ -57,7 +62,11 @@ services:
         - PMA_HOST=${MYSQL_ADDRESS}
     ports:
         - 8081:80
-    restart: always
+    deploy:
+      restart_policy:
+        condition: always
+      placement:
+        constraints: [node.role == worker]
 
   liferay:
     image: liferay-ems:${LFR_TAG_VERSION}
@@ -92,7 +101,6 @@ services:
     hostname: preprod-liferay.strasbourg.eu
     depends_on:
       - elasticsearch
-    restart: always
     logging:
       driver: "json-file"
       options:
@@ -100,6 +108,12 @@ services:
         max-file: "10"
     networks:
       - backend-network
+    deploy:
+      restart_policy:
+        condition: always
+      placement:
+        constraints: [node.role == manager]
+
 
 
 networks:
