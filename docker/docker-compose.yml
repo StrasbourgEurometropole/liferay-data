@@ -88,6 +88,7 @@ services:
     ports:
       - 8080:8080
       - 8009:8009
+      - 25:25
     hostname: preprod-liferay.strasbourg.eu
     depends_on:
       - elasticsearch
