@@ -115,8 +115,8 @@ services:
         constraints: [node.role == manager]
 
 
-
 networks:
 
   backend-network:
     name: backend-network
+    driver: overlay
