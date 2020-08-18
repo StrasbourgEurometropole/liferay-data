@@ -36,7 +36,7 @@ body.signed-in {
 // L'endroit d'affichage du titre du portlet qu'on ne veut pas
 // En non connecté, ça permet de supprimer un margin non voulu
 // Mais en connecté on a ce margin à cause d'un border qui annule le margincollapsing
-.autofit-row {
+.portlet-content .autofit-row {
     display: none;
 }
 
