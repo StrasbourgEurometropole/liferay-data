@@ -1,6 +1,6 @@
 <#setting locale = locale />
 
-<div class="seu-quicklinks row">
+<div class="offer-banner seu-quicklinks row">
 <#if linkLabel.getSiblings()?has_content>
     <#list linkLabel.getSiblings() as cur_linkLabel>
         <#if cur_linkLabel.getChildren()[0].getFriendlyUrl()?has_content>
