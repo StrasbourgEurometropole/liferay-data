@@ -45,7 +45,6 @@
 		<column name="contact" type="String" />
 		<column name="emails" type="String" />
 		<column name="shareLinkedin" type="boolean" />
-		<column name="exportTotem" type="String" />
 		<column name="publicationStartDate" type="Date" />
 		<column name="publicationEndDate" type="Date" />
 
