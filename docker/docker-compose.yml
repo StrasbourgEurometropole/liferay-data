@@ -10,7 +10,7 @@ services:
 # --- For docker-compose (without Swarm mode) ----
 #      - bootstrap.memory_lock=true
       - cluster.name=LiferayElasticsearchCluster
-      - "ES_JAVA_OPTS=-Xms4g -Xmx4g" 
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
     ulimits:
       memlock:
         soft: -1
@@ -82,6 +82,7 @@ services:
       - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD=${MYSQL_PASSWORD}
       - LIFERAY_LIFERAY_PERIOD_HOME=/opt/liferay
       - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_AUTH=false
+      - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST=${VM1_ADDRESS}
       - LIFERAY_MAIL_PERIOD_AUDIT_PERIOD_TRAIL=${TRAIL_MAIL_ADDRESS}
       - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST=localhost
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS=test@liferay.com
@@ -97,7 +98,6 @@ services:
     ports:
       - 8080:8080
       - 8009:8009
-      - 25:25
     hostname: preprod-liferay.strasbourg.eu
     depends_on:
       - elasticsearch
@@ -128,6 +128,7 @@ services:
       - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD=${MYSQL_PASSWORD}
       - LIFERAY_LIFERAY_PERIOD_HOME=/opt/liferay
       - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_AUTH=false
+      - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST=${VM2_ADDRESS}
       - LIFERAY_MAIL_PERIOD_AUDIT_PERIOD_TRAIL=${TRAIL_MAIL_ADDRESS}
       - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST=localhost
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS=test@liferay.com
@@ -144,7 +145,6 @@ services:
     ports:
       - 9080:8080
       - 9009:8009
-      - 9025:25
     hostname: preprod-liferay.strasbourg.eu
     depends_on:
       - elasticsearch
