@@ -17,6 +17,7 @@
 		<field name="name" type="String" />
 		<field name="keyWord" type="String" />
 		<field name="publikUserId" type="String" />
+		<field name="language" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.ejob.model.Offer">
 		<field name="uuid" type="String" />
@@ -72,7 +73,6 @@
 		<field name="contact" type="String" />
 		<field name="emails" type="String" />
 		<field name="shareLinkedin" type="boolean" />
-		<field name="exportTotem" type="String" />
 		<field name="publicationStartDate" type="Date" />
 		<field name="publicationEndDate" type="Date" />
 	</model>

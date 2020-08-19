@@ -21,9 +21,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.ejob.model.Alert;
-import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.AlertServiceBaseImpl;
 import eu.strasbourg.utils.StringHelper;
 
@@ -55,8 +53,9 @@ public class AlertServiceImpl extends AlertServiceBaseImpl {
 	 * Créer une alerte à un utilisateur
 	 */
 	@Override
-	public JSONObject addAlert(String name, String categoriesId, String keyword) {
+	public JSONObject addAlert(String name, String categoriesId, String keyword, String languageId) {
 		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
+
 		boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
 		if (isLoggedIn) {
 			String id = SessionParamUtil.getString(request, "publik_internal_id");
@@ -74,6 +73,7 @@ public class AlertServiceImpl extends AlertServiceBaseImpl {
 				alert.setName(name);
 				alert.setKeyWord(keyword);
 				alert.setPublikUserId(id);
+				alert.setLanguage(languageId);
 
 				this.alertLocalService.updateAlert(alert);
 

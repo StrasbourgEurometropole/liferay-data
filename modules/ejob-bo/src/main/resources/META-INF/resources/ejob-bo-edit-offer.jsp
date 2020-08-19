@@ -336,6 +336,7 @@
 	    strong.required{color: #B95000;}
 	    [type="radio"]{margin-right: 10px;}
 	    .no-full-time{margin-bottom: 1.5rem;}
+	    .lfr-input-time { display: none;}
 	</style>
 </liferay-util:html-bottom>
 

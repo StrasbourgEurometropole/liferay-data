@@ -89,7 +89,7 @@ public class OfferDisplayContext {
                 if(forms != null){
                     for (int  i=0; i<forms.length(); i++) {
                         JSONObject form = forms.getJSONObject(i);
-                        if(form.getString("category_id").equals("nadege")){
+                        if(form.getString("url").contains("candidature-a-une-offre-d-emploi")){
                             Application application = new Application(form.getString("form_display_name"), form.getString("url"), form.getString("form_number"), form.getString("form_receipt_date"), form.getString("form_status"));
                             this.applications.add(application);
                         }

@@ -226,6 +226,16 @@ public class OfferLocalServiceWrapper
 		return _offerLocalService.findByKeywordCount(keyword, groupId);
 	}
 
+	/**
+	 * Retourne une offre via sa date de début de publication
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.ejob.model.Offer>
+		findByPublicationStartDate(java.util.Date date) {
+
+		return _offerLocalService.findByPublicationStartDate(date);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {

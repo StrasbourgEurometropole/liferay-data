@@ -57,14 +57,14 @@ public class AlertServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject addAlert(
 		HttpPrincipal httpPrincipal, String name, String categoriesId,
-		String keyword) {
+		String keyword, String languageId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				AlertServiceUtil.class, "addAlert", _addAlertParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, name, categoriesId, keyword);
+				methodKey, name, categoriesId, keyword, languageId);
 
 			Object returnObj = null;
 
@@ -88,7 +88,7 @@ public class AlertServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(AlertServiceHttp.class);
 
 	private static final Class<?>[] _addAlertParameterTypes0 = new Class[] {
-		String.class, String.class, String.class
+		String.class, String.class, String.class, String.class
 	};
 
 }

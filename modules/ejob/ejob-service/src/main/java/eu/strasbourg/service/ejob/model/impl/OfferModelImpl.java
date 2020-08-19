@@ -179,9 +179,11 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
-	public static final long UUID_COLUMN_BITMASK = 4L;
+	public static final long PUBLICATIONSTARTDATE_COLUMN_BITMASK = 4L;
 
-	public static final long OFFERID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+
+	public static final long OFFERID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -2601,7 +2603,17 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 	@Override
 	public void setPublicationStartDate(Date publicationStartDate) {
+		_columnBitmask |= PUBLICATIONSTARTDATE_COLUMN_BITMASK;
+
+		if (_originalPublicationStartDate == null) {
+			_originalPublicationStartDate = _publicationStartDate;
+		}
+
 		_publicationStartDate = publicationStartDate;
+	}
+
+	public Date getOriginalPublicationStartDate() {
+		return _originalPublicationStartDate;
 	}
 
 	@JSON
@@ -3131,6 +3143,9 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 
 		offerModelImpl._setModifiedDate = false;
 
+		offerModelImpl._originalPublicationStartDate =
+			offerModelImpl._publicationStartDate;
+
 		offerModelImpl._columnBitmask = 0;
 	}
 
@@ -3484,6 +3499,7 @@ public class OfferModelImpl extends BaseModelImpl<Offer> implements OfferModel {
 	private String _emails;
 	private boolean _shareLinkedin;
 	private Date _publicationStartDate;
+	private Date _originalPublicationStartDate;
 	private Date _publicationEndDate;
 	private long _columnBitmask;
 	private Offer _escapedModel;

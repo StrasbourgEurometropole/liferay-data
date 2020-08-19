@@ -128,6 +128,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.publik.url.api.base");
 	}
 
+	public static String getPublikApiApply() {
+		return PropsUtil.get("eu.strasbourg.publik.api.apply");
+	}
+
 	public static String getPublikApiSynchronization() { return PropsUtil.get("eu.strasbourg.publik.url.api.synchronization");	}
 
 	public static String getPublikApiOrigin() {

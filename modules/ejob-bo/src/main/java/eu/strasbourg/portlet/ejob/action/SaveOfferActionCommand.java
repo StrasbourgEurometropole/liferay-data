@@ -32,8 +32,10 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -165,12 +167,16 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             // Champ : publicationStartDate
             Date publicationStartDate = ParamUtil.getDate(request,
                     "publicationStartDate" , dateFormat);
-            offer.setPublicationStartDate(publicationStartDate);
+            LocalDateTime startPublication = new Timestamp(publicationStartDate.getTime())
+                    .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
+            offer.setPublicationStartDate(Timestamp.valueOf(startPublication));
 
             // Champ : publicationEndDate
             Date publicationEndDate = ParamUtil.getDate(request,
                     "publicationEndDate" , dateFormat);
-            offer.setPublicationEndDate(publicationEndDate);
+            LocalDateTime endPublication = new Timestamp(publicationEndDate.getTime())
+                    .toLocalDateTime().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+            offer.setPublicationEndDate(Timestamp.valueOf(endPublication));
 
             // pour les stages
             if(this.typeRecrutementString.equals("Stage")) {
@@ -313,7 +319,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 offer.setPublicationId(publicationId);
 
                 // Mise à jour de l'entrée en base
-                this.offerLocalService.updateOffer(offer, sc);
+                offer = this.offerLocalService.updateOffer(offer, sc);
             }
 
             long[] categoryIds = new long[categories.size()];

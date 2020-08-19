@@ -215,7 +215,7 @@ public class OfferImpl extends OfferBaseImpl {
 		List<AssetCategory> list = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
 				VocabularyNames.EJOB_EXPORT_TOTEM);
 		if(!list.isEmpty()){
-			return list.get(0).getTitle(Locale.FRANCE);
+			return list.get(0).getTitle(Locale.FRANCE).toLowerCase();
 		}
 		return null;
 	}

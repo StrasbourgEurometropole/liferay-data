@@ -29,4 +29,5 @@ dependencies {
 	compile project (':modules:comment:comment-api')
 	compile project (':modules:project:project-api')
 	compile project (':modules:council:council-api')
+	compile project (':modules:ejob:ejob-api')
 }

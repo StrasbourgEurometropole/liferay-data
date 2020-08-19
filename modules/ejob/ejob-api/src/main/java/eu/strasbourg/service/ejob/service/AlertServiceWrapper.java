@@ -38,9 +38,9 @@ public class AlertServiceWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addAlert(
-		String name, String categoriesId, String keyword) {
+		String name, String categoriesId, String keyword, String languageId) {
 
-		return _alertService.addAlert(name, categoriesId, keyword);
+		return _alertService.addAlert(name, categoriesId, keyword, languageId);
 	}
 
 	/**

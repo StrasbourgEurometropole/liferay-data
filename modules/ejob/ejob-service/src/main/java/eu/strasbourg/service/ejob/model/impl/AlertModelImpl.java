@@ -85,7 +85,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"name", Types.VARCHAR}, {"keyWord", Types.VARCHAR},
-		{"publikUserId", Types.VARCHAR}
+		{"publikUserId", Types.VARCHAR}, {"language", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -107,10 +107,11 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("keyWord", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("language", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ejob_Alert (uuid_ VARCHAR(75) null,alertId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,keyWord VARCHAR(75) null,publikUserId VARCHAR(75) null)";
+		"create table ejob_Alert (uuid_ VARCHAR(75) null,alertId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,name VARCHAR(75) null,keyWord VARCHAR(75) null,publikUserId VARCHAR(75) null,language VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table ejob_Alert";
 
@@ -178,6 +179,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		model.setName(soapModel.getName());
 		model.setKeyWord(soapModel.getKeyWord());
 		model.setPublikUserId(soapModel.getPublikUserId());
+		model.setLanguage(soapModel.getLanguage());
 
 		return model;
 	}
@@ -625,6 +627,26 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"language",
+			new Function<Alert, Object>() {
+
+				@Override
+				public Object apply(Alert alert) {
+					return alert.getLanguage();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"language",
+			new BiConsumer<Alert, Object>() {
+
+				@Override
+				public void accept(Alert alert, Object language) {
+					alert.setLanguage((String)language);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -909,6 +931,22 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		return GetterUtil.getString(_originalPublikUserId);
 	}
 
+	@JSON
+	@Override
+	public String getLanguage() {
+		if (_language == null) {
+			return "";
+		}
+		else {
+			return _language;
+		}
+	}
+
+	@Override
+	public void setLanguage(String language) {
+		_language = language;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
@@ -1041,6 +1079,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 		alertImpl.setName(getName());
 		alertImpl.setKeyWord(getKeyWord());
 		alertImpl.setPublikUserId(getPublikUserId());
+		alertImpl.setLanguage(getLanguage());
 
 		alertImpl.resetOriginalValues();
 
@@ -1211,6 +1250,14 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 			alertCacheModel.publikUserId = null;
 		}
 
+		alertCacheModel.language = getLanguage();
+
+		String language = alertCacheModel.language;
+
+		if ((language != null) && (language.length() == 0)) {
+			alertCacheModel.language = null;
+		}
+
 		return alertCacheModel;
 	}
 
@@ -1300,6 +1347,7 @@ public class AlertModelImpl extends BaseModelImpl<Alert> implements AlertModel {
 	private String _keyWord;
 	private String _publikUserId;
 	private String _originalPublikUserId;
+	private String _language;
 	private long _columnBitmask;
 	private Alert _escapedModel;
 

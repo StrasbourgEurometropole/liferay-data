@@ -73,6 +73,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		attributes.put("name", getName());
 		attributes.put("keyWord", getKeyWord());
 		attributes.put("publikUserId", getPublikUserId());
+		attributes.put("language", getLanguage());
 
 		return attributes;
 	}
@@ -168,6 +169,12 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		if (publikUserId != null) {
 			setPublikUserId(publikUserId);
 		}
+
+		String language = (String)attributes.get("language");
+
+		if (language != null) {
+			setLanguage(language);
+		}
 	}
 
 	@Override
@@ -252,6 +259,16 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	@Override
 	public String getKeyWord() {
 		return _alert.getKeyWord();
+	}
+
+	/**
+	 * Returns the language of this alert.
+	 *
+	 * @return the language of this alert
+	 */
+	@Override
+	public String getLanguage() {
+		return _alert.getLanguage();
 	}
 
 	/**
@@ -564,6 +581,16 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	@Override
 	public void setKeyWord(String keyWord) {
 		_alert.setKeyWord(keyWord);
+	}
+
+	/**
+	 * Sets the language of this alert.
+	 *
+	 * @param language the language of this alert
+	 */
+	@Override
+	public void setLanguage(String language) {
+		_alert.setLanguage(language);
 	}
 
 	/**

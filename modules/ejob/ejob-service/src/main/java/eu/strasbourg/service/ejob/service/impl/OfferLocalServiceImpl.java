@@ -176,9 +176,6 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 			offer.setStatusByUserName(user.getFullName());
 		}
 		offer.setStatusDate(new Date());
-		if (offer.isApproved()) {
-			offer.setPublicationStartDate(now);
-		}
 		offer = this.offerLocalService.updateOffer(offer);
 
 		// Statut de l'entry
@@ -311,5 +308,13 @@ public class OfferLocalServiceImpl extends OfferLocalServiceBaseImpl {
 		}
 
 		return offerPersistence.countWithDynamicQuery(dynamicQuery);
+	}
+
+	/**
+	 * Retourne une offre via sa date de début de publication
+	 */
+	@Override
+	public List<Offer> findByPublicationStartDate(Date date) {
+		return this.offerPersistence.findByPublicationStartDate(date);
 	}
 }

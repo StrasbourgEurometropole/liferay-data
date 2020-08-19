@@ -69,12 +69,13 @@ public class AlertServiceSoap {
 	 * Créer une alerte à un utilisateur
 	 */
 	public static String addAlert(
-			String name, String categoriesId, String keyword)
+			String name, String categoriesId, String keyword, String languageId)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue =
-				AlertServiceUtil.addAlert(name, categoriesId, keyword);
+				AlertServiceUtil.addAlert(
+					name, categoriesId, keyword, languageId);
 
 			return returnValue.toString();
 		}
