@@ -132,6 +132,7 @@ services:
       - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST=localhost
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS=test@liferay.com
       - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME=Admin Liferay
+      - LIFERAY_SCHEDULER_PERIOD_ENABLED=false
     volumes:
       - ./configs/liferay-ems:/mnt/liferay
       - ${DATA_PATH}/liferay/doclib:/data/liferay/document_library
