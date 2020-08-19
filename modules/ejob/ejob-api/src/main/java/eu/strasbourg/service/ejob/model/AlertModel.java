@@ -337,6 +337,21 @@ public interface AlertModel
 	public void setPublikUserId(String publikUserId);
 
 	/**
+	 * Returns the language of this alert.
+	 *
+	 * @return the language of this alert
+	 */
+	@AutoEscape
+	public String getLanguage();
+
+	/**
+	 * Sets the language of this alert.
+	 *
+	 * @param language the language of this alert
+	 */
+	public void setLanguage(String language);
+
+	/**
 	 * Returns <code>true</code> if this alert is approved.
 	 *
 	 * @return <code>true</code> if this alert is approved; <code>false</code> otherwise

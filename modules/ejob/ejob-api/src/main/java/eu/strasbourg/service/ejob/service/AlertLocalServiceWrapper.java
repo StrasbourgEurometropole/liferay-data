@@ -227,7 +227,7 @@ public class AlertLocalServiceWrapper
 	}
 
 	/**
-	 * Retourne un arret via son stopId CTS
+	 * Retourne une alerte via publikUserId
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.ejob.model.Alert>

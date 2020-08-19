@@ -227,7 +227,7 @@ public class AlertLocalServiceUtil {
 	}
 
 	/**
-	 * Retourne un arret via son stopId CTS
+	 * Retourne une alerte via publikUserId
 	 */
 	public static java.util.List<eu.strasbourg.service.ejob.model.Alert>
 		findByPublikUserId(String publikUserId) {

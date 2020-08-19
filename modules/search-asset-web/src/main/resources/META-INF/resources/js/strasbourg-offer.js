@@ -71,7 +71,8 @@ document.getElementById("RecordAlert").onclick = function(e){
     var alertToCreate = {
         name: document.getElementById("alertName").value,
         categoriesId: categoriesId,
-        keyword: document.getElementById("keyword").value
+        keyword: document.getElementById("keyword").value,
+        languageId: window.themeDisplay.getLanguageId()
     };
     Liferay.Service(
         '/ejob.alert/add-alert',

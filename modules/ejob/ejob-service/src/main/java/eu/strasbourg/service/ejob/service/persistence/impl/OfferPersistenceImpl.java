@@ -49,6 +49,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Timestamp;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1462,6 +1464,565 @@ public class OfferPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 =
 		"offer.companyId = ?";
 
+	private FinderPath _finderPathWithPaginationFindByPublicationStartDate;
+	private FinderPath _finderPathWithoutPaginationFindByPublicationStartDate;
+	private FinderPath _finderPathCountByPublicationStartDate;
+
+	/**
+	 * Returns all the offers where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @return the matching offers
+	 */
+	@Override
+	public List<Offer> findByPublicationStartDate(Date publicationStartDate) {
+		return findByPublicationStartDate(
+			publicationStartDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the offers where publicationStartDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @return the range of matching offers
+	 */
+	@Override
+	public List<Offer> findByPublicationStartDate(
+		Date publicationStartDate, int start, int end) {
+
+		return findByPublicationStartDate(
+			publicationStartDate, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where publicationStartDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching offers
+	 */
+	@Override
+	public List<Offer> findByPublicationStartDate(
+		Date publicationStartDate, int start, int end,
+		OrderByComparator<Offer> orderByComparator) {
+
+		return findByPublicationStartDate(
+			publicationStartDate, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where publicationStartDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching offers
+	 */
+	@Override
+	public List<Offer> findByPublicationStartDate(
+		Date publicationStartDate, int start, int end,
+		OrderByComparator<Offer> orderByComparator, boolean retrieveFromCache) {
+
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			pagination = false;
+			finderPath = _finderPathWithoutPaginationFindByPublicationStartDate;
+			finderArgs = new Object[] {_getTime(publicationStartDate)};
+		}
+		else {
+			finderPath = _finderPathWithPaginationFindByPublicationStartDate;
+			finderArgs = new Object[] {
+				_getTime(publicationStartDate), start, end, orderByComparator
+			};
+		}
+
+		List<Offer> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Offer>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Offer offer : list) {
+					if (!Objects.equals(
+							publicationStartDate,
+							offer.getPublicationStartDate())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_OFFER_WHERE);
+
+			boolean bindPublicationStartDate = false;
+
+			if (publicationStartDate == null) {
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_1);
+			}
+			else {
+				bindPublicationStartDate = true;
+
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else if (pagination) {
+				query.append(OfferModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublicationStartDate) {
+					qPos.add(new Timestamp(publicationStartDate.getTime()));
+				}
+
+				if (!pagination) {
+					list = (List<Offer>)QueryUtil.list(
+						q, getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Offer>)QueryUtil.list(
+						q, getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	@Override
+	public Offer findByPublicationStartDate_First(
+			Date publicationStartDate,
+			OrderByComparator<Offer> orderByComparator)
+		throws NoSuchOfferException {
+
+		Offer offer = fetchByPublicationStartDate_First(
+			publicationStartDate, orderByComparator);
+
+		if (offer != null) {
+			return offer;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publicationStartDate=");
+		msg.append(publicationStartDate);
+
+		msg.append("}");
+
+		throw new NoSuchOfferException(msg.toString());
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	@Override
+	public Offer fetchByPublicationStartDate_First(
+		Date publicationStartDate, OrderByComparator<Offer> orderByComparator) {
+
+		List<Offer> list = findByPublicationStartDate(
+			publicationStartDate, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	@Override
+	public Offer findByPublicationStartDate_Last(
+			Date publicationStartDate,
+			OrderByComparator<Offer> orderByComparator)
+		throws NoSuchOfferException {
+
+		Offer offer = fetchByPublicationStartDate_Last(
+			publicationStartDate, orderByComparator);
+
+		if (offer != null) {
+			return offer;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("publicationStartDate=");
+		msg.append(publicationStartDate);
+
+		msg.append("}");
+
+		throw new NoSuchOfferException(msg.toString());
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	@Override
+	public Offer fetchByPublicationStartDate_Last(
+		Date publicationStartDate, OrderByComparator<Offer> orderByComparator) {
+
+		int count = countByPublicationStartDate(publicationStartDate);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Offer> list = findByPublicationStartDate(
+			publicationStartDate, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the offers before and after the current offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param offerId the primary key of the current offer
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next offer
+	 * @throws NoSuchOfferException if a offer with the primary key could not be found
+	 */
+	@Override
+	public Offer[] findByPublicationStartDate_PrevAndNext(
+			long offerId, Date publicationStartDate,
+			OrderByComparator<Offer> orderByComparator)
+		throws NoSuchOfferException {
+
+		Offer offer = findByPrimaryKey(offerId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Offer[] array = new OfferImpl[3];
+
+			array[0] = getByPublicationStartDate_PrevAndNext(
+				session, offer, publicationStartDate, orderByComparator, true);
+
+			array[1] = offer;
+
+			array[2] = getByPublicationStartDate_PrevAndNext(
+				session, offer, publicationStartDate, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Offer getByPublicationStartDate_PrevAndNext(
+		Session session, Offer offer, Date publicationStartDate,
+		OrderByComparator<Offer> orderByComparator, boolean previous) {
+
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_OFFER_WHERE);
+
+		boolean bindPublicationStartDate = false;
+
+		if (publicationStartDate == null) {
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_1);
+		}
+		else {
+			bindPublicationStartDate = true;
+
+			query.append(
+				_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(OfferModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindPublicationStartDate) {
+			qPos.add(new Timestamp(publicationStartDate.getTime()));
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(offer)) {
+
+				qPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Offer> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the offers where publicationStartDate = &#63; from the database.
+	 *
+	 * @param publicationStartDate the publication start date
+	 */
+	@Override
+	public void removeByPublicationStartDate(Date publicationStartDate) {
+		for (Offer offer :
+				findByPublicationStartDate(
+					publicationStartDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(offer);
+		}
+	}
+
+	/**
+	 * Returns the number of offers where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @return the number of matching offers
+	 */
+	@Override
+	public int countByPublicationStartDate(Date publicationStartDate) {
+		FinderPath finderPath = _finderPathCountByPublicationStartDate;
+
+		Object[] finderArgs = new Object[] {_getTime(publicationStartDate)};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_OFFER_WHERE);
+
+			boolean bindPublicationStartDate = false;
+
+			if (publicationStartDate == null) {
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_1);
+			}
+			else {
+				bindPublicationStartDate = true;
+
+				query.append(
+					_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindPublicationStartDate) {
+					qPos.add(new Timestamp(publicationStartDate.getTime()));
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_1 =
+			"offer.publicationStartDate IS NULL";
+
+	private static final String
+		_FINDER_COLUMN_PUBLICATIONSTARTDATE_PUBLICATIONSTARTDATE_2 =
+			"offer.publicationStartDate = ?";
+
 	public OfferPersistenceImpl() {
 		setModelClass(Offer.class);
 
@@ -1801,6 +2362,13 @@ public class OfferPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid_C, args);
 
+			args = new Object[] {offerModelImpl.getPublicationStartDate()};
+
+			finderCache.removeResult(
+				_finderPathCountByPublicationStartDate, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByPublicationStartDate, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -1843,6 +2411,29 @@ public class OfferPersistenceImpl
 				finderCache.removeResult(_finderPathCountByUuid_C, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid_C, args);
+			}
+
+			if ((offerModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByPublicationStartDate.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					offerModelImpl.getOriginalPublicationStartDate()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByPublicationStartDate, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublicationStartDate,
+					args);
+
+				args = new Object[] {offerModelImpl.getPublicationStartDate()};
+
+				finderCache.removeResult(
+					_finderPathCountByPublicationStartDate, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByPublicationStartDate,
+					args);
 			}
 		}
 
@@ -2336,6 +2927,29 @@ public class OfferPersistenceImpl
 			OfferModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()});
+
+		_finderPathWithPaginationFindByPublicationStartDate = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, OfferImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByPublicationStartDate",
+			new String[] {
+				Date.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByPublicationStartDate = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, OfferImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByPublicationStartDate", new String[] {Date.class.getName()},
+			OfferModelImpl.PUBLICATIONSTARTDATE_COLUMN_BITMASK);
+
+		_finderPathCountByPublicationStartDate = new FinderPath(
+			OfferModelImpl.ENTITY_CACHE_ENABLED,
+			OfferModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByPublicationStartDate", new String[] {Date.class.getName()});
 	}
 
 	public void destroy() {
@@ -2353,6 +2967,14 @@ public class OfferPersistenceImpl
 
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+
+	private Long _getTime(Date date) {
+		if (date == null) {
+			return null;
+		}
+
+		return date.getTime();
+	}
 
 	private static final String _SQL_SELECT_OFFER =
 		"SELECT offer FROM Offer offer";

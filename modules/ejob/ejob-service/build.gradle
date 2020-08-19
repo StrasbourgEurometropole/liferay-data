@@ -25,7 +25,8 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compile project (':modules:utils')
-	compileOnly project(":modules:ejob:ejob-api")
+	compile project(":modules:ejob:ejob-api")
+	compile project (':modules:office-exporter')
 }
 
 buildService {

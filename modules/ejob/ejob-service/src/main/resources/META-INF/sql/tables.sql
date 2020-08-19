@@ -13,7 +13,8 @@ create table ejob_Alert (
 	statusDate DATE null,
 	name VARCHAR(75) null,
 	keyWord VARCHAR(75) null,
-	publikUserId VARCHAR(75) null
+	publikUserId VARCHAR(75) null,
+	language VARCHAR(75) null
 );
 
 create table ejob_Offer (
@@ -48,7 +49,6 @@ create table ejob_Offer (
 	contact VARCHAR(75) null,
 	emails VARCHAR(75) null,
 	shareLinkedin BOOLEAN,
-	exportTotem VARCHAR(75) null,
 	publicationStartDate DATE null,
 	publicationEndDate DATE null
 );

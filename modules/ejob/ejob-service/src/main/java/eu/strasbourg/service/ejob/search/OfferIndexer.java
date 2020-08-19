@@ -17,10 +17,13 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,9 +66,35 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, offer.getPostMap());
-		document.addLocalizedText(Field.DESCRIPTION,
+		document.addLocalizedText("introduction",
 				offer.getIntroductionMap());
+		document.addLocalizedText("activities",
+				offer.getActivitiesMap());
+		document.addLocalizedText("avantages",
+				offer.getAvantagesMap());
+		document.addLocalizedText("conditions",
+				offer.getConditionsMap());
+		document.addLocalizedText("duration",
+				offer.getDurationMap());
+		document.addLocalizedText("motif",
+				offer.getMotifMap());
+		document.addLocalizedText("profil",
+				offer.getProfilMap());
+		document.addLocalizedText("permanentDes",
+				offer.getPermanentDescriptionMap());
+		document.addLocalizedText("fullTimeDes",
+				offer.getFullTimeDescriptionMap());
+		document.addLocalizedText("jobCreationDes",
+				offer.getJobCreationDescriptionMap());
 		document.addNumber(Field.STATUS, offer.getStatus());
+
+		List<Date> dates = new ArrayList<Date>();
+		Date startDate = offer.getPublicationStartDate();
+		Date endDate = offer.getPublicationEndDate();
+		dates.addAll(DateHelper.getDaysBetweenDates(startDate, endDate));
+		document.addDateSortable("dates",
+				dates.toArray(new Date[dates.size()]));
+		document.addDateSortable("startDate", offer.getPublicationStartDate());
 		return document;
 	}
 

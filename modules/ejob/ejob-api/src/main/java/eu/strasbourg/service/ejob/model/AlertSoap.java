@@ -49,6 +49,7 @@ public class AlertSoap implements Serializable {
 		soapModel.setName(model.getName());
 		soapModel.setKeyWord(model.getKeyWord());
 		soapModel.setPublikUserId(model.getPublikUserId());
+		soapModel.setLanguage(model.getLanguage());
 
 		return soapModel;
 	}
@@ -221,6 +222,14 @@ public class AlertSoap implements Serializable {
 		_publikUserId = publikUserId;
 	}
 
+	public String getLanguage() {
+		return _language;
+	}
+
+	public void setLanguage(String language) {
+		_language = language;
+	}
+
 	private String _uuid;
 	private long _alertId;
 	private long _groupId;
@@ -236,5 +245,6 @@ public class AlertSoap implements Serializable {
 	private String _name;
 	private String _keyWord;
 	private String _publikUserId;
+	private String _language;
 
 }

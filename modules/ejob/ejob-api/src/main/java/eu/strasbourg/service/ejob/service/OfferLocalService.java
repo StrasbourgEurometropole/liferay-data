@@ -40,6 +40,7 @@ import eu.strasbourg.service.ejob.model.Offer;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -199,6 +200,11 @@ public interface OfferLocalService
 		String keyword, long groupId, int start, int end);
 
 	public long findByKeywordCount(String keyword, long groupId);
+
+	/**
+	 * Retourne une offre via sa date de début de publication
+	 */
+	public List<Offer> findByPublicationStartDate(Date date);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

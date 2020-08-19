@@ -201,7 +201,7 @@ public interface AlertLocalService
 	public long findByKeywordCount(String keyword, long groupId);
 
 	/**
-	 * Retourne un arret via son stopId CTS
+	 * Retourne une alerte via publikUserId
 	 */
 	public List<Alert> findByPublikUserId(String publikUserId);
 

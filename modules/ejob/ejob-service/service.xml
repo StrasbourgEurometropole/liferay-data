@@ -52,6 +52,10 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+		<finder name="PublicationStartDate" return-type="Collection" db-index="true" >
+			<finder-column name="publicationStartDate" />
+		</finder>
 	</entity>
 
 	<entity local-service="true" name="Alert" remote-service="true" uuid="true">
@@ -79,6 +83,7 @@
 		<column name="name" type="String" />
 		<column name="keyWord" type="String" />
 		<column name="publikUserId" type="String" />
+		<column name="language" type="String" />
 
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />

@@ -61,7 +61,7 @@ public interface AlertService extends BaseService {
 	 * Créer une alerte à un utilisateur
 	 */
 	public JSONObject addAlert(
-		String name, String categoriesId, String keyword);
+		String name, String categoriesId, String keyword, String languageId);
 
 	/**
 	 * Returns the OSGi service identifier.

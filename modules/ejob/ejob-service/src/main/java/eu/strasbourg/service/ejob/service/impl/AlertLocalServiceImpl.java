@@ -307,7 +307,7 @@ public class AlertLocalServiceImpl extends AlertLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Retourne un arret via son stopId CTS
+	 * Retourne une alerte via publikUserId
 	 */
 	@Override
 	public List<Alert> findByPublikUserId(String publikUserId) {

@@ -22,6 +22,7 @@
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="keyWord" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publikUserId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="language" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.ejob.model.impl.OfferImpl" table="ejob_Offer">
 		<id name="offerId" type="long">
@@ -57,7 +58,6 @@
 		<property name="contact" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="emails" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="shareLinkedin" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="exportTotem" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="publicationStartDate" type="org.hibernate.type.TimestampType" />
 		<property name="publicationEndDate" type="org.hibernate.type.TimestampType" />
 	</class>

@@ -24,6 +24,7 @@ import eu.strasbourg.service.ejob.model.Offer;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -528,6 +529,182 @@ public class OfferUtil {
 	 */
 	public static int countByUuid_C(String uuid, long companyId) {
 		return getPersistence().countByUuid_C(uuid, companyId);
+	}
+
+	/**
+	 * Returns all the offers where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @return the matching offers
+	 */
+	public static List<Offer> findByPublicationStartDate(
+		Date publicationStartDate) {
+
+		return getPersistence().findByPublicationStartDate(
+			publicationStartDate);
+	}
+
+	/**
+	 * Returns a range of all the offers where publicationStartDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @return the range of matching offers
+	 */
+	public static List<Offer> findByPublicationStartDate(
+		Date publicationStartDate, int start, int end) {
+
+		return getPersistence().findByPublicationStartDate(
+			publicationStartDate, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where publicationStartDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching offers
+	 */
+	public static List<Offer> findByPublicationStartDate(
+		Date publicationStartDate, int start, int end,
+		OrderByComparator<Offer> orderByComparator) {
+
+		return getPersistence().findByPublicationStartDate(
+			publicationStartDate, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the offers where publicationStartDate = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>OfferModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param start the lower bound of the range of offers
+	 * @param end the upper bound of the range of offers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching offers
+	 */
+	public static List<Offer> findByPublicationStartDate(
+		Date publicationStartDate, int start, int end,
+		OrderByComparator<Offer> orderByComparator, boolean retrieveFromCache) {
+
+		return getPersistence().findByPublicationStartDate(
+			publicationStartDate, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public static Offer findByPublicationStartDate_First(
+			Date publicationStartDate,
+			OrderByComparator<Offer> orderByComparator)
+		throws eu.strasbourg.service.ejob.exception.NoSuchOfferException {
+
+		return getPersistence().findByPublicationStartDate_First(
+			publicationStartDate, orderByComparator);
+	}
+
+	/**
+	 * Returns the first offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public static Offer fetchByPublicationStartDate_First(
+		Date publicationStartDate, OrderByComparator<Offer> orderByComparator) {
+
+		return getPersistence().fetchByPublicationStartDate_First(
+			publicationStartDate, orderByComparator);
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer
+	 * @throws NoSuchOfferException if a matching offer could not be found
+	 */
+	public static Offer findByPublicationStartDate_Last(
+			Date publicationStartDate,
+			OrderByComparator<Offer> orderByComparator)
+		throws eu.strasbourg.service.ejob.exception.NoSuchOfferException {
+
+		return getPersistence().findByPublicationStartDate_Last(
+			publicationStartDate, orderByComparator);
+	}
+
+	/**
+	 * Returns the last offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching offer, or <code>null</code> if a matching offer could not be found
+	 */
+	public static Offer fetchByPublicationStartDate_Last(
+		Date publicationStartDate, OrderByComparator<Offer> orderByComparator) {
+
+		return getPersistence().fetchByPublicationStartDate_Last(
+			publicationStartDate, orderByComparator);
+	}
+
+	/**
+	 * Returns the offers before and after the current offer in the ordered set where publicationStartDate = &#63;.
+	 *
+	 * @param offerId the primary key of the current offer
+	 * @param publicationStartDate the publication start date
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next offer
+	 * @throws NoSuchOfferException if a offer with the primary key could not be found
+	 */
+	public static Offer[] findByPublicationStartDate_PrevAndNext(
+			long offerId, Date publicationStartDate,
+			OrderByComparator<Offer> orderByComparator)
+		throws eu.strasbourg.service.ejob.exception.NoSuchOfferException {
+
+		return getPersistence().findByPublicationStartDate_PrevAndNext(
+			offerId, publicationStartDate, orderByComparator);
+	}
+
+	/**
+	 * Removes all the offers where publicationStartDate = &#63; from the database.
+	 *
+	 * @param publicationStartDate the publication start date
+	 */
+	public static void removeByPublicationStartDate(Date publicationStartDate) {
+		getPersistence().removeByPublicationStartDate(publicationStartDate);
+	}
+
+	/**
+	 * Returns the number of offers where publicationStartDate = &#63;.
+	 *
+	 * @param publicationStartDate the publication start date
+	 * @return the number of matching offers
+	 */
+	public static int countByPublicationStartDate(Date publicationStartDate) {
+		return getPersistence().countByPublicationStartDate(
+			publicationStartDate);
 	}
 
 	/**
