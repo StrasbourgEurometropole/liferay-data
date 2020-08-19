@@ -16,7 +16,6 @@ package eu.strasbourg.service.strasbourg.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.document.library.kernel.service.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
-import com.liferay.portal.kernel.util.*;
 
 /**
  * Provides the remote service interface for Strasbourg. Methods of this

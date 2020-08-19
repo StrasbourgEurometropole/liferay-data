@@ -22,8 +22,9 @@
                     <div class="pro-item-proposition">
                         <fmt:formatDate value="${record.createDate}" type="date" var="createHeure" pattern="HH:mm" />
                         <span class="pro-published"><time datetime="2019-06-12">Le ${dc.getShortDate(record.createDate, locale)} | <span>${createHeure}</span></time></span>
+                        <c:set var="fieldsToShow" value="${dc.fieldsToShow}" />
                         <c:forEach var="recordField" items="${dc.getRecordFields(record.storageId, locale)}">
-                            <c:if test="${fn:contains(dc.fieldsToShow, recordField[1]) && not empty recordField[2] && recordField[2] != '[]'}">
+                            <c:if test="${fn:contains(fieldsToShow, recordField[1]) && not empty recordField[2] && recordField[2] != '[]'}">
                                 <c:set var="type" value="${dc.getFieldType(recordField[1])}" />
                                 <c:if test="${type.equals('text')}">
                                     <c:set var="formSendRecordField" value="${dc.getFormSendRecordField(record.storageId,recordField[0])}" />

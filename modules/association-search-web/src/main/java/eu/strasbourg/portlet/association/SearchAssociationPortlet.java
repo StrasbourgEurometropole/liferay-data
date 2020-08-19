@@ -96,7 +96,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
 
-		if (Validator.isNull(ParamUtil.getString(request, "domain")) || Validator.isNull(ParamUtil.getString(request, "speciality"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "domain"))) {
 			SessionErrors.add(request, "practice-error");
 			isValid = false;
 		}

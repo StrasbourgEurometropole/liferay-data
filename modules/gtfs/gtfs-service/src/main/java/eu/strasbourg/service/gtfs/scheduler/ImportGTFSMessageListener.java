@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
@@ -34,12 +35,20 @@ public class ImportGTFSMessageListener extends BaseMessageListener {
 	protected void activate() {
 		String listenerClass = getClass().getName();
 
+		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.MINUTE, 5);
+		Date fiveMinutesFromNow = now.getTime();
+
 		// Création du trigger "Tous les jours à 3h"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, null, null, "0 0 3 * * ?");
+				listenerClass, listenerClass, fiveMinutesFromNow, null, "0 0 3 * * ?");
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
+
+		_schedulerEngineHelper.register(
+				this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
 	}
 
 	@Deactivate

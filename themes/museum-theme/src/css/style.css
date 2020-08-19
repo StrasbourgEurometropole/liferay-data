@@ -1659,7 +1659,7 @@ strong {
 /* line 36, ../sass/partials/_museum-menu.scss */
 .museum-header.sticky {
   position: fixed;
-  top: 34px;
+  top: 32px;
   z-index: 20;
 }
 @media (min-width: 1280px) {

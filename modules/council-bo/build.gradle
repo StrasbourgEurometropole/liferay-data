@@ -1,5 +1,6 @@
 dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.application.list.api"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib"
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
