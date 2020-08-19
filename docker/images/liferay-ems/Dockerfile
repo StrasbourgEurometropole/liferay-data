@@ -17,9 +17,9 @@ COPY $SOURCES_PATH/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
 
 # Installation de ClamAV
-RUN apk add --upgrade clamav-daemon \
-    mkdir /run/clamav && chown clamav:clamav /run/clamav \
-    freshclam
+#RUN apk add --upgrade clamav-daemon \
+#    mkdir /run/clamav && chown clamav:clamav /run/clamav \
+#    freshclam
 
 # Installation des certificats
 COPY $SOURCES_PATH/*.cer /data/certificates/
