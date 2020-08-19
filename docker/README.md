@@ -142,6 +142,9 @@ MYSQL_DB=
 MYSQL_USER=
 MYSQL_PASSWORD=
 
+# Adresse VM
+VM_ADDRESS=
+
 # Email de copie de tous les mails provenant du serveur SMTP (à ne pas utiliser en prod)
 TRAIL_MAIL_ADDRESS=
 ```
