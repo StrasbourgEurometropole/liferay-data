@@ -1,6 +1,6 @@
 <#setting locale = locale />
 
-<div class="seu-quicklinks">
+<div class="offer-banner seu-quicklinks row">
 <#if linkLabel.getSiblings()?has_content>
     <#list linkLabel.getSiblings() as cur_linkLabel>
         <#if cur_linkLabel.getChildren()[0].getFriendlyUrl()?has_content>
@@ -23,10 +23,7 @@
 </div>
 <style>
     .seu-quicklinks{
-        width: 650px;
-        display: grid;
-        grid-template-columns: 2fr repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        justify-content: center;
         gap: 20px;
         margin-left: auto;
         margin-right: auto;
