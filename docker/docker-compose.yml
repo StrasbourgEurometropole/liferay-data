@@ -30,8 +30,6 @@ services:
     deploy:
       replicas: 1
     deploy:
-      restart_policy:
-        condition: always
       placement:
         constraints: [node.role == worker]
 
@@ -51,8 +49,6 @@ services:
     networks:
       - backend-network
     deploy:
-      restart_policy:
-        condition: always
       placement:
         constraints: [node.role == worker]
 
@@ -63,8 +59,6 @@ services:
     ports:
         - 8081:80
     deploy:
-      restart_policy:
-        condition: always
       placement:
         constraints: [node.role == worker]
 
@@ -109,8 +103,6 @@ services:
     networks:
       - backend-network
     deploy:
-      restart_policy:
-        condition: always
       placement:
         constraints: [node.role == manager]
   
@@ -156,8 +148,6 @@ services:
     networks:
       - backend-network
     deploy:
-      restart_policy:
-        condition: always
       placement:
         constraints: [node.role == worker]
 
