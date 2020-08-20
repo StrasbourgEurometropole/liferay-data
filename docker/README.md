@@ -134,7 +134,7 @@ Créer et remplir le fichier `./.env` suivant :
 DATA_PATH=/var/local
 
 # Version de l'imgage Liferay
-LFR_TAG_VERSION=
+LFR_TAG_VERSION=init
 
 # Connection MySQL
 MYSQL_ADDRESS=
@@ -142,11 +142,15 @@ MYSQL_DB=
 MYSQL_USER=
 MYSQL_PASSWORD=
 
-# Adresse VM
-VM1_ADDRESS=
-VM2_ADDRESS=
+# Adresses des VM
+VM_MASTER_ADDRESS=
+VM_WORKER_ADDRESS=
 
-# Email de copie de tous les mails provenant du serveur SMTP (à ne pas utiliser en prod)
+# Connections au serveur SMTP
+VM_MASTER_SMTP_ADDRESS=
+VM_WORKER_SMTP_ADDRESS=
+
+# Email de copie de tous les mails provenant du serveur SMTP
 TRAIL_MAIL_ADDRESS=
 ```
 
