@@ -26,6 +26,7 @@ services:
       - ${DATA_PATH}/esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+      - 9300:9300
     logging:
       driver: "json-file"
       options:
