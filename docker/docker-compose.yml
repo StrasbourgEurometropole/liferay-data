@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   elasticsearch:
-    image: elasticsearch-ems
+    image: elasticsearchems
     build: 
       context: ./images/elasticsearch-ems
     environment:
