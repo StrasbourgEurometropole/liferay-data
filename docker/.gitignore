@@ -17,3 +17,4 @@
 !images/mysql-upgrade/sources/pre-upgrade.sql
 !images/mysql-ems/sources/pre-request.sql
 !configs/liferay-ems/files/tomcat/*
+!*mysql-connector-java*.jar
