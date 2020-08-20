@@ -100,7 +100,6 @@ services:
       - PMA_HOST=${MYSQL_ADDRESS}
     ports:
         - 8081:80
-      restart: always
 
 
 networks:
