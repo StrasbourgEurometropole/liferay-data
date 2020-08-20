@@ -11,9 +11,6 @@ services:
 #      - bootstrap.memory_lock=true
       - cluster.name=LiferayElasticsearchCluster
       - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
-      - "network.publish_host=0.0.0.0"
-      - "transport.host=localhost"
-      - "network.bind_host=0.0.0.0"
       - "network.host=0.0.0.0"
     ulimits:
       memlock:
