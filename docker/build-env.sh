@@ -8,8 +8,10 @@ else
     mkdir -p \
         $deployPath/esdata \
         $deployPath/liferay/doclib \
-        $deployPath/liferay/logs/liferay \
-        $deployPath/liferay/logs/tomcat \
+        $deployPath/liferay/logs/active/liferay \
+        $deployPath/liferay/logs/active/tomcat \
+        $deployPath/liferay/logs/backup/liferay \
+        $deployPath/liferay/logs/backup/tomcat \
         $deployPath/liferay/javamelody \
         $deployPath/liferay/import/agenda \
         $deployPath/liferay/import/gtfs \

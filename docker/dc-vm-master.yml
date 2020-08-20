@@ -27,8 +27,8 @@ services:
       - ${DATA_PATH}/liferay/javamelody:/data/javamelody
       - ${DATA_PATH}/liferay/import/agenda:/data/import/agenda
       - ${DATA_PATH}/liferay/import/gtfs:/data/import/gtfs
-      - ${DATA_PATH}/liferay/logs/liferay:/opt/liferay/logs
-      - ${DATA_PATH}/liferay/logs/tomcat:/opt/liferay/tomcat/logs
+      - ${DATA_PATH}/liferay/logs/active/liferay:/opt/liferay/logs
+      - ${DATA_PATH}/liferay/logs/active/tomcat:/opt/liferay/tomcat/logs
     ports:
       - 8080:8080
       - 8009:8009
