@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   elasticsearch:
-    image: elasticsearchems
+    image: elasticsearch-ems
     build: 
       context: ./images/elasticsearch-ems
     environment:
@@ -63,7 +63,7 @@ services:
         constraints: [node.role == worker]
 
   liferay-active:
-    image: liferayems:${LFR_TAG_VERSION}
+    image: liferay-ems:${LFR_TAG_VERSION}
     build : 
       context: ./images/liferay-ems
       args:
@@ -107,7 +107,7 @@ services:
         constraints: [node.role == manager]
   
   liferay-backup:
-    image: liferayems:${LFR_TAG_VERSION}
+    image: liferay-ems:${LFR_TAG_VERSION}
     build : 
       context: ./images/liferay-ems
       args:
